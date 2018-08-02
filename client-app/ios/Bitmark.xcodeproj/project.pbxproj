@@ -699,7 +699,7 @@
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		579C1381393E59B3042E29F2 /* Pods-Bitmark.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark/Pods-Bitmark.release.xcconfig"; sourceTree = "<group>"; };
 		580AD8B22046893B000EEB1F /* Bitmark beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bitmark beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		580AD8B32046893B000EEB1F /* Bitmark copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Bitmark copy-Info.plist"; path = "/Users/anhnguyen/Documents/go/src/github.com/bitmark-inc/mobile-app/client-app/ios/Bitmark copy-Info.plist"; sourceTree = "<absolute>"; };
+		580AD8B32046893B000EEB1F /* Bitmark beta-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Bitmark beta-Info.plist"; path = "/Users/anhnguyen/Documents/go/src/github.com/bitmark-inc/mobile-app/client-app/ios/Bitmark beta-Info.plist"; sourceTree = "<absolute>"; };
 		580C4BE12099978D00AAEEE0 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		5840099F20243AA700550ADB /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		58400A97202C013C00550ADB /* AccountSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSession.swift; sourceTree = "<group>"; };
@@ -1420,7 +1420,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				587A2FF0201B039B00A1410E /* Recovered References */,
 				A2C210A26EB189DCB44154A9 /* Pods */,
-				580AD8B32046893B000EEB1F /* Bitmark copy-Info.plist */,
+				580AD8B32046893B000EEB1F /* Bitmark beta-Info.plist */,
 				58908AD320A18A5A00C0064A /* Bitmark dev-Info.plist */,
 			);
 			indentWidth = 2;
@@ -2908,7 +2908,7 @@
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
 					"$(SRCROOT)/../node_modules/react-native-exception-handler/ios",
 				);
-				INFOPLIST_FILE = "Bitmark copy-Info.plist";
+				INFOPLIST_FILE = "Bitmark beta-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2948,7 +2948,7 @@
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
 					"$(SRCROOT)/../node_modules/react-native-exception-handler/ios",
 				);
-				INFOPLIST_FILE = "Bitmark copy-Info.plist";
+				INFOPLIST_FILE = "Bitmark beta-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
