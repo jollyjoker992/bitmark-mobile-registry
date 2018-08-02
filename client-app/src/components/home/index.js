@@ -13,17 +13,6 @@ import {
 } from './properties';
 
 import { TransactionDetailComponent } from './transactions';
-import {
-  StudyDetailComponent,
-  StudySettingComponent,
-  StudyDonationComponent,
-  StudyConsentComponent,
-  HealthDataSourceComponent,
-  HealthDataBitmarkComponent,
-  Study1ExitSurvey2Component,
-  Study2EntryInterviewComponent,
-} from './donation';
-
 
 let HomeComponent = StackNavigator({
   User: { screen: UserComponent, },
@@ -37,14 +26,6 @@ let HomeComponent = StackNavigator({
 
   TransactionDetail: { screen: TransactionDetailComponent, },
 
-  StudyDetail: { screen: StudyDetailComponent, },
-  StudySetting: { screen: StudySettingComponent, },
-  HealthDataBitmark: { screen: HealthDataBitmarkComponent, },
-  StudyDonation: { screen: StudyDonationComponent, },
-  StudyConsent: { screen: StudyConsentComponent, },
-  HealthDataSource: { screen: HealthDataSourceComponent, },
-  Study1ExitSurvey2: { screen: Study1ExitSurvey2Component, },
-  Study2EntryInterview: { screen: Study2EntryInterviewComponent, },
   IftttActive: { screen: IftttActiveComponent, },
 
 }, {

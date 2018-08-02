@@ -5,5 +5,4 @@ export * from './bitmark-model';
 export * from './notification-model';
 export * from './transfer-offer-model';
 export * from './user-model';
-export * from './donation-model';
 export * from './ifttt-model';

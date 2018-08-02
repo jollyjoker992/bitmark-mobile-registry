@@ -12,7 +12,6 @@ import { DataProcessor } from '../../../processors';
 const MainTabs = {
   properties: 'Properties',
   transaction: 'Transactions',
-  donation: 'Donations',
   account: 'Account',
 };
 let ComponentName = 'BottomTabsComponent';
@@ -28,7 +27,6 @@ export class BottomTabsComponent extends React.Component {
     this.switchMainTab = this.switchMainTab.bind(this);
 
     EventEmitterService.remove(EventEmitterService.events.CHANGE_TRANSACTION_SCREEN_ACTION_REQUIRED_DATA, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_DONATION_INFORMATION, null, ComponentName);
     EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_LOCAL_BITMARKS, null, ComponentName);
     EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_TRACKING_BITMARKS, null, ComponentName);
     EventEmitterService.remove(EventEmitterService.events.CHANGE_MAIN_TAB, null, ComponentName);
@@ -134,15 +132,6 @@ export class BottomTabsComponent extends React.Component {
           <Text style={[userStyle.bottomTabButtonText, {
             color: this.state.mainTab === MainTabs.transaction ? '#0060F2' : '#A4B5CD'
           }]}>{MainTabs.transaction}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={userStyle.bottomTabButton} onPress={() => this.switchMainTab(MainTabs.donation)}>
-          <Image style={userStyle.bottomTabButtonIcon} source={this.state.mainTab === MainTabs.donation
-            ? require('./../../../../assets/imgs/donation-icon-enable.png')
-            : require('./../../../../assets/imgs/donation-icon-disable.png')} />
-          <Text style={[userStyle.bottomTabButtonText, {
-            color: this.state.mainTab === MainTabs.donation ? '#0060F2' : '#A4B5CD'
-          }]}>{MainTabs.donation}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={userStyle.bottomTabButton} onPress={() => this.switchMainTab(MainTabs.account)}>

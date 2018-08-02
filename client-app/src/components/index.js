@@ -59,31 +59,6 @@ class MainComponent extends Component {
       networkStatus: true,
     };
     this.appState = AppState.currentState;
-
-    // setTimeout(() => {
-    //   console.log('send notification');
-    //   PushNotification.localNotification({
-    //     title: 'Donate data',
-    //     message: 'Your daily data donation for <date range> has been sent to the <institution> <study name>. Thanks for donating!',
-    //     userInfo: {
-    //       event: 'transfer_required',
-    //       bitmark_id: '6a2617f125303e25a8bd78de0b16c94f34c281fde4f934babbb4a29dcae1540b',
-    //     }
-    //   });
-    // }, 4000);
-
-    // setTimeout(() => {
-    //   console.log('send notification');
-    //   PushNotification.localNotification({
-    //     title: 'Donate data',
-    //     message: 'Your daily data donation for <date range> has been sent to the <institution> <study name>. Thanks for donating!',
-    //     userInfo: {
-    //       event: 'transfer_rejected',
-    //       bitmark_id: 'e683dc72c6b20f1e4c4e8c70b4139bca6e08ed646ac55a51478f5c0ede1a04b1',
-    //     }
-    //   });
-    // }, 4000);
-
   }
 
   componentDidMount() {

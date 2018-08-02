@@ -24,7 +24,6 @@ const SubTabs = {
 
 const ActionTypes = {
   transfer: 'transfer',
-  donation: 'donation',
   ifttt: 'ifttt',
   test_write_down_recovery_phase: 'test_write_down_recovery_phase'
 };
@@ -57,7 +56,6 @@ export class TransactionsComponent extends React.Component {
       totalCompleted: 0,
       actionRequired: [],
       completed: [],
-      donationInformation: null,
       appLoadingData: DataProcessor.isAppLoadingData(),
       gettingData: true,
       lengthDisplayActionRequired: 0,
@@ -68,7 +66,6 @@ export class TransactionsComponent extends React.Component {
 
       let { actionRequired, totalActionRequired } = await DataProcessor.doGetTransactionScreenActionRequired(0);
       let { completed, totalCompleted } = await DataProcessor.doGetTransactionScreenHistories(0);
-      let donationInformation = await DataProcessor.doGetDonationInformation();
 
       this.setState({
         totalActionRequired,
@@ -78,9 +75,9 @@ export class TransactionsComponent extends React.Component {
         gettingData: false,
         lengthDisplayActionRequired: actionRequired.length,
         lengthDisplayCompleted: completed.length,
-        donationInformation,
       });
-    }
+    };
+
     doGetScreenData();
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -107,7 +104,6 @@ export class TransactionsComponent extends React.Component {
     let { actionRequired, totalActionRequired } = await DataProcessor.doGetTransactionScreenActionRequired(this.state.lengthDisplayActionRequired);
     let { completed, totalCompleted } = await DataProcessor.doGetTransactionScreenHistories(this.state.lengthDisplayCompleted);
 
-    let donationInformation = await DataProcessor.doGetDonationInformation();
     this.setState({
       actionRequired: actionRequired,
       completed: completed,
@@ -115,7 +111,6 @@ export class TransactionsComponent extends React.Component {
       lengthDisplayCompleted: completed.length,
       totalActionRequired,
       totalCompleted,
-      donationInformation,
     });
   }
   handerLoadingData() {
@@ -140,25 +135,6 @@ export class TransactionsComponent extends React.Component {
       this.props.screenProps.homeNavigation.navigate('TransactionDetail', {
         transferOffer: item.transferOffer,
       });
-    } else if (item.type === ActionTypes.donation && this.state.donationInformation) {
-      if (item.taskType === this.state.donationInformation.commonTaskIds.bitmark_health_data) {
-        this.props.screenProps.homeNavigation.navigate('HealthDataBitmark', { list: item.list });
-      } else if (item.study && item.study.taskIds && item.taskType === item.study.taskIds.donations) {
-        this.props.screenProps.homeNavigation.navigate('StudyDonation', { study: item.study, list: item.list });
-      } else if (item.study && item.study.studyId === 'study1' && item.study.taskIds && item.taskType === item.study.taskIds.exit_survey_2) {
-        this.props.screenProps.homeNavigation.navigate('Study1ExitSurvey2', { study: item.study });
-      } else if (item.study && item.study.studyId === 'study2' && item.study.taskIds && item.taskType === item.study.taskIds.entry_study) {
-        this.props.screenProps.homeNavigation.navigate('Study2EntryInterview', { study: item.study });
-      } else if (item.study && item.study.taskIds && item.taskType) {
-        AppProcessor.doStudyTask(item.study, item.taskType).then(result => {
-          if (result) {
-            DataProcessor.doReloadUserData();
-          }
-        }).catch(error => {
-          console.log('doStudyTask error:', error);
-          EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-        });
-      }
     } else if (item.type === ActionTypes.ifttt) {
       AppProcessor.doIssueIftttData(item, {
         indicator: true, title: '', message: 'Sending your transaction to the Bitmark network...'
@@ -183,7 +159,7 @@ export class TransactionsComponent extends React.Component {
           }]);
         }
       }).catch(error => {
-        console.log('doStudyTask error:', error);
+        console.log('doIssueIftttData error:', error);
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
       });
     } else if (item.type === ActionTypes.test_write_down_recovery_phase) {
@@ -201,12 +177,6 @@ export class TransactionsComponent extends React.Component {
   clickToCompleted(item) {
     if (item.title === 'SEND' && item.type === 'P2P TRANSFER') {
       let sourceUrl = config.registry_server_url + `/transaction/${item.txid}?env=app`;
-      this.props.screenProps.homeNavigation.navigate('BitmarkWebView', { title: 'REGISTRY', sourceUrl, isFullScreen: true });
-    } else if (item.title === 'SEND' && item.type === 'DONATION' && item.previousId) {
-      let sourceUrl = config.registry_server_url + `/transaction/${item.txid}?env=app`;
-      this.props.screenProps.homeNavigation.navigate('BitmarkWebView', { title: 'REGISTRY', sourceUrl, isFullScreen: true });
-    } else if ((item.title === 'CANCELLED BY YOU' || item.title === 'REJECTED BY RESEARCHER') && item.type === 'DONATION') {
-      let sourceUrl = config.registry_server_url + `/bitmark/${item.txid}?env=app`;
       this.props.screenProps.homeNavigation.navigate('BitmarkWebView', { title: 'REGISTRY', sourceUrl, isFullScreen: true });
     } else if (item.title === 'ISSUANCE') {
       let sourceUrl = config.registry_server_url + `/issuance/${item.blockNumber}/${item.assetId}/${DataProcessor.getUserInformation().bitmarkAccountNumber}?env=app`;
@@ -330,24 +300,16 @@ export class TransactionsComponent extends React.Component {
                       <Text style={transactionsStyle.iftttDescription}>Sign to receive the bitmark from {'[' + item.transferOffer.bitmark.owner.substring(0, 4) + '...' + item.transferOffer.bitmark.owner.substring(item.transferOffer.bitmark.owner.length - 4, item.transferOffer.bitmark.owner.length) + ']'}.</Text>
                     </View>}
 
-                    {item.type === ActionTypes.donation && <View style={transactionsStyle.donationTask}>
-                      <Text style={transactionsStyle.donationTaskTitle} >{item.title + (item.number > 1 ? ` (${item.number})` : '')}</Text>
-                      <View style={transactionsStyle.donationTaskDescriptionArea}>
-                        <Text style={transactionsStyle.donationTaskDescription}>{item.description}</Text>
-                        {item.important && <Image style={transactionsStyle.donationTaskImportantIcon} source={require('./../../../../assets/imgs/important-blue.png')} />}
-                      </View>
-                    </View>}
-
                     {item.type === ActionTypes.ifttt && <View style={transactionsStyle.iftttTask}>
                       <Text style={transactionsStyle.iftttTitle}>{item.assetInfo.propertyName}</Text>
                       <Text style={transactionsStyle.iftttDescription}>Sign your bitmark issuance for your IFTTT data.</Text>
                     </View>}
 
-                    {item.type === ActionTypes.test_write_down_recovery_phase && <View style={transactionsStyle.donationTask}>
-                      <Text style={transactionsStyle.donationTaskTitle}>Write Down Your Recovery Phrase</Text>
-                      <View style={transactionsStyle.donationTaskDescriptionArea}>
-                        <Text style={transactionsStyle.donationTaskDescription}>Protect your Bitmark account.</Text>
-                        <Image style={transactionsStyle.donationTaskImportantIcon} source={require('./../../../../assets/imgs/alert.png')} />
+                    {item.type === ActionTypes.test_write_down_recovery_phase && <View style={transactionsStyle.recoveryPhaseActionRequired}>
+                      <Text style={transactionsStyle.recoveryPhaseActionRequiredTitle}>Write Down Your Recovery Phrase</Text>
+                      <View style={transactionsStyle.recoveryPhaseActionRequiredDescriptionArea}>
+                        <Text style={transactionsStyle.recoveryPhaseActionRequiredDescription}>Protect your Bitmark account.</Text>
+                        <Image style={transactionsStyle.recoveryPhaseActionRequiredImportantIcon} source={require('./../../../../assets/imgs/alert.png')} />
                       </View>
                     </View>}
                   </TouchableOpacity>)

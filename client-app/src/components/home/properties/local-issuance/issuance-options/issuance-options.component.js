@@ -21,24 +21,18 @@ export class IssuanceOptionsComponent extends React.Component {
     super(props);
     this.onChooseFile = this.onChooseFile.bind(this);
     this.onChoosePhotoFile = this.onChoosePhotoFile.bind(this);
-    this.issueHealthData = this.issueHealthData.bind(this);
     this.issueIftttData = this.issueIftttData.bind(this);
-    this.handerDonationInformationChange = this.handerDonationInformationChange.bind(this);
     this.handerIftttInformationChange = this.handerIftttInformationChange.bind(this);
 
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_DONATION_INFORMATION, ComponentName);
     EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, ComponentName);
 
     this.state = {
-      donationInformation: null,
       iftttInformation: null,
     };
 
     const doGetScreenData = async () => {
-      let donationInformation = await DataProcessor.doGetDonationInformation();
       let iftttInformation = await DataProcessor.doGetIftttInformation();
       this.setState({
-        donationInformation,
         iftttInformation,
         gettingData: false,
       });
@@ -49,12 +43,7 @@ export class IssuanceOptionsComponent extends React.Component {
 
   // ==========================================================================================
   componentDidMount() {
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_DONATION_INFORMATION, this.handerDonationInformationChange, ComponentName);
     EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, this.handerIftttInformationChange, ComponentName);
-  }
-  // ==========================================================================================
-  handerDonationInformationChange(donationInformation) {
-    this.setState({ donationInformation });
   }
 
   handerIftttInformationChange(iftttInformation) {
@@ -126,23 +115,6 @@ export class IssuanceOptionsComponent extends React.Component {
     });
   }
 
-  issueHealthData() {
-    if (!this.state.donationInformation || !this.state.donationInformation.activeBitmarkHealthDataAt) {
-      this.props.navigation.navigate('HealthDataActive')
-    } else {
-      const resetHomePage = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({
-            routeName: 'User', params: {
-              displayedTab: { mainTab: BottomTabsComponent.MainTabs.account, subTab: 'AUTHORIZED' },
-            }
-          }),
-        ]
-      });
-      this.props.screenProps.homeNavigation.dispatch(resetHomePage);
-    }
-  }
   issueIftttData() {
     if (!this.state.iftttInformation || !this.state.iftttInformation.connectIFTTT) {
       this.props.screenProps.homeNavigation.navigate('IftttActive');
@@ -177,11 +149,6 @@ export class IssuanceOptionsComponent extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChooseFile}>
             <Text style={issuanceOptionsStyle.optionButtonText}>FILES</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.issueHealthData}>
-            <Text style={issuanceOptionsStyle.optionButtonText}>HEALTH DATA</Text>
-            {(!this.state.donationInformation || !this.state.donationInformation.activeBitmarkHealthDataAt) && <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('./../../../../../../assets/imgs/next-icon-blue.png')} />}
-            {this.state.donationInformation && !!this.state.donationInformation.activeBitmarkHealthDataAt && <Text style={issuanceOptionsStyle.optionButtonStatus}>{'Authorized'.toUpperCase()}</Text>}
           </TouchableOpacity>
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData}>
             <Text style={issuanceOptionsStyle.optionButtonText}>IFTTT DATA</Text>

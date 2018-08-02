@@ -20,14 +20,11 @@ let ComponentName = 'AccountDetailComponent';
 export class AccountDetailComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.handerDonationInformationChange = this.handerDonationInformationChange.bind(this);
     this.handerChangeUserInfo = this.handerChangeUserInfo.bind(this);
-    this.inactiveBitmarkHealthData = this.inactiveBitmarkHealthData.bind(this);
     this.handerLoadingData = this.handerLoadingData.bind(this);
     this.revokeIFTTT = this.revokeIFTTT.bind(this);
     this.handerChangeIftttInformation = this.handerChangeIftttInformation.bind(this);
 
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_DONATION_INFORMATION, null, ComponentName);
     EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, null, ComponentName);
     EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_INFO, null, ComponentName);
     EventEmitterService.remove(EventEmitterService.events.APP_LOADING_DATA, null, ComponentName);
@@ -41,15 +38,13 @@ export class AccountDetailComponent extends React.Component {
       accountNumberCopyText: '',
       notificationUUIDCopyText: 'COPY',
       userInfo: DataProcessor.getUserInformation(),
-      donationInformation: null,
       iftttInformation: null,
       appLoadingData: DataProcessor.isAppLoadingData(),
       gettingData: true,
     };
     let doGetScreenData = async () => {
-      let donationInformation = await DataProcessor.doGetDonationInformation();
       let iftttInformation = await DataProcessor.doGetIftttInformation();
-      this.setState({ donationInformation, iftttInformation, gettingData: false });
+      this.setState({ iftttInformation, gettingData: false });
     }
     doGetScreenData();
 
@@ -61,16 +56,12 @@ export class AccountDetailComponent extends React.Component {
 
   componentDidMount() {
     EventEmitterService.on(EventEmitterService.events.CHANGE_USER_INFO, this.handerChangeUserInfo, ComponentName);
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_DONATION_INFORMATION, this.handerDonationInformationChange, ComponentName);
     EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, this.handerChangeIftttInformation, ComponentName);
     EventEmitterService.on(EventEmitterService.events.APP_LOADING_DATA, this.handerLoadingData, ComponentName);
   }
 
   handerChangeIftttInformation(iftttInformation) {
     this.setState({ iftttInformation });
-  }
-  handerDonationInformationChange(donationInformation) {
-    this.setState({ donationInformation });
   }
   handerChangeUserInfo(userInfo) {
     this.setState({ userInfo });
@@ -81,21 +72,6 @@ export class AccountDetailComponent extends React.Component {
 
   switchSubTab(subTab) {
     this.setState({ subTab, });
-  }
-
-  inactiveBitmarkHealthData() {
-    Alert.alert('Are you sure you want to revoke access to your HealthKit data?', '', [{
-      text: 'Cancel',
-      style: 'cancel',
-    }, {
-      text: 'Yes',
-      onPress: () => {
-        AppProcessor.doInactiveBitmarkHealthData().then().catch(error => {
-          EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-          console.log('doInactiveBitmarkHealthData error :', error);
-        });
-      }
-    }]);
   }
 
   revokeIFTTT() {
@@ -112,7 +88,7 @@ export class AccountDetailComponent extends React.Component {
           }
         }).catch(error => {
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-          console.log('doInactiveBitmarkHealthData error :', error);
+          console.log('doRevokeIftttToken error :', error);
         });
       }
     }]);
@@ -218,27 +194,6 @@ export class AccountDetailComponent extends React.Component {
             {this.state.subTab === SubTabs.authorized && <View style={accountStyle.contentSubTab}>
               <View style={accountStyle.dataSourcesArea}>
                 <Text style={accountStyle.noAuthorizedMessage}>If you authorize 3rd-party apps to access your Bitmark account, they will appear here. </Text>
-                {this.state.donationInformation && this.state.donationInformation.activeBitmarkHealthDataAt && <View style={accountStyle.authorizedItem}>
-                  <View style={accountStyle.authorizedItemTitle}>
-                    <Text style={accountStyle.authorizedItemTitleText} >HEALTH</Text>
-                    <TouchableOpacity style={accountStyle.authorizedItemRemoveButton} onPress={this.inactiveBitmarkHealthData}>
-                      <Text style={accountStyle.authorizedItemRemoveButtonText}>REMOVE</Text>
-                    </TouchableOpacity>
-                  </View>
-
-                  <View style={accountStyle.authorizedItemDescription}>
-                    <Image style={accountStyle.authorizedItemDescriptionIcon} source={require('./../../../../assets/imgs/icon_health.png')} />
-                    <View style={accountStyle.authorizedItemDescriptionDetail}>
-                      <Text style={accountStyle.authorizedItemDescriptionText}>Can:{'\n'}Extract data from the Health app and register property rights. Repeats weekly (Sunday 11AM).</Text>
-                      <TouchableOpacity style={accountStyle.authorizedViewButton} onPress={() => {
-                        this.props.screenProps.homeNavigation.navigate('HealthDataSource')
-                      }}>
-                        <Text style={accountStyle.authorizedViewButtonText}>{'VIEW DATA TYPES »'.toUpperCase()} </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>}
-
                 {this.state.iftttInformation && this.state.iftttInformation.connectIFTTT && <View style={accountStyle.authorizedItem}>
                   <View style={accountStyle.authorizedItemTitle}>
                     <Text style={accountStyle.authorizedItemTitleText} >IFTTT</Text>

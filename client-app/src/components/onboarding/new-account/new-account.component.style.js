@@ -79,7 +79,7 @@ export default StyleSheet.create({
     width: convertWidth(230),
     height: 370 * convertWidth(230) / 230
   },
-  donationOnBoardingImage: {
+  actionAndHistoryOnBoardingImage: {
     marginTop: 24,
     resizeMode: 'contain',
     width: convertWidth(196),

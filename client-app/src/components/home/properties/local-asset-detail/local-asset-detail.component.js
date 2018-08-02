@@ -93,11 +93,6 @@ export class LocalAssetDetailComponent extends React.Component {
     let title = 'Cancel Send Request';
     let message = 'Are you sure you want to cancel this request?';
     let faceTouchMessage;
-    if (bitmark.isDonatedBitmark) {
-      title = 'Cancel Donation';
-      message = 'Are you sure you want to cancel this data donation?';
-      faceTouchMessage = 'Please sign to cancel donation.';
-    }
 
     Alert.alert(title, message, [{
       text: 'Cancel', style: 'cancel',
@@ -242,7 +237,7 @@ export class LocalAssetDetailComponent extends React.Component {
                           <Text style={assetDetailStyle.bitmarksRowNo} numberOfLines={1}>{item.bitmark.id}</Text>
 
                           <TouchableOpacity style={assetDetailStyle.bitmarkViewButton} disabled={true}>
-                            <Text style={[assetDetailStyle.bitmarkViewButtonText, { color: '#999999', }]}>{item.bitmark.isDonatedBitmark ? 'DONATING…' : 'SENDING…'}</Text>
+                            <Text style={[assetDetailStyle.bitmarkViewButtonText, { color: '#999999', }]}>{'SENDING…'}</Text>
                           </TouchableOpacity>
 
                           <TouchableOpacity style={assetDetailStyle.bitmarkTransferButton} onPress={() => this.cancelTransferring(item.bitmark)}>

@@ -20,7 +20,6 @@ let config = {
   api_server_url: 'https://api.test.bitmark.com',
   registry_server_url: 'https://registry.test.bitmark.com',
   trade_server_url: 'https://trade.devel.bitmark.com',
-  donation_server_url: 'http://192.168.0.202:9001',
   mobile_server_url: 'https://bm.devel.bitmark.com',
   ifttt_server_url: 'https://channel.devel.bitmark.com:8090',
   ifttt_invite_url: 'https://ifttt.com/features/redeem?code=10403-fa99108249f426f459a2e1033ddfbbb5',
@@ -34,7 +33,6 @@ let config = {
 
 if (config.network === NETWORKS.testnet) {
   config.trade_server_url = 'https://trade.test.bitmark.com';
-  config.donation_server_url = 'https://data-donation.test.bitmark.com';
   config.mobile_server_url = 'https://bm.test.bitmark.com';
   config.ifttt_server_url = 'https://when.test.bitmark.com:8090';
   config.ifttt_invite_url = 'https://ifttt.com/features/redeem?code=10518-3f2950b543e7a5a2dc307de0c05775e4';
@@ -48,7 +46,6 @@ if (config.network === NETWORKS.testnet) {
   config.registry_server_url = 'https://registry.bitmark.com';
   config.trade_server_url = 'https://trade.bitmark.com';
   config.mobile_server_url = 'https://bm.bitmark.com';
-  config.donation_server_url = 'https://data-donation.bitmark.com';
   config.ifttt_server_url = 'https://when.live.bitmark.com:8090';
   config.ifttt_invite_url = 'https://ifttt.com/features/redeem?code=9187-5ba0e766190b2d174a5a3708fe2002ae';
   config.ifttt_bitmark_service_url = 'https://ifttt.com/bitmark';
@@ -70,13 +67,13 @@ let android = {
 
 export { config, ios, android };
 
-// ┌────────────┬──────────────────────────────────────────────────────────────────┐
-// │ Name       │ Deployment Key                                                   │
-// ├────────────┼──────────────────────────────────────────────────────────────────┤
-// │ Production │ ZcZy_ZeCnqCYnzaFGb4ZmljBQHJc5247aad0-6cc3-4dd7-b247-c76a433163da │
-// ├────────────┼──────────────────────────────────────────────────────────────────┤
-// │ Staging    │ H0VznPOIIkUc31GdXzWi5vSAifvk5247aad0-6cc3-4dd7-b247-c76a433163da │
-// └────────────┴──────────────────────────────────────────────────────────────────┘
+// ┌────────────┬───────────────────────────────────────┐
+// │ Name       │ Deployment Key                        │
+// ├────────────┼───────────────────────────────────────┤
+// │ Production │ q0VOHmW4l3oxFuhbfqVY48zWJHiMBJFSo1yHX │
+// ├────────────┼───────────────────────────────────────┤
+// │ Staging    │ CGnP-G4I33angJRWeHM-6O3yPtwHS1KHiyySm │
+// └────────────┴───────────────────────────────────────┘
 // document
 // https://microsoft.github.io/code-push/docs/cli.html#link-6
 
@@ -84,12 +81,12 @@ export { config, ios, android };
 
 
 // testnet
-// code-push release-react Bitmark ios --pre "Bitmark dev" --mandatory true  --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map"
-// code-push release-react Bitmark ios --pre "Bitmark dev" -m --description "update code" --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map" [--targetBinaryVersion "~1.1.1"]
+// code-push release-react Bitmark-Registry ios --pre "Bitmark dev" --mandatory true  --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map"
+// code-push release-react Bitmark-Registry ios --pre "Bitmark dev" -m --description "update code" --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map" [--targetBinaryVersion "~1.1.1"]
 
 // livetnet
-// code-push release-react Bitmark ios -d Production --mandatory true --sourcemapOutput "source-map-tool/source-map/live/main.jsbundle_1.1.1.map"
-// code-push release-react Bitmark ios -d Production -m --description "update code" --sourcemapOutput "source-map-tool/source-map/live/main.jsbundle_1.1.1.map" [--targetBinaryVersion "~1.1.1"]
+// code-push release-react Bitmark-Registry ios -d Production --mandatory true --sourcemapOutput "source-map-tool/source-map/live/main.jsbundle_1.1.1.map"
+// code-push release-react Bitmark-Registry ios -d Production -m --description "update code" --sourcemapOutput "source-map-tool/source-map/live/main.jsbundle_1.1.1.map" [--targetBinaryVersion "~1.1.1"]
 
 
 // react-native run-ios --device "Bitmark’s iPhone" --scheme 'Bitmark dev'

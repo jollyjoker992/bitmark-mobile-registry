@@ -5,11 +5,9 @@ import { StackNavigator, } from 'react-navigation';
 
 
 import { IssuanceOptionsComponent } from './issuance-options/issuance-options.component';
-import { HealthDataActiveComponent } from './../../donation';
 
 const LocalIssuanceTemp = StackNavigator({
   IssuanceOptions: { screen: IssuanceOptionsComponent, },
-  HealthDataActive: { screen: HealthDataActiveComponent, },
 }, {
     headerMode: 'none',
     navigationOptions: {

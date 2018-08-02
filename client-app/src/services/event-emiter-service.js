@@ -15,7 +15,6 @@ let EventEmitterService = {
     CHANGE_USER_INFO: 'change-user-info',
     CHANGE_USER_DATA_LOCAL_BITMARKS: 'change-user-data:local-bitmarks',
     CHANGE_USER_DATA_TRACKING_BITMARKS: 'change-user-data:tracking-bitmarks',
-    CHANGE_USER_DATA_DONATION_INFORMATION: 'change-user-data:donation-information',
     CHANGE_USER_DATA_IFTTT_INFORMATION: 'change-user-data:ifttt-information',
 
     CHANGE_TRANSACTION_SCREEN_ACTION_REQUIRED_DATA: 'change-transaction-screen-action-required-data',

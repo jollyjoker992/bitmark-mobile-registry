@@ -135,27 +135,27 @@ export default StyleSheet.create({
     marginLeft: convertWidth(3),
   },
 
-  donationTask: {
+  recoveryPhaseActionRequired: {
     marginTop: 12,
     flexDirection: 'column',
   },
-  donationTaskTitle: {
+  recoveryPhaseActionRequiredTitle: {
     fontFamily: 'Avenir heavy',
     fontSize: 14,
     fontWeight: '900',
   },
-  donationTaskDescriptionArea: {
+  recoveryPhaseActionRequiredDescriptionArea: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
   },
-  donationTaskDescription: {
+  recoveryPhaseActionRequiredDescription: {
     marginTop: 3,
     fontFamily: 'Avenir light',
     fontSize: 14,
     fontWeight: '300',
   },
-  donationTaskImportantIcon: {
+  recoveryPhaseActionRequiredImportantIcon: {
     width: 18,
     height: 18,
     resizeMode: 'contain',

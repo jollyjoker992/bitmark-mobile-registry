@@ -133,28 +133,6 @@ export class NewAccountComponent extends React.Component {
               )}
             />
 
-            {/*DONATE HEALTH DATA*/}
-            <BitmarkComponent
-              backgroundColor='white'
-              ref={(ref) => this.fullRef = ref}
-              header={(<View style={[defaultStyle.header, { backgroundColor: 'white' }]}></View>)}
-              contentInScroll={true}
-              content={(
-                <View style={newAccountStyle.swipePage}>
-                  <View style={newAccountStyle.introductionArea}>
-                    <Text style={[newAccountStyle.introductionTitle]}>DONATE HEALTH DATA</Text>
-                    <Text style={[newAccountStyle.introductionDescription]}>
-                      Browse data donation studies and begin donating your data in the Donations tab.
-                    </Text>
-                  </View>
-
-                  <View style={newAccountStyle.introductionImageArea}>
-                    <Image style={newAccountStyle.donationOnBoardingImage} source={require('../../../../assets/imgs/donate-health-data.png')} />
-                  </View>
-                </View>
-              )}
-            />
-
             {/*ACTIONS AND HISTORY*/}
             <BitmarkComponent
               backgroundColor='white'
@@ -171,7 +149,7 @@ export class NewAccountComponent extends React.Component {
                   </View>
 
                   <View style={newAccountStyle.introductionImageArea}>
-                    <Image style={newAccountStyle.donationOnBoardingImage} source={require('../../../../assets/imgs/actions-and-history.png')} />
+                    <Image style={newAccountStyle.actionAndHistoryOnBoardingImage} source={require('../../../../assets/imgs/actions-and-history.png')} />
                   </View>
                 </View>
               )}
@@ -192,7 +170,7 @@ export class NewAccountComponent extends React.Component {
           </Swiper>
 
           {this.state.index === 0 && <View style={[newAccountStyle.skipButtonArea]}>
-            <TouchableOpacity style={[newAccountStyle.skipButton]} onPress={() => { this.swiper.scrollBy(4) }}>
+            <TouchableOpacity style={[newAccountStyle.skipButton]} onPress={() => { this.swiper.scrollBy(3) }}>
               <Text style={[newAccountStyle.skipButtonText, { color: '#0060F2', fontSize: 14, fontWeight: '900' }]}>SKIP</Text>
             </TouchableOpacity>
           </View>}

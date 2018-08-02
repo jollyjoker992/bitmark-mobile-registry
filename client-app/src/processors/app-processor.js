@@ -2,7 +2,7 @@ import { Platform, AppRegistry } from 'react-native';
 import moment from 'moment';
 import { registerTasks } from './app-tasks-register';
 
-import { CommonModel, AccountModel, FaceTouchId, AppleHealthKitModel } from './../models';
+import { CommonModel, AccountModel, FaceTouchId} from './../models';
 import { AccountService, BitmarkService, EventEmitterService, TransactionService } from './../services'
 import { DataProcessor } from './data-processor';
 import { ios } from '../configs';
@@ -107,18 +107,9 @@ const doCreateSignatureData = async (touchFaceIdMessage, newSession) => {
 const doReloadUserData = async () => {
   return await DataProcessor.doReloadUserData();
 };
-const doReloadDonationInformation = async () => {
-  return await DataProcessor.doReloadDonationInformation();
-};
+
 const doGetProvenance = async (bitmark) => {
   return await processing(DataProcessor.doGetProvenance(bitmark.id));
-};
-
-const doRequirePermission = async () => {
-  let donationInformation = await DataProcessor.doGetDonationInformation();
-  if (donationInformation) {
-    await AppleHealthKitModel.initHealthKit(donationInformation.allDataTypes);
-  }
 };
 
 const doGetAllTransfersOffers = async () => {
@@ -163,36 +154,6 @@ const doRejectTransferBitmark = async (transferOffer, processingInfo) => {
   return executeTask('doRejectTransferBitmark', { transferOffer, processingInfo });
 };
 
-const doActiveBitmarkHealthData = async (activeBitmarkHealthDataAt) => {
-  return executeTask('doActiveBitmarkHealthData', { activeBitmarkHealthDataAt });
-};
-
-const doInactiveBitmarkHealthData = async () => {
-  return executeTask('doInactiveBitmarkHealthData');
-};
-
-const doJoinStudy = async (studyId) => {
-  return executeTask('doJoinStudy', { studyId });
-};
-const doLeaveStudy = async (studyId) => {
-  return executeTask('doLeaveStudy', { studyId });
-};
-const doStudyTask = async (study, taskType) => {
-  return executeTask('doStudyTask', { study, taskType });
-};
-const doCompletedStudyTask = async (study, taskType, result) => {
-  return executeTask('doCompletedStudyTask', { study, taskType, result });
-};
-const doDonateHealthData = async (study, list, processingData) => {
-  return executeTask('doDonateHealthData', { study, list, processingData });
-};
-const doBitmarkHealthData = async (list, processingData) => {
-  return executeTask('doBitmarkHealthData', { list, processingData });
-};
-const doDownloadStudyConsent = async (study) => {
-  return executeTask('doDownloadStudyConsent', { study });
-};
-
 const doDownloadBitmark = async (bitmark, processingData) => {
   return executeTask('doDownloadBitmark', { bitmark, processingData });
 };
@@ -203,7 +164,7 @@ const doTrackingBitmark = async (asset, bitmark) => {
 
 const doStopTrackingBitmark = async (bitmark) => {
   return executeTask('doStopTrackingBitmark', { bitmark });
-}
+};
 const doRevokeIftttToken = async () => {
   return executeTask('doRevokeIftttToken');
 };
@@ -247,23 +208,12 @@ let AppProcessor = {
   doRejectTransferBitmark,
   doAcceptAllTransfers,
   doCancelTransferBitmark,
-  doRequirePermission,
-  doActiveBitmarkHealthData,
-  doInactiveBitmarkHealthData,
-  doJoinStudy,
-  doLeaveStudy,
-  doStudyTask,
-  doCompletedStudyTask,
-  doDonateHealthData,
-  doBitmarkHealthData,
-  doDownloadStudyConsent,
   doDownloadBitmark,
   doTrackingBitmark,
   doStopTrackingBitmark,
   doRevokeIftttToken,
   doIssueIftttData,
   doReloadUserData,
-  doReloadDonationInformation,
   doMigrateWebAccount,
   doSignInOnWebApp,
   doGetAllTransfersOffers,

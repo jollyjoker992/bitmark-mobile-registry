@@ -8,13 +8,11 @@ import { NavigationActions } from 'react-navigation';
 import { AccountComponent } from './account';
 import { PropertiesComponent } from './properties';
 import { TransactionsComponent } from './transactions';
-import { DonationComponent } from './donation';
 
 
 import { BottomTabsComponent } from './bottom-tabs/bottom-tabs.component';
 import { AppProcessor, DataProcessor } from '../../processors';
 import { EventEmitterService } from '../../services';
-import { DonationService } from '../../services/donation-service';
 import { BitmarkComponent } from '../../commons/components';
 
 const MainTabs = BottomTabsComponent.MainTabs;
@@ -40,7 +38,7 @@ export class UserComponent extends React.Component {
       needReloadData = this.props.navigation.state.params.needReloadData;
       if (this.props.navigation.state.params.displayedTab) {
         mainTab = this.props.navigation.state.params.displayedTab.mainTab;
-        if (mainTab !== MainTabs.properties && mainTab !== MainTabs.transaction && mainTab !== MainTabs.account && mainTab !== MainTabs.donation) {
+        if (mainTab !== MainTabs.properties && mainTab !== MainTabs.transaction && mainTab !== MainTabs.account) {
           mainTab = MainTabs.properties;
         }
         subTab = this.props.navigation.state.params.displayedTab.subTab;
@@ -162,103 +160,6 @@ export class UserComponent extends React.Component {
         });
         this.props.navigation.dispatch(resetHomePage);
       });
-    } else if (data.event === 'DONATE_DATA' && data.studyData && data.studyData.studyId && data.studyData.taskType) {
-      if (data.studyData.taskType === 'donations') {
-        AppProcessor.doReloadDonationInformation().then((donationInformation) => {
-          let studyTask = (donationInformation.todoTasks || []).find(task => (task.study && task.study.studyId === data.studyData.studyId && task.taskType === data.studyData.taskType));
-          if (studyTask && studyTask.taskType === studyTask.study.taskIds.donations) {
-            const resetHomePage = NavigationActions.reset({
-              index: 1,
-              actions: [
-                NavigationActions.navigate({
-                  routeName: 'User', params: {
-                    displayedTab: { mainTab: MainTabs.transaction, subTab: 'ACTIONS REQUIRED' },
-                    needReloadData: true,
-                  }
-                }),
-                NavigationActions.navigate({
-                  routeName: 'StudyDonation', params: {
-                    study: studyTask.study,
-                    list: studyTask.list,
-                  }
-                }),
-              ]
-            });
-            this.props.navigation.dispatch(resetHomePage);
-          }
-        }).catch(error => {
-          console.log('handerReceivedNotification BITMARK_DATA error :', error);
-        });
-      } else {
-        const resetHomePage = NavigationActions.reset({
-          index: 0,
-          actions: [
-            NavigationActions.navigate({
-              routeName: 'User', params: {
-                displayedTab: { mainTab: MainTabs.transaction, subTab: 'ACTIONS REQUIRED' },
-                needReloadData: true,
-              }
-            }),
-          ]
-        });
-        this.props.navigation.dispatch(resetHomePage);
-      }
-    } else if (data.event === 'STUDY_DETAIL') {
-      AppProcessor.doReloadDonationInformation().then((donationInformation) => {
-        let study = DonationService.getStudy(donationInformation, data.studyId);
-        if (study) {
-          const resetHomePage = NavigationActions.reset({
-            index: 1,
-            actions: [
-              NavigationActions.navigate({
-                routeName: 'User', params: { displayedTab: { mainTab: MainTabs.donation, subTab: 'BROWSER' } }
-              }),
-              NavigationActions.navigate({
-                routeName: 'StudyDetail', params: { study }
-              }),
-            ]
-          });
-          this.props.navigation.dispatch(resetHomePage);
-        }
-      }).catch(error => {
-        console.log('handerReceivedNotification STUDY_DETAIL error :', error);
-      });
-    } else if (data.event === 'BITMARK_DATA') {
-      AppProcessor.doReloadDonationInformation().then((donationInformation) => {
-        let bitmarkHealthDataTask = (donationInformation.todoTasks || []).find(task => task.taskType === donationInformation.commonTaskIds.bitmark_health_data);
-        if (bitmarkHealthDataTask && bitmarkHealthDataTask.list && bitmarkHealthDataTask.list.length > 0) {
-          const resetHomePage = NavigationActions.reset({
-            index: 1,
-            actions: [
-              NavigationActions.navigate({
-                routeName: 'User', params: {
-                  displayedTab: { mainTab: MainTabs.transaction, subTab: 'ACTIONS REQUIRED' },
-                  needReloadData: true,
-                }
-              }),
-              NavigationActions.navigate({
-                routeName: 'HealthDataBitmark', params: { list: bitmarkHealthDataTask.list, }
-              }),
-            ]
-          });
-          this.props.navigation.dispatch(resetHomePage);
-        }
-      }).catch(error => {
-        console.log('handerReceivedNotification BITMARK_DATA error :', error);
-      });
-    } else if (data.event === 'DONATION_SUCCESS') {
-      const resetHomePage = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({
-            routeName: 'User', params: {
-              displayedTab: { mainTab: MainTabs.transaction, subTab: 'HISTORY' },
-              needReloadData: true,
-            }
-          }),
-        ]
-      });
-      this.props.navigation.dispatch(resetHomePage);
     } else if (data.event === 'tracking_transfer_confirmed') {
       DataProcessor.doReloadTrackingBitmark().then(() => {
         return DataProcessor.doGetTrackingBitmarkInformation(data.bitmark_id);
@@ -304,12 +205,6 @@ export class UserComponent extends React.Component {
             donReloadData: () => this.needReloadData = false,
           }} />}
           {this.state.displayedTab.mainTab === MainTabs.transaction && <TransactionsComponent screenProps={{
-            homeNavigation: this.props.navigation,
-            subTab: this.state.displayedTab.subTab,
-            needReloadData: this.needReloadData,
-            donReloadData: () => this.needReloadData = false,
-          }} />}
-          {this.state.displayedTab.mainTab === MainTabs.donation && <DonationComponent screenProps={{
             homeNavigation: this.props.navigation,
             subTab: this.state.displayedTab.subTab,
             needReloadData: this.needReloadData,
