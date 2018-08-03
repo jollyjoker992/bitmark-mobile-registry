@@ -5,11 +5,10 @@ def pods
     
     pod 'BitmarkSDK', :git => 'https://github.com/bitmark-inc/bitmark-sdk-swift.git'
     pod 'KeychainAccess'
-    pod 'ResearchKit', :git => 'https://github.com/bitmark-inc/ResearchKit.git'
     
 end
 
-target 'Bitmark' do
+target 'Bitmark Registry' do
   use_frameworks!
 
   pods
@@ -21,15 +20,7 @@ target 'Bitmark' do
 
 end
 
-target 'Bitmark beta' do
-    use_frameworks!
-    
-    pods
-    pod 'HockeySDK'
-    
-end
-
-target 'Bitmark dev' do
+target 'Bitmark Registry dev' do
     use_frameworks!
     
     pods

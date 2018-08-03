@@ -18,6 +18,7 @@
 		0E608BE220F312CE00F40874 /* libRNExitApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E608BDB20F3126700F40874 /* libRNExitApp.a */; };
 		0E617E4F20A2FAE4007A3A24 /* libRNDocumentPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4065AA2091E015005E1CBD /* libRNDocumentPicker.a */; };
 		0E7B97DE20EF56170064EEEC /* libReactNativeExceptionHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7B97D320EF55C90064EEEC /* libReactNativeExceptionHandler.a */; };
+		1235F00E191A4C2E20559B2D /* Pods_Bitmark_Registry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E73B102E921F70474E8CA7A /* Pods_Bitmark_Registry.framework */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -31,91 +32,14 @@
 		35DA40877A245055444173D2 /* Pods_Bitmark_dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D400D54DA2A09662699E58CF /* Pods_Bitmark_dev.framework */; };
 		584009D020243ABA00550ADB /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 584009A920243AA700550ADB /* libRCTCamera.a */; };
 		58400A98202C013C00550ADB /* AccountSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58400A97202C013C00550ADB /* AccountSession.swift */; };
-		588FE23D205FB45500937D78 /* RCTAppleHealthKit+Methods_Body.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1E5205FB45500937D78 /* RCTAppleHealthKit+Methods_Body.m */; };
-		588FE23F205FB45500937D78 /* RCTAppleHealthKit+ExtraData.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1E8205FB45500937D78 /* RCTAppleHealthKit+ExtraData.m */; };
-		588FE241205FB45500937D78 /* RCTAppleHealthKit+Methods_Nutrition.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1EA205FB45500937D78 /* RCTAppleHealthKit+Methods_Nutrition.m */; };
-		588FE243205FB45500937D78 /* RCTAppleHealthKit+Methods_Fitness.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1EB205FB45500937D78 /* RCTAppleHealthKit+Methods_Fitness.m */; };
-		588FE245205FB45500937D78 /* RCTAppleHealthKit+Methods_Sleep.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1EC205FB45500937D78 /* RCTAppleHealthKit+Methods_Sleep.m */; };
-		588FE247205FB45500937D78 /* RCTAppleHealthKit+Methods_Characteristic.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1ED205FB45500937D78 /* RCTAppleHealthKit+Methods_Characteristic.m */; };
-		588FE249205FB45500937D78 /* RCTAppleHealthKit+Methods_Vitals.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1F0205FB45500937D78 /* RCTAppleHealthKit+Methods_Vitals.m */; };
-		588FE24B205FB45500937D78 /* RCTAppleHealthKit+Methods_ReproductiveHealth.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1F2205FB45500937D78 /* RCTAppleHealthKit+Methods_ReproductiveHealth.m */; };
-		588FE24D205FB45500937D78 /* RCTAppleHealthKit+Methods_Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1F6205FB45500937D78 /* RCTAppleHealthKit+Methods_Environment.m */; };
-		588FE24F205FB45500937D78 /* RCTAppleHealthKit+Methods_Results.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1F7205FB45500937D78 /* RCTAppleHealthKit+Methods_Results.m */; };
-		588FE251205FB45500937D78 /* RCTAppleHealthKit+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1FB205FB45500937D78 /* RCTAppleHealthKit+Utils.m */; };
-		588FE253205FB45500937D78 /* RCTAppleHealthKit+TypesAndPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1FD205FB45500937D78 /* RCTAppleHealthKit+TypesAndPermissions.m */; };
-		588FE255205FB45500937D78 /* RCTAppleHealthKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1FE205FB45500937D78 /* RCTAppleHealthKit.m */; };
-		588FE257205FB45500937D78 /* RCTAppleHealthKit+Queries.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE201205FB45500937D78 /* RCTAppleHealthKit+Queries.m */; };
-		588FE259205FB45500937D78 /* HKDevice+Exporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE202205FB45500937D78 /* HKDevice+Exporting.m */; };
-		588FE25B205FB45500937D78 /* HKSourceRevision+Exporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE204205FB45500937D78 /* HKSourceRevision+Exporting.m */; };
-		588FE25D205FB45500937D78 /* InternationalDiabeteRenussionStudy.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE237205FB45500937D78 /* InternationalDiabeteRenussionStudy.m */; };
-		588FE25F205FB45500937D78 /* InternationalDiabeteRenussionTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE23B205FB45500937D78 /* InternationalDiabeteRenussionTask.m */; };
-		588FE261205FB45500937D78 /* WomenHealthStudy.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE23C205FB45500937D78 /* WomenHealthStudy.m */; };
-		588FE26E205FB71000937D78 /* NSDate+Computing.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE268205FB71000937D78 /* NSDate+Computing.m */; };
-		588FE270205FB71000937D78 /* NSDate+Converting.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE269205FB71000937D78 /* NSDate+Converting.m */; };
-		588FE272205FB71000937D78 /* LocaleUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE26A205FB71000937D78 /* LocaleUnit.m */; };
-		588FE274205FB71000937D78 /* NSString+IdentitiesRemove.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE26B205FB71000937D78 /* NSString+IdentitiesRemove.m */; };
 		588FE276205FB71000937D78 /* PhotoExporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE26D205FB71000937D78 /* PhotoExporting.m */; };
-		588FE29F205FB76900937D78 /* ORKImagePickerStepViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588FE27A205FB76900937D78 /* ORKImagePickerStepViewController.xib */; };
-		588FE2A1205FB76900937D78 /* ORKImagePickerStepResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE27B205FB76900937D78 /* ORKImagePickerStepResult.m */; };
-		588FE2A3205FB76900937D78 /* ORKImagePickerStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE27C205FB76900937D78 /* ORKImagePickerStep.m */; };
-		588FE2A5205FB76900937D78 /* ORKImagePickerStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE27D205FB76900937D78 /* ORKImagePickerStepViewController.m */; };
-		588FE2A7205FB76900937D78 /* GMImagePicker.strings in Resources */ = {isa = PBXBuildFile; fileRef = 588FE282205FB76900937D78 /* GMImagePicker.strings */; };
-		588FE2A9205FB76900937D78 /* GMSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE28C205FB76900937D78 /* GMSelected@2x.png */; };
-		588FE2AB205FB76900937D78 /* GMEmptyFolder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE28D205FB76900937D78 /* GMEmptyFolder@2x.png */; };
-		588FE2AD205FB76900937D78 /* GMVideoIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE28E205FB76900937D78 /* GMVideoIcon@2x.png */; };
-		588FE2AF205FB76900937D78 /* GMImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE290205FB76900937D78 /* GMImagePickerController.m */; };
-		588FE2B1205FB76900937D78 /* GMGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE291205FB76900937D78 /* GMGridViewController.m */; };
-		588FE2B3205FB76900937D78 /* GMVideoIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE292205FB76900937D78 /* GMVideoIcon.png */; };
-		588FE2B5205FB76900937D78 /* GMAlbumsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE293205FB76900937D78 /* GMAlbumsViewController.m */; };
-		588FE2B7205FB76900937D78 /* GMEmptyFolder@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE294205FB76900937D78 /* GMEmptyFolder@1x.png */; };
-		588FE2B9205FB76900937D78 /* GMAlbumsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE295205FB76900937D78 /* GMAlbumsViewCell.m */; };
-		588FE2BB205FB76900937D78 /* GMSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE297205FB76900937D78 /* GMSelected.png */; };
-		588FE2BD205FB76900937D78 /* GMGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE299205FB76900937D78 /* GMGridViewCell.m */; };
-		588FE2BF205FB76900937D78 /* GMImagePicker.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 588FE29B205FB76900937D78 /* GMImagePicker.podspec */; };
-		588FE2C1205FB76900937D78 /* ORKImagePickerCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE29D205FB76900937D78 /* ORKImagePickerCollectionViewCell.m */; };
-		588FE2C8205FB78B00937D78 /* StudyHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE2C4205FB78B00937D78 /* StudyHelper.m */; };
-		588FE2CA205FB78B00937D78 /* StudyTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE2C7205FB78B00937D78 /* StudyTheme.m */; };
-		58908A7B20A18A5A00C0064A /* RCTAppleHealthKit+TypesAndPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1FD205FB45500937D78 /* RCTAppleHealthKit+TypesAndPermissions.m */; };
-		58908A7C20A18A5A00C0064A /* RCTAppleHealthKit+Methods_Results.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1F7205FB45500937D78 /* RCTAppleHealthKit+Methods_Results.m */; };
-		58908A7D20A18A5A00C0064A /* RCTAppleHealthKit+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1FB205FB45500937D78 /* RCTAppleHealthKit+Utils.m */; };
-		58908A7E20A18A5A00C0064A /* LocaleUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE26A205FB71000937D78 /* LocaleUnit.m */; };
-		58908A7F20A18A5A00C0064A /* InternationalDiabeteRenussionTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE23B205FB45500937D78 /* InternationalDiabeteRenussionTask.m */; };
-		58908A8020A18A5A00C0064A /* HKDevice+Exporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE202205FB45500937D78 /* HKDevice+Exporting.m */; };
-		58908A8120A18A5A00C0064A /* RCTAppleHealthKit+Methods_Body.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1E5205FB45500937D78 /* RCTAppleHealthKit+Methods_Body.m */; };
-		58908A8220A18A5A00C0064A /* StudyTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE2C7205FB78B00937D78 /* StudyTheme.m */; };
-		58908A8320A18A5A00C0064A /* GMImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE290205FB76900937D78 /* GMImagePickerController.m */; };
 		58908A8420A18A5A00C0064A /* PhotoExporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE26D205FB71000937D78 /* PhotoExporting.m */; };
-		58908A8520A18A5A00C0064A /* RCTAppleHealthKit+Methods_ReproductiveHealth.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1F2205FB45500937D78 /* RCTAppleHealthKit+Methods_ReproductiveHealth.m */; };
-		58908A8620A18A5A00C0064A /* ORKImagePickerStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE27D205FB76900937D78 /* ORKImagePickerStepViewController.m */; };
-		58908A8720A18A5A00C0064A /* StudyHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE2C4205FB78B00937D78 /* StudyHelper.m */; };
-		58908A8820A18A5A00C0064A /* GMGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE299205FB76900937D78 /* GMGridViewCell.m */; };
-		58908A8920A18A5A00C0064A /* NSDate+Computing.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE268205FB71000937D78 /* NSDate+Computing.m */; };
-		58908A8A20A18A5A00C0064A /* NSString+IdentitiesRemove.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE26B205FB71000937D78 /* NSString+IdentitiesRemove.m */; };
-		58908A8B20A18A5A00C0064A /* RCTAppleHealthKit+Methods_Nutrition.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1EA205FB45500937D78 /* RCTAppleHealthKit+Methods_Nutrition.m */; };
 		58908A8C20A18A5A00C0064A /* TouchID.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C9510D20202AF70050A9D4 /* TouchID.m */; };
-		58908A8D20A18A5A00C0064A /* RCTAppleHealthKit+Queries.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE201205FB45500937D78 /* RCTAppleHealthKit+Queries.m */; };
-		58908A8E20A18A5A00C0064A /* GMAlbumsViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE295205FB76900937D78 /* GMAlbumsViewCell.m */; };
-		58908A8F20A18A5A00C0064A /* RCTAppleHealthKit+ExtraData.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1E8205FB45500937D78 /* RCTAppleHealthKit+ExtraData.m */; };
-		58908A9020A18A5A00C0064A /* RCTAppleHealthKit+Methods_Sleep.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1EC205FB45500937D78 /* RCTAppleHealthKit+Methods_Sleep.m */; };
-		58908A9120A18A5A00C0064A /* WomenHealthStudy.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE23C205FB45500937D78 /* WomenHealthStudy.m */; };
-		58908A9220A18A5A00C0064A /* RCTAppleHealthKit+Methods_Vitals.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1F0205FB45500937D78 /* RCTAppleHealthKit+Methods_Vitals.m */; };
-		58908A9320A18A5A00C0064A /* NSDate+Converting.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE269205FB71000937D78 /* NSDate+Converting.m */; };
-		58908A9420A18A5A00C0064A /* InternationalDiabeteRenussionStudy.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE237205FB45500937D78 /* InternationalDiabeteRenussionStudy.m */; };
 		58908A9520A18A5A00C0064A /* BitmarkSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC1E55201B21CC00F60AF9 /* BitmarkSDK.swift */; };
-		58908A9620A18A5A00C0064A /* RCTAppleHealthKit+Methods_Characteristic.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1ED205FB45500937D78 /* RCTAppleHealthKit+Methods_Characteristic.m */; };
 		58908A9720A18A5A00C0064A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		58908A9820A18A5A00C0064A /* BitmarkSDKBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 589626E8201B28380026C4A5 /* BitmarkSDKBridge.m */; };
-		58908A9920A18A5A00C0064A /* GMAlbumsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE293205FB76900937D78 /* GMAlbumsViewController.m */; };
-		58908A9A20A18A5A00C0064A /* ORKImagePickerCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE29D205FB76900937D78 /* ORKImagePickerCollectionViewCell.m */; };
 		58908A9B20A18A5A00C0064A /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CB4891201EC63A0058B364 /* KeychainUtil.swift */; };
-		58908A9C20A18A5A00C0064A /* RCTAppleHealthKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1FE205FB45500937D78 /* RCTAppleHealthKit.m */; };
-		58908A9D20A18A5A00C0064A /* HKSourceRevision+Exporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE204205FB45500937D78 /* HKSourceRevision+Exporting.m */; };
 		58908A9E20A18A5A00C0064A /* AccountSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58400A97202C013C00550ADB /* AccountSession.swift */; };
-		58908A9F20A18A5A00C0064A /* RCTAppleHealthKit+Methods_Fitness.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1EB205FB45500937D78 /* RCTAppleHealthKit+Methods_Fitness.m */; };
-		58908AA020A18A5A00C0064A /* ORKImagePickerStep.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE27C205FB76900937D78 /* ORKImagePickerStep.m */; };
-		58908AA120A18A5A00C0064A /* ORKImagePickerStepResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE27B205FB76900937D78 /* ORKImagePickerStepResult.m */; };
-		58908AA220A18A5A00C0064A /* RCTAppleHealthKit+Methods_Environment.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE1F6205FB45500937D78 /* RCTAppleHealthKit+Methods_Environment.m */; };
-		58908AA320A18A5A00C0064A /* GMGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE291205FB76900937D78 /* GMGridViewController.m */; };
 		58908AA420A18A5A00C0064A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		58908AA620A18A5A00C0064A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D09CF7207707BF008B16EE /* libz.tbd */; };
 		58908AA720A18A5A00C0064A /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D09CC020770726008B16EE /* libCodePush.a */; };
@@ -140,17 +64,8 @@
 		58908ABD20A18A5A00C0064A /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B46290362EA64E3A93EE362E /* libRCTVideo.a */; };
 		58908ABE20A18A5A00C0064A /* Pods_Bitmark_beta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F5F6B1D2FFF2E6605394A96 /* Pods_Bitmark_beta.framework */; };
 		58908AC020A18A5A00C0064A /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F150CA152023230B00C8FC17 /* AndaleMono.ttf */; };
-		58908AC120A18A5A00C0064A /* GMImagePicker.strings in Resources */ = {isa = PBXBuildFile; fileRef = 588FE282205FB76900937D78 /* GMImagePicker.strings */; };
-		58908AC220A18A5A00C0064A /* GMImagePicker.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 588FE29B205FB76900937D78 /* GMImagePicker.podspec */; };
-		58908AC320A18A5A00C0064A /* GMVideoIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE292205FB76900937D78 /* GMVideoIcon.png */; };
-		58908AC420A18A5A00C0064A /* ORKImagePickerStepViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588FE27A205FB76900937D78 /* ORKImagePickerStepViewController.xib */; };
-		58908AC520A18A5A00C0064A /* GMSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE297205FB76900937D78 /* GMSelected.png */; };
-		58908AC620A18A5A00C0064A /* GMVideoIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE28E205FB76900937D78 /* GMVideoIcon@2x.png */; };
-		58908AC720A18A5A00C0064A /* GMEmptyFolder@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE294205FB76900937D78 /* GMEmptyFolder@1x.png */; };
 		58908AC820A18A5A00C0064A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		58908AC920A18A5A00C0064A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
-		58908ACA20A18A5A00C0064A /* GMSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE28C205FB76900937D78 /* GMSelected@2x.png */; };
-		58908ACB20A18A5A00C0064A /* GMEmptyFolder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 588FE28D205FB76900937D78 /* GMEmptyFolder@2x.png */; };
 		589626E9201B28380026C4A5 /* BitmarkSDKBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 589626E8201B28380026C4A5 /* BitmarkSDKBridge.m */; };
 		58B4A9B720B6C89A000FF769 /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F179A21C20AF9760002D5539 /* libKCKeepAwake.a */; };
 		58C9513920202AF80050A9D4 /* TouchID.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C9510D20202AF70050A9D4 /* TouchID.m */; };
@@ -162,6 +77,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		A75355ACD4CF4A668E3CF8D3 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B46290362EA64E3A93EE362E /* libRCTVideo.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		AE572A48959B0A80F364E29A /* Pods_Bitmark_Registry_dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 053A7DD717C04E7341EB70AE /* Pods_Bitmark_Registry_dev.framework */; };
 		B7856E9B0E4B4CF3BA90EB21 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 295B8983183E4140AD6083BB /* libRNMail.a */; };
 		F150CA412023230B00C8FC17 /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F150CA152023230B00C8FC17 /* AndaleMono.ttf */; };
 		F15C1D112063B9D4002DDF98 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15C1D102063B9B6002DDF98 /* libRNZipArchive.a */; };
@@ -594,6 +510,8 @@
 		00E356EE1AD99517003FC87E /* BitmarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BitmarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* BitmarkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BitmarkTests.m; sourceTree = "<group>"; };
+		053A7DD717C04E7341EB70AE /* Pods_Bitmark_Registry_dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bitmark_Registry_dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		06BD1553103D8D01819C2268 /* Pods-Bitmark Registry dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark Registry dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev.debug.xcconfig"; sourceTree = "<group>"; };
 		0E4065A52091E015005E1CBD /* RNDocumentPicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDocumentPicker.xcodeproj; path = "../node_modules/react-native-document-picker/ios/RNDocumentPicker.xcodeproj"; sourceTree = "<group>"; };
 		0E608BA420F3126700F40874 /* RNExitApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNExitApp.xcodeproj; path = "../node_modules/react-native-exit-app/ios/RNExitApp.xcodeproj"; sourceTree = "<group>"; };
 		0E7B97A120EF55C90064EEEC /* ReactNativeExceptionHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeExceptionHandler.xcodeproj; path = "../node_modules/react-native-exception-handler/ios/ReactNativeExceptionHandler.xcodeproj"; sourceTree = "<group>"; };
@@ -608,97 +526,15 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Bitmark/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1F5F6B1D2FFF2E6605394A96 /* Pods_Bitmark_beta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bitmark_beta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FE694157A05172759A10C0B /* Pods-Bitmark Registry.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark Registry.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark Registry/Pods-Bitmark Registry.debug.xcconfig"; sourceTree = "<group>"; };
 		295B8983183E4140AD6083BB /* libRNMail.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMail.a; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E73B102E921F70474E8CA7A /* Pods_Bitmark_Registry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bitmark_Registry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		579C1381393E59B3042E29F2 /* Pods-Bitmark.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark/Pods-Bitmark.release.xcconfig"; sourceTree = "<group>"; };
 		5840099F20243AA700550ADB /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		58400A97202C013C00550ADB /* AccountSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSession.swift; sourceTree = "<group>"; };
-		588FE1E5205FB45500937D78 /* RCTAppleHealthKit+Methods_Body.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+Methods_Body.m"; sourceTree = "<group>"; };
-		588FE1E6205FB45500937D78 /* RCTAppleHealthKit+Methods_Results.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+Methods_Results.h"; sourceTree = "<group>"; };
-		588FE1E7205FB45500937D78 /* RCTAppleHealthKit+Methods_Environment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+Methods_Environment.h"; sourceTree = "<group>"; };
-		588FE1E8205FB45500937D78 /* RCTAppleHealthKit+ExtraData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+ExtraData.m"; sourceTree = "<group>"; };
-		588FE1E9205FB45500937D78 /* RCTAppleHealthKit+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+Utils.h"; sourceTree = "<group>"; };
-		588FE1EA205FB45500937D78 /* RCTAppleHealthKit+Methods_Nutrition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+Methods_Nutrition.m"; sourceTree = "<group>"; };
-		588FE1EB205FB45500937D78 /* RCTAppleHealthKit+Methods_Fitness.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+Methods_Fitness.m"; sourceTree = "<group>"; };
-		588FE1EC205FB45500937D78 /* RCTAppleHealthKit+Methods_Sleep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+Methods_Sleep.m"; sourceTree = "<group>"; };
-		588FE1ED205FB45500937D78 /* RCTAppleHealthKit+Methods_Characteristic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+Methods_Characteristic.m"; sourceTree = "<group>"; };
-		588FE1EE205FB45500937D78 /* RCTAppleHealthKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCTAppleHealthKit.h; sourceTree = "<group>"; };
-		588FE1EF205FB45500937D78 /* RCTAppleHealthKit+TypesAndPermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+TypesAndPermissions.h"; sourceTree = "<group>"; };
-		588FE1F0205FB45500937D78 /* RCTAppleHealthKit+Methods_Vitals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+Methods_Vitals.m"; sourceTree = "<group>"; };
-		588FE1F1205FB45500937D78 /* HKSourceRevision+Exporting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HKSourceRevision+Exporting.h"; sourceTree = "<group>"; };
-		588FE1F2205FB45500937D78 /* RCTAppleHealthKit+Methods_ReproductiveHealth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+Methods_ReproductiveHealth.m"; sourceTree = "<group>"; };
-		588FE1F3205FB45500937D78 /* HKDevice+Exporting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "HKDevice+Exporting.h"; sourceTree = "<group>"; };
-		588FE1F4205FB45500937D78 /* RCTAppleHealthKit+Queries.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+Queries.h"; sourceTree = "<group>"; };
-		588FE1F5205FB45500937D78 /* RCTAppleHealthKit+ExtraData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+ExtraData.h"; sourceTree = "<group>"; };
-		588FE1F6205FB45500937D78 /* RCTAppleHealthKit+Methods_Environment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+Methods_Environment.m"; sourceTree = "<group>"; };
-		588FE1F7205FB45500937D78 /* RCTAppleHealthKit+Methods_Results.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+Methods_Results.m"; sourceTree = "<group>"; };
-		588FE1F8205FB45500937D78 /* RCTAppleHealthKit+Methods_Body.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+Methods_Body.h"; sourceTree = "<group>"; };
-		588FE1F9205FB45500937D78 /* RCTAppleHealthKit+Methods_Nutrition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+Methods_Nutrition.h"; sourceTree = "<group>"; };
-		588FE1FA205FB45500937D78 /* RCTAppleHealthKit+Methods_Fitness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+Methods_Fitness.h"; sourceTree = "<group>"; };
-		588FE1FB205FB45500937D78 /* RCTAppleHealthKit+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+Utils.m"; sourceTree = "<group>"; };
-		588FE1FC205FB45500937D78 /* RCTAppleHealthKit+Methods_Vitals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+Methods_Vitals.h"; sourceTree = "<group>"; };
-		588FE1FD205FB45500937D78 /* RCTAppleHealthKit+TypesAndPermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+TypesAndPermissions.m"; sourceTree = "<group>"; };
-		588FE1FE205FB45500937D78 /* RCTAppleHealthKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCTAppleHealthKit.m; sourceTree = "<group>"; };
-		588FE1FF205FB45500937D78 /* RCTAppleHealthKit+Methods_Characteristic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+Methods_Characteristic.h"; sourceTree = "<group>"; };
-		588FE200205FB45500937D78 /* RCTAppleHealthKit+Methods_Sleep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+Methods_Sleep.h"; sourceTree = "<group>"; };
-		588FE201205FB45500937D78 /* RCTAppleHealthKit+Queries.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RCTAppleHealthKit+Queries.m"; sourceTree = "<group>"; };
-		588FE202205FB45500937D78 /* HKDevice+Exporting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HKDevice+Exporting.m"; sourceTree = "<group>"; };
-		588FE203205FB45500937D78 /* RCTAppleHealthKit+Methods_ReproductiveHealth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTAppleHealthKit+Methods_ReproductiveHealth.h"; sourceTree = "<group>"; };
-		588FE204205FB45500937D78 /* HKSourceRevision+Exporting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "HKSourceRevision+Exporting.m"; sourceTree = "<group>"; };
-		588FE237205FB45500937D78 /* InternationalDiabeteRenussionStudy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InternationalDiabeteRenussionStudy.m; sourceTree = "<group>"; };
-		588FE238205FB45500937D78 /* WomenHealthStudy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WomenHealthStudy.h; sourceTree = "<group>"; };
-		588FE239205FB45500937D78 /* InternationalDiabeteRenussionTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InternationalDiabeteRenussionTask.h; sourceTree = "<group>"; };
-		588FE23A205FB45500937D78 /* InternationalDiabeteRenussionStudy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InternationalDiabeteRenussionStudy.h; sourceTree = "<group>"; };
-		588FE23B205FB45500937D78 /* InternationalDiabeteRenussionTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InternationalDiabeteRenussionTask.m; sourceTree = "<group>"; };
-		588FE23C205FB45500937D78 /* WomenHealthStudy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WomenHealthStudy.m; sourceTree = "<group>"; };
-		588FE264205FB71000937D78 /* NSDate+Converting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Converting.h"; sourceTree = "<group>"; };
-		588FE265205FB71000937D78 /* LocaleUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocaleUnit.h; sourceTree = "<group>"; };
-		588FE266205FB71000937D78 /* NSString+IdentitiesRemove.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+IdentitiesRemove.h"; sourceTree = "<group>"; };
 		588FE267205FB71000937D78 /* PhotoExporting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoExporting.h; sourceTree = "<group>"; };
-		588FE268205FB71000937D78 /* NSDate+Computing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Computing.m"; sourceTree = "<group>"; };
-		588FE269205FB71000937D78 /* NSDate+Converting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Converting.m"; sourceTree = "<group>"; };
-		588FE26A205FB71000937D78 /* LocaleUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocaleUnit.m; sourceTree = "<group>"; };
-		588FE26B205FB71000937D78 /* NSString+IdentitiesRemove.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+IdentitiesRemove.m"; sourceTree = "<group>"; };
-		588FE26C205FB71000937D78 /* NSDate+Computing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Computing.h"; sourceTree = "<group>"; };
 		588FE26D205FB71000937D78 /* PhotoExporting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoExporting.m; sourceTree = "<group>"; };
-		588FE27A205FB76900937D78 /* ORKImagePickerStepViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ORKImagePickerStepViewController.xib; sourceTree = "<group>"; };
-		588FE27B205FB76900937D78 /* ORKImagePickerStepResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImagePickerStepResult.m; sourceTree = "<group>"; };
-		588FE27C205FB76900937D78 /* ORKImagePickerStep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImagePickerStep.m; sourceTree = "<group>"; };
-		588FE27D205FB76900937D78 /* ORKImagePickerStepViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImagePickerStepViewController.m; sourceTree = "<group>"; };
-		588FE27E205FB76900937D78 /* ORKImagePickerCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKImagePickerCollectionViewCell.h; sourceTree = "<group>"; };
-		588FE27F205FB76900937D78 /* ORKImagePickerStepResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKImagePickerStepResult.h; sourceTree = "<group>"; };
-		588FE280205FB76900937D78 /* ORKImagePickerStep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKImagePickerStep.h; sourceTree = "<group>"; };
-		588FE283205FB76900937D78 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/GMImagePicker.strings; sourceTree = "<group>"; };
-		588FE284205FB76900937D78 /* GMAlbumsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMAlbumsViewController.h; sourceTree = "<group>"; };
-		588FE285205FB76900937D78 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/GMImagePicker.strings; sourceTree = "<group>"; };
-		588FE286205FB76900937D78 /* GMGridViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMGridViewController.h; sourceTree = "<group>"; };
-		588FE287205FB76900937D78 /* GMImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMImagePickerController.h; sourceTree = "<group>"; };
-		588FE288205FB76900937D78 /* GMAlbumsViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMAlbumsViewCell.h; sourceTree = "<group>"; };
-		588FE289205FB76900937D78 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/GMImagePicker.strings; sourceTree = "<group>"; };
-		588FE28A205FB76900937D78 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/GMImagePicker.strings; sourceTree = "<group>"; };
-		588FE28B205FB76900937D78 /* GMGridViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GMGridViewCell.h; sourceTree = "<group>"; };
-		588FE28C205FB76900937D78 /* GMSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GMSelected@2x.png"; sourceTree = "<group>"; };
-		588FE28D205FB76900937D78 /* GMEmptyFolder@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GMEmptyFolder@2x.png"; sourceTree = "<group>"; };
-		588FE28E205FB76900937D78 /* GMVideoIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GMVideoIcon@2x.png"; sourceTree = "<group>"; };
-		588FE28F205FB76900937D78 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/GMImagePicker.strings; sourceTree = "<group>"; };
-		588FE290205FB76900937D78 /* GMImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMImagePickerController.m; sourceTree = "<group>"; };
-		588FE291205FB76900937D78 /* GMGridViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMGridViewController.m; sourceTree = "<group>"; };
-		588FE292205FB76900937D78 /* GMVideoIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GMVideoIcon.png; sourceTree = "<group>"; };
-		588FE293205FB76900937D78 /* GMAlbumsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMAlbumsViewController.m; sourceTree = "<group>"; };
-		588FE294205FB76900937D78 /* GMEmptyFolder@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GMEmptyFolder@1x.png"; sourceTree = "<group>"; };
-		588FE295205FB76900937D78 /* GMAlbumsViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMAlbumsViewCell.m; sourceTree = "<group>"; };
-		588FE296205FB76900937D78 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GMImagePicker.strings; sourceTree = "<group>"; };
-		588FE297205FB76900937D78 /* GMSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GMSelected.png; sourceTree = "<group>"; };
-		588FE298205FB76900937D78 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/GMImagePicker.strings; sourceTree = "<group>"; };
-		588FE299205FB76900937D78 /* GMGridViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GMGridViewCell.m; sourceTree = "<group>"; };
-		588FE29B205FB76900937D78 /* GMImagePicker.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GMImagePicker.podspec; sourceTree = "<group>"; };
-		588FE29C205FB76900937D78 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/GMImagePicker.strings; sourceTree = "<group>"; };
-		588FE29D205FB76900937D78 /* ORKImagePickerCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ORKImagePickerCollectionViewCell.m; sourceTree = "<group>"; };
-		588FE29E205FB76900937D78 /* ORKImagePickerStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ORKImagePickerStepViewController.h; sourceTree = "<group>"; };
-		588FE2C4205FB78B00937D78 /* StudyHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudyHelper.m; sourceTree = "<group>"; };
-		588FE2C5205FB78B00937D78 /* StudyTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudyTheme.h; sourceTree = "<group>"; };
-		588FE2C6205FB78B00937D78 /* StudyHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudyHelper.h; sourceTree = "<group>"; };
-		588FE2C7205FB78B00937D78 /* StudyTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudyTheme.m; sourceTree = "<group>"; };
 		58908AD220A18A5A00C0064A /* Bitmark Registry dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bitmark Registry dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58908AD320A18A5A00C0064A /* Bitmark dev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Bitmark dev-Info.plist"; path = "/Users/anhnguyen/Documents/go/src/github.com/bitmark-inc/mobile-app/client-app/ios/Bitmark dev-Info.plist"; sourceTree = "<absolute>"; };
 		589626E8201B28380026C4A5 /* BitmarkSDKBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BitmarkSDKBridge.m; sourceTree = "<group>"; };
@@ -722,11 +558,13 @@
 		B4296E8568A7CE81E4D31BF4 /* Pods-Bitmark.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark/Pods-Bitmark.debug.xcconfig"; sourceTree = "<group>"; };
 		B46290362EA64E3A93EE362E /* libRCTVideo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTVideo.a; sourceTree = "<group>"; };
 		B699513BD0B90FD6246B88A0 /* Pods-Bitmark beta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark beta.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark beta/Pods-Bitmark beta.release.xcconfig"; sourceTree = "<group>"; };
+		C2EBA197376ED4F7B6D41BAC /* Pods-Bitmark Registry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark Registry.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark Registry/Pods-Bitmark Registry.release.xcconfig"; sourceTree = "<group>"; };
 		CA19D843ECACE8B8F9F98E7E /* Pods-BitmarkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmarkTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmarkTests/Pods-BitmarkTests.release.xcconfig"; sourceTree = "<group>"; };
 		D400D54DA2A09662699E58CF /* Pods_Bitmark_dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bitmark_dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDDF52A44890C0CADB5CC2CF /* Pods-Bitmark dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark dev/Pods-Bitmark dev.release.xcconfig"; sourceTree = "<group>"; };
 		E3045E478EDA4BB795BE1653 /* RNMail.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "../node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		E68EEEE1542C435DA913552D /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
+		ECC0D66A0909D1398002EDA8 /* Pods-Bitmark Registry dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark Registry dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev.release.xcconfig"; sourceTree = "<group>"; };
 		F150CA152023230B00C8FC17 /* AndaleMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AndaleMono.ttf; path = ../assets/fonts/AndaleMono.ttf; sourceTree = "<group>"; };
 		F15C1CDA2063B9B6002DDF98 /* RNZipArchive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNZipArchive.xcodeproj; path = "../node_modules/react-native-zip-archive/ios/RNZipArchive.xcodeproj"; sourceTree = "<group>"; };
 		F15F68AF203D70DE00A5A582 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
@@ -781,6 +619,7 @@
 				B7856E9B0E4B4CF3BA90EB21 /* libRNMail.a in Frameworks */,
 				A75355ACD4CF4A668E3CF8D3 /* libRCTVideo.a in Frameworks */,
 				6D467D3E31F1686412B5B30E /* Pods_Bitmark.framework in Frameworks */,
+				1235F00E191A4C2E20559B2D /* Pods_Bitmark_Registry.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -817,6 +656,7 @@
 				58908ABD20A18A5A00C0064A /* libRCTVideo.a in Frameworks */,
 				58908ABE20A18A5A00C0064A /* Pods_Bitmark_beta.framework in Frameworks */,
 				35DA40877A245055444173D2 /* Pods_Bitmark_dev.framework in Frameworks */,
+				AE572A48959B0A80F364E29A /* Pods_Bitmark_Registry_dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -939,7 +779,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				58CB4890201EC62E0058B364 /* Keychain */,
-				588FE278205FB76900937D78 /* ResearchKitUtils */,
 				588FE263205FB71000937D78 /* OtherUtilities */,
 				58FC1E27201B21AC00F60AF9 /* RNModules */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -979,6 +818,8 @@
 				7D37BEA60EA466916E1CAF1C /* Pods_BitmarkTests.framework */,
 				1F5F6B1D2FFF2E6605394A96 /* Pods_Bitmark_beta.framework */,
 				D400D54DA2A09662699E58CF /* Pods_Bitmark_dev.framework */,
+				4E73B102E921F70474E8CA7A /* Pods_Bitmark_Registry.framework */,
+				053A7DD717C04E7341EB70AE /* Pods_Bitmark_Registry_dev.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1001,151 +842,13 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
-		588FE1E3205FB45500937D78 /* HealthKit */ = {
-			isa = PBXGroup;
-			children = (
-				588FE1E4205FB45500937D78 /* RCTAppleHealthKit */,
-			);
-			path = HealthKit;
-			sourceTree = "<group>";
-		};
-		588FE1E4205FB45500937D78 /* RCTAppleHealthKit */ = {
-			isa = PBXGroup;
-			children = (
-				588FE1E5205FB45500937D78 /* RCTAppleHealthKit+Methods_Body.m */,
-				588FE1E6205FB45500937D78 /* RCTAppleHealthKit+Methods_Results.h */,
-				588FE1E7205FB45500937D78 /* RCTAppleHealthKit+Methods_Environment.h */,
-				588FE1E8205FB45500937D78 /* RCTAppleHealthKit+ExtraData.m */,
-				588FE1E9205FB45500937D78 /* RCTAppleHealthKit+Utils.h */,
-				588FE1EA205FB45500937D78 /* RCTAppleHealthKit+Methods_Nutrition.m */,
-				588FE1EB205FB45500937D78 /* RCTAppleHealthKit+Methods_Fitness.m */,
-				588FE1EC205FB45500937D78 /* RCTAppleHealthKit+Methods_Sleep.m */,
-				588FE1ED205FB45500937D78 /* RCTAppleHealthKit+Methods_Characteristic.m */,
-				588FE1EE205FB45500937D78 /* RCTAppleHealthKit.h */,
-				588FE1EF205FB45500937D78 /* RCTAppleHealthKit+TypesAndPermissions.h */,
-				588FE1F0205FB45500937D78 /* RCTAppleHealthKit+Methods_Vitals.m */,
-				588FE1F1205FB45500937D78 /* HKSourceRevision+Exporting.h */,
-				588FE1F2205FB45500937D78 /* RCTAppleHealthKit+Methods_ReproductiveHealth.m */,
-				588FE1F3205FB45500937D78 /* HKDevice+Exporting.h */,
-				588FE1F4205FB45500937D78 /* RCTAppleHealthKit+Queries.h */,
-				588FE1F5205FB45500937D78 /* RCTAppleHealthKit+ExtraData.h */,
-				588FE1F6205FB45500937D78 /* RCTAppleHealthKit+Methods_Environment.m */,
-				588FE1F7205FB45500937D78 /* RCTAppleHealthKit+Methods_Results.m */,
-				588FE1F8205FB45500937D78 /* RCTAppleHealthKit+Methods_Body.h */,
-				588FE1F9205FB45500937D78 /* RCTAppleHealthKit+Methods_Nutrition.h */,
-				588FE1FA205FB45500937D78 /* RCTAppleHealthKit+Methods_Fitness.h */,
-				588FE1FB205FB45500937D78 /* RCTAppleHealthKit+Utils.m */,
-				588FE1FC205FB45500937D78 /* RCTAppleHealthKit+Methods_Vitals.h */,
-				588FE1FD205FB45500937D78 /* RCTAppleHealthKit+TypesAndPermissions.m */,
-				588FE1FE205FB45500937D78 /* RCTAppleHealthKit.m */,
-				588FE1FF205FB45500937D78 /* RCTAppleHealthKit+Methods_Characteristic.h */,
-				588FE200205FB45500937D78 /* RCTAppleHealthKit+Methods_Sleep.h */,
-				588FE201205FB45500937D78 /* RCTAppleHealthKit+Queries.m */,
-				588FE202205FB45500937D78 /* HKDevice+Exporting.m */,
-				588FE203205FB45500937D78 /* RCTAppleHealthKit+Methods_ReproductiveHealth.h */,
-				588FE204205FB45500937D78 /* HKSourceRevision+Exporting.m */,
-			);
-			path = RCTAppleHealthKit;
-			sourceTree = "<group>";
-		};
-		588FE236205FB45500937D78 /* Surveys */ = {
-			isa = PBXGroup;
-			children = (
-				588FE237205FB45500937D78 /* InternationalDiabeteRenussionStudy.m */,
-				588FE238205FB45500937D78 /* WomenHealthStudy.h */,
-				588FE239205FB45500937D78 /* InternationalDiabeteRenussionTask.h */,
-				588FE23A205FB45500937D78 /* InternationalDiabeteRenussionStudy.h */,
-				588FE23B205FB45500937D78 /* InternationalDiabeteRenussionTask.m */,
-				588FE23C205FB45500937D78 /* WomenHealthStudy.m */,
-			);
-			path = Surveys;
-			sourceTree = "<group>";
-		};
 		588FE263205FB71000937D78 /* OtherUtilities */ = {
 			isa = PBXGroup;
 			children = (
-				588FE2C3205FB78B00937D78 /* Helpers */,
-				588FE264205FB71000937D78 /* NSDate+Converting.h */,
-				588FE265205FB71000937D78 /* LocaleUnit.h */,
-				588FE266205FB71000937D78 /* NSString+IdentitiesRemove.h */,
 				588FE267205FB71000937D78 /* PhotoExporting.h */,
-				588FE268205FB71000937D78 /* NSDate+Computing.m */,
-				588FE269205FB71000937D78 /* NSDate+Converting.m */,
-				588FE26A205FB71000937D78 /* LocaleUnit.m */,
-				588FE26B205FB71000937D78 /* NSString+IdentitiesRemove.m */,
-				588FE26C205FB71000937D78 /* NSDate+Computing.h */,
 				588FE26D205FB71000937D78 /* PhotoExporting.m */,
 			);
 			path = OtherUtilities;
-			sourceTree = "<group>";
-		};
-		588FE278205FB76900937D78 /* ResearchKitUtils */ = {
-			isa = PBXGroup;
-			children = (
-				588FE279205FB76900937D78 /* ORKImageSelectionStep */,
-			);
-			path = ResearchKitUtils;
-			sourceTree = "<group>";
-		};
-		588FE279205FB76900937D78 /* ORKImageSelectionStep */ = {
-			isa = PBXGroup;
-			children = (
-				588FE27A205FB76900937D78 /* ORKImagePickerStepViewController.xib */,
-				588FE27B205FB76900937D78 /* ORKImagePickerStepResult.m */,
-				588FE27C205FB76900937D78 /* ORKImagePickerStep.m */,
-				588FE27D205FB76900937D78 /* ORKImagePickerStepViewController.m */,
-				588FE27E205FB76900937D78 /* ORKImagePickerCollectionViewCell.h */,
-				588FE27F205FB76900937D78 /* ORKImagePickerStepResult.h */,
-				588FE280205FB76900937D78 /* ORKImagePickerStep.h */,
-				588FE281205FB76900937D78 /* GMImagePicker */,
-				588FE29D205FB76900937D78 /* ORKImagePickerCollectionViewCell.m */,
-				588FE29E205FB76900937D78 /* ORKImagePickerStepViewController.h */,
-			);
-			path = ORKImageSelectionStep;
-			sourceTree = "<group>";
-		};
-		588FE281205FB76900937D78 /* GMImagePicker */ = {
-			isa = PBXGroup;
-			children = (
-				588FE282205FB76900937D78 /* GMImagePicker.strings */,
-				588FE284205FB76900937D78 /* GMAlbumsViewController.h */,
-				588FE286205FB76900937D78 /* GMGridViewController.h */,
-				588FE287205FB76900937D78 /* GMImagePickerController.h */,
-				588FE288205FB76900937D78 /* GMAlbumsViewCell.h */,
-				588FE28B205FB76900937D78 /* GMGridViewCell.h */,
-				588FE28C205FB76900937D78 /* GMSelected@2x.png */,
-				588FE28D205FB76900937D78 /* GMEmptyFolder@2x.png */,
-				588FE28E205FB76900937D78 /* GMVideoIcon@2x.png */,
-				588FE290205FB76900937D78 /* GMImagePickerController.m */,
-				588FE291205FB76900937D78 /* GMGridViewController.m */,
-				588FE292205FB76900937D78 /* GMVideoIcon.png */,
-				588FE293205FB76900937D78 /* GMAlbumsViewController.m */,
-				588FE294205FB76900937D78 /* GMEmptyFolder@1x.png */,
-				588FE295205FB76900937D78 /* GMAlbumsViewCell.m */,
-				588FE297205FB76900937D78 /* GMSelected.png */,
-				588FE299205FB76900937D78 /* GMGridViewCell.m */,
-				588FE29A205FB76900937D78 /* 0.0.2 */,
-			);
-			path = GMImagePicker;
-			sourceTree = "<group>";
-		};
-		588FE29A205FB76900937D78 /* 0.0.2 */ = {
-			isa = PBXGroup;
-			children = (
-				588FE29B205FB76900937D78 /* GMImagePicker.podspec */,
-			);
-			path = 0.0.2;
-			sourceTree = "<group>";
-		};
-		588FE2C3205FB78B00937D78 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				588FE2C4205FB78B00937D78 /* StudyHelper.m */,
-				588FE2C5205FB78B00937D78 /* StudyTheme.h */,
-				588FE2C6205FB78B00937D78 /* StudyHelper.h */,
-				588FE2C7205FB78B00937D78 /* StudyTheme.m */,
-			);
-			path = Helpers;
 			sourceTree = "<group>";
 		};
 		58C9510B20202AF70050A9D4 /* TouchID */ = {
@@ -1197,8 +900,6 @@
 		58FC1E27201B21AC00F60AF9 /* RNModules */ = {
 			isa = PBXGroup;
 			children = (
-				588FE1E3205FB45500937D78 /* HealthKit */,
-				588FE236205FB45500937D78 /* Surveys */,
 				58C9510B20202AF70050A9D4 /* TouchID */,
 				58FC1E53201B21B900F60AF9 /* BitmarkSDK */,
 			);
@@ -1314,6 +1015,10 @@
 				B699513BD0B90FD6246B88A0 /* Pods-Bitmark beta.release.xcconfig */,
 				7006CB495F6551DC0B00B8E8 /* Pods-Bitmark dev.debug.xcconfig */,
 				DDDF52A44890C0CADB5CC2CF /* Pods-Bitmark dev.release.xcconfig */,
+				1FE694157A05172759A10C0B /* Pods-Bitmark Registry.debug.xcconfig */,
+				C2EBA197376ED4F7B6D41BAC /* Pods-Bitmark Registry.release.xcconfig */,
+				06BD1553103D8D01819C2268 /* Pods-Bitmark Registry dev.debug.xcconfig */,
+				ECC0D66A0909D1398002EDA8 /* Pods-Bitmark Registry dev.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -2042,17 +1747,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F150CA412023230B00C8FC17 /* AndaleMono.ttf in Resources */,
-				588FE2A7205FB76900937D78 /* GMImagePicker.strings in Resources */,
-				588FE2BF205FB76900937D78 /* GMImagePicker.podspec in Resources */,
-				588FE2B3205FB76900937D78 /* GMVideoIcon.png in Resources */,
-				588FE29F205FB76900937D78 /* ORKImagePickerStepViewController.xib in Resources */,
-				588FE2BB205FB76900937D78 /* GMSelected.png in Resources */,
-				588FE2AD205FB76900937D78 /* GMVideoIcon@2x.png in Resources */,
-				588FE2B7205FB76900937D78 /* GMEmptyFolder@1x.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				588FE2A9205FB76900937D78 /* GMSelected@2x.png in Resources */,
-				588FE2AB205FB76900937D78 /* GMEmptyFolder@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2061,17 +1757,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				58908AC020A18A5A00C0064A /* AndaleMono.ttf in Resources */,
-				58908AC120A18A5A00C0064A /* GMImagePicker.strings in Resources */,
-				58908AC220A18A5A00C0064A /* GMImagePicker.podspec in Resources */,
-				58908AC320A18A5A00C0064A /* GMVideoIcon.png in Resources */,
-				58908AC420A18A5A00C0064A /* ORKImagePickerStepViewController.xib in Resources */,
-				58908AC520A18A5A00C0064A /* GMSelected.png in Resources */,
-				58908AC620A18A5A00C0064A /* GMVideoIcon@2x.png in Resources */,
-				58908AC720A18A5A00C0064A /* GMEmptyFolder@1x.png in Resources */,
 				58908AC820A18A5A00C0064A /* Images.xcassets in Resources */,
 				58908AC920A18A5A00C0064A /* LaunchScreen.xib in Resources */,
-				58908ACA20A18A5A00C0064A /* GMSelected@2x.png in Resources */,
-				58908ACB20A18A5A00C0064A /* GMEmptyFolder@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2104,7 +1791,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark/Pods-Bitmark-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry/Pods-Bitmark Registry-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		521CEE845EEDD5CD3230D01F /* [CP] Check Pods Manifest.lock */ = {
@@ -2118,7 +1805,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Bitmark-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Bitmark Registry-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2136,7 +1823,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Bitmark dev-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Bitmark Registry dev-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -2163,12 +1850,11 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark dev/Pods-Bitmark dev-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/BitmarkSDK/BitmarkSDK.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
-				"${BUILT_PRODUCTS_DIR}/ResearchKit/ResearchKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
 				"${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework",
 			);
@@ -2178,13 +1864,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmarkSDK.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ResearchKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TweetNacl.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark dev/Pods-Bitmark dev-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		58908ACE20A18A5A00C0064A /* [CP] Copy Pods Resources */ = {
@@ -2193,7 +1878,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark dev/Pods-Bitmark dev-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -2202,7 +1887,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark dev/Pods-Bitmark dev-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8FD9F25D4DFFAF8EC22A7654 /* [CP] Embed Pods Frameworks */ = {
@@ -2226,12 +1911,11 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark/Pods-Bitmark-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry/Pods-Bitmark Registry-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
 				"${BUILT_PRODUCTS_DIR}/BitmarkSDK/BitmarkSDK.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
-				"${BUILT_PRODUCTS_DIR}/ResearchKit/ResearchKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
 				"${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework",
 			);
@@ -2241,13 +1925,12 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmarkSDK.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ResearchKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TweetNacl.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark/Pods-Bitmark-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry/Pods-Bitmark Registry-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9B8CB3D29FDC30AA3D976AD0 /* [CP] Copy Pods Resources */ = {
@@ -2298,47 +1981,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				588FE253205FB45500937D78 /* RCTAppleHealthKit+TypesAndPermissions.m in Sources */,
-				588FE24F205FB45500937D78 /* RCTAppleHealthKit+Methods_Results.m in Sources */,
-				588FE251205FB45500937D78 /* RCTAppleHealthKit+Utils.m in Sources */,
-				588FE272205FB71000937D78 /* LocaleUnit.m in Sources */,
-				588FE25F205FB45500937D78 /* InternationalDiabeteRenussionTask.m in Sources */,
-				588FE259205FB45500937D78 /* HKDevice+Exporting.m in Sources */,
-				588FE23D205FB45500937D78 /* RCTAppleHealthKit+Methods_Body.m in Sources */,
-				588FE2CA205FB78B00937D78 /* StudyTheme.m in Sources */,
-				588FE2AF205FB76900937D78 /* GMImagePickerController.m in Sources */,
 				588FE276205FB71000937D78 /* PhotoExporting.m in Sources */,
-				588FE24B205FB45500937D78 /* RCTAppleHealthKit+Methods_ReproductiveHealth.m in Sources */,
-				588FE2A5205FB76900937D78 /* ORKImagePickerStepViewController.m in Sources */,
-				588FE2C8205FB78B00937D78 /* StudyHelper.m in Sources */,
-				588FE2BD205FB76900937D78 /* GMGridViewCell.m in Sources */,
-				588FE26E205FB71000937D78 /* NSDate+Computing.m in Sources */,
-				588FE274205FB71000937D78 /* NSString+IdentitiesRemove.m in Sources */,
-				588FE241205FB45500937D78 /* RCTAppleHealthKit+Methods_Nutrition.m in Sources */,
 				58C9513920202AF80050A9D4 /* TouchID.m in Sources */,
-				588FE257205FB45500937D78 /* RCTAppleHealthKit+Queries.m in Sources */,
-				588FE2B9205FB76900937D78 /* GMAlbumsViewCell.m in Sources */,
-				588FE23F205FB45500937D78 /* RCTAppleHealthKit+ExtraData.m in Sources */,
-				588FE245205FB45500937D78 /* RCTAppleHealthKit+Methods_Sleep.m in Sources */,
-				588FE261205FB45500937D78 /* WomenHealthStudy.m in Sources */,
-				588FE249205FB45500937D78 /* RCTAppleHealthKit+Methods_Vitals.m in Sources */,
-				588FE270205FB71000937D78 /* NSDate+Converting.m in Sources */,
-				588FE25D205FB45500937D78 /* InternationalDiabeteRenussionStudy.m in Sources */,
 				58FC1E56201B21CC00F60AF9 /* BitmarkSDK.swift in Sources */,
-				588FE247205FB45500937D78 /* RCTAppleHealthKit+Methods_Characteristic.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				589626E9201B28380026C4A5 /* BitmarkSDKBridge.m in Sources */,
-				588FE2B5205FB76900937D78 /* GMAlbumsViewController.m in Sources */,
-				588FE2C1205FB76900937D78 /* ORKImagePickerCollectionViewCell.m in Sources */,
 				58CB4892201EC63A0058B364 /* KeychainUtil.swift in Sources */,
-				588FE255205FB45500937D78 /* RCTAppleHealthKit.m in Sources */,
-				588FE25B205FB45500937D78 /* HKSourceRevision+Exporting.m in Sources */,
 				58400A98202C013C00550ADB /* AccountSession.swift in Sources */,
-				588FE243205FB45500937D78 /* RCTAppleHealthKit+Methods_Fitness.m in Sources */,
-				588FE2A3205FB76900937D78 /* ORKImagePickerStep.m in Sources */,
-				588FE2A1205FB76900937D78 /* ORKImagePickerStepResult.m in Sources */,
-				588FE24D205FB45500937D78 /* RCTAppleHealthKit+Methods_Environment.m in Sources */,
-				588FE2B1205FB76900937D78 /* GMGridViewController.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2347,47 +1996,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				58908A7B20A18A5A00C0064A /* RCTAppleHealthKit+TypesAndPermissions.m in Sources */,
-				58908A7C20A18A5A00C0064A /* RCTAppleHealthKit+Methods_Results.m in Sources */,
-				58908A7D20A18A5A00C0064A /* RCTAppleHealthKit+Utils.m in Sources */,
-				58908A7E20A18A5A00C0064A /* LocaleUnit.m in Sources */,
-				58908A7F20A18A5A00C0064A /* InternationalDiabeteRenussionTask.m in Sources */,
-				58908A8020A18A5A00C0064A /* HKDevice+Exporting.m in Sources */,
-				58908A8120A18A5A00C0064A /* RCTAppleHealthKit+Methods_Body.m in Sources */,
-				58908A8220A18A5A00C0064A /* StudyTheme.m in Sources */,
-				58908A8320A18A5A00C0064A /* GMImagePickerController.m in Sources */,
 				58908A8420A18A5A00C0064A /* PhotoExporting.m in Sources */,
-				58908A8520A18A5A00C0064A /* RCTAppleHealthKit+Methods_ReproductiveHealth.m in Sources */,
-				58908A8620A18A5A00C0064A /* ORKImagePickerStepViewController.m in Sources */,
-				58908A8720A18A5A00C0064A /* StudyHelper.m in Sources */,
-				58908A8820A18A5A00C0064A /* GMGridViewCell.m in Sources */,
-				58908A8920A18A5A00C0064A /* NSDate+Computing.m in Sources */,
-				58908A8A20A18A5A00C0064A /* NSString+IdentitiesRemove.m in Sources */,
-				58908A8B20A18A5A00C0064A /* RCTAppleHealthKit+Methods_Nutrition.m in Sources */,
 				58908A8C20A18A5A00C0064A /* TouchID.m in Sources */,
-				58908A8D20A18A5A00C0064A /* RCTAppleHealthKit+Queries.m in Sources */,
-				58908A8E20A18A5A00C0064A /* GMAlbumsViewCell.m in Sources */,
-				58908A8F20A18A5A00C0064A /* RCTAppleHealthKit+ExtraData.m in Sources */,
-				58908A9020A18A5A00C0064A /* RCTAppleHealthKit+Methods_Sleep.m in Sources */,
-				58908A9120A18A5A00C0064A /* WomenHealthStudy.m in Sources */,
-				58908A9220A18A5A00C0064A /* RCTAppleHealthKit+Methods_Vitals.m in Sources */,
-				58908A9320A18A5A00C0064A /* NSDate+Converting.m in Sources */,
-				58908A9420A18A5A00C0064A /* InternationalDiabeteRenussionStudy.m in Sources */,
 				58908A9520A18A5A00C0064A /* BitmarkSDK.swift in Sources */,
-				58908A9620A18A5A00C0064A /* RCTAppleHealthKit+Methods_Characteristic.m in Sources */,
 				58908A9720A18A5A00C0064A /* AppDelegate.m in Sources */,
 				58908A9820A18A5A00C0064A /* BitmarkSDKBridge.m in Sources */,
-				58908A9920A18A5A00C0064A /* GMAlbumsViewController.m in Sources */,
-				58908A9A20A18A5A00C0064A /* ORKImagePickerCollectionViewCell.m in Sources */,
 				58908A9B20A18A5A00C0064A /* KeychainUtil.swift in Sources */,
-				58908A9C20A18A5A00C0064A /* RCTAppleHealthKit.m in Sources */,
-				58908A9D20A18A5A00C0064A /* HKSourceRevision+Exporting.m in Sources */,
 				58908A9E20A18A5A00C0064A /* AccountSession.swift in Sources */,
-				58908A9F20A18A5A00C0064A /* RCTAppleHealthKit+Methods_Fitness.m in Sources */,
-				58908AA020A18A5A00C0064A /* ORKImagePickerStep.m in Sources */,
-				58908AA120A18A5A00C0064A /* ORKImagePickerStepResult.m in Sources */,
-				58908AA220A18A5A00C0064A /* RCTAppleHealthKit+Methods_Environment.m in Sources */,
-				58908AA320A18A5A00C0064A /* GMGridViewController.m in Sources */,
 				58908AA420A18A5A00C0064A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2410,21 +2025,6 @@
 			);
 			name = LaunchScreen.xib;
 			path = Bitmark;
-			sourceTree = "<group>";
-		};
-		588FE282205FB76900937D78 /* GMImagePicker.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				588FE283205FB76900937D78 /* de */,
-				588FE285205FB76900937D78 /* en */,
-				588FE289205FB76900937D78 /* es */,
-				588FE28A205FB76900937D78 /* it */,
-				588FE28F205FB76900937D78 /* Base */,
-				588FE296205FB76900937D78 /* fr */,
-				588FE298205FB76900937D78 /* pt */,
-				588FE29C205FB76900937D78 /* ca */,
-			);
-			name = GMImagePicker.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -2497,7 +2097,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B4296E8568A7CE81E4D31BF4 /* Pods-Bitmark.debug.xcconfig */;
+			baseConfigurationReference = 1FE694157A05172759A10C0B /* Pods-Bitmark Registry.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -2532,7 +2132,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 579C1381393E59B3042E29F2 /* Pods-Bitmark.release.xcconfig */;
+			baseConfigurationReference = C2EBA197376ED4F7B6D41BAC /* Pods-Bitmark Registry.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -2567,7 +2167,7 @@
 		};
 		58908AD020A18A5A00C0064A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7006CB495F6551DC0B00B8E8 /* Pods-Bitmark dev.debug.xcconfig */;
+			baseConfigurationReference = 06BD1553103D8D01819C2268 /* Pods-Bitmark Registry dev.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
 				CLANG_ENABLE_MODULES = YES;
@@ -2609,7 +2209,7 @@
 		};
 		58908AD120A18A5A00C0064A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDDF52A44890C0CADB5CC2CF /* Pods-Bitmark dev.release.xcconfig */;
+			baseConfigurationReference = ECC0D66A0909D1398002EDA8 /* Pods-Bitmark Registry dev.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
 				CLANG_ENABLE_MODULES = YES;
