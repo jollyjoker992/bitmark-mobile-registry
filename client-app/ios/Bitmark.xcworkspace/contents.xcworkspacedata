@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/anhnguyen/Documents/Projects/mobile-app-registry/client-app/ios/Bitmark Registry.xcodeproj">
+      location = "group:Bitmark Registry.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
