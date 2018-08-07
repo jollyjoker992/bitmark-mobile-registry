@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "ios-test": "react-native run-ios --scheme 'Bitmark dev'",
+    "ios-test": "react-native run-ios --scheme 'Bitmark Registry dev'",
     "ios-live": "react-native run-ios",
     "test": "jest"
   },

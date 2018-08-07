@@ -52,9 +52,8 @@ let doRegisterNotificationInfo = async (accountNumber, token) => {
   if (!signatureData) {
     return;
   }
-  let client = 'primary';
-  client = DeviceInfo.getBundleId() === 'com.bitmark.bitmarkios.inhouse' ? 'beta' : client;
-  client = DeviceInfo.getBundleId() === 'com.bitmark.bitmarkios.development' ? 'development' : client;
+  let client = 'registry';
+  client = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? 'registryinhouse' : client;
   return await NotificationModel.doRegisterNotificationInfo(accountNumber, signatureData.timestamp, signatureData.signature, Platform.OS, token, client);
 };
 

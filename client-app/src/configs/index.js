@@ -9,7 +9,7 @@ let NETWORKS = {
 };
 
 let network = NETWORKS.livenet;
-network = DeviceInfo.getBundleId() === 'com.bitmark.bitmarkios.development' ? NETWORKS.testnet : network;
+network = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? NETWORKS.testnet : network;
 
 let config = {
   network,
