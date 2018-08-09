@@ -2,7 +2,7 @@ import { Platform, AppRegistry } from 'react-native';
 import moment from 'moment';
 import { registerTasks } from './app-tasks-register';
 
-import { CommonModel, AccountModel, FaceTouchId} from './../models';
+import { CommonModel, AccountModel, FaceTouchId } from './../models';
 import { AccountService, BitmarkService, EventEmitterService, TransactionService } from './../services'
 import { DataProcessor } from './data-processor';
 import { ios } from '../configs';
@@ -70,7 +70,7 @@ const doCreateNewAccount = async () => {
     return null;
   }
   CommonModel.setFaceTouchSessionId(touchFaceIdSession);
-  return await processing(AccountService.doGetCurrentAccount(touchFaceIdSession));
+  return await processing(DataProcessor.doCreateAccount(touchFaceIdSession));
 };
 
 const doGetCurrentAccount = async (touchFaceIdMessage) => {

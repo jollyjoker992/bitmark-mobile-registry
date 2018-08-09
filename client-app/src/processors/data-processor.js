@@ -347,6 +347,13 @@ const doStartBackgroundProcess = async (justCreatedBitmarkAccount) => {
   return userInformation;
 };
 
+const doCreateAccount = async (touchFaceIdSession) => {
+  let userInformation = await AccountService.doGetCurrentAccount(touchFaceIdSession);
+  let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
+  await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  return userInformation;
+};
+
 const doLogin = async (touchFaceIdSession) => {
   userInformation = await AccountService.doGetCurrentAccount(touchFaceIdSession);
   return userInformation;
@@ -917,6 +924,7 @@ const doRemoveTestRecoveryPhaseActionRequiredIfAny = async () => {
 
 const DataProcessor = {
   doOpenApp,
+  doCreateAccount,
   doLogin,
   doLogout,
   doStartBackgroundProcess,
