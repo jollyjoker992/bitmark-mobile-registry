@@ -8,7 +8,7 @@ import {
   BitmarkService,
   AccountService,
 } from "../services";
-import { CommonModel, AccountModel, UserModel, BitmarkSDK, IftttModel, BitmarkModel } from '../models';
+import { CommonModel, AccountModel, UserModel, BitmarkSDK, IftttModel, BitmarkModel, NotificationModel } from '../models';
 import { FileUtil } from '../utils';
 import { DataCacheProcessor } from './data-cache-processor';
 import { config } from '../configs';
