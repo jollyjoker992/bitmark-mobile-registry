@@ -86,7 +86,7 @@ export class LocalIssueFileComponent extends React.Component {
     }).then((data) => {
       if (data) {
         CommonModel.doTrackEvent({
-          event_name: 'app_user_done_issuance',
+          event_name: 'registry_user_done_issuance',
           account_number: DataProcessor.getUserInformation().bitmarkAccountNumber,
         });
         // Remove temp asset file

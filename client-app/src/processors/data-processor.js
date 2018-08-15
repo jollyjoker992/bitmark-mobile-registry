@@ -33,7 +33,7 @@ const doCheckNewIftttInformation = async (iftttInformation, isLoadingAllUserData
     let oldIftttInformation = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_IFTTT_INFORMATION);
     if ((!oldIftttInformation || !oldIftttInformation.connectIFTTT) && (iftttInformation && iftttInformation.connectIFTTT)) {
       await CommonModel.doTrackEvent({
-        event_name: 'app_user_connected_ifttt',
+        event_name: 'registry_user_connected_ifttt',
         account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
       });
     }
@@ -309,7 +309,7 @@ const configNotification = () => {
         userInformation = await UserModel.doGetCurrentUser();
       }
       await CommonModel.doTrackEvent({
-        event_name: 'app_user_click_notification',
+        event_name: 'registry_user_click_notification',
         account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
       });
       setTimeout(async () => {
@@ -394,7 +394,7 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 const doOpenApp = async () => {
   userInformation = await UserModel.doTryGetCurrentUser();
   await CommonModel.doTrackEvent({
-    event_name: 'app_open',
+    event_name: 'registry_open',
     account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
   });
 
@@ -410,7 +410,7 @@ const doOpenApp = async () => {
       appInfo.trackEvents.app_user_turn_off_notification = true;
       await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
       await CommonModel.doTrackEvent({
-        event_name: 'app_user_turn_off_notification',
+        event_name: 'registry_user_turn_off_notification',
         account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
       });
     }
@@ -423,7 +423,7 @@ const doOpenApp = async () => {
     appInfo.trackEvents.app_download = true;
     await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
     await CommonModel.doTrackEvent({
-      event_name: 'app_download',
+      event_name: 'registry_download',
       account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
     });
   }
@@ -909,7 +909,7 @@ const doMarkRequestedNotification = async (result) => {
 
     userInformation = userInformation || (await UserModel.doTryGetCurrentUser());
     await CommonModel.doTrackEvent({
-      event_name: 'app_user_allow_notification',
+      event_name: 'registry_user_allow_notification',
       account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
     });
   }
