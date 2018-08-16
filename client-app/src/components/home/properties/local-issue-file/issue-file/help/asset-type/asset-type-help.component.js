@@ -36,7 +36,7 @@ export class AssetTypeHelpComponent extends React.Component {
 
             <TouchableOpacity style={assetTypeHelpStyle.learnMore} onPress={() => {
               this.props.navigation.navigate('BitmarkWebView', {
-                title: 'Bitmark Blockchain', sourceUrl: config.bitmark_web_site + '/resources/blockchain?env=app',
+                title: 'Bitmark Blockchain', sourceUrl: config.bitmark_web_site + '/resources/basics?env=app',
                 isFullScreen: true
               })
             }}>
