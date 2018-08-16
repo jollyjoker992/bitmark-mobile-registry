@@ -57,7 +57,7 @@ platform :ios do
     )
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      workspace: "ios/Bitmark Registry.xcworkspace", 
+      workspace: "ios/Bitmark.xcworkspace", 
       scheme: "Bitmark Registry dev",
       include_bitcode: false
     )
