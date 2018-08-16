@@ -27,7 +27,7 @@ let config = {
   ifttt_bitmark_service_settings_url: "https://ifttt.com/services/bitmarkdevel/settings",
   web_app_server_url: 'http://192.168.0.109:8900',
   preview_asset_url: 'https://preview.test.bitmarkaccountassets.com',
-  bitmark_web_site: 'https://website.test.bitmark.com',
+  bitmark_web_site: 'https://bitmark.com',
   needResetLocalData: 1531973005311,
 };
 
