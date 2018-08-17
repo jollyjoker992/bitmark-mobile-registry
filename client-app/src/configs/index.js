@@ -16,7 +16,7 @@ let config = {
 
   NETWORKS,
   bitmark_network: NETWORKS.testnet,
-  appLink: 'https://itunes.apple.com/us/app/bitmark/id1213686437?ls=1&mt=8',
+  appLink: 'https://itunes.apple.com/us/app/bitmark-registry/id1429427796?ls=1&mt=8',
   api_server_url: 'https://api.test.bitmark.com',
   registry_server_url: 'https://registry.test.bitmark.com',
   trade_server_url: 'https://trade.devel.bitmark.com',
