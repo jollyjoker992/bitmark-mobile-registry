@@ -28,7 +28,7 @@ let config = {
   web_app_server_url: 'http://192.168.0.109:8900',
   preview_asset_url: 'https://preview.test.bitmarkaccountassets.com',
   bitmark_web_site: 'https://bitmark.com',
-  needResetLocalData: 1531973005311,
+  needResetLocalData: 1535081368111,
 };
 
 if (config.network === NETWORKS.testnet) {
@@ -81,13 +81,13 @@ export { config, ios, android };
 
 
 // testnet
-// code-push release-react Bitmark-Registry ios --pre "Bitmark dev" --mandatory true  --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map"
-// code-push release-react Bitmark-Registry ios --pre "Bitmark dev" -m --description "update code" --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map" [--targetBinaryVersion "~1.1.1"]
+// code-push release-react Bitmark-Registry ios --pre "Bitmark Registry dev" --mandatory true  --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map"
+// code-push release-react Bitmark-Registry ios --pre "Bitmark Registry dev" -m --description "update code" --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map" [--targetBinaryVersion "~1.1.1"]
 
 // livetnet
 // code-push release-react Bitmark-Registry ios -d Production --mandatory true --sourcemapOutput "source-map-tool/source-map/live/main.jsbundle_1.1.1.map"
 // code-push release-react Bitmark-Registry ios -d Production -m --description "update code" --sourcemapOutput "source-map-tool/source-map/live/main.jsbundle_1.1.1.map" [--targetBinaryVersion "~1.1.1"]
 
 
-// react-native run-ios --device "Bitmark’s iPhone" --scheme 'Bitmark dev'
-// react-native run-ios --device "iPhone 5 testing" --scheme 'Bitmark dev'
+// react-native run-ios --device "Bitmark’s iPhone" --scheme 'Bitmark Registry dev'
+// react-native run-ios --device "iPhone 5 testing" --scheme 'Bitmark Registry dev'
