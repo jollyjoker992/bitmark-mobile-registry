@@ -40,7 +40,7 @@ export class LocalIssueFileComponent extends React.Component {
     }
     let metadataList = [];
     let { asset, fingerprint, fileName, fileFormat, filePath } = this.props.navigation.state.params;
-    let assetAccessibility;
+    let assetAccessibility = 'private';
     let existingAsset = !!(asset && asset.name);
     if (existingAsset) {
       let key = 0;
@@ -48,9 +48,7 @@ export class LocalIssueFileComponent extends React.Component {
         metadataList.push({ key, label, value: asset.metadata[label] });
         key++;
       }
-      assetAccessibility = asset.accessibility;
-    } else {
-      assetAccessibility = 'private';
+      assetAccessibility = asset.accessibility || assetAccessibility;
     }
 
     this.state = {
