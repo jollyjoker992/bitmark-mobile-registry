@@ -76,7 +76,7 @@ export class ApplicationDetailComponent extends React.Component {
           <View style={applicationDetailStyle.topArea}>
             <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => {
               this.props.navigation.navigate('BitmarkWebView', {
-                title: 'Terms of Service', sourceUrl: config.bitmark_web_site + '/term?env=app',
+                title: 'Terms of Service', sourceUrl: config.bitmark_web_site + '/terms?env=app',
                 hideBottomController: true,
               })
             }}>

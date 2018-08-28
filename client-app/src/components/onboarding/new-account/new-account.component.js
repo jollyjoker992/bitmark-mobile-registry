@@ -226,7 +226,7 @@ class PublicAccountNumberComponent extends React.Component {
                     this.props.navigation.navigate('BitmarkWebView', { title: 'Privacy Policy', sourceUrl: config.bitmark_web_site + '/privacy?env=app', isFullScreen: true, });
                     this.props.screenProps.setShowPagination(false);
                   } else if (url === (config.bitmark_web_site + '/terms')) {
-                    this.props.navigation.navigate('BitmarkWebView', { title: 'Terms of Service', sourceUrl: config.bitmark_web_site + '/term?env=app', isFullScreen: true, });
+                    this.props.navigation.navigate('BitmarkWebView', { title: 'Terms of Service', sourceUrl: config.bitmark_web_site + '/terms?env=app', isFullScreen: true, });
                     this.props.screenProps.setShowPagination(false);
                   }
                 }}
