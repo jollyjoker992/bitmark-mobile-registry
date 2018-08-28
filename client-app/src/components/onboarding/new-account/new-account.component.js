@@ -225,33 +225,33 @@ class PublicAccountNumberComponent extends React.Component {
                   if (url === (config.bitmark_web_site + '/privacy')) {
                     this.props.navigation.navigate('BitmarkWebView', { title: 'Privacy Policy', sourceUrl: config.bitmark_web_site + '/privacy?env=app', isFullScreen: true, });
                     this.props.screenProps.setShowPagination(false);
-                  } else if (url === (config.bitmark_web_site + '/term')) {
+                  } else if (url === (config.bitmark_web_site + '/terms')) {
                     this.props.navigation.navigate('BitmarkWebView', { title: 'Terms of Service', sourceUrl: config.bitmark_web_site + '/term?env=app', isFullScreen: true, });
                     this.props.screenProps.setShowPagination(false);
                   }
                 }}
                 linkStyle={newAccountStyle.bitmarkTermsPrivacyButtonText}
                 linkText={url => {
-                  if (url === (config.bitmark_web_site + '/term')) {
+                  if (url === (config.bitmark_web_site + '/terms')) {
                     return 'Terms of Service';
                   } else if (url === (config.bitmark_web_site + '/privacy')) {
                     return 'Privacy Policy';
                   }
                   return '';
                 }}>
-                <Text style={newAccountStyle.bitmarkTermsPrivacyText}>By continuing, you agree to the Bitmark {config.bitmark_web_site + '/term'} and {config.bitmark_web_site + '/privacy'}</Text>
+                <Text style={newAccountStyle.bitmarkTermsPrivacyText}>By continuing, you agree to the Bitmark {config.bitmark_web_site + '/terms'} and {config.bitmark_web_site + '/privacy'}</Text>
               </Hyperlink>
             </View>
           </ View>
         )}
         footerHeight={45 + iosConstant.blankFooter / 2}
         footer={(<View style={newAccountStyle.letDoItButtonArea}>
-            <TouchableOpacity style={[newAccountStyle.letDoItButton]} onPress={() => {
-              this.props.screenProps.newAccountNavigation.navigate('FaceTouchId', { doContinue: this.props.screenProps.createBitmarkAccount });
-            }}>
-              <Text style={[newAccountStyle.letDoItButtonText]}>LET’S DO IT!</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={[newAccountStyle.letDoItButton]} onPress={() => {
+            this.props.screenProps.newAccountNavigation.navigate('FaceTouchId', { doContinue: this.props.screenProps.createBitmarkAccount });
+          }}>
+            <Text style={[newAccountStyle.letDoItButtonText]}>LET’S DO IT!</Text>
+          </TouchableOpacity>
+        </View>
         )}
       />
     );
@@ -277,9 +277,9 @@ PublicAccountNumberComponent.propTypes = {
 };
 
 var FullPublicAccountNumberComponent = StackNavigator({
-    PublicAccountNumber: { screen: PublicAccountNumberComponent },
-    BitmarkWebView: { screen: BitmarkWebViewComponent },
-  }, {
+  PublicAccountNumber: { screen: PublicAccountNumberComponent },
+  BitmarkWebView: { screen: BitmarkWebViewComponent },
+}, {
     headerMode: 'none',
     mode: 'modal',
     navigationOptions: {
