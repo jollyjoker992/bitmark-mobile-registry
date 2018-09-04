@@ -5,8 +5,9 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "ios-test": "react-native run-ios --scheme 'Bitmark Registry dev'",
+    "ios-e2e": "react-native run-ios --scheme 'Bitmark Registry dev e2e'",
     "ios-live": "react-native run-ios",
-    "test": "jest"
+    "e2e": "jest -c ./e2e/jest.config.js"
   },
   "dependencies": {
     "lodash": "^4.17.4",
@@ -39,10 +40,10 @@
     "eslint": "^4.16.0",
     "eslint-plugin-react": "^7.5.1",
     "eslint-plugin-react-native": "^3.2.1",
-    "jest": "22.1.4",
-    "react-test-renderer": "16.2.0"
-  },
-  "jest": {
-    "preset": "react-native"
+    "jasmine": "^3.2.0",
+    "jest": "^23.3.0",
+    "react-test-renderer": "16.2.0",
+    "wd": "^1.10.3",
+    "webdriverio": "^4.13.2"
   }
 }

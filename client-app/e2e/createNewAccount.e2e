@@ -1,0 +1,51 @@
+describe('Onboarding', async () => {
+  let client;
+
+  it('creates new account', async () => {
+    const client = process.client;
+    // show welcome screen
+    expect(client.element("//*[@name='WelcomeComponent.view']")).toBeTruthy();
+
+    // click 'CREATE NEW ACCOUNT'
+    await client.element("//*[@name='WelcomeComponent.createNewAccount']").click();
+
+    // show 'REGISTER ASSETS' screen
+    expect(
+      client.element("//*[@name='NewAccountComponent.registerAssets']")
+    ).toBeTruthy();
+
+    // click 'SKIP'
+    await client.element("//*[@name='NewAccountComponent.skip']").click();
+
+    // show 'PUBLIC ACCOUNT NUMBER' screen
+    expect(
+      client.element("//*[@name='NewAccountComponent.publicAccountNumber']")
+    ).toBeTruthy();
+
+    // click 'Let's DO IT!'
+    await client.element("//*[@name='NewAccountComponent.letsDoIt']").click();
+
+    // show 'TOUCH/FACE ID & PASSCODE' screen
+    expect(client.element("//*[@name='FaceTouchIdComponent.view']")).toBeTruthy();
+
+    // click 'ENABLE'
+    await client.element("//*[@name='FaceTouchIdComponent.enable']").click();
+
+    // click 'Ok' to enable permission
+    await client
+      .element(
+        "//XCUIElementTypeOther[@name='FaceTouchIdComponent.view']/XCUIElementTypeOther/XCUIElementTypeImage[2]"
+      )
+      .click();
+
+    // show 'NOTIFICATIONS' screen
+    expect(client.element("//*[@name='NotificationComponent.view']")).toBeTruthy();
+
+    // click 'ENABLE'
+    await client.waitForExist("//*[@name='NotificationComponent.enable']", 10000);
+    await client.element("//*[@name='NotificationComponent.enable']").click();
+
+    // show 'PROPERTIES' screen
+    expect(client.element("//*[@name='AssetsComponent.view']")).toBeTruthy();
+  });
+});
