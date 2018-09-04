@@ -1,19 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Swiper from 'react-native-swiper';
-import { StackNavigator, } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
 import Hyperlink from 'react-native-hyperlink';
-import {
-  View, Text, TouchableOpacity, Image,
-  StatusBar,
-  AppState,
-} from 'react-native'
+import { View, Text, TouchableOpacity, Image, StatusBar, AppState } from 'react-native';
 import Video from 'react-native-video';
 
-import {
-  BitmarkWebViewComponent,
-  BitmarkComponent
-} from './../../../commons/components';
+import { BitmarkWebViewComponent, BitmarkComponent } from './../../../commons/components';
 import defaultStyle from './../../../commons/styles';
 
 import newAccountStyle from './new-account.component.style';
@@ -31,7 +24,7 @@ export class NewAccountComponent extends React.Component {
     this.state = {
       showPagination: true,
       scrollEnabled: true,
-      index: 0,
+      index: 0
     };
   }
   componentDidMount() {
@@ -61,119 +54,173 @@ export class NewAccountComponent extends React.Component {
 
   render() {
     return (
-      <View style={newAccountStyle.body}>
+      <View style={newAccountStyle.body} testID="NewAccountComponent.view">
         <StatusBar hidden={false} />
         <View style={newAccountStyle.main}>
-          <Swiper activeDotColor='#0060F2'
+          <Swiper
+            activeDotColor="#0060F2"
             scrollEnabled={this.state.scrollEnabled}
-            showsPagination={this.state.showPagination} style={newAccountStyle.swipeArea} showsButtons={false}
-            buttonWrapperStyle={{ color: 'black' }} loop={false}
+            showsPagination={this.state.showPagination}
+            style={newAccountStyle.swipeArea}
+            showsButtons={false}
+            buttonWrapperStyle={{ color: 'black' }}
+            loop={false}
             paginationStyle={newAccountStyle.swipePagination}
-            ref={swiper => this.swiper = swiper}
+            ref={(swiper) => (this.swiper = swiper)}
             onIndexChanged={(index) => {
               this.setState({
-                index: index,
+                index: index
               });
               if (this['player' + index] && this['player' + index].seek) {
                 this['player' + index].seek(0);
               }
             }}
-            dot={
-              <View style={newAccountStyle.swipeDotButton} />
-            }>
-
+            dot={<View style={newAccountStyle.swipeDotButton} />}
+          >
             {/*REGISTER ASSETS*/}
             <BitmarkComponent
-              backgroundColor='white'
-              ref={(ref) => this.fullRef = ref}
-              header={(<View style={[defaultStyle.header, { backgroundColor: 'white' }]}>
-                <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => { this.props.navigation.goBack() }}>
-                  <Image style={defaultStyle.headerLeftIcon} source={require('../../../../assets/imgs/header_blue_icon.png')} />
-                </TouchableOpacity>
-                <Text style={defaultStyle.headerTitle}></Text>
-                <TouchableOpacity style={defaultStyle.headerRight}>
-                </TouchableOpacity>
-              </View>)}
+              backgroundColor="white"
+              ref={(ref) => (this.fullRef = ref)}
+              header={
+                <View style={[defaultStyle.header, { backgroundColor: 'white' }]}>
+                  <TouchableOpacity
+                    style={defaultStyle.headerLeft}
+                    onPress={() => {
+                      this.props.navigation.goBack();
+                    }}
+                  >
+                    <Image
+                      style={defaultStyle.headerLeftIcon}
+                      source={require('../../../../assets/imgs/header_blue_icon.png')}
+                    />
+                  </TouchableOpacity>
+                  <Text style={defaultStyle.headerTitle} />
+                  <TouchableOpacity style={defaultStyle.headerRight} />
+                </View>
+              }
               contentInScroll={true}
-              content={(
-                <View style={newAccountStyle.swipePage}>
+              content={
+                <View
+                  style={newAccountStyle.swipePage}
+                  testID="newAccountComponent.registerAssets"
+                >
                   <View style={newAccountStyle.introductionArea}>
-                    <Text style={[newAccountStyle.introductionTitle]}>REGISTER ASSETS</Text>
+                    <Text style={[newAccountStyle.introductionTitle]}>
+                      REGISTER ASSETS
+                    </Text>
                     <Text style={[newAccountStyle.introductionDescription]}>
-                      Register your assets and protect your property rights using the + button.
+                      Register your assets and protect your property rights using the +
+                      button.
                     </Text>
                   </View>
 
                   <View style={newAccountStyle.introductionImageArea}>
-                    <Image style={newAccountStyle.onBoardingImage} source={require('../../../../assets/imgs/register-assets.png')} />
+                    <Image
+                      style={newAccountStyle.onBoardingImage}
+                      source={require('../../../../assets/imgs/register-assets.png')}
+                    />
                   </View>
                 </View>
-              )}
+              }
             />
 
             {/*MANAGE YOUR PROPERTY*/}
             <BitmarkComponent
-              backgroundColor='white'
-              ref={(ref) => this.fullRef = ref}
-              header={(<View style={[defaultStyle.header, { backgroundColor: 'white' }]}></View>)}
+              backgroundColor="white"
+              ref={(ref) => (this.fullRef = ref)}
+              header={
+                <View style={[defaultStyle.header, { backgroundColor: 'white' }]} />
+              }
               contentInScroll={true}
-              content={(
+              content={
                 <View style={newAccountStyle.swipePage}>
                   <View style={newAccountStyle.introductionArea}>
-                    <Text style={[newAccountStyle.introductionTitle]}>MANAGE YOUR PROPERTY</Text>
+                    <Text style={[newAccountStyle.introductionTitle]}>
+                      MANAGE YOUR PROPERTY
+                    </Text>
                     <Text style={[newAccountStyle.introductionDescription]}>
-                      Use the settings button to track, send, and download assets for your bitmarks.
+                      Use the settings button to track, send, and download assets for your
+                      bitmarks.
                     </Text>
                   </View>
 
                   <View style={newAccountStyle.introductionImageArea}>
-                    <Image style={newAccountStyle.onBoardingImage} source={require('../../../../assets/imgs/manage-your-property.png')} />
+                    <Image
+                      style={newAccountStyle.onBoardingImage}
+                      source={require('../../../../assets/imgs/manage-your-property.png')}
+                    />
                   </View>
                 </View>
-              )}
+              }
             />
 
             {/*ACTIONS AND HISTORY*/}
             <BitmarkComponent
-              backgroundColor='white'
-              ref={(ref) => this.fullRef = ref}
-              header={(<View style={[defaultStyle.header, { backgroundColor: 'white' }]}></View>)}
+              backgroundColor="white"
+              ref={(ref) => (this.fullRef = ref)}
+              header={
+                <View style={[defaultStyle.header, { backgroundColor: 'white' }]} />
+              }
               contentInScroll={true}
-              content={(
+              content={
                 <View style={newAccountStyle.swipePage}>
                   <View style={newAccountStyle.introductionArea}>
-                    <Text style={[newAccountStyle.introductionTitle]}>ACTIONS AND HISTORY</Text>
+                    <Text style={[newAccountStyle.introductionTitle]}>
+                      ACTIONS AND HISTORY
+                    </Text>
                     <Text style={[newAccountStyle.introductionDescription]}>
                       Check the Transactions tab for pending actions and activity history.
                     </Text>
                   </View>
 
                   <View style={newAccountStyle.introductionImageArea}>
-                    <Image style={newAccountStyle.actionAndHistoryOnBoardingImage} source={require('../../../../assets/imgs/actions-and-history.png')} />
+                    <Image
+                      style={newAccountStyle.actionAndHistoryOnBoardingImage}
+                      source={require('../../../../assets/imgs/actions-and-history.png')}
+                    />
                   </View>
                 </View>
-              )}
+              }
             />
 
             {/*PUBLIC ACCOUNT NUMBER*/}
-            <FullPublicAccountNumberComponent screenProps={{
-              newAccountNavigation: this.props.navigation,
-              createBitmarkAccount: this.createNewAccount,
-              setShowPagination: (show) => {
-                this.setState({
-                  showPagination: show,
-                  scrollEnabled: show,
-                })
-              },
-              isFullScreen: true
-            }} />
+            <FullPublicAccountNumberComponent
+              screenProps={{
+                newAccountNavigation: this.props.navigation,
+                createBitmarkAccount: this.createNewAccount,
+                setShowPagination: (show) => {
+                  this.setState({
+                    showPagination: show,
+                    scrollEnabled: show
+                  });
+                },
+                isFullScreen: true
+              }}
+            />
           </Swiper>
 
-          {this.state.index === 0 && <View style={[newAccountStyle.skipButtonArea]}>
-            <TouchableOpacity style={[newAccountStyle.skipButton]} onPress={() => { this.swiper.scrollBy(3) }}>
-              <Text style={[newAccountStyle.skipButtonText, { color: '#0060F2', fontSize: 14, fontWeight: '900' }]}>SKIP</Text>
-            </TouchableOpacity>
-          </View>}
+          {this.state.index === 0 && (
+            <View
+              style={[newAccountStyle.skipButtonArea]}
+              testID="NewAccountComponent.skip"
+            >
+              <TouchableOpacity
+                style={[newAccountStyle.skipButton]}
+                onPress={() => {
+                  this.swiper.scrollBy(3);
+                }}
+              >
+                <Text
+                  style={[
+                    newAccountStyle.skipButtonText,
+                    { color: '#0060F2', fontSize: 14, fontWeight: '900' }
+                  ]}
+                >
+                  SKIP
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </View>
     );
@@ -182,14 +229,14 @@ export class NewAccountComponent extends React.Component {
 
 NewAccountComponent.propTypes = {
   screenProps: PropTypes.shape({
-    enableJustCreatedBitmarkAccount: PropTypes.func,
+    enableJustCreatedBitmarkAccount: PropTypes.func
   }),
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
     goBack: PropTypes.func,
     state: PropTypes.shape({
       params: PropTypes.shape({
-        justCreatedBitmarkAccount: PropTypes.bool,
+        justCreatedBitmarkAccount: PropTypes.bool
       })
     })
   })
@@ -197,62 +244,93 @@ NewAccountComponent.propTypes = {
 
 class PublicAccountNumberComponent extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
   render() {
     return (
       <BitmarkComponent
-        backgroundColor='white'
-        ref={(ref) => this.fullRef = ref}
-        header={(<View style={[defaultStyle.header, { backgroundColor: 'white' }]}></View>)}
+        backgroundColor="white"
+        ref={(ref) => (this.fullRef = ref)}
+        header={<View style={[defaultStyle.header, { backgroundColor: 'white' }]} />}
         contentInScroll={true}
-        content={(
-          <View style={newAccountStyle.swipePage}>
+        content={
+          <View
+            style={newAccountStyle.swipePage}
+            testID="NewAccountComponent.publicAccountNumber"
+          >
             <View style={newAccountStyle.introductionArea}>
-              <Text style={[newAccountStyle.introductionTitle,]}>PUBLIC ACCOUNT NUMBER</Text>
+              <Text style={[newAccountStyle.introductionTitle]}>
+                PUBLIC ACCOUNT NUMBER
+              </Text>
               <Text style={[newAccountStyle.introductionDescription]}>
-                Visit the Account tab to see how your account is recorded on the Bitmark blockchain.
+                Visit the Account tab to see how your account is recorded on the Bitmark
+                blockchain.
               </Text>
             </View>
 
             <View style={newAccountStyle.introductionImageArea}>
-              <Image style={newAccountStyle.publicAccountNumberOnBoardingImage} source={require('../../../../assets/imgs/public-account-number.png')} />
+              <Image
+                style={newAccountStyle.publicAccountNumberOnBoardingImage}
+                source={require('../../../../assets/imgs/public-account-number.png')}
+              />
             </View>
 
             <View style={newAccountStyle.introductionTermPrivacy}>
               <Hyperlink
                 onPress={(url) => {
-                  if (url === (config.bitmark_web_site + '/privacy')) {
-                    this.props.navigation.navigate('BitmarkWebView', { title: 'Privacy Policy', sourceUrl: config.bitmark_web_site + '/privacy?env=app', isFullScreen: true, });
+                  if (url === config.bitmark_web_site + '/privacy') {
+                    this.props.navigation.navigate('BitmarkWebView', {
+                      title: 'Privacy Policy',
+                      sourceUrl: config.bitmark_web_site + '/privacy?env=app',
+                      isFullScreen: true
+                    });
                     this.props.screenProps.setShowPagination(false);
-                  } else if (url === (config.bitmark_web_site + '/term')) {
-                    this.props.navigation.navigate('BitmarkWebView', { title: 'Terms of Service', sourceUrl: config.bitmark_web_site + '/term?env=app', isFullScreen: true, });
+                  } else if (url === config.bitmark_web_site + '/term') {
+                    this.props.navigation.navigate('BitmarkWebView', {
+                      title: 'Terms of Service',
+                      sourceUrl: config.bitmark_web_site + '/term?env=app',
+                      isFullScreen: true
+                    });
                     this.props.screenProps.setShowPagination(false);
                   }
                 }}
                 linkStyle={newAccountStyle.bitmarkTermsPrivacyButtonText}
-                linkText={url => {
-                  if (url === (config.bitmark_web_site + '/term')) {
+                linkText={(url) => {
+                  if (url === config.bitmark_web_site + '/term') {
                     return 'Terms of Service';
-                  } else if (url === (config.bitmark_web_site + '/privacy')) {
+                  } else if (url === config.bitmark_web_site + '/privacy') {
                     return 'Privacy Policy';
                   }
                   return '';
-                }}>
-                <Text style={newAccountStyle.bitmarkTermsPrivacyText}>By continuing, you agree to the Bitmark {config.bitmark_web_site + '/term'} and {config.bitmark_web_site + '/privacy'}</Text>
+                }}
+              >
+                <Text style={newAccountStyle.bitmarkTermsPrivacyText}>
+                  By continuing, you agree to the Bitmark{' '}
+                  {config.bitmark_web_site + '/term'} and{' '}
+                  {config.bitmark_web_site + '/privacy'}
+                </Text>
               </Hyperlink>
             </View>
-          </ View>
-        )}
+          </View>
+        }
         footerHeight={45 + iosConstant.blankFooter / 2}
-        footer={(<View style={newAccountStyle.letDoItButtonArea}>
-            <TouchableOpacity style={[newAccountStyle.letDoItButton]} onPress={() => {
-              this.props.screenProps.newAccountNavigation.navigate('FaceTouchId', { doContinue: this.props.screenProps.createBitmarkAccount });
-            }}>
+        footer={
+          <View
+            style={newAccountStyle.letDoItButtonArea}
+            testID="NewAccountComponent.letsDoIt"
+          >
+            <TouchableOpacity
+              style={[newAccountStyle.letDoItButton]}
+              onPress={() => {
+                this.props.screenProps.newAccountNavigation.navigate('FaceTouchId', {
+                  doContinue: this.props.screenProps.createBitmarkAccount
+                });
+              }}
+            >
               <Text style={[newAccountStyle.letDoItButtonText]}>LET’S DO IT!</Text>
             </TouchableOpacity>
           </View>
-        )}
+        }
       />
     );
   }
@@ -261,32 +339,34 @@ class PublicAccountNumberComponent extends React.Component {
 PublicAccountNumberComponent.propTypes = {
   screenProps: PropTypes.shape({
     newAccountNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
+      navigate: PropTypes.func
     }),
     createBitmarkAccount: PropTypes.func,
-    setShowPagination: PropTypes.func,
+    setShowPagination: PropTypes.func
   }),
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
     state: PropTypes.shape({
       params: PropTypes.shape({
-        justCreatedBitmarkAccount: PropTypes.bool,
+        justCreatedBitmarkAccount: PropTypes.bool
       })
     })
   })
 };
 
-var FullPublicAccountNumberComponent = StackNavigator({
+var FullPublicAccountNumberComponent = StackNavigator(
+  {
     PublicAccountNumber: { screen: PublicAccountNumberComponent },
-    BitmarkWebView: { screen: BitmarkWebViewComponent },
-  }, {
+    BitmarkWebView: { screen: BitmarkWebViewComponent }
+  },
+  {
     headerMode: 'none',
     mode: 'modal',
     navigationOptions: {
-      gesturesEnabled: false,
+      gesturesEnabled: false
     },
     cardStyle: {
-      shadowOpacity: 0,
+      shadowOpacity: 0
     }
   }
 );

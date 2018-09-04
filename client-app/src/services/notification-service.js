@@ -1,9 +1,6 @@
 import DeviceInfo from 'react-native-device-info';
 import ReactNative from 'react-native';
-const {
-  PushNotificationIOS,
-  Platform,
-} = ReactNative;
+const { PushNotificationIOS, Platform } = ReactNative;
 import { NotificationModel, CommonModel } from './../models';
 
 let configure = (onRegister, onNotification) => {
@@ -20,7 +17,7 @@ let waitRequestPermission = () => {
       } else {
         setTimeout(checkRequestDone, 200);
       }
-    }
+    };
     checkRequestDone();
   });
 };
@@ -36,10 +33,12 @@ let doRequestNotificationPermissions = async () => {
 
 let doCheckNotificationPermission = () => {
   return new Promise((resolve) => {
-    doRequestNotificationPermissions().then(resolve).catch(error => {
-      console.log('NotificationService doCheckNotificationPermission error :', error);
-      resolve();
-    })
+    doRequestNotificationPermissions()
+      .then(resolve)
+      .catch((error) => {
+        console.log('NotificationService doCheckNotificationPermission error :', error);
+        resolve();
+      });
   });
 };
 
@@ -48,20 +47,41 @@ let setApplicationIconBadgeNumber = (number) => {
 };
 
 let doRegisterNotificationInfo = async (accountNumber, token) => {
-  let signatureData = await CommonModel.doTryCreateSignatureData('Please sign to authorize your transactions');
+  let signatureData = await CommonModel.doTryCreateSignatureData(
+    'Please sign to authorize your transactions'
+  );
   if (!signatureData) {
     return;
   }
   let client = 'registry';
-  client = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? 'registryinhouse' : client;
-  return await NotificationModel.doRegisterNotificationInfo(accountNumber, signatureData.timestamp, signatureData.signature, Platform.OS, token, client);
+  if (
+    ['com.bitmark.registry.inhouse', 'com.bitmark.registry.inhouse.e2e'].includes(
+      DeviceInfo.getBundleId()
+    )
+  ) {
+    client = 'registryinhouse';
+  }
+  // client = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? 'registryinhouse' : client;
+  return await NotificationModel.doRegisterNotificationInfo(
+    accountNumber,
+    signatureData.timestamp,
+    signatureData.signature,
+    Platform.OS,
+    token,
+    client
+  );
 };
 
 let doTryDeregisterNotificationInfo = (accountNumber, token, signatureData) => {
   return new Promise((resolve) => {
-    NotificationModel.doDeregisterNotificationInfo(accountNumber, signatureData.timestamp, signatureData.signature, token)
+    NotificationModel.doDeregisterNotificationInfo(
+      accountNumber,
+      signatureData.timestamp,
+      signatureData.signature,
+      token
+    )
       .then(resolve)
-      .catch(error => {
+      .catch((error) => {
         console.log('doTryDeregisterNotificationInfo error :', error);
         resolve();
       });
@@ -80,7 +100,7 @@ let NotificationService = {
   doRequestNotificationPermissions,
   doCheckNotificationPermission,
   doRegisterNotificationInfo,
-  doTryDeregisterNotificationInfo,
+  doTryDeregisterNotificationInfo
 };
 
 export { NotificationService };
