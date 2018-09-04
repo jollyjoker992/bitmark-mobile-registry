@@ -3,7 +3,6 @@ describe('Onboarding', async () => {
 
   it('restores existing account', async () => {
     const client = process.client;
-    console.log('client: ', client);
 
     // show welcome screen
     expect(client.element("//*[@name='WelcomeComponent.view']")).toBeTruthy();
@@ -15,7 +14,10 @@ describe('Onboarding', async () => {
     expect(client.element("//*[@name='SignInComponent.view']")).toBeTruthy();
 
     // enter 24 words
+    input1 = await client.element("//*[@name='SignInComponent.smallerList.textID.1']");
+    expect(input1).toBeTruthy();
+    input1.click();
     // api reference http://appium.io/docs/en/commands/element/actions/send-keys/index.html
-    await client.element("//*[@name='SignInComponent.smallerList.textID.1']").type('abc');
+    // await input1.type('abc');
   });
 });
