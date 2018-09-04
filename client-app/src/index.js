@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 
-import codePush from "react-native-code-push";
+import codePush from 'react-native-code-push';
 import { BitmarkAppComponent, CodePushUpdateComponent } from './components';
 
 export class MainAppComponent extends React.Component {
@@ -9,10 +9,10 @@ export class MainAppComponent extends React.Component {
     super(props);
     this.state = {
       status: null,
-      progress: 0,
+      progress: 0
     };
 
-    codePush.getCurrentPackage().then(updateInfo => {
+    codePush.getCurrentPackage().then((updateInfo) => {
       console.log('current package :', updateInfo);
     });
   }
@@ -38,15 +38,23 @@ export class MainAppComponent extends React.Component {
   }
 
   codePushDownloadDidProgress(progress) {
-    this.setState({ progress: Math.floor(progress.receivedBytes * 100 / progress.totalBytes) });
-    console.log(Math.floor(progress.receivedBytes * 100 / progress.totalBytes));
+    this.setState({
+      progress: Math.floor((progress.receivedBytes * 100) / progress.totalBytes)
+    });
+    console.log(Math.floor((progress.receivedBytes * 100) / progress.totalBytes));
   }
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <CodePushUpdateComponent shouldRender={this.state.status && (this.state.status === 'downloading' || this.state.status === 'installing')}
-          status={this.state.status} progress={this.state.progress} />
+      <View style={{ flex: 1 }} testID="MainAppComponent">
+        <CodePushUpdateComponent
+          shouldRender={
+            this.state.status &&
+            (this.state.status === 'downloading' || this.state.status === 'installing')
+          }
+          status={this.state.status}
+          progress={this.state.progress}
+        />
         <BitmarkAppComponent />
       </View>
     );
@@ -56,8 +64,10 @@ export class MainAppComponent extends React.Component {
 let codePushOptions = {
   updateDialog: {
     title: 'New Version Available',
-    optionalUpdateMessage: 'Please update the app to the new version to continue using. This will be quick and will not affect any of your data.',
-    mandatoryUpdateMessage: 'Please update the app to the new version to continue using. This will be quick and will not affect any of your data.',
+    optionalUpdateMessage:
+      'Please update the app to the new version to continue using. This will be quick and will not affect any of your data.',
+    mandatoryUpdateMessage:
+      'Please update the app to the new version to continue using. This will be quick and will not affect any of your data.',
     optionalInstallButtonLabel: 'Update',
     mandatoryContinueButtonLabel: 'Update',
     optionalIgnoreButtonLabel: null
