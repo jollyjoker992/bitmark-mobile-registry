@@ -17,12 +17,12 @@ class BitmarkSDK: NSObject {
     case accountNotFound
   }
   
-  @objc(newAccount::)
-  func newAccount(_ network: String, _ callback: @escaping RCTResponseSenderBlock) -> Void {
+  @objc(newAccount:::)
+  func newAccount(_ network: String, _ authentication: Bool, _ callback: @escaping RCTResponseSenderBlock) -> Void {
     do {
       let network = BitmarkSDK.networkWithName(name: network)
       let account = try Account(network: network)
-      try KeychainUtil.saveCore(account.core)
+      try KeychainUtil.saveCore(account.core, authentication: authentication)
       _ = try account.registerPublicEncryptionKey()
       let sessionId = AccountSession.shared.addSessionForAccount(account)
       callback([true, sessionId])
@@ -39,8 +39,8 @@ class BitmarkSDK: NSObject {
     }
   }
   
-  @objc(newAccountFrom24Words:::)
-  func newAccountFrom24Words(_ pharse: [String], _ network: String, _ callback: @escaping RCTResponseSenderBlock) -> Void {
+  @objc(newAccountFrom24Words::::)
+  func newAccountFrom24Words(_ pharse: [String], _ network: String, _ authentication: Bool, _ callback: @escaping RCTResponseSenderBlock) -> Void {
     do {
       let network = BitmarkSDK.networkWithName(name: network)
       let account = try Account(recoverPhrase: pharse)
@@ -50,7 +50,7 @@ class BitmarkSDK: NSObject {
         return
       }
       
-      try KeychainUtil.saveCore(account.core)
+      try KeychainUtil.saveCore(account.core, authentication: authentication)
       _ = try account.registerPublicEncryptionKey()
       let sessionId = AccountSession.shared.addSessionForAccount(account)
       callback([true, sessionId])
