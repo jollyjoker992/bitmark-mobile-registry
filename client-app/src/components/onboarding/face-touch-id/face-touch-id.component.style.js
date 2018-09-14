@@ -21,7 +21,7 @@ export default StyleSheet.create({
     color: '#0060F2',
     fontSize: 17,
     fontWeight: '900',
-    marginTop: 103,
+    marginTop: 80,
     width: convertWidth(275),
   },
 
@@ -45,7 +45,7 @@ export default StyleSheet.create({
   },
 
   faceTouchIdDescription: {
-    marginTop: 80,
+    marginTop: 50,
     width: convertWidth(275),
     fontFamily: 'Avenir light',
     fontWeight: '300',
@@ -54,7 +54,7 @@ export default StyleSheet.create({
   },
 
   enableButtonArea: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'center',
@@ -80,4 +80,22 @@ export default StyleSheet.create({
     fontWeight: '900',
     color: 'white'
   },
+  skipButton: {
+    height: 45 + iosConstant.blankFooter / 2,
+    width: convertWidth(375),
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F2FAFF',
+    paddingTop: 10,
+    paddingBottom: Math.max(10, iosConstant.blankFooter)
+  },
+  skipButtonText: {
+    fontFamily: 'Avenir black',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: '900',
+    color: '#0060F2'
+  }
 });

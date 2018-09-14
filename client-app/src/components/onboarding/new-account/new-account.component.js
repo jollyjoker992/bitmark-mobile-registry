@@ -52,8 +52,8 @@ export class NewAccountComponent extends React.Component {
     }
   }
 
-  async createNewAccount() {
-    let user = await AppProcessor.doCreateNewAccount();
+  async createNewAccount(enableTouchId) {
+    let user = await AppProcessor.doCreateNewAccount(enableTouchId);
     await helper.addTestWriteRecoveryPhaseActionRequired(user);
 
     return user;

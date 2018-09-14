@@ -9,9 +9,9 @@ const newError = (reason, defaultMessage) => {
 
 const BitmarkSDK = {
   // return session id
-  newAccount: (network) => {
+  newAccount: (network, authentication) => {
     return new Promise((resolve, reject) => {
-      SwiftBitmarkSDK.newAccount(network, (ok, result) => {
+      SwiftBitmarkSDK.newAccount(network, authentication, (ok, result) => {
         if (ok) {
           resolve(result);
         } else {
@@ -20,9 +20,9 @@ const BitmarkSDK = {
       });
     });
   },
-  newAccountFrom24Words: (phrase24Words, network) => {
+  newAccountFrom24Words: (phrase24Words, network, authentication) => {
     return new Promise((resolve, reject) => {
-      SwiftBitmarkSDK.newAccountFrom24Words(phrase24Words, network, (ok, result) => {
+      SwiftBitmarkSDK.newAccountFrom24Words(phrase24Words, network, authentication, (ok, result) => {
         if (ok) {
           resolve(result);
         } else {

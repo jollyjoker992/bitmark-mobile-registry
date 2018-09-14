@@ -47,7 +47,7 @@ export class NotificationComponent extends React.Component {
             <Text style={notificationStyle.enableButtonText}>ENABLE</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[notificationStyle.enableButton, {
-            backgroundColor: 'white',
+            backgroundColor: 'F2FAFF',
             paddingBottom: Math.max(10, iosConstant.blankFooter),
             height: 45 + iosConstant.blankFooter / 2
           }]} onPress={() => {

@@ -3,14 +3,14 @@ import CookieManager from 'react-native-cookies';
 import { BitmarkSDK } from './adapters';
 import { config } from '../configs';
 
-const doCreateAccount = async () => {
+const doCreateAccount = async (authentication) => {
   await CookieManager.clearAll();
-  return await BitmarkSDK.newAccount(config.bitmark_network);
+  return await BitmarkSDK.newAccount(config.bitmark_network, authentication);
 };
 
 const doLogin = async (phrase24Words) => {
   await CookieManager.clearAll();
-  return await BitmarkSDK.newAccountFrom24Words(phrase24Words, config.bitmark_network);
+  return await BitmarkSDK.newAccountFrom24Words(phrase24Words, config.bitmark_network, true);
 }
 
 const doGetCurrentAccount = async (touchFaceIdSession) => {

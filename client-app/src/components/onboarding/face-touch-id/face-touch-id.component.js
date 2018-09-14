@@ -4,7 +4,7 @@ import {
   View, Text, Image, TouchableOpacity,
   Linking,
   AppState,
-  // NativeModules,
+  Alert
 } from 'react-native'
 import { CommonModel } from './../../../models';
 
@@ -18,6 +18,7 @@ export class FaceTouchIdComponent extends React.Component {
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.checkSupportFaceTouchId = this.checkSupportFaceTouchId.bind(this);
     this.doContinue = this.doContinue.bind(this);
+    this.confirmSkipTouchId = this.confirmSkipTouchId.bind(this);
 
     this.state = {
       supported: true,
@@ -47,8 +48,8 @@ export class FaceTouchIdComponent extends React.Component {
     });
   }
 
-  doContinue() {
-    this.props.navigation.state.params.doContinue().then((user) => {
+  doContinue(enableTouchId) {
+    this.props.navigation.state.params.doContinue(enableTouchId).then((user) => {
       if (user) {
         this.props.navigation.navigate('Notification');
       }
@@ -58,6 +59,18 @@ export class FaceTouchIdComponent extends React.Component {
     });
   }
 
+  confirmSkipTouchId() {
+    Alert.alert('Are you sure you don’t want to protect your data with Touch & Face ID?', '', [{
+      style: 'cancel',
+      text: 'No',
+    }, {
+      text: 'Yes',
+      onPress: () => {
+        this.doContinue(false);
+      }
+    }]);
+  }
+
   render() {
     return (
       <BitmarkComponent
@@ -65,10 +78,10 @@ export class FaceTouchIdComponent extends React.Component {
         contentInScroll={true}
         content={(<View style={[faceTouchIdStyle.body]}>
           <Text style={[faceTouchIdStyle.faceTouchIdTitle]}>
-            TOUCH/FACE ID & PASSCODE
+            TOUCH/FACE ID
           </Text>
           <Text style={[faceTouchIdStyle.faceTouchIdDescription,]}>
-            Turn on Touch/Face ID or a passcode to sign transactions from this device.
+            Use Touch/Face ID to sign and encrypt your data.
           </Text>
           <View style={faceTouchIdStyle.passcodeRemindImages}>
             <Image style={[faceTouchIdStyle.touchIdImage]} source={require('../../../../assets/imgs/touch-id.png')} />
@@ -79,22 +92,26 @@ export class FaceTouchIdComponent extends React.Component {
 
         footerHeight={45 + iosConstant.blankFooter / 2}
         footer={(<View style={faceTouchIdStyle.enableButtonArea}>
+          {/*Enable Button*/}
           <TouchableOpacity style={[faceTouchIdStyle.enableButton]}
             onPress={() => {
               if (!this.state.supported) {
                 Linking.openURL('app-settings:');
               } else {
-                this.doContinue();
+                this.doContinue(true);
               }
             }}>
-            <Text style={faceTouchIdStyle.enableButtonText}>ENABLE</Text>
+            <Text style={faceTouchIdStyle.enableButtonText}>ENABLE TOUCH/FACE ID</Text>
+          </TouchableOpacity>
+          {/*Skip Button*/}
+          <TouchableOpacity style={[faceTouchIdStyle.skipButton]}
+                            onPress={() => {
+                              this.confirmSkipTouchId();
+                            }}>
+            <Text style={faceTouchIdStyle.skipButtonText}>SKIP</Text>
           </TouchableOpacity>
         </View>)}
       />
-
-
-
-
     );
   }
 }
