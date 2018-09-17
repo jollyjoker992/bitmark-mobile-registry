@@ -8,9 +8,9 @@ const doCreateAccount = async (authentication) => {
   return await BitmarkSDK.newAccount(config.bitmark_network, authentication);
 };
 
-const doLogin = async (phrase24Words) => {
+const doLogin = async (phrase24Words, authentication) => {
   await CookieManager.clearAll();
-  return await BitmarkSDK.newAccountFrom24Words(phrase24Words, config.bitmark_network, true);
+  return await BitmarkSDK.newAccountFrom24Words(phrase24Words, config.bitmark_network, authentication);
 }
 
 const doGetCurrentAccount = async (touchFaceIdSession) => {

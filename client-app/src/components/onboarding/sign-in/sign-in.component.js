@@ -174,7 +174,7 @@ export class SignInComponent extends React.Component {
     });
   }
 
-  async submit24Words() {
+  async submit24Words(enableTouchId) {
     if (this.state.preCheckResult === PreCheckResults.error) {
       let smallerList = [];
       let biggerList = [];
@@ -203,7 +203,7 @@ export class SignInComponent extends React.Component {
     let inputtedWords = [];
     this.state.smallerList.forEach(item => inputtedWords.push(item.word));
     this.state.biggerList.forEach(item => inputtedWords.push(item.word));
-    return await AppProcessor.doLogin(inputtedWords);
+    return await AppProcessor.doLogin(inputtedWords, enableTouchId);
   }
 
   render() {

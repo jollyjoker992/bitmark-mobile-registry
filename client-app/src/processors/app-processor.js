@@ -123,8 +123,8 @@ const doStartBackgroundProcess = async (justCreatedBitmarkAccount) => {
 
 // ================================================================================================
 // ================================================================================================
-const doLogin = async (phrase24Words) => {
-  return executeTask('doLogin', { phrase24Words });
+const doLogin = async (phrase24Words, enableTouchId) => {
+  return executeTask('doLogin', { phrase24Words, enableTouchId });
 };
 
 const doLogout = async () => {
