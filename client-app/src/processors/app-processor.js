@@ -63,7 +63,7 @@ const executeTask = (taskKey, data) => {
 // ================================================================================================
 // ================================================================================================
 const doCreateNewAccount = async (enableTouchId) => {
-  if (Platform.OS === 'ios' && ios.config.isIPhoneX) {
+  if (enableTouchId && Platform.OS === 'ios' && ios.config.isIPhoneX) {
     await FaceTouchId.authenticate();
   }
   let touchFaceIdSession = await AccountModel.doCreateAccount(enableTouchId);
