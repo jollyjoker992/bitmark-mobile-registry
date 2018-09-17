@@ -69,9 +69,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'center',
-    backgroundColor: '#0060F2',
-    paddingTop: 10,
-    paddingBottom: Math.max(10, iosConstant.blankFooter),
+    backgroundColor: '#0060F2'
   },
   enableButtonText: {
     fontFamily: 'Avenir black',

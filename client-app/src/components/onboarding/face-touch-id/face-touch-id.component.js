@@ -75,11 +75,8 @@ export class FaceTouchIdComponent extends React.Component {
     return (
       <BitmarkComponent
         backgroundColor='white'
-        contentInScroll={true}
         content={(<View style={[faceTouchIdStyle.body]}>
-          <Text style={[faceTouchIdStyle.faceTouchIdTitle]}>
-            TOUCH/FACE ID
-          </Text>
+          <Text style={[faceTouchIdStyle.faceTouchIdTitle]}>TOUCH/FACE ID</Text>
           <Text style={[faceTouchIdStyle.faceTouchIdDescription,]}>
             Use Touch/Face ID to sign and encrypt your data.
           </Text>
