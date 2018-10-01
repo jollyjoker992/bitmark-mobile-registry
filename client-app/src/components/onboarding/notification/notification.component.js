@@ -34,9 +34,9 @@ export class NotificationComponent extends React.Component {
         backgroundColor='white'
         contentInScroll={true}
         content={(<View style={[notificationStyle.body]}>
-          <Text style={[notificationStyle.notificationTitle]}>NOTIFICATIONS</Text>
+          <Text style={[notificationStyle.notificationTitle]}>{global.i18n.t("NotificationComponent_notificationTitle")}</Text>
           <Text style={[notificationStyle.notificationDescription,]}>
-            Receive notifications when actions require your authorization.
+            {global.i18n.t("NotificationComponent_notificationDescription")}
           </Text>
           <Image style={[notificationStyle.notificationImage]} source={require('../../../../assets/imgs/notification.png')} />
         </View>)}
@@ -44,7 +44,7 @@ export class NotificationComponent extends React.Component {
         footerHeight={90 + iosConstant.blankFooter / 2}
         footer={(<View style={notificationStyle.enableButtonArea}>
           <TouchableOpacity style={[notificationStyle.enableButton]} onPress={requestNotification}>
-            <Text style={notificationStyle.enableButtonText}>ENABLE</Text>
+            <Text style={notificationStyle.enableButtonText}>{global.i18n.t("NotificationComponent_enable")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[notificationStyle.enableButton, {
             backgroundColor: 'F2FAFF',
@@ -53,7 +53,7 @@ export class NotificationComponent extends React.Component {
           }]} onPress={() => {
             this.props.screenProps.rootNavigation.dispatch(resetMainPage);
           }}>
-            <Text style={[notificationStyle.enableButtonText, { color: '#0060F2' }]}>LATER</Text>
+            <Text style={[notificationStyle.enableButtonText, { color: '#0060F2' }]}>{global.i18n.t("NotificationComponent_later")}</Text>
           </TouchableOpacity>
         </View>)}
       />

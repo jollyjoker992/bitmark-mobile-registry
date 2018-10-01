@@ -22,7 +22,7 @@ export class WelcomeComponent extends React.Component {
             <TouchableOpacity style={[welcomeComponentStyle.welcomeButton,]} onPress={() => {
               this.props.navigation.navigate('NewAccount');
             }}>
-              <Text style={[welcomeComponentStyle.welcomeButtonText,]}>{'CREATE NEW ACCOUNT'.toUpperCase()}</Text>
+              <Text style={[welcomeComponentStyle.welcomeButtonText,]}>{global.i18n.t("WelcomeComponent_createNewAccount")}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[welcomeComponentStyle.welcomeButton, {
               backgroundColor: '#F2FAFF',
@@ -31,7 +31,7 @@ export class WelcomeComponent extends React.Component {
             }]} onPress={() => {
               this.props.navigation.navigate('SignIn');
             }}>
-              <Text style={[welcomeComponentStyle.welcomeButtonText, { color: '#0060F2' }]}>{'ACCESS EXISTING ACCOUNT'.toUpperCase()}</Text>
+              <Text style={[welcomeComponentStyle.welcomeButtonText, { color: '#0060F2' }]}>{global.i18n.t("WelcomeComponent_accessExistingAccount")}</Text>
             </TouchableOpacity>
           </View>
         </View>

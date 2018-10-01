@@ -98,9 +98,9 @@ export class NewAccountComponent extends React.Component {
               content={(
                 <View style={newAccountStyle.swipePage}>
                   <View style={newAccountStyle.introductionArea}>
-                    <Text style={[newAccountStyle.introductionTitle]}>REGISTER ASSETS</Text>
+                    <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle1")}</Text>
                     <Text style={[newAccountStyle.introductionDescription]}>
-                      Register your assets and protect your property rights using the + button.
+                      {global.i18n.t("NewAccountComponent_introductionDescription1")}
                     </Text>
                   </View>
 
@@ -120,9 +120,9 @@ export class NewAccountComponent extends React.Component {
               content={(
                 <View style={newAccountStyle.swipePage}>
                   <View style={newAccountStyle.introductionArea}>
-                    <Text style={[newAccountStyle.introductionTitle]}>MANAGE YOUR PROPERTY</Text>
+                    <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle2")}</Text>
                     <Text style={[newAccountStyle.introductionDescription]}>
-                      Use the settings button to track, send, and download assets for your bitmarks.
+                      {global.i18n.t("NewAccountComponent_introductionDescription2")}
                     </Text>
                   </View>
 
@@ -142,9 +142,9 @@ export class NewAccountComponent extends React.Component {
               content={(
                 <View style={newAccountStyle.swipePage}>
                   <View style={newAccountStyle.introductionArea}>
-                    <Text style={[newAccountStyle.introductionTitle]}>ACTIONS AND HISTORY</Text>
+                    <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle3")}</Text>
                     <Text style={[newAccountStyle.introductionDescription]}>
-                      Check the Transactions tab for pending actions and activity history.
+                      {global.i18n.t("NewAccountComponent_introductionDescription3")}
                     </Text>
                   </View>
 
@@ -171,7 +171,7 @@ export class NewAccountComponent extends React.Component {
 
           {this.state.index === 0 && <View style={[newAccountStyle.skipButtonArea]}>
             <TouchableOpacity style={[newAccountStyle.skipButton]} onPress={() => { this.swiper.scrollBy(3) }}>
-              <Text style={[newAccountStyle.skipButtonText, { color: '#0060F2', fontSize: 14, fontWeight: '900' }]}>SKIP</Text>
+              <Text style={[newAccountStyle.skipButtonText, { color: '#0060F2', fontSize: 14, fontWeight: '900' }]}>{global.i18n.t("NewAccountComponent_skip")}</Text>
             </TouchableOpacity>
           </View>}
         </View>
@@ -209,9 +209,9 @@ class PublicAccountNumberComponent extends React.Component {
         content={(
           <View style={newAccountStyle.swipePage}>
             <View style={newAccountStyle.introductionArea}>
-              <Text style={[newAccountStyle.introductionTitle,]}>PUBLIC ACCOUNT NUMBER</Text>
+              <Text style={[newAccountStyle.introductionTitle,]}>{global.i18n.t("PublicAccountNumberComponent_introductionTitle")}</Text>
               <Text style={[newAccountStyle.introductionDescription]}>
-                Visit the Account tab to see how your account is recorded on the Bitmark blockchain.
+                {global.i18n.t("PublicAccountNumberComponent_introductionDescription")}
               </Text>
             </View>
 
@@ -223,23 +223,23 @@ class PublicAccountNumberComponent extends React.Component {
               <Hyperlink
                 onPress={(url) => {
                   if (url === (config.bitmark_web_site + '/privacy')) {
-                    this.props.navigation.navigate('BitmarkWebView', { title: 'Privacy Policy', sourceUrl: config.bitmark_web_site + '/privacy?env=app', isFullScreen: true, });
+                    this.props.navigation.navigate('BitmarkWebView', { title: global.i18n.t("PublicAccountNumberComponent_privacyPolicy"), sourceUrl: config.bitmark_web_site + '/privacy?env=app', isFullScreen: true, });
                     this.props.screenProps.setShowPagination(false);
                   } else if (url === (config.bitmark_web_site + '/terms')) {
-                    this.props.navigation.navigate('BitmarkWebView', { title: 'Terms of Service', sourceUrl: config.bitmark_web_site + '/terms?env=app', isFullScreen: true, });
+                    this.props.navigation.navigate('BitmarkWebView', { title: global.i18n.t("PublicAccountNumberComponent_termsOfService"), sourceUrl: config.bitmark_web_site + '/terms?env=app', isFullScreen: true, });
                     this.props.screenProps.setShowPagination(false);
                   }
                 }}
                 linkStyle={newAccountStyle.bitmarkTermsPrivacyButtonText}
                 linkText={url => {
                   if (url === (config.bitmark_web_site + '/terms')) {
-                    return 'Terms of Service';
+                    return global.i18n.t("PublicAccountNumberComponent_termsOfService");
                   } else if (url === (config.bitmark_web_site + '/privacy')) {
-                    return 'Privacy Policy';
+                    return global.i18n.t("PublicAccountNumberComponent_privacyPolicy");
                   }
                   return '';
                 }}>
-                <Text style={newAccountStyle.bitmarkTermsPrivacyText}>By continuing, you agree to the Bitmark {config.bitmark_web_site + '/terms'} and {config.bitmark_web_site + '/privacy'}</Text>
+                <Text style={newAccountStyle.bitmarkTermsPrivacyText}>{global.i18n.t("PublicAccountNumberComponent_bitmarkTermsPrivacyText", {0: config.bitmark_web_site + '/terms', 1: config.bitmark_web_site + '/privacy'})}</Text>
               </Hyperlink>
             </View>
           </ View>
@@ -249,7 +249,7 @@ class PublicAccountNumberComponent extends React.Component {
           <TouchableOpacity style={[newAccountStyle.letDoItButton]} onPress={() => {
             this.props.screenProps.newAccountNavigation.navigate('FaceTouchId', { doContinue: this.props.screenProps.createBitmarkAccount });
           }}>
-            <Text style={[newAccountStyle.letDoItButtonText]}>LET’S DO IT!</Text>
+            <Text style={[newAccountStyle.letDoItButtonText]}>{global.i18n.t("PublicAccountNumberComponent_letDoIt")}</Text>
           </TouchableOpacity>
         </View>
         )}

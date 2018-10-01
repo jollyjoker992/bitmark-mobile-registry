@@ -17,15 +17,23 @@ import { CommonModel } from '../../../models';
 
 let currentSize = Dimensions.get('window');
 
-const SubTabs = {
+let SubTabs = {
   local: 'Yours',
   tracking: 'TRACKED',
   global: 'Global',
 };
+
 let ComponentName = 'AssetsComponent';
 export class AssetsComponent extends React.Component {
   constructor(props) {
     super(props);
+
+    SubTabs = {
+      local: global.i18n.t("AssetsComponent_yours"),
+      tracking: global.i18n.t("AssetsComponent_tracked"),
+      global: global.i18n.t("AssetsComponent_global"),
+    };
+
     this.switchSubTab = this.switchSubTab.bind(this);
     this.addProperty = this.addProperty.bind(this);
     this.reloadData = this.reloadData.bind(this);
@@ -151,7 +159,7 @@ export class AssetsComponent extends React.Component {
       <View style={assetsStyle.body}>
         <View style={[assetsStyle.header, { zIndex: 1 }]}>
           <TouchableOpacity style={defaultStyle.headerLeft}></TouchableOpacity>
-          <Text style={defaultStyle.headerTitle}>{'Properties'.toUpperCase()}</Text>
+          <Text style={defaultStyle.headerTitle}>{global.i18n.t("AssetsComponent_headerTitle")}</Text>
           <TouchableOpacity style={defaultStyle.headerRight} onPress={this.addProperty}>
             <Image style={assetsStyle.addPropertyIcon} source={require('./../../../../assets/imgs/plus-icon.png')} />
           </TouchableOpacity>
@@ -253,10 +261,10 @@ export class AssetsComponent extends React.Component {
           <TouchableOpacity activeOpacity={1} style={assetsStyle.contentSubTab}>
             {(!this.state.appLoadingData && this.state.assets && this.state.assets.length === 0) && <View style={assetsStyle.messageNoAssetArea}>
               {(this.state.subTab === SubTabs.local) && <Text style={assetsStyle.messageNoAssetLabel}>
-                {'Welcome to Bitmark!'.toUpperCase()}
+                {global.i18n.t("AssetsComponent_messageNoAssetLabel")}
               </Text>}
               {(this.state.subTab === SubTabs.local) && <Text style={assetsStyle.messageNoAssetContent}>
-                Register, track, and trade property rights for your digital assets.
+                {global.i18n.t("AssetsComponent_messageNoAssetContent")}
                 </Text>}
             </View>}
             {(this.state.assets && this.state.assets.length > 0 && this.state.subTab === SubTabs.local) && <FlatList
@@ -274,17 +282,17 @@ export class AssetsComponent extends React.Component {
                     <Text style={[assetsStyle.assetCreatedAt, {
                       color: item.created_at ? 'black' : '#999999'
                     }]}>
-                      {item.created_at ? moment(item.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase() : 'REGISTERING...'}
+                      {item.created_at ? moment(item.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase() : global.i18n.t("AssetsComponent_registering")}
                     </Text>
                     <Text style={[assetsStyle.assetName, { color: item.created_at ? 'black' : '#999999' }]} numberOfLines={1}>{item.name}</Text>
                     <View style={assetsStyle.assetCreatorRow}>
                       <Text style={[assetsStyle.assetCreator, { color: item.created_at ? 'black' : '#999999' }]} numberOfLines={1}>
-                        {item.registrant === DataProcessor.getUserInformation().bitmarkAccountNumber ? 'YOU' : '[' + item.registrant.substring(0, 4) + '...' + item.registrant.substring(item.registrant.length - 4, item.registrant.length) + ']'}
+                        {item.registrant === DataProcessor.getUserInformation().bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : '[' + item.registrant.substring(0, 4) + '...' + item.registrant.substring(item.registrant.length - 4, item.registrant.length) + ']'}
                       </Text>
                     </View>
                     <View style={assetsStyle.assetQuantityArea}>
-                      {item.created_at && <Text style={assetsStyle.assetQuantity}>QUANTITY: {item.bitmarks.length}</Text>}
-                      {!item.created_at && <Text style={assetsStyle.assetQuantityPending}>QUANTITY: {item.bitmarks.length}</Text>}
+                      {item.created_at && <Text style={assetsStyle.assetQuantity}>{global.i18n.t("AssetsComponent_quantity")}: {item.bitmarks.length}</Text>}
+                      {!item.created_at && <Text style={assetsStyle.assetQuantityPending}>{global.i18n.t("AssetsComponent_quantity")}: {item.bitmarks.length}</Text>}
                       {!item.created_at && <Image style={assetsStyle.assetQuantityPendingIcon} source={require('./../../../../assets/imgs/pending-status.png')} />}
                     </View>
                   </View>
@@ -301,10 +309,10 @@ export class AssetsComponent extends React.Component {
           <TouchableOpacity activeOpacity={1} style={assetsStyle.contentSubTab}>
             {(this.state.trackingBitmarks && this.state.trackingBitmarks.length === 0) && <View style={assetsStyle.messageNoAssetArea}>
               <Text style={assetsStyle.messageNoAssetLabel}>
-                {'Welcome to Bitmark!'.toUpperCase()}
+                {global.i18n.t("AssetsComponent_messageNoAssetLabel")}
               </Text>
               <Text style={assetsStyle.messageNoAssetContent}>
-                Register, track, and trade property rights for your digital assets.
+                {global.i18n.t("AssetsComponent_messageNoAssetContent")}
               </Text>
             </View>}
             {(this.state.trackingBitmarks && this.state.trackingBitmarks.length > 0 && this.state.subTab === SubTabs.tracking) && <FlatList
@@ -320,12 +328,12 @@ export class AssetsComponent extends React.Component {
                   <Text style={[assetsStyle.trackingRowUpdated, {
                     color: item.status === 'pending' ? '#999999' : '#0060F2'
                   }]}>
-                    {item.status === 'pending' ? 'PENDING...' : ('UPDATED: ' + moment(item.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase())}
+                    {item.status === 'pending' ? global.i18n.t("AssetsComponent_pending") : (global.i18n.t("AssetsComponent_updated") + ': ' + moment(item.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase())}
                   </Text>
                   <View style={assetsStyle.trackingRowCurrentOwner}>
                     <Text style={[assetsStyle.trackingRowCurrentOwnerText, {
                       color: item.status === 'pending' ? '#999999' : '#0060F2'
-                    }]}>CURRENT OWNER: {item.owner === DataProcessor.getUserInformation().bitmarkAccountNumber ? ' YOU' : (
+                    }]}>CURRENT OWNER: {item.owner === DataProcessor.getUserInformation().bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : (
                       '[' + item.owner.substring(0, 4) + '...' + item.owner.substring(item.owner.length - 4, item.owner.length) + ']'
                     )}
                     </Text>
@@ -346,7 +354,7 @@ export class AssetsComponent extends React.Component {
 
         {(!this.state.appLoadingData && this.state.assets && this.state.assets.length === 0 && this.state.subTab === SubTabs.local) &&
           <TouchableOpacity style={assetsStyle.addFirstPropertyButton} onPress={this.addProperty}>
-            <Text style={assetsStyle.addFirstPropertyButtonText}>{'create first property'.toUpperCase()}</Text>
+            <Text style={assetsStyle.addFirstPropertyButtonText}>{global.i18n.t("AssetsComponent_addFirstPropertyButtonText")}</Text>
           </TouchableOpacity>
         }
       </View>

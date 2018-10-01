@@ -55,16 +55,16 @@ export class FaceTouchIdComponent extends React.Component {
       }
     }).catch(error => {
       console.log('error :', error);
-      this.setState({ errorMessage: 'Can not create or access bitmark account!' })
+      this.setState({ errorMessage: global.i18n.t("FaceTouchIdComponent_canNotCreateOrAccessBitmarkAccount") })
     });
   }
 
   confirmSkipTouchId() {
-    Alert.alert('Are you sure you don’t want to protect your data with Touch & Face ID?', '', [{
+    Alert.alert(global.i18n.t("FaceTouchIdComponent_confirmMessage"), '', [{
       style: 'cancel',
-      text: 'No',
+      text: global.i18n.t("FaceTouchIdComponent_no"),
     }, {
-      text: 'Yes',
+      text: global.i18n.t("FaceTouchIdComponent_yes"),
       onPress: () => {
         this.doContinue(false);
       }
@@ -76,9 +76,9 @@ export class FaceTouchIdComponent extends React.Component {
       <BitmarkComponent
         backgroundColor='white'
         content={(<View style={[faceTouchIdStyle.body]}>
-          <Text style={[faceTouchIdStyle.faceTouchIdTitle]}>TOUCH/FACE ID</Text>
+          <Text style={[faceTouchIdStyle.faceTouchIdTitle]}>{global.i18n.t("FaceTouchIdComponent_faceTouchIdTitle")}</Text>
           <Text style={[faceTouchIdStyle.faceTouchIdDescription,]}>
-            Use Touch/Face ID to sign and encrypt your data.
+            {global.i18n.t("FaceTouchIdComponent_faceTouchIdDescription")}
           </Text>
           <View style={faceTouchIdStyle.passcodeRemindImages}>
             <Image style={[faceTouchIdStyle.touchIdImage]} source={require('../../../../assets/imgs/touch-id.png')} />
@@ -98,14 +98,14 @@ export class FaceTouchIdComponent extends React.Component {
                 this.doContinue(true);
               }
             }}>
-            <Text style={faceTouchIdStyle.enableButtonText}>ENABLE TOUCH/FACE ID</Text>
+            <Text style={faceTouchIdStyle.enableButtonText}>{global.i18n.t("FaceTouchIdComponent_enableButtonText")}</Text>
           </TouchableOpacity>
           {/*Skip Button*/}
           <TouchableOpacity style={[faceTouchIdStyle.skipButton]}
                             onPress={() => {
                               this.confirmSkipTouchId();
                             }}>
-            <Text style={faceTouchIdStyle.skipButtonText}>SKIP</Text>
+            <Text style={faceTouchIdStyle.skipButtonText}>{global.i18n.t("FaceTouchIdComponent_skip")}</Text>
           </TouchableOpacity>
         </View>)}
       />

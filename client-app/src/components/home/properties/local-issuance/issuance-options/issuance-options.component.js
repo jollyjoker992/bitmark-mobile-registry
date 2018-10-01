@@ -140,24 +140,24 @@ export class IssuanceOptionsComponent extends React.Component {
           <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.screenProps.issuanceNavigation.goBack()}>
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={defaultStyle.headerTitle}>{'Register'.toUpperCase()}</Text>
+          <Text style={defaultStyle.headerTitle}>{global.i18n.t("IssuanceOptionsComponent_register")}</Text>
           <TouchableOpacity style={defaultStyle.headerRight} />
         </View>
         <View style={issuanceOptionsStyle.content}>
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile}>
-            <Text style={issuanceOptionsStyle.optionButtonText}>PHOTOS</Text>
+            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChooseFile}>
-            <Text style={issuanceOptionsStyle.optionButtonText}>FILES</Text>
+            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_files")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData}>
-            <Text style={issuanceOptionsStyle.optionButtonText}>IFTTT DATA</Text>
+            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
             {(!this.state.iftttInformation || !this.state.iftttInformation.connectIFTTT) && <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('./../../../../../../assets/imgs/next-icon-blue.png')} />}
-            {this.state.iftttInformation && !!this.state.iftttInformation.connectIFTTT && <Text style={issuanceOptionsStyle.optionButtonStatus}>{'Authorized'.toUpperCase()}</Text>}
+            {this.state.iftttInformation && !!this.state.iftttInformation.connectIFTTT && <Text style={issuanceOptionsStyle.optionButtonStatus}>{global.i18n.t("IssuanceOptionsComponent_authorized")}</Text>}
           </TouchableOpacity>
 
           <Text style={issuanceOptionsStyle.message}>
-            Property rights are registered on Bitmark through the creation of an asset record followed by an issue record. Once an asset has been issued, transferring it simply requires taking advantage of the blockchain’s standard attributes.
+            {global.i18n.t("IssuanceOptionsComponent_message")}
           </Text>
         </View>
       </View>

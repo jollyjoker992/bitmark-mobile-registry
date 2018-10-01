@@ -119,7 +119,7 @@ export class BottomTabsComponent extends React.Component {
             : require('./../../../../assets/imgs/properties-icon-disable.png')} />
           <Text style={[userStyle.bottomTabButtonText, {
             color: this.state.mainTab === MainTabs.properties ? '#0060F2' : '#A4B5CD'
-          }]}>{MainTabs.properties}</Text>
+          }]}>{global.i18n.t("BottomTabsComponent_properties")}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={userStyle.bottomTabButton} onPress={() => this.switchMainTab(MainTabs.transaction)}>
@@ -131,7 +131,7 @@ export class BottomTabsComponent extends React.Component {
             : require('./../../../../assets/imgs/transaction-icon-disable.png')} />
           <Text style={[userStyle.bottomTabButtonText, {
             color: this.state.mainTab === MainTabs.transaction ? '#0060F2' : '#A4B5CD'
-          }]}>{MainTabs.transaction}</Text>
+          }]}>{global.i18n.t("BottomTabsComponent_transactions")}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={userStyle.bottomTabButton} onPress={() => this.switchMainTab(MainTabs.account)}>
@@ -140,7 +140,7 @@ export class BottomTabsComponent extends React.Component {
             : require('./../../../../assets/imgs/account-icon-disable.png')} />
           <Text style={[userStyle.bottomTabButtonText, {
             color: this.state.mainTab === MainTabs.account ? '#0060F2' : '#A4B5CD'
-          }]}>{MainTabs.account}</Text>
+          }]}>{global.i18n.t("BottomTabsComponent_account")}</Text>
         </TouchableOpacity>
       </View>
     );
