@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-import { Router, Stack, Scene, } from 'react-native-router-flux';
 import { StackNavigator, } from 'react-navigation';
 
 import { WelcomeComponent } from './welcome';
@@ -27,20 +25,3 @@ let OnBoardingComponent = StackNavigator({
 );
 
 export { OnBoardingComponent };
-
-export class DefaultRouterComponent extends Component {
-  render() {
-
-    return (
-      <Router >
-        <Stack headerMode='none' >
-          <Scene key="welcome" panHandlers={null} component={WelcomeComponent} />
-          <Scene key="newAccount" component={NewAccountComponent} />
-          <Scene key="signIn" component={SignInComponent} />
-          <Scene key="notification" component={NotificationComponent} />
-          <Scene key="faceTouchId" component={FaceTouchIdComponent} />
-        </Stack>
-      </Router>
-    );
-  }
-}
