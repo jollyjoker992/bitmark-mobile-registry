@@ -229,7 +229,7 @@ export class TransactionsComponent extends React.Component {
             <View style={transactionsStyle.subTabButtonArea}>
               <View style={[transactionsStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={transactionsStyle.subTabButtonTextArea}>
-                <Text style={transactionsStyle.subTabButtonText}>{SubTabs.required.toUpperCase()}</Text>
+                <Text style={transactionsStyle.subTabButtonText}>{global.i18n.t("TransactionsComponent_actionsRequired")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -240,7 +240,7 @@ export class TransactionsComponent extends React.Component {
             <View style={transactionsStyle.subTabButtonArea}>
               <View style={[transactionsStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={transactionsStyle.subTabButtonTextArea}>
-                <Text style={[transactionsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{SubTabs.required.toUpperCase()}</Text>
+                <Text style={[transactionsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("TransactionsComponent_actionsRequired")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -252,7 +252,7 @@ export class TransactionsComponent extends React.Component {
             <View style={transactionsStyle.subTabButtonArea}>
               <View style={[transactionsStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={transactionsStyle.subTabButtonTextArea}>
-                <Text style={transactionsStyle.subTabButtonText}>{SubTabs.completed.toUpperCase()}</Text>
+                <Text style={transactionsStyle.subTabButtonText}>{global.i18n.t("TransactionsComponent_history")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -263,7 +263,7 @@ export class TransactionsComponent extends React.Component {
             <View style={transactionsStyle.subTabButtonArea}>
               <View style={[transactionsStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={transactionsStyle.subTabButtonTextArea}>
-                <Text style={[transactionsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{SubTabs.completed.toUpperCase()}</Text>
+                <Text style={[transactionsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("TransactionsComponent_history")}</Text>
               </View>
             </View>
           </TouchableOpacity>}

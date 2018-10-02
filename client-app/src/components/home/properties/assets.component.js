@@ -17,7 +17,7 @@ import { CommonModel } from '../../../models';
 
 let currentSize = Dimensions.get('window');
 
-let SubTabs = {
+const SubTabs = {
   local: 'Yours',
   tracking: 'TRACKED',
   global: 'Global',
@@ -27,12 +27,6 @@ let ComponentName = 'AssetsComponent';
 export class AssetsComponent extends React.Component {
   constructor(props) {
     super(props);
-
-    SubTabs = {
-      local: global.i18n.t("AssetsComponent_yours"),
-      tracking: global.i18n.t("AssetsComponent_tracked"),
-      global: global.i18n.t("AssetsComponent_global"),
-    };
 
     this.switchSubTab = this.switchSubTab.bind(this);
     this.addProperty = this.addProperty.bind(this);
@@ -175,7 +169,7 @@ export class AssetsComponent extends React.Component {
               <View style={assetsStyle.subTabButtonTextArea}>
                 {this.state.existNewAsset && <View style={assetsStyle.newItem}></View>}
                 <Text style={[assetsStyle.subTabButtonText, { marginLeft: this.state.totalBitmarks > 9 ? 8 : 0 }]}>
-                  {SubTabs.local.toUpperCase()}
+                  {global.i18n.t("AssetsComponent_yours")}
                   <Text style={{ fontSize: this.state.totalBitmarks > 9 ? 10 : 14 }}>{(this.state.totalBitmarks > 0 ? ` (${this.state.totalBitmarks > 99 ? '99+' : this.state.totalBitmarks})` : '')}</Text>
                 </Text>
               </View>
@@ -189,7 +183,7 @@ export class AssetsComponent extends React.Component {
               <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={assetsStyle.subTabButtonTextArea}>
                 {this.state.existNewAsset && <View style={assetsStyle.newItem}></View>}
-                <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1', marginLeft: this.state.totalBitmarks > 9 ? 10 : 0 }]}>{SubTabs.local.toUpperCase()}<Text style={{ fontSize: this.state.totalBitmarks > 9 ? 8 : 14 }}>{(this.state.totalBitmarks > 0 ? ` (${this.state.totalBitmarks > 99 ? '99+' : this.state.totalBitmarks})` : '')}</Text></Text>
+                <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1', marginLeft: this.state.totalBitmarks > 9 ? 10 : 0 }]}>{global.i18n.t("AssetsComponent_yours")}<Text style={{ fontSize: this.state.totalBitmarks > 9 ? 8 : 14 }}>{(this.state.totalBitmarks > 0 ? ` (${this.state.totalBitmarks > 99 ? '99+' : this.state.totalBitmarks})` : '')}</Text></Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -202,7 +196,7 @@ export class AssetsComponent extends React.Component {
               <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={assetsStyle.subTabButtonTextArea}>
                 {this.existNewTracking && <View style={assetsStyle.newItem}></View>}
-                <Text style={[assetsStyle.subTabButtonText, { marginLeft: this.state.totalTrackingBitmarks > 9 ? 10 : 0 }]}>{SubTabs.tracking.toUpperCase()}<Text style={{ fontSize: this.state.totalTrackingBitmarks > 9 ? 8 : 14 }}>{(this.state.totalTrackingBitmarks > 0 ? ` (${this.state.totalTrackingBitmarks > 99 ? '99+' : this.state.totalTrackingBitmarks})` : '')}</Text></Text>
+                <Text style={[assetsStyle.subTabButtonText, { marginLeft: this.state.totalTrackingBitmarks > 9 ? 10 : 0 }]}>{global.i18n.t("AssetsComponent_tracked")}<Text style={{ fontSize: this.state.totalTrackingBitmarks > 9 ? 8 : 14 }}>{(this.state.totalTrackingBitmarks > 0 ? ` (${this.state.totalTrackingBitmarks > 99 ? '99+' : this.state.totalTrackingBitmarks})` : '')}</Text></Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -214,7 +208,7 @@ export class AssetsComponent extends React.Component {
               <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={assetsStyle.subTabButtonTextArea}>
                 {this.existNewTracking && <View style={assetsStyle.newItem}></View>}
-                <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1', marginLeft: this.state.totalTrackingBitmarks > 9 ? 10 : 0 }]}>{SubTabs.tracking.toUpperCase()}<Text style={{ fontSize: this.state.totalTrackingBitmarks > 9 ? 8 : 14 }}>{(this.state.totalTrackingBitmarks > 0 ? ` (${this.state.totalTrackingBitmarks > 99 ? '99+' : this.state.totalTrackingBitmarks})` : '')}</Text></Text>
+                <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1', marginLeft: this.state.totalTrackingBitmarks > 9 ? 10 : 0 }]}>{global.i18n.t("AssetsComponent_tracked")}<Text style={{ fontSize: this.state.totalTrackingBitmarks > 9 ? 8 : 14 }}>{(this.state.totalTrackingBitmarks > 0 ? ` (${this.state.totalTrackingBitmarks > 99 ? '99+' : this.state.totalTrackingBitmarks})` : '')}</Text></Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -226,7 +220,7 @@ export class AssetsComponent extends React.Component {
             <View style={assetsStyle.subTabButtonArea}>
               <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={assetsStyle.subTabButtonTextArea}>
-                <Text style={assetsStyle.subTabButtonText}>{SubTabs.global.toUpperCase()}</Text>
+                <Text style={assetsStyle.subTabButtonText}>{global.i18n.t("AssetsComponent_global")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -237,7 +231,7 @@ export class AssetsComponent extends React.Component {
             <View style={assetsStyle.subTabButtonArea}>
               <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={assetsStyle.subTabButtonTextArea}>
-                <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{SubTabs.global.toUpperCase()}</Text>
+                <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("AssetsComponent_global")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
