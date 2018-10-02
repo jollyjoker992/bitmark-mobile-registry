@@ -75,11 +75,11 @@ export class AccountDetailComponent extends React.Component {
   }
 
   revokeIFTTT() {
-    Alert.alert('Are you sure you want to revoke access to your IFTTT?', '', [{
+    Alert.alert(global.i18n.t("AccountDetailComponent_areYouSureYouWantToRevokeAccessToYourIfttt"), '', [{
       style: 'cancel',
-      text: 'Cancel',
+      text: global.i18n.t("AccountDetailComponent_cancel"),
     }, {
-      text: 'Yes',
+      text: global.i18n.t("AccountDetailComponent_yes"),
       onPress: () => {
         AppProcessor.doRevokeIftttToken().then((result) => {
           if (result) {
@@ -101,7 +101,7 @@ export class AccountDetailComponent extends React.Component {
           <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.navigation.navigate('ScanQRCode')}>
             <Image style={accountStyle.cameraIcon} source={require('./../../../../assets/imgs/camera.png')} />
           </TouchableOpacity>
-          <Text style={defaultStyle.headerTitle}>ACCOUNT</Text>
+          <Text style={defaultStyle.headerTitle}>{global.i18n.t("AccountDetailComponent_account")}</Text>
           <TouchableOpacity style={defaultStyle.headerRight} onPress={() => {
             this.props.navigation.navigate('ApplicationDetail');
           }}>
@@ -116,7 +116,7 @@ export class AccountDetailComponent extends React.Component {
             <View style={accountStyle.subTabButtonArea}>
               <View style={[accountStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={accountStyle.subTabButtonTextArea}>
-                <Text style={accountStyle.subTabButtonText}>{SubTabs.settings.toUpperCase()}</Text>
+                <Text style={accountStyle.subTabButtonText}>{global.i18n.t("AccountDetailComponent_settings")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -127,7 +127,7 @@ export class AccountDetailComponent extends React.Component {
             <View style={accountStyle.subTabButtonArea}>
               <View style={[accountStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={accountStyle.subTabButtonTextArea}>
-                <Text style={[accountStyle.subTabButtonText, { color: '#C1C1C1' }]}>{SubTabs.settings.toUpperCase()}</Text>
+                <Text style={[accountStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("AccountDetailComponent_settings")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -139,7 +139,7 @@ export class AccountDetailComponent extends React.Component {
             <View style={accountStyle.subTabButtonArea}>
               <View style={[accountStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={accountStyle.subTabButtonTextArea}>
-                <Text style={accountStyle.subTabButtonText}>{SubTabs.authorized.toUpperCase()}</Text>
+                <Text style={accountStyle.subTabButtonText}>{global.i18n.t("AccountDetailComponent_authorized")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -150,7 +150,7 @@ export class AccountDetailComponent extends React.Component {
             <View style={accountStyle.subTabButtonArea}>
               <View style={[accountStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={accountStyle.subTabButtonTextArea}>
-                <Text style={[accountStyle.subTabButtonText, { color: '#C1C1C1' }]}>{SubTabs.authorized.toUpperCase()}</Text>
+                <Text style={[accountStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("AccountDetailComponent_authorized")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -159,11 +159,11 @@ export class AccountDetailComponent extends React.Component {
         <ScrollView style={[accountStyle.scrollSubTabArea]}>
           <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
             {this.state.subTab === SubTabs.settings && <View style={accountStyle.contentSubTab}>
-              <Text style={accountStyle.accountNumberLabel}>{'YOUR Bitmark Account Number'.toUpperCase()}</Text>
+              <Text style={accountStyle.accountNumberLabel}>{global.i18n.t("AccountDetailComponent_accountNumberLabel")}</Text>
 
               <TouchableOpacity style={accountStyle.accountNumberArea} onPress={() => {
                 Clipboard.setString(this.state.userInfo.bitmarkAccountNumber);
-                this.setState({ accountNumberCopyText: 'Copied to clipboard!' });
+                this.setState({ accountNumberCopyText: global.i18n.t("AccountDetailComponent_copiedToClipboard") });
                 setTimeout(() => { this.setState({ accountNumberCopyText: '' }) }, 1000);
               }}>
                 <Text style={accountStyle.accountNumberValue}>{this.state.userInfo.bitmarkAccountNumber}</Text>
@@ -172,44 +172,44 @@ export class AccountDetailComponent extends React.Component {
                 <Text style={accountStyle.accountNumberCopyButtonText}>{this.state.accountNumberCopyText}</Text>
               </View>
 
-              <Text style={accountStyle.accountMessage}>To protect your privacy, you are identified in the Bitmark system by a pseudonymous account number. This number is public. You can safely share it with others without compromising your security.</Text>
+              <Text style={accountStyle.accountMessage}>{global.i18n.t("AccountDetailComponent_accountMessage")}</Text>
 
               <TouchableOpacity style={accountStyle.accountWriteDownButton} onPress={() => { this.props.navigation.navigate('AccountRecovery', { isSignOut: false }) }}>
-                <Text style={accountStyle.accountWriteDownButtonText}>{'WRITE DOWN RECOVERY PHRASE »'.toUpperCase()} </Text>
+                <Text style={accountStyle.accountWriteDownButtonText}>{global.i18n.t("AccountDetailComponent_writeDownRecoveryPhrase")} » </Text>
               </TouchableOpacity>
               {/* <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={this.props.screenProps.logout}> */}
               <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => { this.props.navigation.navigate('AccountRecovery', { isSignOut: true }) }}>
-                <Text style={accountStyle.accountRemoveButtonText}>{'Remove access from this device »'.toUpperCase()} </Text>
+                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_removeAccessFromThisDevice")} » </Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => { this.props.navigation.navigate('WebAccountMigrate') }}>
-                <Text style={accountStyle.accountRemoveButtonText}>{'MIGRATE WEB ACCOUNT »'.toUpperCase()} </Text>
+                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_migrateWebAccount")} » </Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => { this.props.navigation.navigate('WebAccountSignIn') }}>
-                <Text style={accountStyle.accountRemoveButtonText}>{'SIGN IN USING MOBILE APP »'.toUpperCase()} </Text>
+                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_signInUsingMobileApp")} » </Text>
               </TouchableOpacity>
             </View>}
 
             {this.state.subTab === SubTabs.authorized && <View style={accountStyle.contentSubTab}>
               <View style={accountStyle.dataSourcesArea}>
-                <Text style={accountStyle.noAuthorizedMessage}>If you authorize 3rd-party apps to access your Bitmark account, they will appear here. </Text>
+                <Text style={accountStyle.noAuthorizedMessage}>{global.i18n.t("AccountDetailComponent_noAuthorizedMessage")} </Text>
                 {this.state.iftttInformation && this.state.iftttInformation.connectIFTTT && <View style={accountStyle.authorizedItem}>
                   <View style={accountStyle.authorizedItemTitle}>
                     <Text style={accountStyle.authorizedItemTitleText} >IFTTT</Text>
                     <TouchableOpacity style={accountStyle.authorizedItemRemoveButton} onPress={this.revokeIFTTT}>
-                      <Text style={accountStyle.authorizedItemRemoveButtonText}>REMOVE</Text>
+                      <Text style={accountStyle.authorizedItemRemoveButtonText}>{global.i18n.t("AccountDetailComponent_remove")}</Text>
                     </TouchableOpacity>
                   </View>
 
                   <View style={accountStyle.authorizedItemDescription}>
                     <Image style={accountStyle.authorizedItemDescriptionIcon} source={require('./../../../../assets/imgs/ifttt-icon.png')} />
                     <View style={accountStyle.authorizedItemDescriptionDetail}>
-                      <Text style={accountStyle.authorizedItemDescriptionText}>Can:{'\n'}Deliver registration requests{'\n'}Trigger when applets run.</Text>
+                      <Text style={accountStyle.authorizedItemDescriptionText}>{global.i18n.t("AccountDetailComponent_authorizedItemDescriptionText")}</Text>
                       <TouchableOpacity style={accountStyle.authorizedViewButton} onPress={() => {
                         this.props.screenProps.homeNavigation.navigate('IftttActive', { stage: 'view' })
                       }}>
-                        <Text style={accountStyle.authorizedViewButtonText}>{'VIEW APPLETS » '.toUpperCase()} </Text>
+                        <Text style={accountStyle.authorizedViewButtonText}>{global.i18n.t("AccountDetailComponent_viewApplets")} »  </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
