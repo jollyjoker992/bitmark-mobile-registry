@@ -256,7 +256,8 @@
     "ScanQRCodeComponent_successTitle": "ScanQRCodeComponent_successTitle",
     "ScanQRCodeComponent_successMessage": "ScanQRCodeComponent_successMessage",
     "ScanQRCodeComponent_ok": "ScanQRCodeComponent_ok",
-    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred"
+    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred",
+    "ScanQRCodeComponent_scanQrcode": "ScanQRCodeComponent_scanQrcode"
   },
   "en": {
     "BitmarkInternetOffComponent_networkError": "Network Error",
@@ -515,7 +516,8 @@
     "ScanQRCodeComponent_successTitle": "Success!",
     "ScanQRCodeComponent_successMessage": "Your property rights have been registered.",
     "ScanQRCodeComponent_ok": "OK",
-    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": "Your property rights have been transferred."
+    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": "Your property rights have been transferred.",
+    "ScanQRCodeComponent_scanQrcode": "SCAN QRCODE"
   },
   "cn": {
     "BitmarkInternetOffComponent_networkError": "",
@@ -774,7 +776,8 @@
     "ScanQRCodeComponent_successTitle": "",
     "ScanQRCodeComponent_successMessage": "",
     "ScanQRCodeComponent_ok": "",
-    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": ""
+    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": "",
+    "ScanQRCodeComponent_scanQrcode": ""
   },
   "vi": {
     "BitmarkInternetOffComponent_networkError": "",
@@ -1033,6 +1036,7 @@
     "ScanQRCodeComponent_successTitle": "",
     "ScanQRCodeComponent_successMessage": "",
     "ScanQRCodeComponent_ok": "",
-    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": ""
+    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": "",
+    "ScanQRCodeComponent_scanQrcode": ""
   }
 }

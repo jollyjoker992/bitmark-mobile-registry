@@ -124,7 +124,7 @@ export class ScanQRCodeComponent extends React.Component {
       });
     } else {
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
-        message: 'QR code is invalid!',
+        message: global.i18n.t("ScanQRCodeComponent_qrCodeIsInvalid"),
         onClose: this.props.navigation.goBack
       });
     }
@@ -136,7 +136,7 @@ export class ScanQRCodeComponent extends React.Component {
         <TouchableOpacity style={defaultStyles.headerLeft} onPress={() => this.props.navigation.goBack()} >
           <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../../assets/imgs/header_blue_icon.png')} />
         </TouchableOpacity>
-        <Text style={defaultStyles.headerTitle}>{'SCAN QRCODE'.toUpperCase()}</Text>
+        <Text style={defaultStyles.headerTitle}>{global.i18n.t("ScanQRCodeComponent_scanQrcode")}</Text>
         <TouchableOpacity style={defaultStyles.headerRight} />
       </View>
       <View style={componentStyle.bodyContent}>
