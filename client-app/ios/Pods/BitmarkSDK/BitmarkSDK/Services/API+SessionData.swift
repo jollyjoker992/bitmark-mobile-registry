@@ -11,6 +11,11 @@ import Foundation
 public struct SessionData {
     let encryptedDataKey: Data
     let dataKeyAlgorithm: String
+    
+    public init (encryptedDataKey: Data, dataKeyAlgorithm: String) {
+        self.encryptedDataKey = encryptedDataKey
+        self.dataKeyAlgorithm = dataKeyAlgorithm
+    }
 }
 
 extension SessionData: Codable {
@@ -69,9 +74,38 @@ extension AssetAccess: Codable {
     }
 }
 
+struct AssetGrant {
+    let url: String?
+    let from: String?
+    let sessionData: SessionData?
+}
+
+extension AssetGrant: Codable {
+    
+    enum AssetGrantKeys: String, CodingKey {
+        case url = "url"
+        case from = "from"
+        case sessionData = "session_data"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: AssetGrantKeys.self)
+        self.init(url: try? container.decode(String.self, forKey: AssetGrantKeys.url),
+                  from: try? container.decode(String.self, forKey: AssetGrantKeys.from),
+                  sessionData: try? container.decode(SessionData.self, forKey: AssetGrantKeys.sessionData))
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: AssetGrantKeys.self)
+        try container.encode(self.url, forKey: .url)
+        try container.encode(self.from, forKey: .from)
+        try container.encode(self.sessionData, forKey: .sessionData)
+    }
+}
+
 extension API {
     
-    func registerEncryptionPublicKey(forAccount account: Account) throws -> Bool {
+    func registerEncryptionPublicKey(forAccount account: Account) throws {
         let signature = try account.authKey.sign(message: account.encryptionKey.publicKey).hexEncodedString
         let params = ["encryption_pubkey": account.encryptionKey.publicKey.hexEncodedString,
                       "signature": signature]
@@ -82,12 +116,7 @@ extension API {
         urlRequest.httpMethod = "POST"
         urlRequest.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
         
-        let (_, res) = try urlSession.synchronousDataTask(with: urlRequest)
-        guard let response = res else {
-            return false
-        }
-        
-        return 200..<300 ~= response.statusCode
+        let _ = try urlSession.synchronousDataTask(with: urlRequest)
     }
     
     func getEncryptionPublicKey(accountNumber: String) throws -> String? {
@@ -95,18 +124,13 @@ extension API {
         let requestURL = URL(string: urlString)!
         let urlRequest = URLRequest(url: requestURL)
         
-        let (r, res) = try urlSession.synchronousDataTask(with: urlRequest)
-        guard let result = r,
-            let response = res,
-            200..<300 ~= response.statusCode else {
-                return nil
-        }
+        let (data, _) = try urlSession.synchronousDataTask(with: urlRequest)
         
-        let dic = try JSONDecoder().decode([String: String].self, from: result)
+        let dic = try JSONDecoder().decode([String: String].self, from: data)
         return dic["encryption_pubkey"]
     }
     
-    func updateSession(account: Account, bitmarkId: String, recipient: String, sessionData: SessionData, withIssue issue: Issue? = nil) throws -> Bool {
+    func updateSession(account: Account, bitmarkId: String, recipient: String, sessionData: SessionData, withIssue issue: Issue? = nil) throws {
         let requestURL = endpoint.apiServerURL.appendingPathComponent("/v2/session")
         
         let params: [String: Any] = ["bitmark_id": bitmarkId,
@@ -124,28 +148,29 @@ extension API {
             urlRequest.setValue(String(data: bitmarkIssueBody, encoding: .utf8), forHTTPHeaderField: "Bitmark-Issue-Body")
         }
         
-        let (_, res) = try urlSession.synchronousDataTask(with: urlRequest)
-        guard let response = res else {
-                return false
-        }
-        
-        return 200..<300 ~= response.statusCode
+        let _ = try urlSession.synchronousDataTask(with: urlRequest)
     }
     
-    func getAssetAccess(account: Account, bitmarkId: String) throws -> AssetAccess? {
+    func getAssetAccess(account: Account, bitmarkId: String) throws -> AssetAccess {
         let requestURL = endpoint.apiServerURL.appendingPathComponent("/v1/bitmarks/" + bitmarkId + "/asset")
         var urlRequest = URLRequest(url: requestURL)
         urlRequest.httpMethod = "GET"
         try urlRequest.signRequest(withAccount: account, action: "downloadAsset", resource: bitmarkId)
         
-        let (r, res) = try urlSession.synchronousDataTask(with: urlRequest)
-        guard let result = r,
-            let response = res,
-            200..<300 ~= response.statusCode else {
-                return nil
-        }
+        let (data, _) = try urlSession.synchronousDataTask(with: urlRequest)
         
-        return try JSONDecoder().decode(AssetAccess.self, from: result)
+        return try JSONDecoder().decode(AssetAccess.self, from: data)
+    }
+    
+    func getAssetGrant(account: Account, grantId: String) throws -> AssetGrant {
+        let requestURL = endpoint.apiServerURL.appendingPathComponent("/v2/access-grants/" + grantId)
+        var urlRequest = URLRequest(url: requestURL)
+        urlRequest.httpMethod = "GET"
+        try urlRequest.signRequest(withAccount: account, action: "accessGrant", resource: grantId)
+        
+        let (data, res) = try urlSession.synchronousDataTask(with: urlRequest)
+        
+        return try JSONDecoder().decode(AssetGrant.self, from: data)
     }
 }
 
