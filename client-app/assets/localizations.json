@@ -250,7 +250,13 @@
     "ApplicationDetailComponent_version": "ApplicationDetailComponent_version",
     "ApplicationDetailComponent_appStoreRatingAndReview": "ApplicationDetailComponent_appStoreRatingAndReview",
     "ApplicationDetailComponent_shareThisApp": "ApplicationDetailComponent_shareThisApp",
-    "ApplicationDetailComponent_sendFeedback": "ApplicationDetailComponent_sendFeedback"
+    "ApplicationDetailComponent_sendFeedback": "ApplicationDetailComponent_sendFeedback",
+    "ScanQRCodeComponent_qrCodeIsInvalid": "ScanQRCodeComponent_qrCodeIsInvalid",
+    "ScanQRCodeComponent_qrCodeIsExpired": "ScanQRCodeComponent_qrCodeIsExpired",
+    "ScanQRCodeComponent_successTitle": "ScanQRCodeComponent_successTitle",
+    "ScanQRCodeComponent_successMessage": "ScanQRCodeComponent_successMessage",
+    "ScanQRCodeComponent_ok": "ScanQRCodeComponent_ok",
+    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred"
   },
   "en": {
     "BitmarkInternetOffComponent_networkError": "Network Error",
@@ -503,7 +509,13 @@
     "ApplicationDetailComponent_version": "Version:",
     "ApplicationDetailComponent_appStoreRatingAndReview": "APP STORE RATING & REVIEW",
     "ApplicationDetailComponent_shareThisApp": "SHARE THIS APP",
-    "ApplicationDetailComponent_sendFeedback": "SEND FEEDBACK"
+    "ApplicationDetailComponent_sendFeedback": "SEND FEEDBACK",
+    "ScanQRCodeComponent_qrCodeIsInvalid": "QR code is invalid!",
+    "ScanQRCodeComponent_qrCodeIsExpired": "QR code is expired!",
+    "ScanQRCodeComponent_successTitle": "Success!",
+    "ScanQRCodeComponent_successMessage": "Your property rights have been registered.",
+    "ScanQRCodeComponent_ok": "OK",
+    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": "Your property rights have been transferred."
   },
   "cn": {
     "BitmarkInternetOffComponent_networkError": "",
@@ -756,7 +768,13 @@
     "ApplicationDetailComponent_version": "",
     "ApplicationDetailComponent_appStoreRatingAndReview": "",
     "ApplicationDetailComponent_shareThisApp": "",
-    "ApplicationDetailComponent_sendFeedback": ""
+    "ApplicationDetailComponent_sendFeedback": "",
+    "ScanQRCodeComponent_qrCodeIsInvalid": "",
+    "ScanQRCodeComponent_qrCodeIsExpired": "",
+    "ScanQRCodeComponent_successTitle": "",
+    "ScanQRCodeComponent_successMessage": "",
+    "ScanQRCodeComponent_ok": "",
+    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": ""
   },
   "vi": {
     "BitmarkInternetOffComponent_networkError": "",
@@ -1009,6 +1027,12 @@
     "ApplicationDetailComponent_version": "",
     "ApplicationDetailComponent_appStoreRatingAndReview": "",
     "ApplicationDetailComponent_shareThisApp": "",
-    "ApplicationDetailComponent_sendFeedback": ""
+    "ApplicationDetailComponent_sendFeedback": "",
+    "ScanQRCodeComponent_qrCodeIsInvalid": "",
+    "ScanQRCodeComponent_qrCodeIsExpired": "",
+    "ScanQRCodeComponent_successTitle": "",
+    "ScanQRCodeComponent_successMessage": "",
+    "ScanQRCodeComponent_ok": "",
+    "ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred": ""
   }
 }
