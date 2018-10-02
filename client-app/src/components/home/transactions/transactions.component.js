@@ -17,7 +17,7 @@ import { convertWidth } from '../../../utils';
 import { config } from '../../../configs';
 import { BottomTabsComponent } from '../bottom-tabs/bottom-tabs.component';
 
-const SubTabs = {
+let SubTabs = {
   required: 'ACTIONS REQUIRED',
   completed: 'HISTORY',
 };
@@ -32,9 +32,14 @@ let currentSize = Dimensions.get('window');
 
 let ComponentName = 'TransactionsComponent';
 export class TransactionsComponent extends React.Component {
-  static SubTabs = SubTabs;
   constructor(props) {
     super(props);
+
+    SubTabs = {
+      required: global.i18n.t("TransactionsComponent_actionsRequired"),
+      completed: global.i18n.t("TransactionsComponent_history"),
+    };
+
     this.switchSubTab = this.switchSubTab.bind(this);
     this.handerChangeScreenData = this.handerChangeScreenData.bind(this);
     this.acceptAllTransfers = this.acceptAllTransfers.bind(this);
@@ -137,12 +142,12 @@ export class TransactionsComponent extends React.Component {
       });
     } else if (item.type === ActionTypes.ifttt) {
       AppProcessor.doIssueIftttData(item, {
-        indicator: true, title: '', message: 'Sending your transaction to the Bitmark network...'
+        indicator: true, title: '', message: global.i18n.t("TransactionsComponent_sendingYourTransactionToTheBitmarkNetwork")
       }).then(result => {
         if (result) {
           DataProcessor.doReloadUserData();
-          Alert.alert('Success!', 'Your property rights have been registered.', [{
-            text: 'OK',
+          Alert.alert(global.i18n.t("TransactionsComponent_success"), global.i18n.t("TransactionsComponent_yourPropertyRightsHaveBeenRegistered"), [{
+            text: global.i18n.t("TransactionsComponent_ok"),
             onPress: () => {
               const resetHomePage = NavigationActions.reset({
                 index: 0,
@@ -177,28 +182,28 @@ export class TransactionsComponent extends React.Component {
   clickToCompleted(item) {
     if (item.title === 'SEND' && item.type === 'P2P TRANSFER') {
       let sourceUrl = config.registry_server_url + `/transaction/${item.txid}?env=app`;
-      this.props.screenProps.homeNavigation.navigate('BitmarkWebView', { title: 'REGISTRY', sourceUrl, isFullScreen: true });
+      this.props.screenProps.homeNavigation.navigate('BitmarkWebView', { title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, isFullScreen: true });
     } else if (item.title === 'ISSUANCE') {
       let sourceUrl = config.registry_server_url + `/issuance/${item.blockNumber}/${item.assetId}/${DataProcessor.getUserInformation().bitmarkAccountNumber}?env=app`;
-      this.props.screenProps.homeNavigation.navigate('BitmarkWebView', { title: 'REGISTRY', sourceUrl, isFullScreen: true });
+      this.props.screenProps.homeNavigation.navigate('BitmarkWebView', { title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, isFullScreen: true });
     }
   }
 
   async acceptAllTransfers() {
     AppProcessor.doGetAllTransfersOffers().then(transferOffers => {
       console.log(transferOffers);
-      Alert.alert('Sign for acceptance of all bitmarks sent to you?', `Accept “${transferOffers.length}” properties sent to you.`, [{
-        text: 'Cancel', style: 'cancel',
+      Alert.alert(global.i18n.t("TransactionsComponent_signForAcceptanceOfAllBitmarksSentToYou"), global.i18n.t("TransactionsComponent_acceptTransfer", {length: transferOffers.length}), [{
+        text: global.i18n.t("TransactionsComponent_cancel"), style: 'cancel',
       }, {
-        text: 'Yes',
+        text: global.i18n.t("TransactionsComponent_yes"),
         onPress: () => {
           AppProcessor.doAcceptAllTransfers(transferOffers, { indicator: true, }, result => {
             if (result) {
-              Alert.alert('Acceptance Submitted', 'Your signature for the transfer request has been successfully submitted to the Bitmark network.');
+              Alert.alert(global.i18n.t("TransactionsComponent_acceptanceSubmittedTitle"), global.i18n.t("TransactionsComponent_acceptanceSubmittedMessage"));
             }
           }).catch(error => {
             console.log('acceptAllTransfers error:', error);
-            Alert.alert('Request Failed', 'This error may be due to a request expiration or a network error. We will inform the property owner that the property transfer failed. Please try again later or contact the property owner to resend a property transfer request.');
+            Alert.alert(global.i18n.t("TransactionsComponent_requestFailedTitle"), global.i18n.t("TransactionsComponent_requestFailedMessage"));
           });
         }
       }]);
@@ -213,7 +218,7 @@ export class TransactionsComponent extends React.Component {
       <View style={transactionsStyle.body}>
         <View style={transactionsStyle.header}>
           <TouchableOpacity style={defaultStyle.headerLeft}></TouchableOpacity>
-          <Text style={defaultStyle.headerTitle}>TRANSACTIONS</Text>
+          <Text style={defaultStyle.headerTitle}>{global.i18n.t("TransactionsComponent_transactions")}</Text>
           <TouchableOpacity style={defaultStyle.headerRight}></TouchableOpacity>
         </View>
         <View style={transactionsStyle.subTabArea}>
@@ -280,8 +285,8 @@ export class TransactionsComponent extends React.Component {
           scrollEventThrottle={1}>
           <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
             {this.state.actionRequired && this.state.actionRequired.length === 0 && (!this.state.gettingData && !this.state.appLoadingData) && <View style={transactionsStyle.contentSubTab}>
-              <Text style={transactionsStyle.titleNoRequiredTransferOffer}>NO ACTIONS REQUIRED.</Text>
-              <Text style={transactionsStyle.messageNoRequiredTransferOffer}>This is where you will receive authorization requests.</Text>
+              <Text style={transactionsStyle.titleNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noActionsRequired")}</Text>
+              <Text style={transactionsStyle.messageNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_messageNoRequiredTransferOffer")}</Text>
             </View>}
 
             {this.state.actionRequired && this.state.actionRequired.length > 0 && <View style={transactionsStyle.contentSubTab}>
@@ -297,18 +302,18 @@ export class TransactionsComponent extends React.Component {
 
                     {item.type === ActionTypes.transfer && <View style={transactionsStyle.iftttTask}>
                       <Text style={transactionsStyle.iftttTitle}>{item.transferOffer.asset.name}</Text>
-                      <Text style={transactionsStyle.iftttDescription}>Sign to receive the bitmark from {'[' + item.transferOffer.bitmark.owner.substring(0, 4) + '...' + item.transferOffer.bitmark.owner.substring(item.transferOffer.bitmark.owner.length - 4, item.transferOffer.bitmark.owner.length) + ']'}.</Text>
+                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signToReceiveTheBitmarkFrom", {accountNumber: item.transferOffer.bitmark.owner.substring(0, 4) + '...' + item.transferOffer.bitmark.owner.substring(item.transferOffer.bitmark.owner.length - 4, item.transferOffer.bitmark.owner.length)})}</Text>
                     </View>}
 
                     {item.type === ActionTypes.ifttt && <View style={transactionsStyle.iftttTask}>
                       <Text style={transactionsStyle.iftttTitle}>{item.assetInfo.propertyName}</Text>
-                      <Text style={transactionsStyle.iftttDescription}>Sign your bitmark issuance for your IFTTT data.</Text>
+                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signYourBitmarkIssuanceForYourIftttData")}</Text>
                     </View>}
 
                     {item.type === ActionTypes.test_write_down_recovery_phase && <View style={transactionsStyle.recoveryPhaseActionRequired}>
-                      <Text style={transactionsStyle.recoveryPhaseActionRequiredTitle}>Write Down Your Recovery Phrase</Text>
+                      <Text style={transactionsStyle.recoveryPhaseActionRequiredTitle}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredTitle")}</Text>
                       <View style={transactionsStyle.recoveryPhaseActionRequiredDescriptionArea}>
-                        <Text style={transactionsStyle.recoveryPhaseActionRequiredDescription}>Protect your Bitmark account.</Text>
+                        <Text style={transactionsStyle.recoveryPhaseActionRequiredDescription}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredDescription")}</Text>
                         <Image style={transactionsStyle.recoveryPhaseActionRequiredImportantIcon} source={require('./../../../../assets/imgs/alert.png')} />
                       </View>
                     </View>}
@@ -324,7 +329,7 @@ export class TransactionsComponent extends React.Component {
         </ScrollView>}
         {this.state.subTab === SubTabs.required && this.state.actionRequired && this.state.actionRequired.length > 0
           && (this.state.actionRequired.findIndex(item => item.type === ActionTypes.transfer) >= 0) && <TouchableOpacity style={transactionsStyle.acceptAllTransfersButton} onPress={this.acceptAllTransfers} >
-            <Text style={transactionsStyle.acceptAllTransfersButtonText}>SIGN FOR ALL BITMARKS SENT TO YOU</Text>
+            <Text style={transactionsStyle.acceptAllTransfersButtonText}>{global.i18n.t("TransactionsComponent_acceptAllTransfersButtonText")}</Text>
           </TouchableOpacity>
         }
 
@@ -366,26 +371,26 @@ export class TransactionsComponent extends React.Component {
                         {(item.status !== 'waiting' && item.status !== 'rejected' && item.status !== 'canceled') &&
                           <Text style={[transactionsStyle.completedTransferHeaderValue, {
                             color: (item.status === 'pending' || item.status === 'waiting') ? '#999999' : '#0060F2'
-                          }]}>{item.status === 'pending' ? 'PENDING...' : moment(item.timestamp).format('YYYY MMM DD HH:mm:ss').toUpperCase()}</Text>
+                          }]}>{item.status === 'pending' ? global.i18n.t("TransactionsComponent_pending") : moment(item.timestamp).format('YYYY MMM DD HH:mm:ss').toUpperCase()}</Text>
                         }
                       </View>
                       <View style={transactionsStyle.completedTransferContent}>
                         <View style={transactionsStyle.completedTransferContentRow}>
-                          <Text style={[transactionsStyle.completedTransferContentRowLabel, { marginTop: 1, }]}>PROPERTY</Text>
+                          <Text style={[transactionsStyle.completedTransferContentRowLabel, { marginTop: 1, }]}>{global.i18n.t("TransactionsComponent_property")}</Text>
                           <Text style={[transactionsStyle.completedTransferContentRowPropertyName]} numberOfLines={1} >{item.assetName}</Text>
                         </View>
                         {!!item.type && <View style={transactionsStyle.completedTransferContentRow}>
-                          <Text style={transactionsStyle.completedTransferContentRowLabel}>TYPE</Text>
+                          <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_type")}</Text>
                           <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.type.toUpperCase()}</Text>
                         </View>}
                         <View style={[transactionsStyle.completedTransferContentRow, { marginTop: 1, }]}>
-                          <Text style={transactionsStyle.completedTransferContentRowLabel}>FROM</Text>
-                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.from === this.state.currentUser.bitmarkAccountNumber ? 'YOU' :
+                          <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_from")}</Text>
+                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.from === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
                             ('[' + item.from.substring(0, 4) + '...' + item.from.substring(item.from.length - 4, item.from.length) + ']')}</Text>
                         </View>
                         {!!item.to && <View style={transactionsStyle.completedTransferContentRow}>
-                          <Text style={transactionsStyle.completedTransferContentRowLabel}>TO</Text>
-                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.researcherName ? item.researcherName : (item.to === this.state.currentUser.bitmarkAccountNumber ? 'YOU' :
+                          <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_to")}</Text>
+                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.researcherName ? item.researcherName : (item.to === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
                             ('[' + item.to.substring(0, 4) + '...' + item.to.substring(item.to.length - 4, item.to.length) + ']'))}</Text>
                         </View>}
                       </View>
