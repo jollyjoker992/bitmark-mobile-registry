@@ -731,7 +731,7 @@ const doGenerateTransactionActionRequiredData = async () => {
           key: actionRequired.length,
           transferOffer: item,
           type: ActionTypes.transfer,
-          typeTitle: 'SIGN TO RECEIVE BITMARK',
+          typeTitle: global.i18n.t("DataProcessor_signToReceiveBitmark"),
           timestamp: moment(item.created_at),
         });
         totalTasks++;
@@ -744,7 +744,7 @@ const doGenerateTransactionActionRequiredData = async () => {
     iftttInformation.bitmarkFiles.forEach(item => {
       item.key = actionRequired.length;
       item.type = ActionTypes.ifttt;
-      item.typeTitle = 'ISSUANCE Request';
+      item.typeTitle = global.i18n.t("DataProcessor_issuanceRequest");
       item.timestamp = item.assetInfo.timestamp;
       actionRequired.push(item);
       totalTasks++;
@@ -767,7 +767,7 @@ const doGenerateTransactionActionRequiredData = async () => {
     actionRequired.unshift({
       key: actionRequired.length,
       type: ActionTypes.test_write_down_recovery_phase,
-      typeTitle: 'SECURITY ALERT',
+      typeTitle: global.i18n.t("DataProcessor_securityAlert"),
       timestamp: moment(new Date(testRecoveryPhaseActionRequired.timestamp)),
     });
 
