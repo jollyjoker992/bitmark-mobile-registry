@@ -89,7 +89,7 @@ export class BitmarkAutoCompleteComponent extends React.Component {
           />
         </View>}
         <TouchableOpacity style={styles.doneButton} onPress={this.onDone} disabled={this.state.status !== BitmarkAutoCompleteComponent.statuses.done}>
-          <Text style={[styles.doneButtonText, { color: this.state.status === BitmarkAutoCompleteComponent.statuses.done ? '#0060F2' : 'gray' }]}>Done</Text>
+          <Text style={[styles.doneButtonText, { color: this.state.status === BitmarkAutoCompleteComponent.statuses.done ? '#0060F2' : 'gray' }]}>{global.i18n.t("BitmarkAutoCompleteComponent_done")}</Text>
         </TouchableOpacity>
       </View>
     );

@@ -57,7 +57,7 @@ export class WebAccountMigrateComponent extends React.Component {
       this.setState({ step: STEPS.confirm, token: scanData.data });
     } else {
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
-        message: 'QR code is invalid! ',
+        message: global.i18n.t("WebAccountMigrateComponent_qrCodeIsInvalid"),
         onClose: this.props.navigation.goBack
       });
     }
@@ -70,7 +70,7 @@ export class WebAccountMigrateComponent extends React.Component {
       }
     }).catch(error => {
       console.log('doMigrateWebAccount error:', error);
-      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { message: 'This account cannot be migrated now. Try again later.' });
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { message: global.i18n.t("WebAccountMigrateComponent_thisAccountCannotBeMigratedNow") });
     });
   }
 
@@ -80,9 +80,9 @@ export class WebAccountMigrateComponent extends React.Component {
         <TouchableOpacity style={defaultStyles.headerLeft} onPress={this.goBack.bind(this)} >
           <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../../../assets/imgs/header_blue_icon.png')} />
         </TouchableOpacity>
-        {this.state.step === STEPS.scan && <Text style={defaultStyles.headerTitle}>{'Migrate Web Account'.toUpperCase()}</Text>}
-        {this.state.step === STEPS.confirm && <Text style={defaultStyles.headerTitle}>CONFIRM MIGRATION</Text>}
-        {this.state.step === STEPS.done && <Text style={defaultStyles.headerTitle}>CHECK YOUR EMAIL</Text>}
+        {this.state.step === STEPS.scan && <Text style={defaultStyles.headerTitle}>{global.i18n.t("WebAccountMigrateComponent_migrateWebAccount")}</Text>}
+        {this.state.step === STEPS.confirm && <Text style={defaultStyles.headerTitle}>{global.i18n.t("WebAccountMigrateComponent_confirmMigration")}</Text>}
+        {this.state.step === STEPS.done && <Text style={defaultStyles.headerTitle}>{global.i18n.t("WebAccountMigrateComponent_checkYourEmail")}</Text>}
         <TouchableOpacity style={defaultStyles.headerRight} />
       </View>
       {this.state.step === STEPS.scan && <View style={componentStyle.bodyContent}>
@@ -90,27 +90,27 @@ export class WebAccountMigrateComponent extends React.Component {
           linkStyle={{ color: '#0060F2', }}
           linkText={url => url}
         >
-          <Text style={componentStyle.scanMessage}>Visit https://a.bitmark.com and sign in your web account. Click ”Migrate web account” and then scan the QR code.</Text>
+          <Text style={componentStyle.scanMessage}>{global.i18n.t("WebAccountMigrateComponent_scanMessage")}</Text>
         </Hyperlink>
         <Camera style={componentStyle.scanCamera} aspect={Camera.constants.Aspect.fill} onBarCodeRead={this.onBarCodeRead.bind(this)} />
       </View>}
 
       {this.state.step === STEPS.confirm && <View style={componentStyle.bodyContent}>
         <View style={componentStyle.confirmMessageArea}>
-          <Text style={componentStyle.confirmMessageText}>All the properties in this account will be transferred to the account:</Text>
+          <Text style={componentStyle.confirmMessageText}>{global.i18n.t("WebAccountMigrateComponent_confirmMessageText")}</Text>
           <Text style={componentStyle.confirmAccountNumber}>{this.state.userInformation.bitmarkAccountNumber}</Text>
-          <Text style={componentStyle.confirmMessageText}>on your mobile device.</Text>
+          <Text style={componentStyle.confirmMessageText}>{global.i18n.t("WebAccountMigrateComponent_onYourMobileDevice")}</Text>
         </View>
         <TouchableOpacity style={componentStyle.confirmButton} onPress={this.onConfirmMigration.bind(this)}>
-          <Text style={componentStyle.confirmButtonText}>CONFIRM</Text>
+          <Text style={componentStyle.confirmButtonText}>{global.i18n.t("WebAccountMigrateComponent_confirm")}</Text>
         </TouchableOpacity>
       </View>}
 
       {this.state.step === STEPS.done && <View style={componentStyle.bodyContent}>
         <View style={componentStyle.confirmMessageArea}>
-          <Text style={componentStyle.confirmMessageText}>We’ve sent an email to: </Text>
+          <Text style={componentStyle.confirmMessageText}>{global.i18n.t("WebAccountMigrateComponent_sentAnEmailTo")} </Text>
           <Text style={componentStyle.confirmAccountNumber}>{this.state.email || 'your@email.com'}</Text>
-          <Text style={componentStyle.confirmMessageText}>Follow the link in that email to authorize this migration.</Text>
+          <Text style={componentStyle.confirmMessageText}>{global.i18n.t("WebAccountMigrateComponent_followTheLinkInThatEmailToAuthorizeThisMigration")}</Text>
         </View>
       </View>}
 
