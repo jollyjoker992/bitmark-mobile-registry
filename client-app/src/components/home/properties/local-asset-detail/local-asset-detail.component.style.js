@@ -160,7 +160,7 @@ export default StyleSheet.create({
     paddingLeft: convertWidth(4),
   },
   bitmarkListArea: {
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   bitmarksRow: {
     flexDirection: 'row',

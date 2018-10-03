@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { Provider, connect } from 'react-redux';
 import {
   View, Text, TouchableOpacity, ScrollView, FlatList, Image, ActivityIndicator,
   Dimensions,
@@ -8,12 +9,12 @@ import {
 
 import { config } from './../../../configs';
 import assetsStyle from './assets.component.style';
-import { AppProcessor, DataProcessor } from '../../../processors';
-import { EventEmitterService } from '../../../services';
+import { DataProcessor, AppProcessor } from '../../../processors';
 
 import defaultStyle from './../../../commons/styles';
 import { BitmarkWebViewComponent } from './../../../commons/components';
 import { CommonModel } from '../../../models';
+import { AssetsStore } from '../../../stores/assets-store';
 
 let currentSize = Dimensions.get('window');
 
@@ -23,8 +24,9 @@ let SubTabs = {
   global: 'Global',
 };
 
-let ComponentName = 'AssetsComponent';
-export class AssetsComponent extends React.Component {
+let loadingDataWhenScroll = false;
+
+class PrivateAssetsComponent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -36,110 +38,23 @@ export class AssetsComponent extends React.Component {
 
     this.switchSubTab = this.switchSubTab.bind(this);
     this.addProperty = this.addProperty.bind(this);
-    this.reloadData = this.reloadData.bind(this);
-    this.handerChangeLocalBitmarks = this.handerChangeLocalBitmarks.bind(this);
-    this.handerChangeTrackingBitmarks = this.handerChangeTrackingBitmarks.bind(this);
-    this.handerLoadingData = this.handerLoadingData.bind(this);
-
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_LOCAL_BITMARKS, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_TRACKING_BITMARKS, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.APP_LOADING_DATA, null, ComponentName);
-
-    let subTab = SubTabs.local;
 
     this.state = {
-      totalAssets: 0,
-      totalBitmark: 0,
-      totalTrackingBitmarks: 0,
-      subTab,
-      accountNumber: '',
-      copyText: 'COPY',
-      assets: null,
-      existNewAsset: false,
-      trackingBitmarks: null,
-      existNewTracking: false,
-      appLoadingData: DataProcessor.isAppLoadingData(),
-      gettingData: true,
-      lengthDisplayAssets: 0,
-
+      subTab: SubTabs.local
     };
-
-    const doGetScreenData = async () => {
-      let { localAssets, totalAssets, totalBitmarks, existNewAsset } = await DataProcessor.doGetLocalBitmarks(0);
-      let { trackingBitmarks, existNewTrackingBitmark, totalTrackingBitmarks } = await DataProcessor.doGetTrackingBitmarks(0);
-      if (trackingBitmarks) {
-        trackingBitmarks.forEach((trackingBitmark, index) => trackingBitmark.key = index);
-      }
-      console.log('localAssets :', localAssets);
-      this.setState({
-        totalAssets,
-        totalBitmarks,
-        totalTrackingBitmarks,
-        assets: localAssets,
-        existNewAsset,
-        trackingBitmarks,
-        existNewTracking: existNewTrackingBitmark,
-        gettingData: false,
-        lengthDisplayAssets: localAssets.length,
-      });
-    }
-    doGetScreenData();
   }
+
   componentDidMount() {
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_LOCAL_BITMARKS, this.handerChangeLocalBitmarks, ComponentName);
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_TRACKING_BITMARKS, this.handerChangeTrackingBitmarks, ComponentName);
-    EventEmitterService.on(EventEmitterService.events.APP_LOADING_DATA, this.handerLoadingData, ComponentName);
     if (this.props.screenProps.needReloadData) {
-      this.reloadData();
+      AppProcessor.doReloadUserData().then(() => {
+        this.switchSubTab(this.state.subTab);
+      }).catch((error) => {
+        console.log('doReloadUserData error :', error);
+      });
       if (this.props.screenProps.doneReloadData) {
         this.props.screenProps.doneReloadData()
       }
     }
-  }
-
-  handerChangeLocalBitmarks() {
-    DataProcessor.doGetLocalBitmarks(this.state.lengthDisplayAssets).then(({ localAssets, totalAssets, totalBitmarks, existNewAsset }) => {
-      this.setState({
-        totalBitmarks,
-        totalAssets,
-        assets: localAssets,
-        existNewAsset,
-        lengthDisplayAssets: localAssets.length,
-      });
-    }).catch(error => {
-      console.log('doGetLocalBitmarks error:', error);
-    });
-  }
-
-  handerLoadingData() {
-    this.setState({ appLoadingData: DataProcessor.isAppLoadingData() });
-  }
-  handerChangeTrackingBitmarks() {
-    DataProcessor.doGetTrackingBitmarks(1).then(({ trackingBitmarks, existNewTrackingBitmark, totalTrackingBitmarks }) => {
-      this.setState({
-        trackingBitmarks,
-        totalTrackingBitmarks,
-        existNewTracking: existNewTrackingBitmark,
-      });
-    }).catch(error => {
-      console.log('doGetTrackingBitmarks error:', error);
-    });
-  }
-
-  reloadData() {
-    AppProcessor.doReloadUserData().then(() => {
-      this.switchSubTab(this.state.subTab);
-    }).catch((error) => {
-      console.log('getUserBitmark error :', error);
-    });
-  }
-
-  convertToFlatListData(assets) {
-    let tempBitmarks = [];
-    assets.forEach((asset, key) => {
-      tempBitmarks.push({ key, asset })
-    });
-    return tempBitmarks;
   }
 
   switchSubTab(subTab) {
@@ -155,6 +70,7 @@ export class AssetsComponent extends React.Component {
   }
 
   render() {
+    loadingDataWhenScroll = false;
     return (
       <View style={assetsStyle.body}>
         <View style={[assetsStyle.header, { zIndex: 1 }]}>
@@ -173,10 +89,10 @@ export class AssetsComponent extends React.Component {
             <View style={assetsStyle.subTabButtonArea}>
               <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={assetsStyle.subTabButtonTextArea}>
-                {this.state.existNewAsset && <View style={assetsStyle.newItem}></View>}
-                <Text style={[assetsStyle.subTabButtonText, { marginLeft: this.state.totalBitmarks > 9 ? 8 : 0 }]}>
+                {this.props.existNewAsset && <View style={assetsStyle.newItem}></View>}
+                <Text style={[assetsStyle.subTabButtonText, { marginLeft: this.props.totalBitmarks > 9 ? 8 : 0 }]}>
                   {SubTabs.local.toUpperCase()}
-                  <Text style={{ fontSize: this.state.totalBitmarks > 9 ? 10 : 14 }}>{(this.state.totalBitmarks > 0 ? ` (${this.state.totalBitmarks > 99 ? '99+' : this.state.totalBitmarks})` : '')}</Text>
+                  <Text style={{ fontSize: this.props.totalBitmarks > 9 ? 10 : 14 }}>{(this.props.totalBitmarks > 0 ? ` (${this.props.totalBitmarks > 99 ? '99+' : this.props.totalBitmarks})` : '')}</Text>
                 </Text>
               </View>
             </View>
@@ -188,8 +104,8 @@ export class AssetsComponent extends React.Component {
             <View style={assetsStyle.subTabButtonArea}>
               <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={assetsStyle.subTabButtonTextArea}>
-                {this.state.existNewAsset && <View style={assetsStyle.newItem}></View>}
-                <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1', marginLeft: this.state.totalBitmarks > 9 ? 10 : 0 }]}>{SubTabs.local.toUpperCase()}<Text style={{ fontSize: this.state.totalBitmarks > 9 ? 8 : 14 }}>{(this.state.totalBitmarks > 0 ? ` (${this.state.totalBitmarks > 99 ? '99+' : this.state.totalBitmarks})` : '')}</Text></Text>
+                {this.props.existNewAsset && <View style={assetsStyle.newItem}></View>}
+                <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1', marginLeft: this.props.totalBitmarks > 9 ? 10 : 0 }]}>{SubTabs.local.toUpperCase()}<Text style={{ fontSize: this.props.totalBitmarks > 9 ? 8 : 14 }}>{(this.props.totalBitmarks > 0 ? ` (${this.props.totalBitmarks > 99 ? '99+' : this.props.totalBitmarks})` : '')}</Text></Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -202,7 +118,7 @@ export class AssetsComponent extends React.Component {
               <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={assetsStyle.subTabButtonTextArea}>
                 {this.existNewTracking && <View style={assetsStyle.newItem}></View>}
-                <Text style={[assetsStyle.subTabButtonText, { marginLeft: this.state.totalTrackingBitmarks > 9 ? 10 : 0 }]}>{SubTabs.tracking.toUpperCase()}<Text style={{ fontSize: this.state.totalTrackingBitmarks > 9 ? 8 : 14 }}>{(this.state.totalTrackingBitmarks > 0 ? ` (${this.state.totalTrackingBitmarks > 99 ? '99+' : this.state.totalTrackingBitmarks})` : '')}</Text></Text>
+                <Text style={[assetsStyle.subTabButtonText, { marginLeft: this.props.totalTrackingBitmarks > 9 ? 10 : 0 }]}>{SubTabs.tracking.toUpperCase()}<Text style={{ fontSize: this.props.totalTrackingBitmarks > 9 ? 8 : 14 }}>{(this.props.totalTrackingBitmarks > 0 ? ` (${this.props.totalTrackingBitmarks > 99 ? '99+' : this.props.totalTrackingBitmarks})` : '')}</Text></Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -214,7 +130,7 @@ export class AssetsComponent extends React.Component {
               <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={assetsStyle.subTabButtonTextArea}>
                 {this.existNewTracking && <View style={assetsStyle.newItem}></View>}
-                <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1', marginLeft: this.state.totalTrackingBitmarks > 9 ? 10 : 0 }]}>{SubTabs.tracking.toUpperCase()}<Text style={{ fontSize: this.state.totalTrackingBitmarks > 9 ? 8 : 14 }}>{(this.state.totalTrackingBitmarks > 0 ? ` (${this.state.totalTrackingBitmarks > 99 ? '99+' : this.state.totalTrackingBitmarks})` : '')}</Text></Text>
+                <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1', marginLeft: this.props.totalTrackingBitmarks > 9 ? 10 : 0 }]}>{SubTabs.tracking.toUpperCase()}<Text style={{ fontSize: this.props.totalTrackingBitmarks > 9 ? 8 : 14 }}>{(this.props.totalTrackingBitmarks > 0 ? ` (${this.props.totalTrackingBitmarks > 99 ? '99+' : this.props.totalTrackingBitmarks})` : '')}</Text></Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -245,61 +161,54 @@ export class AssetsComponent extends React.Component {
 
         {this.state.subTab == SubTabs.local && <ScrollView style={[assetsStyle.scrollSubTabArea]}
           onScroll={async (scrollEvent) => {
-            if (this.loadingDataWhenScroll) {
+            if (loadingDataWhenScroll) {
               return;
             }
-            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.state.lengthDisplayAssets < this.state.totalAssets)) {
-              this.loadingDataWhenScroll = true;
-              let lengthDisplayAssets = Math.min(this.state.totalAssets, this.state.lengthDisplayAssets + 20);
-              let { localAssets } = await DataProcessor.doGetLocalBitmarks(lengthDisplayAssets);
-              this.setState({ lengthDisplayAssets: localAssets.length, assets: localAssets });
+            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) &&
+              (this.props.assets.length < this.props.totalAssets)) {
+              loadingDataWhenScroll = true;
+              await DataProcessor.doAddMoreAssets(this.props.assets.length);
             }
-            this.loadingDataWhenScroll = false;
+            loadingDataWhenScroll = false;
           }}
           scrollEventThrottle={1}
         >
           <TouchableOpacity activeOpacity={1} style={assetsStyle.contentSubTab}>
-            {(!this.state.appLoadingData && this.state.assets && this.state.assets.length === 0) && <View style={assetsStyle.messageNoAssetArea}>
+            {(!this.props.appLoadingData && this.props.assets && this.props.assets.length === 0) && <View style={assetsStyle.messageNoAssetArea}>
               {(this.state.subTab === SubTabs.local) && <Text style={assetsStyle.messageNoAssetLabel}>
                 {global.i18n.t("AssetsComponent_messageNoAssetLabel")}
               </Text>}
               {(this.state.subTab === SubTabs.local) && <Text style={assetsStyle.messageNoAssetContent}>
                 {global.i18n.t("AssetsComponent_messageNoAssetContent")}
-                </Text>}
+              </Text>}
             </View>}
-            {(this.state.assets && this.state.assets.length > 0 && this.state.subTab === SubTabs.local) && <FlatList
-              ref={(ref) => this.listViewElement = ref}
-              extraData={this.state}
-              data={this.state.assets || []}
-              keyExtractor={item => item.id}
-              renderItem={({ item }) => {
-                return (<TouchableOpacity style={[assetsStyle.assetRowArea]} onPress={() => {
-                  this.props.screenProps.homeNavigation.navigate('LocalAssetDetail', { asset: item });
-                }} >
-                  {!item.isViewed && <View style={[assetsStyle.newItem, { top: 22 }]}></View>}
+            {this.props.assets && this.props.assets.length > 0 && this.state.subTab === SubTabs.local && this.props.assets.map(item => (
+              <TouchableOpacity key={item.id} style={[assetsStyle.assetRowArea]} onPress={() => {
+                this.props.screenProps.homeNavigation.navigate('LocalAssetDetail', { asset: item });
+              }} >
+                {!item.isViewed && <View style={[assetsStyle.newItem, { top: 22 }]}></View>}
 
-                  <View style={assetsStyle.assetInfoArea}>
-                    <Text style={[assetsStyle.assetCreatedAt, {
-                      color: item.created_at ? 'black' : '#999999'
-                    }]}>
-                      {item.created_at ? moment(item.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase() : global.i18n.t("AssetsComponent_registering")}
+                <View style={assetsStyle.assetInfoArea}>
+                  <Text style={[assetsStyle.assetCreatedAt, {
+                    color: item.created_at ? 'black' : '#999999'
+                  }]}>
+                    {item.created_at ? moment(item.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase() : global.i18n.t("AssetsComponent_registering")}
+                  </Text>
+                  <Text style={[assetsStyle.assetName, { color: item.created_at ? 'black' : '#999999' }]} numberOfLines={1}>{item.name}</Text>
+                  <View style={assetsStyle.assetCreatorRow}>
+                    <Text style={[assetsStyle.assetCreator, { color: item.created_at ? 'black' : '#999999' }]} numberOfLines={1}>
+                      {item.registrant === DataProcessor.getUserInformation().bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : '[' + item.registrant.substring(0, 4) + '...' + item.registrant.substring(item.registrant.length - 4, item.registrant.length) + ']'}
                     </Text>
-                    <Text style={[assetsStyle.assetName, { color: item.created_at ? 'black' : '#999999' }]} numberOfLines={1}>{item.name}</Text>
-                    <View style={assetsStyle.assetCreatorRow}>
-                      <Text style={[assetsStyle.assetCreator, { color: item.created_at ? 'black' : '#999999' }]} numberOfLines={1}>
-                        {item.registrant === DataProcessor.getUserInformation().bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : '[' + item.registrant.substring(0, 4) + '...' + item.registrant.substring(item.registrant.length - 4, item.registrant.length) + ']'}
-                      </Text>
-                    </View>
-                    <View style={assetsStyle.assetQuantityArea}>
-                      {item.created_at && <Text style={assetsStyle.assetQuantity}>{global.i18n.t("AssetsComponent_quantity")}: {item.bitmarks.length}</Text>}
-                      {!item.created_at && <Text style={assetsStyle.assetQuantityPending}>{global.i18n.t("AssetsComponent_quantity")}: {item.bitmarks.length}</Text>}
-                      {!item.created_at && <Image style={assetsStyle.assetQuantityPendingIcon} source={require('./../../../../assets/imgs/pending-status.png')} />}
-                    </View>
                   </View>
-                </TouchableOpacity>)
-              }}
-            />}
-            {(this.state.gettingData || this.state.appLoadingData || (this.state.assets && this.state.lengthDisplayAssets < this.state.totalAssets)) && <View style={assetsStyle.messageNoAssetArea}>
+                  <View style={assetsStyle.assetQuantityArea}>
+                    {item.created_at && <Text style={assetsStyle.assetQuantity}>{global.i18n.t("AssetsComponent_quantity")}: {item.bitmarks.length}</Text>}
+                    {!item.created_at && <Text style={assetsStyle.assetQuantityPending}>{global.i18n.t("AssetsComponent_quantity")}: {item.bitmarks.length}</Text>}
+                    {!item.created_at && <Image style={assetsStyle.assetQuantityPendingIcon} source={require('./../../../../assets/imgs/pending-status.png')} />}
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))}
+            {(this.props.appLoadingData || (this.props.assets && this.props.assets.length < this.props.totalAssets)) && <View style={assetsStyle.messageNoAssetArea}>
               <ActivityIndicator size="large" style={{ marginTop: 46, }} />
             </View>}
           </TouchableOpacity>
@@ -307,7 +216,7 @@ export class AssetsComponent extends React.Component {
 
         {this.state.subTab === SubTabs.tracking && <ScrollView style={[assetsStyle.scrollSubTabArea]}>
           <TouchableOpacity activeOpacity={1} style={assetsStyle.contentSubTab}>
-            {(this.state.trackingBitmarks && this.state.trackingBitmarks.length === 0) && <View style={assetsStyle.messageNoAssetArea}>
+            {(this.props.trackingBitmarks && this.props.trackingBitmarks.length === 0) && <View style={assetsStyle.messageNoAssetArea}>
               <Text style={assetsStyle.messageNoAssetLabel}>
                 {global.i18n.t("AssetsComponent_messageNoAssetLabel")}
               </Text>
@@ -315,10 +224,9 @@ export class AssetsComponent extends React.Component {
                 {global.i18n.t("AssetsComponent_messageNoAssetContent")}
               </Text>
             </View>}
-            {(this.state.trackingBitmarks && this.state.trackingBitmarks.length > 0 && this.state.subTab === SubTabs.tracking) && <FlatList
-              ref={(ref) => this.listViewElement = ref}
-              extraData={this.state}
-              data={this.state.trackingBitmarks || []}
+            {(this.props.trackingBitmarks && this.props.trackingBitmarks.length > 0 && this.state.subTab === SubTabs.tracking) && <FlatList
+              extraData={this.props}
+              data={this.props.trackingBitmarks || []}
               renderItem={({ item }) => {
                 return (<TouchableOpacity style={[assetsStyle.trackingRow]} onPress={() => {
                   this.props.screenProps.homeNavigation.navigate('LocalPropertyDetail', { asset: item.asset, bitmark: item });
@@ -342,7 +250,7 @@ export class AssetsComponent extends React.Component {
                 </TouchableOpacity>)
               }}
             />}
-            {this.state.gettingData || this.state.appLoadingData && <View style={assetsStyle.messageNoAssetArea}>
+            {this.props.appLoadingData && <View style={assetsStyle.messageNoAssetArea}>
               <ActivityIndicator size="large" style={{ marginTop: 46, }} />
             </View>}
           </TouchableOpacity>
@@ -352,7 +260,7 @@ export class AssetsComponent extends React.Component {
           <BitmarkWebViewComponent screenProps={{ sourceUrl: config.registry_server_url + '?env=app', heightButtonController: 38 }} />
         </View>}
 
-        {(!this.state.appLoadingData && this.state.assets && this.state.assets.length === 0 && this.state.subTab === SubTabs.local) &&
+        {(!this.props.appLoadingData && this.props.assets && this.props.assets.length === 0 && this.state.subTab === SubTabs.local) &&
           <TouchableOpacity style={assetsStyle.addFirstPropertyButton} onPress={this.addProperty}>
             <Text style={assetsStyle.addFirstPropertyButtonText}>{global.i18n.t("AssetsComponent_addFirstPropertyButtonText")}</Text>
           </TouchableOpacity>
@@ -362,19 +270,60 @@ export class AssetsComponent extends React.Component {
   }
 }
 
-AssetsComponent.propTypes = {
+PrivateAssetsComponent.propTypes = {
+  totalAssets: PropTypes.number,
+  totalBitmarks: PropTypes.number,
+  assets: PropTypes.array,
+  existNewAsset: PropTypes.bool,
+  totalTrackingBitmarks: PropTypes.number,
+  existNewTracking: PropTypes.bool,
+  trackingBitmarks: PropTypes.array,
+  appLoadingData: PropTypes.bool,
+
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
   }),
   screenProps: PropTypes.shape({
-    logout: PropTypes.func,
-    switchMainTab: PropTypes.func,
     homeNavigation: PropTypes.shape({
       navigate: PropTypes.func,
-      goBack: PropTypes.func,
     }),
     needReloadData: PropTypes.bool,
     doneReloadData: PropTypes.func,
   }),
 
 }
+
+const StoreAssetsComponent = connect(
+  (state) => {
+    return state.data;
+  },
+)(PrivateAssetsComponent);
+
+export class AssetsComponent extends Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+    }),
+    screenProps: PropTypes.shape({
+      homeNavigation: PropTypes.shape({
+        navigate: PropTypes.func,
+      }),
+      needReloadData: PropTypes.bool,
+      doneReloadData: PropTypes.func,
+    }),
+  }
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <Provider store={AssetsStore}>
+          <StoreAssetsComponent
+            screenProps={this.props.screenProps} navigation={this.props.navigation} />
+        </Provider>
+      </View>
+    );
+  }
+}
+

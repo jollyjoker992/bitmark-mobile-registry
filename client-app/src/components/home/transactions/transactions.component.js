@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavigationActions } from 'react-navigation';
+import { Provider, connect } from 'react-redux';
 import {
   View, Text, TouchableOpacity, ScrollView, FlatList, Image, ActivityIndicator,
   Dimensions,
@@ -16,6 +17,7 @@ import defaultStyle from './../../../commons/styles';
 import { convertWidth } from '../../../utils';
 import { config } from '../../../configs';
 import { BottomTabsComponent } from '../bottom-tabs/bottom-tabs.component';
+import { TransactionsStore } from '../../../stores';
 
 const SubTabs = {
   required: 'ACTIONS REQUIRED',
@@ -30,55 +32,23 @@ const ActionTypes = {
 
 let currentSize = Dimensions.get('window');
 
-let ComponentName = 'TransactionsComponent';
-export class TransactionsComponent extends React.Component {
+class PrivateTransactionsComponent extends React.Component {
   static SubTabs = SubTabs;
   constructor(props) {
     super(props);
     this.switchSubTab = this.switchSubTab.bind(this);
-    this.handerChangeScreenData = this.handerChangeScreenData.bind(this);
     this.acceptAllTransfers = this.acceptAllTransfers.bind(this);
     this.reloadData = this.reloadData.bind(this);
-    this.handerLoadingData = this.handerLoadingData.bind(this);
 
     this.clickToActionRequired = this.clickToActionRequired.bind(this);
     this.clickToCompleted = this.clickToCompleted.bind(this);
-
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_TRANSACTION_SCREEN_ACTION_REQUIRED_DATA, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_TRANSACTION_SCREEN_HISTORIES_DATA, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.APP_LOADING_DATA, null, ComponentName);
 
     let subTab = (this.props.screenProps.subTab === SubTabs.required || this.props.screenProps.subTab === SubTabs.completed) ? this.props.screenProps.subTab : SubTabs.required;
     this.state = {
       currentUser: DataProcessor.getUserInformation(),
       subTab,
-      totalActionRequired: 0,
-      totalCompleted: 0,
-      actionRequired: [],
-      completed: [],
-      appLoadingData: DataProcessor.isAppLoadingData(),
-      gettingData: true,
-      lengthDisplayActionRequired: 0,
-      lengthDisplayCompleted: 0,
     };
 
-    const doGetScreenData = async () => {
-
-      let { actionRequired, totalActionRequired } = await DataProcessor.doGetTransactionScreenActionRequired(0);
-      let { completed, totalCompleted } = await DataProcessor.doGetTransactionScreenHistories(0);
-
-      this.setState({
-        totalActionRequired,
-        totalCompleted,
-        completed,
-        actionRequired,
-        gettingData: false,
-        lengthDisplayActionRequired: actionRequired.length,
-        lengthDisplayCompleted: completed.length,
-      });
-    };
-
-    doGetScreenData();
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     let subTab = (nextProps.subTab === SubTabs.required || nextProps.subTab === SubTabs.completed) ? nextProps.subTab : this.state.subTab;
@@ -87,36 +57,12 @@ export class TransactionsComponent extends React.Component {
 
   componentDidMount() {
     this.switchSubTab(this.state.subTab);
-    EventEmitterService.on(EventEmitterService.events.CHANGE_TRANSACTION_SCREEN_ACTION_REQUIRED_DATA, this.handerChangeScreenData, ComponentName);
-    EventEmitterService.on(EventEmitterService.events.CHANGE_TRANSACTION_SCREEN_HISTORIES_DATA, this.handerChangeScreenData, ComponentName);
-
-    EventEmitterService.on(EventEmitterService.events.APP_LOADING_DATA, this.handerLoadingData, ComponentName);
-
     if (this.props.screenProps.needReloadData) {
       this.reloadData();
       if (this.props.screenProps.doneReloadData) {
         this.props.screenProps.doneReloadData()
       }
     }
-  }
-
-  async handerChangeScreenData() {
-    let { actionRequired, totalActionRequired } = await DataProcessor.doGetTransactionScreenActionRequired(this.state.lengthDisplayActionRequired);
-    let { completed, totalCompleted } = await DataProcessor.doGetTransactionScreenHistories(this.state.lengthDisplayCompleted);
-
-    this.setState({
-      actionRequired: actionRequired,
-      completed: completed,
-      lengthDisplayActionRequired: actionRequired.length,
-      lengthDisplayCompleted: completed.length,
-      totalActionRequired,
-      totalCompleted,
-    });
-  }
-  handerLoadingData() {
-    this.setState({
-      appLoadingData: DataProcessor.isAppLoadingData(),
-    });
   }
 
   reloadData() {
@@ -165,11 +111,11 @@ export class TransactionsComponent extends React.Component {
     } else if (item.type === ActionTypes.test_write_down_recovery_phase) {
       EventEmitterService.emit(EventEmitterService.events.NEED_REFRESH_USER_COMPONENT_STATE, {
         displayedTab: {
-          mainTab: 'Account',
+          mainTab: BottomTabsComponent.MainTabs.account,
           subTab: null
         },
         goToRecoveryPhase: true,
-        changeMainTab: {mainTab: 'Account'}
+        changeMainTab: { mainTab: BottomTabsComponent.MainTabs.account }
       });
     }
   }
@@ -269,23 +215,21 @@ export class TransactionsComponent extends React.Component {
             if (this.loadingActionRequiredWhenScroll) {
               return;
             }
-            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.state.lengthDisplayActionRequired < this.state.totalActionRequired)) {
+            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.props.actionRequired.length < this.props.totalActionRequired)) {
               this.loadingActionRequiredWhenScroll = true;
-              let lengthDisplayActionRequired = Math.min(this.state.totalActionRequired, this.state.lengthDisplayActionRequired + 20);
-              let { actionRequired } = await DataProcessor.doGetTransactionScreenActionRequired(lengthDisplayActionRequired);
-              this.setState({ lengthDisplayActionRequired: actionRequired.length, actionRequired });
+              await DataProcessor.doAddMoreActionRequired(this.props.actionRequired.length);
             }
             this.loadingActionRequiredWhenScroll = false;
           }}
           scrollEventThrottle={1}>
           <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
-            {this.state.actionRequired && this.state.actionRequired.length === 0 && (!this.state.gettingData && !this.state.appLoadingData) && <View style={transactionsStyle.contentSubTab}>
+            {this.props.actionRequired && this.props.actionRequired.length === 0 && !this.props.appLoadingData && <View style={transactionsStyle.contentSubTab}>
               <Text style={transactionsStyle.titleNoRequiredTransferOffer}>NO ACTIONS REQUIRED.</Text>
               <Text style={transactionsStyle.messageNoRequiredTransferOffer}>This is where you will receive authorization requests.</Text>
             </View>}
 
-            {this.state.actionRequired && this.state.actionRequired.length > 0 && <View style={transactionsStyle.contentSubTab}>
-              <FlatList data={this.state.actionRequired}
+            {this.props.actionRequired && this.props.actionRequired.length > 0 && <View style={transactionsStyle.contentSubTab}>
+              <FlatList data={this.props.actionRequired}
                 extraData={this.state}
                 renderItem={({ item }) => {
                   return (<TouchableOpacity style={transactionsStyle.transferOfferRow} onPress={() => this.clickToActionRequired(item)}>
@@ -315,15 +259,15 @@ export class TransactionsComponent extends React.Component {
                   </TouchableOpacity>)
                 }} />
             </View>}
-            {(this.state.gettingData || this.state.appLoadingData || (this.state.lengthDisplayActionRequired < this.state.totalActionRequired)) &&
+            {(this.props.appLoadingData || (this.props.actionRequired.length < this.props.totalActionRequired)) &&
               <View style={transactionsStyle.contentSubTab}>
                 <ActivityIndicator size="large" style={{ marginTop: 46, }} />
               </View>
             }
           </TouchableOpacity>
         </ScrollView>}
-        {this.state.subTab === SubTabs.required && this.state.actionRequired && this.state.actionRequired.length > 0
-          && (this.state.actionRequired.findIndex(item => item.type === ActionTypes.transfer) >= 0) && <TouchableOpacity style={transactionsStyle.acceptAllTransfersButton} onPress={this.acceptAllTransfers} >
+        {this.state.subTab === SubTabs.required && this.props.actionRequired && this.props.actionRequired.length > 0
+          && (this.props.actionRequired.findIndex(item => item.type === ActionTypes.transfer) >= 0) && <TouchableOpacity style={transactionsStyle.acceptAllTransfersButton} onPress={this.acceptAllTransfers} >
             <Text style={transactionsStyle.acceptAllTransfersButtonText}>SIGN FOR ALL BITMARKS SENT TO YOU</Text>
           </TouchableOpacity>
         }
@@ -333,23 +277,21 @@ export class TransactionsComponent extends React.Component {
             if (this.loadingCompletedWhenScroll) {
               return;
             }
-            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.state.lengthDisplayCompleted < this.state.totalCompleted)) {
+            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.props.completed.length < this.props.totalCompleted)) {
               this.loadingCompletedWhenScroll = true;
-              let lengthDisplayCompleted = Math.min(this.state.totalActionRequired, this.state.lengthDisplayCompleted + 20);
-              let { completed } = await DataProcessor.doGetTransactionScreenHistories(lengthDisplayCompleted);
-              this.setState({ lengthDisplayCompleted: completed.length, completed });
+              await DataProcessor.doAddMoreCompleted(this.props.completed.length);
             }
             this.loadingCompletedWhenScroll = false;
           }}
           scrollEventThrottle={1}
         >
           <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
-            {this.state.completed && this.state.completed.length === 0 && !this.state.appLoadingData && <View style={transactionsStyle.contentSubTab}>
+            {this.props.completed && this.props.completed.length === 0 && !this.props.appLoadingData && <View style={transactionsStyle.contentSubTab}>
               <Text style={transactionsStyle.titleNoRequiredTransferOffer}>NO TRANSACTION HISTORY.</Text>
               <Text style={transactionsStyle.messageNoRequiredTransferOffer}>Your transaction history will be available here.</Text>
             </View>}
-            {this.state.completed && this.state.completed.length > 0 && <View style={transactionsStyle.contentSubTab}>
-              <FlatList data={this.state.completed}
+            {this.props.completed && this.props.completed.length > 0 && <View style={transactionsStyle.contentSubTab}>
+              <FlatList data={this.props.completed}
                 extraData={this.state}
                 renderItem={({ item }) => {
                   return (
@@ -393,7 +335,7 @@ export class TransactionsComponent extends React.Component {
                   )
                 }} />
             </View >}
-            {(this.state.gettingData || this.state.appLoadingData || (this.state.lengthDisplayCompleted < this.state.totalCompleted)) &&
+            {(this.props.appLoadingData || (this.props.completed.length < this.props.totalCompleted)) &&
               <View style={transactionsStyle.contentSubTab}>
                 <ActivityIndicator size="large" style={{ marginTop: 46, }} />
               </View>
@@ -405,7 +347,12 @@ export class TransactionsComponent extends React.Component {
   }
 }
 
-TransactionsComponent.propTypes = {
+PrivateTransactionsComponent.propTypes = {
+  totalActionRequired: PropTypes.number,
+  actionRequired: PropTypes.array,
+  totalCompleted: PropTypes.number,
+  completed: PropTypes.array,
+  appLoadingData: PropTypes.bool,
   subTab: PropTypes.string,
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
@@ -424,3 +371,45 @@ TransactionsComponent.propTypes = {
     doneReloadData: PropTypes.func,
   }),
 }
+
+const StoreTransactionsComponent = connect(
+  (state) => {
+    return state.data;
+  },
+)(PrivateTransactionsComponent);
+
+export class TransactionsComponent extends React.Component {
+  static propTypes = {
+    subTab: PropTypes.string,
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+      goBack: PropTypes.func,
+    }),
+    screenProps: PropTypes.shape({
+      subTab: PropTypes.string,
+      switchMainTab: PropTypes.func,
+      logout: PropTypes.func,
+      homeNavigation: PropTypes.shape({
+        navigate: PropTypes.func,
+        goBack: PropTypes.func,
+        dispatch: PropTypes.func,
+      }),
+      needReloadData: PropTypes.bool,
+      doneReloadData: PropTypes.func,
+    }),
+  }
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <Provider store={TransactionsStore}>
+          <StoreTransactionsComponent
+            screenProps={this.props.screenProps} navigation={this.props.navigation} subTab={this.props.subTab} />
+        </Provider>
+      </View>
+    );
+  }
+}
+

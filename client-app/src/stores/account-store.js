@@ -5,21 +5,21 @@ import { merge } from 'lodash';
 const ACTION_TYPES = {
   RESET: 'RESET',
   INIT: 'INIT',
-  ADD_MORE: 'ADD_MORE'
 };
 
-const AssetActions = {
+const AccountActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
   },
-  init: ({ asset }) => {
-    return { type: ACTION_TYPES.INIT, asset };
+  init: ({ iftttInformation, appLoadingData, userInformation }) => {
+    return { type: ACTION_TYPES.INIT, iftttInformation, appLoadingData, userInformation };
   },
 };
 
 const initialState = {
-  asset: null,
-  bitmarkCanDownload: null,
+  iftttInformation: null,
+  appLoadingData: false,
+  userInformation: null,
 };
 
 const data = (state = initialState, action) => {
@@ -28,8 +28,9 @@ const data = (state = initialState, action) => {
       state = initialState;
       return merge({}, state);
     case ACTION_TYPES.INIT:
-      state.bitmarkCanDownload = (action.asset.bitmarks || []).find(bitmark => bitmark.status === 'confirm');
-      state.asset = action.asset;
+      state.iftttInformation = action.iftttInformation;
+      state.appLoadingData = action.appLoadingData;
+      state.userInformation = action.userInformation;
       return merge({}, state);
     default:
       return state;
@@ -37,9 +38,9 @@ const data = (state = initialState, action) => {
 };
 const reducer = combineReducers({ data });
 
-const AssetStore = createStore(reducer, applyMiddleware(thunk));
+const AccountStore = createStore(reducer, applyMiddleware(thunk));
 
 export {
-  AssetActions,
-  AssetStore
+  AccountActions,
+  AccountStore
 };

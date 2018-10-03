@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator,
@@ -11,23 +12,16 @@ import accountStyle from './account.component.style';
 
 import defaultStyle from './../../../commons/styles';
 import { DataProcessor, AppProcessor } from '../../../processors';
+import { AccountStore } from '../../../stores';
 
 const SubTabs = {
   settings: 'SETTINGS',
   authorized: 'AUTHORIZED',
 }
-let ComponentName = 'AccountDetailComponent';
-export class AccountDetailComponent extends React.Component {
+class PrivateAccountDetailComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.handerChangeUserInfo = this.handerChangeUserInfo.bind(this);
-    this.handerLoadingData = this.handerLoadingData.bind(this);
     this.revokeIFTTT = this.revokeIFTTT.bind(this);
-    this.handerChangeIftttInformation = this.handerChangeIftttInformation.bind(this);
-
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_INFO, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.APP_LOADING_DATA, null, ComponentName);
 
     let subTab = (this.props.screenProps.subTab &&
       (this.props.screenProps.subTab === SubTabs.settings || this.props.screenProps.subTab === SubTabs.authorized))
@@ -36,38 +30,12 @@ export class AccountDetailComponent extends React.Component {
     this.state = {
       subTab,
       accountNumberCopyText: '',
-      notificationUUIDCopyText: 'COPY',
-      userInfo: DataProcessor.getUserInformation(),
-      iftttInformation: null,
-      appLoadingData: DataProcessor.isAppLoadingData(),
-      gettingData: true,
     };
-    let doGetScreenData = async () => {
-      let iftttInformation = await DataProcessor.doGetIftttInformation();
-      this.setState({ iftttInformation, gettingData: false });
-    }
-    doGetScreenData();
 
     if (this.props.screenProps.goToRecoveryPhase) {
       this.props.navigation.navigate('AccountRecovery', { isSignOut: false });
       this.props.screenProps.removeGoingToRecoveryPhase();
     }
-  }
-
-  componentDidMount() {
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_INFO, this.handerChangeUserInfo, ComponentName);
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, this.handerChangeIftttInformation, ComponentName);
-    EventEmitterService.on(EventEmitterService.events.APP_LOADING_DATA, this.handerLoadingData, ComponentName);
-  }
-
-  handerChangeIftttInformation(iftttInformation) {
-    this.setState({ iftttInformation });
-  }
-  handerChangeUserInfo(userInfo) {
-    this.setState({ userInfo });
-  }
-  handerLoadingData() {
-    this.setState({ appLoadingData: DataProcessor.isAppLoadingData() });
   }
 
   switchSubTab(subTab) {
@@ -162,11 +130,11 @@ export class AccountDetailComponent extends React.Component {
               <Text style={accountStyle.accountNumberLabel}>{'YOUR Bitmark Account Number'.toUpperCase()}</Text>
 
               <TouchableOpacity style={accountStyle.accountNumberArea} onPress={() => {
-                Clipboard.setString(this.state.userInfo.bitmarkAccountNumber);
+                Clipboard.setString(this.props.userInformation.bitmarkAccountNumber);
                 this.setState({ accountNumberCopyText: 'Copied to clipboard!' });
                 setTimeout(() => { this.setState({ accountNumberCopyText: '' }) }, 1000);
               }}>
-                <Text style={accountStyle.accountNumberValue}>{this.state.userInfo.bitmarkAccountNumber}</Text>
+                <Text style={accountStyle.accountNumberValue}>{this.props.userInformation.bitmarkAccountNumber}</Text>
               </TouchableOpacity>
               <View style={accountStyle.accountNumberBar}>
                 <Text style={accountStyle.accountNumberCopyButtonText}>{this.state.accountNumberCopyText}</Text>
@@ -194,7 +162,7 @@ export class AccountDetailComponent extends React.Component {
             {this.state.subTab === SubTabs.authorized && <View style={accountStyle.contentSubTab}>
               <View style={accountStyle.dataSourcesArea}>
                 <Text style={accountStyle.noAuthorizedMessage}>If you authorize 3rd-party apps to access your Bitmark account, they will appear here. </Text>
-                {this.state.iftttInformation && this.state.iftttInformation.connectIFTTT && <View style={accountStyle.authorizedItem}>
+                {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT && <View style={accountStyle.authorizedItem}>
                   <View style={accountStyle.authorizedItemTitle}>
                     <Text style={accountStyle.authorizedItemTitleText} >IFTTT</Text>
                     <TouchableOpacity style={accountStyle.authorizedItemRemoveButton} onPress={this.revokeIFTTT}>
@@ -214,7 +182,7 @@ export class AccountDetailComponent extends React.Component {
                     </View>
                   </View>
                 </View>}
-                {(this.state.appLoadingData || this.state.gettingData) && <ActivityIndicator size="large" style={{ marginTop: 46, }} />}
+                {this.props.appLoadingData && <ActivityIndicator size="large" style={{ marginTop: 46, }} />}
               </View>
             </View>}
           </TouchableOpacity>
@@ -224,12 +192,17 @@ export class AccountDetailComponent extends React.Component {
   }
 }
 
-AccountDetailComponent.propTypes = {
+PrivateAccountDetailComponent.propTypes = {
+  userInformation: PropTypes.any,
+  iftttInformation: PropTypes.any,
+  appLoadingData: PropTypes.bool,
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
     goBack: PropTypes.func,
   }),
   screenProps: PropTypes.shape({
+    removeGoingToRecoveryPhase: PropTypes.func,
+    goToRecoveryPhase: PropTypes.func,
     logout: PropTypes.func,
     subTab: PropTypes.string,
     homeNavigation: PropTypes.shape({
@@ -238,3 +211,41 @@ AccountDetailComponent.propTypes = {
     }),
   }),
 }
+
+
+const StoreAccountDetailComponent = connect(
+  (state) => {
+    return state.data;
+  },
+)(PrivateAccountDetailComponent);
+
+export class AccountDetailComponent extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+      goBack: PropTypes.func,
+    }),
+    screenProps: PropTypes.shape({
+      logout: PropTypes.func,
+      subTab: PropTypes.string,
+      homeNavigation: PropTypes.shape({
+        navigate: PropTypes.func,
+        goBack: PropTypes.func,
+      }),
+    }),
+  }
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <Provider store={AccountStore}>
+          <StoreAccountDetailComponent
+            screenProps={this.props.screenProps} navigation={this.props.navigation} />
+        </Provider>
+      </View>
+    );
+  }
+}
+

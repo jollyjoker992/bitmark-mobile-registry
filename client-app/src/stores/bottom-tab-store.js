@@ -2,6 +2,7 @@
 
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { merge } from 'lodash';
 
 const ACTION_TYPES = {
   RESET: 'RESET',
@@ -12,8 +13,8 @@ const BottomTabActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
   },
-  init: ({ existNewAsset, totalTasks, existNewTracking }) => {
-    return { type: ACTION_TYPES.INIT, existNewAsset, totalTasks, existNewTracking };
+  init: ({ existNewAsset, totalTasks, existNewTracking, mainTab }) => {
+    return { type: ACTION_TYPES.INIT, existNewAsset, totalTasks, existNewTracking, mainTab };
   },
 };
 
@@ -27,12 +28,13 @@ const data = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.RESET:
       state = initialState;
-      return state;
+      return merge({}, state);
     case ACTION_TYPES.INIT:
       state.existNewAsset = action.existNewAsset;
       state.totalTasks = action.totalTasks;
       state.existNewTracking = action.existNewTracking;
-      return state;
+      state.mainTab = action.mainTab;
+      return merge({}, state);
     default:
       return state;
   }

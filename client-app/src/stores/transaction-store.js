@@ -1,5 +1,6 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { merge } from 'lodash';
 
 const ACTION_TYPES = {
   RESET: 'RESET',
@@ -36,7 +37,7 @@ const data = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.RESET:
       state = initialState;
-      return state;
+      return merge({}, state);
     case ACTION_TYPES.INIT:
       state.appLoadingData = action.appLoadingData;
 
@@ -45,13 +46,13 @@ const data = (state = initialState, action) => {
 
       state.totalCompleted = action.totalCompleted;
       state.completed = action.completed || state.completed;
-      return state;
+      return merge({}, state);
     case ACTION_TYPES.ADD_MORE_ACTION_REQUIRED:
       state.actionRequired = state.actionRequired.concat(action.actionRequired || []);
-      return state;
+      return merge({}, state);
     case ACTION_TYPES.ADD_MORE_COMPLETED:
       state.completed = state.completed.concat(action.completed || []);
-      return state;
+      return merge({}, state);
     default:
       return state;
   }

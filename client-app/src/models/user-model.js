@@ -35,6 +35,7 @@ const resetUserLocalData = async () => {
 
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED, []);
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY, []);
+  await CommonModel.doSetLocalData(CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED, []);
 }
 
 const doRemoveUserInfo = async () => {

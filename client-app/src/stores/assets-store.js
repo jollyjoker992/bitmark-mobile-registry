@@ -1,5 +1,6 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { merge } from 'lodash';
 
 const ACTION_TYPES = {
   RESET: 'RESET',
@@ -11,11 +12,8 @@ const AssetsActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
   },
-  init: ({ totalAssets, totalBitmarks, assets, existNewAsset, totalTrackingBitmarks, existNewTracking, trackingBitmarks }) => {
-    return { type: ACTION_TYPES.INIT, totalAssets, totalBitmarks, assets, existNewAsset, totalTrackingBitmarks, existNewTracking, trackingBitmarks };
-  },
-  addMoreAssets: (assets) => {
-    return { type: ACTION_TYPES.ADD_MORE, assets };
+  init: ({ totalAssets, totalBitmarks, assets, existNewAsset, totalTrackingBitmarks, existNewTracking, trackingBitmarks, appLoadingData }) => {
+    return { type: ACTION_TYPES.INIT, totalAssets, totalBitmarks, assets, existNewAsset, totalTrackingBitmarks, existNewTracking, trackingBitmarks, appLoadingData };
   },
 };
 
@@ -27,13 +25,14 @@ const initialState = {
   totalTrackingBitmarks: 0,
   existNewTracking: false,
   trackingBitmarks: [],
+  appLoadingData: false,
 };
 
 const data = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.RESET:
       state = initialState;
-      return state;
+      return merge({}, state);
     case ACTION_TYPES.INIT:
 
       state.totalAssets = action.totalAssets;
@@ -44,10 +43,9 @@ const data = (state = initialState, action) => {
       state.trackingBitmarks = action.trackingBitmarks || state.trackingBitmarks;
       state.totalTrackingBitmarks = action.totalTrackingBitmarks;
       state.existNewTracking = action.existNewTracking;
-      return state;
-    case ACTION_TYPES.ADD_MORE:
-      state.assets = state.assets.concat(action.assets || []);
-      return state;
+
+      state.appLoadingData = action.appLoadingData;
+      return merge({}, state);
     default:
       return state;
   }
