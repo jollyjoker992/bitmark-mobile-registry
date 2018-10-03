@@ -53,19 +53,4 @@ export class MainAppComponent extends React.Component {
   }
 }
 
-let codePushOptions = {
-  updateDialog: {
-    title: 'New Version Available',
-    optionalUpdateMessage: 'Please update the app to the new version to continue using. This will be quick and will not affect any of your data.',
-    mandatoryUpdateMessage: 'Please update the app to the new version to continue using. This will be quick and will not affect any of your data.',
-    optionalInstallButtonLabel: 'Update',
-    mandatoryContinueButtonLabel: 'Update',
-    optionalIgnoreButtonLabel: null
-  },
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
-  installMode: codePush.InstallMode.IMMEDIATE
-};
-
-let CodePushMainAppComponent = codePush(codePushOptions)(MainAppComponent);
-
-export { BitmarkAppComponent, CodePushMainAppComponent };
+export { BitmarkAppComponent };
