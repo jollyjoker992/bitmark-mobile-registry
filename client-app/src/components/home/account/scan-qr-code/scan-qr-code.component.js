@@ -51,7 +51,7 @@ export class ScanQRCodeComponent extends React.Component {
       let encryptionKey = tempArrays[3];
       if (!timestamp || isNaN(timestamp)) {
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
-          message: 'QR code is invalid!',
+          message: global.i18n.t("ScanQRCodeComponent_qrCodeIsInvalid"),
           onClose: this.props.navigation.goBack
         });
         return;
@@ -59,7 +59,7 @@ export class ScanQRCodeComponent extends React.Component {
       let expiredTime = timestamp + 5 * 60 * 1000;
       if (expiredTime < moment().toDate().getTime()) {
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
-          message: 'QR code is expired!',
+          message: global.i18n.t("ScanQRCodeComponent_qrCodeIsExpired"),
           onClose: this.props.navigation.goBack
         });
         return;
@@ -75,8 +75,8 @@ export class ScanQRCodeComponent extends React.Component {
             return;
           }
           DataProcessor.doReloadLocalBitmarks();
-          Alert.alert('Success!', 'Your property rights have been registered.', [{
-            text: 'OK',
+          Alert.alert(global.i18n.t("ScanQRCodeComponent_successTitle"), global.i18n.t("ScanQRCodeComponent_successMessage"), [{
+            text: global.i18n.t("ScanQRCodeComponent_ok"),
             onPress: this.backToPropertiesScreen
           }]);
         }
@@ -89,7 +89,7 @@ export class ScanQRCodeComponent extends React.Component {
       let timestamp = parseInt(tempArrays[2], 0);
       if (!timestamp || isNaN(timestamp)) {
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
-          message: 'QR code is invalid!',
+          message: global.i18n.t("ScanQRCodeComponent_qrCodeIsInvalid"),
           onClose: this.props.navigation.goBack
         });
         return;
@@ -97,7 +97,7 @@ export class ScanQRCodeComponent extends React.Component {
       let expiredTime = timestamp + 5 * 60 * 1000;
       if (expiredTime < moment().toDate().getTime()) {
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
-          message: 'QR code is expired!',
+          message: global.i18n.t("ScanQRCodeComponent_qrCodeIsExpired"),
           onClose: this.props.navigation.goBack
         });
         return;
@@ -113,8 +113,8 @@ export class ScanQRCodeComponent extends React.Component {
             return;
           }
           DataProcessor.doReloadLocalBitmarks();
-          Alert.alert('Success!', 'Your property rights have been transferred.', [{
-            text: 'OK',
+          Alert.alert(global.i18n.t("ScanQRCodeComponent_successTitle"), global.i18n.t("ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred"), [{
+            text: global.i18n.t("ScanQRCodeComponent_ok"),
             onPress: this.backToPropertiesScreen
           }]);
         }
@@ -124,7 +124,7 @@ export class ScanQRCodeComponent extends React.Component {
       });
     } else {
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
-        message: 'QR code is invalid!',
+        message: global.i18n.t("ScanQRCodeComponent_qrCodeIsInvalid"),
         onClose: this.props.navigation.goBack
       });
     }
@@ -136,7 +136,7 @@ export class ScanQRCodeComponent extends React.Component {
         <TouchableOpacity style={defaultStyles.headerLeft} onPress={() => this.props.navigation.goBack()} >
           <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../../assets/imgs/header_blue_icon.png')} />
         </TouchableOpacity>
-        <Text style={defaultStyles.headerTitle}>{'SCAN QRCODE'.toUpperCase()}</Text>
+        <Text style={defaultStyles.headerTitle}>{global.i18n.t("ScanQRCodeComponent_scanQrcode")}</Text>
         <TouchableOpacity style={defaultStyles.headerRight} />
       </View>
       <View style={componentStyle.bodyContent}>

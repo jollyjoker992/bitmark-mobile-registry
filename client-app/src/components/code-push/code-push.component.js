@@ -25,7 +25,7 @@ export class CodePushUpdateComponent extends React.Component {
 
           <View style={codePushUpdateStyle.statusContainer}>
             <Text style={this.props.status === 'downloading' ? codePushUpdateStyle.updatingStatus : codePushUpdateStyle.completedStatus}>
-              {this.props.status === 'downloading' ? 'UPDATING...' : 'COMPLETE!'}
+              {this.props.status === 'downloading' ? global.i18n.t("CodePushUpdateComponent_updating") : global.i18n.t("CodePushUpdateComponent_complete")}
             </Text>
           </View>
 
