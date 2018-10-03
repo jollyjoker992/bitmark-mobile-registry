@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, Image, TextInput, ScrollView,
+  View, Text, TouchableOpacity, Image, TextInput, ScrollView, SafeAreaView,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 
-import { BitmarkComponent } from './../../../../commons/components';
 import { convertWidth } from './../../../../utils';
 
 import propertyTransferStyle from './local-property-transfer.component.style';
@@ -13,6 +11,7 @@ import defaultStyle from './../../../../commons/styles';
 import { AppProcessor } from '../../../../processors/app-processor';
 import { AccountService, EventEmitterService } from '../../../../services';
 import { iosConstant } from '../../../../configs/ios/ios.config';
+import { Actions } from 'react-native-router-flux';
 
 
 export class LocalPropertyTransferComponent extends React.Component {
@@ -20,8 +19,8 @@ export class LocalPropertyTransferComponent extends React.Component {
     super(props);
     this.onSendProperty = this.onSendProperty.bind(this);
 
-    let bitmark = this.props.navigation.state.params.bitmark;
-    let asset = this.props.navigation.state.params.asset;
+    let bitmark = this.props.bitmark;
+    let asset = this.props.asset;
 
     let bitmarkIndexNumber;
     if (asset.bitmarks) {
@@ -45,20 +44,12 @@ export class LocalPropertyTransferComponent extends React.Component {
       });
       AppProcessor.doTransferBitmark(this.state.bitmark, this.state.bitmarkAccount).then((result) => {
         if (result) {
-          const resetMainPage = NavigationActions.reset({
-            index: 0,
-            actions: [NavigationActions.navigate({
-              routeName: 'User', params: {
-                displayedTab: { mainTab: 'Properties' },
-              }
-            })]
-          });
-          this.props.navigation.dispatch(resetMainPage);
+          Actions.reset('assets');
           EventEmitterService.emit(EventEmitterService.events.NEED_RELOAD_USER_DATA);
         }
       }).catch(error => {
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
-          onClose: this.props.navigation.goBack,
+          onClose: Actions.pop,
           error
         });
         console.log('transfer bitmark error :', error);
@@ -71,9 +62,9 @@ export class LocalPropertyTransferComponent extends React.Component {
 
   render() {
     return (
-      <BitmarkComponent
-        header={(<View style={defaultStyle.header}>
-          <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.navigation.goBack()}>
+      <SafeAreaView style={{ flex: 1, borderBottomWidth: 0.3, backgroundColor: '#F5F5F5' }}>
+        <View style={[defaultStyle.header, { height: iosConstant.headerSize.height }]}>
+          <TouchableOpacity style={defaultStyle.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <View style={defaultStyle.headerCenter}>
@@ -81,32 +72,31 @@ export class LocalPropertyTransferComponent extends React.Component {
             {this.state.bitmarkIndexNumber && <Text style={[defaultStyle.headerTitle, { maxWidth: convertWidth(180), }]} numberOfLines={1}>({this.state.bitmarkIndexNumber})</Text>}
           </View>
           <TouchableOpacity style={[defaultStyle.headerRight]} />
-        </View>)}
-        content={(
-          <View style={propertyTransferStyle.body}>
-            <ScrollView style={propertyTransferStyle.content}>
-              <TouchableOpacity activeOpacity={1} style={propertyTransferStyle.mainContent}>
-                <Text style={propertyTransferStyle.transferTitle}>{global.i18n.t("LocalPropertyTransferComponent_sendBitmark")}</Text>
-                <View style={propertyTransferStyle.inputAccountNumberBar} >
-                  <TextInput style={propertyTransferStyle.inputAccountNumber} placeholder={global.i18n.t("LocalPropertyTransferComponent_recipientBitmarkAccountNumber")}
-                    onChangeText={(bitmarkAccount) => this.setState({ bitmarkAccount })}
-                    returnKeyType="done"
-                    value={this.state.bitmarkAccount}
-                    onFocus={() => { this.setState({ bitmarkAccountError: false, transferError: '' }) }}
-                  />
-                  {!!this.state.bitmarkAccount && <TouchableOpacity style={propertyTransferStyle.removeAccountNumberButton} onPress={() => this.setState({ bitmarkAccount: '', bitmarkAccountError: false, transferError: '' })} >
-                    <Image style={propertyTransferStyle.removeAccountNumberIcon} source={require('./../../../../../assets/imgs/remove-icon.png')} />
-                  </TouchableOpacity>}
-                </View>
-                <Text style={propertyTransferStyle.accountNumberError}>{this.state.bitmarkAccountError}</Text>
-                <Text style={propertyTransferStyle.transferMessage}>{global.i18n.t("LocalPropertyTransferComponent_transferMessage")}</Text>
-                <Text style={propertyTransferStyle.accountNumberError}>{this.state.transferError}</Text>
-              </TouchableOpacity>
-            </ScrollView>
-          </View>
-        )}
-        footerHeight={45 + iosConstant.blankFooter / 2}
-        footer={(<TouchableOpacity style={[propertyTransferStyle.sendButton, {
+        </View>
+
+        <View style={propertyTransferStyle.body}>
+          <ScrollView style={propertyTransferStyle.content}>
+            <TouchableOpacity activeOpacity={1} style={propertyTransferStyle.mainContent}>
+              <Text style={propertyTransferStyle.transferTitle}>{global.i18n.t("LocalPropertyTransferComponent_sendBitmark")}</Text>
+              <View style={propertyTransferStyle.inputAccountNumberBar} >
+                <TextInput style={propertyTransferStyle.inputAccountNumber} placeholder={global.i18n.t("LocalPropertyTransferComponent_recipientBitmarkAccountNumber")}
+                  onChangeText={(bitmarkAccount) => this.setState({ bitmarkAccount })}
+                  returnKeyType="done"
+                  value={this.state.bitmarkAccount}
+                  onFocus={() => { this.setState({ bitmarkAccountError: false, transferError: '' }) }}
+                />
+                {!!this.state.bitmarkAccount && <TouchableOpacity style={propertyTransferStyle.removeAccountNumberButton} onPress={() => this.setState({ bitmarkAccount: '', bitmarkAccountError: false, transferError: '' })} >
+                  <Image style={propertyTransferStyle.removeAccountNumberIcon} source={require('./../../../../../assets/imgs/remove-icon.png')} />
+                </TouchableOpacity>}
+              </View>
+              <Text style={propertyTransferStyle.accountNumberError}>{this.state.bitmarkAccountError}</Text>
+              <Text style={propertyTransferStyle.transferMessage}>{global.i18n.t("LocalPropertyTransferComponent_transferMessage")}</Text>
+              <Text style={propertyTransferStyle.accountNumberError}>{this.state.transferError}</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+
+        <TouchableOpacity style={[propertyTransferStyle.sendButton, {
           borderTopColor: this.state.bitmarkAccount ? '#0060F2' : '#A4B5CD'
         }]}
           disabled={!this.state.bitmarkAccount}
@@ -114,22 +104,13 @@ export class LocalPropertyTransferComponent extends React.Component {
           <Text style={[propertyTransferStyle.sendButtonText, {
             color: this.state.bitmarkAccount ? '#0060F2' : '#C2C2C2'
           }]}>{global.i18n.t("LocalPropertyTransferComponent_send")}</Text>
-        </TouchableOpacity>)}
-      />
+        </TouchableOpacity>
+      </SafeAreaView>
     );
   }
 }
 
 LocalPropertyTransferComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    dispatch: PropTypes.func,
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        bitmark: PropTypes.object,
-        asset: PropTypes.object,
-      }),
-    }),
-  }),
+  bitmark: PropTypes.object,
+  asset: PropTypes.object,
 }

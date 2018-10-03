@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { NavigationActions } from 'react-navigation';
 import {
-  Text, View, TouchableOpacity, Image,
+  Text, View, TouchableOpacity, Image, SafeAreaView,
   Alert,
 } from 'react-native';
 import Camera from 'react-native-camera';
@@ -12,7 +10,7 @@ import defaultStyles from '../../../../commons/styles';
 import moment from 'moment';
 import { AppProcessor, DataProcessor } from '../../../../processors';
 import { EventEmitterService } from '../../../../services';
-import { BottomTabsComponent } from '../../bottom-tabs/bottom-tabs.component';
+import { Actions } from 'react-native-router-flux';
 
 export class ScanQRCodeComponent extends React.Component {
   constructor(props) {
@@ -22,18 +20,7 @@ export class ScanQRCodeComponent extends React.Component {
   }
 
   backToPropertiesScreen = () => {
-    const resetHomePage = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({
-          routeName: 'User', params: {
-            displayedTab: { mainTab: BottomTabsComponent.MainTabs.properties },
-            needReloadData: true,
-          }
-        }),
-      ]
-    });
-    this.props.screenProps.homeNavigation.dispatch(resetHomePage);
+    Actions.jump('assets');
   };
 
   onBarCodeRead(scanData) {
@@ -52,7 +39,7 @@ export class ScanQRCodeComponent extends React.Component {
       if (!timestamp || isNaN(timestamp)) {
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
           message: global.i18n.t("ScanQRCodeComponent_qrCodeIsInvalid"),
-          onClose: this.props.navigation.goBack
+          onClose: Actions.pop
         });
         return;
       }
@@ -60,7 +47,7 @@ export class ScanQRCodeComponent extends React.Component {
       if (expiredTime < moment().toDate().getTime()) {
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
           message: global.i18n.t("ScanQRCodeComponent_qrCodeIsExpired"),
-          onClose: this.props.navigation.goBack
+          onClose: Actions.pop
         });
         return;
       }
@@ -70,7 +57,7 @@ export class ScanQRCodeComponent extends React.Component {
           if (result instanceof Error) {
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
               message: result.message,
-              onClose: this.props.navigation.goBack
+              onClose: Actions.pop
             });
             return;
           }
@@ -82,7 +69,7 @@ export class ScanQRCodeComponent extends React.Component {
         }
       }).catch(error => {
         console.log('doDecentralizedIssuance error:', error);
-        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { onClose: this.props.navigation.goBack, error });
+        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { onClose: Actions.pop, error });
       });
     } else if (tempArrays.length === 3 && tempArrays[0] === 't') {
       let token = tempArrays[1];
@@ -90,7 +77,7 @@ export class ScanQRCodeComponent extends React.Component {
       if (!timestamp || isNaN(timestamp)) {
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
           message: global.i18n.t("ScanQRCodeComponent_qrCodeIsInvalid"),
-          onClose: this.props.navigation.goBack
+          onClose: Actions.pop
         });
         return;
       }
@@ -98,7 +85,7 @@ export class ScanQRCodeComponent extends React.Component {
       if (expiredTime < moment().toDate().getTime()) {
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
           message: global.i18n.t("ScanQRCodeComponent_qrCodeIsExpired"),
-          onClose: this.props.navigation.goBack
+          onClose: Actions.pop
         });
         return;
       }
@@ -108,7 +95,7 @@ export class ScanQRCodeComponent extends React.Component {
           if (result instanceof Error) {
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
               message: result.message,
-              onClose: this.props.navigation.goBack
+              onClose: Actions.pop
             });
             return;
           }
@@ -120,20 +107,21 @@ export class ScanQRCodeComponent extends React.Component {
         }
       }).catch(error => {
         console.log('doDecentralizedTransfer error:', error);
-        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { onClose: this.props.navigation.goBack, error });
+        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { onClose: Actions.pop, error });
       });
     } else {
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
         message: global.i18n.t("ScanQRCodeComponent_qrCodeIsInvalid"),
-        onClose: this.props.navigation.goBack
+        onClose: Actions.pop
       });
     }
   }
 
   render() {
-    return (<View style={componentStyle.body}>
+    return (<SafeAreaView style={componentStyle.body}>
       <View style={componentStyle.header}>
-        <TouchableOpacity style={defaultStyles.headerLeft} onPress={() => this.props.navigation.goBack()} >
+        {/* <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop} > */}
+        <TouchableOpacity style={defaultStyles.headerLeft} onPress={this.backToPropertiesScreen.bind(this)} >
           <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../../assets/imgs/header_blue_icon.png')} />
         </TouchableOpacity>
         <Text style={defaultStyles.headerTitle}>{global.i18n.t("ScanQRCodeComponent_scanQrcode")}</Text>
@@ -142,18 +130,6 @@ export class ScanQRCodeComponent extends React.Component {
       <View style={componentStyle.bodyContent}>
         <Camera ref={(ref) => this.cameraRef = ref} style={componentStyle.scanCamera} aspect={Camera.constants.Aspect.fill} onBarCodeRead={this.onBarCodeRead.bind(this)} />
       </View>
-    </View>);
+    </SafeAreaView>);
   }
 }
-
-ScanQRCodeComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-  }),
-  screenProps: PropTypes.shape({
-    homeNavigation: PropTypes.shape({
-      dispatch: PropTypes.func,
-    }),
-  }),
-};

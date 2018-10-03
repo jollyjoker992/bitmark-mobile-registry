@@ -1,6 +1,5 @@
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Text, View, TouchableOpacity, TouchableWithoutFeedback, TextInput, Image, FlatList,
   Keyboard,
@@ -12,6 +11,7 @@ import { BitmarkAutoCompleteComponent, BitmarkComponent } from './../../../commo
 import { dictionary24Words, convertWidth } from './../../../utils';
 import { AppProcessor } from '../../../processors';
 import { iosConstant } from '../../../configs/ios/ios.config';
+import { Actions } from 'react-native-router-flux';
 
 let PreCheckResults = {
   success: 'SUBMIT',
@@ -68,7 +68,7 @@ export class SignInComponent extends React.Component {
       dataSource: dictionary24Words,
       keyBoardHeight: 0,
     };
-    // setTimeout(this.checkStatusInputting, 200);
+    setTimeout(this.checkStatusInputting, 200);
   }
 
   onChangeText(index, text) {
@@ -169,7 +169,7 @@ export class SignInComponent extends React.Component {
   doSignIn() {
     this.doCheck24Word().then((result) => {
       if (result) {
-        this.props.navigation.navigate('FaceTouchId', { doContinue: this.submit24Words })
+        Actions.faceTouchId({ doContinue: this.submit24Words });
       }
     });
   }
@@ -214,7 +214,7 @@ export class SignInComponent extends React.Component {
         header={(<TouchableWithoutFeedback onPress={Keyboard.dismiss} >
           <View style={[defaultStyles.header, { backgroundColor: '#F5F5F5' }]}>
             <StatusBar hidden={false} />
-            <TouchableOpacity style={[defaultStyles.headerLeft, { width: 50 }]} onPress={() => { this.props.navigation.goBack() }}>
+            <TouchableOpacity style={[defaultStyles.headerLeft, { width: 50 }]} onPress={Actions.pop}>
               <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../assets/imgs/header_blue_icon.png')} />
             </TouchableOpacity>
             <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>RECOVERY PHRASE SIGN-IN</Text>
@@ -312,19 +312,4 @@ export class SignInComponent extends React.Component {
       />
     );
   }
-}
-
-SignInComponent.propTypes = {
-  screenProps: PropTypes.shape({
-    enableJustCreatedBitmarkAccount: PropTypes.func,
-  }),
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        justCreatedBitmarkAccount: PropTypes.bool,
-      })
-    })
-  })
 }

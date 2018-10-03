@@ -3,18 +3,19 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Provider, connect } from 'react-redux';
 import {
-  View, Text, TouchableOpacity, ScrollView, FlatList, Image, ActivityIndicator,
+  View, Text, TouchableOpacity, ScrollView, FlatList, Image, ActivityIndicator, SafeAreaView,
   Dimensions,
 } from 'react-native';
 
 import { config } from './../../../configs';
 import assetsStyle from './assets.component.style';
-import { DataProcessor, AppProcessor } from '../../../processors';
+import { DataProcessor } from '../../../processors';
 
 import defaultStyle from './../../../commons/styles';
 import { BitmarkWebViewComponent } from './../../../commons/components';
 import { CommonModel } from '../../../models';
 import { AssetsStore } from '../../../stores/assets-store';
+import { Actions } from 'react-native-router-flux';
 
 let currentSize = Dimensions.get('window');
 
@@ -44,19 +45,6 @@ class PrivateAssetsComponent extends React.Component {
     };
   }
 
-  componentDidMount() {
-    if (this.props.screenProps.needReloadData) {
-      AppProcessor.doReloadUserData().then(() => {
-        this.switchSubTab(this.state.subTab);
-      }).catch((error) => {
-        console.log('doReloadUserData error :', error);
-      });
-      if (this.props.screenProps.doneReloadData) {
-        this.props.screenProps.doneReloadData()
-      }
-    }
-  }
-
   switchSubTab(subTab) {
     this.setState({ subTab, });
   }
@@ -66,7 +54,7 @@ class PrivateAssetsComponent extends React.Component {
       event_name: 'registry_user_want_issue',
       account_number: DataProcessor.getUserInformation().bitmarkAccountNumber,
     });
-    this.props.navigation.navigate('LocalIssuance');
+    Actions.issuanceOptions();
   }
 
   render() {
@@ -183,9 +171,7 @@ class PrivateAssetsComponent extends React.Component {
               </Text>}
             </View>}
             {this.props.assets && this.props.assets.length > 0 && this.state.subTab === SubTabs.local && this.props.assets.map(item => (
-              <TouchableOpacity key={item.id} style={[assetsStyle.assetRowArea]} onPress={() => {
-                this.props.screenProps.homeNavigation.navigate('LocalAssetDetail', { asset: item });
-              }} >
+              <TouchableOpacity key={item.id} style={[assetsStyle.assetRowArea]} onPress={() => Actions.localAssetDetail({ asset: item })} >
                 {!item.isViewed && <View style={[assetsStyle.newItem, { top: 22 }]}></View>}
 
                 <View style={assetsStyle.assetInfoArea}>
@@ -229,7 +215,7 @@ class PrivateAssetsComponent extends React.Component {
               data={this.props.trackingBitmarks || []}
               renderItem={({ item }) => {
                 return (<TouchableOpacity style={[assetsStyle.trackingRow]} onPress={() => {
-                  this.props.screenProps.homeNavigation.navigate('LocalPropertyDetail', { asset: item.asset, bitmark: item });
+                  Actions.localPropertyDetail({ asset: item.asset, bitmark: item });
                 }} >
                   {!item.isViewed && <View style={[assetsStyle.newItem, { top: 22 }]}></View>}
                   <Text style={assetsStyle.trackingRowAssetName}>{item.asset.name}</Text>
@@ -257,7 +243,7 @@ class PrivateAssetsComponent extends React.Component {
         </ScrollView>}
 
         {this.state.subTab === SubTabs.global && <View style={assetsStyle.globalArea}>
-          <BitmarkWebViewComponent screenProps={{ sourceUrl: config.registry_server_url + '?env=app', heightButtonController: 38 }} />
+          <BitmarkWebViewComponent sourceUrl={config.registry_server_url + '?env=app'} heightButtonController={38} />
         </View>}
 
         {(!this.props.appLoadingData && this.props.assets && this.props.assets.length === 0 && this.state.subTab === SubTabs.local) &&
@@ -279,18 +265,6 @@ PrivateAssetsComponent.propTypes = {
   existNewTracking: PropTypes.bool,
   trackingBitmarks: PropTypes.array,
   appLoadingData: PropTypes.bool,
-
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-  }),
-  screenProps: PropTypes.shape({
-    homeNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
-    }),
-    needReloadData: PropTypes.bool,
-    doneReloadData: PropTypes.func,
-  }),
-
 }
 
 const StoreAssetsComponent = connect(
@@ -301,28 +275,20 @@ const StoreAssetsComponent = connect(
 
 export class AssetsComponent extends Component {
   static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func,
-    }),
-    screenProps: PropTypes.shape({
-      homeNavigation: PropTypes.shape({
-        navigate: PropTypes.func,
-      }),
-      needReloadData: PropTypes.bool,
-      doneReloadData: PropTypes.func,
-    }),
+
   }
   constructor(props) {
     super(props);
   }
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
         <Provider store={AssetsStore}>
           <StoreAssetsComponent
-            screenProps={this.props.screenProps} navigation={this.props.navigation} />
+          // screenProps={this.props.screenProps} navigation={this.props.navigation}
+          />
         </Provider>
-      </View>
+      </SafeAreaView>
     );
   }
 }

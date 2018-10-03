@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StackNavigator } from 'react-navigation';
 import {
-  View, Text, TouchableOpacity, Image, FlatList, ScrollView,
+  View, Text, TouchableOpacity, Image, FlatList, ScrollView, SafeAreaView,
 } from 'react-native';
 
 import { UserModel } from "./../../../../models";
@@ -11,33 +10,32 @@ import { AppProcessor } from './../../../../processors';
 import accountRecoveryStyle from './account-recovery.component.style';
 import defaultStyle from './../../../../commons/styles';
 import { convertWidth } from '../../../../utils';
-import {DataProcessor} from "../../../../processors";
+import { DataProcessor } from "../../../../processors";
+import { Actions } from 'react-native-router-flux';
 
-let currentUser;
-class RecoveryPhraseComponent extends React.Component {
+export class RecoveryPhraseComponent extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
-    let isSignOut = (this.props.screenProps && this.props.screenProps.accountNavigation.state.params.isSignOut);
+    let isSignOut = this.props.isSignOut;
     const recoveryPhrase = () => {
-      AppProcessor.doGetCurrentAccount(global.i18n.t("RecoveryPhraseComponent_authorizeAccessToYourRecoveryPhrase")).then((user) => {
-        if (user) {
-          currentUser = user;
-          this.props.navigation.navigate('WriteDownRecoveryPhrase');
+      AppProcessor.doGetCurrentAccount(global.i18n.t("RecoveryPhraseComponent_authorizeAccessToYourRecoveryPhrase")).then((currentUser) => {
+        if (currentUser) {
+          Actions.writeDownRecoveryPhrase({ currentUser, isSignOut, logout: this.props.logout });
         }
       }).catch(error => {
         console.log('recoveryPhrase error :', error);
       });
     };
     return (
-      <View style={accountRecoveryStyle.body}>
+      <SafeAreaView style={accountRecoveryStyle.body}>
         <View style={[accountRecoveryStyle.header]}>
-          <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => { this.props.screenProps.accountNavigation.goBack() }}>
+          <TouchableOpacity style={defaultStyle.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyle.headerLeftIcon} source={require('./../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={defaultStyle.headerTitle}>{isSignOut ? global.i18n.t("RecoveryPhraseComponent_removeAccess") : global.i18n.t("RecoveryPhraseComponent_recoveryPhrase")}</Text>
-          <TouchableOpacity style={defaultStyle.headerRight} onPress={() => { this.props.screenProps.accountNavigation.goBack() }} disabled={isSignOut}>
+          <TouchableOpacity style={defaultStyle.headerRight} onPress={Actions.pop} disabled={isSignOut}>
             {!isSignOut && <Text style={defaultStyle.headerRightText}>{global.i18n.t("RecoveryPhraseComponent_cancel")}</Text>}
           </TouchableOpacity>
         </View>
@@ -50,38 +48,20 @@ class RecoveryPhraseComponent extends React.Component {
         <TouchableOpacity style={accountRecoveryStyle.recoveryPhraseBottomButton} onPress={() => recoveryPhrase()}>
           <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{global.i18n.t("RecoveryPhraseComponent_writeDownRecoveryPhrase")}</Text>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
 
     );
   }
 }
 RecoveryPhraseComponent.propTypes = {
-  navigation: PropTypes.shape({
-    state: PropTypes.shape({
-      key: PropTypes.string,
-    }),
-    goBack: PropTypes.func,
-    navigate: PropTypes.func,
-  }),
-  screenProps: PropTypes.shape({
-    recoveryPhrase: PropTypes.func,
-    accountNavigation: PropTypes.shape({
-      goBack: PropTypes.func,
-      navigate: PropTypes.func,
-      state: PropTypes.shape({
-        params: PropTypes.shape({
-          isSignOut: PropTypes.bool,
-        }),
-      }),
-    }),
-  }),
+  isSignOut: PropTypes.bool,
+  logout: PropTypes.func
 };
 
-class WriteDownRecoveryPhraseComponent extends React.Component {
+export class WriteDownRecoveryPhraseComponent extends React.Component {
   constructor(props) {
     super(props);
-    let userInfo = currentUser;
-    console.log('currentUser :', currentUser);
+    let userInfo = this.props.currentUser;
     let smallerList = [];
     let biggerList = [];
     for (let index in userInfo.phrase24Words) {
@@ -95,11 +75,11 @@ class WriteDownRecoveryPhraseComponent extends React.Component {
 
   }
   render() {
-    let isSignOut = (this.props.screenProps && this.props.screenProps.accountNavigation.state.params.isSignOut);
+    let isSignOut = this.props.isSignOut;
     return (
-      <View style={accountRecoveryStyle.body}>
+      <SafeAreaView style={accountRecoveryStyle.body}>
         <View style={[accountRecoveryStyle.header]}>
-          <TouchableOpacity style={[defaultStyle.headerLeft, { width: 40 }]} onPress={() => { this.props.navigation.goBack() }}>
+          <TouchableOpacity style={[defaultStyle.headerLeft, { width: 40 }]} onPress={Actions.pop}>
             <Image style={defaultStyle.headerLeftIcon} source={require('./../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={[defaultStyle.headerTitle, { maxHeight: convertWidth(375) - 80 }]}>{isSignOut ? global.i18n.t("WriteDownRecoveryPhraseComponent_writeDownRecoveryPhrase") : global.i18n.t("WriteDownRecoveryPhraseComponent_recoveryPhrase")}</Text>
@@ -140,51 +120,32 @@ class WriteDownRecoveryPhraseComponent extends React.Component {
           </View>
         </ScrollView>
         {!isSignOut && <TouchableOpacity style={accountRecoveryStyle.recoveryPhraseBottomButton} onPress={() => {
-          this.props.navigation.navigate('TryRecovery')
+          Actions.tryRecoveryPhrase({ isSignOut, currentUser: this.props.currentUser, logout: this.props.logout });
         }}>
           <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{global.i18n.t("WriteDownRecoveryPhraseComponent_testRecoveryPhrase")} »</Text>
         </TouchableOpacity>}
         <TouchableOpacity style={[accountRecoveryStyle.recoveryPhraseBottomButton, !isSignOut ? { backgroundColor: '#F2FAFF', } : {}]} onPress={() => {
           if (isSignOut) {
-            this.props.navigation.navigate('TryRecovery', );
+            Actions.tryRecoveryPhrase({ isSignOut, currentUser: this.props.currentUser, logout: this.props.logout });
           } else {
             DataProcessor.doRemoveTestRecoveryPhaseActionRequiredIfAny();
-            this.props.screenProps.accountNavigation.goBack();
+            Actions.reset('accountDetail');
           }
         }}>
           <Text style={[accountRecoveryStyle.recoveryPhraseBottomButtonText, !isSignOut ? { color: '#0060F2' } : {}]}>{global.i18n.t("WriteDownRecoveryPhraseComponent_done")}</Text>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     );
   }
 }
 
 WriteDownRecoveryPhraseComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    state: PropTypes.shape({
-      key: PropTypes.string,
-      params: PropTypes.shape({
-        result: PropTypes.array,
-        user: PropTypes.object,
-      })
-    }),
-  }),
-  screenProps: PropTypes.shape({
-    accountNavigation: PropTypes.shape({
-      goBack: PropTypes.func,
-      navigate: PropTypes.func,
-      state: PropTypes.shape({
-        params: PropTypes.shape({
-          isSignOut: PropTypes.bool,
-        }),
-      }),
-    }),
-  }),
+  isSignOut: PropTypes.bool,
+  currentUser: PropTypes.any,
+  logout: PropTypes.func,
 };
 
-class TryRecoveryPhraseComponent extends React.Component {
+export class TryRecoveryPhraseComponent extends React.Component {
   constructor(props) {
     super(props);
     this.nextSelectedIndex = this.nextSelectedIndex.bind(this);
@@ -203,8 +164,8 @@ class TryRecoveryPhraseComponent extends React.Component {
     }
     UserModel.doGetCurrentUser().then(user => {
       let result = [];
-      for (let index in currentUser.phrase24Words) {
-        result.push({ key: index, word: currentUser.phrase24Words[index] });
+      for (let index in this.props.currentUser.phrase24Words) {
+        result.push({ key: index, word: this.props.currentUser.phrase24Words[index] });
       }
       let randomWords = [];
       for (let index = 0; index < 24; index++) {
@@ -348,10 +309,10 @@ class TryRecoveryPhraseComponent extends React.Component {
   }
   doAfterInputtedAllWord() {
     if (this.state.testResult === 'done') {
-      if (this.props.screenProps && this.props.screenProps.accountNavigation.state.params.isSignOut) {
-        this.props.screenProps.logout();
+      if (this.props.isSignOut) {
+        this.props.logout();
       } else {
-        this.props.screenProps.accountNavigation.goBack();
+        Actions.reset('accountDetail')
       }
       DataProcessor.doRemoveTestRecoveryPhaseActionRequiredIfAny();
     } else {
@@ -386,7 +347,7 @@ class TryRecoveryPhraseComponent extends React.Component {
   }
 
   render() {
-    let isSignOut = (this.props.screenProps && this.props.screenProps.accountNavigation.state.params.isSignOut);
+    let isSignOut = this.props.isSignOut;
     let remainRandomWords = [];
     (this.state.randomWords || []).forEach((item, index) => {
       if (!item.cannotReset) {
@@ -396,11 +357,11 @@ class TryRecoveryPhraseComponent extends React.Component {
       }
     })
     return (
-      <View style={accountRecoveryStyle.body}>
+      <SafeAreaView style={accountRecoveryStyle.body}>
         <View style={[accountRecoveryStyle.header]}>
           <TouchableOpacity style={defaultStyle.headerLeft} />
           <Text style={defaultStyle.headerTitle}>{global.i18n.t("TryRecoveryPhraseComponent_testRecoveryPhrase")}</Text>
-          <TouchableOpacity style={defaultStyle.headerRight} onPress={() => this.props.screenProps.accountNavigation.goBack()} >
+          <TouchableOpacity style={defaultStyle.headerRight} onPress={() => Actions.reset('accountDetail')} >
             <Text style={defaultStyle.headerRightText}>{global.i18n.t("TryRecoveryPhraseComponent_cancel")}</Text>
           </TouchableOpacity>
         </View>
@@ -491,61 +452,13 @@ class TryRecoveryPhraseComponent extends React.Component {
           onPress={() => this.doAfterInputtedAllWord()}>
           <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{((this.state.testResult === 'done' && isSignOut ? global.i18n.t("TryRecoveryPhraseComponent_removeAccess") : global.i18n.t(`TryRecoveryPhraseComponent_${this.state.testResult}`))).toUpperCase()}</Text>
         </TouchableOpacity>}
-      </View>
+      </SafeAreaView>
     );
   }
 }
 
 TryRecoveryPhraseComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    state: PropTypes.shape({
-      key: PropTypes.string,
-    }),
-  }),
-  screenProps: PropTypes.shape({
-    logout: PropTypes.func,
-    accountNavigation: PropTypes.shape({
-      goBack: PropTypes.func,
-      navigate: PropTypes.func,
-      state: PropTypes.shape({
-        params: PropTypes.shape({
-          isSignOut: PropTypes.bool,
-        }),
-      }),
-    }),
-  }),
-};
-
-let AccountRecoveryDetailComponent = StackNavigator({
-  RecoveryPhrase: { screen: RecoveryPhraseComponent, },
-  WriteDownRecoveryPhrase: { screen: WriteDownRecoveryPhraseComponent, },
-  TryRecovery: { screen: TryRecoveryPhraseComponent, },
-}, {
-    headerMode: 'none',
-    navigationOptions: {
-      gesturesEnabled: false,
-    }, cardStyle: {
-      shadowOpacity: 0,
-    }
-  }
-);
-
-export class AccountRecoveryComponent extends React.Component {
-  render() {
-    return (<View style={accountRecoveryStyle.body}>
-      <AccountRecoveryDetailComponent screenProps={{
-        accountNavigation: this.props.navigation,
-        logout: this.props.screenProps.logout,
-      }} />
-    </View>);
-  }
-}
-
-AccountRecoveryComponent.propTypes = {
-  navigation: PropTypes.shape({}),
-  screenProps: PropTypes.shape({
-    logout: PropTypes.func,
-  }),
+  isSignOut: PropTypes.bool,
+  currentUser: PropTypes.any,
+  logout: PropTypes.func
 };

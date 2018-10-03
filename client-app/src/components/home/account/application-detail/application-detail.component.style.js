@@ -12,7 +12,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: 'white',
+    backgroundColor: '#F5F5F5',
   },
   header: {
     flexDirection: 'row',

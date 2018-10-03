@@ -2,20 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import {
-  View, Text, TouchableOpacity, Image,
+  View, Text, TouchableOpacity, Image, SafeAreaView,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
-import { NavigationActions } from 'react-navigation';
 
 import issuanceOptionsStyle from './issuance-options.component.style';
 import defaultStyle from './../../../../../commons/styles';
 import { AppProcessor, DataProcessor } from '../../../../../processors';
 import { EventEmitterService } from '../../../../../services';
-import { BottomTabsComponent } from '../../../bottom-tabs/bottom-tabs.component';
 import { FileUtil } from '../../../../../utils';
 import { CommonModel } from '../../../../../models';
 import { AccountStore } from '../../../../../stores';
+import { Actions } from 'react-native-router-flux';
 
 export class PrivateIssuanceOptionsComponent extends React.Component {
   constructor(props) {
@@ -82,7 +81,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     let fileName = response.fileName.substring(0, response.fileName.lastIndexOf('.'));
     let fileFormat = response.fileName.substring(response.fileName.lastIndexOf('.'));
     AppProcessor.doCheckFileToIssue(filePath).then(asset => {
-      this.props.screenProps.homeNavigation.navigate('LocalIssueFile', {
+      Actions.localIssueFile({
         filePath, fileName, fileFormat, asset,
         fingerprint: asset.fingerprint
       });
@@ -94,27 +93,17 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
 
   issueIftttData() {
     if (!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) {
-      this.props.screenProps.homeNavigation.navigate('IftttActive');
+      Actions.iftttActive();
     } else {
-      const resetHomePage = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({
-            routeName: 'User', params: {
-              displayedTab: { mainTab: BottomTabsComponent.MainTabs.account, subTab: 'AUTHORIZED' },
-            }
-          }),
-        ]
-      });
-      this.props.screenProps.homeNavigation.dispatch(resetHomePage);
+      Actions.jump('accountDetail', { subTab: 'AUTHORIZED' });
     }
   }
 
   render() {
     return (
-      <View style={issuanceOptionsStyle.body}>
+      <SafeAreaView style={issuanceOptionsStyle.body}>
         <View style={issuanceOptionsStyle.header}>
-          <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.screenProps.issuanceNavigation.goBack()}>
+          <TouchableOpacity style={defaultStyle.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={defaultStyle.headerTitle}>{global.i18n.t("IssuanceOptionsComponent_register")}</Text>
@@ -137,28 +126,13 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
             {global.i18n.t("IssuanceOptionsComponent_message")}
           </Text>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
 
 PrivateIssuanceOptionsComponent.propTypes = {
   iftttInformation: PropTypes.any,
-  screenProps: PropTypes.shape({
-    homeNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      dispatch: PropTypes.func,
-      goBack: PropTypes.func,
-    }),
-    issuanceNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      goBack: PropTypes.func,
-    }),
-  }),
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-  }),
 }
 
 
@@ -169,20 +143,7 @@ const StoreIssuanceOptionsComponent = connect(
 )(PrivateIssuanceOptionsComponent);
 
 export class IssuanceOptionsComponent extends React.Component {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      goBack: PropTypes.func,
-    }),
-    screenProps: PropTypes.shape({
-      logout: PropTypes.func,
-      subTab: PropTypes.string,
-      homeNavigation: PropTypes.shape({
-        navigate: PropTypes.func,
-        goBack: PropTypes.func,
-      }),
-    }),
-  }
+
   constructor(props) {
     super(props);
   }
@@ -190,7 +151,7 @@ export class IssuanceOptionsComponent extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <Provider store={AccountStore}>
-          <StoreIssuanceOptionsComponent screenProps={this.props.screenProps} navigation={this.props.navigation} />
+          <StoreIssuanceOptionsComponent />
         </Provider>
       </View>
     );

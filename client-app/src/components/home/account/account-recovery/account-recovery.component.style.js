@@ -8,7 +8,7 @@ export default StyleSheet.create({
   body: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'white',
+    backgroundColor: '#F5F5F5',
   },
   header: {
     flexDirection: 'row',

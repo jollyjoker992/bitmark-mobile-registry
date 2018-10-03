@@ -1,27 +1,29 @@
-import { StackNavigator, } from 'react-navigation';
+import React, { Component } from 'react';
+import { Router, Stack, Scene, Modal, } from 'react-native-router-flux';
 
 import { WelcomeComponent } from './welcome';
 import { NewAccountComponent } from './new-account';
 import { SignInComponent } from './sign-in';
 import { FaceTouchIdComponent } from './face-touch-id';
 import { NotificationComponent } from './notification';
+import { BitmarkWebViewComponent } from '../../commons/components';
 
+export class DefaultRouterComponent extends Component {
+  render() {
 
-let OnBoardingComponent = StackNavigator({
-  Welcome: { screen: WelcomeComponent, },
-  NewAccount: { screen: NewAccountComponent, },
-  SignIn: { screen: SignInComponent, },
-  Notification: { screen: NotificationComponent, },
-  FaceTouchId: { screen: FaceTouchIdComponent, },
-}, {
-    headerMode: 'none',
-    navigationOptions: {
-      gesturesEnabled: false,
-    },
-    cardStyle: {
-      shadowOpacity: 0,
-    }
+    return (
+      <Router >
+        <Modal headerMode='none'>
+          <Stack headerMode='none' >
+            <Scene key="welcome" panHandlers={null} component={WelcomeComponent} />
+            <Scene key="newAccount" panHandlers={null} component={NewAccountComponent} />
+            <Scene key="signIn" panHandlers={null} component={SignInComponent} />
+            <Scene key="notification" panHandlers={null} component={NotificationComponent} />
+            <Scene key="faceTouchId" panHandlers={null} component={FaceTouchIdComponent} />
+          </Stack>
+          <Scene key="webView" panHandlers={null} component={BitmarkWebViewComponent} />
+        </Modal>
+      </Router>
+    );
   }
-);
-
-export { OnBoardingComponent };
+}

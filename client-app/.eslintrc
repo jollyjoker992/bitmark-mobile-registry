@@ -9,6 +9,9 @@
     "react",
     "react-native"
   ],
+  "globals": {
+    "i18n": true
+  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended"

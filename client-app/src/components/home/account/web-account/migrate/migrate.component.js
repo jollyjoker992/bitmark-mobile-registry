@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
-  Text, View, TouchableOpacity, Image,
+  Text, View, TouchableOpacity, Image, SafeAreaView
 } from 'react-native';
 import Hyperlink from 'react-native-hyperlink';
 import Camera from 'react-native-camera';
@@ -9,18 +8,9 @@ import Camera from 'react-native-camera';
 import componentStyle from './migrate.component.style';
 
 import defaultStyles from '../../../../../commons/styles';
-// import { config } from '../../../../../configs/index';
 import { DataProcessor, AppProcessor } from '../../../../../processors';
 import { EventEmitterService } from '../../../../../services';
-
-// import {
-//   ios,
-//   android // TODO
-// } from '../../../../configs';
-// let constant = Platform.select({
-//   ios: ios.constant,
-//   android: android.constant
-// });
+import { Actions } from 'react-native-router-flux';
 
 const STEPS = {
   scan: 0,
@@ -42,7 +32,7 @@ export class WebAccountMigrateComponent extends React.Component {
 
   goBack() {
     if (this.state.step === STEPS.scan || this.state.step === STEPS.done) {
-      this.props.navigation.goBack();
+      Actions.pop();
     } else {
       this.setState({ step: this.state.step - 1 });
     }
@@ -58,7 +48,7 @@ export class WebAccountMigrateComponent extends React.Component {
     } else {
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
         message: global.i18n.t("WebAccountMigrateComponent_qrCodeIsInvalid"),
-        onClose: this.props.navigation.goBack
+        onClose: Actions.pop
       });
     }
   }
@@ -75,7 +65,7 @@ export class WebAccountMigrateComponent extends React.Component {
   }
 
   render() {
-    return (<View style={componentStyle.body}>
+    return (<SafeAreaView style={componentStyle.body}>
       <View style={componentStyle.header}>
         <TouchableOpacity style={defaultStyles.headerLeft} onPress={this.goBack.bind(this)} >
           <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../../../assets/imgs/header_blue_icon.png')} />
@@ -114,13 +104,6 @@ export class WebAccountMigrateComponent extends React.Component {
         </View>
       </View>}
 
-    </View>);
+    </SafeAreaView>);
   }
 }
-
-WebAccountMigrateComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-  })
-};

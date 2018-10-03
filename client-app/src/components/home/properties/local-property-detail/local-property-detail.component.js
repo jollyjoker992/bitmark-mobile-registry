@@ -3,14 +3,13 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Provider, connect } from 'react-redux';
 import {
-  View, Text, TouchableOpacity, Image, FlatList, ScrollView, ActivityIndicator, TouchableWithoutFeedback,
+  View, Text, TouchableOpacity, Image, FlatList, ScrollView, ActivityIndicator, TouchableWithoutFeedback, SafeAreaView,
   Clipboard,
   Share,
   Alert,
 } from 'react-native';
 import Hyperlink from 'react-native-hyperlink';
 
-import { BitmarkComponent } from './../../../../commons/components';
 import { convertWidth } from './../../../../utils';
 
 import propertyDetailStyle from './local-property-detail.component.style';
@@ -21,6 +20,8 @@ import { config } from '../../../../configs';
 import { DataProcessor } from '../../../../processors/data-processor';
 import { BitmarkModel } from '../../../../models';
 import { PropertyStore, PropertyActions } from '../../../../stores';
+import { Actions } from 'react-native-router-flux';
+import { iosConstant } from '../../../../configs/ios/ios.config';
 
 class PrivateLocalPropertyDetailComponent extends React.Component {
   constructor(props) {
@@ -71,7 +72,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
 
   downloadAsset() {
 
-    AppProcessor.doDownloadBitmark(this.state.bitmark, {
+    AppProcessor.doDownloadBitmark(this.props.bitmark, {
       indicator: true, title: global.i18n.t("LocalPropertyDetailComponent_preparingToExport"), message: global.i18n.t("LocalPropertyDetailComponent_downloadingFile", { fileName: this.props.asset.name })
     }).then(filePath => {
       if (filePath) {
@@ -85,7 +86,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
 
   clickOnProvenance(item) {
     let sourceUrl = config.registry_server_url + `/account/${item.owner}?env=app`;
-    this.props.navigation.navigate('BitmarkWebView', { title: 'Registry', sourceUrl, isFullScreen: true });
+    Actions.bitmarkWebView({ title: 'Registry', sourceUrl, isFullScreen: true });
   }
 
   changeTrackingBitmark() {
@@ -118,9 +119,9 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
 
   render() {
     return (
-      <BitmarkComponent
-        header={(<TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={defaultStyle.header}>
-          <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.navigation.goBack()}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
+        <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={[defaultStyle.header, { height: iosConstant.headerSize.height }]}>
+          <TouchableOpacity style={defaultStyle.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <View style={defaultStyle.headerCenter}>
@@ -132,8 +133,8 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
               ? require('../../../../../assets/imgs/three-dot-active.png')
               : require('../../../../../assets/imgs/three-dot-deactive.png')} />
           </TouchableOpacity>
-        </View></TouchableWithoutFeedback>)}
-        content={(<TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={propertyDetailStyle.body}>
+        </View></TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={propertyDetailStyle.body}>
           {this.state.displayTopButton && <View style={propertyDetailStyle.topButtonsArea}>
             {this.props.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber && <TouchableOpacity style={propertyDetailStyle.downloadAssetButton} disabled={this.props.bitmark.status !== 'confirmed'} onPress={this.downloadAsset}>
               <Text style={[propertyDetailStyle.downloadAssetButtonText, { color: this.props.bitmark.status === 'confirmed' ? '#0060F2' : '#A4B5CD', }]}>{global.i18n.t("LocalPropertyDetailComponent_downloadAsset")}</Text>
@@ -149,7 +150,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
             {this.props.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber && !this.props.bitmark.transferOfferId &&
               <TouchableOpacity style={propertyDetailStyle.topButton}
                 disabled={this.props.bitmark.status !== 'confirmed'}
-                onPress={() => this.props.navigation.navigate('LocalPropertyTransfer', { bitmark: this.props.bitmark, asset: this.props.asset })}>
+                onPress={() => Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset })}>
                 <Text style={[propertyDetailStyle.topButtonText, {
                   color: this.props.bitmark.status === 'confirmed' ? '#0060F2' : '#C2C2C2'
                 }]}>{global.i18n.t("LocalPropertyDetailComponent_sendBitmark")}</Text>
@@ -167,7 +168,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
               {this.props.bitmark.status !== 'pending' && <Hyperlink
                 onPress={(url) => {
                   if (this.props.bitmark.status === 'confirmed') {
-                    this.props.navigation.navigate('BitmarkWebView', { title: global.i18n.t("LocalPropertyDetailComponent_registry"), sourceUrl: url, isFullScreen: true, });
+                    Actions.bitmarkWebView({ title: global.i18n.t("LocalPropertyDetailComponent_registry"), sourceUrl: url, isFullScreen: true, });
                   }
                 }}
                 linkStyle={{ color: this.props.bitmark.status === 'pending' ? '#999999' : '#0060F2' }}
@@ -181,7 +182,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
                   return '';
                 }}>
                 <Text style={[propertyDetailStyle.assetCreateAt]}>
-                  {global.i18n.t("LocalPropertyDetailComponent_issuedOn", { time: moment(this.state.bitmark.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase() })}{'\n'}{global.i18n.t("LocalPropertyDetailComponent_byAccountNumber", { accountNumber: `${config.registry_server_url}/account/${this.state.bitmark.issuer}` })}
+                  {global.i18n.t("LocalPropertyDetailComponent_issuedOn", { time: moment(this.props.bitmark.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase() })}{'\n'}{global.i18n.t("LocalPropertyDetailComponent_byAccountNumber", { accountNumber: `${config.registry_server_url}/account/${this.props.bitmark.issuer}` })}
                 </Text>
               </Hyperlink>}
 
@@ -251,8 +252,8 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
               </View>
             </TouchableOpacity>
           </ScrollView>
-        </View></ TouchableWithoutFeedback>)}
-      />
+        </View></ TouchableWithoutFeedback>
+      </SafeAreaView>
     );
   }
 }
@@ -261,16 +262,6 @@ PrivateLocalPropertyDetailComponent.propTypes = {
   bitmark: PropTypes.object,
   asset: PropTypes.object,
   isTracking: PropTypes.bool,
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        asset: PropTypes.object,
-        bitmark: PropTypes.object,
-      }),
-    }),
-  }),
 };
 
 const StoreLocalPropertyDetailComponent = connect(
@@ -281,25 +272,17 @@ const StoreLocalPropertyDetailComponent = connect(
 
 export class LocalPropertyDetailComponent extends React.Component {
   static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      goBack: PropTypes.func,
-      state: PropTypes.shape({
-        params: PropTypes.shape({
-          asset: PropTypes.object,
-          bitmark: PropTypes.object,
-        }),
-      }),
-    }),
+    asset: PropTypes.object,
+    bitmark: PropTypes.object,
   }
   constructor(props) {
     super(props);
-    let params = this.props.navigation.state.params;
-    PropertyStore.dispatch(PropertyActions.init(params));
-    if (params.bitmark && params.bitmark.id) {
-      DataProcessor.doGetTrackingBitmarkInformation(params.bitmark.id).then(data => {
-        params.isTracking = !!data;
-        PropertyStore.dispatch(PropertyActions.init(params));
+    let tempState = { asset: this.props.asset, bitmark: this.props.bitmark };
+    PropertyStore.dispatch(PropertyActions.init(tempState));
+    if (this.props.bitmark && this.props.bitmark.id) {
+      DataProcessor.doGetTrackingBitmarkInformation(this.props.bitmark.id).then(data => {
+        tempState.isTracking = !!data;
+        PropertyStore.dispatch(PropertyActions.init(tempState));
       }).catch(error => {
         console.log('doGetTrackingBitmarkInformation error', error);
       })
@@ -309,7 +292,7 @@ export class LocalPropertyDetailComponent extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <Provider store={PropertyStore}>
-          <StoreLocalPropertyDetailComponent navigation={this.props.navigation} />
+          <StoreLocalPropertyDetailComponent />
         </Provider>
       </View>
     );

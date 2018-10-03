@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavigationActions } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
 import {
-  View, Text, TouchableOpacity, ScrollView, FlatList, Image, ActivityIndicator,
+  View, Text, TouchableOpacity, ScrollView, FlatList, Image, ActivityIndicator, SafeAreaView,
   Dimensions,
   Alert,
 } from 'react-native';
@@ -18,6 +17,8 @@ import { convertWidth } from '../../../utils';
 import { config } from '../../../configs';
 import { BottomTabsComponent } from '../bottom-tabs/bottom-tabs.component';
 import { TransactionsStore } from '../../../stores';
+import { iosConstant } from '../../../configs/ios/ios.config';
+import { Actions } from 'react-native-router-flux';
 
 let SubTabs = {
   required: 'ACTIONS REQUIRED',
@@ -49,26 +50,12 @@ class PrivateTransactionsComponent extends React.Component {
     this.clickToActionRequired = this.clickToActionRequired.bind(this);
     this.clickToCompleted = this.clickToCompleted.bind(this);
 
-    let subTab = (this.props.screenProps.subTab === SubTabs.required || this.props.screenProps.subTab === SubTabs.completed) ? this.props.screenProps.subTab : SubTabs.required;
+    let subTab = this.props.subTab || SubTabs.required;
     this.state = {
       currentUser: DataProcessor.getUserInformation(),
       subTab,
     };
 
-  }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    let subTab = (nextProps.subTab === SubTabs.required || nextProps.subTab === SubTabs.completed) ? nextProps.subTab : this.state.subTab;
-    this.setState({ subTab });
-  }
-
-  componentDidMount() {
-    this.switchSubTab(this.state.subTab);
-    if (this.props.screenProps.needReloadData) {
-      this.reloadData();
-      if (this.props.screenProps.doneReloadData) {
-        this.props.screenProps.doneReloadData()
-      }
-    }
   }
 
   reloadData() {
@@ -84,9 +71,7 @@ class PrivateTransactionsComponent extends React.Component {
 
   clickToActionRequired(item) {
     if (item.type === ActionTypes.transfer && item.transferOffer) {
-      this.props.screenProps.homeNavigation.navigate('TransactionDetail', {
-        transferOffer: item.transferOffer,
-      });
+      Actions.transactionDetail({ transferOffer: item.transferOffer, })
     } else if (item.type === ActionTypes.ifttt) {
       AppProcessor.doIssueIftttData(item, {
         indicator: true, title: '', message: global.i18n.t("TransactionsComponent_sendingYourTransactionToTheBitmarkNetwork")
@@ -95,19 +80,7 @@ class PrivateTransactionsComponent extends React.Component {
           DataProcessor.doReloadUserData();
           Alert.alert(global.i18n.t("TransactionsComponent_success"), global.i18n.t("TransactionsComponent_yourPropertyRightsHaveBeenRegistered"), [{
             text: global.i18n.t("TransactionsComponent_ok"),
-            onPress: () => {
-              const resetHomePage = NavigationActions.reset({
-                index: 0,
-                actions: [
-                  NavigationActions.navigate({
-                    routeName: 'User', params: {
-                      displayedTab: { mainTab: BottomTabsComponent.MainTabs.properties },
-                    }
-                  }),
-                ]
-              });
-              this.props.screenProps.homeNavigation.dispatch(resetHomePage);
-            }
+            onPress: () => Actions.jump('assets')
           }]);
         }
       }).catch(error => {
@@ -129,10 +102,10 @@ class PrivateTransactionsComponent extends React.Component {
   clickToCompleted(item) {
     if (item.title === 'SEND' && item.type === 'P2P TRANSFER') {
       let sourceUrl = config.registry_server_url + `/transaction/${item.txid}?env=app`;
-      this.props.screenProps.homeNavigation.navigate('BitmarkWebView', { title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, isFullScreen: true });
+      Actions.bitmarkWebView({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, isFullScreen: true })
     } else if (item.title === 'ISSUANCE') {
       let sourceUrl = config.registry_server_url + `/issuance/${item.blockNumber}/${item.assetId}/${DataProcessor.getUserInformation().bitmarkAccountNumber}?env=app`;
-      this.props.screenProps.homeNavigation.navigate('BitmarkWebView', { title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, isFullScreen: true });
+      Actions.bitmarkWebView({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, isFullScreen: true })
     }
   }
 
@@ -162,8 +135,8 @@ class PrivateTransactionsComponent extends React.Component {
 
   render() {
     return (
-      <View style={transactionsStyle.body}>
-        <View style={transactionsStyle.header}>
+      <SafeAreaView style={transactionsStyle.body}>
+        <View style={[transactionsStyle.header, { height: iosConstant.headerSize.height }]}>
           <TouchableOpacity style={defaultStyle.headerLeft}></TouchableOpacity>
           <Text style={defaultStyle.headerTitle}>{global.i18n.t("TransactionsComponent_transactions")}</Text>
           <TouchableOpacity style={defaultStyle.headerRight}></TouchableOpacity>
@@ -349,7 +322,7 @@ class PrivateTransactionsComponent extends React.Component {
             }
           </TouchableOpacity>
         </ScrollView>}
-      </View >
+      </SafeAreaView >
     );
   }
 }
@@ -361,22 +334,7 @@ PrivateTransactionsComponent.propTypes = {
   completed: PropTypes.array,
   appLoadingData: PropTypes.bool,
   subTab: PropTypes.string,
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-  }),
-  screenProps: PropTypes.shape({
-    subTab: PropTypes.string,
-    switchMainTab: PropTypes.func,
-    logout: PropTypes.func,
-    homeNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      goBack: PropTypes.func,
-      dispatch: PropTypes.func,
-    }),
-    needReloadData: PropTypes.bool,
-    doneReloadData: PropTypes.func,
-  }),
+
 }
 
 const StoreTransactionsComponent = connect(
@@ -388,22 +346,7 @@ const StoreTransactionsComponent = connect(
 export class TransactionsComponent extends React.Component {
   static propTypes = {
     subTab: PropTypes.string,
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      goBack: PropTypes.func,
-    }),
-    screenProps: PropTypes.shape({
-      subTab: PropTypes.string,
-      switchMainTab: PropTypes.func,
-      logout: PropTypes.func,
-      homeNavigation: PropTypes.shape({
-        navigate: PropTypes.func,
-        goBack: PropTypes.func,
-        dispatch: PropTypes.func,
-      }),
-      needReloadData: PropTypes.bool,
-      doneReloadData: PropTypes.func,
-    }),
+
   }
   constructor(props) {
     super(props);
@@ -412,8 +355,7 @@ export class TransactionsComponent extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <Provider store={TransactionsStore}>
-          <StoreTransactionsComponent
-            screenProps={this.props.screenProps} navigation={this.props.navigation} subTab={this.props.subTab} />
+          <StoreTransactionsComponent subTab={this.props.subTab} />
         </Provider>
       </View>
     );

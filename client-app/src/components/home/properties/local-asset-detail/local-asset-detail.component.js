@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, Image, ScrollView, TouchableWithoutFeedback,
+  View, Text, TouchableOpacity, Image, ScrollView, TouchableWithoutFeedback, SafeAreaView,
   Clipboard,
   Share,
   Alert,
 } from 'react-native';
 import Hyperlink from 'react-native-hyperlink';
 import { Provider, connect } from 'react-redux';
-
-import { BitmarkComponent } from './../../../../commons/components';
 
 import assetDetailStyle from './local-asset-detail.component.style';
 import defaultStyle from './../../../../commons/styles';
@@ -20,6 +18,8 @@ import { BitmarkModel } from "../../../../models";
 import { convertWidth } from '../../../../utils';
 import moment from 'moment';
 import { AssetStore, AssetActions } from '../../../../stores';
+import { Actions } from 'react-native-router-flux';
+import { iosConstant } from '../../../../configs/ios/ios.config';
 
 class PrivateLocalAssetDetailComponent extends React.Component {
   constructor(props) {
@@ -85,9 +85,9 @@ class PrivateLocalAssetDetailComponent extends React.Component {
 
   render() {
     return (
-      <BitmarkComponent
-        header={(<TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={defaultStyle.header}>
-          <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.navigation.goBack()}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', }}>
+        <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={[defaultStyle.header, { height: iosConstant.headerSize.height }]}>
+          <TouchableOpacity style={defaultStyle.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={[defaultStyle.headerTitle]} numberOfLines={1}>{this.props.asset.name}</Text>
@@ -96,8 +96,10 @@ class PrivateLocalAssetDetailComponent extends React.Component {
               ? require('../../../../../assets/imgs/three-dot-active.png')
               : require('../../../../../assets/imgs/three-dot-deactive.png')} />
           </TouchableOpacity>
-        </View></TouchableWithoutFeedback>)}
-        content={(<TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={assetDetailStyle.body}>
+        </View></TouchableWithoutFeedback>
+
+
+        <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={assetDetailStyle.body}>
           {this.state.displayTopButton && <View style={assetDetailStyle.topButtonsArea}>
             <TouchableOpacity style={assetDetailStyle.downloadAssetButton} disabled={!this.props.bitmarkCanDownload} onPress={this.downloadAsset}>
               <Text style={[assetDetailStyle.downloadAssetButtonText, { color: this.props.bitmarkCanDownload ? '#0060F2' : '#A4B5CD', }]}>{global.i18n.t("LocalAssetDetailComponent_downloadAssetButtonText")}</Text>
@@ -123,7 +125,7 @@ class PrivateLocalAssetDetailComponent extends React.Component {
                 <Hyperlink
                   onPress={(url) => {
                     if (this.props.asset.created_at) {
-                      this.props.navigation.navigate('BitmarkWebView', { title: global.i18n.t("LocalAssetDetailComponent_registry"), sourceUrl: url, isFullScreen: true, });
+                      Actions.bitmarkWebView({ title: global.i18n.t("LocalAssetDetailComponent_registry"), sourceUrl: url, isFullScreen: true, });
                     }
                   }}
                   linkStyle={{ color: this.props.asset.created_at ? '#0060F2' : '#999999' }}
@@ -198,7 +200,7 @@ class PrivateLocalAssetDetailComponent extends React.Component {
                         {!bitmark.isViewed && <View style={assetDetailStyle.bitmarkNotView}></View>}
                         <Text style={assetDetailStyle.bitmarksRowNo} numberOfLines={1}>{bitmark.id}</Text>
                         <TouchableOpacity style={assetDetailStyle.bitmarkViewButton} onPress={() => {
-                          this.props.navigation.navigate('LocalPropertyDetail', { asset: this.props.asset, bitmark: bitmark });
+                          Actions.localPropertyDetail({ asset: this.props.asset, bitmark: bitmark });
                         }}>
                           <Text style={[assetDetailStyle.bitmarkViewButtonText]}>{global.i18n.t("LocalAssetDetailComponent_viewDetails")}</Text>
                         </TouchableOpacity>
@@ -212,12 +214,12 @@ class PrivateLocalAssetDetailComponent extends React.Component {
                       {!bitmark.isViewed && <View style={assetDetailStyle.bitmarkNotView}></View>}
                       <Text style={assetDetailStyle.bitmarksRowNo} numberOfLines={1}>{'' + bitmark.id}</Text>
                       <TouchableOpacity style={assetDetailStyle.bitmarkViewButton} onPress={() => {
-                        this.props.navigation.navigate('LocalPropertyDetail', { asset: this.props.asset, bitmark: bitmark });
+                        Actions.localPropertyDetail({ asset: this.props.asset, bitmark: bitmark });
                       }}>
                         <Text style={[assetDetailStyle.bitmarkViewButtonText]}>{global.i18n.t("LocalAssetDetailComponent_viewDetails")}</Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={[assetDetailStyle.bitmarkTransferButton]} onPress={() => {
-                        this.props.navigation.navigate('LocalPropertyTransfer', { bitmark: bitmark, asset: this.props.asset });
+                        Actions.localPropertyTransfer({ asset: this.props.asset, bitmark: bitmark });
                       }}>
                         <Text style={[assetDetailStyle.bitmarkTransferButtonText]}>{global.i18n.t("LocalAssetDetailComponent_send")}</Text>
                       </TouchableOpacity>
@@ -227,8 +229,8 @@ class PrivateLocalAssetDetailComponent extends React.Component {
               </View>
             </TouchableOpacity>
           </ScrollView>
-        </View></TouchableWithoutFeedback>)}
-      />
+        </View></TouchableWithoutFeedback>
+      </SafeAreaView>
     );
   }
 }
@@ -236,14 +238,6 @@ class PrivateLocalAssetDetailComponent extends React.Component {
 PrivateLocalAssetDetailComponent.propTypes = {
   bitmarkCanDownload: PropTypes.object,
   asset: PropTypes.object,
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-  }),
-  screenProps: PropTypes.shape({
-    logout: PropTypes.func,
-  }),
-
 }
 
 const StoreLocalAssetDetailComponent = connect(
@@ -254,28 +248,17 @@ const StoreLocalAssetDetailComponent = connect(
 
 export class LocalAssetDetailComponent extends Component {
   static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      goBack: PropTypes.func,
-      state: PropTypes.shape({
-        params: PropTypes.shape({
-          asset: PropTypes.object,
-        }),
-      }),
-    }),
-    screenProps: PropTypes.shape({
-      logout: PropTypes.func,
-    }),
+    asset: PropTypes.object,
   }
   constructor(props) {
     super(props);
-    AssetStore.dispatch(AssetActions.init(this.props.navigation.state.params));
+    AssetStore.dispatch(AssetActions.init({ asset: this.props.asset }));
   }
   render() {
     return (
       <View style={{ flex: 1 }}>
         <Provider store={AssetStore}>
-          <StoreLocalAssetDetailComponent screenProps={this.props.screenProps} navigation={this.props.navigation} />
+          <StoreLocalAssetDetailComponent />
         </Provider>
       </View>
     );

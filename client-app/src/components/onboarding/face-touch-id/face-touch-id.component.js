@@ -11,6 +11,7 @@ import { CommonModel } from './../../../models';
 import faceTouchIdStyle from './face-touch-id.component.style';
 import { BitmarkComponent } from '../../../commons/components';
 import { iosConstant } from '../../../configs/ios/ios.config';
+import { Actions } from 'react-native-router-flux';
 
 export class FaceTouchIdComponent extends React.Component {
   constructor(props) {
@@ -49,9 +50,9 @@ export class FaceTouchIdComponent extends React.Component {
   }
 
   doContinue(enableTouchId) {
-    this.props.navigation.state.params.doContinue(enableTouchId).then((user) => {
+    this.props.doContinue(enableTouchId).then((user) => {
       if (user) {
-        this.props.navigation.navigate('Notification');
+        Actions.notification();
       }
     }).catch(error => {
       console.log('error :', error);
@@ -102,9 +103,9 @@ export class FaceTouchIdComponent extends React.Component {
           </TouchableOpacity>
           {/*Skip Button*/}
           <TouchableOpacity style={[faceTouchIdStyle.skipButton]}
-                            onPress={() => {
-                              this.confirmSkipTouchId();
-                            }}>
+            onPress={() => {
+              this.confirmSkipTouchId();
+            }}>
             <Text style={faceTouchIdStyle.skipButtonText}>{global.i18n.t("FaceTouchIdComponent_skip")}</Text>
           </TouchableOpacity>
         </View>)}
@@ -114,19 +115,5 @@ export class FaceTouchIdComponent extends React.Component {
 }
 
 FaceTouchIdComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        doContinue: PropTypes.func,
-      }),
-    }),
-  }),
-  screenProps: PropTypes.shape({
-    rootNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      dispatch: PropTypes.func,
-    })
-  }),
+  doContinue: PropTypes.func,
 }

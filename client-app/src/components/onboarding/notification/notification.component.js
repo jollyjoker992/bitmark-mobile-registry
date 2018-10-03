@@ -1,12 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View, Text, Image, TouchableOpacity,
 } from 'react-native'
-import { NavigationActions } from 'react-navigation';
 
 import notificationStyle from './notification.component.style';
-import { NotificationService } from '../../../services';
+import { NotificationService, EventEmitterService } from '../../../services';
 import { iosConstant } from '../../../configs/ios/ios.config';
 import { BitmarkComponent } from '../../../commons/components';
 import { DataProcessor } from '../../../processors';
@@ -16,14 +14,10 @@ export class NotificationComponent extends React.Component {
     super(props);
   }
   render() {
-    const resetMainPage = NavigationActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Main', params: { justCreatedBitmarkAccount: true } })]
-    });
 
     let requestNotification = () => {
       NotificationService.doRequestNotificationPermissions().then((result) => {
-        this.props.screenProps.rootNavigation.dispatch(resetMainPage);
+        EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, true);
         return DataProcessor.doMarkRequestedNotification(result);
       }).catch(error => {
         console.log('NotificationComponent requestNotification error:', error);
@@ -51,7 +45,7 @@ export class NotificationComponent extends React.Component {
             paddingBottom: Math.max(10, iosConstant.blankFooter),
             height: 45 + iosConstant.blankFooter / 2
           }]} onPress={() => {
-            this.props.screenProps.rootNavigation.dispatch(resetMainPage);
+            EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, true);
           }}>
             <Text style={[notificationStyle.enableButtonText, { color: '#0060F2' }]}>{global.i18n.t("NotificationComponent_later")}</Text>
           </TouchableOpacity>
@@ -59,17 +53,4 @@ export class NotificationComponent extends React.Component {
       />
     );
   }
-}
-
-NotificationComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-  }),
-  screenProps: PropTypes.shape({
-    rootNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      dispatch: PropTypes.func,
-    })
-  }),
 }
