@@ -15,7 +15,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve(result);
         } else {
-          reject(newError(result, 'Can not create new Account!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotCreateNewAccount")));
         }
       });
     });
@@ -26,7 +26,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve(result);
         } else {
-          reject(newError(result, 'Can not recovery account from 24 words!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotRecoveryAccountFrom24Words")));
         }
       });
     });
@@ -37,7 +37,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve(result);
         } else {
-          reject(newError(result, 'Can not request session!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotRequestSession")));
         }
       });
     });
@@ -50,7 +50,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve();
         } else {
-          reject(newError(result, 'Can not remove account!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotRemoveAccount")));
         }
       });
     });
@@ -63,7 +63,7 @@ const BitmarkSDK = {
         if (ok && sessionId) {
           resolve(sessionId);
         } else {
-          reject(newError(result, 'Can not dispose session!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotDisposeSession")));
         }
       });
     });
@@ -74,7 +74,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve({ bitmarkAccountNumber: result, phrase24Words });
         } else {
-          reject(newError(result, 'Can not get current account!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotGetCurrentAccount")));
         }
       });
     });
@@ -85,7 +85,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve(result);
         } else {
-          reject(newError(result, 'Can not sign message!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotSignMessage")));
         }
       });
     });
@@ -96,7 +96,7 @@ const BitmarkSDK = {
         if (ok && results && results.length === messages.length) {
           resolve(results);
         } else {
-          reject(new Error(results || 'Can not sign message!'));
+          reject(new Error(results || global.i18n.t("BitmarkSDK_canNotSignMessage")));
         }
       });
     });
@@ -107,7 +107,7 @@ const BitmarkSDK = {
         if (ok && result) {
           resolve(result);
         } else {
-          reject(newError(result, 'Can not register access public key!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotRegisterAccessPublicKey!")));
         }
       });
     });
@@ -119,7 +119,7 @@ const BitmarkSDK = {
         if (ok && result) {
           resolve(result);
         } else {
-          reject(newError(result, 'Can not create session data!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotCreateSessionData")));
         }
       });
     });
@@ -131,7 +131,7 @@ const BitmarkSDK = {
         if (ok && result) {
           resolve(result);
         } else {
-          reject(newError(result, 'Can not issue bitmark!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotIssueBitmark")));
         }
       });
     });
@@ -149,7 +149,7 @@ const BitmarkSDK = {
         if (ok && results) {
           resolve(results);
         } else {
-          reject(new Error(results || 'Can not issue file!'));
+          reject(new Error(results || global.i18n.t("BitmarkSDK_canNotIssueFile")));
         }
       });
     });
@@ -160,7 +160,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve({ result: ok });
         } else {
-          reject(new Error(results || 'Can transfer One Signature!'));
+          reject(new Error(results || global.i18n.t("BitmarkSDK_canNotTransferOneSignature")));
         }
       });
     });
@@ -178,7 +178,7 @@ const BitmarkSDK = {
         if (ok && result) {
           resolve(result);
         } else {
-          reject(newError(result, 'Can not issue then transfer file!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotIssueThenTransferFile")));
         }
       });
     });
@@ -190,7 +190,7 @@ const BitmarkSDK = {
         if (ok && result) {
           resolve(result);
         } else {
-          reject(newError(result, 'Can not sign first signature for transfer!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotSignFirstSignatureForTransfer")));
         }
       });
     });
@@ -201,7 +201,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve({ result: ok });
         } else {
-          reject(newError(result, 'Can not sign second signature for transfer!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotSignSecondSignatureForTransfer")));
         }
       });
     });
@@ -214,7 +214,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve({ bitmarkAccountNumber: result, phrase24Words });
         } else {
-          reject(newError(result, 'Can not try 24 words!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotTry24Words")));
         }
       });
     });
@@ -226,7 +226,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve({ fingerprint, id: result });
         } else {
-          reject(newError(result, 'Can not get basic asset information!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotGetBasicAssetInformation")));
         }
       });
     });
@@ -237,7 +237,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve();
         } else {
-          reject(newError(result, 'Metadata invalid!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_metadataInvalid")));
         }
       });
     });
@@ -248,7 +248,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve();
         } else {
-          reject(newError(result, 'Account invalid!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_accountInvalid")));
         }
       });
     });
@@ -259,7 +259,7 @@ const BitmarkSDK = {
         if (ok) {
           resolve(result);
         } else {
-          reject(newError(result, 'Can not download bitmark!'));
+          reject(newError(result, global.i18n.t("BitmarkSDK_canNotDownloadBitmark")));
         }
       });
     });

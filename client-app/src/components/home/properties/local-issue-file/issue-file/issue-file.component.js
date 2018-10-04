@@ -80,7 +80,7 @@ export class LocalIssueFileComponent extends React.Component {
     console.log('assetAccessibility :', this.state.assetAccessibility);
 
     AppProcessor.doIssueFile(this.state.filePath, this.state.assetName, this.state.metadataList, parseInt(this.state.quantity), this.state.assetAccessibility === 'public', {
-      indicator: true, title: '', message: 'Sending your transaction to the Bitmark network...'
+      indicator: true, title: '', message: global.i18n.t("LocalIssueFileComponent_issueMessage")
     }).then((data) => {
       if (data) {
         CommonModel.doTrackEvent({
@@ -89,8 +89,8 @@ export class LocalIssueFileComponent extends React.Component {
         });
         // Remove temp asset file
         FileUtil.removeSafe(this.state.filePath);
-        Alert.alert('Success!', 'Your property rights have been registered.', [{
-          text: 'OK',
+        Alert.alert(global.i18n.t("LocalIssueFileComponent_success"), global.i18n.t("LocalIssueFileComponent_successMessage"), [{
+          text: global.i18n.t("LocalIssueFileComponent_ok"),
           onPress: () => {
             const resetHomePage = NavigationActions.reset({
               index: 0,
@@ -107,7 +107,7 @@ export class LocalIssueFileComponent extends React.Component {
         }]);
       }
     }).catch(error => {
-      this.setState({ issueError: 'There was a problem issuing bitmarks. Please try again.' });
+      this.setState({ issueError: global.i18n.t("LocalIssueFileComponent_thereWasAProblemIssuingBitmarks") });
       console.log('issue bitmark error :', error);
     });
   }
@@ -120,20 +120,20 @@ export class LocalIssueFileComponent extends React.Component {
     let assetNameError = '';
     if (typeof (assetName) === 'string') {
       if (assetName.length > 64) {
-        assetNameError = 'You have exceeded the maximum number of characters in this field.';
+        assetNameError = global.i18n.t("LocalIssueFileComponent_youHaveExceededTheMaximumNumberOfCharacters");
       } else if (!assetName) {
-        assetNameError = 'Please enter a property name.';
+        assetNameError = global.i18n.t("LocalIssueFileComponent_pleaseEnterAPropertyName");
       }
     }
     let quantityError = '';
     if (typeof (quantity) === 'string') {
       let quantityNumber = parseInt(quantity);
       if (quantity !== quantityNumber.toString()) {
-        quantityError = 'Number of bitmarks should be an integer number';
+        quantityError = global.i18n.t("LocalIssueFileComponent_quantityError1");
       } else if (isNaN(quantityNumber) || quantityNumber <= 0) {
-        quantityError = 'Create property requires a minimum quantity of 1 bitmark issuance.';
+        quantityError = global.i18n.t("LocalIssueFileComponent_quantityError2");
       } else if (quantityNumber > 100) {
-        quantityError = 'You cannot issue more than 100 bitmarks.';
+        quantityError = global.i18n.t("LocalIssueFileComponent_quantityError3");
       }
     }
     metadataList.forEach(item => {
@@ -182,10 +182,10 @@ export class LocalIssueFileComponent extends React.Component {
   }
 
   removeMetadata(key) {
-    Alert.alert('Are you sure you want to delete this label?', '', [{
-      text: 'Cancel', style: 'cancel',
+    Alert.alert(global.i18n.t("LocalIssueFileComponent_confirmDeleteLable"), '', [{
+      text: global.i18n.t("LocalIssueFileComponent_cancel"), style: 'cancel',
     }, {
-      text: 'Yes',
+      text: global.i18n.t("LocalIssueFileComponent_yes"),
       onPress: () => {
         let metadataList = this.state.metadataList.filter((item) => item.key != key);
         this.checkIssuance(this.state.assetName, metadataList, this.state.quantity);
@@ -222,16 +222,16 @@ export class LocalIssueFileComponent extends React.Component {
             <TouchableOpacity style={[defaultStyle.headerLeft, { width: 50, }]} onPress={() => this.props.navigation.goBack()}>
               <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../../assets/imgs/header_blue_icon.png')} />
             </TouchableOpacity>
-            <Text style={[defaultStyle.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>{'Register property rights'.toUpperCase()}</Text>
+            <Text style={[defaultStyle.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>{global.i18n.t("LocalIssueFileComponent_registerPropertyRights")}</Text>
             <TouchableOpacity style={[defaultStyle.headerRight, { width: 50, }]} />
           </View>)}
           contentInScroll={true}
           content={(<TouchableOpacity activeOpacity={1} style={localAddPropertyStyle.body}>
             <View style={localAddPropertyStyle.infoArea}>
-              <Text style={localAddPropertyStyle.fingerprintLabel}>{'Asset Fingerprint'.toUpperCase()}</Text>
+              <Text style={localAddPropertyStyle.fingerprintLabel}>{global.i18n.t("LocalIssueFileComponent_fingerprintLabel")}</Text>
               <Text style={localAddPropertyStyle.fingerprintValue} numberOfLines={1} >{this.state.fingerprint}</Text>
               <View style={localAddPropertyStyle.fingerprintInfoArea}>
-                <Text style={localAddPropertyStyle.fingerprintInfoMessage}>GENERATED FROM </Text>
+                <Text style={localAddPropertyStyle.fingerprintInfoMessage}>{global.i18n.t("LocalIssueFileComponent_generatedFrom")} </Text>
                 <Text style={localAddPropertyStyle.fingerprintInfoFilename} numberOfLines={1} >{this.state.fileName}</Text>
                 <Text style={localAddPropertyStyle.fingerprintInfoFileFormat}>{this.state.fileFormat}</Text>
               </View>
@@ -239,17 +239,18 @@ export class LocalIssueFileComponent extends React.Component {
               {/*Asset Type*/}
               <View>
                 {/*Asset Type Label*/}
-                <Text style={localAddPropertyStyle.assetTypeLabel}>ASSET TYPE</Text>
+                <Text style={localAddPropertyStyle.assetTypeLabel}>{global.i18n.t("LocalIssueFileComponent_assetTypeLabel")}</Text>
 
                 {/* Asset Type value / Asset Type chooser */}
                 {this.state.existingAsset ? (
                   // Asset Type value
                   <View style={localAddPropertyStyle.assetTypeTypeInfoContainer}>
-                    <Text style={localAddPropertyStyle.assetTypeTypeInfo}>{this.state.assetAccessibility.charAt(0).toUpperCase() + this.state.assetAccessibility.slice(1)} asset</Text>
+                    {/*<Text style={localAddPropertyStyle.assetTypeTypeInfo}>{this.state.assetAccessibility.charAt(0).toUpperCase() + this.state.assetAccessibility.slice(1)} asset</Text>*/}
+                    <Text style={localAddPropertyStyle.assetTypeTypeInfo}>{global.i18n.t("LocalIssueFileComponent_assetAccessibilityAsset", {assetAccessibility: global.i18n.t("LocalIssueFileComponent_" + this.state.assetAccessibility)})}</Text>
                     <TouchableOpacity onPress={() => {
                       this.props.navigation.navigate('AssetTypeHelp');
                     }}>
-                      <Text style={localAddPropertyStyle.assetTypeHelperLinkText}>What is asset type?</Text>
+                      <Text style={localAddPropertyStyle.assetTypeHelperLinkText}>{global.i18n.t("LocalIssueFileComponent_whatIsAssetType")}</Text>
                     </TouchableOpacity>
                   </View>
                 ) : (
@@ -259,13 +260,13 @@ export class LocalIssueFileComponent extends React.Component {
                         <TouchableOpacity onPress={() => this.toggleAssetType('private')}
                           style={this.state.assetAccessibility !== 'public' ? localAddPropertyStyle.assetTypeActiveButton : localAddPropertyStyle.assetTypeInActiveButton}>
                           <Text style={this.state.assetAccessibility !== 'public' ? localAddPropertyStyle.assetTypeActiveButtonText : localAddPropertyStyle.assetTypeInActiveButtonText}>
-                            Private asset
+                            {global.i18n.t("LocalIssueFileComponent_privateAsset")}
                       </Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.toggleAssetType('public')}
                           style={this.state.assetAccessibility === 'public' ? localAddPropertyStyle.assetTypeActiveButton : localAddPropertyStyle.assetTypeInActiveButton}>
                           <Text style={this.state.assetAccessibility === 'public' ? localAddPropertyStyle.assetTypeActiveButtonText : localAddPropertyStyle.assetTypeInActiveButtonText}>
-                            Public asset
+                            {global.i18n.t("LocalIssueFileComponent_publicAsset")}
                       </Text>
                         </TouchableOpacity>
                       </View>
@@ -276,7 +277,7 @@ export class LocalIssueFileComponent extends React.Component {
                           this.props.navigation.navigate('AssetTypeHelp');
                         }}>
                           <Text style={localAddPropertyStyle.assetTypeHelperLinkText}>
-                            What are Private and Public assets?
+                            {global.i18n.t("LocalIssueFileComponent_whatArePrivateAndPublicAssets")}
                       </Text>
                         </TouchableOpacity>
                       </View>
@@ -284,18 +285,18 @@ export class LocalIssueFileComponent extends React.Component {
                   )}
               </View>
 
-              <Text style={localAddPropertyStyle.assetNameLabel}>PROPERTY NAME</Text>
+              <Text style={localAddPropertyStyle.assetNameLabel}>{global.i18n.t("LocalIssueFileComponent_propertyName")}</Text>
               {!this.state.existingAsset && <TextInput
                 ref={(ref) => this.assetNameInputRef = ref}
                 style={[localAddPropertyStyle.assetNameInput, {
                   color: this.state.existingAsset ? '#C2C2C2' : 'black',
                   borderBottomColor: this.state.assetNameError ? '#FF003C' : (this.state.existingAsset ? '#C2C2C2' : '#0060F2')
-                }]} placeholder="64-CHARACTER MAX"
+                }]} placeholder={global.i18n.t("LocalIssueFileComponent_64characterMax")}
                 onChangeText={this.doInputAssetName}
                 numberOfLines={1}
                 editable={!this.state.existingAsset}
                 returnKeyType="done"
-                returnKeyLabel="Done"
+                returnKeyLabel={global.i18n.t("LocalIssueFileComponent_done")}
                 onFocus={() => this.fullRef.setFocusElement(this.assetNameInputRef)}
               />}
               {!!this.state.assetNameError && <Text style={localAddPropertyStyle.assetNameInputError}>{this.state.assetNameError}</Text>}
@@ -304,8 +305,8 @@ export class LocalIssueFileComponent extends React.Component {
                 <Text style={[localAddPropertyStyle.existAssetNameText]}>{this.state.assetName}</Text>
               </View>}
 
-              <Text style={localAddPropertyStyle.metadataLabel}>METADATA</Text>
-              <Text style={localAddPropertyStyle.metadataDescription}>OPTIONAL PROPERTY METADATA (2048-BYTE LIMIT)</Text>
+              <Text style={localAddPropertyStyle.metadataLabel}>{global.i18n.t("LocalIssueFileComponent_metadata")}</Text>
+              <Text style={localAddPropertyStyle.metadataDescription}>{global.i18n.t("LocalIssueFileComponent_metadataDescription")}</Text>
               <View style={localAddPropertyStyle.metadataArea}>
                 <FlatList style={localAddPropertyStyle.metadataList}
                   data={this.state.metadataList}
@@ -333,19 +334,19 @@ export class LocalIssueFileComponent extends React.Component {
                             <Text style={[localAddPropertyStyle.metadataFieldKeyText, {
                               color: (item.label && !this.state.existingAsset) ? 'black' : '#C1C1C1',
                               width: convertWidth(this.state.isEditingMetadata ? 286 : 302),
-                            }]}>{item.label || 'LABEL'}</Text>
+                            }]}>{item.label || global.i18n.t("LocalIssueFileComponent_label")}</Text>
                             {!this.state.existingAsset && <Image style={localAddPropertyStyle.metadataFieldKeyEditIcon}
                               source={require('./../../../../../../assets/imgs/next-icon-blue.png')} />}
                           </TouchableOpacity>
                           <TextInput style={[localAddPropertyStyle.metadataFieldValue, {
                             color: (item.label && !this.state.existingAsset) ? 'black' : '#C1C1C1',
-                          }]} placeholder='DESCRIPTION'
+                          }]} placeholder={global.i18n.t("LocalIssueFileComponent_description")}
                             ref={(ref) => this['valueInput_' + item.key] = ref}
                             multiline={true}
                             value={item.value}
                             onChangeText={(text) => this.onChangeMetadataValue(item.key, text)}
                             onEndEditing={this.onEndChangeMetadataValue}
-                            returnKeyLabel="done"
+                            returnKeyLabel={global.i18n.t("LocalIssueFileComponent_done")}
                             returnKeyType="done"
                             blurOnSubmit={true}
                             editable={!this.state.existingAsset}
@@ -367,19 +368,19 @@ export class LocalIssueFileComponent extends React.Component {
                 <TouchableOpacity style={localAddPropertyStyle.addMetadataButton} disabled={!this.state.canAddNewMetadata} onPress={this.addNewMetadataField}>
                   <Image style={localAddPropertyStyle.addMetadataButtonIcon} source={
                     this.state.canAddNewMetadata ? require('./../../../../../../assets/imgs/plus-white-blue-icon.png') : require('./../../../../../../assets/imgs/plus-white-blue-icon-disable.png')} />
-                  <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: this.state.canAddNewMetadata ? '#0060F2' : '#C2C2C2' }]}> ADD LABEL</Text>
+                  <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: this.state.canAddNewMetadata ? '#0060F2' : '#C2C2C2' }]}> {global.i18n.t("LocalIssueFileComponent_addLabel")}</Text>
                 </TouchableOpacity>
 
                 {this.state.isEditingMetadata && <TouchableOpacity style={[localAddPropertyStyle.addMetadataButton]} onPress={() => this.setState({ isEditingMetadata: false })}>
-                  <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: '#0060F2' }]}>DONE</Text>
+                  <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: '#0060F2' }]}>{global.i18n.t("LocalIssueFileComponent_done").toUpperCase()}</Text>
                 </TouchableOpacity>}
                 {!this.state.isEditingMetadata && this.state.metadataList.length > 0 && <TouchableOpacity style={[localAddPropertyStyle.addMetadataButton]} onPress={() => this.setState({ isEditingMetadata: true })}>
-                  <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: this.state.isEditingMetadata ? '#C2C2C2' : '#0060F2' }]}>EDIT</Text>
+                  <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: this.state.isEditingMetadata ? '#C2C2C2' : '#0060F2' }]}>{global.i18n.t("LocalIssueFileComponent_edit")}</Text>
                 </TouchableOpacity>}
               </View>}
               {!!this.state.metadataError && <Text style={localAddPropertyStyle.metadataInputError}>{this.state.metadataError}</Text>}
 
-              <Text style={localAddPropertyStyle.quantityLabel}>{'number of bitmarks TO ISSUE'.toUpperCase()}</Text>
+              <Text style={localAddPropertyStyle.quantityLabel}>{global.i18n.t("LocalIssueFileComponent_quantityLabel")}</Text>
               <TextInput
                 ref={(ref) => this.quantityInputRef = ref}
                 style={[localAddPropertyStyle.quantityInput, {
@@ -388,12 +389,12 @@ export class LocalIssueFileComponent extends React.Component {
                 onChangeText={this.doInputQuantity}
                 keyboardType={'numeric'}
                 returnKeyType="done"
-                returnKeyLabel="Done"
+                returnKeyLabel={global.i18n.t("LocalIssueFileComponent_done")}
                 onFocus={() => this.fullRef.setFocusElement(this.quantityInputRef)}
               />
               {!!this.state.quantityError && <Text style={localAddPropertyStyle.quantityInputError}>{this.state.quantityError}</Text>}
-              <Text style={localAddPropertyStyle.ownershipClaimLabel}>{'Ownership claim'.toUpperCase()}</Text>
-              <Text style={localAddPropertyStyle.ownershipClaimMessage}>{'"I hereby claim that I am the legal owner of this asset and want these properties rights to be irrevocably issued and recorded on the Bitmark blockchain."'}</Text>
+              <Text style={localAddPropertyStyle.ownershipClaimLabel}>{global.i18n.t("LocalIssueFileComponent_ownershipClaimLabel")}</Text>
+              <Text style={localAddPropertyStyle.ownershipClaimMessage}>{global.i18n.t("LocalIssueFileComponent_ownershipClaimMessage")}</Text>
               {!!this.state.issueError && <Text style={localAddPropertyStyle.issueError}>{this.state.issueError}</Text>}
             </View>
           </TouchableOpacity>)}
@@ -404,7 +405,7 @@ export class LocalIssueFileComponent extends React.Component {
             onPress={this.onIssueFile}
             disabled={!this.state.canIssue}
           >
-            <Text style={[localAddPropertyStyle.issueButtonText, { color: this.state.canIssue ? '#0060F2' : '#C2C2C2' }]}>ISSUE</Text>
+            <Text style={[localAddPropertyStyle.issueButtonText, { color: this.state.canIssue ? '#0060F2' : '#C2C2C2' }]}>{global.i18n.t("LocalIssueFileComponent_issueButtonText")}</Text>
           </TouchableOpacity>)
           }
         />

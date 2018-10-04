@@ -21,7 +21,7 @@ class RecoveryPhraseComponent extends React.Component {
   render() {
     let isSignOut = (this.props.screenProps && this.props.screenProps.accountNavigation.state.params.isSignOut);
     const recoveryPhrase = () => {
-      AppProcessor.doGetCurrentAccount('Authorize access to your recovery phrase.').then((user) => {
+      AppProcessor.doGetCurrentAccount(global.i18n.t("RecoveryPhraseComponent_authorizeAccessToYourRecoveryPhrase")).then((user) => {
         if (user) {
           currentUser = user;
           this.props.navigation.navigate('WriteDownRecoveryPhrase');
@@ -36,19 +36,19 @@ class RecoveryPhraseComponent extends React.Component {
           <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => { this.props.screenProps.accountNavigation.goBack() }}>
             <Image style={defaultStyle.headerLeftIcon} source={require('./../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={defaultStyle.headerTitle}>{(isSignOut ? 'Remove Access' : 'Recovery Phrase').toUpperCase()}</Text>
+          <Text style={defaultStyle.headerTitle}>{isSignOut ? global.i18n.t("RecoveryPhraseComponent_removeAccess") : global.i18n.t("RecoveryPhraseComponent_recoveryPhrase")}</Text>
           <TouchableOpacity style={defaultStyle.headerRight} onPress={() => { this.props.screenProps.accountNavigation.goBack() }} disabled={isSignOut}>
-            {!isSignOut && <Text style={defaultStyle.headerRightText}>Cancel</Text>}
+            {!isSignOut && <Text style={defaultStyle.headerRightText}>{global.i18n.t("RecoveryPhraseComponent_cancel")}</Text>}
           </TouchableOpacity>
         </View>
         <ScrollView style={accountRecoveryStyle.recoveryPhraseContent}>
           <Image style={accountRecoveryStyle.recoveryPhraseWarningIcon} source={require('./../../../../../assets/imgs/backup_warning.png')} />
-          {!isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>Your recovery phrase is the only way to restore your Bitmark account if your phone is lost, stolen, broken, or upgraded.{'\n\n'}We will show you a list of words to write down on a piece of paper and keep safe.{'\n\n'}Make sure you are in a private location before writing down your recovery phrase.</Text>}
+          {!isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>{global.i18n.t("RecoveryPhraseComponent_recoveryDescription1")}</Text>}
 
-          {isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>Your recovery phrase is the only way to access your Bitmark account after signing out. If you have not already written down your recovery phrase, you must do so now or you will be permanently lose access to your account and lose ownership of all your digital properties. {'\n\n'}Your recovery phrase is a list of 24 words to write on a piece of paper and keep safe. Make sure you are in a private location when you write it down.{'\n\n'}This will completely remove access to your account on this device. Regular data bitmarking will be paused until you sign back in with your recovery phrase.</Text>}
+          {isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>{global.i18n.t("RecoveryPhraseComponent_recoveryDescription2")}</Text>}
         </ScrollView>
         <TouchableOpacity style={accountRecoveryStyle.recoveryPhraseBottomButton} onPress={() => recoveryPhrase()}>
-          <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>WRITE DOWN RECOVERY PHRASE</Text>
+          <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{global.i18n.t("RecoveryPhraseComponent_writeDownRecoveryPhrase")}</Text>
         </TouchableOpacity>
       </View>
 
@@ -102,12 +102,12 @@ class WriteDownRecoveryPhraseComponent extends React.Component {
           <TouchableOpacity style={[defaultStyle.headerLeft, { width: 40 }]} onPress={() => { this.props.navigation.goBack() }}>
             <Image style={defaultStyle.headerLeftIcon} source={require('./../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={[defaultStyle.headerTitle, { maxHeight: convertWidth(375) - 80 }]}>{(isSignOut ? 'Write Down Recovery Phrase' : 'Recovery Phrase').toUpperCase()}</Text>
+          <Text style={[defaultStyle.headerTitle, { maxHeight: convertWidth(375) - 80 }]}>{isSignOut ? global.i18n.t("WriteDownRecoveryPhraseComponent_writeDownRecoveryPhrase") : global.i18n.t("WriteDownRecoveryPhraseComponent_recoveryPhrase")}</Text>
           <TouchableOpacity style={[defaultStyle.headerRight, { width: 40 }]} />
         </View>
         <ScrollView style={accountRecoveryStyle.recoveryPhraseContent}>
-          {!isSignOut && <Text style={accountRecoveryStyle.writeRecoveryPhraseContentMessage}>Please write down your recovery phrase in the exact sequence below:</Text>}
-          {isSignOut && <Text style={accountRecoveryStyle.writeRecoveryPhraseContentMessage}>Write down your recovery phrase in the exact sequence below:</Text>}
+          {!isSignOut && <Text style={accountRecoveryStyle.writeRecoveryPhraseContentMessage}>{global.i18n.t("WriteDownRecoveryPhraseComponent_writeRecoveryPhraseContentMessage1")}</Text>}
+          {isSignOut && <Text style={accountRecoveryStyle.writeRecoveryPhraseContentMessage}>{global.i18n.t("WriteDownRecoveryPhraseComponent_writeRecoveryPhraseContentMessage2")}</Text>}
           <View style={accountRecoveryStyle.writeRecoveryPhraseContentList}>
             <View style={accountRecoveryStyle.writeRecoveryPhraseContentHalfList}>
               <FlatList data={this.state.smallerList}
@@ -142,7 +142,7 @@ class WriteDownRecoveryPhraseComponent extends React.Component {
         {!isSignOut && <TouchableOpacity style={accountRecoveryStyle.recoveryPhraseBottomButton} onPress={() => {
           this.props.navigation.navigate('TryRecovery')
         }}>
-          <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>TEST RECOVERY PHRASE »</Text>
+          <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{global.i18n.t("WriteDownRecoveryPhraseComponent_testRecoveryPhrase")} »</Text>
         </TouchableOpacity>}
         <TouchableOpacity style={[accountRecoveryStyle.recoveryPhraseBottomButton, !isSignOut ? { backgroundColor: '#F2FAFF', } : {}]} onPress={() => {
           if (isSignOut) {
@@ -152,7 +152,7 @@ class WriteDownRecoveryPhraseComponent extends React.Component {
             this.props.screenProps.accountNavigation.goBack();
           }
         }}>
-          <Text style={[accountRecoveryStyle.recoveryPhraseBottomButtonText, !isSignOut ? { color: '#0060F2' } : {}]}>{'DONE'}</Text>
+          <Text style={[accountRecoveryStyle.recoveryPhraseBottomButtonText, !isSignOut ? { color: '#0060F2' } : {}]}>{global.i18n.t("WriteDownRecoveryPhraseComponent_done")}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -399,13 +399,13 @@ class TryRecoveryPhraseComponent extends React.Component {
       <View style={accountRecoveryStyle.body}>
         <View style={[accountRecoveryStyle.header]}>
           <TouchableOpacity style={defaultStyle.headerLeft} />
-          <Text style={defaultStyle.headerTitle}>{'TEST Recovery Phrase'.toUpperCase()}</Text>
+          <Text style={defaultStyle.headerTitle}>{global.i18n.t("TryRecoveryPhraseComponent_testRecoveryPhrase")}</Text>
           <TouchableOpacity style={defaultStyle.headerRight} onPress={() => this.props.screenProps.accountNavigation.goBack()} >
-            <Text style={defaultStyle.headerRightText}>Cancel</Text>
+            <Text style={defaultStyle.headerRightText}>{global.i18n.t("TryRecoveryPhraseComponent_cancel")}</Text>
           </TouchableOpacity>
         </View>
         <ScrollView style={accountRecoveryStyle.recoveryPhraseContent}>
-          <Text style={accountRecoveryStyle.writeRecoveryPhraseContentMessage}>Tap the words to put them in the correct order for your recovery phrase:</Text>
+          <Text style={accountRecoveryStyle.writeRecoveryPhraseContentMessage}>{global.i18n.t("TryRecoveryPhraseComponent_writeRecoveryPhraseContentMessage")}</Text>
           <View style={accountRecoveryStyle.writeRecoveryPhraseContentList}>
             <View style={accountRecoveryStyle.writeRecoveryPhraseContentHalfList}>
               <FlatList data={this.state.smallerList}
@@ -480,16 +480,16 @@ class TryRecoveryPhraseComponent extends React.Component {
           </View>}
         </ScrollView>
         {this.state.testResult === 'done' && <View style={accountRecoveryStyle.recoveryPhraseTestResult}>
-          <Text style={accountRecoveryStyle.recoveryPhraseTestTitle}>Success!</Text>
-          <Text style={accountRecoveryStyle.recoveryPhraseTestMessage}>Keep your written copy private in a secure and safe location.</Text>
+          <Text style={accountRecoveryStyle.recoveryPhraseTestTitle}>{global.i18n.t("TryRecoveryPhraseComponent_success")}</Text>
+          <Text style={accountRecoveryStyle.recoveryPhraseTestMessage}>{global.i18n.t("TryRecoveryPhraseComponent_recoveryPhraseTestMessage")}</Text>
         </View>}
         {this.state.testResult === 'retry' && <View style={accountRecoveryStyle.recoveryPhraseTestResult}>
-          <Text style={[accountRecoveryStyle.recoveryPhraseTestTitle, { color: '#FF003C' }]}>Error!</Text>
-          <Text style={[accountRecoveryStyle.recoveryPhraseTestMessage, { color: '#FF003C' }]}>Please try again!</Text>
+          <Text style={[accountRecoveryStyle.recoveryPhraseTestTitle, { color: '#FF003C' }]}>{global.i18n.t("TryRecoveryPhraseComponent_error")}</Text>
+          <Text style={[accountRecoveryStyle.recoveryPhraseTestMessage, { color: '#FF003C' }]}>{global.i18n.t("TryRecoveryPhraseComponent_pleaseTryAgain")}</Text>
         </View>}
         {this.state.testResult.length > 0 && <TouchableOpacity style={accountRecoveryStyle.recoveryPhraseBottomButton}
           onPress={() => this.doAfterInputtedAllWord()}>
-          <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{((this.state.testResult === 'done' && isSignOut ? 'Remove access' : this.state.testResult)).toUpperCase()}</Text>
+          <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{((this.state.testResult === 'done' && isSignOut ? global.i18n.t("TryRecoveryPhraseComponent_removeAccess") : global.i18n.t(`TryRecoveryPhraseComponent_${this.state.testResult}`))).toUpperCase()}</Text>
         </TouchableOpacity>}
       </View>
     );

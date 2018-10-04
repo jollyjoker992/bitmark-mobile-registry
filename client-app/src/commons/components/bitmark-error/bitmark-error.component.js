@@ -31,7 +31,7 @@ export class BitmarkErrorComponent extends React.Component {
             {!!this.state.message && <Text style={dialogStyles.message}>{this.state.message}</Text>}
           </View>
           <TouchableOpacity style={dialogStyles.okButton} onPress={this.props.close}>
-            <Text style={dialogStyles.okButtonText}>OK</Text>
+            <Text style={dialogStyles.okButtonText}>{global.i18n.t("BitmarkErrorComponent_ok")}</Text>
           </TouchableOpacity>
         </View>
       </BitmarkDialogComponent>

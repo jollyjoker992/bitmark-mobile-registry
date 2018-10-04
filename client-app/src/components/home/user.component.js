@@ -14,6 +14,7 @@ import { BottomTabsComponent } from './bottom-tabs/bottom-tabs.component';
 import { AppProcessor, DataProcessor } from '../../processors';
 import { EventEmitterService } from '../../services';
 import { BitmarkComponent } from '../../commons/components';
+import { BottomTabStore, BottomTabActions } from '../../stores';
 
 const MainTabs = BottomTabsComponent.MainTabs;
 
@@ -50,6 +51,9 @@ export class UserComponent extends React.Component {
         subTab,
       },
     };
+    let bottomTabStoreState = BottomTabStore.getState().data;
+    bottomTabStoreState.mainTab = mainTab;
+    BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
     this.needReloadData = needReloadData;
   }
 
@@ -62,7 +66,9 @@ export class UserComponent extends React.Component {
   refreshComponent(newState) {
     this.setState(newState);
     if (newState.changeMainTab) {
-      EventEmitterService.emit(EventEmitterService.events.CHANGE_MAIN_TAB, newState.changeMainTab.mainTab);
+      let bottomTabStoreState = BottomTabStore.getState().data;
+      bottomTabStoreState.mainTab = newState.changeMainTab.mainTab;
+      BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
     }
   }
 
@@ -73,6 +79,9 @@ export class UserComponent extends React.Component {
   switchMainTab(mainTab) {
     let displayedTab = { mainTab, subTab: null };
     this.setState({ displayedTab });
+    let bottomTabStoreState = BottomTabStore.getState().data;
+    bottomTabStoreState.mainTab = mainTab;
+    BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
   }
 
   handerReceivedNotification(data) {
@@ -216,7 +225,7 @@ export class UserComponent extends React.Component {
             logout: this.logout,
             needReloadData: this.needReloadData,
             goToRecoveryPhase: this.state.goToRecoveryPhase,
-            removeGoingToRecoveryPhase: () => this.setState({goToRecoveryPhase: false}),
+            removeGoingToRecoveryPhase: () => this.setState({ goToRecoveryPhase: false }),
             donReloadData: () => this.needReloadData = false,
           }} />}
         </View>)}

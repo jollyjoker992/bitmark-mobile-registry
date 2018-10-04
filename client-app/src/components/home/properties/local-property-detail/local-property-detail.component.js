@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { Provider, connect } from 'react-redux';
 import {
   View, Text, TouchableOpacity, Image, FlatList, ScrollView, ActivityIndicator, TouchableWithoutFeedback,
   Clipboard,
@@ -19,46 +20,28 @@ import { EventEmitterService } from '../../../../services';
 import { config } from '../../../../configs';
 import { DataProcessor } from '../../../../processors/data-processor';
 import { BitmarkModel } from '../../../../models';
+import { PropertyStore, PropertyActions } from '../../../../stores';
 
-let ComponentName = 'LocalPropertyDetailComponent';
-export class LocalPropertyDetailComponent extends React.Component {
+class PrivateLocalPropertyDetailComponent extends React.Component {
   constructor(props) {
     super(props);
     this.downloadAsset = this.downloadAsset.bind(this);
     this.clickOnProvenance = this.clickOnProvenance.bind(this);
     this.changeTrackingBitmark = this.changeTrackingBitmark.bind(this);
-    this.handerChangeTrackingBitmarks = this.handerChangeTrackingBitmarks.bind(this);
-    this.handerChangeLocalBitmarks = this.handerChangeLocalBitmarks.bind(this);
     this.doGetScreenData = this.doGetScreenData.bind(this);
 
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_TRACKING_BITMARKS, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_LOCAL_BITMARKS, null, ComponentName);
-
-    let asset = this.props.navigation.state.params.asset;
-    let bitmark = this.props.navigation.state.params.bitmark;
-
+    console.log('PrivateLocalPropertyDetailComponent props', props);
     let provenanceViewed = {};
-    let metadata = [];
-    let index = 0;
-    for (let label in asset.metadata) {
-      metadata.push({ key: index, label, value: asset.metadata[label] });
-      index++;
-    }
     this.state = {
-      metadata,
       provenanceViewed,
-      isTracking: false,
-      asset,
-      bitmark,
       copied: false,
       displayTopButton: false,
       provenance: [],
       gettingData: true,
     };
-    this.doGetScreenData(bitmark);
+    this.doGetScreenData(this.props.bitmark);
   }
   async doGetScreenData(bitmark) {
-    let trackingBitmark = await DataProcessor.doGetTrackingBitmarkInformation(bitmark.id);
     let provenance = await DataProcessor.doGetProvenance(bitmark.id);
     let provenanceViewed = {};
     provenance.forEach((history, index) => {
@@ -66,59 +49,36 @@ export class LocalPropertyDetailComponent extends React.Component {
       provenanceViewed[history.tx_id] = history.isViewed;
     });
 
-    if (DataProcessor.getUserInformation().bitmarkAccountNumber === this.state.bitmark.owner) {
-      DataProcessor.doUpdateViewStatus(this.state.asset.id, this.state.bitmark.id);
+    if (DataProcessor.getUserInformation().bitmarkAccountNumber === this.props.bitmark.owner) {
+      DataProcessor.doUpdateViewStatus(this.props.asset.id, this.props.bitmark.id);
     } else {
-      DataProcessor.doUpdateViewStatus(null, this.state.bitmark.id);
+      DataProcessor.doUpdateViewStatus(null, this.props.bitmark.id);
     }
 
     // Augment info for asset preview
-    let contentType = await BitmarkModel.doGetAssetTextContentType(this.state.asset.id);
+    let contentType = await BitmarkModel.doGetAssetTextContentType(this.props.asset.id);
     let assetTextContent;
     if (contentType && contentType === 'text') {
-      assetTextContent = await BitmarkModel.doGetAssetTextContent(this.state.asset.id);
+      assetTextContent = await BitmarkModel.doGetAssetTextContent(this.props.asset.id);
     }
 
     this.setState({
       contentType,
       assetTextContent,
       provenance, provenanceViewed, gettingData: false,
-      isTracking: !!trackingBitmark,
     });
-  }
-
-  componentDidMount() {
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_TRACKING_BITMARKS, this.handerChangeTrackingBitmarks, ComponentName);
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_LOCAL_BITMARKS, this.handerChangeLocalBitmarks, ComponentName);
-  }
-
-  handerChangeLocalBitmarks() {
-    DataProcessor.doGetLocalBitmarkInformation(this.state.bitmark.id, this.state.asset.id).then(data => {
-      if (data && data.bitmark && data.asset &&
-        (JSON.stringify(this.state.bitmark) !== JSON.stringify(data.bitmark) || JSON.stringify(this.state.asset) !== JSON.stringify(data.asset))) {
-        this.setState({
-          bitmark: data.bitmark,
-          asset: data.asset,
-        });
-        this.doGetScreenData(data.bitmark);
-      }
-    });
-  }
-
-  handerChangeTrackingBitmarks() {
-    this.setState({ gettingData: true });
-    this.doGetScreenData(this.state.bitmark);
   }
 
   downloadAsset() {
+
     AppProcessor.doDownloadBitmark(this.state.bitmark, {
-      indicator: true, title: 'Preparing to export...', message: `Downloading “${this.state.asset.name}”...`
+      indicator: true, title: global.i18n.t("LocalPropertyDetailComponent_preparingToExport"), message: global.i18n.t("LocalPropertyDetailComponent_downloadingFile", { fileName: this.props.asset.name })
     }).then(filePath => {
       if (filePath) {
-        Share.share({ title: this.state.asset.name, url: filePath });
+        Share.share({ title: this.props.asset.name, url: filePath });
       }
     }).catch(error => {
-      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: "Your bitmark isn't ready to download.\nPlease try again later." });
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("LocalPropertyDetailComponent_notReadyToDownload") });
       console.log('doDownload asset error :', error);
     });
   }
@@ -129,26 +89,26 @@ export class LocalPropertyDetailComponent extends React.Component {
   }
 
   changeTrackingBitmark() {
-    if (!this.state.isTracking) {
-      Alert.alert('Track This Bitmark', 'By tracking a bitmark you can always view the latest bitmarks status in the tracked properties list, are you sure you want to do it?', [{
-        text: 'Cancel', style: 'cancel',
+    if (!this.props.isTracking) {
+      Alert.alert(global.i18n.t("LocalPropertyDetailComponent_trackBitmarkTitle"), global.i18n.t("LocalPropertyDetailComponent_trackBitmarkMessage"), [{
+        text: global.i18n.t("LocalPropertyDetailComponent_cancel"), style: 'cancel',
       }, {
-        text: 'YES',
+        text: global.i18n.t("LocalPropertyDetailComponent_yes"),
         onPress: () => {
-          AppProcessor.doTrackingBitmark(this.state.asset, this.state.bitmark).catch(error => {
-            EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {error});
+          AppProcessor.doTrackingBitmark(this.props.asset, this.props.bitmark).catch(error => {
+            EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
             console.log('doTrackingBitmark error :', error);
           });
         }
       }]);
     } else {
-      Alert.alert('Stop Tracking', 'If you stop tracking a bitmark, the bitmark will be removed from the tracked list, are you sure you want to do it?', [{
-        text: 'Cancel', style: 'cancel',
+      Alert.alert(global.i18n.t("LocalPropertyDetailComponent_stopTrackingTitle"), global.i18n.t("LocalPropertyDetailComponent_stopTrackingMessage"), [{
+        text: global.i18n.t("LocalPropertyDetailComponent_cancel"), style: 'cancel',
       }, {
-        text: 'YES',
+        text: global.i18n.t("LocalPropertyDetailComponent_yes"),
         onPress: () => {
-          AppProcessor.doStopTrackingBitmark(this.state.bitmark).catch(error => {
-            EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {error});
+          AppProcessor.doStopTrackingBitmark(this.props.bitmark).catch(error => {
+            EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
             console.log('doTrackingBitmark error :', error);
           });
         }
@@ -164,8 +124,8 @@ export class LocalPropertyDetailComponent extends React.Component {
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <View style={defaultStyle.headerCenter}>
-            <Text style={[defaultStyle.headerTitle, { maxWidth: convertWidth(180), }]} numberOfLines={1}>{this.state.asset.name} </Text>
-            {this.state.asset.bitmarks && this.state.asset.bitmarks.length > 0 && <Text style={[defaultStyle.headerTitle]}>({this.state.asset.bitmarks.indexOf(this.state.bitmark) + 1}/{this.state.asset.bitmarks.length})</Text>}
+            <Text style={[defaultStyle.headerTitle, { maxWidth: convertWidth(180), }]} numberOfLines={1}>{this.props.asset.name} </Text>
+            {this.props.asset.bitmarks && this.props.asset.bitmarks.length > 0 && <Text style={[defaultStyle.headerTitle]}>({this.props.asset.bitmarks.indexOf(this.props.bitmark) + 1}/{this.props.asset.bitmarks.length})</Text>}
           </View>
           <TouchableOpacity style={[defaultStyle.headerRight, { padding: 4 }]} onPress={() => this.setState({ displayTopButton: !this.state.displayTopButton })}>
             <Image style={propertyDetailStyle.threeDotIcon} source={this.state.displayTopButton
@@ -175,73 +135,68 @@ export class LocalPropertyDetailComponent extends React.Component {
         </View></TouchableWithoutFeedback>)}
         content={(<TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={propertyDetailStyle.body}>
           {this.state.displayTopButton && <View style={propertyDetailStyle.topButtonsArea}>
-            {this.state.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber && <TouchableOpacity style={propertyDetailStyle.downloadAssetButton} disabled={this.state.bitmark.status !== 'confirmed'} onPress={this.downloadAsset}>
-              <Text style={[propertyDetailStyle.downloadAssetButtonText, { color: this.state.bitmark.status === 'confirmed' ? '#0060F2' : '#A4B5CD', }]}>DOWNLOAD ASSET</Text>
+            {this.props.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber && <TouchableOpacity style={propertyDetailStyle.downloadAssetButton} disabled={this.props.bitmark.status !== 'confirmed'} onPress={this.downloadAsset}>
+              <Text style={[propertyDetailStyle.downloadAssetButtonText, { color: this.props.bitmark.status === 'confirmed' ? '#0060F2' : '#A4B5CD', }]}>{global.i18n.t("LocalPropertyDetailComponent_downloadAsset")}</Text>
             </TouchableOpacity>}
             <TouchableOpacity style={propertyDetailStyle.topButton} onPress={() => {
-              Clipboard.setString(this.state.bitmark.id);
+              Clipboard.setString(this.props.bitmark.id);
               this.setState({ copied: true });
               setTimeout(() => { this.setState({ copied: false }) }, 1000);
             }}>
-              <Text style={propertyDetailStyle.topButtonText}>COPY BITMARK ID</Text>
-              {this.state.copied && <Text style={propertyDetailStyle.copiedAssetIddButtonText}>Copied to clipboard!</Text>}
+              <Text style={propertyDetailStyle.topButtonText}>{global.i18n.t("LocalPropertyDetailComponent_copyBitmarkId")}</Text>
+              {this.state.copied && <Text style={propertyDetailStyle.copiedAssetIddButtonText}>{global.i18n.t("LocalPropertyDetailComponent_copiedToClipboard")}</Text>}
             </TouchableOpacity>
-            {this.state.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber && !this.state.bitmark.transferOfferId &&
+            {this.props.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber && !this.props.bitmark.transferOfferId &&
               <TouchableOpacity style={propertyDetailStyle.topButton}
-                disabled={this.state.bitmark.status !== 'confirmed'}
-                onPress={() => this.props.navigation.navigate('LocalPropertyTransfer', { bitmark: this.state.bitmark, asset: this.state.asset })}>
+                disabled={this.props.bitmark.status !== 'confirmed'}
+                onPress={() => this.props.navigation.navigate('LocalPropertyTransfer', { bitmark: this.props.bitmark, asset: this.props.asset })}>
                 <Text style={[propertyDetailStyle.topButtonText, {
-                  color: this.state.bitmark.status === 'confirmed' ? '#0060F2' : '#C2C2C2'
-                }]}>SEND BITMARK</Text>
+                  color: this.props.bitmark.status === 'confirmed' ? '#0060F2' : '#C2C2C2'
+                }]}>{global.i18n.t("LocalPropertyDetailComponent_sendBitmark")}</Text>
               </TouchableOpacity>
             }
             <TouchableOpacity style={propertyDetailStyle.topButton} onPress={this.changeTrackingBitmark}>
-              <Text style={[propertyDetailStyle.topButtonText]}>{this.state.isTracking ? 'STOP TRACKING' : 'TRACK BITMARK'}</Text>
+              <Text style={[propertyDetailStyle.topButtonText]}>{this.props.isTracking ? global.i18n.t("LocalPropertyDetailComponent_stopTracking") : global.i18n.t("LocalPropertyDetailComponent_trackBitmark")}</Text>
             </TouchableOpacity>
-
           </View>}
           <ScrollView style={propertyDetailStyle.content}>
             <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => this.setState({ displayTopButton: false })}>
               <View style={propertyDetailStyle.bottomImageBar}></View>
-              <Text style={[propertyDetailStyle.assetName, { color: this.state.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{this.state.asset.name}</Text>
+              <Text style={[propertyDetailStyle.assetName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{this.props.asset.name}</Text>
 
-              {this.state.bitmark.status !== 'pending' && <Hyperlink
+              {this.props.bitmark.status !== 'pending' && <Hyperlink
                 onPress={(url) => {
-                  if (this.state.bitmark.status === 'confirmed') {
-                    this.props.navigation.navigate('BitmarkWebView', { title: 'REGISTRY', sourceUrl: url, isFullScreen: true, });
+                  if (this.props.bitmark.status === 'confirmed') {
+                    this.props.navigation.navigate('BitmarkWebView', { title: global.i18n.t("LocalPropertyDetailComponent_registry"), sourceUrl: url, isFullScreen: true, });
                   }
                 }}
-                linkStyle={{ color: this.state.bitmark.status === 'pending' ? '#999999' : '#0060F2' }}
+                linkStyle={{ color: this.props.bitmark.status === 'pending' ? '#999999' : '#0060F2' }}
                 linkText={url => {
-                  if (url === `${config.registry_server_url}/account/${this.state.bitmark.issuer}`) {
-                    if (this.state.bitmark.issuer === DataProcessor.getUserInformation().bitmarkAccountNumber) {
-                      return 'YOU';
+                  if (url === `${config.registry_server_url}/account/${this.props.bitmark.issuer}`) {
+                    if (this.props.bitmark.issuer === DataProcessor.getUserInformation().bitmarkAccountNumber) {
+                      return global.i18n.t("LocalPropertyDetailComponent_you");
                     }
-                    return `[${this.state.bitmark.issuer.substring(0, 4)}...${this.state.bitmark.issuer.substring(this.state.bitmark.issuer.length - 4, this.state.bitmark.issuer.length)}]`;
+                    return `[${this.props.bitmark.issuer.substring(0, 4)}...${this.props.bitmark.issuer.substring(this.props.bitmark.issuer.length - 4, this.props.bitmark.issuer.length)}]`;
                   }
                   return '';
                 }}>
                 <Text style={[propertyDetailStyle.assetCreateAt]}>
-                  ISSUED ON {moment(this.state.bitmark.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase()}{'\n'}BY {`${config.registry_server_url}/account/${this.state.bitmark.issuer}`}
+                  {global.i18n.t("LocalPropertyDetailComponent_issuedOn", { time: moment(this.state.bitmark.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase() })}{'\n'}{global.i18n.t("LocalPropertyDetailComponent_byAccountNumber", { accountNumber: `${config.registry_server_url}/account/${this.state.bitmark.issuer}` })}
                 </Text>
               </Hyperlink>}
 
-              {this.state.bitmark.status === 'pending' && <Text style={[propertyDetailStyle.assetCreateAt, { color: '#999999' }]}>
-                PENDING....
+              {this.props.bitmark.status === 'pending' && <Text style={[propertyDetailStyle.assetCreateAt, { color: '#999999' }]}>
+                {global.i18n.t("LocalPropertyDetailComponent_pending")}
+
               </Text>}
 
-              {this.state.metadata && this.state.metadata.length > 0 && <View style={propertyDetailStyle.metadataArea}>
-                <FlatList
-                  scrollEnabled={false}
-                  extraData={this.state}
-                  data={this.state.metadata || []}
-                  renderItem={({ item }) => {
-                    return (<View style={[propertyDetailStyle.metadataItem, { marginBottom: item.key === this.state.metadata.length ? 0 : 15 }]}>
-                      <Text style={[propertyDetailStyle.metadataItemLabel, { color: this.state.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{item.label.toUpperCase()}:</Text>
-                      <Text style={[propertyDetailStyle.metadataItemValue, { color: this.state.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{item.value}</Text>
-                    </View>);
-                  }}
-                />
+              {this.props.asset && Object.keys(this.props.asset.metadata).length > 0 && <View style={propertyDetailStyle.metadataArea}>
+                {Object.keys(this.props.asset.metadata).map((label, index) => (
+                  <View key={label} style={[propertyDetailStyle.metadataItem, { marginBottom: index === Object.keys(this.props.asset.metadata).length ? 0 : 15 }]}>
+                    <Text style={[propertyDetailStyle.metadataItemLabel, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{label.toUpperCase()}:</Text>
+                    <Text style={[propertyDetailStyle.metadataItemValue, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{this.props.asset.metadata[label]}</Text>
+                  </View>
+                ))}
               </View>}
 
               {/*Preview*/}
@@ -260,17 +215,17 @@ export class LocalPropertyDetailComponent extends React.Component {
                 <View style={propertyDetailStyle.assetPreview}>
                   <Image
                     style={{ width: 125, height: 125 }}
-                    source={{ uri: `${config.preview_asset_url}/${this.state.asset.id}` }}
+                    source={{ uri: `${config.preview_asset_url}/${this.props.asset.id}` }}
                   />
                 </View>
               }
 
 
-              <Text style={[propertyDetailStyle.provenanceLabel]}>PROVENANCE</Text>
+              <Text style={[propertyDetailStyle.provenanceLabel]}>{global.i18n.t("LocalPropertyDetailComponent_provenance")}</Text>
               <View style={propertyDetailStyle.provenancesArea}>
                 <View style={propertyDetailStyle.provenancesHeader}>
-                  <Text style={propertyDetailStyle.provenancesHeaderLabelTimestamp}>TIMESTAMP</Text>
-                  <Text style={propertyDetailStyle.provenancesHeaderLabelOwner}>OWNER</Text>
+                  <Text style={propertyDetailStyle.provenancesHeaderLabelTimestamp}>{global.i18n.t("LocalPropertyDetailComponent_timestamp")}</Text>
+                  <Text style={propertyDetailStyle.provenancesHeaderLabelOwner}>{global.i18n.t("LocalPropertyDetailComponent_owner")}</Text>
                 </View>
                 <View style={propertyDetailStyle.provenanceListArea}>
                   <FlatList
@@ -279,13 +234,13 @@ export class LocalPropertyDetailComponent extends React.Component {
                     data={this.state.provenance || []}
                     renderItem={({ item }) => {
                       return (<TouchableOpacity style={propertyDetailStyle.provenancesRow} onPress={() => this.clickOnProvenance(item)} disabled={item.status === 'pending'}>
-                        {this.state.isTracking && !this.state.provenanceViewed[item.tx_id] && !item.isViewed && <View style={propertyDetailStyle.provenancesNotView}></View>}
+                        {this.props.isTracking && !this.state.provenanceViewed[item.tx_id] && !item.isViewed && <View style={propertyDetailStyle.provenancesNotView}></View>}
                         <Text style={[propertyDetailStyle.provenancesRowTimestamp, { color: item.status === 'pending' ? '#999999' : '#0060F2' }]} numberOfLines={1}>
-                          {item.status === 'pending' ? 'PENDING…' : item.created_at.toUpperCase()}
+                          {item.status === 'pending' ? global.i18n.t("LocalPropertyDetailComponent_pending") : item.created_at.toUpperCase()}
                         </Text>
                         <View style={propertyDetailStyle.provenancesRowOwnerRow}>
                           <Text style={[propertyDetailStyle.provenancesRowOwner, { color: item.status === 'pending' ? '#999999' : '#0060F2' }]} numberOfLines={1}>
-                            {item.owner === DataProcessor.getUserInformation().bitmarkAccountNumber ? 'YOU' : '[' + item.owner.substring(0, 4) + '...' + item.owner.substring(item.owner.length - 4, item.owner.length) + ']'}
+                            {item.owner === DataProcessor.getUserInformation().bitmarkAccountNumber ? global.i18n.t("LocalPropertyDetailComponent_you") : '[' + item.owner.substring(0, 4) + '...' + item.owner.substring(item.owner.length - 4, item.owner.length) + ']'}
                           </Text>
                         </View>
                       </TouchableOpacity>);
@@ -302,7 +257,10 @@ export class LocalPropertyDetailComponent extends React.Component {
   }
 }
 
-LocalPropertyDetailComponent.propTypes = {
+PrivateLocalPropertyDetailComponent.propTypes = {
+  bitmark: PropTypes.object,
+  asset: PropTypes.object,
+  isTracking: PropTypes.bool,
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
     goBack: PropTypes.func,
@@ -313,4 +271,47 @@ LocalPropertyDetailComponent.propTypes = {
       }),
     }),
   }),
+};
+
+const StoreLocalPropertyDetailComponent = connect(
+  (state) => {
+    return state.data;
+  },
+)(PrivateLocalPropertyDetailComponent);
+
+export class LocalPropertyDetailComponent extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+      goBack: PropTypes.func,
+      state: PropTypes.shape({
+        params: PropTypes.shape({
+          asset: PropTypes.object,
+          bitmark: PropTypes.object,
+        }),
+      }),
+    }),
+  }
+  constructor(props) {
+    super(props);
+    let params = this.props.navigation.state.params;
+    PropertyStore.dispatch(PropertyActions.init(params));
+    if (params.bitmark && params.bitmark.id) {
+      DataProcessor.doGetTrackingBitmarkInformation(params.bitmark.id).then(data => {
+        params.isTracking = !!data;
+        PropertyStore.dispatch(PropertyActions.init(params));
+      }).catch(error => {
+        console.log('doGetTrackingBitmarkInformation error', error);
+      })
+    }
+  }
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <Provider store={PropertyStore}>
+          <StoreLocalPropertyDetailComponent navigation={this.props.navigation} />
+        </Provider>
+      </View>
+    );
+  }
 }

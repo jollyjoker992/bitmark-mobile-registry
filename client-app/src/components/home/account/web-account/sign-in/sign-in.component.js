@@ -35,12 +35,12 @@ export class WebAccountSignInComponent extends React.Component {
         }
       }).catch(error => {
         console.log('doSignInOnWebApp error:', error);
-        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { message: 'Cannot sign in this Bitmark account. Please try again later.' });
+        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { message: global.i18n.t("WebAccountSignInComponent_cannotSignIn") });
         this.props.navigation.goBack();
       });
     } else {
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {
-        message: 'QR code is invalid! ',
+        message: global.i18n.t("WebAccountSignInComponent_qrCodeIsInvalid"),
         onClose: this.props.navigation.goBack
       });
     }
@@ -52,7 +52,7 @@ export class WebAccountSignInComponent extends React.Component {
         <TouchableOpacity style={defaultStyles.headerLeft} onPress={() => this.props.navigation.goBack()} >
           <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../../../assets/imgs/header_blue_icon.png')} />
         </TouchableOpacity>
-        <Text style={defaultStyles.headerTitle}>{'Web account sign in'.toUpperCase()}</Text>
+        <Text style={defaultStyles.headerTitle}>{global.i18n.t("WebAccountSignInComponent_webAccountSignIn")}</Text>
         <TouchableOpacity style={defaultStyles.headerRight} />
       </View>
       <View style={componentStyle.bodyContent}>
@@ -60,7 +60,7 @@ export class WebAccountSignInComponent extends React.Component {
           linkStyle={{ color: '#0060F2', }}
           linkText={url => url}
         >
-          <Text style={componentStyle.scanMessage}>Visit https://a.bitmark.com. Click ”SIGN IN WITH MOBILE APP” and then scan the QR code.</Text>
+          <Text style={componentStyle.scanMessage}>{global.i18n.t("WebAccountSignInComponent_scanMessage")}</Text>
         </Hyperlink>
         <Camera ref={(ref) => this.cameraRef = ref} style={componentStyle.scanCamera} aspect={Camera.constants.Aspect.fill} onBarCodeRead={this.onBarCodeRead.bind(this)} />
       </View>

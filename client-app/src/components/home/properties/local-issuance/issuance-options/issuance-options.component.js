@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Provider, connect } from 'react-redux';
 import {
   View, Text, TouchableOpacity, Image,
 } from 'react-native';
@@ -14,41 +15,17 @@ import { EventEmitterService } from '../../../../../services';
 import { BottomTabsComponent } from '../../../bottom-tabs/bottom-tabs.component';
 import { FileUtil } from '../../../../../utils';
 import { CommonModel } from '../../../../../models';
+import { AccountStore } from '../../../../../stores';
 
-let ComponentName = 'IssuanceOptionsComponent';
-export class IssuanceOptionsComponent extends React.Component {
+export class PrivateIssuanceOptionsComponent extends React.Component {
   constructor(props) {
     super(props);
     this.onChooseFile = this.onChooseFile.bind(this);
     this.onChoosePhotoFile = this.onChoosePhotoFile.bind(this);
     this.issueIftttData = this.issueIftttData.bind(this);
-    this.handerIftttInformationChange = this.handerIftttInformationChange.bind(this);
-
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, ComponentName);
-
-    this.state = {
-      iftttInformation: null,
-    };
-
-    const doGetScreenData = async () => {
-      let iftttInformation = await DataProcessor.doGetIftttInformation();
-      this.setState({
-        iftttInformation,
-        gettingData: false,
-      });
-    }
-    doGetScreenData();
-
   }
 
   // ==========================================================================================
-  componentDidMount() {
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, this.handerIftttInformationChange, ComponentName);
-  }
-
-  handerIftttInformationChange(iftttInformation) {
-    this.setState({ iftttInformation });
-  }
 
   onChoosePhotoFile() {
     CommonModel.doTrackEvent({
@@ -116,7 +93,7 @@ export class IssuanceOptionsComponent extends React.Component {
   }
 
   issueIftttData() {
-    if (!this.state.iftttInformation || !this.state.iftttInformation.connectIFTTT) {
+    if (!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) {
       this.props.screenProps.homeNavigation.navigate('IftttActive');
     } else {
       const resetHomePage = NavigationActions.reset({
@@ -140,24 +117,24 @@ export class IssuanceOptionsComponent extends React.Component {
           <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.screenProps.issuanceNavigation.goBack()}>
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={defaultStyle.headerTitle}>{'Register'.toUpperCase()}</Text>
+          <Text style={defaultStyle.headerTitle}>{global.i18n.t("IssuanceOptionsComponent_register")}</Text>
           <TouchableOpacity style={defaultStyle.headerRight} />
         </View>
         <View style={issuanceOptionsStyle.content}>
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile}>
-            <Text style={issuanceOptionsStyle.optionButtonText}>PHOTOS</Text>
+            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChooseFile}>
-            <Text style={issuanceOptionsStyle.optionButtonText}>FILES</Text>
+            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_files")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData}>
-            <Text style={issuanceOptionsStyle.optionButtonText}>IFTTT DATA</Text>
-            {(!this.state.iftttInformation || !this.state.iftttInformation.connectIFTTT) && <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('./../../../../../../assets/imgs/next-icon-blue.png')} />}
-            {this.state.iftttInformation && !!this.state.iftttInformation.connectIFTTT && <Text style={issuanceOptionsStyle.optionButtonStatus}>{'Authorized'.toUpperCase()}</Text>}
+            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
+            {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) && <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('./../../../../../../assets/imgs/next-icon-blue.png')} />}
+            {this.props.iftttInformation && !!this.props.iftttInformation.connectIFTTT && <Text style={issuanceOptionsStyle.optionButtonStatus}>{global.i18n.t("IssuanceOptionsComponent_authorized")}</Text>}
           </TouchableOpacity>
 
           <Text style={issuanceOptionsStyle.message}>
-            Property rights are registered on Bitmark through the creation of an asset record followed by an issue record. Once an asset has been issued, transferring it simply requires taking advantage of the blockchain’s standard attributes.
+            {global.i18n.t("IssuanceOptionsComponent_message")}
           </Text>
         </View>
       </View>
@@ -165,7 +142,8 @@ export class IssuanceOptionsComponent extends React.Component {
   }
 }
 
-IssuanceOptionsComponent.propTypes = {
+PrivateIssuanceOptionsComponent.propTypes = {
+  iftttInformation: PropTypes.any,
   screenProps: PropTypes.shape({
     homeNavigation: PropTypes.shape({
       navigate: PropTypes.func,
@@ -181,4 +159,40 @@ IssuanceOptionsComponent.propTypes = {
     navigate: PropTypes.func,
     goBack: PropTypes.func,
   }),
+}
+
+
+const StoreIssuanceOptionsComponent = connect(
+  (state) => {
+    return state.data;
+  },
+)(PrivateIssuanceOptionsComponent);
+
+export class IssuanceOptionsComponent extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func,
+      goBack: PropTypes.func,
+    }),
+    screenProps: PropTypes.shape({
+      logout: PropTypes.func,
+      subTab: PropTypes.string,
+      homeNavigation: PropTypes.shape({
+        navigate: PropTypes.func,
+        goBack: PropTypes.func,
+      }),
+    }),
+  }
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <Provider store={AccountStore}>
+          <StoreIssuanceOptionsComponent screenProps={this.props.screenProps} navigation={this.props.navigation} />
+        </Provider>
+      </View>
+    );
+  }
 }
