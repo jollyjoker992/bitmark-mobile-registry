@@ -4,10 +4,12 @@ const currentSize = Dimensions.get('window');
 const isIPhoneX = (currentSize.height === 812);
 const windowHeight = isIPhoneX ? 812 : 667;
 const blankFooter = isIPhoneX ? 20 : 0;
-const headerHeight = isIPhoneX ? 80 : 71;
-const headerPaddingTop = isIPhoneX ? 35 : 20;
+const headerHeight = 50;
+const headerPaddingTop = 20;
+const buttonHeight = 45;
 
 let iosConstant = {
+  buttonHeight,
   subTabSizeHeight: 39,
   bottomTabsHeight: 56,
   blankFooter,

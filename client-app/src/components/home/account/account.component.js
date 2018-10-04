@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator,
+  View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator, SafeAreaView,
   Clipboard,
   Alert,
 } from 'react-native';
@@ -13,6 +13,7 @@ import accountStyle from './account.component.style';
 import defaultStyle from './../../../commons/styles';
 import { DataProcessor, AppProcessor } from '../../../processors';
 import { AccountStore } from '../../../stores';
+import { Actions } from 'react-native-router-flux';
 
 const SubTabs = {
   settings: 'SETTINGS',
@@ -23,19 +24,20 @@ class PrivateAccountDetailComponent extends React.Component {
     super(props);
     this.revokeIFTTT = this.revokeIFTTT.bind(this);
 
-    let subTab = (this.props.screenProps.subTab &&
-      (this.props.screenProps.subTab === SubTabs.settings || this.props.screenProps.subTab === SubTabs.authorized))
-      ? this.props.screenProps.subTab : SubTabs.settings;
+    let subTab = this.props.subTab || SubTabs.settings;
 
     this.state = {
       subTab,
       accountNumberCopyText: '',
     };
+  }
 
-    if (this.props.screenProps.goToRecoveryPhase) {
-      this.props.navigation.navigate('AccountRecovery', { isSignOut: false });
-      this.props.screenProps.removeGoingToRecoveryPhase();
-    }
+  logout() {
+    AppProcessor.doLogout().then(() => {
+      EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH);
+    }).catch((error) => {
+      console.log('log out error :', error);
+    });
   }
 
   switchSubTab(subTab) {
@@ -52,7 +54,6 @@ class PrivateAccountDetailComponent extends React.Component {
         AppProcessor.doRevokeIftttToken().then((result) => {
           if (result) {
             DataProcessor.doReloadUserData();
-            this.props.navigation.goBack();
           }
         }).catch(error => {
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
@@ -64,15 +65,13 @@ class PrivateAccountDetailComponent extends React.Component {
 
   render() {
     return (
-      <View style={accountStyle.body}>
+      <SafeAreaView style={accountStyle.body}>
         <View style={accountStyle.header}>
-          <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.navigation.navigate('ScanQRCode')}>
+          <TouchableOpacity style={defaultStyle.headerLeft} onPress={Actions.scanQRCode}>
             <Image style={accountStyle.cameraIcon} source={require('./../../../../assets/imgs/camera.png')} />
           </TouchableOpacity>
           <Text style={defaultStyle.headerTitle}>{global.i18n.t("AccountDetailComponent_account")}</Text>
-          <TouchableOpacity style={defaultStyle.headerRight} onPress={() => {
-            this.props.navigation.navigate('ApplicationDetail');
-          }}>
+          <TouchableOpacity style={defaultStyle.headerRight} onPress={Actions.applicationDetail}>
             <Image style={accountStyle.bitmarkAccountHelpIcon} source={require('./../../../../assets/imgs/icon_help.png')} />
           </TouchableOpacity>
         </View>
@@ -130,11 +129,11 @@ class PrivateAccountDetailComponent extends React.Component {
               <Text style={accountStyle.accountNumberLabel}>{global.i18n.t("AccountDetailComponent_accountNumberLabel")}</Text>
 
               <TouchableOpacity style={accountStyle.accountNumberArea} onPress={() => {
-                Clipboard.setString(this.props.userInformation.bitmarkAccountNumber);
+                Clipboard.setString(this.props.userInformation ? this.props.userInformation.bitmarkAccountNumber : '');
                 this.setState({ accountNumberCopyText: global.i18n.t("AccountDetailComponent_copiedToClipboard") });
                 setTimeout(() => { this.setState({ accountNumberCopyText: '' }) }, 1000);
               }}>
-                <Text style={accountStyle.accountNumberValue}>{this.props.userInformation.bitmarkAccountNumber}</Text>
+                <Text style={accountStyle.accountNumberValue}>{this.props.userInformation ? this.props.userInformation.bitmarkAccountNumber : ''}</Text>
               </TouchableOpacity>
               <View style={accountStyle.accountNumberBar}>
                 <Text style={accountStyle.accountNumberCopyButtonText}>{this.state.accountNumberCopyText}</Text>
@@ -142,19 +141,19 @@ class PrivateAccountDetailComponent extends React.Component {
 
               <Text style={accountStyle.accountMessage}>{global.i18n.t("AccountDetailComponent_accountMessage")}</Text>
 
-              <TouchableOpacity style={accountStyle.accountWriteDownButton} onPress={() => { this.props.navigation.navigate('AccountRecovery', { isSignOut: false }) }}>
+              <TouchableOpacity style={accountStyle.accountWriteDownButton} onPress={Actions.recoveryPhrase}>
                 <Text style={accountStyle.accountWriteDownButtonText}>{global.i18n.t("AccountDetailComponent_writeDownRecoveryPhrase")} » </Text>
               </TouchableOpacity>
-              {/* <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={this.props.screenProps.logout}> */}
-              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => { this.props.navigation.navigate('AccountRecovery', { isSignOut: true }) }}>
+              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={this.logout.bind(this)}>
+                {/* <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => Actions.recoveryPhrase({ isSignOut: true, logout: this.logout.bind(this) })}> */}
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_removeAccessFromThisDevice")} » </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => { this.props.navigation.navigate('WebAccountMigrate') }}>
+              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.webAccountMigrate}>
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_migrateWebAccount")} » </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => { this.props.navigation.navigate('WebAccountSignIn') }}>
+              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.webAccountSignIn}>
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_signInUsingMobileApp")} » </Text>
               </TouchableOpacity>
             </View>}
@@ -175,9 +174,8 @@ class PrivateAccountDetailComponent extends React.Component {
                     <Image style={accountStyle.authorizedItemDescriptionIcon} source={require('./../../../../assets/imgs/ifttt-icon.png')} />
                     <View style={accountStyle.authorizedItemDescriptionDetail}>
                       <Text style={accountStyle.authorizedItemDescriptionText}>{global.i18n.t("AccountDetailComponent_authorizedItemDescriptionText")}</Text>
-                      <TouchableOpacity style={accountStyle.authorizedViewButton} onPress={() => {
-                        this.props.screenProps.homeNavigation.navigate('IftttActive', { stage: 'view' })
-                      }}>
+                      {/* TODO */}
+                      <TouchableOpacity style={accountStyle.authorizedViewButton} onPress={() => Actions.iftttActive({ stage: 'view' })}>
                         <Text style={accountStyle.authorizedViewButtonText}>{global.i18n.t("AccountDetailComponent_viewApplets")} »  </Text>
                       </TouchableOpacity>
                     </View>
@@ -188,7 +186,7 @@ class PrivateAccountDetailComponent extends React.Component {
             </View>}
           </TouchableOpacity>
         </ScrollView>
-      </View >
+      </SafeAreaView >
     );
   }
 }
@@ -197,20 +195,7 @@ PrivateAccountDetailComponent.propTypes = {
   userInformation: PropTypes.any,
   iftttInformation: PropTypes.any,
   appLoadingData: PropTypes.bool,
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-  }),
-  screenProps: PropTypes.shape({
-    removeGoingToRecoveryPhase: PropTypes.func,
-    goToRecoveryPhase: PropTypes.func,
-    logout: PropTypes.func,
-    subTab: PropTypes.string,
-    homeNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      goBack: PropTypes.func,
-    }),
-  }),
+  subTab: PropTypes.string,
 }
 
 
@@ -221,19 +206,8 @@ const StoreAccountDetailComponent = connect(
 )(PrivateAccountDetailComponent);
 
 export class AccountDetailComponent extends React.Component {
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      goBack: PropTypes.func,
-    }),
-    screenProps: PropTypes.shape({
-      logout: PropTypes.func,
-      subTab: PropTypes.string,
-      homeNavigation: PropTypes.shape({
-        navigate: PropTypes.func,
-        goBack: PropTypes.func,
-      }),
-    }),
+  propTypes = {
+    subTab: PropTypes.string,
   }
   constructor(props) {
     super(props);
@@ -242,8 +216,7 @@ export class AccountDetailComponent extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <Provider store={AccountStore}>
-          <StoreAccountDetailComponent
-            screenProps={this.props.screenProps} navigation={this.props.navigation} />
+          <StoreAccountDetailComponent subTab={this.props.subTab} />
         </Provider>
       </View>
     );

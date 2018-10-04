@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native'
 import { convertWidth, calculateAdditionalHeight } from '../../../utils';
-import { ios } from '../../../configs';
-import { iosConstant } from '../../../configs/ios/ios.config';
 
 export default StyleSheet.create({
   body: {
@@ -22,7 +20,7 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    paddingBottom: 50 + ios.constant.blankFooter,
+    paddingBottom: 50,
   },
   swipeDotButton: {
     backgroundColor: '#C4C4C4',
@@ -36,7 +34,7 @@ export default StyleSheet.create({
   },
   swipePagination: {
     position: 'absolute',
-    bottom: 50 + ios.constant.blankFooter,
+    bottom: 50,
   },
 
   introductionArea: {
@@ -117,7 +115,7 @@ export default StyleSheet.create({
 
   skipButtonArea: {
     position: 'absolute',
-    bottom: 23 + ios.constant.blankFooter,
+    bottom: 23,
     width: '100%',
     flexDirection: 'column',
     alignItems: 'center',
@@ -148,14 +146,12 @@ export default StyleSheet.create({
   letDoItButton: {
     marginTop: 10,
     width: convertWidth(375),
-    minHeight: 45 + iosConstant.blankFooter / 2,
+    minHeight: 45,
     flexDirection: 'row',
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'center',
     backgroundColor: '#0060F2',
-    paddingTop: 10,
-    paddingBottom: Math.max(10, iosConstant.blankFooter),
   },
   letDoItButtonText: {
     fontFamily: 'Avenir Black',

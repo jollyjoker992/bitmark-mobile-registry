@@ -2,12 +2,10 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, ScrollView, Image, FlatList,
+  View, Text, TouchableOpacity, ScrollView, Image, FlatList, SafeAreaView,
   Alert,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-
-import { BitmarkComponent } from '../../../../commons/components';
 
 import transactionDetailStyle from './transaction-detail.component.style';
 
@@ -16,7 +14,6 @@ import { AppProcessor } from '../../../../processors';
 import { BottomTabsComponent } from '../../bottom-tabs/bottom-tabs.component';
 import { BitmarkModel } from '../../../../models';
 import { EventEmitterService } from '../../../../services';
-import { iosConstant } from '../../../../configs/ios/ios.config';
 
 export class TransactionDetailComponent extends React.Component {
   constructor(props) {
@@ -41,7 +38,7 @@ export class TransactionDetailComponent extends React.Component {
       this.setState({ transactionData })
     }).catch(error => {
       console.log('TransactionDetailComponent doGetTransactionDetail error :', error);
-      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {error});
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
     });
   }
 
@@ -107,15 +104,16 @@ export class TransactionDetailComponent extends React.Component {
 
   render() {
     return (
-      <BitmarkComponent
-        header={(<View style={defaultStyle.header}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={defaultStyle.header}>
           <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.navigation.goBack()}>
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={defaultStyle.headerTitle}>{global.i18n.t("TransactionDetailComponent_signForBitmark")}</Text>
           <TouchableOpacity style={defaultStyle.headerRight}></TouchableOpacity>
-        </View>)}
-        content={(<View style={transactionDetailStyle.body}>
+        </View>
+
+        <View style={transactionDetailStyle.body}>
           <ScrollView style={[transactionDetailStyle.contentScroll]} scroll>
             <TouchableOpacity activeOpacity={1} style={transactionDetailStyle.content}>
               <Text style={transactionDetailStyle.assetName}>{this.state.transferOffer.asset.name}</Text>
@@ -160,19 +158,18 @@ export class TransactionDetailComponent extends React.Component {
               </View>
             </TouchableOpacity>
           </ScrollView>
-        </View >)}
+        </View >
 
-        footerHeight={45 + iosConstant.blankFooter / 2}
-        footer={(<View style={transactionDetailStyle.buttonsArea}>
+        <View style={transactionDetailStyle.buttonsArea}>
           <TouchableOpacity style={transactionDetailStyle.rejectButton} onPress={this.doReject}>
             <Text style={transactionDetailStyle.rejectButtonText}>{global.i18n.t("TransactionDetailComponent_reject")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[transactionDetailStyle.acceptButton, { marginLeft: 1 }]} onPress={this.doAccept}>
             <Text style={transactionDetailStyle.acceptButtonText}>{global.i18n.t("TransactionDetailComponent_accept")}</Text>
           </TouchableOpacity>
-        </View>)}
-      />
+        </View>
 
+      </SafeAreaView>
     );
   }
 }

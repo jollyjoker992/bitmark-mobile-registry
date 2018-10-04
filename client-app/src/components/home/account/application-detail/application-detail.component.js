@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
-  Text, View, TouchableOpacity, Image,
+  Text, View, TouchableOpacity, Image, SafeAreaView,
   Share,
   Alert,
   Linking,
@@ -19,6 +18,7 @@ import {
   ios,
   android // TODO
 } from '../../../../configs';
+import { Actions } from 'react-native-router-flux';
 let constant = Platform.select({
   ios: ios.constant,
   android: android.constant
@@ -64,9 +64,9 @@ export class ApplicationDetailComponent extends React.Component {
     };
 
     return (
-      <View style={applicationDetailStyle.body}>
+      <SafeAreaView style={applicationDetailStyle.body}>
         <View style={applicationDetailStyle.header}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={() => this.props.navigation.goBack()} >
+          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop} >
             <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("ApplicationDetailComponent_details")}</Text>
@@ -75,19 +75,19 @@ export class ApplicationDetailComponent extends React.Component {
         <View style={applicationDetailStyle.bodyContent}>
           <View style={applicationDetailStyle.topArea}>
             <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => {
-              this.props.navigation.navigate('BitmarkWebView', {
+              Actions.bitmarkWebView({
                 title: global.i18n.t("ApplicationDetailComponent_termsOfService"), sourceUrl: config.bitmark_web_site + '/terms?env=app',
                 hideBottomController: true,
-              })
+              });
             }}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_termsOfService").toUpperCase()}</Text>
             </TouchableOpacity>
             <View style={applicationDetailStyle.lineSetting}></View>
             <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => {
-              this.props.navigation.navigate('BitmarkWebView', {
+              Actions.bitmarkWebView({
                 title: global.i18n.t("ApplicationDetailComponent_privacyPolicy"), sourceUrl: config.bitmark_web_site + '/privacy?env=app',
                 hideBottomController: true,
-              })
+              });
             }}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_privacyPolicy").toUpperCase()}</Text>
             </TouchableOpacity>
@@ -113,14 +113,7 @@ export class ApplicationDetailComponent extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
-      </View >
+      </SafeAreaView >
     );
   }
-}
-
-ApplicationDetailComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-  })
 }

@@ -3,7 +3,6 @@ import { convertWidth } from './../../utils';
 
 export default StyleSheet.create({
   header: {
-    flex: 1,
     flexDirection: 'row',
     alignContent: 'center',
     alignItems: 'center',

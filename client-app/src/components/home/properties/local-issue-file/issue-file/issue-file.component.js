@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, Image, TextInput, FlatList, TouchableWithoutFeedback,
+  View, Text, TouchableOpacity, Image, TextInput, FlatList, KeyboardAvoidingView, SafeAreaView, ScrollView,
   Alert,
-  Keyboard,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 
-
-import { BitmarkComponent } from './../../../../../commons/components';
 import { convertWidth, FileUtil } from './../../../../../utils';
 import { BitmarkService } from './../../../../../services';
 
@@ -17,6 +13,7 @@ import defaultStyle from './../../../../../commons/styles';
 import { AppProcessor, DataProcessor } from '../../../../../processors';
 import { iosConstant } from '../../../../../configs/ios/ios.config';
 import { CommonModel } from '../../../../../models';
+import { Actions } from 'react-native-router-flux';
 
 export class LocalIssueFileComponent extends React.Component {
   constructor(props) {
@@ -31,15 +28,14 @@ export class LocalIssueFileComponent extends React.Component {
     this.doInputQuantity = this.doInputQuantity.bind(this);
     this.toggleAssetType = this.toggleAssetType.bind(this);
 
-    if (!this.props.navigation.state || !this.props.navigation.state.params) {
-      this.props.navigation.state = {
-        params: {
-          asset: {}, fingerprint: '', fileFormat: '', filePath: '', fileName: '',
-        }
-      }
-    }
     let metadataList = [];
-    let { asset, fingerprint, fileName, fileFormat, filePath } = this.props.navigation.state.params;
+
+    let asset = this.props.asset || {};
+    let fingerprint = this.props.fingerprint || '';
+    let fileFormat = this.props.fileFormat || '';
+    let filePath = this.props.filePath || '';
+    let fileName = this.props.fileName || '';
+
     let assetAccessibility = 'private';
     let existingAsset = !!(asset && asset.name);
     if (existingAsset) {
@@ -91,19 +87,7 @@ export class LocalIssueFileComponent extends React.Component {
         FileUtil.removeSafe(this.state.filePath);
         Alert.alert(global.i18n.t("LocalIssueFileComponent_success"), global.i18n.t("LocalIssueFileComponent_successMessage"), [{
           text: global.i18n.t("LocalIssueFileComponent_ok"),
-          onPress: () => {
-            const resetHomePage = NavigationActions.reset({
-              index: 0,
-              actions: [
-                NavigationActions.navigate({
-                  routeName: 'User', params: {
-                    displayedTab: { mainTab: 'Properties' },
-                  }
-                }),
-              ]
-            });
-            this.props.navigation.dispatch(resetHomePage);
-          }
+          onPress: () => Actions.jump('assets')
         }]);
       }
     }).catch(error => {
@@ -214,19 +198,17 @@ export class LocalIssueFileComponent extends React.Component {
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={(event) => { event.stopPropagation(); Keyboard.dismiss(); }}>
-        <BitmarkComponent
-          contentContainerStyle={{ backgroundColor: 'white' }}
-          ref={(ref) => this.fullRef = ref}
-          header={(<View style={defaultStyle.header}>
-            <TouchableOpacity style={[defaultStyle.headerLeft, { width: 50, }]} onPress={() => this.props.navigation.goBack()}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', }}>
+        <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }} >
+          <View style={[defaultStyle.header, { height: iosConstant.headerSize.height }]}>
+            <TouchableOpacity style={[defaultStyle.headerLeft, { width: 50, }]} onPress={Actions.pop}>
               <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../../assets/imgs/header_blue_icon.png')} />
             </TouchableOpacity>
             <Text style={[defaultStyle.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>{global.i18n.t("LocalIssueFileComponent_registerPropertyRights")}</Text>
             <TouchableOpacity style={[defaultStyle.headerRight, { width: 50, }]} />
-          </View>)}
-          contentInScroll={true}
-          content={(<TouchableOpacity activeOpacity={1} style={localAddPropertyStyle.body}>
+          </View>
+
+          <ScrollView style={localAddPropertyStyle.body}>
             <View style={localAddPropertyStyle.infoArea}>
               <Text style={localAddPropertyStyle.fingerprintLabel}>{global.i18n.t("LocalIssueFileComponent_fingerprintLabel")}</Text>
               <Text style={localAddPropertyStyle.fingerprintValue} numberOfLines={1} >{this.state.fingerprint}</Text>
@@ -246,10 +228,8 @@ export class LocalIssueFileComponent extends React.Component {
                   // Asset Type value
                   <View style={localAddPropertyStyle.assetTypeTypeInfoContainer}>
                     {/*<Text style={localAddPropertyStyle.assetTypeTypeInfo}>{this.state.assetAccessibility.charAt(0).toUpperCase() + this.state.assetAccessibility.slice(1)} asset</Text>*/}
-                    <Text style={localAddPropertyStyle.assetTypeTypeInfo}>{global.i18n.t("LocalIssueFileComponent_assetAccessibilityAsset", {assetAccessibility: global.i18n.t("LocalIssueFileComponent_" + this.state.assetAccessibility)})}</Text>
-                    <TouchableOpacity onPress={() => {
-                      this.props.navigation.navigate('AssetTypeHelp');
-                    }}>
+                    <Text style={localAddPropertyStyle.assetTypeTypeInfo}>{global.i18n.t("LocalIssueFileComponent_assetAccessibilityAsset", { assetAccessibility: global.i18n.t("LocalIssueFileComponent_" + this.state.assetAccessibility) })}</Text>
+                    <TouchableOpacity onPress={Actions.assetTypeHelp}>
                       <Text style={localAddPropertyStyle.assetTypeHelperLinkText}>{global.i18n.t("LocalIssueFileComponent_whatIsAssetType")}</Text>
                     </TouchableOpacity>
                   </View>
@@ -261,24 +241,22 @@ export class LocalIssueFileComponent extends React.Component {
                           style={this.state.assetAccessibility !== 'public' ? localAddPropertyStyle.assetTypeActiveButton : localAddPropertyStyle.assetTypeInActiveButton}>
                           <Text style={this.state.assetAccessibility !== 'public' ? localAddPropertyStyle.assetTypeActiveButtonText : localAddPropertyStyle.assetTypeInActiveButtonText}>
                             {global.i18n.t("LocalIssueFileComponent_privateAsset")}
-                      </Text>
+                          </Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.toggleAssetType('public')}
                           style={this.state.assetAccessibility === 'public' ? localAddPropertyStyle.assetTypeActiveButton : localAddPropertyStyle.assetTypeInActiveButton}>
                           <Text style={this.state.assetAccessibility === 'public' ? localAddPropertyStyle.assetTypeActiveButtonText : localAddPropertyStyle.assetTypeInActiveButtonText}>
                             {global.i18n.t("LocalIssueFileComponent_publicAsset")}
-                      </Text>
+                          </Text>
                         </TouchableOpacity>
                       </View>
 
                       {/*Asset Type helper*/}
                       <View style={localAddPropertyStyle.assetTypeHelper}>
-                        <TouchableOpacity onPress={() => {
-                          this.props.navigation.navigate('AssetTypeHelp');
-                        }}>
+                        <TouchableOpacity onPress={Actions.assetTypeHelp}>
                           <Text style={localAddPropertyStyle.assetTypeHelperLinkText}>
                             {global.i18n.t("LocalIssueFileComponent_whatArePrivateAndPublicAssets")}
-                      </Text>
+                          </Text>
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -297,7 +275,6 @@ export class LocalIssueFileComponent extends React.Component {
                 editable={!this.state.existingAsset}
                 returnKeyType="done"
                 returnKeyLabel={global.i18n.t("LocalIssueFileComponent_done")}
-                onFocus={() => this.fullRef.setFocusElement(this.assetNameInputRef)}
               />}
               {!!this.state.assetNameError && <Text style={localAddPropertyStyle.assetNameInputError}>{this.state.assetNameError}</Text>}
 
@@ -309,6 +286,7 @@ export class LocalIssueFileComponent extends React.Component {
               <Text style={localAddPropertyStyle.metadataDescription}>{global.i18n.t("LocalIssueFileComponent_metadataDescription")}</Text>
               <View style={localAddPropertyStyle.metadataArea}>
                 <FlatList style={localAddPropertyStyle.metadataList}
+                  scrollEnabled={false}
                   data={this.state.metadataList}
                   extraData={this.state}
                   renderItem={({ item }) => {
@@ -323,11 +301,11 @@ export class LocalIssueFileComponent extends React.Component {
                           }]}
                             disabled={this.state.existingAsset}
                             onPress={() => {
-                              this.props.navigation.navigate('LocalIssueFileEditLabel', {
+                              Actions.localIssueFileEditLabel({
                                 label: item.label,
                                 key: item.key,
                                 onEndChangeMetadataKey: this.onEndChangeMetadataKey
-                              });
+                              })
                               this.setState({ isEditingMetadata: false });
                             }}
                           >
@@ -351,7 +329,6 @@ export class LocalIssueFileComponent extends React.Component {
                             blurOnSubmit={true}
                             editable={!this.state.existingAsset}
                             onFocus={() => {
-                              this.fullRef.setFocusElement(this['valueInput_' + item.key]);
                               this.setState({ isEditingMetadata: false });
                             }}
                           />
@@ -390,43 +367,31 @@ export class LocalIssueFileComponent extends React.Component {
                 keyboardType={'numeric'}
                 returnKeyType="done"
                 returnKeyLabel={global.i18n.t("LocalIssueFileComponent_done")}
-                onFocus={() => this.fullRef.setFocusElement(this.quantityInputRef)}
               />
               {!!this.state.quantityError && <Text style={localAddPropertyStyle.quantityInputError}>{this.state.quantityError}</Text>}
               <Text style={localAddPropertyStyle.ownershipClaimLabel}>{global.i18n.t("LocalIssueFileComponent_ownershipClaimLabel")}</Text>
               <Text style={localAddPropertyStyle.ownershipClaimMessage}>{global.i18n.t("LocalIssueFileComponent_ownershipClaimMessage")}</Text>
               {!!this.state.issueError && <Text style={localAddPropertyStyle.issueError}>{this.state.issueError}</Text>}
             </View>
-          </TouchableOpacity>)}
+          </ScrollView>
 
-          footerHeight={45 + iosConstant.blankFooter}
-          footer={(<TouchableOpacity
+          <TouchableOpacity
             style={[localAddPropertyStyle.issueButton, { borderTopColor: this.state.canIssue ? '#0060F2' : '#C2C2C2' }]}
             onPress={this.onIssueFile}
             disabled={!this.state.canIssue}
           >
             <Text style={[localAddPropertyStyle.issueButtonText, { color: this.state.canIssue ? '#0060F2' : '#C2C2C2' }]}>{global.i18n.t("LocalIssueFileComponent_issueButtonText")}</Text>
-          </TouchableOpacity>)
-          }
-        />
-      </TouchableWithoutFeedback>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     );
   }
 }
 
 LocalIssueFileComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    dispatch: PropTypes.func,
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        asset: PropTypes.object,
-        fileName: PropTypes.string,
-        fileFormat: PropTypes.string,
-        filePath: PropTypes.string,
-        fingerprint: PropTypes.string,
-      }),
-    }),
-  }),
+  asset: PropTypes.object,
+  fileName: PropTypes.string,
+  fileFormat: PropTypes.string,
+  filePath: PropTypes.string,
+  fingerprint: PropTypes.string,
 };

@@ -1,6 +1,5 @@
 import { StyleSheet, } from 'react-native';
 import { convertWidth } from './../../../../utils'
-import { iosConstant } from '../../../../configs/ios/ios.config';
 
 export default StyleSheet.create({
   body: {
@@ -105,10 +104,8 @@ export default StyleSheet.create({
     borderTopColor: '#A4B5CD',
     flexDirection: 'column',
     alignItems: 'center',
-    paddingTop: 10,
-    paddingBottom: Math.max(10, iosConstant.blankFooter),
     width: '50%',
-    height: 45 + iosConstant.blankFooter / 2,
+    height: 45,
     backgroundColor: '#F5F5F5',
   },
   rejectButtonText: {
@@ -122,10 +119,8 @@ export default StyleSheet.create({
     borderTopColor: '#0060F2',
     flexDirection: 'column',
     alignItems: 'center',
-    paddingTop: 10,
-    paddingBottom: Math.max(10, iosConstant.blankFooter),
     width: '50%',
-    height: 45 + iosConstant.blankFooter / 2,
+    height: 45,
     backgroundColor: '#F5F5F5',
   },
   acceptButtonText: {
