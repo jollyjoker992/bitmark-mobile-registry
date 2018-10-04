@@ -2,14 +2,11 @@ import React from 'react';
 import Swiper from 'react-native-swiper';
 import Hyperlink from 'react-native-hyperlink';
 import {
-  View, Text, TouchableOpacity, Image,
+  View, Text, TouchableOpacity, Image, SafeAreaView,
   StatusBar,
   AppState,
 } from 'react-native'
 
-import {
-  BitmarkComponent
-} from './../../../commons/components';
 import defaultStyle from './../../../commons/styles';
 
 import newAccountStyle from './new-account.component.style';
@@ -58,7 +55,7 @@ export class NewAccountComponent extends React.Component {
 
   render() {
     return (
-      <View style={newAccountStyle.body}>
+      <SafeAreaView style={newAccountStyle.body}>
         <StatusBar hidden={false} />
         <View style={newAccountStyle.main}>
           <Swiper activeDotColor='#0060F2'
@@ -80,130 +77,110 @@ export class NewAccountComponent extends React.Component {
             }>
 
             {/*REGISTER ASSETS*/}
-            <BitmarkComponent
-              backgroundColor='white'
-              ref={(ref) => this.fullRef = ref}
-              header={(<View style={[defaultStyle.header, { backgroundColor: 'white' }]}>
+            <View style={{ flex: 1 }}>
+              <View style={[defaultStyle.header, { backgroundColor: 'white', height: iosConstant.headerSize.height }]}>
                 <TouchableOpacity style={defaultStyle.headerLeft} onPress={Actions.pop}>
                   <Image style={defaultStyle.headerLeftIcon} source={require('../../../../assets/imgs/header_blue_icon.png')} />
                 </TouchableOpacity>
                 <Text style={defaultStyle.headerTitle}></Text>
                 <TouchableOpacity style={defaultStyle.headerRight}>
                 </TouchableOpacity>
-              </View>)}
-              contentInScroll={true}
-              content={(
-                <View style={newAccountStyle.swipePage}>
-                  <View style={newAccountStyle.introductionArea}>
-                    <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle1")}</Text>
-                    <Text style={[newAccountStyle.introductionDescription]}>
-                      {global.i18n.t("NewAccountComponent_introductionDescription1")}
-                    </Text>
-                  </View>
+              </View>
 
-                  <View style={newAccountStyle.introductionImageArea}>
-                    <Image style={newAccountStyle.onBoardingImage} source={require('../../../../assets/imgs/register-assets.png')} />
-                  </View>
+              <View style={newAccountStyle.swipePage}>
+                <View style={newAccountStyle.introductionArea}>
+                  <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle1")}</Text>
+                  <Text style={[newAccountStyle.introductionDescription]}>
+                    {global.i18n.t("NewAccountComponent_introductionDescription1")}
+                  </Text>
                 </View>
-              )}
-            />
+
+                <View style={newAccountStyle.introductionImageArea}>
+                  <Image style={newAccountStyle.onBoardingImage} source={require('../../../../assets/imgs/register-assets.png')} />
+                </View>
+              </View>
+            </View>
+
 
             {/*MANAGE YOUR PROPERTY*/}
-            <BitmarkComponent
-              backgroundColor='white'
-              ref={(ref) => this.fullRef = ref}
-              header={(<View style={[defaultStyle.header, { backgroundColor: 'white' }]}></View>)}
-              contentInScroll={true}
-              content={(
-                <View style={newAccountStyle.swipePage}>
-                  <View style={newAccountStyle.introductionArea}>
-                    <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle2")}</Text>
-                    <Text style={[newAccountStyle.introductionDescription]}>
-                      {global.i18n.t("NewAccountComponent_introductionDescription2")}
-                    </Text>
-                  </View>
-
-                  <View style={newAccountStyle.introductionImageArea}>
-                    <Image style={newAccountStyle.onBoardingImage} source={require('../../../../assets/imgs/manage-your-property.png')} />
-                  </View>
+            <View style={{ flex: 1 }}>
+              <View style={[defaultStyle.header, { backgroundColor: 'white', height: iosConstant.headerSize.height }]} />
+              <View style={newAccountStyle.swipePage}>
+                <View style={newAccountStyle.introductionArea}>
+                  <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle2")}</Text>
+                  <Text style={[newAccountStyle.introductionDescription]}>
+                    {global.i18n.t("NewAccountComponent_introductionDescription2")}
+                  </Text>
                 </View>
-              )}
-            />
+
+                <View style={newAccountStyle.introductionImageArea}>
+                  <Image style={newAccountStyle.onBoardingImage} source={require('../../../../assets/imgs/manage-your-property.png')} />
+                </View>
+              </View>
+            </View>
 
             {/*ACTIONS AND HISTORY*/}
-            <BitmarkComponent
-              backgroundColor='white'
-              ref={(ref) => this.fullRef = ref}
-              header={(<View style={[defaultStyle.header, { backgroundColor: 'white' }]}></View>)}
-              contentInScroll={true}
-              content={(
-                <View style={newAccountStyle.swipePage}>
-                  <View style={newAccountStyle.introductionArea}>
-                    <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle3")}</Text>
-                    <Text style={[newAccountStyle.introductionDescription]}>
-                      {global.i18n.t("NewAccountComponent_introductionDescription3")}
-                    </Text>
-                  </View>
-
-                  <View style={newAccountStyle.introductionImageArea}>
-                    <Image style={newAccountStyle.actionAndHistoryOnBoardingImage} source={require('../../../../assets/imgs/actions-and-history.png')} />
-                  </View>
+            <View style={{ flex: 1 }}>
+              <View style={[defaultStyle.header, { backgroundColor: 'white', height: iosConstant.headerSize.height }]} />
+              <View style={newAccountStyle.swipePage}>
+                <View style={newAccountStyle.introductionArea}>
+                  <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle3")}</Text>
+                  <Text style={[newAccountStyle.introductionDescription]}>
+                    {global.i18n.t("NewAccountComponent_introductionDescription3")}
+                  </Text>
                 </View>
-              )}
-            />
+
+                <View style={newAccountStyle.introductionImageArea}>
+                  <Image style={newAccountStyle.actionAndHistoryOnBoardingImage} source={require('../../../../assets/imgs/actions-and-history.png')} />
+                </View>
+              </View>
+            </View>
 
             {/*PUBLIC ACCOUNT NUMBER*/}
-            <BitmarkComponent
-              backgroundColor='white'
-              ref={(ref) => this.fullRef = ref}
-              header={(<View style={[defaultStyle.header, { backgroundColor: 'white' }]}></View>)}
-              contentInScroll={true}
-              content={(
-                <View style={newAccountStyle.swipePage}>
-                  <View style={newAccountStyle.introductionArea}>
-                    <Text style={[newAccountStyle.introductionTitle,]}>{global.i18n.t("PublicAccountNumberComponent_introductionTitle")}</Text>
-                    <Text style={[newAccountStyle.introductionDescription]}>
-                      {global.i18n.t("PublicAccountNumberComponent_introductionDescription")}
-                    </Text>
-                  </View>
+            <View style={{ flex: 1 }}>
+              <View style={[defaultStyle.header, { backgroundColor: 'white', height: iosConstant.headerSize.height }]} />
+              <View style={newAccountStyle.swipePage}>
+                <View style={newAccountStyle.introductionArea}>
+                  <Text style={[newAccountStyle.introductionTitle,]}>{global.i18n.t("PublicAccountNumberComponent_introductionTitle")}</Text>
+                  <Text style={[newAccountStyle.introductionDescription]}>
+                    {global.i18n.t("PublicAccountNumberComponent_introductionDescription")}
+                  </Text>
+                </View>
 
-                  <View style={newAccountStyle.introductionImageArea}>
-                    <Image style={newAccountStyle.publicAccountNumberOnBoardingImage} source={require('../../../../assets/imgs/public-account-number.png')} />
-                  </View>
+                <View style={newAccountStyle.introductionImageArea}>
+                  <Image style={newAccountStyle.publicAccountNumberOnBoardingImage} source={require('../../../../assets/imgs/public-account-number.png')} />
+                </View>
 
-                  <View style={newAccountStyle.introductionTermPrivacy}>
-                    <Hyperlink
-                      onPress={(url) => {
-                        if (url === (config.bitmark_web_site + '/privacy')) {
-                          Actions.webView({ title: global.i18n.t("PublicAccountNumberComponent_privacyPolicy"), sourceUrl: config.bitmark_web_site + '/privacy?env=app', isFullScreen: true, });
-                        } else if (url === (config.bitmark_web_site + '/terms')) {
-                          Actions.webView({ title: global.i18n.t("PublicAccountNumberComponent_termsOfService"), sourceUrl: config.bitmark_web_site + '/terms?env=app', isFullScreen: true, });
-                        }
-                      }}
-                      linkStyle={newAccountStyle.bitmarkTermsPrivacyButtonText}
-                      linkText={url => {
-                        if (url === (config.bitmark_web_site + '/terms')) {
-                          return global.i18n.t("PublicAccountNumberComponent_termsOfService");
-                        } else if (url === (config.bitmark_web_site + '/privacy')) {
-                          return global.i18n.t("PublicAccountNumberComponent_privacyPolicy");
-                        }
-                        return '';
-                      }}>
-                      <Text style={newAccountStyle.bitmarkTermsPrivacyText}>{global.i18n.t("PublicAccountNumberComponent_bitmarkTermsPrivacyText", { 0: config.bitmark_web_site + '/terms', 1: config.bitmark_web_site + '/privacy' })}</Text>
-                    </Hyperlink>
-                  </View>
-                </ View>
-              )}
-              footerHeight={45 + iosConstant.blankFooter / 2}
-              footer={(<View style={newAccountStyle.letDoItButtonArea}>
+                <View style={newAccountStyle.introductionTermPrivacy}>
+                  <Hyperlink
+                    onPress={(url) => {
+                      if (url === (config.bitmark_web_site + '/privacy')) {
+                        Actions.bitmarkWebViewFull({ title: global.i18n.t("PublicAccountNumberComponent_privacyPolicy"), sourceUrl: config.bitmark_web_site + '/privacy?env=app', });
+                      } else if (url === (config.bitmark_web_site + '/terms')) {
+                        Actions.bitmarkWebViewFull({ title: global.i18n.t("PublicAccountNumberComponent_termsOfService"), sourceUrl: config.bitmark_web_site + '/terms?env=app', });
+                      }
+                    }}
+                    linkStyle={newAccountStyle.bitmarkTermsPrivacyButtonText}
+                    linkText={url => {
+                      if (url === (config.bitmark_web_site + '/terms')) {
+                        return global.i18n.t("PublicAccountNumberComponent_termsOfService");
+                      } else if (url === (config.bitmark_web_site + '/privacy')) {
+                        return global.i18n.t("PublicAccountNumberComponent_privacyPolicy");
+                      }
+                      return '';
+                    }}>
+                    <Text style={newAccountStyle.bitmarkTermsPrivacyText}>{global.i18n.t("PublicAccountNumberComponent_bitmarkTermsPrivacyText", { 0: config.bitmark_web_site + '/terms', 1: config.bitmark_web_site + '/privacy' })}</Text>
+                  </Hyperlink>
+                </View>
+              </ View>
+              <View style={newAccountStyle.letDoItButtonArea}>
                 <TouchableOpacity style={[newAccountStyle.letDoItButton]} onPress={() => {
                   Actions.faceTouchId({ doContinue: this.createNewAccount })
                 }}>
                   <Text style={[newAccountStyle.letDoItButtonText]}>{global.i18n.t("PublicAccountNumberComponent_letDoIt")}</Text>
                 </TouchableOpacity>
               </View>
-              )}
-            />
+            </View>
           </Swiper>
 
           {this.state.index === 0 && <View style={[newAccountStyle.skipButtonArea]}>
@@ -212,7 +189,7 @@ export class NewAccountComponent extends React.Component {
             </TouchableOpacity>
           </View>}
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, Image, TouchableOpacity,
+  View, Text, Image, TouchableOpacity, SafeAreaView,
   Linking,
   AppState,
   Alert
@@ -9,7 +9,6 @@ import {
 import { CommonModel } from './../../../models';
 
 import faceTouchIdStyle from './face-touch-id.component.style';
-import { BitmarkComponent } from '../../../commons/components';
 import { iosConstant } from '../../../configs/ios/ios.config';
 import { Actions } from 'react-native-router-flux';
 
@@ -74,9 +73,8 @@ export class FaceTouchIdComponent extends React.Component {
 
   render() {
     return (
-      <BitmarkComponent
-        backgroundColor='white'
-        content={(<View style={[faceTouchIdStyle.body]}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+        <View style={[faceTouchIdStyle.body]}>
           <Text style={[faceTouchIdStyle.faceTouchIdTitle]}>{global.i18n.t("FaceTouchIdComponent_faceTouchIdTitle")}</Text>
           <Text style={[faceTouchIdStyle.faceTouchIdDescription,]}>
             {global.i18n.t("FaceTouchIdComponent_faceTouchIdDescription")}
@@ -86,10 +84,9 @@ export class FaceTouchIdComponent extends React.Component {
             <Image style={[faceTouchIdStyle.faceIdImage]} source={require('../../../../assets/imgs/face-id.png')} />
           </View>
 
-        </View>)}
+        </View>
 
-        footerHeight={45 + iosConstant.blankFooter / 2}
-        footer={(<View style={faceTouchIdStyle.enableButtonArea}>
+        <View style={faceTouchIdStyle.enableButtonArea}>
           {/*Enable Button*/}
           <TouchableOpacity style={[faceTouchIdStyle.enableButton]}
             onPress={() => {
@@ -108,8 +105,9 @@ export class FaceTouchIdComponent extends React.Component {
             }}>
             <Text style={faceTouchIdStyle.skipButtonText}>{global.i18n.t("FaceTouchIdComponent_skip")}</Text>
           </TouchableOpacity>
-        </View>)}
-      />
+        </View>
+
+      </SafeAreaView>
     );
   }
 }

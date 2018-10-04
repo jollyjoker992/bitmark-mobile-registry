@@ -125,7 +125,7 @@ class PrivateLocalAssetDetailComponent extends React.Component {
                 <Hyperlink
                   onPress={(url) => {
                     if (this.props.asset.created_at) {
-                      Actions.bitmarkWebView({ title: global.i18n.t("LocalAssetDetailComponent_registry"), sourceUrl: url, isFullScreen: true, });
+                      Actions.bitmarkWebViewFull({ title: global.i18n.t("LocalAssetDetailComponent_registry"), sourceUrl: url, });
                     }
                   }}
                   linkStyle={{ color: this.props.asset.created_at ? '#0060F2' : '#999999' }}

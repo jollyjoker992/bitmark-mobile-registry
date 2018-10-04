@@ -88,24 +88,17 @@ class PrivateTransactionsComponent extends React.Component {
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
       });
     } else if (item.type === ActionTypes.test_write_down_recovery_phase) {
-      EventEmitterService.emit(EventEmitterService.events.NEED_REFRESH_USER_COMPONENT_STATE, {
-        displayedTab: {
-          mainTab: BottomTabsComponent.MainTabs.account,
-          subTab: null
-        },
-        goToRecoveryPhase: true,
-        changeMainTab: { mainTab: BottomTabsComponent.MainTabs.account }
-      });
+      Actions.jump('recoveryPhrase');
     }
   }
 
   clickToCompleted(item) {
     if (item.title === 'SEND' && item.type === 'P2P TRANSFER') {
       let sourceUrl = config.registry_server_url + `/transaction/${item.txid}?env=app`;
-      Actions.bitmarkWebView({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, isFullScreen: true })
+      Actions.bitmarkWebViewFull({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, })
     } else if (item.title === 'ISSUANCE') {
       let sourceUrl = config.registry_server_url + `/issuance/${item.blockNumber}/${item.assetId}/${DataProcessor.getUserInformation().bitmarkAccountNumber}?env=app`;
-      Actions.bitmarkWebView({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, isFullScreen: true })
+      Actions.bitmarkWebViewFull({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, })
     }
   }
 

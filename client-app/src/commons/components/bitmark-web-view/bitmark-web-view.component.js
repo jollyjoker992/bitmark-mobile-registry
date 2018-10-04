@@ -69,7 +69,6 @@ export class BitmarkWebViewComponent extends React.Component {
 
 BitmarkWebViewComponent.propTypes = {
   title: PropTypes.string,
-  isFullScreen: PropTypes.bool,
   sourceUrl: PropTypes.string,
   heightButtonController: PropTypes.number,
   hideBottomController: PropTypes.bool,

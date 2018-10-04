@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, Text, TouchableOpacity, Image,
+  View, Text, TouchableOpacity, Image, SafeAreaView,
   StatusBar,
 } from 'react-native';
 
@@ -14,7 +14,7 @@ export class WelcomeComponent extends React.Component {
   }
   render() {
     return (
-      <View style={welcomeComponentStyle.body}>
+      <SafeAreaView style={welcomeComponentStyle.body}>
         <StatusBar hidden={true} />
         <View style={welcomeComponentStyle.welcomeBackground}>
           <Image style={welcomeComponentStyle.welcomeLogo} source={require('./../../../../assets/imgs/loading-logo.png')} />
@@ -24,14 +24,12 @@ export class WelcomeComponent extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity style={[welcomeComponentStyle.welcomeButton, {
               backgroundColor: '#F2FAFF',
-              height: 45 + ios.constant.blankFooter / 2,
-              paddingBottom: Math.max(10, ios.constant.blankFooter)
             }]} onPress={Actions.signIn}>
               <Text style={[welcomeComponentStyle.welcomeButtonText, { color: '#0060F2' }]}>{global.i18n.t("WelcomeComponent_accessExistingAccount")}</Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

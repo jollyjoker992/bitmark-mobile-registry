@@ -30,11 +30,6 @@ class PrivateAccountDetailComponent extends React.Component {
       subTab,
       accountNumberCopyText: '',
     };
-
-    // if (this.props.screenProps.goToRecoveryPhase) {
-    //   this.props.navigation.navigate('AccountRecovery', { isSignOut: false });
-    //   this.props.screenProps.removeGoingToRecoveryPhase();
-    // }
   }
 
   logout() {
@@ -134,11 +129,11 @@ class PrivateAccountDetailComponent extends React.Component {
               <Text style={accountStyle.accountNumberLabel}>{global.i18n.t("AccountDetailComponent_accountNumberLabel")}</Text>
 
               <TouchableOpacity style={accountStyle.accountNumberArea} onPress={() => {
-                Clipboard.setString(this.props.userInformation.bitmarkAccountNumber);
+                Clipboard.setString(this.props.userInformation ? this.props.userInformation.bitmarkAccountNumber : '');
                 this.setState({ accountNumberCopyText: global.i18n.t("AccountDetailComponent_copiedToClipboard") });
                 setTimeout(() => { this.setState({ accountNumberCopyText: '' }) }, 1000);
               }}>
-                <Text style={accountStyle.accountNumberValue}>{this.props.userInformation.bitmarkAccountNumber}</Text>
+                <Text style={accountStyle.accountNumberValue}>{this.props.userInformation ? this.props.userInformation.bitmarkAccountNumber : ''}</Text>
               </TouchableOpacity>
               <View style={accountStyle.accountNumberBar}>
                 <Text style={accountStyle.accountNumberCopyButtonText}>{this.state.accountNumberCopyText}</Text>

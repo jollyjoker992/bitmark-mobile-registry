@@ -44,7 +44,7 @@ export class LocalPropertyTransferComponent extends React.Component {
       });
       AppProcessor.doTransferBitmark(this.state.bitmark, this.state.bitmarkAccount).then((result) => {
         if (result) {
-          Actions.reset('assets');
+          Actions.jump('assets');
           EventEmitterService.emit(EventEmitterService.events.NEED_RELOAD_USER_DATA);
         }
       }).catch(error => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Stack, Scene, Modal, Tabs } from 'react-native-router-flux';
+import { Router, Stack, Scene, Modal, Tabs, Actions } from 'react-native-router-flux';
 
 import { BitmarkWebViewComponent } from './../../commons/components';
 import {
@@ -24,36 +24,91 @@ import {
 import { WebAccountMigrateComponent } from './account/web-account/migrate/migrate.component';
 import { WebAccountSignInComponent } from './account/web-account/sign-in/sign-in.component';
 import { IssuanceOptionsComponent } from './properties/local-issuance/issuance-options/issuance-options.component';
+import { EventEmitterService } from '../../services';
+import { AppProcessor, DataProcessor } from '../../processors';
 
 
 
-
+let ComponentName = 'UserRouterComponent';
 export class UserRouterComponent extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handerReceivedNotification = this.handerReceivedNotification.bind(this);
+    EventEmitterService.remove(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, null, ComponentName);
+  }
+
+  componentDidMount() {
+    EventEmitterService.on(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, this.handerReceivedNotification, ComponentName);
+  }
+
+  componentWillUnmount() {
+    EventEmitterService.on(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, this.handerReceivedNotification, ComponentName);
+  }
+
+  handerReceivedNotification(data) {
+    console.log('UserComponent handerReceivedNotification data :', data);
+    if (data.name === 'transfer_request' && data.id) {
+      AppProcessor.doGetTransferOfferDetail(data.id).then(transferOfferDetail => {
+        Actions.jum('localPropertyTransfer', { transferOffer: transferOfferDetail, });
+      }).catch(console.log);
+
+    } else if (data.name === 'transfer_rejected') {
+      DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id).then(data => {
+        Actions.jum('localPropertyDetail', data);
+      }).catch(console.log);
+
+    } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
+      Actions.jum('transactions', { subTab: 'HISTORY' });
+
+    } else if (data.name === 'transfer_item_received' && data.bitmark_id) {
+      DataProcessor.doReloadLocalBitmarks().then(() => {
+        return DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id);
+      }).then(data => {
+        Actions.jum('localPropertyDetail', data);
+      }).catch(console.log);
+
+    } else if (data.name === 'transfer_failed') {
+      DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id).then(data => {
+        Actions.jum('localPropertyDetail', data);
+      }).catch(console.log);
+
+    } else if (data.event === 'tracking_transfer_confirmed') {
+
+      DataProcessor.doReloadTrackingBitmark().then(() => {
+        return DataProcessor.doGetTrackingBitmarkInformation(data.bitmark_id);
+      }).then(trackingBitmark => {
+        Actions.jum('localPropertyDetail', trackingBitmark);
+      }).catch(error => {
+        console.log('handerReceivedNotification tracking_transfer_confirmed error :', error);
+      });
+    }
+  }
+
   render() {
 
     return (
       <Router >
         <Modal headerMode='none'>
           <Stack key="user" headerMode='none' wrapRouter={true} >
-            <Scene key="bitmarkWebView" panHandlers={null} component={BitmarkWebViewComponent} />
+            <Scene key="bitmarkWebViewFull" panHandlers={null} component={BitmarkWebViewComponent} />
             <Scene key="transactionDetail" panHandlers={null} component={TransactionDetailComponent} />
+            <Scene key="localIssueFile" panHandlers={null} component={LocalIssueFileComponent} />
+            <Scene key="localIssueFileEditLabel" panHandlers={null} component={LocalIssueFileEditLabelComponent} />
+            <Scene key="assetTypeHelp" panHandlers={null} component={AssetTypeHelpComponent} />
+            <Scene key="localAssetDetail" panHandlers={null} component={LocalAssetDetailComponent} />
+            <Scene key="localPropertyDetail" panHandlers={null} component={LocalPropertyDetailComponent} />
+            <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent}>
               <Stack key="properties" panHandlers={null} initial={true} >
                 <Scene key="assets" initial={true} panHandlers={null} component={AssetsComponent} />
                 <Scene key="issuanceOptions" panHandlers={null} component={IssuanceOptionsComponent} />
                 <Scene key="iftttActive" panHandlers={null} component={IftttActiveComponent} />
-                <Scene key="localIssueFile" panHandlers={null} component={LocalIssueFileComponent} />
-                <Scene key="localIssueFileEditLabel" panHandlers={null} component={LocalIssueFileEditLabelComponent} />
-                <Scene key="assetTypeHelp" panHandlers={null} component={AssetTypeHelpComponent} />
-                <Scene key="localAssetDetail" panHandlers={null} component={LocalAssetDetailComponent} />
-                <Scene key="localPropertyDetail" panHandlers={null} component={LocalPropertyDetailComponent} />
-                <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
-
-
               </Stack>
               <Scene key="transactions" panHandlers={null} component={TransactionsComponent} />
               <Stack key="account" headerMode='none'>
+                <Scene key="bitmarkWebView" panHandlers={null} component={BitmarkWebViewComponent} />
                 <Scene key="accountDetail" initial={true} panHandlers={null} component={AccountDetailComponent} />
                 <Scene key="scanQRCode" panHandlers={null} component={ScanQRCodeComponent} />
                 <Scene key="applicationDetail" panHandlers={null} component={ApplicationDetailComponent} />
@@ -66,18 +121,6 @@ export class UserRouterComponent extends Component {
                 <Scene key="iftttActive" panHandlers={null} component={IftttActiveComponent} />
               </Stack>
             </Tabs>
-
-
-            {/* <Scene key="user" panHandlers={null} component={UserComponent} />
-            <Scene key="newAccount" panHandlers={null} component={BitmarkWebViewComponent} />
-            
-            <Scene key="notification" panHandlers={null} component={LocalPropertyTransferComponent} />
-            
-            
-            <Scene key="faceTouchId" panHandlers={null} component={LocalIssueFileEditLabelComponent} />
-            <Scene key="faceTouchId" panHandlers={null} component={TransactionDetailComponent} />
-            <Scene key="faceTouchId" panHandlers={null} component={IftttActiveComponent} />
-            <Scene key="faceTouchId" panHandlers={null} component={LocalPropertyDetailComponent} /> */}
           </Stack>
         </Modal>
       </Router>

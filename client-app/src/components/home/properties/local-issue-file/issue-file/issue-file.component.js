@@ -87,7 +87,7 @@ export class LocalIssueFileComponent extends React.Component {
         FileUtil.removeSafe(this.state.filePath);
         Alert.alert(global.i18n.t("LocalIssueFileComponent_success"), global.i18n.t("LocalIssueFileComponent_successMessage"), [{
           text: global.i18n.t("LocalIssueFileComponent_ok"),
-          onPress: () => Actions.reset('assets')
+          onPress: () => Actions.jump('assets')
         }]);
       }
     }).catch(error => {
@@ -198,7 +198,7 @@ export class LocalIssueFileComponent extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', paddingBottom: 10, borderBottomWidth: 0.3 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', }}>
         <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }} >
           <View style={[defaultStyle.header, { height: iosConstant.headerSize.height }]}>
             <TouchableOpacity style={[defaultStyle.headerLeft, { width: 50, }]} onPress={Actions.pop}>
@@ -230,7 +230,7 @@ export class LocalIssueFileComponent extends React.Component {
                     {/*<Text style={localAddPropertyStyle.assetTypeTypeInfo}>{this.state.assetAccessibility.charAt(0).toUpperCase() + this.state.assetAccessibility.slice(1)} asset</Text>*/}
                     <Text style={localAddPropertyStyle.assetTypeTypeInfo}>{global.i18n.t("LocalIssueFileComponent_assetAccessibilityAsset", { assetAccessibility: global.i18n.t("LocalIssueFileComponent_" + this.state.assetAccessibility) })}</Text>
                     <TouchableOpacity onPress={Actions.assetTypeHelp}>
-                      <Text style={localAddPropertyStyle.assetTypeHelperLinkText}>{global.i18n.t("LocalIssueFileComponent_whatIsAssetType")} asdasdasd</Text>
+                      <Text style={localAddPropertyStyle.assetTypeHelperLinkText}>{global.i18n.t("LocalIssueFileComponent_whatIsAssetType")}</Text>
                     </TouchableOpacity>
                   </View>
                 ) : (
@@ -253,7 +253,7 @@ export class LocalIssueFileComponent extends React.Component {
 
                       {/*Asset Type helper*/}
                       <View style={localAddPropertyStyle.assetTypeHelper}>
-                        <TouchableOpacity onPress={() => Actions.assetTypeHelp}>
+                        <TouchableOpacity onPress={Actions.assetTypeHelp}>
                           <Text style={localAddPropertyStyle.assetTypeHelperLinkText}>
                             {global.i18n.t("LocalIssueFileComponent_whatArePrivateAndPublicAssets")}
                           </Text>

@@ -120,8 +120,7 @@ export class ScanQRCodeComponent extends React.Component {
   render() {
     return (<SafeAreaView style={componentStyle.body}>
       <View style={componentStyle.header}>
-        {/* <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop} > */}
-        <TouchableOpacity style={defaultStyles.headerLeft} onPress={this.backToPropertiesScreen.bind(this)} >
+        <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop} >
           <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../../assets/imgs/header_blue_icon.png')} />
         </TouchableOpacity>
         <Text style={defaultStyles.headerTitle}>{global.i18n.t("ScanQRCodeComponent_scanQrcode")}</Text>

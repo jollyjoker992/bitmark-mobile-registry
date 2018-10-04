@@ -21,7 +21,7 @@ export class DefaultRouterComponent extends Component {
             <Scene key="notification" panHandlers={null} component={NotificationComponent} />
             <Scene key="faceTouchId" panHandlers={null} component={FaceTouchIdComponent} />
           </Stack>
-          <Scene key="webView" panHandlers={null} component={BitmarkWebViewComponent} />
+          <Scene key="bitmarkWebViewFull" panHandlers={null} component={BitmarkWebViewComponent} />
         </Modal>
       </Router>
     );

@@ -9,7 +9,6 @@ import styles from './ifttt-active.component.style';
 import defaultStyle from './../../../../commons/styles';
 import { config } from '../../../../configs';
 import { AppProcessor, DataProcessor } from '../../../../processors';
-import { BitmarkComponent } from '../../../../commons/components';
 import { EventEmitterService } from '../../../../services';
 import { convertWidth, runPromiseWithoutError } from '../../../../utils';
 import { AccountStore } from '../../../../stores';

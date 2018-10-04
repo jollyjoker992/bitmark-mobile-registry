@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native'
 import { convertWidth } from './../../../utils'
-import { ios } from '../../../configs';
 import { iosConstant } from '../../../configs/ios/ios.config';
 
 export default StyleSheet.create({
@@ -15,9 +14,7 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    paddingBottom: Math.max(10, ios.constant.blankFooter),
-    paddingLeft: convertWidth(19),
-    paddingRight: convertWidth(19),
+    paddingBottom: Math.max(10),
   },
   //sign-in
   writeRecoveryPhraseContentMessage: {
@@ -26,6 +23,7 @@ export default StyleSheet.create({
     fontWeight: '300',
     width: convertWidth(336),
     marginTop: 18,
+    marginLeft: convertWidth(19),
   },
   writeRecoveryPhraseArea: {
     marginTop: 14,
@@ -48,7 +46,6 @@ export default StyleSheet.create({
   },
   recoveryPhraseSet: {
     flexDirection: 'row',
-    height: 19,
     marginTop: 4,
     marginBottom: 4,
   },
@@ -105,9 +102,7 @@ export default StyleSheet.create({
     ],
   },
   submitButton: {
-    height: 45 + iosConstant.blankFooter / 2,
-    paddingTop: 10,
-    paddingBottom: Math.max(10, iosConstant.blankFooter),
+    height: 45,
     width: convertWidth(375),
     flexDirection: 'row',
     alignItems: 'center',
@@ -121,5 +116,58 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: '900',
     color: 'white'
+  },
+
+  keyboardExternal: {
+    position: 'absolute',
+    width: '100%', height: iosConstant.buttonHeight,
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 8,
+    paddingRight: 8,
+    backgroundColor: '#EEEFF1',
+  },
+  prevButton: {
+    marginLeft: 10,
+  },
+  prevButtonImage: {
+    width: convertWidth(16),
+    height: convertWidth(16),
+    resizeMode: 'contain'
+  },
+  nextButton: {
+    marginLeft: 5,
+  },
+  nextButtonImage: {
+    width: convertWidth(16),
+    height: convertWidth(16),
+    resizeMode: 'contain'
+  },
+  doneButton: {
+    position: 'absolute',
+    right: 10,
+  },
+  doneButtonText: {
+    fontSize: 16,
+    color: '#0060F2',
+    fontWeight: '600',
+  },
+  selectionList: {
+    width: convertWidth(200),
+    height: 30,
+    marginLeft: 20,
+    marginRight: 20,
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  selectionItem: {
+    marginLeft: 4,
+    padding: 4,
+  },
+  selectionItemText: {
+    color: 'blue',
   },
 });

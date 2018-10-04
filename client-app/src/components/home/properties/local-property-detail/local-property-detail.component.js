@@ -86,7 +86,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
 
   clickOnProvenance(item) {
     let sourceUrl = config.registry_server_url + `/account/${item.owner}?env=app`;
-    Actions.bitmarkWebView({ title: 'Registry', sourceUrl, isFullScreen: true });
+    Actions.bitmarkWebViewFull({ title: 'Registry', sourceUrl, });
   }
 
   changeTrackingBitmark() {
@@ -168,7 +168,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
               {this.props.bitmark.status !== 'pending' && <Hyperlink
                 onPress={(url) => {
                   if (this.props.bitmark.status === 'confirmed') {
-                    Actions.bitmarkWebView({ title: global.i18n.t("LocalPropertyDetailComponent_registry"), sourceUrl: url, isFullScreen: true, });
+                    Actions.bitmarkWebViewFull({ title: global.i18n.t("LocalPropertyDetailComponent_registry"), sourceUrl: url });
                   }
                 }}
                 linkStyle={{ color: this.props.bitmark.status === 'pending' ? '#999999' : '#0060F2' }}

@@ -357,7 +357,7 @@ export default StyleSheet.create({
 
   issueButton: {
     width: convertWidth(375),
-    height: iosConstant.bottomHeight,
+    height: iosConstant.buttonHeight,
     borderTopWidth: 2,
     backgroundColor: '#F5F5F5',
     flexDirection: 'column',
