@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  Bitmark Registry
+
+  Created by Anh Nguyen on 10/5/18.
+  Copyright © 2018 Facebook. All rights reserved.
+*/
+
+"info_plist_touch_face_id" = "info_plist_touch_face_id";
+"notification_EventTrackingBitmarkConfirmed" = "notification_EventTrackingBitmarkConfirmed";
+"notification_EventTransferConfirmedSender" = "notification_EventTrackingBitmarkConfirmed";
+"notification_EventTransferConfirmedReceiver" = "notification_EventTrackingBitmarkConfirmed";
+"notification_EventTransferRequest" = "notification_EventTrackingBitmarkConfirmed";
+"notification_EventTransferRejected" = "notification_EventTrackingBitmarkConfirmed";
+"notification_EventTransferFailed" = "notification_EventTrackingBitmarkConfirmed";
+"notification_EventTransferAccepted" = "notification_EventTrackingBitmarkConfirmed";

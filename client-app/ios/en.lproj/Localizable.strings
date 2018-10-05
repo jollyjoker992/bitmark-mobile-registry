@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  Bitmark Registry
+
+  Created by Anh Nguyen on 10/5/18.
+  Copyright © 2018 Facebook. All rights reserved.
+*/
+
+"info_plist_touch_face_id" = "Touch/Face ID or a passcode is required to authorize your transactions";
+"notification_EventTrackingBitmarkConfirmed" = "The property \"%@\" has been updated, tap to view tracking details.";
+"notification_EventTransferConfirmedSender" = "The property \"%@\" was transferred to %@.";
+"notification_EventTransferConfirmedReceiver" = "You have received the property \"%@\" from %@.";
+"notification_EventTransferRequest" = "You’ve received a property transfer request. Tap to review the request.";
+"notification_EventTransferRejected" = "Your transfer request has been rejected. Please try again later or contact the recipient for further information.";
+"notification_EventTransferFailed" = "You’ve received a property transfer request. Tap to review the request.";
+"notification_EventTransferAccepted" = "Your property transfer request has been accpeted.";
