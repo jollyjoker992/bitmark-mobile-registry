@@ -1010,7 +1010,7 @@ const doRemoveTestRecoveryPhaseActionRequiredIfAny = async () => {
   let testWriteRecoveryPhaseActionRequired = helper.getTestWriteRecoveryPhaseActionRequired();
   if (testWriteRecoveryPhaseActionRequired) {
     await helper.removeTestWriteRecoveryPhaseActionRequired();
-    EventEmitterService.emit(EventEmitterService.events.NEED_RELOAD_USER_DATA);
+    await doGenerateTransactionHistoryData();
   }
 };
 
