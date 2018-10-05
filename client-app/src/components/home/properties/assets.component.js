@@ -227,7 +227,7 @@ class PrivateAssetsComponent extends React.Component {
                   <View style={assetsStyle.trackingRowCurrentOwner}>
                     <Text style={[assetsStyle.trackingRowCurrentOwnerText, {
                       color: item.status === 'pending' ? '#999999' : '#0060F2'
-                    }]}>CURRENT OWNER: {item.owner === DataProcessor.getUserInformation().bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : (
+                    }]}>{global.i18n.t("AssetsComponent_currentOwner")}: {item.owner === DataProcessor.getUserInformation().bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : (
                       '[' + item.owner.substring(0, 4) + '...' + item.owner.substring(item.owner.length - 4, item.owner.length) + ']'
                     )}
                     </Text>
