@@ -62,7 +62,7 @@ struct KeychainUtil {
   
   static func getCore(reason: String) throws -> Data? {
     return try DispatchQueue.main.sync {
-      let authentication = DispatchQueue.main.sync { UserDefaults().bool(forKey: authenticationKey) }
+      let authentication = UserDefaults().bool(forKey: authenticationKey)
       return try getKeychain(reason: reason, authentication: authentication)
         .getData(bitmarkSeedCoreKey)
     }
