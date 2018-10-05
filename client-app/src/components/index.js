@@ -126,17 +126,17 @@ class MainEventsHandlerComponent extends Component {
     let hasCrashLog = await FileUtil.exists(CRASH_LOG_FILE_PATH);
 
     if (hasCrashLog) {
-      let title = 'Crash Report';
-      let message = 'The app has detected unreported crash.\nWould you like to send a report to the developer?';
+      let title = global.i18n.t("MainComponent_crashReportTitle");
+      let message = global.i18n.t("MainComponent_crashReportMessage");
 
       Alert.alert(title, message, [{
-        text: 'Cancel',
+        text: global.i18n.t("MainComponent_cancel"),
         style: 'cancel',
         onPress: () => {
           FileUtil.removeSafe(CRASH_LOG_FILE_PATH);
         }
       }, {
-        text: 'Send',
+        text: global.i18n.t("MainComponent_send"),
         onPress: () => {
           this.sendReport(CRASH_LOG_FILE_PATH, CRASH_LOG_FILE_NAME);
         }
@@ -156,7 +156,7 @@ class MainEventsHandlerComponent extends Component {
       }
     }, (error) => {
       if (error) {
-        Alert.alert('Error', 'Could not send mail.');
+        Alert.alert(global.i18n.t("MainComponent_error"), global.i18n.t("MainComponent_couldNotSendMail"));
       }
 
       // Remove crash/error log file
@@ -177,7 +177,7 @@ class MainEventsHandlerComponent extends Component {
     let message = processError.message;
 
     Alert.alert(title, message, [{
-      text: 'OK',
+      text: global.i18n.t("MainComponent_ok"),
       style: 'cancel',
       onPress: () => {
         if (processError && processError.onClose) {
@@ -188,11 +188,11 @@ class MainEventsHandlerComponent extends Component {
   }
 
   handleUnexpectedJSError(processError) {
-    let title = 'Error Report';
-    let message = 'The app has detected unreported error.\nWould you like to send a report to the developer?';
+    let title = global.i18n.t("MainComponent_errorReportTitle");
+    let message = global.i18n.t("MainComponent_errorReportMessage");
 
     Alert.alert(title, message, [{
-      text: 'Cancel',
+      text: global.i18n.t("MainComponent_cancel"),
       style: 'cancel',
       onPress: () => {
         if (processError && processError.onClose) {
@@ -200,7 +200,7 @@ class MainEventsHandlerComponent extends Component {
         }
       }
     }, {
-      text: 'Send',
+      text: global.i18n.t("MainComponent_send"),
       onPress: async () => {
         // Write error to log file
         let error = processError.error || new Error('There was an error');
@@ -324,8 +324,8 @@ export class BitmarkAppComponent extends Component {
     }
     AppProcessor.doCheckNoLongerSupportVersion().then((result) => {
       if (!result) {
-        Alert.alert('New Version Available', 'You’re using a version of Bitmark Registry or operating system that’s no longer supported. Please update to the newest app version. Thanks!', [{
-          text: 'Visit Appstore',
+        Alert.alert(global.i18n.t("MainComponent_newVersionAvailableTitle"), global.i18n.t("MainComponent_newVersionAvailableMessage"), [{
+          text: global.i18n.t("MainComponent_visitAppstore"),
           onPress: () => Linking.openURL(config.appLink)
         }]);
         return;
@@ -346,8 +346,8 @@ export class BitmarkAppComponent extends Component {
           } else {
             if (!this.requiringTouchId) {
               this.requiringTouchId = true;
-              Alert.alert('Please enable your Touch ID & Passcode to continue using Bitmark. Settings > Touch ID & Passcode', '', [{
-                text: 'ENABLE',
+              Alert.alert(global.i18n.t("MainComponent_pleaseEnableYourTouchIdMessage"), '', [{
+                text: global.i18n.t("MainComponent_enable"),
                 style: 'cancel',
                 onPress: () => {
                   Linking.openURL('app-settings:');
