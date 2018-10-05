@@ -84,6 +84,7 @@ class MainEventsHandlerComponent extends Component {
 
   handerProcessingEvent(processing) {
     let processingCount = this.state.processingCount + (processing ? 1 : -1);
+    processingCount = processingCount < 0 ? 0: processingCount;
     this.setState({ processingCount });
 
     if (processingCount === 1) {
@@ -270,6 +271,8 @@ class MainEventsHandlerComponent extends Component {
       (!!this.state.submitting && (this.state.submitting.title || this.state.submitting.message))) {
       styles.height = '100%';
     }
+
+    console.log('MainEventsHandlerComponent :', this.state, styles);
     return (
       <View style={[{ position: 'absolute', width: '100%', top: 0, left: 0, zIndex: iosConstant.zIndex.dialog }, styles]}>
         {!this.state.networkStatus && <BitmarkInternetOffComponent tryConnectInternet={this.doTryConnectInternet} />}
