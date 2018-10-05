@@ -260,8 +260,8 @@ class PrivateTransactionsComponent extends React.Component {
         >
           <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
             {this.props.completed && this.props.completed.length === 0 && !this.props.appLoadingData && <View style={transactionsStyle.contentSubTab}>
-              <Text style={transactionsStyle.titleNoRequiredTransferOffer}>NO TRANSACTION HISTORY.</Text>
-              <Text style={transactionsStyle.messageNoRequiredTransferOffer}>Your transaction history will be available here.</Text>
+              <Text style={transactionsStyle.titleNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noTransactionHistoryTitle")}</Text>
+              <Text style={transactionsStyle.messageNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noTransactionHistoryMessage")}</Text>
             </View>}
             {this.props.completed && this.props.completed.length > 0 && <View style={transactionsStyle.contentSubTab}>
               <FlatList data={this.props.completed}
