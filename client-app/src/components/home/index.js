@@ -27,7 +27,7 @@ import { IssuanceOptionsComponent } from './properties/local-issuance/issuance-o
 import { EventEmitterService } from '../../services';
 import { AppProcessor, DataProcessor } from '../../processors';
 
-
+import PushNotification from 'react-native-push-notification';
 
 let ComponentName = 'UserRouterComponent';
 export class UserRouterComponent extends Component {
@@ -40,6 +40,16 @@ export class UserRouterComponent extends Component {
 
   componentDidMount() {
     EventEmitterService.on(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, this.handerReceivedNotification, ComponentName);
+    // setTimeout(() => {
+    //   PushNotification.localNotification({
+    //     message: 'test message',
+    //     userInfo: {
+    //       name: 'transfer_completed',
+    //       // event: 'tracking_transfer_confirmed',
+    //       // bitmark_id: '84c0b0a97b873feff56874d33330c74755af0b55e62d1d69cc831ce6e4b567fe',
+    //     }
+    //   });
+    // }, 3000);
   }
 
   componentWillUnmount() {
@@ -50,38 +60,35 @@ export class UserRouterComponent extends Component {
     console.log('UserComponent handerReceivedNotification data :', data);
     if (data.name === 'transfer_request' && data.id) {
       AppProcessor.doGetTransferOfferDetail(data.id).then(transferOfferDetail => {
-        Actions.jum('localPropertyTransfer', { transferOffer: transferOfferDetail, });
+        Actions.localPropertyTransfer({ transferOffer: transferOfferDetail, });
       }).catch(console.log);
 
     } else if (data.name === 'transfer_rejected') {
-      DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id).then(data => {
-        Actions.jum('localPropertyDetail', data);
+      DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id).then(bitmarkInformation => {
+        Actions.localPropertyDetail(bitmarkInformation);
       }).catch(console.log);
 
     } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
-      Actions.jum('transactions', { subTab: 'HISTORY' });
+      Actions.transactions({ subTab: 'HISTORY' });
 
     } else if (data.name === 'transfer_item_received' && data.bitmark_id) {
       DataProcessor.doReloadLocalBitmarks().then(() => {
         return DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id);
-      }).then(data => {
-        Actions.jum('localPropertyDetail', data);
+      }).then(bitmarkInformation => {
+        Actions.localPropertyDetail(bitmarkInformation);
       }).catch(console.log);
 
     } else if (data.name === 'transfer_failed') {
-      DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id).then(data => {
-        Actions.jum('localPropertyDetail', data);
+      DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id).then(bitmarkInformation => {
+        Actions.localPropertyDetail(bitmarkInformation);
       }).catch(console.log);
 
     } else if (data.event === 'tracking_transfer_confirmed') {
-
       DataProcessor.doReloadTrackingBitmark().then(() => {
         return DataProcessor.doGetTrackingBitmarkInformation(data.bitmark_id);
       }).then(trackingBitmark => {
-        Actions.jum('localPropertyDetail', trackingBitmark);
-      }).catch(error => {
-        console.log('handerReceivedNotification tracking_transfer_confirmed error :', error);
-      });
+        Actions.localPropertyDetail({ asset: trackingBitmark.asset, bitmark: trackingBitmark });
+      }).catch(console.log);
     }
   }
 
@@ -100,7 +107,7 @@ export class UserRouterComponent extends Component {
             <Scene key="localPropertyDetail" panHandlers={null} component={LocalPropertyDetailComponent} />
             <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
 
-            <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent}>
+            <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >
                 <Scene key="assets" initial={true} panHandlers={null} component={AssetsComponent} />
                 <Scene key="issuanceOptions" panHandlers={null} component={IssuanceOptionsComponent} />

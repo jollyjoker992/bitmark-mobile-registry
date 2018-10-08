@@ -15,7 +15,6 @@ import { EventEmitterService } from '../../../services';
 import defaultStyle from './../../../commons/styles';
 import { convertWidth } from '../../../utils';
 import { config } from '../../../configs';
-import { BottomTabsComponent } from '../bottom-tabs/bottom-tabs.component';
 import { TransactionsStore } from '../../../stores';
 import { iosConstant } from '../../../configs/ios/ios.config';
 import { Actions } from 'react-native-router-flux';
