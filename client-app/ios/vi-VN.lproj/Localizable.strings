@@ -7,6 +7,8 @@
 */
 
 "info_plist_touch_face_id" = "info_plist_touch_face_id";
+"info_plist_camera" = "info_plist_camera";
+"into_plist_photo" = "into_plist_photo";
 "notification_EventTrackingBitmarkConfirmed" = "notification_EventTrackingBitmarkConfirmed";
 "notification_EventTransferConfirmedSender" = "notification_EventTrackingBitmarkConfirmed";
 "notification_EventTransferConfirmedReceiver" = "notification_EventTrackingBitmarkConfirmed";
