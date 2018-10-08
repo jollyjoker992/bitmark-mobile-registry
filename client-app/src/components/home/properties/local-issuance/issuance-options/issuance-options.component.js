@@ -33,7 +33,9 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     });
     let options = {
       title: '',
-      takePhotoButtonTitle: '',
+      takePhotoButtonTitle: null,
+      chooseFromLibraryButtonTitle: global.i18n.t("IssuanceOptionsComponent_chooseFromLibraryButtonTitle"),
+      cancelButtonTitle: global.i18n.t("IssuanceOptionsComponent_cancelButtonTitle"),
       mediaType: 'mixed',
       noData: true,
     };
