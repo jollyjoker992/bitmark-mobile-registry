@@ -30,8 +30,7 @@ const initialState = {
 const data = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.RESET:
-      state = initialState;
-      return merge({}, state);
+      return merge({}, initialState);
     case ACTION_TYPES.INIT: {
       let tempState = merge({}, state);
       tempState.appLoadingData = action.appLoadingData;
