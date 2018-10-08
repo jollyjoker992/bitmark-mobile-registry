@@ -30,7 +30,7 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           const active = index === this.props.navigation.state.index;
           const label = this.props.getLabelText({ route });
           if (label === 'properties') {
-            return (<TouchableOpacity style={userStyle.bottomTabButton} onPress={() => {
+            return (<TouchableOpacity key={index} style={userStyle.bottomTabButton} onPress={() => {
               this.props.onTabPress({ route });
               Actions.reset('assets');
             }}>
@@ -45,7 +45,7 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           }
 
           if (label === 'transactions') {
-            return (<TouchableOpacity style={userStyle.bottomTabButton} onPress={() => {
+            return (<TouchableOpacity key={index} style={userStyle.bottomTabButton} onPress={() => {
               this.props.onTabPress({ route });
               //TODO
               Actions.reset(label);
@@ -63,7 +63,7 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           }
 
           if (label === 'account') {
-            return (<TouchableOpacity style={userStyle.bottomTabButton} onPress={() => {
+            return (<TouchableOpacity key={index} style={userStyle.bottomTabButton} onPress={() => {
               this.props.onTabPress({ route });
               Actions.reset('accountDetail');
             }}>
