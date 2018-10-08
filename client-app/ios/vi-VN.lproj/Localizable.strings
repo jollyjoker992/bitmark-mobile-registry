@@ -9,10 +9,10 @@
 "info_plist_touch_face_id" = "info_plist_touch_face_id";
 "info_plist_camera" = "info_plist_camera";
 "into_plist_photo" = "into_plist_photo";
-"notification_EventTrackingBitmarkConfirmed" = "notification_EventTrackingBitmarkConfirmed";
-"notification_EventTransferConfirmedSender" = "notification_EventTrackingBitmarkConfirmed";
-"notification_EventTransferConfirmedReceiver" = "notification_EventTrackingBitmarkConfirmed";
-"notification_EventTransferRequest" = "notification_EventTrackingBitmarkConfirmed";
-"notification_EventTransferRejected" = "notification_EventTrackingBitmarkConfirmed";
-"notification_EventTransferFailed" = "notification_EventTrackingBitmarkConfirmed";
-"notification_EventTransferAccepted" = "notification_EventTrackingBitmarkConfirmed";
+"notification_tracking_transfer_confirmed" = "notification_tracking_transfer_confirmed";
+"notification_transfer_confirmed_sender" = "notification_transfer_confirmed_sender";
+"notification_transfer_confirmed_receiver" = "notification_transfer_confirmed_receiver";
+"notification_transfer_request" = "notification_transfer_request";
+"notification_transfer_rejected" = "notification_transfer_rejected";
+"notification_transfer_failed" = "notification_transfer_failed";
+"notification_transfer_accepted" = "notification_transfer_accepted";
