@@ -1010,7 +1010,7 @@ const doRemoveTestRecoveryPhaseActionRequiredIfAny = async () => {
   let testWriteRecoveryPhaseActionRequired = helper.getTestWriteRecoveryPhaseActionRequired();
   if (testWriteRecoveryPhaseActionRequired) {
     await helper.removeTestWriteRecoveryPhaseActionRequired();
-    await doGenerateTransactionHistoryData();
+    await doGenerateTransactionActionRequiredData();
   }
 };
 
