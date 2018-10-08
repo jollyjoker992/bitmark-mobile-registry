@@ -206,7 +206,7 @@ const StoreAccountDetailComponent = connect(
 )(PrivateAccountDetailComponent);
 
 export class AccountDetailComponent extends React.Component {
-  propTypes = {
+  static propTypes = {
     subTab: PropTypes.string,
   }
   constructor(props) {

@@ -31,21 +31,19 @@ const initialState = {
 const data = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.RESET:
-      state = initialState;
-      return merge({}, state);
-    case ACTION_TYPES.INIT:
-
-      state.totalAssets = action.totalAssets;
-      state.totalBitmarks = action.totalBitmarks;
-      state.assets = action.assets || state.assets;
-      state.existNewAsset = action.existNewAsset;
-
-      state.trackingBitmarks = action.trackingBitmarks || state.trackingBitmarks;
-      state.totalTrackingBitmarks = action.totalTrackingBitmarks;
-      state.existNewTracking = action.existNewTracking;
-
-      state.appLoadingData = action.appLoadingData;
-      return merge({}, state);
+      return merge({}, initialState);
+    case ACTION_TYPES.INIT: {
+      let tempState = merge({}, state);
+      tempState.totalAssets = action.totalAssets;
+      tempState.totalBitmarks = action.totalBitmarks;
+      tempState.assets = action.assets || tempState.assets;
+      tempState.existNewAsset = action.existNewAsset;
+      tempState.trackingBitmarks = action.trackingBitmarks || tempState.trackingBitmarks;
+      tempState.totalTrackingBitmarks = action.totalTrackingBitmarks;
+      tempState.existNewTracking = action.existNewTracking;
+      tempState.appLoadingData = action.appLoadingData;
+      return tempState;
+    }
     default:
       return state;
   }

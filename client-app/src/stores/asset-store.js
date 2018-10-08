@@ -25,12 +25,13 @@ const initialState = {
 const data = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.RESET:
-      state = initialState;
-      return merge({}, state);
-    case ACTION_TYPES.INIT:
-      state.bitmarkCanDownload = (action.asset.bitmarks || []).find(bitmark => bitmark.status === 'confirmed');
-      state.asset = action.asset;
-      return merge({}, state);
+      return merge({}, initialState);
+    case ACTION_TYPES.INIT: {
+      let tempState = merge({}, state);
+      tempState.bitmarkCanDownload = (action.asset.bitmarks || []).find(bitmark => bitmark.status === 'confirmed');
+      tempState.asset = action.asset;
+      return tempState;
+    }
     default:
       return state;
   }

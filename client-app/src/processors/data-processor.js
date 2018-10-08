@@ -1,6 +1,6 @@
 import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
-
+import { merge } from 'lodash';
 
 import {
   EventEmitterService,
@@ -48,7 +48,7 @@ const doCheckNewIftttInformation = async (iftttInformation, isLoadingAllUserData
 
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_IFTTT_INFORMATION, iftttInformation);
 
-    let accountStoreState = AccountStore.getState().data;
+    let accountStoreState = merge({}, AccountStore.getState().data);
     accountStoreState.iftttInformation = iftttInformation;
     AccountStore.dispatch(AccountActions.init(accountStoreState));
 
@@ -62,17 +62,17 @@ const doCheckNewTrackingBitmarks = async (trackingBitmarks) => {
   if (trackingBitmarks) {
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS, trackingBitmarks);
 
-    let assetsStoreState = AssetsStore.getState().data;
+    let assetsStoreState = merge({}, AssetsStore.getState().data);
     assetsStoreState.trackingBitmarks = trackingBitmarks;
     assetsStoreState.totalTrackingBitmarks = trackingBitmarks.length;
     assetsStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
     AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
 
-    let bottomTabStoreState = BottomTabStore.getState().data;
+    let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
     bottomTabStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
     BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
 
-    let propertyStoreState = PropertyStore.getState().data;
+    let propertyStoreState = merge({}, PropertyStore.getState().data);
     if (propertyStoreState.bitmark) {
       propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
       BottomTabStore.dispatch(BottomTabActions.init(propertyStoreState));
@@ -93,24 +93,24 @@ const doCheckNewBitmarks = async (localAssets) => {
     let totalBitmarks = 0;
     localAssets.forEach(asset => totalBitmarks += asset.bitmarks.length);
 
-    let assetsStoreState = AssetsStore.getState().data;
+    let assetsStoreState = merge({}, AssetsStore.getState().data);
     assetsStoreState.totalBitmarks = totalBitmarks;
     assetsStoreState.totalAssets = localAssets.length;
     assetsStoreState.existNewAsset = localAssets.findIndex(asset => !asset.isViewed) >= 0;
     assetsStoreState.assets = localAssets.slice(0, Math.min(localAssets.length, Math.max(assetsStoreState.assets.length, 20)));
     AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
 
-    let bottomTabStoreState = BottomTabStore.getState().data;
+    let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
     bottomTabStoreState.existNewAsset = localAssets.findIndex(asset => !asset.isViewed) >= 0;
     BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
 
-    let assetStoreState = AssetStore.getState().data;
+    let assetStoreState = merge({}, AssetStore.getState().data);
     if (assetStoreState.asset && assetStoreState.asset.id) {
       assetStoreState.asset = localAssets.find(asset => asset.id === assetStoreState.asset.id);
       AssetStore.dispatch(AssetActions.init(assetStoreState));
     }
 
-    let propertyStoreState = PropertyStore.getState().data;
+    let propertyStoreState = merge({}, PropertyStore.getState().data);
     if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id) {
       let asset = localAssets.find(asset => asset.id === propertyStoreState.asset.asset_id);
       propertyStoreState.asset = asset;
@@ -122,15 +122,15 @@ const doCheckNewBitmarks = async (localAssets) => {
 };
 
 const setAppLoadingStatus = () => {
-  let assetsStoreState = AssetsStore.getState().data;
+  let assetsStoreState = merge({}, AssetsStore.getState().data);
   assetsStoreState.appLoadingData = isLoadingData;
   AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
 
-  let accountStoreState = AccountStore.getState().data;
+  let accountStoreState = merge({}, AccountStore.getState().data);
   accountStoreState.appLoadingData = isLoadingData;
   AccountStore.dispatch(AccountActions.init(accountStoreState));
 
-  let transactionStoreState = TransactionsStore.getState().data;
+  let transactionStoreState = merge({}, TransactionsStore.getState().data);
   transactionStoreState.appLoadingData = isLoadingData;
   TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
 }
@@ -288,7 +288,7 @@ const runOnBackground = async () => {
   let userInfo = await UserModel.doTryGetCurrentUser();
   if (userInformation === null || JSON.stringify(userInfo) !== JSON.stringify(userInformation)) {
     userInformation = userInfo;
-    let accountStoreState = AccountStore.getState().data;
+    let accountStoreState = merge({}, AccountStore.getState().data);
     accountStoreState.userInformation = userInformation;
     AccountStore.dispatch(AccountActions.init(accountStoreState));
   }
@@ -550,13 +550,13 @@ const doOpenApp = async () => {
       completed: completed.slice(0, 20),
     }));
 
-    let assetStoreState = AssetStore.getState().data;
+    let assetStoreState = merge({}, AssetStore.getState().data);
     if (assetStoreState.asset && assetStoreState.asset.id) {
       assetStoreState.asset = localAssets.find(asset => asset.id === assetStoreState.asset.id);
       AssetStore.dispatch(AssetActions.init(assetStoreState));
     }
 
-    let propertyStoreState = PropertyStore.getState().data;
+    let propertyStoreState = merge({}, PropertyStore.getState().data);
     if (assetStoreState.bitmark && assetStoreState.bitmark.id && assetStoreState.bitmark.asset_id) {
       let asset = localAssets.find(asset => asset.id === propertyStoreState.bitmark.asset_id);
       propertyStoreState.asset = asset;
@@ -600,22 +600,22 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
       localAsset.isViewed = assetViewed;
       await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS, localAssets);
 
-      let assetsStoreState = AssetsStore.getState().data;
+      let assetsStoreState = merge({}, AssetsStore.getState().data);
       assetsStoreState.existNewAsset = localAssets.findIndex(asset => !asset.isViewed) >= 0;
       assetsStoreState.assets = localAssets.slice(0, Math.min(localAssets.length, Math.max(assetsStoreState.assets.length, 20)));
       AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
 
-      let bottomTabStoreState = BottomTabStore.getState().data;
+      let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
       bottomTabStoreState.existNewAsset = localAssets.findIndex(asset => !asset.isViewed) >= 0;
       BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
 
-      let assetStoreState = AssetStore.getState().data;
+      let assetStoreState = merge({}, AssetStore.getState().data);
       if (assetStoreState.asset && assetStoreState.asset.id) {
         assetStoreState.asset = localAssets.find(asset => asset.id === assetStoreState.asset.id);
         AssetStore.dispatch(AssetActions.init(assetStoreState));
       }
 
-      let propertyStoreState = PropertyStore.getState().data;
+      let propertyStoreState = merge({}, PropertyStore.getState().data);
       if (assetStoreState.bitmark && assetStoreState.bitmark.id) {
         let asset = localAssets.find(asset => asset.id === propertyStoreState.asset.id);
         propertyStoreState.asset = asset;
@@ -638,17 +638,17 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
       await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS, trackingBitmarks);
       if (hasChanging) {
 
-        let assetsStoreState = AssetsStore.getState().data;
+        let assetsStoreState = merge({}, AssetsStore.getState().data);
         assetsStoreState.trackingBitmarks = trackingBitmarks;
         assetsStoreState.totalTrackingBitmarks = trackingBitmarks.length;
         assetsStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
         AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
 
-        let bottomTabStoreState = BottomTabStore.getState().data;
+        let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
         bottomTabStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
         BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
 
-        let propertyStoreState = PropertyStore.getState().data;
+        let propertyStoreState = merge({}, PropertyStore.getState().data);
         if (propertyStoreState.bitmark) {
           propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
           BottomTabStore.dispatch(BottomTabActions.init(propertyStoreState));
@@ -771,7 +771,7 @@ const doGetProvenance = (bitmarkId) => {
 const doAddMoreAssets = async (currentLength) => {
   currentLength = currentLength || 0;
   let allAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
-  let assetsStoreState = AssetsStore.getState().data;
+  let assetsStoreState = merge({}, AssetsStore.getState().data);
   assetsStoreState.assets = allAssets.slice(0, Math.min(allAssets.length, currentLength + 20));
   AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
 };
@@ -879,13 +879,13 @@ const doGenerateTransactionActionRequiredData = async () => {
     totalTasks += 1;
   }
 
-  let transactionStoreState = TransactionsStore.getState().data;
+  let transactionStoreState = merge({}, TransactionsStore.getState().data);
   transactionStoreState.totalTasks = totalTasks;
   transactionStoreState.totalActionRequired = actionRequired.length;
   transactionStoreState.actionRequired = actionRequired.slice(0, Math.min(actionRequired.length, Math.max(transactionStoreState.actionRequired.length, 20)));
   TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
 
-  let bottomTabStoreState = BottomTabStore.getState().data;
+  let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
   bottomTabStoreState.totalTasks = totalTasks;
   BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
 
@@ -944,7 +944,7 @@ const doGenerateTransactionHistoryData = async () => {
   }) : completed;
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY, completed);
 
-  let transactionStoreState = TransactionsStore.getState().data;
+  let transactionStoreState = merge({}, TransactionsStore.getState().data);
   transactionStoreState.totalCompleted = completed.length;
   transactionStoreState.completed = completed.slice(0, Math.min(completed.length, Math.max(transactionStoreState.actionRequired.length, 20)));
   TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
@@ -955,7 +955,7 @@ const doGenerateTransactionHistoryData = async () => {
 const doAddMoreActionRequired = async (currentLength) => {
   currentLength = currentLength || 0;
   let allActionRequired = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED)) || [];
-  let transactionStoreState = TransactionsStore.getState().data;
+  let transactionStoreState = merge({}, TransactionsStore.getState().data);
   transactionStoreState.actionRequired = allActionRequired.slice(0, Math.min(allActionRequired.length, currentLength + 20));
   TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
 };
@@ -974,7 +974,7 @@ const doGetAllTransfersOffers = async () => {
 const doAddMoreCompleted = async (currentLength) => {
   currentLength = currentLength || 0;
   let allCompleted = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY)) || [];
-  let transactionStoreState = TransactionsStore.getState().data;
+  let transactionStoreState = merge({}, TransactionsStore.getState().data);
   transactionStoreState.completed = allCompleted.slice(0, Math.min(allCompleted.length, currentLength + 20));
   TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
 };

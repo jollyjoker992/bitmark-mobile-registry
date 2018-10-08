@@ -22,19 +22,15 @@ const initialState = {
   existNewAsset: false,
   totalTasks: 0,
   existNewTracking: false,
+  mainTab: null,
 };
 
 const data = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.RESET:
-      state = initialState;
-      return merge({}, state);
+      return merge({}, initialState);
     case ACTION_TYPES.INIT:
-      state.existNewAsset = action.existNewAsset;
-      state.totalTasks = action.totalTasks;
-      state.existNewTracking = action.existNewTracking;
-      state.mainTab = action.mainTab;
-      return merge({}, state);
+      return merge({}, state, action);
     default:
       return state;
   }

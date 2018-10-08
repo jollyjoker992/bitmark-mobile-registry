@@ -25,13 +25,14 @@ const initialState = {
 const data = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.RESET:
-      state = initialState;
-      return merge({}, state);
-    case ACTION_TYPES.INIT:
-      state.iftttInformation = action.iftttInformation;
-      state.appLoadingData = action.appLoadingData;
-      state.userInformation = action.userInformation;
-      return merge({}, state);
+      return merge({}, initialState);
+    case ACTION_TYPES.INIT: {
+      let tempState = merge({}, state);
+      tempState.iftttInformation = action.iftttInformation;
+      tempState.appLoadingData = action.appLoadingData;
+      tempState.userInformation = action.userInformation;
+      return tempState;
+    }
     default:
       return state;
   }

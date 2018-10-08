@@ -16,12 +16,6 @@ const TransactionsActions = {
   init: ({ totalActionRequired, actionRequired, totalCompleted, completed, appLoadingData }) => {
     return { type: ACTION_TYPES.INIT, totalActionRequired, actionRequired, totalCompleted, completed, appLoadingData };
   },
-  addMoreActionsRequired: (actionRequired) => {
-    return { type: ACTION_TYPES.ADD_MORE, actionRequired };
-  },
-  addMoreCompleted: (completed) => {
-    return { type: ACTION_TYPES.ADD_MORE, completed };
-  },
 };
 
 const initialState = {
@@ -38,21 +32,15 @@ const data = (state = initialState, action) => {
     case ACTION_TYPES.RESET:
       state = initialState;
       return merge({}, state);
-    case ACTION_TYPES.INIT:
-      state.appLoadingData = action.appLoadingData;
-
-      state.totalActionRequired = action.totalActionRequired;
-      state.actionRequired = action.actionRequired || state.actionRequired;
-
-      state.totalCompleted = action.totalCompleted;
-      state.completed = action.completed || state.completed;
-      return merge({}, state);
-    case ACTION_TYPES.ADD_MORE_ACTION_REQUIRED:
-      state.actionRequired = state.actionRequired.concat(action.actionRequired || []);
-      return merge({}, state);
-    case ACTION_TYPES.ADD_MORE_COMPLETED:
-      state.completed = state.completed.concat(action.completed || []);
-      return merge({}, state);
+    case ACTION_TYPES.INIT: {
+      let tempState = merge({}, state);
+      tempState.appLoadingData = action.appLoadingData;
+      tempState.totalActionRequired = action.totalActionRequired;
+      tempState.actionRequired = action.actionRequired || tempState.actionRequired;
+      tempState.totalCompleted = action.totalCompleted;
+      tempState.completed = action.completed || state.completed;
+      return tempState;
+    }
     default:
       return state;
   }

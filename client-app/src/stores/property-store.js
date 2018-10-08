@@ -26,13 +26,14 @@ const initialState = {
 const data = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.RESET:
-      state = initialState;
-      return merge({}, state);
-    case ACTION_TYPES.INIT:
-      state.isTracking = action.isTracking;
-      state.asset = action.asset;
-      state.bitmark = action.bitmark;
-      return merge({}, state);
+      return merge({}, initialState);
+    case ACTION_TYPES.INIT: {
+      let tempState = merge({}, state);
+      tempState.isTracking = action.isTracking;
+      tempState.asset = action.asset;
+      tempState.bitmark = action.bitmark;
+      return tempState;
+    }
     default:
       return state;
   }
