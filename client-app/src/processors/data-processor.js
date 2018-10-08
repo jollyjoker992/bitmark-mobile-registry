@@ -97,7 +97,7 @@ const doCheckNewBitmarks = async (localAssets) => {
     assetsStoreState.totalBitmarks = totalBitmarks;
     assetsStoreState.totalAssets = localAssets.length;
     assetsStoreState.existNewAsset = localAssets.findIndex(asset => !asset.isViewed) >= 0;
-    assetsStoreState.assets = localAssets.slice(0, Math.min(localAssets.length, assetsStoreState.assets.length || 20));
+    assetsStoreState.assets = localAssets.slice(0, Math.min(localAssets.length, Math.max(assetsStoreState.assets.length, 20)));
     AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
 
     let bottomTabStoreState = BottomTabStore.getState().data;
@@ -602,7 +602,7 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
 
       let assetsStoreState = AssetsStore.getState().data;
       assetsStoreState.existNewAsset = localAssets.findIndex(asset => !asset.isViewed) >= 0;
-      assetsStoreState.assets = localAssets.slice(0, Math.min(localAssets.length, assetsStoreState.assets.length || 20));
+      assetsStoreState.assets = localAssets.slice(0, Math.min(localAssets.length, Math.max(assetsStoreState.assets.length, 20)));
       AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
 
       let bottomTabStoreState = BottomTabStore.getState().data;
@@ -882,7 +882,7 @@ const doGenerateTransactionActionRequiredData = async () => {
   let transactionStoreState = TransactionsStore.getState().data;
   transactionStoreState.totalTasks = totalTasks;
   transactionStoreState.totalActionRequired = actionRequired.length;
-  transactionStoreState.actionRequired = actionRequired.slice(0, Math.min(actionRequired.length, transactionStoreState.actionRequired.length || 20));
+  transactionStoreState.actionRequired = actionRequired.slice(0, Math.min(actionRequired.length, Math.max(transactionStoreState.actionRequired.length, 20)));
   TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
 
   let bottomTabStoreState = BottomTabStore.getState().data;
@@ -946,7 +946,7 @@ const doGenerateTransactionHistoryData = async () => {
 
   let transactionStoreState = TransactionsStore.getState().data;
   transactionStoreState.totalCompleted = completed.length;
-  transactionStoreState.completed = completed.slice(0, Math.min(completed.length, transactionStoreState.completed.length || 20));
+  transactionStoreState.completed = completed.slice(0, Math.min(completed.length, Math.max(transactionStoreState.actionRequired.length, 20)));
   TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
   console.log('completed :', completed);
   return { completed };
