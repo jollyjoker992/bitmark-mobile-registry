@@ -75,7 +75,7 @@ const doCheckNewTrackingBitmarks = async (trackingBitmarks) => {
     let propertyStoreState = merge({}, PropertyStore.getState().data);
     if (propertyStoreState.bitmark) {
       propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
-      BottomTabStore.dispatch(BottomTabActions.init(propertyStoreState));
+      PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
     }
   }
 };
@@ -616,12 +616,12 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
       }
 
       let propertyStoreState = merge({}, PropertyStore.getState().data);
-      if (assetStoreState.bitmark && assetStoreState.bitmark.id) {
+      if (propertyStoreState.bitmark && propertyStoreState.bitmark.id) {
         let asset = localAssets.find(asset => asset.id === propertyStoreState.asset.id);
         propertyStoreState.asset = asset;
         propertyStoreState.bitmark = asset.find(bitmark => bitmark.id === propertyStoreState.bitmark.id);
         propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
-        AssetStore.dispatch(AssetActions.init(propertyStoreState));
+        PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
       }
     }
   }
@@ -651,7 +651,7 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
         let propertyStoreState = merge({}, PropertyStore.getState().data);
         if (propertyStoreState.bitmark) {
           propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
-          BottomTabStore.dispatch(BottomTabActions.init(propertyStoreState));
+          PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
         }
       }
     }

@@ -93,4 +93,4 @@ export { config, ios, android };
 // react-native run-ios --device "iPhone 5 testing" --scheme 'Bitmark dev'
 
 
-// code-push release-react dungleBitmark-Registry ios --pre "Bitmark Registry dev" --mandatory true  --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.0.4.map"
+// code-push release-react dungle_bitmark/Bitmark-Registry ios --pre "Bitmark dev" --mandatory true  --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.0.4.map"

@@ -23,7 +23,6 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
   }
 
   render() {
-    console.log('this.props :', this.props);
     const routes = this.props.navigation.state.routes;
     return (
       <View style={userStyle.bottomTabArea}>
