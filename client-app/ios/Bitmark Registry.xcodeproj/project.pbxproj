@@ -536,6 +536,7 @@
 		58400A97202C013C00550ADB /* AccountSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSession.swift; sourceTree = "<group>"; };
 		586D2E802167219C002A84B5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		586D2E82216721BC002A84B5 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		588E9CEF216C520200F0E5D9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		588FE267205FB71000937D78 /* PhotoExporting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoExporting.h; sourceTree = "<group>"; };
 		588FE26D205FB71000937D78 /* PhotoExporting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoExporting.m; sourceTree = "<group>"; };
 		58908AD220A18A5A00C0064A /* Bitmark Registry dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bitmark Registry dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1213,6 +1214,7 @@
 				en,
 				Base,
 				"vi-VN",
+				"zh-Hant",
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -1977,6 +1979,7 @@
 			children = (
 				586D2E802167219C002A84B5 /* en */,
 				586D2E82216721BC002A84B5 /* vi-VN */,
+				588E9CEF216C520200F0E5D9 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
