@@ -6,9 +6,6 @@
   Copyright © 2018 Facebook. All rights reserved.
 */
 
-"info_plist_touch_face_id" = "Touch/Face ID or a passcode is required to authorize your transactions";
-"info_plist_camera" = "Bitmark Registry would like to access to your camera.";
-"into_plist_photo" = "Bitmark Registry would like to access to your photo library.";
 "notification_tracking_transfer_confirmed" = "The property \"%@\" has been updated, tap to view tracking details.";
 "notification_transfer_confirmed_sender" = "The property \"%@\" was transferred to %@.";
 "notification_transfer_confirmed_receiver" = "You have received the property \"%@\" from %@.";

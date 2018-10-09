@@ -49,9 +49,9 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>info_plist_camera</string>
+	<string>Bitmark Registry would like to access to your camera.</string>
 	<key>NSFaceIDUsageDescription</key>
-	<string>info_plist_touch_face_id</string>
+	<string>Touch/Face ID or a passcode is required to authorize your transactions</string>
 	<key>NSHealthShareUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like access to your health data</string>
 	<key>NSHealthUpdateUsageDescription</key>
@@ -63,9 +63,9 @@
 	<key>NSMotionUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like access to your motion sensor data.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>into_plist_photo</string>
+	<string>Bitmark Registry would like to access to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>into_plist_photo</string>
+	<string>Bitmark Registry would like to access to your photo library.</string>
 	<key>ResearchKit-Font-Bold</key>
 	<string>Avenir-Black</string>
 	<key>ResearchKit-Font-Light</key>
