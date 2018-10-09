@@ -2,22 +2,26 @@ import { Text } from 'react-native';
 import codePush from "react-native-code-push";
 import DeviceInfo from 'react-native-device-info';
 
-Text.defaultProps = Text.defaultProps ||{};
+Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
 
 import i18n from 'i18n-js';
-i18n.locale = DeviceInfo.getDeviceLocale();
-//i18n.locale = "en";
-console.log('i18n.locale:', i18n.locale);
-i18n.fallbacks = true;
-i18n.translations = require('./assets/localizations.json');
-
-global.i18n = i18n;
 
 import {
   BitmarkAppComponent,
   MainAppComponent
 } from './src';
+import { config } from './src/configs';
+
+if (config.network === config.NETWORKS.livenet) {
+  i18n.locale = 'en';
+} else {
+  i18n.locale = DeviceInfo.getDeviceLocale();
+}
+console.log('i18n.locale:', i18n.locale);
+i18n.fallbacks = true;
+i18n.translations = require('./assets/localizations.json');
+global.i18n = i18n;
 
 let codePushOptions = {
   updateDialog: {

@@ -2,7 +2,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactNative from 'react-native';
-import KeepAwake from "react-native-keep-awake";
+import KeepAwake from 'react-native-keep-awake';
+import DeviceInfo from 'react-native-device-info';
 
 // import PushNotification from 'react-native-push-notification';
 
@@ -24,9 +25,9 @@ import {
 import { EventEmitterService } from './../services';
 import { AppProcessor, DataProcessor } from '../processors';
 import { CommonModel, UserModel } from '../models';
-import { setJSExceptionHandler, setNativeExceptionHandler } from "react-native-exception-handler";
+import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler';
 import RNExitApp from 'react-native-exit-app';
-import Mailer from "react-native-mail";
+import Mailer from 'react-native-mail';
 import { FileUtil } from "../utils";
 import { config } from '../configs';
 import { iosConstant } from '../configs/ios/ios.config';
@@ -247,6 +248,11 @@ class MainEventsHandlerComponent extends Component {
 
   handleAppStateChange = (nextAppState) => {
     if (this.appState.match(/background/) && nextAppState === 'active') {
+      if (config.network === config.NETWORKS.livenet) {
+        i18n.locale = 'en';
+      } else {
+        i18n.locale = DeviceInfo.getDeviceLocale();
+      }
       this.doTryConnectInternet();
     }
     this.appState = nextAppState;
