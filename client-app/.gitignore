@@ -5,6 +5,7 @@
 
 # dependencies
 /node_modules
+/tools
 /source-map-tool/node_modules
 
 # misc
