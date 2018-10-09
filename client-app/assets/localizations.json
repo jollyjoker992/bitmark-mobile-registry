@@ -659,7 +659,7 @@
     "CodePushOptions_optionalInstallButtonLabel": "Update",
     "CodePushOptions_mandatoryContinueButtonLabel": "Update"
   },
-  "cn": {
+  "zh": {
     "BitmarkInternetOffComponent_networkError": "BitmarkInternetOffComponent_networkError",
     "BitmarkInternetOffComponent_errorMessage": "BitmarkInternetOffComponent_errorMessage",
     "BitmarkInternetOffComponent_cancel": "BitmarkInternetOffComponent_cancel",
