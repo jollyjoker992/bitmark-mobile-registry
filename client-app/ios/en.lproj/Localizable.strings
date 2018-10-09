@@ -6,6 +6,7 @@
   Copyright © 2018 Facebook. All rights reserved.
 */
 
+"info_plist_touch_face_id" = "Touch/Face ID or a passcode is required to authorize your transactions";
 "notification_tracking_transfer_confirmed" = "The property \"%@\" has been updated, tap to view tracking details.";
 "notification_transfer_confirmed_sender" = "The property \"%@\" was transferred to %@.";
 "notification_transfer_confirmed_receiver" = "You have received the property \"%@\" from %@.";
