@@ -27,7 +27,7 @@ import { IssuanceOptionsComponent } from './properties/local-issuance/issuance-o
 import { EventEmitterService } from '../../services';
 import { AppProcessor, DataProcessor } from '../../processors';
 
-import PushNotification from 'react-native-push-notification';
+// import PushNotification from 'react-native-push-notification';
 
 let ComponentName = 'UserRouterComponent';
 export class UserRouterComponent extends Component {
@@ -71,7 +71,7 @@ export class UserRouterComponent extends Component {
     } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
       Actions.transactions({ subTab: 'HISTORY' });
 
-    } else if (data.name === 'transfer_item_received' && data.bitmark_id) {
+    } else if (data.name === 'transfer_confirmed_receiver' && data.bitmark_id) {
       DataProcessor.doReloadLocalBitmarks().then(() => {
         return DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id);
       }).then(bitmarkInformation => {
