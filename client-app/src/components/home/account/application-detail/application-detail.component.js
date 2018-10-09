@@ -58,7 +58,7 @@ export class ApplicationDetailComponent extends React.Component {
         body: global.i18n.t("ApplicationDetailComponent_appVersion") + ' ' + DataProcessor.getApplicationVersion() + ' (' + DataProcessor.getApplicationBuildNumber() + ')',
       }, (error) => {
         if (error) {
-          Alert.alert('Error', 'Could not send mail. Please send a mail to support@bitmark.com');
+          Alert.alert(global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorTitle"), global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorMessage"));
         }
       });
     };

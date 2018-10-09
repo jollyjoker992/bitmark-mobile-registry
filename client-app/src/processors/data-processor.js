@@ -419,7 +419,7 @@ const doLogin = async (touchFaceIdSession) => {
 
 const doLogout = async () => {
   if (userInformation.notificationUUID) {
-    let signatureData = await CommonModel.doTryCreateSignatureData('Please sign to authorize your transactions')
+    let signatureData = await CommonModel.doTryCreateSignatureData(global.i18n.t("DataProcessor_pleaseSignToAuthorizeYourTransactions"));
     await NotificationService.doTryDeregisterNotificationInfo(userInformation.bitmarkAccountNumber, userInformation.notificationUUID, signatureData);
   }
   await AccountModel.doLogout();
@@ -517,7 +517,7 @@ const doOpenApp = async () => {
       actionRequired.unshift({
         key: actionRequired.length,
         type: ActionTypes.test_write_down_recovery_phase,
-        typeTitle: 'SECURITY ALERT',
+        typeTitle: global.i18n.t("DataProcessor_securityAlert"),
         timestamp: moment(new Date(testRecoveryPhaseActionRequired.timestamp)),
       });
 
