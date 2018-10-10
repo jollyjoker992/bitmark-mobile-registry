@@ -113,7 +113,7 @@ const doCheckMetadata = (metadataList) => {
       if (item.label && existFields[item.label.toLowerCase()] >= 0) {
         item.labelError = true;
         metadataList[existFields[item.label.toLowerCase()]].labelError = true;
-        return resolve('Duplicated labels: ' + item.label);
+        return resolve(global.i18n.t("BitmarkService_duplicatedLabels") + ' ' + item.label);
       }
       if (item.label && item.value) {
         existFields[item.label.toLowerCase()] = index;
@@ -121,7 +121,7 @@ const doCheckMetadata = (metadataList) => {
       }
     }
 
-    BitmarkModel.doCheckMetadata(metadata).then(resolve).catch(() => resolve('METADATA is too long (2048-BYTE LIMIT)!'));
+    BitmarkModel.doCheckMetadata(metadata).then(resolve).catch(() => resolve(global.i18n.t("BitmarkService_metadataIsTooLong")));
   });
 };
 

@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { convertWidth } from './../../../../utils';
-import { iosConstant } from '../../../../configs/ios/ios.config';
 
 
 export default StyleSheet.create({
   body: {
+    flex: 1,
     flexDirection: 'column',
     height: '100%',
     width: '100%',
@@ -83,14 +83,12 @@ export default StyleSheet.create({
   },
   sendButton: {
     width: convertWidth(375),
-    height: 45 + iosConstant.blankFooter / 2,
+    height: 45,
     borderTopWidth: 3,
     backgroundColor: '#F5F5F5',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 10,
-    paddingBottom: Math.max(10, iosConstant.blankFooter),
   },
   sendButtonText: {
     fontFamily: 'Avenir Black',

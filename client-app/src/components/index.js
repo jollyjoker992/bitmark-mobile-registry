@@ -1,9 +1,9 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StackNavigator } from 'react-navigation';
 import ReactNative from 'react-native';
-import KeepAwake from "react-native-keep-awake";
+import KeepAwake from 'react-native-keep-awake';
+import DeviceInfo from 'react-native-device-info';
 
 // import PushNotification from 'react-native-push-notification';
 
@@ -22,23 +22,24 @@ import {
   BitmarkIndicatorComponent,
   BitmarkInternetOffComponent,
 } from './../commons/components';
-import { HomeComponent } from './../components/home';
-import { OnBoardingComponent } from './onboarding';
 import { EventEmitterService } from './../services';
 import { AppProcessor, DataProcessor } from '../processors';
 import { CommonModel, UserModel } from '../models';
-import { setJSExceptionHandler, setNativeExceptionHandler } from "react-native-exception-handler";
+import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler';
 import RNExitApp from 'react-native-exit-app';
-import Mailer from "react-native-mail";
+import Mailer from 'react-native-mail';
 import { FileUtil } from "../utils";
 import { config } from '../configs';
+import { iosConstant } from '../configs/ios/ios.config';
+import { DefaultRouterComponent } from './onboarding';
+import { UserRouterComponent } from './home';
 
 const CRASH_LOG_FILE_NAME = 'crash_log.txt';
 const CRASH_LOG_FILE_PATH = FileUtil.CacheDirectory + '/' + CRASH_LOG_FILE_NAME;
 const ERROR_LOG_FILE_NAME = 'error_log.txt';
 const ERROR_LOG_FILE_PATH = FileUtil.CacheDirectory + '/' + ERROR_LOG_FILE_NAME;
 
-class MainComponent extends Component {
+class MainEventsHandlerComponent extends Component {
   constructor(props) {
     super(props);
 
@@ -50,25 +51,16 @@ class MainComponent extends Component {
     this.handerProcessErrorEvent = this.handerProcessErrorEvent.bind(this);
     this.doTryConnectInternet = this.doTryConnectInternet.bind(this);
 
-    this.doOpenApp = this.doOpenApp.bind(this);
-
     this.state = {
       user: null,
-      processingCount: false,
+      processingCount: 0,
       submitting: null,
-      justCreatedBitmarkAccount: false,
       networkStatus: true,
     };
     this.appState = AppState.currentState;
   }
 
   componentDidMount() {
-    let justCreatedBitmarkAccount = false;
-    if (this.props.navigation.state && this.props.navigation.state.params) {
-      justCreatedBitmarkAccount = !!this.props.navigation.state.params.justCreatedBitmarkAccount;
-      this.setState({ justCreatedBitmarkAccount });
-    }
-
     EventEmitterService.on(EventEmitterService.events.APP_PROCESSING, this.handerProcessingEvent);
     EventEmitterService.on(EventEmitterService.events.APP_SUBMITTING, this.handerSubmittingEvent);
     EventEmitterService.on(EventEmitterService.events.APP_PROCESS_ERROR, this.handerProcessErrorEvent);
@@ -93,6 +85,7 @@ class MainComponent extends Component {
 
   handerProcessingEvent(processing) {
     let processingCount = this.state.processingCount + (processing ? 1 : -1);
+    processingCount = processingCount < 0 ? 0: processingCount;
     this.setState({ processingCount });
 
     if (processingCount === 1) {
@@ -134,17 +127,17 @@ class MainComponent extends Component {
     let hasCrashLog = await FileUtil.exists(CRASH_LOG_FILE_PATH);
 
     if (hasCrashLog) {
-      let title = 'Crash Report';
-      let message = 'The app has detected unreported crash.\nWould you like to send a report to the developer?';
+      let title = global.i18n.t("MainComponent_crashReportTitle");
+      let message = global.i18n.t("MainComponent_crashReportMessage");
 
       Alert.alert(title, message, [{
-        text: 'Cancel',
+        text: global.i18n.t("MainComponent_cancel"),
         style: 'cancel',
         onPress: () => {
           FileUtil.removeSafe(CRASH_LOG_FILE_PATH);
         }
       }, {
-        text: 'Send',
+        text: global.i18n.t("MainComponent_send"),
         onPress: () => {
           this.sendReport(CRASH_LOG_FILE_PATH, CRASH_LOG_FILE_NAME);
         }
@@ -164,7 +157,7 @@ class MainComponent extends Component {
       }
     }, (error) => {
       if (error) {
-        Alert.alert('Error', 'Could not send mail.');
+        Alert.alert(global.i18n.t("MainComponent_error"), global.i18n.t("MainComponent_couldNotSendMail"));
       }
 
       // Remove crash/error log file
@@ -185,7 +178,7 @@ class MainComponent extends Component {
     let message = processError.message;
 
     Alert.alert(title, message, [{
-      text: 'OK',
+      text: global.i18n.t("MainComponent_ok"),
       style: 'cancel',
       onPress: () => {
         if (processError && processError.onClose) {
@@ -196,11 +189,11 @@ class MainComponent extends Component {
   }
 
   handleUnexpectedJSError(processError) {
-    let title = 'Error Report';
-    let message = 'The app has detected unreported error.\nWould you like to send a report to the developer?';
+    let title = global.i18n.t("MainComponent_errorReportTitle");
+    let message = global.i18n.t("MainComponent_errorReportMessage");
 
     Alert.alert(title, message, [{
-      text: 'Cancel',
+      text: global.i18n.t("MainComponent_cancel"),
       style: 'cancel',
       onPress: () => {
         if (processError && processError.onClose) {
@@ -208,7 +201,7 @@ class MainComponent extends Component {
         }
       }
     }, {
-      text: 'Send',
+      text: global.i18n.t("MainComponent_send"),
       onPress: async () => {
         // Write error to log file
         let error = processError.error || new Error('There was an error');
@@ -255,16 +248,19 @@ class MainComponent extends Component {
 
   handleAppStateChange = (nextAppState) => {
     if (this.appState.match(/background/) && nextAppState === 'active') {
+      if (config.network === config.NETWORKS.livenet) {
+        i18n.locale = 'en';
+      } else {
+        i18n.locale = DeviceInfo.getDeviceLocale();
+      }
       this.doTryConnectInternet();
     }
     this.appState = nextAppState;
   }
 
   handleNetworkChange(networkStatus) {
+    EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, networkStatus);
     this.setState({ networkStatus });
-    if (networkStatus) {
-      this.doOpenApp();
-    }
   }
 
   doTryConnectInternet() {
@@ -274,32 +270,90 @@ class MainComponent extends Component {
     });
   }
 
-  doOpenApp() {
+  render() {
+    let styles = {};
+    if (!this.state.networkStatus || this.state.processingCount || this.state.emptyDataSource ||
+      (!!this.state.submitting && !this.state.submitting.title && !this.state.submitting.message) ||
+      (!!this.state.submitting && (this.state.submitting.title || this.state.submitting.message))) {
+      styles.height = '100%';
+    }
 
-    // TODO
+    console.log('MainEventsHandlerComponent :', this.state, styles);
+    return (
+      <View style={[{ position: 'absolute', width: '100%', top: 0, left: 0, zIndex: iosConstant.zIndex.dialog }, styles]}>
+        {!this.state.networkStatus && <BitmarkInternetOffComponent tryConnectInternet={this.doTryConnectInternet} />}
+        {this.state.processingCount > 0 && <DefaultIndicatorComponent />}
+        {!!this.state.submitting && !this.state.submitting.title && !this.state.submitting.message && <DefaultIndicatorComponent />}
+        {!!this.state.submitting && (this.state.submitting.title || this.state.submitting.message) && <BitmarkIndicatorComponent
+          indicator={!!this.state.submitting.indicator} title={this.state.submitting.title} message={this.state.submitting.message} />}
+      </View>
+    );
+  }
+}
+
+export class BitmarkAppComponent extends Component {
+  static propTypes = {
+    message: PropTypes.string,
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.doOpenApp = this.doOpenApp.bind(this);
+    this.doRefresh = this.doRefresh.bind(this);
+
+    this.state = {
+      user: null,
+      networkStatus: true,
+    };
+  }
+
+  componentDidMount() {
+    EventEmitterService.on(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);
+    EventEmitterService.on(EventEmitterService.events.APP_NETWORK_CHANGED, this.doOpenApp);
+  }
+  componentWillUnmount() {
+    EventEmitterService.remove(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);
+    EventEmitterService.remove(EventEmitterService.events.APP_NETWORK_CHANGED, this.doOpenApp);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (!this.state.user || this.state.user.bitmarkAccountNumber !== nextState.user.bitmarkAccountNumber) {
+      return true;
+    }
+    return false;
+  }
+
+  doOpenApp(networkStatus) {
+    if (!networkStatus) {
+      return;
+    }
     AppProcessor.doCheckNoLongerSupportVersion().then((result) => {
       if (!result) {
-        Alert.alert('New Version Available', 'You’re using a version of Bitmark Registry or operating system that’s no longer supported. Please update to the newest app version. Thanks!', [{
-          text: 'Visit Appstore',
+        Alert.alert(global.i18n.t("MainComponent_newVersionAvailableTitle"), global.i18n.t("MainComponent_newVersionAvailableMessage"), [{
+          text: global.i18n.t("MainComponent_visitAppstore"),
           onPress: () => Linking.openURL(config.appLink)
         }]);
         return;
       }
-      return DataProcessor.doOpenApp();
-    }).then(user => {
+      this.doRefresh();
+    }).catch(error => {
+      console.log('doOpenApp error:', error);
+    });
+  }
+  doRefresh(justCreatedBitmarkAccount) {
+    return DataProcessor.doOpenApp(justCreatedBitmarkAccount).then(user => {
+      console.log('doOpenApp user: ', user)
       this.setState({ user });
       if (user && user.bitmarkAccountNumber) {
         CommonModel.doCheckPasscodeAndFaceTouchId().then(ok => {
           if (ok) {
-            AppProcessor.doStartBackgroundProcess(this.state.justCreatedBitmarkAccount);
-            setTimeout(() => {
-              this.setState({ justCreatedBitmarkAccount: false });
-            }, 5000);
+            AppProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount);
           } else {
             if (!this.requiringTouchId) {
               this.requiringTouchId = true;
-              Alert.alert('Please enable your Touch ID & Passcode to continue using Bitmark. Settings > Touch ID & Passcode', '', [{
-                text: 'ENABLE',
+              Alert.alert(global.i18n.t("MainComponent_pleaseEnableYourTouchIdMessage"), '', [{
+                text: global.i18n.t("MainComponent_enable"),
                 style: 'cancel',
                 onPress: () => {
                   Linking.openURL('app-settings:');
@@ -311,56 +365,24 @@ class MainComponent extends Component {
         });
       }
     }).catch(error => {
-      console.log('doOpenApp error:', error);
+      console.log('doRefresh error:', error);
     });
   }
 
   render() {
-    let DisplayedComponent = LoadingComponent;
+    let DisplayComponent = LoadingComponent;
     if (this.state.user) {
-      DisplayedComponent = this.state.user.bitmarkAccountNumber ? HomeComponent : OnBoardingComponent;
+      DisplayComponent = this.state.user.bitmarkAccountNumber ? UserRouterComponent : DefaultRouterComponent;
     }
     return (
+
       <View style={{ flex: 1 }}>
-        {!this.state.networkStatus && <BitmarkInternetOffComponent tryConnectInternet={this.doTryConnectInternet} />}
-        {this.state.processingCount > 0 && <DefaultIndicatorComponent />}
-
-        {!!this.state.submitting && !this.state.submitting.title && !this.state.submitting.message && <DefaultIndicatorComponent />}
-        {!!this.state.submitting && (this.state.submitting.title || this.state.submitting.message) && <BitmarkIndicatorComponent
-          indicator={!!this.state.submitting.indicator} title={this.state.submitting.title} message={this.state.submitting.message} />}
-        <View style={{
-          flex: 1,
-        }}><DisplayedComponent screenProps={{
-          rootNavigation: this.props.navigation,
-        }}>
-          </DisplayedComponent>
-        </View>
+        <DisplayComponent />
+        <MainEventsHandlerComponent />
       </View>
-    )
+    );
   }
 }
 
-MainComponent.propTypes = {
-  navigation: PropTypes.shape({
-    dispatch: PropTypes.func,
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        justCreatedBitmarkAccount: PropTypes.bool,
-      }),
-    }),
-  })
-}
 
-let BitmarkAppComponent = StackNavigator({
-  Main: { screen: MainComponent, },
-}, {
-    headerMode: 'none',
-    navigationOptions: {
-      gesturesEnabled: false,
-    }, cardStyle: {
-      shadowOpacity: 0,
-    }
-  }
-);
-export { BitmarkAppComponent };
 export * from './code-push/code-push.component';

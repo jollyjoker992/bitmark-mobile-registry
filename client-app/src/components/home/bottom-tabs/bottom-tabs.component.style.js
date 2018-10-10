@@ -11,24 +11,14 @@ let constant = Platform.select({
 });
 
 export default StyleSheet.create({
-  body: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-
   bottomTabArea: {
-    position: 'absolute',
-    bottom: 0,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: constant.bottomTabsHeight + constant.blankFooter,
+    height: constant.bottomTabsHeight,
     width: '100%',
     paddingLeft: 5,
     paddingRight: 5,
-    paddingBottom: constant.blankFooter,
     backgroundColor: '#F5F5F5',
   },
 

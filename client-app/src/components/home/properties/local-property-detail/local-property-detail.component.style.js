@@ -116,7 +116,7 @@ export default StyleSheet.create({
 
   metadataArea: {
     marginTop: 26,
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   metadataItem: {
     width: convertWidth(340),

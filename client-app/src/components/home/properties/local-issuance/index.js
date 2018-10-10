@@ -1,1 +1,1 @@
-export * from './local-issuance.component';
+export * from './issuance-options/issuance-options.component';

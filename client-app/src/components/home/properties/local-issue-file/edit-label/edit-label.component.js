@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, Image, TextInput, FlatList, ScrollView,
+  View, Text, TouchableOpacity, Image, TextInput, FlatList, ScrollView, SafeAreaView
 } from 'react-native';
 
-import { BitmarkComponent } from './../../../../../commons/components';
 import localAddPropertyStyle from './edit-label.component.style';
 import defaultStyle from './../../../../../commons/styles';
+import { iosConstant } from '../../../../../configs/ios/ios.config';
+import { Actions } from 'react-native-router-flux';
 
 
 const MetadataLabelSamples = [
@@ -44,28 +45,29 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
   }
 
   onChooseLabel(text) {
-    this.props.navigation.state.params.onEndChangeMetadataKey(this.props.navigation.state.params.key, text);
-    this.props.navigation.goBack();
+    this.props.onEndChangeMetadataKey(this.props.key, text);
+    Actions.pop();
   }
   render() {
     return (
-      <BitmarkComponent
-        header={(<View style={defaultStyle.header}>
-          <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.navigation.goBack()}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={[defaultStyle.header, { height: iosConstant.headerSize.height }]}>
+          <TouchableOpacity style={defaultStyle.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={[defaultStyle.headerTitle, { color: this.state.label ? 'black' : '#C1C1C1' }]}>{this.state.label || `LABEL ${this.props.navigation.state.params.key + 1}`}</Text>
+          <Text style={[defaultStyle.headerTitle, { color: this.state.label ? 'black' : '#C1C1C1' }]}>{this.state.label || global.i18n.t("LocalIssueFileEditLabelComponent_headerTitle", { number: this.props.navigation.state.params.key + 1 })}</Text>
           <TouchableOpacity style={defaultStyle.headerRight} onPress={() => {
-            this.props.navigation.state.params.onEndChangeMetadataKey(this.props.navigation.state.params.key, this.state.label);
-            this.props.navigation.goBack();
+            this.props.onEndChangeMetadataKey(this.props.key, this.state.label);
+            Actions.pop();
           }}>
-            <Text style={defaultStyle.headerRightText}>Done</Text>
+            <Text style={defaultStyle.headerRightText}>{global.i18n.t("LocalIssueFileEditLabelComponent_done")}</Text>
           </TouchableOpacity>
-        </View>)}
-        content={(<View style={localAddPropertyStyle.body}>
+        </View>
+
+        <View style={localAddPropertyStyle.body}>
           <ScrollView style={localAddPropertyStyle.bodyContent}>
             <TextInput style={localAddPropertyStyle.inputLabel}
-              placeholder='SELECT OR CREATE A NEW LABEL'
+              placeholder={global.i18n.t("LocalIssueFileEditLabelComponent_placeholder")}
               ref={(ref) => this.inputRef = ref}
               multiline={false}
               value={this.state.label}
@@ -90,28 +92,14 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
               />
             </View>
           </ScrollView>
-        </View>)}
-      />
+        </View>
+      </SafeAreaView>
     );
   }
 }
 
 LocalIssueFileEditLabelComponent.propTypes = {
-  screenProps: PropTypes.shape({
-    addPropertyNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      goBack: PropTypes.func,
-    }),
-  }),
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        label: PropTypes.string,
-        key: PropTypes.number,
-        onEndChangeMetadataKey: PropTypes.func,
-      }),
-    }),
-  }),
+  label: PropTypes.string,
+  key: PropTypes.number,
+  onEndChangeMetadataKey: PropTypes.func,
 }

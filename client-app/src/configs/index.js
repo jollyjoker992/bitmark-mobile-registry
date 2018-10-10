@@ -81,7 +81,7 @@ export { config, ios, android };
 
 
 // testnet
-// code-push release-react Bitmark-Registry ios --pre "Bitmark dev" --mandatory true  --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map"
+// code-push release-react Bitmark-Registry ios --pre "Bitmark Registry dev" --mandatory true  --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map"
 // code-push release-react Bitmark-Registry ios --pre "Bitmark dev" -m --description "update code" --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map" [--targetBinaryVersion "~1.1.1"]
 
 // livetnet
@@ -89,5 +89,8 @@ export { config, ios, android };
 // code-push release-react Bitmark-Registry ios -d Production -m --description "update code" --sourcemapOutput "source-map-tool/source-map/live/main.jsbundle_1.1.1.map" [--targetBinaryVersion "~1.1.1"]
 
 
-// react-native run-ios --device "Bitmark’s iPhone" --scheme 'Bitmark dev'
+// react-native run-ios --device "Bitmark’s iPhone" --scheme 'Bitmark Registry dev'
 // react-native run-ios --device "iPhone 5 testing" --scheme 'Bitmark dev'
+
+
+// code-push release-react dungle_bitmark/Bitmark-Registry ios --pre "Bitmark dev" --mandatory true  --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.0.4.map"

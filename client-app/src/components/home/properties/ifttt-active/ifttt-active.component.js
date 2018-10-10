@@ -1,54 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Provider, connect } from 'react-redux';
 import {
-  View, Text, TouchableOpacity, Image, WebView, ActivityIndicator,
+  View, Text, TouchableOpacity, Image, WebView, ActivityIndicator, SafeAreaView,
 } from 'react-native';
 
 import styles from './ifttt-active.component.style';
 import defaultStyle from './../../../../commons/styles';
 import { config } from '../../../../configs';
 import { AppProcessor, DataProcessor } from '../../../../processors';
-import { BitmarkComponent } from '../../../../commons/components';
 import { EventEmitterService } from '../../../../services';
-import { convertWidth } from '../../../../utils';
+import { convertWidth, runPromiseWithoutError } from '../../../../utils';
+import { AccountStore } from '../../../../stores';
+import { Actions } from 'react-native-router-flux';
+import { iosConstant } from '../../../../configs/ios/ios.config';
 
-let ComponentName = 'IftttActiveComponent';
-export class IftttActiveComponent extends React.Component {
+class PrivateIftttActiveComponent extends React.Component {
   constructor(props) {
     super(props);
     this.onMessage = this.onMessage.bind(this);
     this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
-    this.handerIftttInformationChange = this.handerIftttInformationChange.bind(this);
 
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, null, ComponentName);
-
-    let stage;
-    if (this.props.navigation.state && this.props.navigation.state.params) {
-      stage = this.props.navigation.state.params.stage;
-    }
     this.state = {
-      iftttInformation: null,
       loading: true,
       processing: false,
       currentUrl: config.ifttt_invite_url,
       webViewUrl: config.ifttt_invite_url,
-      stage,
     }
-    let doGetScreenData = async () => {
-      let iftttInformation = await DataProcessor.doGetIftttInformation();
-      this.setState({ iftttInformation, gettingData: false });
-    }
-    doGetScreenData();
     this.signed = false;
-  }
-
-  // ==========================================================================================
-  componentDidMount() {
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, this.handerIftttInformationChange, ComponentName);
-  }
-  // ==========================================================================================
-  handerIftttInformationChange(iftttInformation) {
-    this.setState({ iftttInformation });
   }
 
   onMessage(event) {
@@ -56,7 +35,7 @@ export class IftttActiveComponent extends React.Component {
     if (message === 'enable-ifttt') {
       this.setState({ processing: true });
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESSING, true);
-      AppProcessor.doCreateSignatureData('Please sign to connect your IFTTT account.', true).then(data => {
+      AppProcessor.doCreateSignatureData(global.i18n.t("IftttActiveComponent_pleaseSignToConnectYourIftttAccount"), true).then(data => {
         // this.setState({ processing: false });
         if (!data) {
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESSING, false);
@@ -77,7 +56,7 @@ export class IftttActiveComponent extends React.Component {
     let currentUrl = webViewState.url;
     this.setState({ currentUrl });
 
-    if (!this.state.stage) {
+    if (!this.props.stage) {
       if ((currentUrl === config.ifttt_bitmark_service_url || currentUrl === (config.ifttt_bitmark_service_settings_url)) && this.signed) {
         DataProcessor.doReloadIFTTTInformation().then((iftttInformation) => {
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESSING, false);
@@ -101,29 +80,28 @@ export class IftttActiveComponent extends React.Component {
   }
 
   render() {
-    console.log('webViewUrl :', this.state.webViewUrl);
     return (
-      <BitmarkComponent
-        header={(<View style={defaultStyle.header}>
-          {this.state.iftttInformation && this.state.iftttInformation.connectIFTTT && <TouchableOpacity style={[defaultStyle.headerLeft, { width: 60 }]} />}
-          {!this.state.iftttInformation || !this.state.iftttInformation.connectIFTTT && <TouchableOpacity style={[defaultStyle.headerLeft, { width: 60 }]} onPress={() => {
-            DataProcessor.doReloadIFTTTInformation().catch(error => {
-              console.log('doReloadIFTTTInformation : ', error);
-            });
-            this.props.navigation.goBack();
+      <View style={styles.body}>
+        <View style={[defaultStyle.header, { height: iosConstant.headerSize.height, zIndex: 2, }]}>
+          {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT && <TouchableOpacity style={[defaultStyle.headerLeft, { width: 60 }]} />}
+
+          {!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT && <TouchableOpacity style={[defaultStyle.headerLeft, { width: 60 }]} onPress={() => {
+            runPromiseWithoutError(DataProcessor.doReloadIFTTTInformation())
+            Actions.pop();
           }}>
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>}
-          <Text style={[defaultStyle.headerTitle, { maxWidth: convertWidth(375) - 120, }]}>REGISTER YOUR IFTTT DATA</Text>
-          {(!this.state.iftttInformation || !this.state.iftttInformation.connectIFTTT) && <TouchableOpacity style={[defaultStyle.headerRight, { width: 60 }]} />}
-          {this.state.iftttInformation && this.state.iftttInformation.connectIFTTT && <TouchableOpacity style={[defaultStyle.headerRight, { width: 60 }]} onPress={() => {
-            this.props.navigation.goBack();
-          }}>
-            <Text style={defaultStyle.headerRightText}>Done</Text>
-          </TouchableOpacity>}
-        </View>)}
 
-        content={(<View style={styles.main}>
+          <Text style={[defaultStyle.headerTitle, { maxWidth: convertWidth(375) - 120 }]}>{global.i18n.t("IftttActiveComponent_registerYourIftttData")}</Text>
+          {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) && <TouchableOpacity style={[defaultStyle.headerRight, { width: 60 }]} />}
+          {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT &&
+            <TouchableOpacity style={[defaultStyle.headerRight, { width: 60, }]} onPress={Actions.pop}>
+              <Text style={defaultStyle.headerRightText}>{global.i18n.t("IftttActiveComponent_done")}</Text>
+            </TouchableOpacity>
+          }
+        </View>
+
+        <View style={styles.main}>
           <WebView ref={(ref) => this.webViewRef = ref}
             dataDetectorTypes="none"
             source={{ uri: this.state.webViewUrl }}
@@ -140,7 +118,7 @@ export class IftttActiveComponent extends React.Component {
                   currentUrl: this.state.currentUrl + `&bitmark_account=${bitmarkAccountNumber}`,
                 });
               }
-              if (!this.state.stage && !this.signed &&
+              if (!this.props.stage && !this.signed &&
                 (this.state.currentUrl.indexOf('https://ifttt.com/onboarding') >= 0 || this.state.currentUrl.indexOf('https://ifttt.com/discover') >= 0 || this.state.currentUrl === config.ifttt_bitmark_service_url)) {
                 this.setState({
                   webViewUrl: config.ifttt_bitmark_service_settings_url + '/connect',
@@ -151,26 +129,42 @@ export class IftttActiveComponent extends React.Component {
           />
           {this.state.loading && !this.state.processing && <View style={{
             flex: 1, position: 'absolute', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            width: '100%',
-            height: '100%',
-            borderWidth: 1,
+            width: '100%', height: '100%',
           }}>
             <ActivityIndicator style={{ marginTop: 20 }} size={"large"} />
           </View>}
-        </View>)}
-      />
+        </View>
+      </View>
     );
   }
 }
 
-IftttActiveComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        stage: PropTypes.string,
-      }),
-    }),
-  }),
+PrivateIftttActiveComponent.propTypes = {
+  iftttInformation: PropTypes.any,
+  stage: PropTypes.string,
 }
+
+const StoreIftttActiveComponent = connect(
+  (state) => {
+    return state.data;
+  },
+)(PrivateIftttActiveComponent);
+
+export class IftttActiveComponent extends React.Component {
+  static propTypes = {
+    stage: PropTypes.string,
+  }
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <SafeAreaView style={{ flex: 1, borderWidth: 1, }}>
+        <Provider store={AccountStore}>
+          <StoreIftttActiveComponent stage={this.props.stage} />
+        </Provider>
+      </SafeAreaView>
+    );
+  }
+}
+

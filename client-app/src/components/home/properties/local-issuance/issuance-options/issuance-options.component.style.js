@@ -7,7 +7,8 @@ export default StyleSheet.create({
   body: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'white',
+    backgroundColor: '#F5F5F5',
+
   },
   header: {
     flexDirection: 'row',
@@ -15,7 +16,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#F5F5F5',
-    height: ios.constant.headerSize.height - ios.constant.headerSize.paddingTop,
+    height: ios.constant.headerSize.height,
     width: '100%',
     // borderWidth: 1,
   },
@@ -24,6 +25,7 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     width: '100%',
+    backgroundColor: 'white',
   },
 
   optionButton: {

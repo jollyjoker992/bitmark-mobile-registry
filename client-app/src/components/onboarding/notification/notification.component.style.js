@@ -45,8 +45,6 @@ export default StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     backgroundColor: '#0060F2',
-    paddingTop: 10,
-    paddingBottom: 10,
   },
   enableButtonText: {
     fontFamily: 'Avenir black',

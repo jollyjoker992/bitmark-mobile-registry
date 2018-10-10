@@ -27,15 +27,12 @@ struct KeychainUtil {
         cancel = true
         semaphore.signal()
       }))
-      
-      DispatchQueue.main.async {
-        UIApplication.shared.delegate?.window??.rootViewController?.present(alert, animated: true, completion: nil)
-      }
+    
+      UIApplication.shared.delegate?.window??.rootViewController?.present(alert, animated: true, completion: nil)
+    
       _ = semaphore.wait(timeout: .distantFuture)
-      
-      DispatchQueue.main.async {
-        alert.dismiss(animated: true, completion: nil)
-      }
+    
+      alert.dismiss(animated: true, completion: nil)
       
       if cancel {
         throw KeychainAccess.Status.userCanceled
@@ -56,21 +53,28 @@ struct KeychainUtil {
   }
   
   static func saveCore(_ core: Data, authentication: Bool) throws {
-    UserDefaults().set(authentication, forKey: authenticationKey)
-    return try getKeychain(reason: "Touch/Face ID or a passcode is required to authorize your transactions.", authentication: authentication)
-      .set(core, key: bitmarkSeedCoreKey)
+    try DispatchQueue.main.sync {
+      UserDefaults().set(authentication, forKey: authenticationKey)
+      try getKeychain(reason: NSLocalizedString("info_plist_touch_face_id", comment: ""), authentication: authentication)
+        .set(core, key: bitmarkSeedCoreKey)
+    }
   }
   
   static func getCore(reason: String) throws -> Data? {
-    let authentication = UserDefaults().bool(forKey: authenticationKey)
-    return try getKeychain(reason: reason, authentication: authentication)
-      .getData(bitmarkSeedCoreKey)
+    return try DispatchQueue.main.sync {
+      let authentication = UserDefaults().bool(forKey: authenticationKey)
+      return try getKeychain(reason: reason, authentication: authentication)
+        .getData(bitmarkSeedCoreKey)
+    }
+
   }
   
   static func clearCore() throws {
-    let authentication = UserDefaults().bool(forKey: authenticationKey)
-    try getKeychain(reason: "Bitmark app would like to remove your account from keychain.", authentication: authentication)
-      .remove(bitmarkSeedCoreKey)
-    UserDefaults().removeObject(forKey: authenticationKey)
+    try DispatchQueue.main.sync {
+      let authentication = UserDefaults().bool(forKey: authenticationKey)
+      try getKeychain(reason: "Bitmark app would like to remove your account from keychain.", authentication: authentication)
+        .remove(bitmarkSeedCoreKey)
+      UserDefaults().removeObject(forKey: authenticationKey)
+    }
   }
 }

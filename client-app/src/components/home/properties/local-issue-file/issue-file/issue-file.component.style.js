@@ -250,10 +250,9 @@ export default StyleSheet.create({
     fontFamily: 'Andale Mono',
     fontWeight: '300',
     fontSize: 14,
-    minHeight: 25,
     marginLeft: 7,
-    marginTop: 8,
-    marginBottom: 8,
+    marginTop: 12,
+    marginBottom: 10,
   },
   metadataFieldValueBar: {
     borderBottomColor: '#0060F2',
@@ -358,14 +357,13 @@ export default StyleSheet.create({
 
   issueButton: {
     width: convertWidth(375),
-    minHeight: 45 + iosConstant.blankFooter,
+    height: iosConstant.buttonHeight,
     borderTopWidth: 2,
     backgroundColor: '#F5F5F5',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 10,
-    paddingBottom: Math.max(10, iosConstant.blankFooter),
+    marginBottom: 10,
   },
   issueButtonText: {
     fontFamily: 'Avenir Black',

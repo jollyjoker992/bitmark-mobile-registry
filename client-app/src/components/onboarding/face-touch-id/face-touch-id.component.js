@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, Image, TouchableOpacity,
+  View, Text, Image, TouchableOpacity, SafeAreaView,
   Linking,
   AppState,
   Alert
@@ -9,8 +9,8 @@ import {
 import { CommonModel } from './../../../models';
 
 import faceTouchIdStyle from './face-touch-id.component.style';
-import { BitmarkComponent } from '../../../commons/components';
 import { iosConstant } from '../../../configs/ios/ios.config';
+import { Actions } from 'react-native-router-flux';
 
 export class FaceTouchIdComponent extends React.Component {
   constructor(props) {
@@ -49,22 +49,22 @@ export class FaceTouchIdComponent extends React.Component {
   }
 
   doContinue(enableTouchId) {
-    this.props.navigation.state.params.doContinue(enableTouchId).then((user) => {
+    this.props.doContinue(enableTouchId).then((user) => {
       if (user) {
-        this.props.navigation.navigate('Notification');
+        Actions.notification();
       }
     }).catch(error => {
       console.log('error :', error);
-      this.setState({ errorMessage: 'Can not create or access bitmark account!' })
+      this.setState({ errorMessage: global.i18n.t("FaceTouchIdComponent_canNotCreateOrAccessBitmarkAccount") })
     });
   }
 
   confirmSkipTouchId() {
-    Alert.alert('Are you sure you don’t want to protect your data with Touch & Face ID?', '', [{
+    Alert.alert(global.i18n.t("FaceTouchIdComponent_confirmMessage"), '', [{
       style: 'cancel',
-      text: 'No',
+      text: global.i18n.t("FaceTouchIdComponent_no"),
     }, {
-      text: 'Yes',
+      text: global.i18n.t("FaceTouchIdComponent_yes"),
       onPress: () => {
         this.doContinue(false);
       }
@@ -73,22 +73,20 @@ export class FaceTouchIdComponent extends React.Component {
 
   render() {
     return (
-      <BitmarkComponent
-        backgroundColor='white'
-        content={(<View style={[faceTouchIdStyle.body]}>
-          <Text style={[faceTouchIdStyle.faceTouchIdTitle]}>TOUCH/FACE ID</Text>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+        <View style={[faceTouchIdStyle.body]}>
+          <Text style={[faceTouchIdStyle.faceTouchIdTitle]}>{global.i18n.t("FaceTouchIdComponent_faceTouchIdTitle")}</Text>
           <Text style={[faceTouchIdStyle.faceTouchIdDescription,]}>
-            Use Touch/Face ID to sign and encrypt your data.
+            {global.i18n.t("FaceTouchIdComponent_faceTouchIdDescription")}
           </Text>
           <View style={faceTouchIdStyle.passcodeRemindImages}>
             <Image style={[faceTouchIdStyle.touchIdImage]} source={require('../../../../assets/imgs/touch-id.png')} />
             <Image style={[faceTouchIdStyle.faceIdImage]} source={require('../../../../assets/imgs/face-id.png')} />
           </View>
 
-        </View>)}
+        </View>
 
-        footerHeight={45 + iosConstant.blankFooter / 2}
-        footer={(<View style={faceTouchIdStyle.enableButtonArea}>
+        <View style={faceTouchIdStyle.enableButtonArea}>
           {/*Enable Button*/}
           <TouchableOpacity style={[faceTouchIdStyle.enableButton]}
             onPress={() => {
@@ -98,35 +96,22 @@ export class FaceTouchIdComponent extends React.Component {
                 this.doContinue(true);
               }
             }}>
-            <Text style={faceTouchIdStyle.enableButtonText}>ENABLE TOUCH/FACE ID</Text>
+            <Text style={faceTouchIdStyle.enableButtonText}>{global.i18n.t("FaceTouchIdComponent_enableButtonText")}</Text>
           </TouchableOpacity>
           {/*Skip Button*/}
           <TouchableOpacity style={[faceTouchIdStyle.skipButton]}
-                            onPress={() => {
-                              this.confirmSkipTouchId();
-                            }}>
-            <Text style={faceTouchIdStyle.skipButtonText}>SKIP</Text>
+            onPress={() => {
+              this.confirmSkipTouchId();
+            }}>
+            <Text style={faceTouchIdStyle.skipButtonText}>{global.i18n.t("FaceTouchIdComponent_skip")}</Text>
           </TouchableOpacity>
-        </View>)}
-      />
+        </View>
+
+      </SafeAreaView>
     );
   }
 }
 
 FaceTouchIdComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        doContinue: PropTypes.func,
-      }),
-    }),
-  }),
-  screenProps: PropTypes.shape({
-    rootNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      dispatch: PropTypes.func,
-    })
-  }),
+  doContinue: PropTypes.func,
 }

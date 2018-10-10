@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavigationActions } from 'react-navigation';
+import { Provider, connect } from 'react-redux';
 import {
-  View, Text, TouchableOpacity, ScrollView, FlatList, Image, ActivityIndicator,
+  View, Text, TouchableOpacity, ScrollView, FlatList, Image, ActivityIndicator, SafeAreaView,
   Dimensions,
   Alert,
 } from 'react-native';
@@ -15,9 +15,11 @@ import { EventEmitterService } from '../../../services';
 import defaultStyle from './../../../commons/styles';
 import { convertWidth } from '../../../utils';
 import { config } from '../../../configs';
-import { BottomTabsComponent } from '../bottom-tabs/bottom-tabs.component';
+import { TransactionsStore } from '../../../stores';
+import { iosConstant } from '../../../configs/ios/ios.config';
+import { Actions } from 'react-native-router-flux';
 
-const SubTabs = {
+let SubTabs = {
   required: 'ACTIONS REQUIRED',
   completed: 'HISTORY',
 };
@@ -30,93 +32,29 @@ const ActionTypes = {
 
 let currentSize = Dimensions.get('window');
 
-let ComponentName = 'TransactionsComponent';
-export class TransactionsComponent extends React.Component {
+class PrivateTransactionsComponent extends React.Component {
   static SubTabs = SubTabs;
   constructor(props) {
     super(props);
+
+    SubTabs = {
+      required: global.i18n.t("TransactionsComponent_actionsRequired"),
+      completed: global.i18n.t("TransactionsComponent_history"),
+    };
+
     this.switchSubTab = this.switchSubTab.bind(this);
-    this.handerChangeScreenData = this.handerChangeScreenData.bind(this);
     this.acceptAllTransfers = this.acceptAllTransfers.bind(this);
     this.reloadData = this.reloadData.bind(this);
-    this.handerLoadingData = this.handerLoadingData.bind(this);
 
     this.clickToActionRequired = this.clickToActionRequired.bind(this);
     this.clickToCompleted = this.clickToCompleted.bind(this);
 
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_TRANSACTION_SCREEN_ACTION_REQUIRED_DATA, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_TRANSACTION_SCREEN_HISTORIES_DATA, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.APP_LOADING_DATA, null, ComponentName);
-
-    let subTab = (this.props.screenProps.subTab === SubTabs.required || this.props.screenProps.subTab === SubTabs.completed) ? this.props.screenProps.subTab : SubTabs.required;
+    let subTab = this.props.subTab || SubTabs.required;
     this.state = {
       currentUser: DataProcessor.getUserInformation(),
       subTab,
-      totalActionRequired: 0,
-      totalCompleted: 0,
-      actionRequired: [],
-      completed: [],
-      appLoadingData: DataProcessor.isAppLoadingData(),
-      gettingData: true,
-      lengthDisplayActionRequired: 0,
-      lengthDisplayCompleted: 0,
     };
 
-    const doGetScreenData = async () => {
-
-      let { actionRequired, totalActionRequired } = await DataProcessor.doGetTransactionScreenActionRequired(0);
-      let { completed, totalCompleted } = await DataProcessor.doGetTransactionScreenHistories(0);
-
-      this.setState({
-        totalActionRequired,
-        totalCompleted,
-        completed,
-        actionRequired,
-        gettingData: false,
-        lengthDisplayActionRequired: actionRequired.length,
-        lengthDisplayCompleted: completed.length,
-      });
-    };
-
-    doGetScreenData();
-  }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    let subTab = (nextProps.subTab === SubTabs.required || nextProps.subTab === SubTabs.completed) ? nextProps.subTab : this.state.subTab;
-    this.setState({ subTab });
-  }
-
-  componentDidMount() {
-    this.switchSubTab(this.state.subTab);
-    EventEmitterService.on(EventEmitterService.events.CHANGE_TRANSACTION_SCREEN_ACTION_REQUIRED_DATA, this.handerChangeScreenData, ComponentName);
-    EventEmitterService.on(EventEmitterService.events.CHANGE_TRANSACTION_SCREEN_HISTORIES_DATA, this.handerChangeScreenData, ComponentName);
-
-    EventEmitterService.on(EventEmitterService.events.APP_LOADING_DATA, this.handerLoadingData, ComponentName);
-
-    if (this.props.screenProps.needReloadData) {
-      this.reloadData();
-      if (this.props.screenProps.doneReloadData) {
-        this.props.screenProps.doneReloadData()
-      }
-    }
-  }
-
-  async handerChangeScreenData() {
-    let { actionRequired, totalActionRequired } = await DataProcessor.doGetTransactionScreenActionRequired(this.state.lengthDisplayActionRequired);
-    let { completed, totalCompleted } = await DataProcessor.doGetTransactionScreenHistories(this.state.lengthDisplayCompleted);
-
-    this.setState({
-      actionRequired: actionRequired,
-      completed: completed,
-      lengthDisplayActionRequired: actionRequired.length,
-      lengthDisplayCompleted: completed.length,
-      totalActionRequired,
-      totalCompleted,
-    });
-  }
-  handerLoadingData() {
-    this.setState({
-      appLoadingData: DataProcessor.isAppLoadingData(),
-    });
   }
 
   reloadData() {
@@ -132,30 +70,16 @@ export class TransactionsComponent extends React.Component {
 
   clickToActionRequired(item) {
     if (item.type === ActionTypes.transfer && item.transferOffer) {
-      this.props.screenProps.homeNavigation.navigate('TransactionDetail', {
-        transferOffer: item.transferOffer,
-      });
+      Actions.transactionDetail({ transferOffer: item.transferOffer, })
     } else if (item.type === ActionTypes.ifttt) {
       AppProcessor.doIssueIftttData(item, {
-        indicator: true, title: '', message: 'Sending your transaction to the Bitmark network...'
+        indicator: true, title: '', message: global.i18n.t("TransactionsComponent_sendingYourTransactionToTheBitmarkNetwork")
       }).then(result => {
         if (result) {
           DataProcessor.doReloadUserData();
-          Alert.alert('Success!', 'Your property rights have been registered.', [{
-            text: 'OK',
-            onPress: () => {
-              const resetHomePage = NavigationActions.reset({
-                index: 0,
-                actions: [
-                  NavigationActions.navigate({
-                    routeName: 'User', params: {
-                      displayedTab: { mainTab: BottomTabsComponent.MainTabs.properties },
-                    }
-                  }),
-                ]
-              });
-              this.props.screenProps.homeNavigation.dispatch(resetHomePage);
-            }
+          Alert.alert(global.i18n.t("TransactionsComponent_success"), global.i18n.t("TransactionsComponent_yourPropertyRightsHaveBeenRegistered"), [{
+            text: global.i18n.t("TransactionsComponent_ok"),
+            onPress: () => Actions.jump('assets')
           }]);
         }
       }).catch(error => {
@@ -163,42 +87,35 @@ export class TransactionsComponent extends React.Component {
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
       });
     } else if (item.type === ActionTypes.test_write_down_recovery_phase) {
-      EventEmitterService.emit(EventEmitterService.events.NEED_REFRESH_USER_COMPONENT_STATE, {
-        displayedTab: {
-          mainTab: 'Account',
-          subTab: null
-        },
-        goToRecoveryPhase: true,
-        changeMainTab: {mainTab: 'Account'}
-      });
+      Actions.jump('recoveryPhrase');
     }
   }
 
   clickToCompleted(item) {
     if (item.title === 'SEND' && item.type === 'P2P TRANSFER') {
       let sourceUrl = config.registry_server_url + `/transaction/${item.txid}?env=app`;
-      this.props.screenProps.homeNavigation.navigate('BitmarkWebView', { title: 'REGISTRY', sourceUrl, isFullScreen: true });
+      Actions.bitmarkWebViewFull({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, })
     } else if (item.title === 'ISSUANCE') {
       let sourceUrl = config.registry_server_url + `/issuance/${item.blockNumber}/${item.assetId}/${DataProcessor.getUserInformation().bitmarkAccountNumber}?env=app`;
-      this.props.screenProps.homeNavigation.navigate('BitmarkWebView', { title: 'REGISTRY', sourceUrl, isFullScreen: true });
+      Actions.bitmarkWebViewFull({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, })
     }
   }
 
   async acceptAllTransfers() {
     AppProcessor.doGetAllTransfersOffers().then(transferOffers => {
       console.log(transferOffers);
-      Alert.alert('Sign for acceptance of all bitmarks sent to you?', `Accept “${transferOffers.length}” properties sent to you.`, [{
-        text: 'Cancel', style: 'cancel',
+      Alert.alert(global.i18n.t("TransactionsComponent_signForAcceptanceOfAllBitmarksSentToYou"), global.i18n.t("TransactionsComponent_acceptTransfer", { length: transferOffers.length }), [{
+        text: global.i18n.t("TransactionsComponent_cancel"), style: 'cancel',
       }, {
-        text: 'Yes',
+        text: global.i18n.t("TransactionsComponent_yes"),
         onPress: () => {
           AppProcessor.doAcceptAllTransfers(transferOffers, { indicator: true, }, result => {
             if (result) {
-              Alert.alert('Acceptance Submitted', 'Your signature for the transfer request has been successfully submitted to the Bitmark network.');
+              Alert.alert(global.i18n.t("TransactionsComponent_acceptanceSubmittedTitle"), global.i18n.t("TransactionsComponent_acceptanceSubmittedMessage"));
             }
           }).catch(error => {
             console.log('acceptAllTransfers error:', error);
-            Alert.alert('Request Failed', 'This error may be due to a request expiration or a network error. We will inform the property owner that the property transfer failed. Please try again later or contact the property owner to resend a property transfer request.');
+            Alert.alert(global.i18n.t("TransactionsComponent_requestFailedTitle"), global.i18n.t("TransactionsComponent_requestFailedMessage"));
           });
         }
       }]);
@@ -210,10 +127,10 @@ export class TransactionsComponent extends React.Component {
 
   render() {
     return (
-      <View style={transactionsStyle.body}>
-        <View style={transactionsStyle.header}>
+      <SafeAreaView style={transactionsStyle.body}>
+        <View style={[transactionsStyle.header, { height: iosConstant.headerSize.height }]}>
           <TouchableOpacity style={defaultStyle.headerLeft}></TouchableOpacity>
-          <Text style={defaultStyle.headerTitle}>TRANSACTIONS</Text>
+          <Text style={defaultStyle.headerTitle}>{global.i18n.t("TransactionsComponent_transactions")}</Text>
           <TouchableOpacity style={defaultStyle.headerRight}></TouchableOpacity>
         </View>
         <View style={transactionsStyle.subTabArea}>
@@ -224,7 +141,7 @@ export class TransactionsComponent extends React.Component {
             <View style={transactionsStyle.subTabButtonArea}>
               <View style={[transactionsStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={transactionsStyle.subTabButtonTextArea}>
-                <Text style={transactionsStyle.subTabButtonText}>{SubTabs.required.toUpperCase()}</Text>
+                <Text style={transactionsStyle.subTabButtonText}>{global.i18n.t("TransactionsComponent_actionsRequired")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -235,7 +152,7 @@ export class TransactionsComponent extends React.Component {
             <View style={transactionsStyle.subTabButtonArea}>
               <View style={[transactionsStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={transactionsStyle.subTabButtonTextArea}>
-                <Text style={[transactionsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{SubTabs.required.toUpperCase()}</Text>
+                <Text style={[transactionsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("TransactionsComponent_actionsRequired")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -247,7 +164,7 @@ export class TransactionsComponent extends React.Component {
             <View style={transactionsStyle.subTabButtonArea}>
               <View style={[transactionsStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={transactionsStyle.subTabButtonTextArea}>
-                <Text style={transactionsStyle.subTabButtonText}>{SubTabs.completed.toUpperCase()}</Text>
+                <Text style={transactionsStyle.subTabButtonText}>{global.i18n.t("TransactionsComponent_history")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -258,7 +175,7 @@ export class TransactionsComponent extends React.Component {
             <View style={transactionsStyle.subTabButtonArea}>
               <View style={[transactionsStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={transactionsStyle.subTabButtonTextArea}>
-                <Text style={[transactionsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{SubTabs.completed.toUpperCase()}</Text>
+                <Text style={[transactionsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("TransactionsComponent_history")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -269,23 +186,21 @@ export class TransactionsComponent extends React.Component {
             if (this.loadingActionRequiredWhenScroll) {
               return;
             }
-            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.state.lengthDisplayActionRequired < this.state.totalActionRequired)) {
+            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.props.actionRequired.length < this.props.totalActionRequired)) {
               this.loadingActionRequiredWhenScroll = true;
-              let lengthDisplayActionRequired = Math.min(this.state.totalActionRequired, this.state.lengthDisplayActionRequired + 20);
-              let { actionRequired } = await DataProcessor.doGetTransactionScreenActionRequired(lengthDisplayActionRequired);
-              this.setState({ lengthDisplayActionRequired: actionRequired.length, actionRequired });
+              await DataProcessor.doAddMoreActionRequired(this.props.actionRequired.length);
             }
             this.loadingActionRequiredWhenScroll = false;
           }}
           scrollEventThrottle={1}>
           <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
-            {this.state.actionRequired && this.state.actionRequired.length === 0 && (!this.state.gettingData && !this.state.appLoadingData) && <View style={transactionsStyle.contentSubTab}>
-              <Text style={transactionsStyle.titleNoRequiredTransferOffer}>NO ACTIONS REQUIRED.</Text>
-              <Text style={transactionsStyle.messageNoRequiredTransferOffer}>This is where you will receive authorization requests.</Text>
+            {this.props.actionRequired && this.props.actionRequired.length === 0 && !this.props.appLoadingData && <View style={transactionsStyle.contentSubTab}>
+              <Text style={transactionsStyle.titleNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noActionsRequired")}</Text>
+              <Text style={transactionsStyle.messageNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_messageNoRequiredTransferOffer")}</Text>
             </View>}
 
-            {this.state.actionRequired && this.state.actionRequired.length > 0 && <View style={transactionsStyle.contentSubTab}>
-              <FlatList data={this.state.actionRequired}
+            {this.props.actionRequired && this.props.actionRequired.length > 0 && <View style={transactionsStyle.contentSubTab}>
+              <FlatList data={this.props.actionRequired}
                 extraData={this.state}
                 renderItem={({ item }) => {
                   return (<TouchableOpacity style={transactionsStyle.transferOfferRow} onPress={() => this.clickToActionRequired(item)}>
@@ -297,34 +212,35 @@ export class TransactionsComponent extends React.Component {
 
                     {item.type === ActionTypes.transfer && <View style={transactionsStyle.iftttTask}>
                       <Text style={transactionsStyle.iftttTitle}>{item.transferOffer.asset.name}</Text>
-                      <Text style={transactionsStyle.iftttDescription}>Sign to receive the bitmark from {'[' + item.transferOffer.bitmark.owner.substring(0, 4) + '...' + item.transferOffer.bitmark.owner.substring(item.transferOffer.bitmark.owner.length - 4, item.transferOffer.bitmark.owner.length) + ']'}.</Text>
+                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signToReceiveTheBitmarkFrom", { accountNumber: item.transferOffer.bitmark.owner.substring(0, 4) + '...' + item.transferOffer.bitmark.owner.substring(item.transferOffer.bitmark.owner.length - 4, item.transferOffer.bitmark.owner.length) })}</Text>
                     </View>}
 
                     {item.type === ActionTypes.ifttt && <View style={transactionsStyle.iftttTask}>
                       <Text style={transactionsStyle.iftttTitle}>{item.assetInfo.propertyName}</Text>
-                      <Text style={transactionsStyle.iftttDescription}>Sign your bitmark issuance for your IFTTT data.</Text>
+                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signYourBitmarkIssuanceForYourIftttData")}</Text>
                     </View>}
 
                     {item.type === ActionTypes.test_write_down_recovery_phase && <View style={transactionsStyle.recoveryPhaseActionRequired}>
-                      <Text style={transactionsStyle.recoveryPhaseActionRequiredTitle}>Write Down Your Recovery Phrase</Text>
+                      <Text style={transactionsStyle.recoveryPhaseActionRequiredTitle}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredTitle")}</Text>
                       <View style={transactionsStyle.recoveryPhaseActionRequiredDescriptionArea}>
-                        <Text style={transactionsStyle.recoveryPhaseActionRequiredDescription}>Protect your Bitmark account.</Text>
+                        <Text style={transactionsStyle.recoveryPhaseActionRequiredDescription}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredDescription")}</Text>
                         <Image style={transactionsStyle.recoveryPhaseActionRequiredImportantIcon} source={require('./../../../../assets/imgs/alert.png')} />
                       </View>
                     </View>}
                   </TouchableOpacity>)
                 }} />
             </View>}
-            {(this.state.gettingData || this.state.appLoadingData || (this.state.lengthDisplayActionRequired < this.state.totalActionRequired)) &&
+            {(this.props.appLoadingData || (this.props.actionRequired.length < this.props.totalActionRequired)) &&
               <View style={transactionsStyle.contentSubTab}>
                 <ActivityIndicator size="large" style={{ marginTop: 46, }} />
               </View>
             }
           </TouchableOpacity>
         </ScrollView>}
-        {this.state.subTab === SubTabs.required && this.state.actionRequired && this.state.actionRequired.length > 0
-          && (this.state.actionRequired.findIndex(item => item.type === ActionTypes.transfer) >= 0) && <TouchableOpacity style={transactionsStyle.acceptAllTransfersButton} onPress={this.acceptAllTransfers} >
-            <Text style={transactionsStyle.acceptAllTransfersButtonText}>SIGN FOR ALL BITMARKS SENT TO YOU</Text>
+
+        {this.state.subTab === SubTabs.required && this.props.actionRequired && this.props.actionRequired.length > 0
+          && (this.props.actionRequired.findIndex(item => item.type === ActionTypes.transfer) >= 0) && <TouchableOpacity style={transactionsStyle.acceptAllTransfersButton} onPress={this.acceptAllTransfers} >
+            <Text style={transactionsStyle.acceptAllTransfersButtonText}>{global.i18n.t("TransactionsComponent_acceptAllTransfersButtonText")}</Text>
           </TouchableOpacity>
         }
 
@@ -333,23 +249,21 @@ export class TransactionsComponent extends React.Component {
             if (this.loadingCompletedWhenScroll) {
               return;
             }
-            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.state.lengthDisplayCompleted < this.state.totalCompleted)) {
+            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.props.completed.length < this.props.totalCompleted)) {
               this.loadingCompletedWhenScroll = true;
-              let lengthDisplayCompleted = Math.min(this.state.totalActionRequired, this.state.lengthDisplayCompleted + 20);
-              let { completed } = await DataProcessor.doGetTransactionScreenHistories(lengthDisplayCompleted);
-              this.setState({ lengthDisplayCompleted: completed.length, completed });
+              await DataProcessor.doAddMoreCompleted(this.props.completed.length);
             }
             this.loadingCompletedWhenScroll = false;
           }}
           scrollEventThrottle={1}
         >
           <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
-            {this.state.completed && this.state.completed.length === 0 && !this.state.appLoadingData && <View style={transactionsStyle.contentSubTab}>
-              <Text style={transactionsStyle.titleNoRequiredTransferOffer}>NO TRANSACTION HISTORY.</Text>
-              <Text style={transactionsStyle.messageNoRequiredTransferOffer}>Your transaction history will be available here.</Text>
+            {this.props.completed && this.props.completed.length === 0 && !this.props.appLoadingData && <View style={transactionsStyle.contentSubTab}>
+              <Text style={transactionsStyle.titleNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noTransactionHistoryTitle")}</Text>
+              <Text style={transactionsStyle.messageNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noTransactionHistoryMessage")}</Text>
             </View>}
-            {this.state.completed && this.state.completed.length > 0 && <View style={transactionsStyle.contentSubTab}>
-              <FlatList data={this.state.completed}
+            {this.props.completed && this.props.completed.length > 0 && <View style={transactionsStyle.contentSubTab}>
+              <FlatList data={this.props.completed}
                 extraData={this.state}
                 renderItem={({ item }) => {
                   return (
@@ -366,26 +280,26 @@ export class TransactionsComponent extends React.Component {
                         {(item.status !== 'waiting' && item.status !== 'rejected' && item.status !== 'canceled') &&
                           <Text style={[transactionsStyle.completedTransferHeaderValue, {
                             color: (item.status === 'pending' || item.status === 'waiting') ? '#999999' : '#0060F2'
-                          }]}>{item.status === 'pending' ? 'PENDING...' : moment(item.timestamp).format('YYYY MMM DD HH:mm:ss').toUpperCase()}</Text>
+                          }]}>{item.status === 'pending' ? global.i18n.t("TransactionsComponent_pending") : moment(item.timestamp).format('YYYY MMM DD HH:mm:ss').toUpperCase()}</Text>
                         }
                       </View>
                       <View style={transactionsStyle.completedTransferContent}>
                         <View style={transactionsStyle.completedTransferContentRow}>
-                          <Text style={[transactionsStyle.completedTransferContentRowLabel, { marginTop: 1, }]}>PROPERTY</Text>
+                          <Text style={[transactionsStyle.completedTransferContentRowLabel, { marginTop: 1, }]}>{global.i18n.t("TransactionsComponent_property")}</Text>
                           <Text style={[transactionsStyle.completedTransferContentRowPropertyName]} numberOfLines={1} >{item.assetName}</Text>
                         </View>
                         {!!item.type && <View style={transactionsStyle.completedTransferContentRow}>
-                          <Text style={transactionsStyle.completedTransferContentRowLabel}>TYPE</Text>
+                          <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_type")}</Text>
                           <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.type.toUpperCase()}</Text>
                         </View>}
                         <View style={[transactionsStyle.completedTransferContentRow, { marginTop: 1, }]}>
-                          <Text style={transactionsStyle.completedTransferContentRowLabel}>FROM</Text>
-                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.from === this.state.currentUser.bitmarkAccountNumber ? 'YOU' :
+                          <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_from")}</Text>
+                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.from === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
                             ('[' + item.from.substring(0, 4) + '...' + item.from.substring(item.from.length - 4, item.from.length) + ']')}</Text>
                         </View>
                         {!!item.to && <View style={transactionsStyle.completedTransferContentRow}>
-                          <Text style={transactionsStyle.completedTransferContentRowLabel}>TO</Text>
-                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.researcherName ? item.researcherName : (item.to === this.state.currentUser.bitmarkAccountNumber ? 'YOU' :
+                          <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_to")}</Text>
+                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.researcherName ? item.researcherName : (item.to === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
                             ('[' + item.to.substring(0, 4) + '...' + item.to.substring(item.to.length - 4, item.to.length) + ']'))}</Text>
                         </View>}
                       </View>
@@ -393,34 +307,50 @@ export class TransactionsComponent extends React.Component {
                   )
                 }} />
             </View >}
-            {(this.state.gettingData || this.state.appLoadingData || (this.state.lengthDisplayCompleted < this.state.totalCompleted)) &&
+            {(this.props.appLoadingData || (this.props.completed.length < this.props.totalCompleted)) &&
               <View style={transactionsStyle.contentSubTab}>
                 <ActivityIndicator size="large" style={{ marginTop: 46, }} />
               </View>
             }
           </TouchableOpacity>
         </ScrollView>}
-      </View >
+      </SafeAreaView >
     );
   }
 }
 
-TransactionsComponent.propTypes = {
+PrivateTransactionsComponent.propTypes = {
+  totalActionRequired: PropTypes.number,
+  actionRequired: PropTypes.array,
+  totalCompleted: PropTypes.number,
+  completed: PropTypes.array,
+  appLoadingData: PropTypes.bool,
   subTab: PropTypes.string,
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-  }),
-  screenProps: PropTypes.shape({
-    subTab: PropTypes.string,
-    switchMainTab: PropTypes.func,
-    logout: PropTypes.func,
-    homeNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      goBack: PropTypes.func,
-      dispatch: PropTypes.func,
-    }),
-    needReloadData: PropTypes.bool,
-    doneReloadData: PropTypes.func,
-  }),
+
 }
+
+const StoreTransactionsComponent = connect(
+  (state) => {
+    return state.data;
+  },
+)(PrivateTransactionsComponent);
+
+export class TransactionsComponent extends React.Component {
+  static propTypes = {
+    subTab: PropTypes.string,
+
+  }
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <Provider store={TransactionsStore}>
+          <StoreTransactionsComponent subTab={this.props.subTab} />
+        </Provider>
+      </View>
+    );
+  }
+}
+

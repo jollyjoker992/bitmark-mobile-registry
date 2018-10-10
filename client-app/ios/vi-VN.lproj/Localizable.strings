@@ -1,0 +1,16 @@
+/* 
+  Localizable.strings
+  Bitmark Registry
+
+  Created by Anh Nguyen on 10/5/18.
+  Copyright © 2018 Facebook. All rights reserved.
+*/
+
+"info_plist_touch_face_id" = "info_plist_touch_face_id";
+"notification_tracking_transfer_confirmed" = "notification_tracking_transfer_confirmed";
+"notification_transfer_confirmed_sender" = "notification_transfer_confirmed_sender";
+"notification_transfer_confirmed_receiver" = "notification_transfer_confirmed_receiver";
+"notification_transfer_request" = "notification_transfer_request";
+"notification_transfer_rejected" = "notification_transfer_rejected";
+"notification_transfer_failed" = "notification_transfer_failed";
+"notification_transfer_accepted" = "notification_transfer_accepted";

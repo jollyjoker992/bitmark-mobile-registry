@@ -1,5 +1,6 @@
 import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
+import { merge } from 'lodash';
 
 import {
   EventEmitterService,
@@ -10,8 +11,15 @@ import {
 } from "../services";
 import { CommonModel, AccountModel, UserModel, BitmarkSDK, IftttModel, BitmarkModel, NotificationModel } from '../models';
 import { FileUtil } from '../utils';
-import { DataCacheProcessor } from './data-cache-processor';
 import { config } from '../configs';
+import {
+  AssetsStore, AssetsActions,
+  BottomTabStore, BottomTabActions,
+  AssetStore, AssetActions,
+  PropertyStore, PropertyActions,
+  AccountStore, AccountActions,
+  TransactionsStore, TransactionsActions,
+} from '../stores';
 const helper = require('../utils/helper');
 
 let userInformation = {};
@@ -39,7 +47,11 @@ const doCheckNewIftttInformation = async (iftttInformation, isLoadingAllUserData
     }
 
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_IFTTT_INFORMATION, iftttInformation);
-    EventEmitterService.emit(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, iftttInformation);
+
+    let accountStoreState = merge({}, AccountStore.getState().data);
+    accountStoreState.iftttInformation = iftttInformation;
+    AccountStore.dispatch(AccountActions.init(accountStoreState));
+
     if (!isLoadingAllUserData) {
       await doGenerateTransactionActionRequiredData();
     }
@@ -49,12 +61,22 @@ const doCheckNewIftttInformation = async (iftttInformation, isLoadingAllUserData
 const doCheckNewTrackingBitmarks = async (trackingBitmarks) => {
   if (trackingBitmarks) {
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS, trackingBitmarks);
-    DataCacheProcessor.setPropertiesScreen({
-      totalTrackingBitmarks: trackingBitmarks.length,
-      existNewTrackingBitmark: (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0,
-      trackingBitmarks: trackingBitmarks.slice(0, DataCacheProcessor.cacheLength)
-    });
-    EventEmitterService.emit(EventEmitterService.events.CHANGE_USER_DATA_TRACKING_BITMARKS, trackingBitmarks);
+
+    let assetsStoreState = merge({}, AssetsStore.getState().data);
+    assetsStoreState.trackingBitmarks = trackingBitmarks;
+    assetsStoreState.totalTrackingBitmarks = trackingBitmarks.length;
+    assetsStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
+    AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
+
+    let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
+    bottomTabStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
+    BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
+
+    let propertyStoreState = merge({}, PropertyStore.getState().data);
+    if (propertyStoreState.bitmark) {
+      propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
+      PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
+    }
   }
 };
 
@@ -70,16 +92,48 @@ const doCheckNewBitmarks = async (localAssets) => {
 
     let totalBitmarks = 0;
     localAssets.forEach(asset => totalBitmarks += asset.bitmarks.length);
-    DataCacheProcessor.setPropertiesScreen({
-      localAssets: localAssets.slice(0, DataCacheProcessor.cacheLength),
-      totalAssets: localAssets.length,
-      existNewAsset: localAssets.findIndex(asset => !asset.isViewed) >= 0,
-      totalBitmarks
-    });
 
-    EventEmitterService.emit(EventEmitterService.events.CHANGE_USER_DATA_LOCAL_BITMARKS, localAssets);
+    let assetsStoreState = merge({}, AssetsStore.getState().data);
+    assetsStoreState.totalBitmarks = totalBitmarks;
+    assetsStoreState.totalAssets = localAssets.length;
+    assetsStoreState.existNewAsset = localAssets.findIndex(asset => !asset.isViewed) >= 0;
+    assetsStoreState.assets = localAssets.slice(0, Math.min(localAssets.length, Math.max(assetsStoreState.assets.length, 20)));
+    AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
+
+    let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
+    bottomTabStoreState.existNewAsset = localAssets.findIndex(asset => !asset.isViewed) >= 0;
+    BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
+
+    let assetStoreState = merge({}, AssetStore.getState().data);
+    if (assetStoreState.asset && assetStoreState.asset.id) {
+      assetStoreState.asset = localAssets.find(asset => asset.id === assetStoreState.asset.id);
+      AssetStore.dispatch(AssetActions.init(assetStoreState));
+    }
+
+    let propertyStoreState = merge({}, PropertyStore.getState().data);
+    if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id) {
+      let asset = localAssets.find(asset => asset.id === propertyStoreState.asset.asset_id);
+      propertyStoreState.asset = asset;
+      propertyStoreState.bitmark = asset.find(bitmark => bitmark.id === propertyStoreState.bitmark.id);
+      propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
+      PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
+    }
   }
 };
+
+const setAppLoadingStatus = () => {
+  let assetsStoreState = merge({}, AssetsStore.getState().data);
+  assetsStoreState.appLoadingData = isLoadingData;
+  AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
+
+  let accountStoreState = merge({}, AccountStore.getState().data);
+  accountStoreState.appLoadingData = isLoadingData;
+  AccountStore.dispatch(AccountActions.init(accountStoreState));
+
+  let transactionStoreState = merge({}, TransactionsStore.getState().data);
+  transactionStoreState.appLoadingData = isLoadingData;
+  TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
+}
 // ================================================================================================================================================
 
 const recheckLocalAssets = (localAssets, outgoingTransferOffers) => {
@@ -234,7 +288,9 @@ const runOnBackground = async () => {
   let userInfo = await UserModel.doTryGetCurrentUser();
   if (userInformation === null || JSON.stringify(userInfo) !== JSON.stringify(userInformation)) {
     userInformation = userInfo;
-    EventEmitterService.emit(EventEmitterService.events.CHANGE_USER_INFO, userInfo);
+    let accountStoreState = merge({}, AccountStore.getState().data);
+    accountStoreState.userInformation = userInformation;
+    AccountStore.dispatch(AccountActions.init(accountStoreState));
   }
   if (userInformation && userInformation.bitmarkAccountNumber) {
     let runParallel = () => {
@@ -267,10 +323,12 @@ const runOnBackground = async () => {
 
 const doReloadUserData = async () => {
   isLoadingData = true;
-  EventEmitterService.emit(EventEmitterService.events.APP_LOADING_DATA, isLoadingData);
+  setAppLoadingStatus();
+
   await runOnBackground();
+
   isLoadingData = false;
-  EventEmitterService.emit(EventEmitterService.events.APP_LOADING_DATA, isLoadingData);
+  setAppLoadingStatus();
 };
 const doReloadTrackingBitmark = async () => {
   let trackingBitmarks = await runGetTrackingBitmarksInBackground();
@@ -361,13 +419,18 @@ const doLogin = async (touchFaceIdSession) => {
 
 const doLogout = async () => {
   if (userInformation.notificationUUID) {
-    let signatureData = await CommonModel.doTryCreateSignatureData('Please sign to authorize your transactions')
+    let signatureData = await CommonModel.doTryCreateSignatureData(global.i18n.t("DataProcessor_pleaseSignToAuthorizeYourTransactions"));
     await NotificationService.doTryDeregisterNotificationInfo(userInformation.bitmarkAccountNumber, userInformation.notificationUUID, signatureData);
   }
   await AccountModel.doLogout();
   await UserModel.doRemoveUserInfo();
   userInformation = {};
-  DataCacheProcessor.resetCacheData();
+  AssetsStore.dispatch(AssetsActions.reset());
+  BottomTabStore.dispatch(BottomTabActions.reset());
+  AssetStore.dispatch(AssetActions.reset());
+  PropertyStore.dispatch(PropertyActions.reset());
+  AccountStore.dispatch(AccountActions.reset());
+  TransactionsStore.dispatch(TransactionsActions.reset());
 };
 
 
@@ -443,33 +506,74 @@ const doOpenApp = async () => {
       trackingBitmarks = [];
     }
 
-    DataCacheProcessor.setPropertiesScreen({
-      localAssets: localAssets.slice(0, DataCacheProcessor.cacheLength),
+    let actionRequired = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED)) || [];
+    let completed = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY)) || [];
+
+    let totalTasks = 0;
+    actionRequired.forEach(item => totalTasks += (item.number ? item.number : 1));
+    // Add "Write Down Your Recovery Phrase" action required which was created when creating account if any
+    let testRecoveryPhaseActionRequired = await helper.getTestWriteRecoveryPhaseActionRequired();
+    if (testRecoveryPhaseActionRequired) {
+      actionRequired.unshift({
+        key: actionRequired.length,
+        type: ActionTypes.test_write_down_recovery_phase,
+        typeTitle: global.i18n.t("DataProcessor_securityAlert"),
+        timestamp: moment(new Date(testRecoveryPhaseActionRequired.timestamp)),
+      });
+
+      totalTasks += 1;
+    }
+    // ============================
+    NotificationService.setApplicationIconBadgeNumber(totalTasks || 0);
+    BottomTabStore.dispatch(BottomTabActions.init({
+      totalTasks,
+      existNewAsset: localAssets.findIndex(asset => !asset.isViewed) >= 0,
+      existNewTracking: (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0,
+    }));
+
+    AssetsStore.dispatch(AssetsActions.init({
+      assets: localAssets.slice(0, 20),
       totalAssets: localAssets.length,
       existNewAsset: localAssets.findIndex(asset => !asset.isViewed) >= 0,
       totalBitmarks,
 
       totalTrackingBitmarks: trackingBitmarks.length,
       existNewTrackingBitmark: (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0,
-      trackingBitmarks: trackingBitmarks.slice(0, DataCacheProcessor.cacheLength),
-    });
+      trackingBitmarks: trackingBitmarks.slice(0, 20),
+    }));
 
-    let actionRequired = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED)) || [];
-    let completed = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY)) || [];
-
-    let totalTasks = 0;
-    actionRequired.forEach(item => totalTasks += (item.number ? item.number : 1));
-    DataCacheProcessor.setTransactionScreenData({
-      totalTasks,
+    TransactionsStore.dispatch(TransactionsActions.init({
       totalActionRequired: actionRequired.length,
-      actionRequired: actionRequired.slice(0, DataCacheProcessor.cacheLength),
+      actionRequired: actionRequired.slice(0, 20),
+      totalTasks,
       totalCompleted: completed.length,
-      completed: completed.slice(0, DataCacheProcessor.cacheLength),
-    });
+      completed: completed.slice(0, 20),
+    }));
+
+    let assetStoreState = merge({}, AssetStore.getState().data);
+    if (assetStoreState.asset && assetStoreState.asset.id) {
+      assetStoreState.asset = localAssets.find(asset => asset.id === assetStoreState.asset.id);
+      AssetStore.dispatch(AssetActions.init(assetStoreState));
+    }
+
+    let propertyStoreState = merge({}, PropertyStore.getState().data);
+    if (assetStoreState.bitmark && assetStoreState.bitmark.id && assetStoreState.bitmark.asset_id) {
+      let asset = localAssets.find(asset => asset.id === propertyStoreState.bitmark.asset_id);
+      propertyStoreState.asset = asset;
+      propertyStoreState.bitmark = asset.find(bitmark => bitmark.id === propertyStoreState.bitmark.id);
+      propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
+      PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
+    }
+
+    AccountStore.dispatch(AccountActions.init({
+      userInformation,
+      iftttInformation: await doGetIftttInformation(),
+    }));
+
+    // ============================
   }
 
-  EventEmitterService.emit(EventEmitterService.events.APP_LOADING_DATA, isLoadingData);
-  console.log('userInformation :', userInformation);
+  setAppLoadingStatus();
   return userInformation;
 };
 
@@ -496,11 +600,29 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
       localAsset.isViewed = assetViewed;
       await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS, localAssets);
 
-      DataCacheProcessor.setPropertiesScreen({
-        localAssets: localAssets.slice(0, DataCacheProcessor.cacheLength),
-        existNewAsset: localAssets.findIndex(asset => !asset.isViewed) >= 0,
-      });
-      EventEmitterService.emit(EventEmitterService.events.CHANGE_USER_DATA_LOCAL_BITMARKS, localAssets);
+      let assetsStoreState = merge({}, AssetsStore.getState().data);
+      assetsStoreState.existNewAsset = localAssets.findIndex(asset => !asset.isViewed) >= 0;
+      assetsStoreState.assets = localAssets.slice(0, Math.min(localAssets.length, Math.max(assetsStoreState.assets.length, 20)));
+      AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
+
+      let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
+      bottomTabStoreState.existNewAsset = localAssets.findIndex(asset => !asset.isViewed) >= 0;
+      BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
+
+      let assetStoreState = merge({}, AssetStore.getState().data);
+      if (assetStoreState.asset && assetStoreState.asset.id) {
+        assetStoreState.asset = localAssets.find(asset => asset.id === assetStoreState.asset.id);
+        AssetStore.dispatch(AssetActions.init(assetStoreState));
+      }
+
+      let propertyStoreState = merge({}, PropertyStore.getState().data);
+      if (propertyStoreState.bitmark && propertyStoreState.bitmark.id) {
+        let asset = localAssets.find(asset => asset.id === propertyStoreState.asset.id);
+        propertyStoreState.asset = asset;
+        propertyStoreState.bitmark = asset.find(bitmark => bitmark.id === propertyStoreState.bitmark.id);
+        propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
+        PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
+      }
     }
   }
   if (bitmarkId) {
@@ -515,12 +637,22 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
       };
       await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS, trackingBitmarks);
       if (hasChanging) {
-        DataCacheProcessor.setPropertiesScreen({
-          totalTrackingBitmarks: trackingBitmarks.length,
-          existNewTrackingBitmark: (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0,
-          trackingBitmarks: trackingBitmarks.slice(0, DataCacheProcessor.cacheLength),
-        });
-        EventEmitterService.emit(EventEmitterService.events.CHANGE_USER_DATA_TRACKING_BITMARKS, trackingBitmarks);
+
+        let assetsStoreState = merge({}, AssetsStore.getState().data);
+        assetsStoreState.trackingBitmarks = trackingBitmarks;
+        assetsStoreState.totalTrackingBitmarks = trackingBitmarks.length;
+        assetsStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
+        AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
+
+        let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
+        bottomTabStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
+        BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
+
+        let propertyStoreState = merge({}, PropertyStore.getState().data);
+        if (propertyStoreState.bitmark) {
+          propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
+          PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
+        }
       }
     }
   }
@@ -636,39 +768,12 @@ const doGetProvenance = (bitmarkId) => {
   });
 };
 
-const doGetLocalBitmarks = async (length) => {
-  let localAssets;
-  let propertiesScreenDataInCache = DataCacheProcessor.getPropertiesScreenData();
-
-  if (length !== undefined && length <= propertiesScreenDataInCache.localAssets.length) {
-    localAssets = propertiesScreenDataInCache.localAssets;
-  } else {
-    let allLocalAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
-    localAssets = length ? allLocalAssets.slice(0, length) : allLocalAssets;
-  }
-  return {
-    localAssets,
-    totalAssets: propertiesScreenDataInCache.totalAssets,
-    totalBitmarks: propertiesScreenDataInCache.totalBitmarks,
-    existNewAsset: propertiesScreenDataInCache.existNewAsset,
-  };
-};
-
-const doGetTrackingBitmarks = async (length) => {
-  let trackingBitmarks;
-  let propertiesScreenDataInCache = DataCacheProcessor.getPropertiesScreenData();
-  if (length !== undefined && length <= propertiesScreenDataInCache.trackingBitmarks.length) {
-    trackingBitmarks = propertiesScreenDataInCache.trackingBitmarks;
-  } else {
-    let allTrackingBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS)) || [];
-    trackingBitmarks = length ? allTrackingBitmarks.slice(0, length) : allTrackingBitmarks;
-  }
-
-  return {
-    trackingBitmarks,
-    totalTrackingBitmarks: propertiesScreenDataInCache.totalTrackingBitmarks,
-    existNewTrackingBitmark: propertiesScreenDataInCache.existNewTrackingBitmark
-  };
+const doAddMoreAssets = async (currentLength) => {
+  currentLength = currentLength || 0;
+  let allAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
+  let assetsStoreState = merge({}, AssetsStore.getState().data);
+  assetsStoreState.assets = allAssets.slice(0, Math.min(allAssets.length, currentLength + 20));
+  AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
 };
 
 const getUserInformation = () => {
@@ -731,7 +836,7 @@ const doGenerateTransactionActionRequiredData = async () => {
           key: actionRequired.length,
           transferOffer: item,
           type: ActionTypes.transfer,
-          typeTitle: 'SIGN TO RECEIVE BITMARK',
+          typeTitle: global.i18n.t("DataProcessor_signToReceiveBitmark"),
           timestamp: moment(item.created_at),
         });
         totalTasks++;
@@ -744,7 +849,7 @@ const doGenerateTransactionActionRequiredData = async () => {
     iftttInformation.bitmarkFiles.forEach(item => {
       item.key = actionRequired.length;
       item.type = ActionTypes.ifttt;
-      item.typeTitle = 'ISSUANCE Request';
+      item.typeTitle = global.i18n.t("DataProcessor_issuanceRequest");
       item.timestamp = item.assetInfo.timestamp;
       actionRequired.push(item);
       totalTasks++;
@@ -767,26 +872,29 @@ const doGenerateTransactionActionRequiredData = async () => {
     actionRequired.unshift({
       key: actionRequired.length,
       type: ActionTypes.test_write_down_recovery_phase,
-      typeTitle: 'SECURITY ALERT',
+      typeTitle: global.i18n.t("DataProcessor_securityAlert"),
       timestamp: moment(new Date(testRecoveryPhaseActionRequired.timestamp)),
     });
 
     totalTasks += 1;
   }
 
-  DataCacheProcessor.setTransactionScreenData({
-    totalTasks,
-    totalActionRequired: actionRequired.length,
-    actionRequired: actionRequired.slice(0, DataCacheProcessor.cacheLength),
-  });
+  let transactionStoreState = merge({}, TransactionsStore.getState().data);
+  transactionStoreState.totalTasks = totalTasks;
+  transactionStoreState.totalActionRequired = actionRequired.length;
+  transactionStoreState.actionRequired = actionRequired.slice(0, Math.min(actionRequired.length, Math.max(transactionStoreState.actionRequired.length, 20)));
+  TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
 
-  EventEmitterService.emit(EventEmitterService.events.CHANGE_TRANSACTION_SCREEN_ACTION_REQUIRED_DATA, { actionRequired });
+  let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
+  bottomTabStoreState.totalTasks = totalTasks;
+  BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
+
   console.log('actionRequired :', actionRequired);
+  NotificationService.setApplicationIconBadgeNumber(totalTasks || 0);
 };
 
 const doGenerateTransactionHistoryData = async () => {
   let transactions = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS)) || [];
-  console.log('transactions:', transactions);
 
   let completed;
   if (transactions) {
@@ -835,34 +943,25 @@ const doGenerateTransactionHistoryData = async () => {
     return moment(b.timestamp).toDate().getTime() - moment(a.timestamp).toDate().getTime();
   }) : completed;
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY, completed);
-  DataCacheProcessor.setTransactionScreenData({
-    totalCompleted: completed.length,
-    completed: completed.slice(0, DataCacheProcessor.cacheLength),
-  });
 
-  EventEmitterService.emit(EventEmitterService.events.CHANGE_TRANSACTION_SCREEN_HISTORIES_DATA, { completed });
+  let transactionStoreState = merge({}, TransactionsStore.getState().data);
+  transactionStoreState.totalCompleted = completed.length;
+  transactionStoreState.completed = completed.slice(0, Math.min(completed.length, Math.max(transactionStoreState.actionRequired.length, 20)));
+  TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
   console.log('completed :', completed);
   return { completed };
 };
 
-const doGetTransactionScreenActionRequired = async (length) => {
-  let actionRequired;
-  let transactionsScreenDataInCache = DataCacheProcessor.getTransactionScreenData();
-  if (length !== undefined && length <= transactionsScreenDataInCache.actionRequired.length) {
-    actionRequired = transactionsScreenDataInCache.actionRequired;
-  } else {
-    let allActionRequired = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED)) || [];
-    actionRequired = (length && length < allActionRequired.length) ? allActionRequired.slice(0, length) : allActionRequired;
-  }
-  return {
-    actionRequired,
-    totalTasks: transactionsScreenDataInCache.totalTasks,
-    totalActionRequired: transactionsScreenDataInCache.totalActionRequired,
-  }
+const doAddMoreActionRequired = async (currentLength) => {
+  currentLength = currentLength || 0;
+  let allActionRequired = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED)) || [];
+  let transactionStoreState = merge({}, TransactionsStore.getState().data);
+  transactionStoreState.actionRequired = allActionRequired.slice(0, Math.min(allActionRequired.length, currentLength + 20));
+  TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
 };
 
 const doGetAllTransfersOffers = async () => {
-  let { actionRequired } = await doGetTransactionScreenActionRequired();
+  let { actionRequired } = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED)) || [];
   let transferOffers = [];
   for (let item of actionRequired) {
     if (item.type === ActionTypes.transfer) {
@@ -872,19 +971,12 @@ const doGetAllTransfersOffers = async () => {
   return transferOffers;
 };
 
-const doGetTransactionScreenHistories = async (length) => {
-  let completed;
-  let transactionsScreenDataInCache = DataCacheProcessor.getTransactionScreenData();
-  if (length !== undefined && length <= transactionsScreenDataInCache.completed.length) {
-    completed = transactionsScreenDataInCache.completed;
-  } else {
-    let allCompleted = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY)) || [];
-    completed = length ? allCompleted.slice(0, length) : allCompleted;
-  }
-  return {
-    completed,
-    totalCompleted: transactionsScreenDataInCache.totalCompleted,
-  }
+const doAddMoreCompleted = async (currentLength) => {
+  currentLength = currentLength || 0;
+  let allCompleted = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY)) || [];
+  let transactionStoreState = merge({}, TransactionsStore.getState().data);
+  transactionStoreState.completed = allCompleted.slice(0, Math.min(allCompleted.length, currentLength + 20));
+  TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
 };
 
 const doDecentralizedIssuance = async (touchFaceIdSession, token, encryptionKey) => {
@@ -918,7 +1010,7 @@ const doRemoveTestRecoveryPhaseActionRequiredIfAny = async () => {
   let testWriteRecoveryPhaseActionRequired = helper.getTestWriteRecoveryPhaseActionRequired();
   if (testWriteRecoveryPhaseActionRequired) {
     await helper.removeTestWriteRecoveryPhaseActionRequired();
-    EventEmitterService.emit(EventEmitterService.events.NEED_RELOAD_USER_DATA);
+    await doGenerateTransactionActionRequiredData();
   }
 };
 
@@ -952,15 +1044,13 @@ const DataProcessor = {
   doDecentralizedIssuance,
   doDecentralizedTransfer,
 
-  doGetLocalBitmarks,
-  doGetTrackingBitmarks,
   doGetLocalBitmarkInformation,
   doGetTrackingBitmarkInformation,
   doGetIftttInformation,
 
-  doGetTransactionScreenActionRequired,
   doGetAllTransfersOffers,
-  doGetTransactionScreenHistories,
+  doAddMoreActionRequired,
+  doAddMoreCompleted,
 
   doMarkRequestedNotification,
   doRemoveTestRecoveryPhaseActionRequiredIfAny,
@@ -969,6 +1059,7 @@ const DataProcessor = {
   getApplicationBuildNumber,
   getUserInformation,
   isAppLoadingData: () => isLoadingData,
+  doAddMoreAssets,
 };
 
 export { DataProcessor };

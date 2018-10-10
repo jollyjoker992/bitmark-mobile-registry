@@ -1,7 +1,8 @@
 import React from 'react';
+import { Provider, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator,
+  View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator, SafeAreaView,
   Clipboard,
   Alert,
 } from 'react-native';
@@ -11,63 +12,32 @@ import accountStyle from './account.component.style';
 
 import defaultStyle from './../../../commons/styles';
 import { DataProcessor, AppProcessor } from '../../../processors';
+import { AccountStore } from '../../../stores';
+import { Actions } from 'react-native-router-flux';
 
 const SubTabs = {
   settings: 'SETTINGS',
   authorized: 'AUTHORIZED',
 }
-let ComponentName = 'AccountDetailComponent';
-export class AccountDetailComponent extends React.Component {
+class PrivateAccountDetailComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.handerChangeUserInfo = this.handerChangeUserInfo.bind(this);
-    this.handerLoadingData = this.handerLoadingData.bind(this);
     this.revokeIFTTT = this.revokeIFTTT.bind(this);
-    this.handerChangeIftttInformation = this.handerChangeIftttInformation.bind(this);
 
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.CHANGE_USER_INFO, null, ComponentName);
-    EventEmitterService.remove(EventEmitterService.events.APP_LOADING_DATA, null, ComponentName);
-
-    let subTab = (this.props.screenProps.subTab &&
-      (this.props.screenProps.subTab === SubTabs.settings || this.props.screenProps.subTab === SubTabs.authorized))
-      ? this.props.screenProps.subTab : SubTabs.settings;
+    let subTab = this.props.subTab || SubTabs.settings;
 
     this.state = {
       subTab,
       accountNumberCopyText: '',
-      notificationUUIDCopyText: 'COPY',
-      userInfo: DataProcessor.getUserInformation(),
-      iftttInformation: null,
-      appLoadingData: DataProcessor.isAppLoadingData(),
-      gettingData: true,
     };
-    let doGetScreenData = async () => {
-      let iftttInformation = await DataProcessor.doGetIftttInformation();
-      this.setState({ iftttInformation, gettingData: false });
-    }
-    doGetScreenData();
-
-    if (this.props.screenProps.goToRecoveryPhase) {
-      this.props.navigation.navigate('AccountRecovery', { isSignOut: false });
-      this.props.screenProps.removeGoingToRecoveryPhase();
-    }
   }
 
-  componentDidMount() {
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_INFO, this.handerChangeUserInfo, ComponentName);
-    EventEmitterService.on(EventEmitterService.events.CHANGE_USER_DATA_IFTTT_INFORMATION, this.handerChangeIftttInformation, ComponentName);
-    EventEmitterService.on(EventEmitterService.events.APP_LOADING_DATA, this.handerLoadingData, ComponentName);
-  }
-
-  handerChangeIftttInformation(iftttInformation) {
-    this.setState({ iftttInformation });
-  }
-  handerChangeUserInfo(userInfo) {
-    this.setState({ userInfo });
-  }
-  handerLoadingData() {
-    this.setState({ appLoadingData: DataProcessor.isAppLoadingData() });
+  logout() {
+    AppProcessor.doLogout().then(() => {
+      EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH);
+    }).catch((error) => {
+      console.log('log out error :', error);
+    });
   }
 
   switchSubTab(subTab) {
@@ -75,16 +45,15 @@ export class AccountDetailComponent extends React.Component {
   }
 
   revokeIFTTT() {
-    Alert.alert('Are you sure you want to revoke access to your IFTTT?', '', [{
+    Alert.alert(global.i18n.t("AccountDetailComponent_areYouSureYouWantToRevokeAccessToYourIfttt"), '', [{
       style: 'cancel',
-      text: 'Cancel',
+      text: global.i18n.t("AccountDetailComponent_cancel"),
     }, {
-      text: 'Yes',
+      text: global.i18n.t("AccountDetailComponent_yes"),
       onPress: () => {
         AppProcessor.doRevokeIftttToken().then((result) => {
           if (result) {
             DataProcessor.doReloadUserData();
-            this.props.navigation.goBack();
           }
         }).catch(error => {
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
@@ -96,15 +65,13 @@ export class AccountDetailComponent extends React.Component {
 
   render() {
     return (
-      <View style={accountStyle.body}>
+      <SafeAreaView style={accountStyle.body}>
         <View style={accountStyle.header}>
-          <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.navigation.navigate('ScanQRCode')}>
+          <TouchableOpacity style={defaultStyle.headerLeft} onPress={Actions.scanQRCode}>
             <Image style={accountStyle.cameraIcon} source={require('./../../../../assets/imgs/camera.png')} />
           </TouchableOpacity>
-          <Text style={defaultStyle.headerTitle}>ACCOUNT</Text>
-          <TouchableOpacity style={defaultStyle.headerRight} onPress={() => {
-            this.props.navigation.navigate('ApplicationDetail');
-          }}>
+          <Text style={defaultStyle.headerTitle}>{global.i18n.t("AccountDetailComponent_account")}</Text>
+          <TouchableOpacity style={defaultStyle.headerRight} onPress={Actions.applicationDetail}>
             <Image style={accountStyle.bitmarkAccountHelpIcon} source={require('./../../../../assets/imgs/icon_help.png')} />
           </TouchableOpacity>
         </View>
@@ -116,7 +83,7 @@ export class AccountDetailComponent extends React.Component {
             <View style={accountStyle.subTabButtonArea}>
               <View style={[accountStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={accountStyle.subTabButtonTextArea}>
-                <Text style={accountStyle.subTabButtonText}>{SubTabs.settings.toUpperCase()}</Text>
+                <Text style={accountStyle.subTabButtonText}>{global.i18n.t("AccountDetailComponent_settings")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -127,7 +94,7 @@ export class AccountDetailComponent extends React.Component {
             <View style={accountStyle.subTabButtonArea}>
               <View style={[accountStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={accountStyle.subTabButtonTextArea}>
-                <Text style={[accountStyle.subTabButtonText, { color: '#C1C1C1' }]}>{SubTabs.settings.toUpperCase()}</Text>
+                <Text style={[accountStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("AccountDetailComponent_settings")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -139,7 +106,7 @@ export class AccountDetailComponent extends React.Component {
             <View style={accountStyle.subTabButtonArea}>
               <View style={[accountStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={accountStyle.subTabButtonTextArea}>
-                <Text style={accountStyle.subTabButtonText}>{SubTabs.authorized.toUpperCase()}</Text>
+                <Text style={accountStyle.subTabButtonText}>{global.i18n.t("AccountDetailComponent_authorized")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -150,7 +117,7 @@ export class AccountDetailComponent extends React.Component {
             <View style={accountStyle.subTabButtonArea}>
               <View style={[accountStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={accountStyle.subTabButtonTextArea}>
-                <Text style={[accountStyle.subTabButtonText, { color: '#C1C1C1' }]}>{SubTabs.authorized.toUpperCase()}</Text>
+                <Text style={[accountStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("AccountDetailComponent_authorized")}</Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -159,82 +126,100 @@ export class AccountDetailComponent extends React.Component {
         <ScrollView style={[accountStyle.scrollSubTabArea]}>
           <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
             {this.state.subTab === SubTabs.settings && <View style={accountStyle.contentSubTab}>
-              <Text style={accountStyle.accountNumberLabel}>{'YOUR Bitmark Account Number'.toUpperCase()}</Text>
+              <Text style={accountStyle.accountNumberLabel}>{global.i18n.t("AccountDetailComponent_accountNumberLabel")}</Text>
 
               <TouchableOpacity style={accountStyle.accountNumberArea} onPress={() => {
-                Clipboard.setString(this.state.userInfo.bitmarkAccountNumber);
-                this.setState({ accountNumberCopyText: 'Copied to clipboard!' });
+                Clipboard.setString(this.props.userInformation ? this.props.userInformation.bitmarkAccountNumber : '');
+                this.setState({ accountNumberCopyText: global.i18n.t("AccountDetailComponent_copiedToClipboard") });
                 setTimeout(() => { this.setState({ accountNumberCopyText: '' }) }, 1000);
               }}>
-                <Text style={accountStyle.accountNumberValue}>{this.state.userInfo.bitmarkAccountNumber}</Text>
+                <Text style={accountStyle.accountNumberValue}>{this.props.userInformation ? this.props.userInformation.bitmarkAccountNumber : ''}</Text>
               </TouchableOpacity>
               <View style={accountStyle.accountNumberBar}>
                 <Text style={accountStyle.accountNumberCopyButtonText}>{this.state.accountNumberCopyText}</Text>
               </View>
 
-              <Text style={accountStyle.accountMessage}>To protect your privacy, you are identified in the Bitmark system by a pseudonymous account number. This number is public. You can safely share it with others without compromising your security.</Text>
+              <Text style={accountStyle.accountMessage}>{global.i18n.t("AccountDetailComponent_accountMessage")}</Text>
 
-              <TouchableOpacity style={accountStyle.accountWriteDownButton} onPress={() => { this.props.navigation.navigate('AccountRecovery', { isSignOut: false }) }}>
-                <Text style={accountStyle.accountWriteDownButtonText}>{'WRITE DOWN RECOVERY PHRASE »'.toUpperCase()} </Text>
+              <TouchableOpacity style={accountStyle.accountWriteDownButton} onPress={Actions.recoveryPhrase}>
+                <Text style={accountStyle.accountWriteDownButtonText}>{global.i18n.t("AccountDetailComponent_writeDownRecoveryPhrase")} » </Text>
               </TouchableOpacity>
-              {/* <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={this.props.screenProps.logout}> */}
-              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => { this.props.navigation.navigate('AccountRecovery', { isSignOut: true }) }}>
-                <Text style={accountStyle.accountRemoveButtonText}>{'Remove access from this device »'.toUpperCase()} </Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => { this.props.navigation.navigate('WebAccountMigrate') }}>
-                <Text style={accountStyle.accountRemoveButtonText}>{'MIGRATE WEB ACCOUNT »'.toUpperCase()} </Text>
+              {/* <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={this.logout.bind(this)}> */}
+              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => Actions.recoveryPhrase({ isSignOut: true, logout: this.logout.bind(this) })}>
+                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_removeAccessFromThisDevice")} » </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => { this.props.navigation.navigate('WebAccountSignIn') }}>
-                <Text style={accountStyle.accountRemoveButtonText}>{'SIGN IN USING MOBILE APP »'.toUpperCase()} </Text>
+              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.webAccountMigrate}>
+                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_migrateWebAccount")} » </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.webAccountSignIn}>
+                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_signInUsingMobileApp")} » </Text>
               </TouchableOpacity>
             </View>}
 
             {this.state.subTab === SubTabs.authorized && <View style={accountStyle.contentSubTab}>
               <View style={accountStyle.dataSourcesArea}>
-                <Text style={accountStyle.noAuthorizedMessage}>If you authorize 3rd-party apps to access your Bitmark account, they will appear here. </Text>
-                {this.state.iftttInformation && this.state.iftttInformation.connectIFTTT && <View style={accountStyle.authorizedItem}>
+                <Text style={accountStyle.noAuthorizedMessage}>{global.i18n.t("AccountDetailComponent_noAuthorizedMessage")} </Text>
+                {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT && <View style={accountStyle.authorizedItem}>
+
                   <View style={accountStyle.authorizedItemTitle}>
                     <Text style={accountStyle.authorizedItemTitleText} >IFTTT</Text>
                     <TouchableOpacity style={accountStyle.authorizedItemRemoveButton} onPress={this.revokeIFTTT}>
-                      <Text style={accountStyle.authorizedItemRemoveButtonText}>REMOVE</Text>
+                      <Text style={accountStyle.authorizedItemRemoveButtonText}>{global.i18n.t("AccountDetailComponent_remove")}</Text>
                     </TouchableOpacity>
                   </View>
 
                   <View style={accountStyle.authorizedItemDescription}>
                     <Image style={accountStyle.authorizedItemDescriptionIcon} source={require('./../../../../assets/imgs/ifttt-icon.png')} />
                     <View style={accountStyle.authorizedItemDescriptionDetail}>
-                      <Text style={accountStyle.authorizedItemDescriptionText}>Can:{'\n'}Deliver registration requests{'\n'}Trigger when applets run.</Text>
-                      <TouchableOpacity style={accountStyle.authorizedViewButton} onPress={() => {
-                        this.props.screenProps.homeNavigation.navigate('IftttActive', { stage: 'view' })
-                      }}>
-                        <Text style={accountStyle.authorizedViewButtonText}>{'VIEW APPLETS » '.toUpperCase()} </Text>
+                      <Text style={accountStyle.authorizedItemDescriptionText}>{global.i18n.t("AccountDetailComponent_authorizedItemDescriptionText")}</Text>
+                      {/* TODO */}
+                      <TouchableOpacity style={accountStyle.authorizedViewButton} onPress={() => Actions.iftttActive({ stage: 'view' })}>
+                        <Text style={accountStyle.authorizedViewButtonText}>{global.i18n.t("AccountDetailComponent_viewApplets")} »  </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
                 </View>}
-                {(this.state.appLoadingData || this.state.gettingData) && <ActivityIndicator size="large" style={{ marginTop: 46, }} />}
+                {this.props.appLoadingData && <ActivityIndicator size="large" style={{ marginTop: 46, }} />}
               </View>
             </View>}
           </TouchableOpacity>
         </ScrollView>
-      </View >
+      </SafeAreaView >
     );
   }
 }
 
-AccountDetailComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-  }),
-  screenProps: PropTypes.shape({
-    logout: PropTypes.func,
-    subTab: PropTypes.string,
-    homeNavigation: PropTypes.shape({
-      navigate: PropTypes.func,
-      goBack: PropTypes.func,
-    }),
-  }),
+PrivateAccountDetailComponent.propTypes = {
+  userInformation: PropTypes.any,
+  iftttInformation: PropTypes.any,
+  appLoadingData: PropTypes.bool,
+  subTab: PropTypes.string,
 }
+
+
+const StoreAccountDetailComponent = connect(
+  (state) => {
+    return state.data;
+  },
+)(PrivateAccountDetailComponent);
+
+export class AccountDetailComponent extends React.Component {
+  static propTypes = {
+    subTab: PropTypes.string,
+  }
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <Provider store={AccountStore}>
+          <StoreAccountDetailComponent subTab={this.props.subTab} />
+        </Provider>
+      </View>
+    );
+  }
+}
+

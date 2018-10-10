@@ -1,21 +1,26 @@
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
-  Text, View, TouchableOpacity, TouchableWithoutFeedback, TextInput, Image, FlatList,
+  Text, View, TouchableOpacity, KeyboardAvoidingView, TextInput, Image, FlatList, SafeAreaView, ScrollView, Animated,
   Keyboard,
   StatusBar,
 } from 'react-native';
 import defaultStyles from './../../../commons/styles';
 import signStyle from './sign-in.component.style';
-import { BitmarkAutoCompleteComponent, BitmarkComponent } from './../../../commons/components';
+import { BitmarkAutoCompleteComponent } from './../../../commons/components';
 import { dictionary24Words, convertWidth } from './../../../utils';
 import { AppProcessor } from '../../../processors';
 import { iosConstant } from '../../../configs/ios/ios.config';
+import { Actions } from 'react-native-router-flux';
 
 let PreCheckResults = {
   success: 'SUBMIT',
   error: 'RETRY'
+};
+
+const statuses = {
+  done: 'done',
+  inputting: 'inputting'
 };
 
 // madelena testnet
@@ -67,15 +72,15 @@ export class SignInComponent extends React.Component {
       remainWordNumber: 24,
       dataSource: dictionary24Words,
       keyBoardHeight: 0,
+      keyboardExternalBottom: new Animated.Value(0),
+      keyboardExternalOpacity: new Animated.Value(0),
     };
-    // setTimeout(this.checkStatusInputting, 200);
+    setTimeout(this.checkStatusInputting, 200);
   }
 
   onChangeText(index, text) {
     text = text ? text.trim() : '';
-    if (this.autoCompleteElement) {
-      this.autoCompleteElement.filter(text);
-    }
+    this.doFilter(text);
     if (index < 12) {
       let inputtedWords = this.state.smallerList;
       inputtedWords[index].word = text;
@@ -88,15 +93,59 @@ export class SignInComponent extends React.Component {
     this.checkStatusInputting();
   }
 
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardDidShow.bind(this));
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardDidHide.bind(this));
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+
+  onKeyboardDidShow(keyboardEvent) {
+    let keyboardHeight = keyboardEvent.endCoordinates.height;
+    this.setState({ keyboardHeight });
+
+    let listAnimations = [];
+    listAnimations.push(Animated.spring(this.state.keyboardExternalBottom, {
+      toValue: keyboardHeight,
+      duration: 200,
+    }));
+    listAnimations.push(Animated.spring(this.state.keyboardExternalOpacity, {
+      toValue: 1,
+      duration: 200,
+    }));
+    Animated.parallel(listAnimations).start();
+  }
+
+  onKeyboardDidHide() {
+    this.setState({ keyboardHeight: 0 });
+    let listAnimations = [];
+    listAnimations.push(Animated.spring(this.state.keyboardExternalBottom, {
+      toValue: 0,
+      duration: 200,
+    }));
+    listAnimations.push(Animated.spring(this.state.keyboardExternalOpacity, {
+      toValue: 0,
+      duration: 200,
+    }));
+    Animated.parallel(listAnimations).start();
+  }
+
+  doFilter(text) {
+    let dataSource = dictionary24Words.filter(word => word.toLowerCase().indexOf(text.toLowerCase()) === 0);
+    this.setState({ dataSource, currentInputtedText: text });
+  }
+
   onFocus(index) {
     this.setState({
       selectedIndex: index
     });
-    this.fullRef.setFocusElement(this.inputtedRefs[index]);
-    if (this.autoCompleteElement) {
-      let text = index < 12 ? this.state.smallerList[index].word : this.state.biggerList[index - 12].word;
-      this.autoCompleteElement.filter(text);
-    }
+    let text = index < 12 ? this.state.smallerList[index].word : this.state.biggerList[index - 12].word;
+    this.inputtedRefs[index].focus();
+    this.doFilter(text);
   }
 
   onSubmitWord(word) {
@@ -121,7 +170,6 @@ export class SignInComponent extends React.Component {
   }
 
   selectIndex(index) {
-    this.inputtedRefs[index].focus();
     this.onFocus(index);
     this.checkStatusInputting();
   }
@@ -134,14 +182,12 @@ export class SignInComponent extends React.Component {
     this.state.biggerList.forEach(item => {
       countNumberInputtedWord = countNumberInputtedWord + (item.word ? 1 : 0)
     });
+    let status = countNumberInputtedWord === 24 ? BitmarkAutoCompleteComponent.statuses.done : BitmarkAutoCompleteComponent.statuses.inputting;
     this.setState({
       preCheckResult: null,
       remainWordNumber: 24 - countNumberInputtedWord,
+      status,
     });
-    let status = countNumberInputtedWord === 24 ? BitmarkAutoCompleteComponent.statuses.done : BitmarkAutoCompleteComponent.statuses.inputting;
-    if (this.autoCompleteElement) {
-      this.autoCompleteElement.setStatus(status);
-    }
   }
 
   async doCheck24Word() {
@@ -169,7 +215,7 @@ export class SignInComponent extends React.Component {
   doSignIn() {
     this.doCheck24Word().then((result) => {
       if (result) {
-        this.props.navigation.navigate('FaceTouchId', { doContinue: this.submit24Words })
+        Actions.faceTouchId({ doContinue: this.submit24Words });
       }
     });
   }
@@ -208,25 +254,19 @@ export class SignInComponent extends React.Component {
 
   render() {
     return (
-      <BitmarkComponent
-        backgroundColor={'#F5F5F5'}
-        ref={(ref) => this.fullRef = ref}
-        header={(<TouchableWithoutFeedback onPress={Keyboard.dismiss} >
-          <View style={[defaultStyles.header, { backgroundColor: '#F5F5F5' }]}>
-            <StatusBar hidden={false} />
-            <TouchableOpacity style={[defaultStyles.headerLeft, { width: 50 }]} onPress={() => { this.props.navigation.goBack() }}>
-              <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../assets/imgs/header_blue_icon.png')} />
-            </TouchableOpacity>
-            <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>RECOVERY PHRASE SIGN-IN</Text>
-            <TouchableOpacity style={[defaultStyles.headerRight, { width: 50 }]}>
-            </TouchableOpacity>
-          </View>
-        </TouchableWithoutFeedback>
-        )}
-        contentContainerStyle={{ backgroundColor: 'white' }}
-        contentInScroll={true}
-        content={(<TouchableWithoutFeedback onPress={Keyboard.dismiss} >
-          <TouchableOpacity activeOpacity={1} style={signStyle.mainContent}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
+
+        <View style={[defaultStyles.header, { backgroundColor: '#F5F5F5', height: iosConstant.headerSize.height }]} onPress={Keyboard.dismiss}>
+          <StatusBar hidden={false} />
+          <TouchableOpacity style={[defaultStyles.headerLeft, { width: 50 }]} onPress={Actions.pop}>
+            <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../assets/imgs/header_blue_icon.png')} />
+          </TouchableOpacity>
+          <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>RECOVERY PHRASE SIGN-IN</Text>
+          <TouchableOpacity style={[defaultStyles.headerRight, { width: 50 }]}>
+          </TouchableOpacity>
+        </View>
+        <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }} keyboardVerticalOffset={iosConstant.buttonHeight} >
+          <ScrollView style={signStyle.mainContent}>
             <Text style={[signStyle.writeRecoveryPhraseContentMessage,]}>Please type all 24 words of your recovery phrase in the exact sequence below:</Text>
             <View style={[signStyle.writeRecoveryPhraseArea]}>
               <View style={signStyle.writeRecoveryPhraseContentHalfList}>
@@ -289,42 +329,47 @@ export class SignInComponent extends React.Component {
                 {this.state.preCheckResult === PreCheckResults.success ? 'Keep your written copy private in a secure and safe location.' : (this.state.preCheckResult === PreCheckResults.error ? 'Please try again!' : '')}
               </Text>
             </View>
-          </TouchableOpacity>
-        </TouchableWithoutFeedback>
-        )}
-        footerHeight={45 + iosConstant.blankFooter / 2}
-        footer={(
-          <TouchableOpacity style={[signStyle.submitButton, {
-            backgroundColor: !this.state.remainWordNumber ? '#0060F2' : 'gray'
-          }]} onPress={this.doSignIn} disabled={this.state.remainWordNumber > 0}>
-            <Text style={[signStyle.submitButtonText]}>{this.state.preCheckResult || PreCheckResults.success}</Text>
-          </TouchableOpacity>
-        )}
-        keyboardExternal={(
-          <BitmarkAutoCompleteComponent ref={(ref) => this.autoCompleteElement = ref}
-            dataSource={this.state.dataSource}
-            onSelectWord={this.onSubmitWord}
-            goToNextInputField={() => this.selectIndex((this.state.selectedIndex + 1) % 24)}
-            goToPrevInputField={() => this.selectIndex((this.state.selectedIndex + 23) % 24)}
-            onDone={this.doCheck24Word}
-          />
-        )}
-      />
+          </ScrollView>
+        </KeyboardAvoidingView>
+
+        <TouchableOpacity style={[signStyle.submitButton, {
+          backgroundColor: !this.state.remainWordNumber ? '#0060F2' : 'gray'
+        }]} onPress={this.doSignIn} disabled={this.state.remainWordNumber > 0}>
+          <Text style={[signStyle.submitButtonText]}>{this.state.preCheckResult || PreCheckResults.success}</Text>
+        </TouchableOpacity>
+
+
+
+        {this.state.keyboardHeight > 0 &&
+          <Animated.View style={[signStyle.keyboardExternal, { bottom: this.state.keyboardExternalBottom, opacity: this.state.keyboardExternalOpacity, }]}>
+            <TouchableOpacity style={signStyle.nextButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 1) % 24)}>
+              <Image style={signStyle.nextButtonImage} source={require('./../../../../assets/imgs/arrow_down_enable.png')} />
+            </TouchableOpacity>
+            <TouchableOpacity style={signStyle.prevButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 23) % 24)}>
+              <Image style={signStyle.prevButtonImage} source={require('./../../../../assets/imgs/arrow_up_enable.png')} />
+            </TouchableOpacity>
+            {this.state.dataSource && <View style={[signStyle.selectionList]}>
+              <FlatList
+                ref={(ref) => this.listViewElement = ref}
+                keyboardShouldPersistTaps="handled"
+                horizontal={true}
+                extraData={this.state}
+                data={this.state.dataSource}
+                renderItem={({ item }) => {
+                  return (<TouchableOpacity style={signStyle.selectionItem} onPress={() => this.onSubmitWord(item)}>
+                    <Text style={[signStyle.selectionItemText, { color: this.state.currentInputtedText === item ? 'blue' : 'gray' }]}>{item}</Text>
+                  </TouchableOpacity>)
+                }}
+              />
+            </View>}
+            <TouchableOpacity style={signStyle.doneButton} onPress={this.doCheck24Word.bind(this)} disabled={this.state.status !== statuses.done}>
+              <Text style={[signStyle.doneButtonText, { color: this.state.status === statuses.done ? '#0060F2' : 'gray' }]}>{global.i18n.t("BitmarkAutoCompleteComponent_done")}</Text>
+            </TouchableOpacity>
+          </Animated.View>}
+
+
+      </SafeAreaView>
+
     );
   }
-}
-
-SignInComponent.propTypes = {
-  screenProps: PropTypes.shape({
-    enableJustCreatedBitmarkAccount: PropTypes.func,
-  }),
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        justCreatedBitmarkAccount: PropTypes.bool,
-      })
-    })
-  })
 }

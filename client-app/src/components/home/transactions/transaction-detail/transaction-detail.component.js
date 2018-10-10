@@ -2,12 +2,10 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, ScrollView, Image, FlatList,
+  View, Text, TouchableOpacity, ScrollView, Image, FlatList, SafeAreaView,
   Alert,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-
-import { BitmarkComponent } from '../../../../commons/components';
 
 import transactionDetailStyle from './transaction-detail.component.style';
 
@@ -16,7 +14,6 @@ import { AppProcessor } from '../../../../processors';
 import { BottomTabsComponent } from '../../bottom-tabs/bottom-tabs.component';
 import { BitmarkModel } from '../../../../models';
 import { EventEmitterService } from '../../../../services';
-import { iosConstant } from '../../../../configs/ios/ios.config';
 
 export class TransactionDetailComponent extends React.Component {
   constructor(props) {
@@ -41,22 +38,22 @@ export class TransactionDetailComponent extends React.Component {
       this.setState({ transactionData })
     }).catch(error => {
       console.log('TransactionDetailComponent doGetTransactionDetail error :', error);
-      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {error});
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
     });
   }
 
   doReject() {
-    Alert.alert('Are you sure you want to reject receipt of this property?', '', [{
-      text: 'Cancel', style: 'cancel',
+    Alert.alert(global.i18n.t("TransactionDetailComponent_areYouSureYouWantToRejectReceiptOfThisProperty"), '', [{
+      text: global.i18n.t("TransactionDetailComponent_cancel"), style: 'cancel',
     }, {
-      text: 'Yes',
+      text: global.i18n.t("TransactionDetailComponent_yes"),
       onPress: () => {
         AppProcessor.doRejectTransferBitmark(this.state.transferOffer, { indicator: true, }, {
           indicator: false, title: '', message: ''
         }).then(data => {
           if (data) {
-            Alert.alert('Receipt rejected!', 'You’ve rejected to sign for receipt of this bitmark!', [{
-              text: 'OK',
+            Alert.alert(global.i18n.t("TransactionDetailComponent_receiptRejectedTitle"), global.i18n.t("TransactionDetailComponent_receiptRejectedMessage"), [{
+              text: global.i18n.t("TransactionDetailComponent_ok"),
               onPress: () => {
                 const resetHomePage = NavigationActions.reset({
                   index: 0,
@@ -73,7 +70,7 @@ export class TransactionDetailComponent extends React.Component {
             }]);
           }
         }).catch(error => {
-          Alert.alert('Request Failed', 'This error may be due to a request expiration or a network error.\nPlease try again later.');
+          Alert.alert(global.i18n.t("TransactionDetailComponent_requestFailedTitle"), global.i18n.t("TransactionDetailComponent_requestFailedMessage"));
           console.log('TransactionDetailComponent doRejectTransferBitmark error:', error);
         });
       },
@@ -82,8 +79,8 @@ export class TransactionDetailComponent extends React.Component {
   doAccept() {
     AppProcessor.doAcceptTransferBitmark(this.state.transferOffer, { indicator: true, }).then(data => {
       if (data) {
-        Alert.alert('Signature Submitted', 'Your signature of receipt has been successfully submitted to the Bitmark network.', [{
-          text: 'OK',
+        Alert.alert(global.i18n.t("TransactionDetailComponent_signatureSubmittedTitle"), global.i18n.t("TransactionDetailComponent_signatureSubmittedMessage"), [{
+          text: global.i18n.t("TransactionDetailComponent_ok"),
           onPress: () => {
             const resetHomePage = NavigationActions.reset({
               index: 0,
@@ -100,22 +97,23 @@ export class TransactionDetailComponent extends React.Component {
         }]);
       }
     }).catch(error => {
-      Alert.alert('Request Failed', 'This error may be due to a request expiration or a network error.\nPlease try again later.');
+      Alert.alert(global.i18n.t("TransactionDetailComponent_requestFailedTitle"), global.i18n.t("TransactionDetailComponent_signatureSubmittedMessage"));
       console.log('TransactionDetailComponent doRejectTransferBitmark error:', error);
     });
   }
 
   render() {
     return (
-      <BitmarkComponent
-        header={(<View style={defaultStyle.header}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={defaultStyle.header}>
           <TouchableOpacity style={defaultStyle.headerLeft} onPress={() => this.props.navigation.goBack()}>
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={defaultStyle.headerTitle}>SIGN FOR BITMARK</Text>
+          <Text style={defaultStyle.headerTitle}>{global.i18n.t("TransactionDetailComponent_signForBitmark")}</Text>
           <TouchableOpacity style={defaultStyle.headerRight}></TouchableOpacity>
-        </View>)}
-        content={(<View style={transactionDetailStyle.body}>
+        </View>
+
+        <View style={transactionDetailStyle.body}>
           <ScrollView style={[transactionDetailStyle.contentScroll]} scroll>
             <TouchableOpacity activeOpacity={1} style={transactionDetailStyle.content}>
               <Text style={transactionDetailStyle.assetName}>{this.state.transferOffer.asset.name}</Text>
@@ -123,17 +121,17 @@ export class TransactionDetailComponent extends React.Component {
                 <Text style={transactionDetailStyle.transferOfferSenderFix}>[</Text>
                 <Text style={transactionDetailStyle.transferOfferSenderName} numberOfLines={1}>{this.state.transferOffer.from.substring(0, 12)}...</Text>
                 <Text style={transactionDetailStyle.transferOfferSenderFix}>] </Text>
-                has sent the property
+                {global.i18n.t("TransactionDetailComponent_hasSentTheProperty")}
                 <Text style={transactionDetailStyle.transferOfferAssetName}> {this.state.transferOffer.asset.name} </Text>
-                to you. Please sign to accept the bitmark for the property.
+                {global.i18n.t("TransactionDetailComponent_toYouPleaseSignAcceptTheBitmarkForTheProperty")}
               </Text>
               <View style={transactionDetailStyle.externalArea}>
                 <View style={transactionDetailStyle.externalAreaRow}>
-                  <Text style={transactionDetailStyle.externalAreaRowLabel}>BITMARK ID:</Text>
+                  <Text style={transactionDetailStyle.externalAreaRowLabel}>{global.i18n.t("TransactionDetailComponent_bitmarkId")}:</Text>
                   <Text style={transactionDetailStyle.externalAreaRowValue} numberOfLines={1}>{this.state.transferOffer.bitmark.id}</Text>
                 </View>
                 <View style={transactionDetailStyle.externalAreaRow}>
-                  <Text style={transactionDetailStyle.externalAreaRowLabel}>ISSUER:</Text>
+                  <Text style={transactionDetailStyle.externalAreaRowLabel}>{global.i18n.t("TransactionDetailComponent_issuer")}:</Text>
                   <View style={transactionDetailStyle.externalAreaRowValueIssuerView}>
                     <Text style={transactionDetailStyle.externalAreaRowValueIssuer_}>[</Text>
                     <Text style={transactionDetailStyle.externalAreaRowValueIssuer} numberOfLines={1}>{this.state.transferOffer.asset.registrant}</Text>
@@ -141,9 +139,9 @@ export class TransactionDetailComponent extends React.Component {
                   </View>
                 </View>
                 <View style={transactionDetailStyle.externalAreaRow}>
-                  <Text style={transactionDetailStyle.externalAreaRowLabel}>TIMESTAMP:</Text>
-                  {this.state.transactionData && <Text style={transactionDetailStyle.externalAreaRowValue}>BLOCK #{this.state.transactionData.tx.block_number}{'\n'}{moment(this.state.transactionData.block.created_at).format('DD MMM YYYY HH:mm:ss')}</Text>}
-                  {!this.state.transactionData && <Text style={transactionDetailStyle.externalAreaRowValue}>BLOCK #...{'\n'}</Text>}
+                  <Text style={transactionDetailStyle.externalAreaRowLabel}>{global.i18n.t("TransactionDetailComponent_timestamp")}:</Text>
+                  {this.state.transactionData && <Text style={transactionDetailStyle.externalAreaRowValue}>{global.i18n.t("TransactionDetailComponent_block")} #{this.state.transactionData.tx.block_number}{'\n'}{moment(this.state.transactionData.block.created_at).format('DD MMM YYYY HH:mm:ss')}</Text>}
+                  {!this.state.transactionData && <Text style={transactionDetailStyle.externalAreaRowValue}>{global.i18n.t("TransactionDetailComponent_block")} #...{'\n'}</Text>}
                 </View>
                 <View style={transactionDetailStyle.metadataArea}>
                   <FlatList data={this.state.metadataList}
@@ -160,19 +158,18 @@ export class TransactionDetailComponent extends React.Component {
               </View>
             </TouchableOpacity>
           </ScrollView>
-        </View >)}
+        </View >
 
-        footerHeight={45 + iosConstant.blankFooter / 2}
-        footer={(<View style={transactionDetailStyle.buttonsArea}>
+        <View style={transactionDetailStyle.buttonsArea}>
           <TouchableOpacity style={transactionDetailStyle.rejectButton} onPress={this.doReject}>
-            <Text style={transactionDetailStyle.rejectButtonText}>REJECT</Text>
+            <Text style={transactionDetailStyle.rejectButtonText}>{global.i18n.t("TransactionDetailComponent_reject")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[transactionDetailStyle.acceptButton, { marginLeft: 1 }]} onPress={this.doAccept}>
-            <Text style={transactionDetailStyle.acceptButtonText}>ACCEPT</Text>
+            <Text style={transactionDetailStyle.acceptButtonText}>{global.i18n.t("TransactionDetailComponent_accept")}</Text>
           </TouchableOpacity>
-        </View>)}
-      />
+        </View>
 
+      </SafeAreaView>
     );
   }
 }

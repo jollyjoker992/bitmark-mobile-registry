@@ -1,7 +1,8 @@
 import {
-  StyleSheet,
+  StyleSheet, Dimensions
 } from 'react-native';
-import { ios } from '../../../configs';
+const currentSize = Dimensions.get('window');
+const isIPhoneX = (currentSize.height === 812);
 
 export default StyleSheet.create({
   content: {
@@ -13,15 +14,14 @@ export default StyleSheet.create({
   },
   title: {
     width: '100%',
-    height: 40 + ios.constant.headerSize.paddingTop,
+    height: 40 + (isIPhoneX ? 44 : 0),
     backgroundColor: '#FF003C',
     flexDirection: 'row',
     alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    paddingTop: ios.constant.headerSize.paddingTop,
-    top: -ios.constant.headerSize.paddingTop,
+    paddingTop: (isIPhoneX ? 44 : 0),
   },
   titleText: {
     fontFamily: 'Avenir black',

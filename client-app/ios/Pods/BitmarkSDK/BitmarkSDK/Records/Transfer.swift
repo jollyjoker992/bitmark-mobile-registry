@@ -110,7 +110,7 @@ public struct Transfer {
             self.isSigned = true
             
             recordPacked = BinaryPacking.append(toData: recordPacked, withData: self.signature)
-            self.txId = recordPacked.sha3(.sha256).hexEncodedString
+            self.txId = recordPacked.sha3(length: 256).hexEncodedString
         }
         catch {
             resetSignState()
@@ -182,6 +182,21 @@ extension TransferOffer {
         return ["link": self.txId,
                 "owner": self.receiver.string,
                 "signature": self.signature!.hexEncodedString]
+    }
+}
+
+extension TransferOffer: Encodable {
+    enum TransferOfferKeys: String, CodingKey {
+        case link = "link"
+        case owner = "owner"
+        case signature = "signature"
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: TransferOfferKeys.self)
+        try container.encode(self.txId, forKey: .link)
+        try container.encode(self.receiver.string, forKey: .owner)
+        try container.encode(self.signature!.hexEncodedString, forKey: .signature)
     }
 }
 
