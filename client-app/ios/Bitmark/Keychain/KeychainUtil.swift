@@ -53,27 +53,28 @@ struct KeychainUtil {
   }
   
   static func saveCore(_ core: Data, authentication: Bool) throws {
-    try DispatchQueue.main.sync {
+    DispatchQueue.main.sync {
       UserDefaults().set(authentication, forKey: authenticationKey)
-      try getKeychain(reason: NSLocalizedString("info_plist_touch_face_id", comment: ""), authentication: authentication)
-        .set(core, key: bitmarkSeedCoreKey)
     }
+    try getKeychain(reason: NSLocalizedString("info_plist_touch_face_id", comment: ""), authentication: authentication)
+      .set(core, key: bitmarkSeedCoreKey)
   }
   
   static func getCore(reason: String) throws -> Data? {
-    return try DispatchQueue.main.sync {
-      let authentication = UserDefaults().bool(forKey: authenticationKey)
-      return try getKeychain(reason: reason, authentication: authentication)
-        .getData(bitmarkSeedCoreKey)
+    let authentication = DispatchQueue.main.sync {
+      UserDefaults().bool(forKey: authenticationKey)
     }
-
+    return try getKeychain(reason: reason, authentication: authentication)
+      .getData(bitmarkSeedCoreKey)
   }
   
   static func clearCore() throws {
-    try DispatchQueue.main.sync {
-      let authentication = UserDefaults().bool(forKey: authenticationKey)
-      try getKeychain(reason: "Bitmark app would like to remove your account from keychain.", authentication: authentication)
-        .remove(bitmarkSeedCoreKey)
+    let authentication = DispatchQueue.main.sync {
+      return UserDefaults().bool(forKey: authenticationKey)
+    }
+    try getKeychain(reason: "Bitmark app would like to remove your account from keychain.", authentication: authentication)
+      .remove(bitmarkSeedCoreKey)
+    DispatchQueue.main.sync {
       UserDefaults().removeObject(forKey: authenticationKey)
     }
   }
