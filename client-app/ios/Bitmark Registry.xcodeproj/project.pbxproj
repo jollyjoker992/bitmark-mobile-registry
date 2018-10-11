@@ -29,6 +29,47 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		32B57ECB1D8A5A50E3D15BD3 /* Pods_BitmarkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D37BEA60EA466916E1CAF1C /* Pods_BitmarkTests.framework */; };
+		583BABFB216F51600015E3A0 /* PhotoExporting.m in Sources */ = {isa = PBXBuildFile; fileRef = 588FE26D205FB71000937D78 /* PhotoExporting.m */; };
+		583BABFC216F51600015E3A0 /* TouchID.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C9510D20202AF70050A9D4 /* TouchID.m */; };
+		583BABFD216F51600015E3A0 /* BitmarkSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC1E55201B21CC00F60AF9 /* BitmarkSDK.swift */; };
+		583BABFE216F51600015E3A0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		583BABFF216F51600015E3A0 /* BitmarkSDKBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 589626E8201B28380026C4A5 /* BitmarkSDKBridge.m */; };
+		583BAC00216F51600015E3A0 /* KeychainUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CB4891201EC63A0058B364 /* KeychainUtil.swift */; };
+		583BAC01216F51600015E3A0 /* AccountSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58400A97202C013C00550ADB /* AccountSession.swift */; };
+		583BAC02216F51600015E3A0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		583BAC04216F51600015E3A0 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58ADB52A211A8CED005BBA73 /* CloudKit.framework */; };
+		583BAC05216F51600015E3A0 /* libRNExitApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E608BDB20F3126700F40874 /* libRNExitApp.a */; };
+		583BAC06216F51600015E3A0 /* libReactNativeExceptionHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E7B97D320EF55C90064EEEC /* libReactNativeExceptionHandler.a */; };
+		583BAC07216F51600015E3A0 /* libRNCookieManagerIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F6E2D720B6BF4000CECD53 /* libRNCookieManagerIOS.a */; };
+		583BAC08216F51600015E3A0 /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F179A21C20AF9760002D5539 /* libKCKeepAwake.a */; };
+		583BAC09216F51600015E3A0 /* libRNDocumentPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4065AA2091E015005E1CBD /* libRNDocumentPicker.a */; };
+		583BAC0A216F51600015E3A0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D09CF7207707BF008B16EE /* libz.tbd */; };
+		583BAC0B216F51600015E3A0 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D09CC020770726008B16EE /* libCodePush.a */; };
+		583BAC0C216F51600015E3A0 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15C1D102063B9B6002DDF98 /* libRNZipArchive.a */; };
+		583BAC0D216F51600015E3A0 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F18C03BE204929BC00FA36E4 /* libRNDeviceInfo.a */; };
+		583BAC0E216F51600015E3A0 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F18C03932049095000FA36E4 /* libRCTPushNotification.a */; };
+		583BAC0F216F51600015E3A0 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15F68DE203D70DE00A5A582 /* libRNImagePicker.a */; };
+		583BAC10216F51600015E3A0 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 584009A920243AA700550ADB /* libRCTCamera.a */; };
+		583BAC11216F51600015E3A0 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		583BAC12216F51600015E3A0 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		583BAC13216F51600015E3A0 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		583BAC14216F51600015E3A0 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
+		583BAC15216F51600015E3A0 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
+		583BAC16216F51600015E3A0 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
+		583BAC17216F51600015E3A0 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
+		583BAC18216F51600015E3A0 /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
+		583BAC19216F51600015E3A0 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		583BAC1A216F51600015E3A0 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
+		583BAC1B216F51600015E3A0 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
+		583BAC1C216F51600015E3A0 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E68EEEE1542C435DA913552D /* libRNFS.a */; };
+		583BAC1D216F51600015E3A0 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 295B8983183E4140AD6083BB /* libRNMail.a */; };
+		583BAC1E216F51600015E3A0 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B46290362EA64E3A93EE362E /* libRCTVideo.a */; };
+		583BAC1F216F51600015E3A0 /* Pods_Bitmark_Registry_dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 053A7DD717C04E7341EB70AE /* Pods_Bitmark_Registry_dev.framework */; };
+		583BAC21216F51600015E3A0 /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F150CA152023230B00C8FC17 /* AndaleMono.ttf */; };
+		583BAC22216F51600015E3A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 586D2E812167219C002A84B5 /* Localizable.strings */; };
+		583BAC23216F51600015E3A0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		583BAC24216F51600015E3A0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
+		583BAC25216F51600015E3A0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 588E9D32216C609100F0E5D9 /* InfoPlist.strings */; };
 		584009D020243ABA00550ADB /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 584009A920243AA700550ADB /* libRCTCamera.a */; };
 		58400A98202C013C00550ADB /* AccountSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58400A97202C013C00550ADB /* AccountSession.swift */; };
 		586D2E7E2167219C002A84B5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 586D2E812167219C002A84B5 /* Localizable.strings */; };
@@ -534,6 +575,9 @@
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E73B102E921F70474E8CA7A /* Pods_Bitmark_Registry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bitmark_Registry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		579C1381393E59B3042E29F2 /* Pods-Bitmark.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark/Pods-Bitmark.release.xcconfig"; sourceTree = "<group>"; };
+		583BAC2C216F51600015E3A0 /* Bitmark Registry beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bitmark Registry beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		583BAC2E216F52E90015E3A0 /* Info-beta.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-beta.plist"; path = "Bitmark/Info-beta.plist"; sourceTree = "<group>"; };
+		583BAC2F216F52E90015E3A0 /* Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-dev.plist"; path = "Bitmark/Info-dev.plist"; sourceTree = "<group>"; };
 		5840099F20243AA700550ADB /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCamera.xcodeproj; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; };
 		58400A97202C013C00550ADB /* AccountSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSession.swift; sourceTree = "<group>"; };
 		586D2E802167219C002A84B5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -545,7 +589,6 @@
 		588FE267205FB71000937D78 /* PhotoExporting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoExporting.h; sourceTree = "<group>"; };
 		588FE26D205FB71000937D78 /* PhotoExporting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoExporting.m; sourceTree = "<group>"; };
 		58908AD220A18A5A00C0064A /* Bitmark Registry dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bitmark Registry dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		58908AD320A18A5A00C0064A /* Bitmark dev-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Bitmark dev-Info.plist"; sourceTree = "<absolute>"; };
 		589626E8201B28380026C4A5 /* BitmarkSDKBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BitmarkSDKBridge.m; sourceTree = "<group>"; };
 		58ADB52A211A8CED005BBA73 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		58B92EA5205A23450037AB9D /* Bitmark-beta.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "Bitmark-beta.entitlements"; path = "Bitmark/Bitmark-beta.entitlements"; sourceTree = "<group>"; };
@@ -630,6 +673,42 @@
 				B7856E9B0E4B4CF3BA90EB21 /* libRNMail.a in Frameworks */,
 				A75355ACD4CF4A668E3CF8D3 /* libRCTVideo.a in Frameworks */,
 				1235F00E191A4C2E20559B2D /* Pods_Bitmark_Registry.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		583BAC03216F51600015E3A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				583BAC04216F51600015E3A0 /* CloudKit.framework in Frameworks */,
+				583BAC05216F51600015E3A0 /* libRNExitApp.a in Frameworks */,
+				583BAC06216F51600015E3A0 /* libReactNativeExceptionHandler.a in Frameworks */,
+				583BAC07216F51600015E3A0 /* libRNCookieManagerIOS.a in Frameworks */,
+				583BAC08216F51600015E3A0 /* libKCKeepAwake.a in Frameworks */,
+				583BAC09216F51600015E3A0 /* libRNDocumentPicker.a in Frameworks */,
+				583BAC0A216F51600015E3A0 /* libz.tbd in Frameworks */,
+				583BAC0B216F51600015E3A0 /* libCodePush.a in Frameworks */,
+				583BAC0C216F51600015E3A0 /* libRNZipArchive.a in Frameworks */,
+				583BAC0D216F51600015E3A0 /* libRNDeviceInfo.a in Frameworks */,
+				583BAC0E216F51600015E3A0 /* libRCTPushNotification.a in Frameworks */,
+				583BAC0F216F51600015E3A0 /* libRNImagePicker.a in Frameworks */,
+				583BAC10216F51600015E3A0 /* libRCTCamera.a in Frameworks */,
+				583BAC11216F51600015E3A0 /* libRCTBlob.a in Frameworks */,
+				583BAC12216F51600015E3A0 /* libRCTAnimation.a in Frameworks */,
+				583BAC13216F51600015E3A0 /* libReact.a in Frameworks */,
+				583BAC12216F51600015E3A0 /* libRCTAnimation.a in Frameworks */,
+				583BAC14216F51600015E3A0 /* libRCTActionSheet.a in Frameworks */,
+				583BAC15216F51600015E3A0 /* libRCTImage.a in Frameworks */,
+				583BAC16216F51600015E3A0 /* libRCTLinking.a in Frameworks */,
+				583BAC17216F51600015E3A0 /* libRCTNetwork.a in Frameworks */,
+				583BAC18216F51600015E3A0 /* libRCTSettings.a in Frameworks */,
+				583BAC19216F51600015E3A0 /* libRCTText.a in Frameworks */,
+				583BAC1A216F51600015E3A0 /* libRCTVibration.a in Frameworks */,
+				583BAC1B216F51600015E3A0 /* libRCTWebSocket.a in Frameworks */,
+				583BAC1C216F51600015E3A0 /* libRNFS.a in Frameworks */,
+				583BAC1D216F51600015E3A0 /* libRNMail.a in Frameworks */,
+				583BAC1E216F51600015E3A0 /* libRCTVideo.a in Frameworks */,
+				583BAC1F216F51600015E3A0 /* Pods_Bitmark_Registry_dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -786,6 +865,8 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				583BAC2E216F52E90015E3A0 /* Info-beta.plist */,
+				583BAC2F216F52E90015E3A0 /* Info-dev.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				58CB4890201EC62E0058B364 /* Keychain */,
 				588FE263205FB71000937D78 /* OtherUtilities */,
@@ -999,7 +1080,6 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				587A2FF0201B039B00A1410E /* Recovered References */,
 				A2C210A26EB189DCB44154A9 /* Pods */,
-				58908AD320A18A5A00C0064A /* Bitmark dev-Info.plist */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -1012,6 +1092,7 @@
 				13B07F961A680F5B00A75B9A /* Bitmark.app */,
 				00E356EE1AD99517003FC87E /* BitmarkTests.xctest */,
 				58908AD220A18A5A00C0064A /* Bitmark Registry dev.app */,
+				583BAC2C216F51600015E3A0 /* Bitmark Registry beta.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1145,6 +1226,27 @@
 			productReference = 13B07F961A680F5B00A75B9A /* Bitmark.app */;
 			productType = "com.apple.product-type.application";
 		};
+		583BABF8216F51600015E3A0 /* Bitmark Registry beta */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 583BAC29216F51600015E3A0 /* Build configuration list for PBXNativeTarget "Bitmark Registry beta" */;
+			buildPhases = (
+				583BABF9216F51600015E3A0 /* [CP] Check Pods Manifest.lock */,
+				583BABFA216F51600015E3A0 /* Sources */,
+				583BAC03216F51600015E3A0 /* Frameworks */,
+				583BAC20216F51600015E3A0 /* Resources */,
+				583BAC26216F51600015E3A0 /* Bundle React Native code and images */,
+				583BAC27216F51600015E3A0 /* [CP] Embed Pods Frameworks */,
+				583BAC28216F51600015E3A0 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Bitmark Registry beta";
+			productName = "Hello World";
+			productReference = 583BAC2C216F51600015E3A0 /* Bitmark Registry beta.app */;
+			productType = "com.apple.product-type.application";
+		};
 		58908A7820A18A5A00C0064A /* Bitmark Registry dev */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58908ACF20A18A5A00C0064A /* Build configuration list for PBXNativeTarget "Bitmark Registry dev" */;
@@ -1197,6 +1299,10 @@
 								enabled = 1;
 							};
 						};
+					};
+					583BABF8216F51600015E3A0 = {
+						DevelopmentTeam = A52M7AQ8B2;
+						ProvisioningStyle = Manual;
 					};
 					58908A7820A18A5A00C0064A = {
 						DevelopmentTeam = A52M7AQ8B2;
@@ -1335,6 +1441,7 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* Bitmark Registry */,
 				58908A7820A18A5A00C0064A /* Bitmark Registry dev */,
+				583BABF8216F51600015E3A0 /* Bitmark Registry beta */,
 				00E356ED1AD99517003FC87E /* BitmarkTests */,
 			);
 		};
@@ -1762,6 +1869,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		583BAC20216F51600015E3A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				583BAC21216F51600015E3A0 /* AndaleMono.ttf in Resources */,
+				583BAC22216F51600015E3A0 /* Localizable.strings in Resources */,
+				583BAC23216F51600015E3A0 /* Images.xcassets in Resources */,
+				583BAC24216F51600015E3A0 /* LaunchScreen.xib in Resources */,
+				583BAC25216F51600015E3A0 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		58908ABF20A18A5A00C0064A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1807,6 +1926,78 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		583BABF9216F51600015E3A0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Bitmark Registry dev-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		583BAC26216F51600015E3A0 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native code and images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		583BAC27216F51600015E3A0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BitmarkSDK/BitmarkSDK.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
+				"${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmarkSDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TweetNacl.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		583BAC28216F51600015E3A0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HockeySDKResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		58908A7920A18A5A00C0064A /* [CP] Check Pods Manifest.lock */ = {
@@ -1944,6 +2135,21 @@
 				58CB4892201EC63A0058B364 /* KeychainUtil.swift in Sources */,
 				58400A98202C013C00550ADB /* AccountSession.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		583BABFA216F51600015E3A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				583BABFB216F51600015E3A0 /* PhotoExporting.m in Sources */,
+				583BABFC216F51600015E3A0 /* TouchID.m in Sources */,
+				583BABFD216F51600015E3A0 /* BitmarkSDK.swift in Sources */,
+				583BABFE216F51600015E3A0 /* AppDelegate.m in Sources */,
+				583BABFF216F51600015E3A0 /* BitmarkSDKBridge.m in Sources */,
+				583BAC00216F51600015E3A0 /* KeychainUtil.swift in Sources */,
+				583BAC01216F51600015E3A0 /* AccountSession.swift in Sources */,
+				583BAC02216F51600015E3A0 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2140,6 +2346,88 @@
 			};
 			name = Release;
 		};
+		583BAC2A216F51600015E3A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 06BD1553103D8D01819C2268 /* Pods-Bitmark Registry dev.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-beta";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Bitmark/Bitmark-beta.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = A52M7AQ8B2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"HOCKEYAPP=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-exception-handler/ios",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Bitmark/Info-beta.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.registry.beta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "204c0a64-7569-42e5-98c6-744024437b8c";
+				PROVISIONING_PROFILE_SPECIFIER = "Bitmark Registry Inhouse Development";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		583BAC2B216F51600015E3A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ECC0D66A0909D1398002EDA8 /* Pods-Bitmark Registry dev.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-beta";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Bitmark/Bitmark-beta.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = A52M7AQ8B2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"HOCKEYAPP=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-exception-handler/ios",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Bitmark/Info-beta.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.registry.beta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3012b80a-e455-4493-b947-c3668b11f3bb";
+				PROVISIONING_PROFILE_SPECIFIER = "Bitmark Registry Beta";
+				SWIFT_VERSION = 4.0;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
 		58908AD020A18A5A00C0064A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 06BD1553103D8D01819C2268 /* Pods-Bitmark Registry dev.debug.xcconfig */;
@@ -2165,7 +2453,7 @@
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
 					"$(SRCROOT)/../node_modules/react-native-exception-handler/ios",
 				);
-				INFOPLIST_FILE = "Bitmark dev-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Bitmark/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2206,7 +2494,7 @@
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
 					"$(SRCROOT)/../node_modules/react-native-exception-handler/ios",
 				);
-				INFOPLIST_FILE = "Bitmark dev-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Bitmark/Info-dev.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2319,6 +2607,15 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		583BAC29216F51600015E3A0 /* Build configuration list for PBXNativeTarget "Bitmark Registry beta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				583BAC2A216F51600015E3A0 /* Debug */,
+				583BAC2B216F51600015E3A0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
