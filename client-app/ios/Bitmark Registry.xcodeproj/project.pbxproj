@@ -2422,7 +2422,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.registry.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "3012b80a-e455-4493-b947-c3668b11f3bb";
-				PROVISIONING_PROFILE_SPECIFIER = "Bitmark Registry Beta";
+				PROVISIONING_PROFILE_SPECIFIER = "match InHouse com.bitmark.registry.beta";
 				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -2504,7 +2504,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.registry.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "3012b80a-e455-4493-b947-c3668b11f3bb";
-				PROVISIONING_PROFILE_SPECIFIER = "Bitmark Registry Inhouse";
+				PROVISIONING_PROFILE_SPECIFIER = "match InHouse com.bitmark.registry.inhouse";
 				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
