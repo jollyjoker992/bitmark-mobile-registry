@@ -303,7 +303,7 @@ export class LocalIssueFileComponent extends React.Component {
                             onPress={() => {
                               Actions.localIssueFileEditLabel({
                                 label: item.label,
-                                key: item.key,
+                                labelKey: item.key,
                                 onEndChangeMetadataKey: this.onEndChangeMetadataKey
                               })
                               this.setState({ isEditingMetadata: false });

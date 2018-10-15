@@ -25,13 +25,13 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
     this.onChooseLabel = this.onChooseLabel.bind(this);
 
     let suggestions = [];
-    let label = this.props.navigation.state.params.label || ''
+    let label = this.props.label || ''
     MetadataLabelSamples.forEach((text, key) => {
       if (!label || text.toLowerCase().indexOf(label.toLowerCase()) >= 0) {
         suggestions.push({ key, text });
       }
     });
-    this.state = { label: this.props.navigation.state.params.label || '', suggestions };
+    this.state = { label: this.props.label || '', suggestions };
   }
 
   onChangeText(label) {
@@ -45,7 +45,7 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
   }
 
   onChooseLabel(text) {
-    this.props.onEndChangeMetadataKey(this.props.key, text);
+    this.props.onEndChangeMetadataKey(this.props.labelKey, text);
     Actions.pop();
   }
   render() {
@@ -55,9 +55,9 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
           <TouchableOpacity style={defaultStyle.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyle.headerLeftIcon} source={require('../../../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={[defaultStyle.headerTitle, { color: this.state.label ? 'black' : '#C1C1C1' }]}>{this.state.label || global.i18n.t("LocalIssueFileEditLabelComponent_headerTitle", { number: this.props.navigation.state.params.key + 1 })}</Text>
+          <Text style={[defaultStyle.headerTitle, { color: this.state.label ? 'black' : '#C1C1C1' }]}>{this.state.label || global.i18n.t("LocalIssueFileEditLabelComponent_headerTitle", { number: this.props.labelKey + 1 })}</Text>
           <TouchableOpacity style={defaultStyle.headerRight} onPress={() => {
-            this.props.onEndChangeMetadataKey(this.props.key, this.state.label);
+            this.props.onEndChangeMetadataKey(this.props.labelKey, this.state.label);
             Actions.pop();
           }}>
             <Text style={defaultStyle.headerRightText}>{global.i18n.t("LocalIssueFileEditLabelComponent_done")}</Text>
@@ -100,6 +100,6 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
 
 LocalIssueFileEditLabelComponent.propTypes = {
   label: PropTypes.string,
-  key: PropTypes.number,
+  labelKey: PropTypes.number,
   onEndChangeMetadataKey: PropTypes.func,
 }
