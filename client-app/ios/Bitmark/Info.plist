@@ -27,7 +27,7 @@
 			<string>com.bitmark.registry</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>bitmark</string>
+				<string>registry</string>
 			</array>
 		</dict>
 	</array>
