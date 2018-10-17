@@ -64,7 +64,6 @@
 		583BAC1C216F51600015E3A0 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E68EEEE1542C435DA913552D /* libRNFS.a */; };
 		583BAC1D216F51600015E3A0 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 295B8983183E4140AD6083BB /* libRNMail.a */; };
 		583BAC1E216F51600015E3A0 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B46290362EA64E3A93EE362E /* libRCTVideo.a */; };
-		583BAC1F216F51600015E3A0 /* Pods_Bitmark_Registry_dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 053A7DD717C04E7341EB70AE /* Pods_Bitmark_Registry_dev.framework */; };
 		583BAC21216F51600015E3A0 /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F150CA152023230B00C8FC17 /* AndaleMono.ttf */; };
 		583BAC22216F51600015E3A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 586D2E812167219C002A84B5 /* Localizable.strings */; };
 		583BAC23216F51600015E3A0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -123,6 +122,7 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		AE572A48959B0A80F364E29A /* Pods_Bitmark_Registry_dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 053A7DD717C04E7341EB70AE /* Pods_Bitmark_Registry_dev.framework */; };
 		B7856E9B0E4B4CF3BA90EB21 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 295B8983183E4140AD6083BB /* libRNMail.a */; };
+		B862400A315FB553A9902C97 /* Pods_Bitmark_Registry_dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 053A7DD717C04E7341EB70AE /* Pods_Bitmark_Registry_dev.framework */; };
 		F150CA412023230B00C8FC17 /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F150CA152023230B00C8FC17 /* AndaleMono.ttf */; };
 		F15C1D112063B9D4002DDF98 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15C1D102063B9B6002DDF98 /* libRNZipArchive.a */; };
 		F15F68E1203D70EC00A5A582 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15F68DE203D70DE00A5A582 /* libRNImagePicker.a */; };
@@ -555,7 +555,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* BitmarkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BitmarkTests.m; sourceTree = "<group>"; };
 		053A7DD717C04E7341EB70AE /* Pods_Bitmark_Registry_dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bitmark_Registry_dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		06BD1553103D8D01819C2268 /* Pods-Bitmark Registry dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark Registry dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev.debug.xcconfig"; sourceTree = "<group>"; };
+		05EC9A08632950AE459BB089 /* Pods-Bitmark Registry dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark Registry dev.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev.debug.xcconfig"; sourceTree = "<group>"; };
 		0E4065A52091E015005E1CBD /* RNDocumentPicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDocumentPicker.xcodeproj; path = "../node_modules/react-native-document-picker/ios/RNDocumentPicker.xcodeproj"; sourceTree = "<group>"; };
 		0E608BA420F3126700F40874 /* RNExitApp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNExitApp.xcodeproj; path = "../node_modules/react-native-exit-app/ios/RNExitApp.xcodeproj"; sourceTree = "<group>"; };
 		0E7B97A120EF55C90064EEEC /* ReactNativeExceptionHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeExceptionHandler.xcodeproj; path = "../node_modules/react-native-exception-handler/ios/ReactNativeExceptionHandler.xcodeproj"; sourceTree = "<group>"; };
@@ -613,11 +613,11 @@
 		B699513BD0B90FD6246B88A0 /* Pods-Bitmark beta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark beta.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark beta/Pods-Bitmark beta.release.xcconfig"; sourceTree = "<group>"; };
 		C2EBA197376ED4F7B6D41BAC /* Pods-Bitmark Registry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark Registry.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark Registry/Pods-Bitmark Registry.release.xcconfig"; sourceTree = "<group>"; };
 		CA19D843ECACE8B8F9F98E7E /* Pods-BitmarkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BitmarkTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BitmarkTests/Pods-BitmarkTests.release.xcconfig"; sourceTree = "<group>"; };
+		D274B8189FA1DC0145F5635D /* Pods-Bitmark Registry dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark Registry dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev.release.xcconfig"; sourceTree = "<group>"; };
 		D400D54DA2A09662699E58CF /* Pods_Bitmark_dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bitmark_dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDDF52A44890C0CADB5CC2CF /* Pods-Bitmark dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark dev/Pods-Bitmark dev.release.xcconfig"; sourceTree = "<group>"; };
 		E3045E478EDA4BB795BE1653 /* RNMail.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "../node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		E68EEEE1542C435DA913552D /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
-		ECC0D66A0909D1398002EDA8 /* Pods-Bitmark Registry dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark Registry dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev.release.xcconfig"; sourceTree = "<group>"; };
 		F150CA152023230B00C8FC17 /* AndaleMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AndaleMono.ttf; path = ../assets/fonts/AndaleMono.ttf; sourceTree = "<group>"; };
 		F15C1CDA2063B9B6002DDF98 /* RNZipArchive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNZipArchive.xcodeproj; path = "../node_modules/react-native-zip-archive/ios/RNZipArchive.xcodeproj"; sourceTree = "<group>"; };
 		F15F68AF203D70DE00A5A582 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
@@ -708,7 +708,6 @@
 				583BAC1C216F51600015E3A0 /* libRNFS.a in Frameworks */,
 				583BAC1D216F51600015E3A0 /* libRNMail.a in Frameworks */,
 				583BAC1E216F51600015E3A0 /* libRCTVideo.a in Frameworks */,
-				583BAC1F216F51600015E3A0 /* Pods_Bitmark_Registry_dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,6 +744,7 @@
 				58908ABC20A18A5A00C0064A /* libRNMail.a in Frameworks */,
 				58908ABD20A18A5A00C0064A /* libRCTVideo.a in Frameworks */,
 				AE572A48959B0A80F364E29A /* Pods_Bitmark_Registry_dev.framework in Frameworks */,
+				B862400A315FB553A9902C97 /* Pods_Bitmark_Registry_dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1110,8 +1110,8 @@
 				DDDF52A44890C0CADB5CC2CF /* Pods-Bitmark dev.release.xcconfig */,
 				1FE694157A05172759A10C0B /* Pods-Bitmark Registry.debug.xcconfig */,
 				C2EBA197376ED4F7B6D41BAC /* Pods-Bitmark Registry.release.xcconfig */,
-				06BD1553103D8D01819C2268 /* Pods-Bitmark Registry dev.debug.xcconfig */,
-				ECC0D66A0909D1398002EDA8 /* Pods-Bitmark Registry dev.release.xcconfig */,
+				05EC9A08632950AE459BB089 /* Pods-Bitmark Registry dev.debug.xcconfig */,
+				D274B8189FA1DC0145F5635D /* Pods-Bitmark Registry dev.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1230,13 +1230,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 583BAC29216F51600015E3A0 /* Build configuration list for PBXNativeTarget "Bitmark Registry beta" */;
 			buildPhases = (
-				583BABF9216F51600015E3A0 /* [CP] Check Pods Manifest.lock */,
 				583BABFA216F51600015E3A0 /* Sources */,
 				583BAC03216F51600015E3A0 /* Frameworks */,
 				583BAC20216F51600015E3A0 /* Resources */,
 				583BAC26216F51600015E3A0 /* Bundle React Native code and images */,
-				583BAC27216F51600015E3A0 /* [CP] Embed Pods Frameworks */,
-				583BAC28216F51600015E3A0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1928,24 +1925,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		583BABF9216F51600015E3A0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Bitmark Registry dev-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		583BAC26216F51600015E3A0 /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1959,46 +1938,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		583BAC27216F51600015E3A0 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/BitmarkSDK/BitmarkSDK.framework",
-				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
-				"${BUILT_PRODUCTS_DIR}/TweetNacl/TweetNacl.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BitmarkSDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TweetNacl.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		583BAC28216F51600015E3A0 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HockeySDKResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		58908A7920A18A5A00C0064A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2348,7 +2287,6 @@
 		};
 		583BAC2A216F51600015E3A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06BD1553103D8D01819C2268 /* Pods-Bitmark Registry dev.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-beta";
 				CLANG_ENABLE_MODULES = YES;
@@ -2390,7 +2328,6 @@
 		};
 		583BAC2B216F51600015E3A0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ECC0D66A0909D1398002EDA8 /* Pods-Bitmark Registry dev.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-beta";
 				CLANG_ENABLE_MODULES = YES;
@@ -2430,7 +2367,7 @@
 		};
 		58908AD020A18A5A00C0064A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06BD1553103D8D01819C2268 /* Pods-Bitmark Registry dev.debug.xcconfig */;
+			baseConfigurationReference = 05EC9A08632950AE459BB089 /* Pods-Bitmark Registry dev.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
 				CLANG_ENABLE_MODULES = YES;
@@ -2472,7 +2409,7 @@
 		};
 		58908AD120A18A5A00C0064A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ECC0D66A0909D1398002EDA8 /* Pods-Bitmark Registry dev.release.xcconfig */;
+			baseConfigurationReference = D274B8189FA1DC0145F5635D /* Pods-Bitmark Registry dev.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
 				CLANG_ENABLE_MODULES = YES;
