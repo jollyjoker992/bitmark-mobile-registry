@@ -53,7 +53,9 @@ let doRegisterNotificationInfo = async (accountNumber, token) => {
     return;
   }
   let client = 'registry';
-  client = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? 'registryinhouse' : client;
+  client = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? 'registryinhouse' :
+    (DeviceInfo.getBundleId() === 'com.bitmark.registry.beta' ? 'registrybeta' : client);
+
   return await NotificationModel.doRegisterNotificationInfo(accountNumber, signatureData.timestamp, signatureData.signature, Platform.OS, token, client);
 };
 
