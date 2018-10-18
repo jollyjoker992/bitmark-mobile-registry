@@ -25,7 +25,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   BitmarkSDK:
-    :commit: 55f360d647f0b26facb59ed6a29fb390b56ad627
+    :commit: 7fbf1b06d99038cee8462d2e59821b930ed6a91a
     :git: https://github.com/bitmark-inc/bitmark-sdk-swift.git
 
 SPEC CHECKSUMS:
@@ -34,6 +34,6 @@ SPEC CHECKSUMS:
   KeychainAccess: b3816fddcf28aa29d94b10ec305cd52be14c472b
   TweetNacl: ea279cd32bffee69c59c73631470d3419db675df
 
-PODFILE CHECKSUM: eea0728f52791725a9c6c93c343d67d08e47729c
+PODFILE CHECKSUM: 42a9fa170bb299e816718ec0da904922b8683025
 
 COCOAPODS: 1.5.3

@@ -8,11 +8,13 @@
 
 import Foundation
 import KeychainAccess
+import BitmarkSDK
 
 struct KeychainUtil {
 
   private static let bitmarkSeedCoreKey = "bitmark_core"
   private static let authenticationKey = "authentication"
+  private static let versionKey = "bitmark_account_version"
   
   static func getKeychain(reason: String, authentication: Bool) throws -> Keychain {
     #if (arch(i386) || arch(x86_64)) && os(iOS) && authentication
@@ -52,9 +54,10 @@ struct KeychainUtil {
     }
   }
   
-  static func saveCore(_ core: Data, authentication: Bool) throws {
+  static func saveCore(_ core: Data, version: String, authentication: Bool) throws {
     DispatchQueue.main.sync {
       UserDefaults().set(authentication, forKey: authenticationKey)
+      UserDefaults().set(version, forKey: versionKey)
     }
     try getKeychain(reason: NSLocalizedString("info_plist_touch_face_id", comment: ""), authentication: authentication)
       .set(core, key: bitmarkSeedCoreKey)
@@ -76,6 +79,21 @@ struct KeychainUtil {
       .remove(bitmarkSeedCoreKey)
     DispatchQueue.main.sync {
       UserDefaults().removeObject(forKey: authenticationKey)
+    }
+  }
+  
+  static func getAccountVersion() -> SeedVersion {
+    let versionValue = DispatchQueue.main.sync {
+      UserDefaults().string(forKey: versionKey)
+    }
+    if let v = versionValue {
+      if v == "v2" {
+        return SeedVersion.v2
+      } else {
+        return SeedVersion.v1
+      }
+    } else {
+      return SeedVersion.v1
     }
   }
 }
