@@ -9,9 +9,9 @@ const newError = (reason, defaultMessage) => {
 
 const BitmarkSDK = {
   // return session id
-  newAccount: (network, authentication) => {
+  newAccount: (network, authentication, version = 'v2') => {
     return new Promise((resolve, reject) => {
-      SwiftBitmarkSDK.newAccount(network, authentication, (ok, result) => {
+      SwiftBitmarkSDK.newAccount(network, version, authentication, (ok, result) => {
         if (ok) {
           resolve(result);
         } else {
@@ -20,9 +20,9 @@ const BitmarkSDK = {
       });
     });
   },
-  newAccountFrom24Words: (phrase24Words, network, authentication) => {
+  newAccountFromPhraseWords: (phraseWords, network, authentication) => {
     return new Promise((resolve, reject) => {
-      SwiftBitmarkSDK.newAccountFrom24Words(phrase24Words, network, authentication, (ok, result) => {
+      SwiftBitmarkSDK.newAccountFromPhraseWords(phraseWords, network, authentication, (ok, result) => {
         if (ok) {
           resolve(result);
         } else {
@@ -70,9 +70,9 @@ const BitmarkSDK = {
   },
   accountInfo: (sessionId) => {
     return new Promise((resolve, reject) => {
-      SwiftBitmarkSDK.accountInfo(sessionId, (ok, result, phrase24Words) => {
+      SwiftBitmarkSDK.accountInfo(sessionId, (ok, result, phraseWords) => {
         if (ok) {
-          resolve({ bitmarkAccountNumber: result, phrase24Words });
+          resolve({ bitmarkAccountNumber: result, phraseWords });
         } else {
           reject(newError(result, global.i18n.t("BitmarkSDK_canNotGetCurrentAccount")));
         }
@@ -208,11 +208,11 @@ const BitmarkSDK = {
   },
 
   // don use session di
-  try24Words: (phrase24Words, network) => {
+  tryPhraseWords: (phraseWords, network) => {
     return new Promise((resolve, reject) => {
-      SwiftBitmarkSDK.try24Words(phrase24Words, network, (ok, result, phrase24Words) => {
+      SwiftBitmarkSDK.tryPhraseWords(phraseWords, network, (ok, result, phraseWords) => {
         if (ok) {
-          resolve({ bitmarkAccountNumber: result, phrase24Words });
+          resolve({ bitmarkAccountNumber: result, phraseWords });
         } else {
           reject(newError(result, global.i18n.t("BitmarkSDK_canNotTry24Words")));
         }

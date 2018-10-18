@@ -31,7 +31,6 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
     this.changeTrackingBitmark = this.changeTrackingBitmark.bind(this);
     this.doGetScreenData = this.doGetScreenData.bind(this);
 
-    console.log('PrivateLocalPropertyDetailComponent props', props);
     let provenanceViewed = {};
     this.state = {
       provenanceViewed,

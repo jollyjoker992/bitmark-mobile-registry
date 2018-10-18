@@ -18,7 +18,6 @@ if (config.network === config.NETWORKS.livenet) {
 } else {
   i18n.locale = DeviceInfo.getDeviceLocale();
 }
-console.log('i18n.locale:', i18n.locale);
 i18n.fallbacks = true;
 i18n.translations = require('./assets/localizations.json');
 global.i18n = i18n;

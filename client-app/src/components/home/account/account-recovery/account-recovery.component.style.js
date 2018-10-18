@@ -134,10 +134,11 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   recoveryPhraseTestResult: {
+    backgroundColor: 'white',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 27,
-    marginBottom: 27,
+    paddingTop: 27,
+    paddingBottom: 27,
   },
   recoveryPhraseTestTitle: {
     fontFamily: 'Avenir Light',

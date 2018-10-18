@@ -346,7 +346,17 @@
     "AppTasksRegister_doSignInOnWebApp": "AppTasksRegister_doSignInOnWebApp",
     "AppTasksRegister_doDecentralizedIssuance": "AppTasksRegister_doDecentralizedIssuance",
     "AppTasksRegister_qrCodeIsExpired": "AppTasksRegister_qrCodeIsExpired",
-    "AppTasksRegister_doDecentralizedTransfer": "AppTasksRegister_doDecentralizedTransfer"
+    "AppTasksRegister_doDecentralizedTransfer": "AppTasksRegister_doDecentralizedTransfer",
+    "SignInComponent_headerTitle": "SignInComponent_headerTitle",
+    "SignInComponent_writeRecoveryPhraseContentMessage": "SignInComponent_writeRecoveryPhraseContentMessage",
+    "SignInComponent_resultSuccess": "SignInComponent_resultSuccess",
+    "SignInComponent_resultWrong": "SignInComponent_resultWrong",
+    "SignInComponent_resultSuccessMessage": "SignInComponent_resultSuccessMessage",
+    "SignInComponent_resultWrongMessage": "SignInComponent_resultWrongMessage",
+    "SignInComponent_submitButtonTextSuccess": "SignInComponent_submitButtonTextSuccess",
+    "SignInComponent_submitButtonTextWrong": "SignInComponent_submitButtonTextWrong",
+    "SignInComponent_doneInput": "SignInComponent_doneInput",
+    "SignInComponent_switchFormMessage": "SignInComponent_switchFormMessage"
   },
   "en": {
     "BitmarkInternetOffComponent_networkError": "Network Error",
@@ -574,7 +584,7 @@
     "RecoveryPhraseComponent_recoveryPhrase": "RECOVERY PHRASE",
     "RecoveryPhraseComponent_cancel": "Cancel",
     "RecoveryPhraseComponent_recoveryDescription1": "Your recovery phrase is the only way to restore your Bitmark account if your phone is lost, stolen, broken, or upgraded.\n\nWe will show you a list of words to write down on a piece of paper and keep safe.\n\nMake sure you are in a private location before writing down your recovery phrase.",
-    "RecoveryPhraseComponent_recoveryDescription2": "Your recovery phrase is the only way to access your Bitmark account after signing out. If you have not already written down your recovery phrase, you must do so now or you will be permanently lose access to your account and lose ownership of all your digital properties.\n\nYour recovery phrase is a list of 24 words to write on a piece of paper and keep safe. Make sure you are in a private location when you write it down.\n\nThis will completely remove access to your account on this device. Regular data bitmarking will be paused until you sign back in with your recovery phrase.",
+    "RecoveryPhraseComponent_recoveryDescription2": "Your recovery phrase is the only way to access your Bitmark account after signing out. If you have not already written down your recovery phrase, you must do so now or you will be permanently lose access to your account and lose ownership of all your digital properties.\n\nYour recovery phrase is a list of 12 or 24 words to write on a piece of paper and keep safe. Make sure you are in a private location when you write it down.\n\nThis will completely remove access to your account on this device. Regular data bitmarking will be paused until you sign back in with your recovery phrase.",
     "RecoveryPhraseComponent_writeDownRecoveryPhrase": "WRITE DOWN RECOVERY PHRASE",
     "WriteDownRecoveryPhraseComponent_writeDownRecoveryPhrase": "WRITE DOWN RECOVERY PHRASE",
     "WriteDownRecoveryPhraseComponent_recoveryPhrase": "RECOVERY PHRASE",
@@ -695,7 +705,17 @@
     "AppTasksRegister_doSignInOnWebApp": "Sign in using your mobile device.",
     "AppTasksRegister_doDecentralizedIssuance": "Authorize bitmark issuance.",
     "AppTasksRegister_qrCodeIsExpired": "QR code is expired!",
-    "AppTasksRegister_doDecentralizedTransfer": "Please sign to send the bitmark."
+    "AppTasksRegister_doDecentralizedTransfer": "Please sign to send the bitmark.",
+    "SignInComponent_headerTitle": "RECOVERY PHRASE SIGN-IN",
+    "SignInComponent_writeRecoveryPhraseContentMessage": "Please type all {{number}} words of your recovery phrase in the exact sequence below:",
+    "SignInComponent_resultSuccess": "Success!",
+    "SignInComponent_resultWrong": "Wrong Recovery Phrase!",
+    "SignInComponent_resultSuccessMessage": "Keep your written copy private in a secure and safe location.",
+    "SignInComponent_resultWrongMessage": "Please try again!",
+    "SignInComponent_submitButtonTextSuccess": "SUBMIT",
+    "SignInComponent_submitButtonTextWrong": "RETRY",
+    "SignInComponent_doneInput": "Done",
+    "SignInComponent_switchFormMessage": "Are you using {{number}} words of recovery phrase? Tap here to swich the form."
   },
   "zh": {
     "BitmarkInternetOffComponent_networkError": "BitmarkInternetOffComponent_networkError",
@@ -1044,7 +1064,17 @@
     "AppTasksRegister_doSignInOnWebApp": "AppTasksRegister_doSignInOnWebApp",
     "AppTasksRegister_doDecentralizedIssuance": "AppTasksRegister_doDecentralizedIssuance",
     "AppTasksRegister_qrCodeIsExpired": "AppTasksRegister_qrCodeIsExpired",
-    "AppTasksRegister_doDecentralizedTransfer": "AppTasksRegister_doDecentralizedTransfer"
+    "AppTasksRegister_doDecentralizedTransfer": "AppTasksRegister_doDecentralizedTransfer",
+    "SignInComponent_headerTitle": "SignInComponent_headerTitle",
+    "SignInComponent_writeRecoveryPhraseContentMessage": "SignInComponent_writeRecoveryPhraseContentMessage",
+    "SignInComponent_resultSuccess": "SignInComponent_resultSuccess",
+    "SignInComponent_resultWrong": "SignInComponent_resultWrong",
+    "SignInComponent_resultSuccessMessage": "SignInComponent_resultSuccessMessage",
+    "SignInComponent_resultWrongMessage": "SignInComponent_resultWrongMessage",
+    "SignInComponent_submitButtonTextSuccess": "SignInComponent_submitButtonTextSuccess",
+    "SignInComponent_submitButtonTextWrong": "SignInComponent_submitButtonTextWrong",
+    "SignInComponent_doneInput": "SignInComponent_doneInput",
+    "SignInComponent_switchFormMessage": "SignInComponent_switchFormMessage"
   },
   "vi": {
     "BitmarkInternetOffComponent_networkError": "BitmarkInternetOffComponent_networkError",
@@ -1393,6 +1423,16 @@
     "AppTasksRegister_doSignInOnWebApp": "AppTasksRegister_doSignInOnWebApp",
     "AppTasksRegister_doDecentralizedIssuance": "AppTasksRegister_doDecentralizedIssuance",
     "AppTasksRegister_qrCodeIsExpired": "AppTasksRegister_qrCodeIsExpired",
-    "AppTasksRegister_doDecentralizedTransfer": "AppTasksRegister_doDecentralizedTransfer"
+    "AppTasksRegister_doDecentralizedTransfer": "AppTasksRegister_doDecentralizedTransfer",
+    "SignInComponent_headerTitle": "SignInComponent_headerTitle",
+    "SignInComponent_writeRecoveryPhraseContentMessage": "SignInComponent_writeRecoveryPhraseContentMessage",
+    "SignInComponent_resultSuccess": "SignInComponent_resultSuccess",
+    "SignInComponent_resultWrong": "SignInComponent_resultWrong",
+    "SignInComponent_resultSuccessMessage": "SignInComponent_resultSuccessMessage",
+    "SignInComponent_resultWrongMessage": "SignInComponent_resultWrongMessage",
+    "SignInComponent_submitButtonTextSuccess": "SignInComponent_submitButtonTextSuccess",
+    "SignInComponent_submitButtonTextWrong": "SignInComponent_submitButtonTextWrong",
+    "SignInComponent_doneInput": "SignInComponent_doneInput",
+    "SignInComponent_switchFormMessage": "SignInComponent_switchFormMessage"
   }
 }

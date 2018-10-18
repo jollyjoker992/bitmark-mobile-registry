@@ -73,8 +73,6 @@ export class LocalIssueFileComponent extends React.Component {
   // ==========================================================================================
   // ==========================================================================================
   onIssueFile() {
-    console.log('assetAccessibility :', this.state.assetAccessibility);
-
     AppProcessor.doIssueFile(this.state.filePath, this.state.assetName, this.state.metadataList, parseInt(this.state.quantity), this.state.assetAccessibility === 'public', {
       indicator: true, title: '', message: global.i18n.t("LocalIssueFileComponent_issueMessage")
     }).then((data) => {

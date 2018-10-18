@@ -163,7 +163,6 @@ const doGet100Transactions = async (accountNumber, oldTransactions, lastOffset) 
 
 const doGetAllTransferOffers = async (accountNumber) => {
   let offersData = await TransferOfferModel.doGetAllTransferOffers(accountNumber);
-  console.log('offersData :', offersData);
   let incomingTransferOffers = [];
 
   if (offersData.to) {

@@ -43,7 +43,7 @@ export class RecoveryPhraseComponent extends React.Component {
           <Image style={accountRecoveryStyle.recoveryPhraseWarningIcon} source={require('./../../../../../assets/imgs/backup_warning.png')} />
           {!isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>{global.i18n.t("RecoveryPhraseComponent_recoveryDescription1")}</Text>}
 
-          {isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>{global.i18n.t("RecoveryPhraseComponent_recoveryDescription2")}</Text>}
+          {isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>{global.i18n.t("RecoveryPhraseComponent_recoveryDescription2", { number: this.state.p })}</Text>}
         </ScrollView>
         <TouchableOpacity style={accountRecoveryStyle.recoveryPhraseBottomButton} onPress={() => recoveryPhrase()}>
           <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{global.i18n.t("RecoveryPhraseComponent_writeDownRecoveryPhrase")}</Text>
@@ -64,11 +64,11 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
     let userInfo = this.props.currentUser;
     let smallerList = [];
     let biggerList = [];
-    for (let index in userInfo.phrase24Words) {
-      if (index < 12) {
-        smallerList.push({ key: index, word: userInfo.phrase24Words[index] });
+    for (let index in userInfo.phraseWords) {
+      if (index < (userInfo.phraseWords.length / 2)) {
+        smallerList.push({ key: index, word: userInfo.phraseWords[index] });
       } else {
-        biggerList.push({ key: index, word: userInfo.phrase24Words[index] });
+        biggerList.push({ key: index, word: userInfo.phraseWords[index] });
       }
     }
     this.state = { smallerList: smallerList, biggerList: biggerList };
@@ -148,6 +148,7 @@ WriteDownRecoveryPhraseComponent.propTypes = {
 export class TryRecoveryPhraseComponent extends React.Component {
   constructor(props) {
     super(props);
+
     this.nextSelectedIndex = this.nextSelectedIndex.bind(this);
     this.selectRandomWord = this.selectRandomWord.bind(this);
     this.resetSelectedWord = this.resetSelectedWord.bind(this);
@@ -155,8 +156,8 @@ export class TryRecoveryPhraseComponent extends React.Component {
 
     let smallerList = [];
     let biggerList = [];
-    for (let index = 0; index < 24; index++) {
-      if (index < 12) {
+    for (let index = 0; index < this.props.currentUser.phraseWords.length; index++) {
+      if (index < (this.props.currentUser.phraseWords.length / 2)) {
         smallerList.push({ key: index });
       } else {
         biggerList.push({ key: index });
@@ -164,11 +165,11 @@ export class TryRecoveryPhraseComponent extends React.Component {
     }
     UserModel.doGetCurrentUser().then(user => {
       let result = [];
-      for (let index in this.props.currentUser.phrase24Words) {
-        result.push({ key: index, word: this.props.currentUser.phrase24Words[index] });
+      for (let index in this.props.currentUser.phraseWords) {
+        result.push({ key: index, word: this.props.currentUser.phraseWords[index] });
       }
       let randomWords = [];
-      for (let index = 0; index < 24; index++) {
+      for (let index = 0; index < this.props.currentUser.phraseWords.length; index++) {
         randomWords.push({
           key: result[index].key,
           word: result[index].word
@@ -191,7 +192,7 @@ export class TryRecoveryPhraseComponent extends React.Component {
       let countPreFill = 0;
       let smallerList = this.state.smallerList;
       let biggerList = this.state.biggerList;
-      let numberWorldFilled = 20;
+      let numberWorldFilled = this.props.currentUser.phraseWords.length - 4;
       while (countPreFill < numberWorldFilled) {
         let randomIndex = Math.floor(Math.random() * randomWords.length);
         if (!randomWords[randomIndex].selected) {
@@ -204,14 +205,14 @@ export class TryRecoveryPhraseComponent extends React.Component {
               break;
             }
           }
-          if (originalIndex < 12) {
+          if (originalIndex < (this.props.currentUser.phraseWords.length / 2)) {
             smallerList[originalIndex].word = randomWords[randomIndex].word;
             smallerList[originalIndex].randomIndex = randomIndex;
             smallerList[originalIndex].cannotReset = true;
           } else {
-            biggerList[originalIndex - 12].word = randomWords[randomIndex].word;
-            biggerList[originalIndex - 12].randomIndex = randomIndex;
-            biggerList[originalIndex - 12].cannotReset = true;
+            biggerList[originalIndex - (this.props.currentUser.phraseWords.length / 2)].word = randomWords[randomIndex].word;
+            biggerList[originalIndex - (this.props.currentUser.phraseWords.length / 2)].randomIndex = randomIndex;
+            biggerList[originalIndex - (this.props.currentUser.phraseWords.length / 2)].cannotReset = true;
           }
           countPreFill++;
         }
@@ -234,19 +235,20 @@ export class TryRecoveryPhraseComponent extends React.Component {
   }
 
   nextSelectedIndex(currentSelectedIndex) {
-    let index = (currentSelectedIndex + 1) % 24;
+    let index = (currentSelectedIndex + 1) % this.props.currentUser.phraseWords.length;
     while (index != currentSelectedIndex) {
-      if ((index < 12 && !this.state.smallerList[index].word) || (index >= 12 && !this.state.biggerList[index - 12].word)) {
+      if ((index < (this.props.currentUser.phraseWords.length / 2) && !this.state.smallerList[index].word) ||
+        (index >= (this.props.currentUser.phraseWords.length / 2) && !this.state.biggerList[index - (this.props.currentUser.phraseWords.length / 2)].word)) {
         return index
       }
-      index = (index + 1) % 24;
+      index = (index + 1) % this.props.currentUser.phraseWords.length;
     }
     let inputtedWords = [];
     let temp = this.state.smallerList.concat(this.state.biggerList);
     for (let i = 0; i < temp.length; i++) {
       inputtedWords.push(temp[i].word);
     }
-    AppProcessor.doCheck24Words(inputtedWords).then((user) => {
+    AppProcessor.doCheckPhraseWords(inputtedWords).then((user) => {
       if (this.state.user.bitmarkAccountNumber === user.bitmarkAccountNumber) {
         this.setState({ testResult: 'done' });
       } else {
@@ -263,7 +265,7 @@ export class TryRecoveryPhraseComponent extends React.Component {
     let randomWords = this.state.randomWords;
     randomWords[index].selected = true;
     let selectedIndex = this.state.selectedIndex;
-    if (selectedIndex < 12) {
+    if (selectedIndex < (this.props.currentUser.phraseWords.length / 2)) {
       let inputtedWords = this.state.smallerList;
       inputtedWords[selectedIndex].word = item.word;
       inputtedWords[selectedIndex].randomIndex = index;
@@ -273,8 +275,8 @@ export class TryRecoveryPhraseComponent extends React.Component {
       });
     } else {
       let inputtedWords = this.state.biggerList;
-      inputtedWords[selectedIndex - 12].word = item.word;
-      inputtedWords[selectedIndex - 12].randomIndex = index;
+      inputtedWords[selectedIndex - (this.props.currentUser.phraseWords.length / 2)].word = item.word;
+      inputtedWords[selectedIndex - (this.props.currentUser.phraseWords.length / 2)].randomIndex = index;
       this.setState({
         biggerList: inputtedWords, selectedIndex: this.nextSelectedIndex(selectedIndex),
         randomWords: randomWords,
@@ -295,15 +297,15 @@ export class TryRecoveryPhraseComponent extends React.Component {
     if (!isNaN(randomIndex) && randomIndex >= 0) {
       randomWords[randomIndex].selected = false;
     }
-    if (item.key < 12) {
+    if (item.key < (this.props.currentUser.phraseWords.length / 2)) {
       let inputtedWords = this.state.smallerList;
       inputtedWords[item.key].word = '';
       inputtedWords[item.key].randomIndex = -1;
       this.setState({ smallerList: inputtedWords, selectedIndex: item.key, randomWords: randomWords });
     } else {
       let inputtedWords = this.state.biggerList;
-      inputtedWords[item.key - 12].word = '';
-      inputtedWords[item.key - 12].randomIndex = -1;
+      inputtedWords[item.key - (this.props.currentUser.phraseWords.length / 2)].word = '';
+      inputtedWords[item.key - (this.props.currentUser.phraseWords.length / 2)].randomIndex = -1;
       this.setState({ biggerList: inputtedWords, selectedIndex: item.key, randomWords: randomWords });
     }
   }

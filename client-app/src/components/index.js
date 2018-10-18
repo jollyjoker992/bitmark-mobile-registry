@@ -278,7 +278,6 @@ class MainEventsHandlerComponent extends Component {
       styles.height = '100%';
     }
 
-    console.log('MainEventsHandlerComponent :', this.state, styles);
     return (
       <View style={[{ position: 'absolute', width: '100%', top: 0, left: 0, zIndex: iosConstant.zIndex.dialog }, styles]}>
         {!this.state.networkStatus && <BitmarkInternetOffComponent tryConnectInternet={this.doTryConnectInternet} />}

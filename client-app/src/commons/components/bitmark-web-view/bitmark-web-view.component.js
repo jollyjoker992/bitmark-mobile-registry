@@ -56,7 +56,7 @@ export class BitmarkWebViewComponent extends React.Component {
       {!hideBottomController && <View style={[termsStyles.bottomController, {
         height: (heightButtonController || iosConstant.bottomTabsHeight),
       }]}>
-        <TouchableOpacity style={termsStyles.webViewControlButton} onPress={() => { console.log('source :', this.webViewRef.getWebViewHandle()); this.webViewRef.goBack(); }}>
+        <TouchableOpacity style={termsStyles.webViewControlButton} onPress={() => { this.webViewRef.goBack(); }}>
           <Image style={termsStyles.webViewControlIcon} source={require('./../../../../assets/imgs/webview-back.png')} />
         </TouchableOpacity>
         <TouchableOpacity style={[termsStyles.webViewControlButton, { marginLeft: 90 }]} onPress={() => { this.webViewRef.goForward(); }}>

@@ -101,6 +101,21 @@ export default StyleSheet.create({
       { scale: 1.5 },
     ],
   },
+
+  switchFormMessageButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  switchFormMessage: {
+    width: convertWidth(240),
+    fontFamily: 'Avenir Medium',
+    textAlign: 'center',
+    fontSize: 14,
+    color: '#0054FC',
+    marginBottom: 24,
+  },
+
   submitButton: {
     height: 45,
     width: convertWidth(375),

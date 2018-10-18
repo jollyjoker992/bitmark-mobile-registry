@@ -7,8 +7,7 @@ import {
 } from 'react-native';
 import defaultStyles from './../../../commons/styles';
 import signStyle from './sign-in.component.style';
-import { BitmarkAutoCompleteComponent } from './../../../commons/components';
-import { dictionary24Words, convertWidth } from './../../../utils';
+import { dictionaryPhraseWords, convertWidth } from './../../../utils';
 import { AppProcessor } from '../../../processors';
 import { iosConstant } from '../../../configs/ios/ios.config';
 import { Actions } from 'react-native-router-flux';
@@ -33,6 +32,7 @@ const statuses = {
 
 // let testWords = ["accident", "sausage", "ticket", "dolphin", "original", "nasty", "theme", "life", "polar", "donor", "office", "weird", "neither", "escape", "flag", "spell", "submit", "salute", "sustain", "habit", "soap", "oil", "romance", "drama",];
 // let testWords = ["accuse", "angry", "thing", "alone", "day", "guitar", "gown", "possible", "rotate", "erupt", "teach", "myth", "final", "rule", "conduct", "term", "mom", "soldier", "prepare", "bench", "hurt", "banana", "joy", "asset",];
+// let testWords = ["undo", "scrap", "churn", "maze", "fiber", "pluck", "group", "dream", "diamond", "palace", "salon", "convince"];
 export class SignInComponent extends React.Component {
 
   constructor(props) {
@@ -43,13 +43,14 @@ export class SignInComponent extends React.Component {
     this.selectIndex = this.selectIndex.bind(this);
     this.checkStatusInputting = this.checkStatusInputting.bind(this);
     this.doCheck24Word = this.doCheck24Word.bind(this);
-    this.submit24Words = this.submit24Words.bind(this);
+    this.submitPhraseWords = this.submitPhraseWords.bind(this);
     this.doSignIn = this.doSignIn.bind(this);
 
+    let numberPhraseWords = 12;
     let smallerList = [];
     let biggerList = [];
-    for (let index = 0; index < 24; index++) {
-      if (index < 12) {
+    for (let index = 0; index < numberPhraseWords; index++) {
+      if (index < (numberPhraseWords / 2)) {
         smallerList.push({
           key: index,
           // word: testWords[index],
@@ -69,25 +70,26 @@ export class SignInComponent extends React.Component {
       smallerList,
       biggerList,
       selectedIndex: -1,
-      remainWordNumber: 24,
-      dataSource: dictionary24Words,
+      numberPhraseWords,
+      remainWordNumber: numberPhraseWords,
+      dataSource: dictionaryPhraseWords,
       keyBoardHeight: 0,
       keyboardExternalBottom: new Animated.Value(0),
       keyboardExternalOpacity: new Animated.Value(0),
     };
-    setTimeout(this.checkStatusInputting, 200);
+    // setTimeout(this.checkStatusInputting, 200);
   }
 
   onChangeText(index, text) {
     text = text ? text.trim() : '';
     this.doFilter(text);
-    if (index < 12) {
+    if (index < (this.state.numberPhraseWords / 2)) {
       let inputtedWords = this.state.smallerList;
       inputtedWords[index].word = text;
       this.setState({ smallerList: inputtedWords });
     } else {
       let inputtedWords = this.state.biggerList;
-      inputtedWords[index - 12].word = text;
+      inputtedWords[index - (this.state.numberPhraseWords / 2)].word = text;
       this.setState({ biggerList: inputtedWords });
     }
     this.checkStatusInputting();
@@ -135,7 +137,7 @@ export class SignInComponent extends React.Component {
   }
 
   doFilter(text) {
-    let dataSource = dictionary24Words.filter(word => word.toLowerCase().indexOf(text.toLowerCase()) === 0);
+    let dataSource = dictionaryPhraseWords.filter(word => word.toLowerCase().indexOf(text.toLowerCase()) === 0);
     this.setState({ dataSource, currentInputtedText: text });
   }
 
@@ -143,7 +145,7 @@ export class SignInComponent extends React.Component {
     this.setState({
       selectedIndex: index
     });
-    let text = index < 12 ? this.state.smallerList[index].word : this.state.biggerList[index - 12].word;
+    let text = index < (this.state.numberPhraseWords / 2) ? this.state.smallerList[index].word : this.state.biggerList[index - (this.state.numberPhraseWords / 2)].word;
     this.inputtedRefs[index].focus();
     this.doFilter(text);
   }
@@ -156,17 +158,17 @@ export class SignInComponent extends React.Component {
     if (word) {
       word = word ? word.trim() : '';
       this.inputtedRefs[selectedIndex].focus();
-      if (selectedIndex < 12) {
+      if (selectedIndex < (this.state.numberPhraseWords / 2)) {
         let inputtedWords = this.state.smallerList;
         inputtedWords[selectedIndex].word = word;
         this.setState({ smallerList: inputtedWords });
       } else {
         let inputtedWords = this.state.biggerList;
-        inputtedWords[selectedIndex - 12].word = word;
+        inputtedWords[selectedIndex - (this.state.numberPhraseWords / 2)].word = word;
         this.setState({ biggerList: inputtedWords });
       }
     }
-    this.selectIndex((selectedIndex + 1) % 24);
+    this.selectIndex((selectedIndex + 1) % this.state.numberPhraseWords);
   }
 
   selectIndex(index) {
@@ -182,10 +184,10 @@ export class SignInComponent extends React.Component {
     this.state.biggerList.forEach(item => {
       countNumberInputtedWord = countNumberInputtedWord + (item.word ? 1 : 0)
     });
-    let status = countNumberInputtedWord === 24 ? BitmarkAutoCompleteComponent.statuses.done : BitmarkAutoCompleteComponent.statuses.inputting;
+    let status = countNumberInputtedWord === this.state.numberPhraseWords ? statuses.done : statuses.inputting;
     this.setState({
       preCheckResult: null,
-      remainWordNumber: 24 - countNumberInputtedWord,
+      remainWordNumber: this.state.numberPhraseWords - countNumberInputtedWord,
       status,
     });
   }
@@ -197,12 +199,12 @@ export class SignInComponent extends React.Component {
         let inputtedWords = [];
         this.state.smallerList.forEach(item => inputtedWords.push(item.word));
         this.state.biggerList.forEach(item => inputtedWords.push(item.word));
-        AppProcessor.doCheck24Words(inputtedWords).then(() => {
+        AppProcessor.doCheckPhraseWords(inputtedWords).then(() => {
           this.setState({ preCheckResult: PreCheckResults.success });
           resolve(true);
         }).catch((error) => {
           resolve(false);
-          console.log('check24Words error: ', error);
+          console.log('checkPhraseWords error: ', error);
           this.setState({ preCheckResult: PreCheckResults.error });
         });
       } else {
@@ -215,41 +217,52 @@ export class SignInComponent extends React.Component {
   doSignIn() {
     this.doCheck24Word().then((result) => {
       if (result) {
-        Actions.faceTouchId({ doContinue: this.submit24Words });
+        Actions.faceTouchId({ doContinue: this.submitPhraseWords });
       }
     });
   }
 
-  async submit24Words(enableTouchId) {
+  async submitPhraseWords(enableTouchId) {
     if (this.state.preCheckResult === PreCheckResults.error) {
-      let smallerList = [];
-      let biggerList = [];
-      for (let index = 0; index < 24; index++) {
-        if (index < 12) {
-          smallerList.push({
-            key: index,
-            word: '',
-          });
-        } else {
-          biggerList.push({
-            key: index,
-            word: '',
-          });
-        }
-      }
-      this.setState({
-        smallerList: smallerList,
-        biggerList: biggerList,
-        preCheckResult: null,
-        selectedIndex: -1,
-        remainWordNumber: 24,
-      });
+      this.doReset();
       return;
     }
     let inputtedWords = [];
     this.state.smallerList.forEach(item => inputtedWords.push(item.word));
     this.state.biggerList.forEach(item => inputtedWords.push(item.word));
     return await AppProcessor.doLogin(inputtedWords, enableTouchId);
+  }
+
+  doReset(numberPhraseWords) {
+    numberPhraseWords = numberPhraseWords || this.state.numberPhraseWords;
+    let smallerList = [];
+    let biggerList = [];
+    for (let index = 0; index < numberPhraseWords; index++) {
+      if (index < (numberPhraseWords / 2)) {
+        smallerList.push({
+          key: index,
+          word: '',
+        });
+      } else {
+        biggerList.push({
+          key: index,
+          word: '',
+        });
+      }
+    }
+    this.setState({
+      smallerList: smallerList,
+      biggerList: biggerList,
+      preCheckResult: null,
+      selectedIndex: -1,
+      remainWordNumber: numberPhraseWords,
+    });
+  }
+
+  changeNumberPhraseWord() {
+    let numberPhraseWords = this.state.numberPhraseWords === 12 ? 24 : 12
+    this.setState({ numberPhraseWords });
+    this.doReset(numberPhraseWords);
   }
 
   render() {
@@ -261,13 +274,13 @@ export class SignInComponent extends React.Component {
           <TouchableOpacity style={[defaultStyles.headerLeft, { width: 50 }]} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>RECOVERY PHRASE SIGN-IN</Text>
+          <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>{global.i18n.t("SignInComponent_headerTitle")}</Text>
           <TouchableOpacity style={[defaultStyles.headerRight, { width: 50 }]}>
           </TouchableOpacity>
         </View>
         <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }} keyboardVerticalOffset={iosConstant.buttonHeight} >
           <ScrollView style={signStyle.mainContent}>
-            <Text style={[signStyle.writeRecoveryPhraseContentMessage,]}>Please type all 24 words of your recovery phrase in the exact sequence below:</Text>
+            <Text style={[signStyle.writeRecoveryPhraseContentMessage,]}>{global.i18n.t("SignInComponent_writeRecoveryPhraseContentMessage", { number: this.state.numberPhraseWords })}</Text>
             <View style={[signStyle.writeRecoveryPhraseArea]}>
               <View style={signStyle.writeRecoveryPhraseContentHalfList}>
                 <FlatList data={this.state.smallerList}
@@ -323,19 +336,27 @@ export class SignInComponent extends React.Component {
             </View>
             <View style={signStyle.recoveryPhraseTestResult}>
               <Text style={[signStyle.recoveryPhraseTestTitle, { color: this.state.preCheckResult === PreCheckResults.success ? '#0060F2' : '#FF003C' }]}>
-                {this.state.preCheckResult === PreCheckResults.success ? 'Success!' : (this.state.preCheckResult === PreCheckResults.error ? 'Wrong Recovery Phrase!' : '')}
+                {this.state.preCheckResult === PreCheckResults.success ? global.i18n.t("SignInComponent_resultSuccess")
+                  : (this.state.preCheckResult === PreCheckResults.error ? global.i18n.t("SignInComponent_resultWrong") : '')}
               </Text>
               <Text style={[signStyle.recoveryPhraseTestMessage, { color: this.state.preCheckResult === PreCheckResults.success ? '#0060F2' : '#FF003C' }]}>
-                {this.state.preCheckResult === PreCheckResults.success ? 'Keep your written copy private in a secure and safe location.' : (this.state.preCheckResult === PreCheckResults.error ? 'Please try again!' : '')}
+                {this.state.preCheckResult === PreCheckResults.success ? global.i18n.t("SignInComponent_resultSuccessMessage")
+                  : (this.state.preCheckResult === PreCheckResults.error ? global.i18n.t("SignInComponent_resultWrongMessage") : '')}
               </Text>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
 
+        <TouchableOpacity style={signStyle.switchFormMessageButton} onPress={this.changeNumberPhraseWord.bind(this)}>
+          <Text style={[signStyle.switchFormMessage,]}>{i18n.t('SignInComponent_switchFormMessage', { number: this.state.numberPhraseWords })}</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity style={[signStyle.submitButton, {
           backgroundColor: !this.state.remainWordNumber ? '#0060F2' : 'gray'
         }]} onPress={this.doSignIn} disabled={this.state.remainWordNumber > 0}>
-          <Text style={[signStyle.submitButtonText]}>{this.state.preCheckResult || PreCheckResults.success}</Text>
+          <Text style={[signStyle.submitButtonText]}>{this.state.preCheckResult === PreCheckResults.error
+            ? i18n.t('SignInComponent_submitButtonTextWrong')
+            : i18n.t('SignInComponent_submitButtonTextSuccess')}</Text>
         </TouchableOpacity>
 
 
@@ -363,7 +384,7 @@ export class SignInComponent extends React.Component {
               />
             </View>}
             <TouchableOpacity style={signStyle.doneButton} onPress={this.doCheck24Word.bind(this)} disabled={this.state.status !== statuses.done}>
-              <Text style={[signStyle.doneButtonText, { color: this.state.status === statuses.done ? '#0060F2' : 'gray' }]}>{global.i18n.t("BitmarkAutoCompleteComponent_done")}</Text>
+              <Text style={[signStyle.doneButtonText, { color: this.state.status === statuses.done ? '#0060F2' : 'gray' }]}>{global.i18n.t("SignInComponent_doneInput")}</Text>
             </TouchableOpacity>
           </Animated.View>}
 
