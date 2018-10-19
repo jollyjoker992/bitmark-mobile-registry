@@ -42,8 +42,7 @@ export class RecoveryPhraseComponent extends React.Component {
         <ScrollView style={accountRecoveryStyle.recoveryPhraseContent}>
           <Image style={accountRecoveryStyle.recoveryPhraseWarningIcon} source={require('./../../../../../assets/imgs/backup_warning.png')} />
           {!isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>{global.i18n.t("RecoveryPhraseComponent_recoveryDescription1")}</Text>}
-
-          {isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>{global.i18n.t("RecoveryPhraseComponent_recoveryDescription2", { number: this.state.p })}</Text>}
+          {isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>{global.i18n.t("RecoveryPhraseComponent_recoveryDescription2")}</Text>}
         </ScrollView>
         <TouchableOpacity style={accountRecoveryStyle.recoveryPhraseBottomButton} onPress={() => recoveryPhrase()}>
           <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{global.i18n.t("RecoveryPhraseComponent_writeDownRecoveryPhrase")}</Text>

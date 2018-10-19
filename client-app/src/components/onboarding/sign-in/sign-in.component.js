@@ -348,7 +348,7 @@ export class SignInComponent extends React.Component {
         </KeyboardAvoidingView>
 
         <TouchableOpacity style={signStyle.switchFormMessageButton} onPress={this.changeNumberPhraseWord.bind(this)}>
-          <Text style={[signStyle.switchFormMessage,]}>{i18n.t('SignInComponent_switchFormMessage', { number: this.state.numberPhraseWords })}</Text>
+          <Text style={[signStyle.switchFormMessage,]}>{i18n.t('SignInComponent_switchFormMessage', { number: this.state.numberPhraseWords === 12 ? 24 : 12 })}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={[signStyle.submitButton, {
