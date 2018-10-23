@@ -414,6 +414,8 @@ const doCreateAccount = async (touchFaceIdSession) => {
 
 const doLogin = async (touchFaceIdSession) => {
   userInformation = await AccountService.doGetCurrentAccount(touchFaceIdSession);
+  let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
+  await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
   return userInformation;
 };
 

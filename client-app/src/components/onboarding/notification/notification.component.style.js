@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { convertWidth } from '../../../utils';
+import { iosConstant, iosConfig } from '../../../configs/ios/ios.config';
 export default StyleSheet.create({
   body: {
     flex: 1,
@@ -7,6 +8,7 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     paddingLeft: convertWidth(50),
     paddingRight: convertWidth(50),
+    paddingTop: iosConstant.headerSize.height + (iosConfig.isIPhoneX ? 44 : 0),
     paddingBottom: 90,
   },
   // notification
@@ -15,7 +17,7 @@ export default StyleSheet.create({
     color: '#0060F2',
     fontSize: 20,
     fontWeight: '900',
-    marginTop: 103,
+    marginTop: 25,
   },
 
   notificationImage: {

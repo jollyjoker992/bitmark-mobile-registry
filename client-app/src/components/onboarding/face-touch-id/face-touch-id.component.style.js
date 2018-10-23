@@ -1,11 +1,13 @@
 import { StyleSheet } from 'react-native'
 import { convertWidth } from '../../../utils';
+import { iosConstant, iosConfig } from '../../../configs/ios/ios.config';
 export default StyleSheet.create({
   body: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: 'white',
+    paddingTop: iosConstant.headerSize.height + (iosConfig.isIPhoneX ? 44 : 0)
   },
   scrollContent: {
     width: '100%',
@@ -20,7 +22,7 @@ export default StyleSheet.create({
     color: '#0060F2',
     fontSize: 17,
     fontWeight: '900',
-    marginTop: 80,
+    marginTop: 25,
     width: convertWidth(275),
   },
 
@@ -76,7 +78,7 @@ export default StyleSheet.create({
     color: 'white'
   },
   skipButton: {
-    height: 45,
+    height: 45 + (iosConfig.isIPhoneX ? (iosConstant.blankFooter / 2) : 0),
     width: convertWidth(375),
     flexDirection: 'row',
     alignItems: 'center',
@@ -85,6 +87,7 @@ export default StyleSheet.create({
     backgroundColor: '#F2FAFF',
   },
   skipButtonText: {
+    paddingBottom: (iosConstant.blankFooter / 2),
     fontFamily: 'Avenir black',
     textAlign: 'center',
     fontSize: 16,

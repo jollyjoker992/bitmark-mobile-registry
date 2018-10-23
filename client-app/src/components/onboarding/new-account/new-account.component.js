@@ -2,7 +2,7 @@ import React from 'react';
 import Swiper from 'react-native-swiper';
 import Hyperlink from 'react-native-hyperlink';
 import {
-  View, Text, TouchableOpacity, Image, SafeAreaView,
+  View, Text, TouchableOpacity, Image,
   StatusBar,
   AppState,
 } from 'react-native'
@@ -12,7 +12,7 @@ import defaultStyle from './../../../commons/styles';
 import newAccountStyle from './new-account.component.style';
 
 import { AppProcessor } from '../../../processors';
-import { iosConstant } from '../../../configs/ios/ios.config';
+import { iosConstant, iosConfig } from '../../../configs/ios/ios.config';
 import { config } from '../../../configs';
 import { Actions } from 'react-native-router-flux';
 const helper = require('../../../utils/helper');
@@ -55,12 +55,12 @@ export class NewAccountComponent extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={newAccountStyle.body}>
+      <View style={newAccountStyle.body}>
         <StatusBar hidden={false} />
         <View style={newAccountStyle.main}>
           <Swiper activeDotColor='#0060F2'
             scrollEnabled={this.state.scrollEnabled}
-            showsPagination={this.state.showPagination} style={newAccountStyle.swipeArea} showsButtons={false}
+            showsPagination={this.state.showPagination} showsButtons={false}
             buttonWrapperStyle={{ color: 'black' }} loop={false}
             paginationStyle={newAccountStyle.swipePagination}
             ref={swiper => this.swiper = swiper}
@@ -77,8 +77,11 @@ export class NewAccountComponent extends React.Component {
             }>
 
             {/*REGISTER ASSETS*/}
-            <View style={{ flex: 1 }}>
-              <View style={[defaultStyle.header, { backgroundColor: 'white', height: iosConstant.headerSize.height }]}>
+            <View style={[newAccountStyle.swipeArea, { paddingTop: 0 }]} >
+              <View style={[defaultStyle.header, {
+                backgroundColor: 'white', height: iosConstant.headerSize.height + (iosConfig.isIPhoneX ? 44 : 0),
+                paddingTop: iosConfig.isIPhoneX ? 44 : 0,
+              }]}>
                 <TouchableOpacity style={defaultStyle.headerLeft} onPress={Actions.pop}>
                   <Image style={defaultStyle.headerLeftIcon} source={require('../../../../assets/imgs/header_blue_icon.png')} />
                 </TouchableOpacity>
@@ -103,8 +106,8 @@ export class NewAccountComponent extends React.Component {
 
 
             {/*MANAGE YOUR PROPERTY*/}
-            <View style={{ flex: 1 }}>
-              <View style={[defaultStyle.header, { backgroundColor: 'white', height: iosConstant.headerSize.height }]} />
+            <View style={newAccountStyle.swipeArea} >
+              <View style={[defaultStyle.header, { backgroundColor: 'white', height: iosConstant.headerSize.height + (iosConfig.isIPhoneX ? 44 : 0) }]} />
               <View style={newAccountStyle.swipePage}>
                 <View style={newAccountStyle.introductionArea}>
                   <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle2")}</Text>
@@ -120,8 +123,8 @@ export class NewAccountComponent extends React.Component {
             </View>
 
             {/*ACTIONS AND HISTORY*/}
-            <View style={{ flex: 1 }}>
-              <View style={[defaultStyle.header, { backgroundColor: 'white', height: iosConstant.headerSize.height }]} />
+            <View style={newAccountStyle.swipeArea} >
+              <View style={[defaultStyle.header, { backgroundColor: 'white', height: iosConstant.headerSize.height + (iosConfig.isIPhoneX ? 44 : 0) }]} />
               <View style={newAccountStyle.swipePage}>
                 <View style={newAccountStyle.introductionArea}>
                   <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle3")}</Text>
@@ -137,8 +140,8 @@ export class NewAccountComponent extends React.Component {
             </View>
 
             {/*PUBLIC ACCOUNT NUMBER*/}
-            <View style={{ flex: 1 }}>
-              <View style={[defaultStyle.header, { backgroundColor: 'white', height: iosConstant.headerSize.height }]} />
+            <View style={newAccountStyle.swipeArea} >
+              <View style={[defaultStyle.header, { backgroundColor: 'white', height: iosConstant.headerSize.height + (iosConfig.isIPhoneX ? 44 : 0) }]} />
               <View style={newAccountStyle.swipePage}>
                 <View style={newAccountStyle.introductionArea}>
                   <Text style={[newAccountStyle.introductionTitle,]}>{global.i18n.t("PublicAccountNumberComponent_introductionTitle")}</Text>
@@ -189,7 +192,7 @@ export class NewAccountComponent extends React.Component {
             </TouchableOpacity>
           </View>}
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }

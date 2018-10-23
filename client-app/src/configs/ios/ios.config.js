@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 const currentSize = Dimensions.get('window');
 const isIPhoneX = (currentSize.height === 812);
 const windowHeight = isIPhoneX ? 812 : 667;
-const blankFooter = isIPhoneX ? 20 : 0;
+const blankFooter = isIPhoneX ? 22 : 0;
 const headerHeight = 50;
 const headerPaddingTop = 20;
 const buttonHeight = 45;

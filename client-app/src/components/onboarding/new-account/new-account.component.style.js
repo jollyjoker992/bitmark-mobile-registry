@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { convertWidth, calculateAdditionalHeight } from '../../../utils';
+import { iosConfig, iosConstant } from '../../../configs/ios/ios.config';
 
 export default StyleSheet.create({
   body: {
@@ -15,6 +16,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   swipeArea: {
+    flex: 1,
   },
   swipePage: {
     flex: 1,
@@ -34,7 +36,7 @@ export default StyleSheet.create({
   },
   swipePagination: {
     position: 'absolute',
-    bottom: 50,
+    bottom: 50 + (iosConfig.isIPhoneX ? (iosConstant.blankFooter / 2) : 0),
   },
 
   introductionArea: {
@@ -115,7 +117,7 @@ export default StyleSheet.create({
 
   skipButtonArea: {
     position: 'absolute',
-    bottom: 23,
+    bottom: 20 + (iosConfig.isIPhoneX ? (iosConstant.blankFooter / 2) : 0),
     width: '100%',
     flexDirection: 'column',
     alignItems: 'center',
@@ -146,7 +148,7 @@ export default StyleSheet.create({
   letDoItButton: {
     marginTop: 10,
     width: convertWidth(375),
-    minHeight: 45,
+    minHeight: 45 + (iosConfig.isIPhoneX ? (iosConstant.blankFooter / 2) : 0),
     flexDirection: 'row',
     alignItems: 'center',
     alignContent: 'center',
@@ -154,6 +156,7 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2',
   },
   letDoItButtonText: {
+    paddingBottom: iosConstant.blankFooter / 2,
     fontFamily: 'Avenir Black',
     textAlign: 'center',
     fontSize: 16,

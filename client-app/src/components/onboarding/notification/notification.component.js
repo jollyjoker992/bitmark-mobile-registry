@@ -6,6 +6,7 @@ import {
 import notificationStyle from './notification.component.style';
 import { NotificationService, EventEmitterService } from '../../../services';
 import { DataProcessor } from '../../../processors';
+import { iosConstant } from '../../../configs/ios/ios.config';
 
 export class NotificationComponent extends React.Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export class NotificationComponent extends React.Component {
       });
     }
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
         <View style={[notificationStyle.body]}>
           <Text style={[notificationStyle.notificationTitle]}>{global.i18n.t("NotificationComponent_notificationTitle")}</Text>
           <Text style={[notificationStyle.notificationDescription,]}>
@@ -37,13 +38,17 @@ export class NotificationComponent extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity style={[notificationStyle.enableButton, {
             backgroundColor: '#F2FAFF',
+            height: 45 + (iosConstant.blankFooter / 2)
           }]} onPress={() => {
             EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, true);
           }}>
-            <Text style={[notificationStyle.enableButtonText, { color: '#0060F2' }]}>{global.i18n.t("NotificationComponent_later")}</Text>
+            <Text style={[notificationStyle.enableButtonText, {
+              color: '#0060F2',
+              paddingBottom: (iosConstant.blankFooter / 2)
+            }]}>{global.i18n.t("NotificationComponent_later")}</Text>
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }

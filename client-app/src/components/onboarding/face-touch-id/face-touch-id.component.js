@@ -73,7 +73,7 @@ export class FaceTouchIdComponent extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
         <View style={[faceTouchIdStyle.body]}>
           <Text style={[faceTouchIdStyle.faceTouchIdTitle]}>{global.i18n.t("FaceTouchIdComponent_faceTouchIdTitle")}</Text>
           <Text style={[faceTouchIdStyle.faceTouchIdDescription,]}>
@@ -107,7 +107,7 @@ export class FaceTouchIdComponent extends React.Component {
           </TouchableOpacity>
         </View>
 
-      </SafeAreaView>
+      </View>
     );
   }
 }

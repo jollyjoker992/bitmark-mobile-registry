@@ -82,7 +82,7 @@ export { config, ios, android };
 
 // testnet
 // code-push release-react Bitmark-Registry ios --pre "Bitmark Registry dev" --mandatory true  --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map"
-// code-push release-react Bitmark-Registry ios --pre "Bitmark dev" -m --description "update code" --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.1.1.map" [--targetBinaryVersion "~1.1.1"]
+// code-push release-react dungle_bitmark/Bitmark-Registry ios --pre "Bitmark dev" -m --description "update code" --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.0.8.map" [--targetBinaryVersion "~1.1.1"]
 
 // livetnet
 // code-push release-react Bitmark-Registry ios -d Production --mandatory true --sourcemapOutput "source-map-tool/source-map/live/main.jsbundle_1.1.1.map"
@@ -93,4 +93,4 @@ export { config, ios, android };
 // react-native run-ios --device "iPhone 5 testing" --scheme 'Bitmark dev'
 
 
-// code-push release-react dungle_bitmark/Bitmark-Registry ios --pre "Bitmark dev" --mandatory true  --sourcemapOutput "source-map-tool/source-map/test/main.jsbundle_1.0.4.map"
+// code-push release-react dungle_bitmark/Bitmark-Registry ios --pre "Bitmark Registry dev" --mandatory true  --sourcemapOutput "tools/source-map-tool/source-map/test/main.jsbundle_1.0.8.map" --plistFile=/Users/binle/Workspace/src/github.com/bitmark-inc/bitmark-mobile-registry/client-app/ios/Bitmark/Info-dev.plist

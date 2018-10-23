@@ -45,7 +45,7 @@ export class RecoveryPhraseComponent extends React.Component {
           {isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>{global.i18n.t("RecoveryPhraseComponent_recoveryDescription2")}</Text>}
         </ScrollView>
         <TouchableOpacity style={accountRecoveryStyle.recoveryPhraseBottomButton} onPress={() => recoveryPhrase()}>
-          <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{global.i18n.t("RecoveryPhraseComponent_writeDownRecoveryPhrase")}</Text>
+          <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{isSignOut ? global.i18n.t("RecoveryPhraseComponent_writeDownRecoveryPhrase2") : global.i18n.t("RecoveryPhraseComponent_writeDownRecoveryPhrase1")}</Text>
         </TouchableOpacity>
       </SafeAreaView>
 

@@ -14,6 +14,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
   welcomeLogo: {
     width: 285,
@@ -33,10 +34,7 @@ export default StyleSheet.create({
     paddingBottom: 10,
     height: 45,
     width: convertWidth(375),
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'center',
+    flexDirection: 'row', alignItems: 'center', alignContent: 'center', justifyContent: 'center',
     backgroundColor: '#0060F2',
   },
   welcomeButtonText: {
