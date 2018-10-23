@@ -363,7 +363,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 10,
+    borderWidth: 1,
   },
   issueButtonText: {
     fontFamily: 'Avenir Black',
