@@ -13,6 +13,7 @@ import BitmarkSDK
 struct KeychainUtil {
 
   private static let bitmarkSeedCoreKey = "bitmark_core"
+  private static let bitmarkSeedCoreWithoutAuthenticartion = "bitmark_core_no_authentication"
   private static let authenticationKey = "authentication"
   private static let versionKey = "bitmark_account_version"
   
@@ -60,7 +61,7 @@ struct KeychainUtil {
       UserDefaults().set(version, forKey: versionKey)
     }
     try getKeychain(reason: NSLocalizedString("info_plist_touch_face_id", comment: ""), authentication: authentication)
-      .set(core, key: bitmarkSeedCoreKey)
+      .set(core, key: bitmarkSeedCoreKey(authentication: authentication))
   }
   
   static func getCore(reason: String) throws -> Data? {
@@ -68,7 +69,7 @@ struct KeychainUtil {
       UserDefaults().bool(forKey: authenticationKey)
     }
     return try getKeychain(reason: reason, authentication: authentication)
-      .getData(bitmarkSeedCoreKey)
+      .getData(bitmarkSeedCoreKey(authentication: authentication))
   }
   
   static func clearCore() throws {
@@ -76,7 +77,7 @@ struct KeychainUtil {
       return UserDefaults().bool(forKey: authenticationKey)
     }
     try getKeychain(reason: "Bitmark app would like to remove your account from keychain.", authentication: authentication)
-      .remove(bitmarkSeedCoreKey)
+      .remove(bitmarkSeedCoreKey(authentication: authentication))
     DispatchQueue.main.sync {
       UserDefaults().removeObject(forKey: authenticationKey)
     }
@@ -94,6 +95,14 @@ struct KeychainUtil {
       }
     } else {
       return SeedVersion.v1
+    }
+  }
+  
+  static func bitmarkSeedCoreKey(authentication: Bool) -> String {
+    if authentication {
+      return bitmarkSeedCoreWithoutAuthenticartion
+    } else {
+      return bitmarkSeedCoreKey
     }
   }
 }
