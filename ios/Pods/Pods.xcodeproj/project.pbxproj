@@ -1819,6 +1819,22 @@
 			};
 			name = Debug;
 		};
+		73ACCA04BA7F0000F07561FEBABDE5DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/HockeySDK";
+				INFOPLIST_FILE = "Target Support Files/HockeySDK/ResourceBundle-HockeySDKResources-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PRODUCT_NAME = HockeySDKResources;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
 		79159B6D43ECB5CE6F0A489B5DDF55F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4229A980AF7381B2AD867437442B123 /* Pods-BitmarkTests.debug.xcconfig */;
@@ -2051,22 +2067,6 @@
 			};
 			name = Release;
 		};
-		C5336B9BE99952F77B51648A326E1FA2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/HockeySDK";
-				INFOPLIST_FILE = "Target Support Files/HockeySDK/ResourceBundle-HockeySDKResources-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = HockeySDKResources;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		D12960F3F82B8DCFC356B6E72A616F4D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C5FFC4349A2809E83F606C3ACDAF4DBC /* KeychainAccess.xcconfig */;
@@ -2099,13 +2099,13 @@
 			};
 			name = Debug;
 		};
-		D3D51099605B54EDECECAC621ACA1F7D /* Debug */ = {
+		D521DF85A1FBC90A5BD76522C1863CEE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/HockeySDK";
 				INFOPLIST_FILE = "Target Support Files/HockeySDK/ResourceBundle-HockeySDKResources-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				PRODUCT_NAME = HockeySDKResources;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -2113,7 +2113,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = bundle;
 			};
-			name = Debug;
+			name = Release;
 		};
 		D7839946924E81CC86397EEC57C35CB5 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -2265,8 +2265,8 @@
 		0FC2FABFCFEBF498AF80B6AE02C030A5 /* Build configuration list for PBXNativeTarget "HockeySDK-HockeySDKResources" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D3D51099605B54EDECECAC621ACA1F7D /* Debug */,
-				C5336B9BE99952F77B51648A326E1FA2 /* Release */,
+				73ACCA04BA7F0000F07561FEBABDE5DD /* Debug */,
+				D521DF85A1FBC90A5BD76522C1863CEE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
