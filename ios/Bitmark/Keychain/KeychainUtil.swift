@@ -100,9 +100,9 @@ struct KeychainUtil {
   
   static func bitmarkSeedCoreKey(authentication: Bool) -> String {
     if authentication {
-      return bitmarkSeedCoreWithoutAuthenticartion
-    } else {
       return bitmarkSeedCoreKey
+    } else {
+      return bitmarkSeedCoreWithoutAuthenticartion
     }
   }
 }
