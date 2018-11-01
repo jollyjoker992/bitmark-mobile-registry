@@ -1015,7 +1015,7 @@ const doMetricOnScreen = async (isActive) => {
     if (offScreenAt && offScreenAt > onScreenAt) {
       let userInfo = userInformation || await UserModel.doTryGetCurrentUser() || {};
 
-      let totalOnScreenAtPreTime = (offScreenAt - onScreenAt) / (1000 * 60);
+      let totalOnScreenAtPreTime = Math.floor((offScreenAt - onScreenAt) / (1000 * 60));
       await CommonModel.doTrackEvent({
         event_name: 'registry_screen_time',
         account_number: userInfo ? userInfo.bitmarkAccountNumber : null,
@@ -1024,9 +1024,7 @@ const doMetricOnScreen = async (isActive) => {
         });
     }
     appInfo.onScreenAt = moment().toDate().getTime();
-    appInfo.offScreenAt = null;
   } else {
-    appInfo.onScreenAt = null;
     appInfo.offScreenAt = moment().toDate().getTime();
   }
   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
