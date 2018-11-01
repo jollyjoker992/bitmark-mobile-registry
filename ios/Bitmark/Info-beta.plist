@@ -35,6 +35,8 @@
 	<string>1</string>
 	<key>CodePushDeploymentKey</key>
 	<string>CGnP-G4I33angJRWeHM-6O3yPtwHS1KHiyySm</string>
+  <key>HockeyAppID</key>
+  <string>449036e667e04de3bb01aa3e7ffa93a5</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

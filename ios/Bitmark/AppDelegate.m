@@ -41,8 +41,11 @@
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
   
 #ifdef HOCKEYAPP
-  [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"199d6639d33b4fc0ba89d73f181447d7"];
-  [[BITHockeyManager sharedHockeyManager].updateManager setUpdateSetting:BITUpdateCheckManually];
+  NSString *hockeyAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"HockeyAppID"];
+  [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:hockeyAppID];
+#ifdef HOCKEYAPP_UPDATE
+  [[BITHockeyManager sharedHockeyManager].updateManager setUpdateSetting:BITUpdateCheckStartup];
+#endif
   [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus: BITCrashManagerStatusAutoSend];
   [[BITHockeyManager sharedHockeyManager] startManager];
   [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
