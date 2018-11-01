@@ -37,15 +37,6 @@ const doCheckTransferOffers = async (transferOffers, isLoadingAllUserData) => {
 
 const doCheckNewIftttInformation = async (iftttInformation, isLoadingAllUserData) => {
   if (iftttInformation) {
-
-    let oldIftttInformation = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_IFTTT_INFORMATION);
-    if ((!oldIftttInformation || !oldIftttInformation.connectIFTTT) && (iftttInformation && iftttInformation.connectIFTTT)) {
-      await CommonModel.doTrackEvent({
-        event_name: 'registry_user_connected_ifttt',
-        account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
-      });
-    }
-
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_IFTTT_INFORMATION, iftttInformation);
 
     let accountStoreState = merge({}, AccountStore.getState().data);
@@ -292,6 +283,13 @@ const runOnBackground = async () => {
     accountStoreState.userInformation = userInformation;
     AccountStore.dispatch(AccountActions.init(accountStoreState));
   }
+
+  let appInfo = await doGetAppInformation();
+  appInfo = appInfo || {};
+  appInfo.onScreenAt = appInfo.onScreenAt || moment().toDate().getTime();
+  appInfo.offScreenAt = moment().toDate().getTime();
+  await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
+
   if (userInformation && userInformation.bitmarkAccountNumber) {
     let runParallel = () => {
       return new Promise((resolve) => {
@@ -366,10 +364,6 @@ const configNotification = () => {
       if (!userInformation || !userInformation.bitmarkAccountNumber) {
         userInformation = await UserModel.doGetCurrentUser();
       }
-      await CommonModel.doTrackEvent({
-        event_name: 'registry_user_click_notification',
-        account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
-      });
       setTimeout(async () => {
         EventEmitterService.emit(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, notificationData.data);
       }, 1000);
@@ -409,6 +403,12 @@ const doCreateAccount = async (touchFaceIdSession) => {
   let userInformation = await AccountService.doGetCurrentAccount(touchFaceIdSession);
   let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
   await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+
+  await CommonModel.doTrackEvent({
+    event_name: 'registry_create_new_account',
+    account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
+  });
+
   return userInformation;
 };
 
@@ -458,28 +458,9 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 
 const doOpenApp = async () => {
   userInformation = await UserModel.doTryGetCurrentUser();
-  await CommonModel.doTrackEvent({
-    event_name: 'registry_open',
-    account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
-  });
 
   let appInfo = await doGetAppInformation();
   appInfo = appInfo || {};
-
-  if (appInfo.trackEvents && appInfo.trackEvents.app_user_allow_notification) {
-    let result = await NotificationService.doCheckNotificationPermission();
-
-    if (result && !result.alert && !result.badge && !result.sound &&
-      (!appInfo.trackEvents || !appInfo.trackEvents.app_user_turn_off_notification)) {
-      appInfo.trackEvents = appInfo.trackEvents || {};
-      appInfo.trackEvents.app_user_turn_off_notification = true;
-      await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
-      await CommonModel.doTrackEvent({
-        event_name: 'registry_user_turn_off_notification',
-        account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
-      });
-    }
-  }
 
   if (!appInfo.trackEvents || !appInfo.trackEvents.app_download) {
     let appInfo = await doGetAppInformation();
@@ -732,6 +713,19 @@ const doRejectTransferBitmark = async (touchFaceIdSession, transferOffer, ) => {
 
 const doIssueFile = async (touchFaceIdSession, filePath, assetName, metadataList, quantity, isPublicAsset) => {
   let result = await BitmarkService.doIssueFile(touchFaceIdSession, filePath, assetName, metadataList, quantity, isPublicAsset);
+
+  let appInfo = await doGetAppInformation();
+  appInfo = appInfo || {};
+  if (appInfo && (!appInfo.lastTimeIssued ||
+    (appInfo.lastTimeIssued && (appInfo.lastTimeIssued - moment().toDate().getTime()) > 7 * 24 * 60 * 60 * 1000))) {
+    await CommonModel.doTrackEvent({
+      event_name: 'registry_weekly_active_user',
+      account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
+    });
+    appInfo.lastTimeIssued = moment().toDate().getTime();
+    await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
+  }
+
   await runGetLocalBitmarksInBackground();
   return result;
 };
@@ -1002,10 +996,6 @@ const doMarkRequestedNotification = async (result) => {
     await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 
     userInformation = userInformation || (await UserModel.doTryGetCurrentUser());
-    await CommonModel.doTrackEvent({
-      event_name: 'registry_user_allow_notification',
-      account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
-    });
   }
 }
 const doRemoveTestRecoveryPhaseActionRequiredIfAny = async () => {
@@ -1014,6 +1004,32 @@ const doRemoveTestRecoveryPhaseActionRequiredIfAny = async () => {
     await helper.removeTestWriteRecoveryPhaseActionRequired();
     await doGenerateTransactionActionRequiredData();
   }
+};
+
+const doMetricOnScreen = async (isActive) => {
+  let appInfo = await doGetAppInformation();
+  appInfo = appInfo || {};
+  let onScreenAt = appInfo.onScreenAt;
+  let offScreenAt = appInfo.offScreenAt;
+  if (isActive && onScreenAt && offScreenAt) {
+    if (offScreenAt && offScreenAt > onScreenAt) {
+      let userInfo = userInformation || await UserModel.doTryGetCurrentUser() || {};
+
+      let totalOnScreenAtPreTime = (offScreenAt - onScreenAt) / (1000 * 60);
+      await CommonModel.doTrackEvent({
+        event_name: 'registry_screen_time',
+        account_number: userInfo ? userInfo.bitmarkAccountNumber : null,
+      }, {
+          hit: totalOnScreenAtPreTime
+        });
+    }
+    appInfo.onScreenAt = moment().toDate().getTime();
+    appInfo.offScreenAt = null;
+  } else {
+    appInfo.onScreenAt = null;
+    appInfo.offScreenAt = moment().toDate().getTime();
+  }
+  await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 };
 
 const DataProcessor = {
@@ -1062,6 +1078,7 @@ const DataProcessor = {
   getUserInformation,
   isAppLoadingData: () => isLoadingData,
   doAddMoreAssets,
+  doMetricOnScreen,
 };
 
 export { DataProcessor };

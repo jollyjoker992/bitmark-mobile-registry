@@ -77,10 +77,6 @@ export class LocalIssueFileComponent extends React.Component {
       indicator: true, title: '', message: global.i18n.t("LocalIssueFileComponent_issueMessage")
     }).then((data) => {
       if (data) {
-        CommonModel.doTrackEvent({
-          event_name: 'registry_user_done_issuance',
-          account_number: DataProcessor.getUserInformation().bitmarkAccountNumber,
-        });
         // Remove temp asset file
         FileUtil.removeSafe(this.state.filePath);
         Alert.alert(global.i18n.t("LocalIssueFileComponent_success"), global.i18n.t("LocalIssueFileComponent_successMessage"), [{

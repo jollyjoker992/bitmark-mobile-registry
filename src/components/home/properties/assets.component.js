@@ -50,10 +50,6 @@ class PrivateAssetsComponent extends React.Component {
   }
 
   addProperty() {
-    CommonModel.doTrackEvent({
-      event_name: 'registry_user_want_issue',
-      account_number: DataProcessor.getUserInformation().bitmarkAccountNumber,
-    });
     Actions.issuanceOptions();
   }
 

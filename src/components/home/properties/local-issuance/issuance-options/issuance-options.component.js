@@ -27,10 +27,6 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
   // ==========================================================================================
 
   onChoosePhotoFile() {
-    CommonModel.doTrackEvent({
-      event_name: 'registry_user_want_issue_photo',
-      account_number: DataProcessor.getUserInformation().bitmarkAccountNumber,
-    });
     let options = {
       title: '',
       takePhotoButtonTitle: null,
@@ -43,30 +39,17 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
       if (response.error || response.didCancel) {
         return;
       }
-      CommonModel.doTrackEvent({
-        event_name: 'registry_user_chosen_photo_for_issuance',
-        account_number: DataProcessor.getUserInformation().bitmarkAccountNumber,
-      });
       this.prepareToIssue(response);
     });
   }
 
   onChooseFile() {
-    CommonModel.doTrackEvent({
-      event_name: 'registry_user_want_issue_file',
-      account_number: DataProcessor.getUserInformation().bitmarkAccountNumber,
-
-    });
     DocumentPicker.show({
       filetype: [DocumentPickerUtil.allFiles(), "public.data"],
     }, (error, response) => {
       if (error) {
         return;
       }
-      CommonModel.doTrackEvent({
-        event_name: 'registry_user_chosen_file_for_issuance',
-        account_number: DataProcessor.getUserInformation().bitmarkAccountNumber,
-      });
       this.prepareToIssue(response);
     });
   }

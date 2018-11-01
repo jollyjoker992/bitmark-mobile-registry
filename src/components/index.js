@@ -85,7 +85,7 @@ class MainEventsHandlerComponent extends Component {
 
   handerProcessingEvent(processing) {
     let processingCount = this.state.processingCount + (processing ? 1 : -1);
-    processingCount = processingCount < 0 ? 0: processingCount;
+    processingCount = processingCount < 0 ? 0 : processingCount;
     this.setState({ processingCount });
 
     if (processingCount === 1) {
@@ -253,7 +253,11 @@ class MainEventsHandlerComponent extends Component {
       } else {
         i18n.locale = DeviceInfo.getDeviceLocale();
       }
+      runPromiseWithoutError(DataProcessor.doMetricOnScreen(true));
       this.doTryConnectInternet();
+    }
+    if (nextAppState.match(/background/)) {
+      runPromiseWithoutError(DataProcessor.doMetricOnScreen(false));
     }
     this.appState = nextAppState;
   }
