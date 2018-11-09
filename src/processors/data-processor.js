@@ -10,7 +10,7 @@ import {
   AccountService,
 } from "../services";
 import { CommonModel, AccountModel, UserModel, BitmarkSDK, IftttModel, BitmarkModel, NotificationModel } from '../models';
-import { FileUtil } from '../utils';
+import { FileUtil, runPromiseWithoutError } from '../utils';
 import { config } from '../configs';
 import {
   AssetsStore, AssetsActions,
@@ -24,6 +24,23 @@ const helper = require('../utils/helper');
 
 let userInformation = {};
 let isLoadingData = false;
+let didMigrationFileToLocalStorage = false;
+
+// ================================================================================================================================================
+const detectLocalAssetFilePath = async (assetId) => {
+  let assetFolderPath = `${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${assetId}`;
+  let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
+  if (!existAssetFolder || existAssetFolder.error) {
+    return null;
+  }
+  let downloadedFolder = `${assetFolderPath}/downloaded`;
+  let existDownloadedFolder = await runPromiseWithoutError(FileUtil.exists(downloadedFolder));
+  if (!existDownloadedFolder || existDownloadedFolder.error) {
+    return null;
+  }
+  let list = await FileUtil.readDir(`${assetFolderPath}/downloaded`);
+  return `${assetFolderPath}/downloaded/${list[0]}`;
+};
 // ================================================================================================================================================
 
 const doCheckTransferOffers = async (transferOffers, isLoadingAllUserData) => {
@@ -79,6 +96,10 @@ const doCheckNewTransactions = async (transactions) => {
 };
 const doCheckNewBitmarks = async (localAssets) => {
   if (localAssets) {
+    for (let asset of localAssets) {
+      asset.filePath = await detectLocalAssetFilePath(asset.id);
+    }
+
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS, localAssets);
 
     let totalBitmarks = 0;
@@ -679,7 +700,8 @@ const doIssueIftttData = async (touchFaceIdSession, iftttBitmarkFile) => {
   if (downloadResult.statusCode >= 400) {
     throw new Error('Download file error!');
   }
-  await BitmarkModel.doIssueFile(touchFaceIdSession, filePath, iftttBitmarkFile.assetInfo.propertyName, iftttBitmarkFile.assetInfo.metadata, 1);
+  await BitmarkService.doIssueFile(touchFaceIdSession, filePath, iftttBitmarkFile.assetInfo.propertyName, iftttBitmarkFile.assetInfo.metadata, 1);
+
   let iftttInformation = await IftttModel.doRemoveBitmarkFile(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id);
   await doCheckNewIftttInformation(iftttInformation);
   return iftttInformation;
@@ -1030,6 +1052,67 @@ const doMetricOnScreen = async (isActive) => {
   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 };
 
+const doMigrateFilesToLocalStorage = async (touchFaceIdSession) => {
+  await runGetLocalBitmarksInBackground();
+
+  let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
+  let result = await AccountModel.doRegisterJWT(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  let jwt = result.jwt_token;
+
+  let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
+  let total = 0;
+  let existPending = false;
+  for (let asset of localAssets) {
+    let assetFolderPath = `${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}`;
+    let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
+    let needDownload = false;
+    if (!existAssetFolder || existAssetFolder.error) {
+      needDownload = true;
+    } else {
+      let list = await FileUtil.readDir(assetFolderPath);
+      if (list.length === 0) {
+        needDownload = true;
+      } else {
+        needDownload =
+          (list.findIndex(filename => filename.startsWith('downloading')) >= 0) ||
+          (list.findIndex(filename => filename.startsWith('downloaded')) < 0);
+      }
+    }
+
+    if (needDownload) {
+      await FileUtil.mkdir(assetFolderPath);
+      let downloadingFolderPath = `${assetFolderPath}/downloading`;
+      await FileUtil.mkdir(downloadingFolderPath);
+      let bitmark = asset.bitmarks.find(bitmark => bitmark.status === 'confirmed');
+      if (bitmark) {
+        await BitmarkSDK.downloadBitmark(touchFaceIdSession, bitmark.id, downloadingFolderPath);
+        let listDownloadFile = await FileUtil.readDir(downloadingFolderPath);
+        let filePathAfterDownloading = `${downloadingFolderPath}/${listDownloadFile[0]}`;
+
+        let downloadedFolderPath = `${assetFolderPath}/downloaded`;
+        await FileUtil.mkdir(downloadedFolderPath);
+        let downloadedFilePath = `${downloadedFolderPath}${filePathAfterDownloading.substring(filePathAfterDownloading.lastIndexOf('/'), filePathAfterDownloading.length)}`;
+        await FileUtil.moveFileSafe(filePathAfterDownloading, downloadedFilePath);
+        await FileUtil.removeSafe(downloadingFolderPath);
+
+        asset.filePath = `${downloadedFilePath}`;
+      } else {
+        existPending = true;
+      }
+    } else {
+      let list = await FileUtil.readDir(`${assetFolderPath}/downloaded`);
+      asset.filePath = `${assetFolderPath}/downloaded/${list[0]}`;
+    }
+    EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT, Math.floor(total * 100 / bitmarks.length));
+    total++;
+  }
+  await doCheckNewBitmarks(localAsset);
+  EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT, 100);
+
+  await AccountModel.doMarkMigration(jwt);
+  didMigrationFileToLocalStorage = true;
+};
+
 const DataProcessor = {
   doOpenApp,
   doCreateAccount,
@@ -1077,6 +1160,8 @@ const DataProcessor = {
   isAppLoadingData: () => isLoadingData,
   doAddMoreAssets,
   doMetricOnScreen,
+
+  doMigrateFilesToLocalStorage,
 };
 
 export { DataProcessor };

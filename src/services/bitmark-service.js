@@ -127,12 +127,38 @@ const doCheckMetadata = (metadataList) => {
 
 const doIssueFile = async (touchFaceIdSession, filePath, assetName, metadataList, quantity, isPublicAsset) => {
   let metadata = {};
-  metadataList.forEach(item => {
-    if (item.label && item.value) {
-      metadata[item.label] = item.value;
-    }
-  });
-  return await BitmarkModel.doIssueFile(touchFaceIdSession, filePath, assetName, metadata, quantity, isPublicAsset);
+  if (Array.isArray(metadataList)) {
+    metadataList.forEach(item => {
+      if (item.label && item.value) {
+        metadata[item.label] = item.value;
+      }
+    });
+  } else {
+    metadata = metadataList
+  }
+
+  let tempFolder = `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}/assets/temp_${randomString({ length: 8, numeric: true, letters: false, }) + moment().toDate().getTime()}`;
+  let tempFolderDownloaded = `${tempFolder}/downloaded`;
+  await FileUtil.mkdir(tempFolder);
+  await FileUtil.mkdir(tempFolderDownloaded);
+
+  let issueResult = await BitmarkModel.doIssueFile(touchFaceIdSession, tempFolderDownloaded, filePath, assetName, metadata, quantity, isPublicAsset);
+
+  let assetFolderPath = `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}/assets/${issueResult.assetId}`;
+  let downloadedFolder = `${assetFolderPath}/downloaded`;
+  await FileUtil.mkdir(assetFolderPath);
+  await FileUtil.mkdir(downloadedFolder);
+  let list = await FileUtil.readDir(tempFolderDownloaded);
+  for (let filename of list) {
+    await FileUtil.moveFile(`${tempFolderDownloaded}/${filename}`, `${downloadedFolder}/${filename}`);
+  }
+  await FileUtil.removeSafe(tempFolder);
+
+  let sessionAssetFolder = `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}/assets-session-data/${issueResult.assetId}`;
+  await FileUtil.mkdir(sessionAssetFolder);
+  await FileUtil.create(`${sessionAssetFolder}/session_data.txt`, JSON.stringify(issueResult.sessionData));
+
+  return issueResult;
 };
 
 const doGetBitmarkInformation = async (bitmarkId) => {
