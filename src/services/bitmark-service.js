@@ -1,6 +1,9 @@
 import moment from 'moment';
 import { merge } from 'lodash';
 import { BitmarkModel, CommonModel, BitmarkSDK } from "../models";
+import { config } from '../configs';
+import { FileUtil } from '../utils';
+import randomString from "random-string";
 
 // ================================================================================================
 // ================================================================================================
@@ -125,7 +128,7 @@ const doCheckMetadata = (metadataList) => {
   });
 };
 
-const doIssueFile = async (touchFaceIdSession, filePath, assetName, metadataList, quantity, isPublicAsset) => {
+const doIssueFile = async (touchFaceIdSession, bitmarkAccountNumber, filePath, assetName, metadataList, quantity, isPublicAsset) => {
   let metadata = {};
   if (Array.isArray(metadataList)) {
     metadataList.forEach(item => {
@@ -259,18 +262,81 @@ const doDecentralizedIssuance = async (touchFaceIdSession, bitmarkAccountNumber,
   }
 };
 
-const doDecentralizedTransfer = async (touchFaceIdSession, bitmarkAccountNumber, token) => {
-  let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
-  let info = await BitmarkModel.doGetInfoInfoOfDecentralizedTransfer(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, token);
-  let bitmarkId = info.bitmark_id;
-  let receiver = info.receiver;
+const doTransferBitmark = async (touchFaceIdSession, bitmarkId, receiver) => {
+  return await BitmarkSDK.transferOneSignature(touchFaceIdSession, bitmarkId, receiver);
+};
+
+const doDecentralizedTransfer = async (touchFaceIdSession, bitmarkAccountNumber, token, bitmarkId, receiver) => {
   try {
     let result = await BitmarkSDK.transferOneSignature(touchFaceIdSession, bitmarkId, receiver);
+    let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
     await BitmarkModel.doUpdateStatusForDecentralizedTransfer(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, token, 'success');
     return result;
   } catch (error) {
+    let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
     await BitmarkModel.doUpdateStatusForDecentralizedTransfer(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, token, 'failed');
     throw error;
+  }
+};
+
+const uploadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNumber, assetId, receiver, filePath, ) => {
+  let sessionDataFile = `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}/assets-session-data/${assetId}/session_data.txt`;
+  let exist = await FileUtil.exists(sessionDataFile);
+  if (exist) {
+    let sessionData = await FileUtil.readFile(sessionDataFile);
+    sessionData = sessionData ? JSON.parse(sessionData) : null;
+    if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
+
+      let message = `${sessionData.data_key_alg}|${sessionData.data_key_alg}|*`;
+      let signature = (await CommonModel.doTryRickSignMessage([message], touchFaceIdSession))[0];
+      await FileUtil.uploadFile({
+        toUrl: `${config.file_courier_server}/${assetId}/${receiver}`,
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+          requester: bitmarkAccountNumber,
+          signature
+        },
+        fields: {
+          data_key_alg: sessionData.data_key_alg,
+          enc_data_key: sessionData.enc_data_key,
+          orig_content_type: '*',
+        },
+        files: [{
+          name: 'file',
+          filename: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length),
+          filepath: filePath,
+        }]
+      })
+    }
+  }
+};
+
+const downloadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNumber, assetId, receiver, filePath, ) => {
+  let sessionDataFile = `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}/assets-session-data/${assetId}/session_data.txt`;
+  let exist = await FileUtil.exists(sessionDataFile);
+  if (exist) {
+    let sessionData = await FileUtil.readFile(sessionDataFile);
+    sessionData = sessionData ? JSON.parse(sessionData) : null;
+    if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
+
+      let signature = (await CommonModel.doTryRickSignMessage([assetId], touchFaceIdSession))[0];
+      let response = await FileUtil.downloadFile({
+        fromUrl: `${config.file_courier_server}/${assetId}/${receiver}`,
+        toFile: filePath,
+        method: 'GET',
+        headers: {
+          requester: bitmarkAccountNumber,
+          signature
+        },
+      });
+      return {
+        data_key_alg: response.headers['Data-Key-Alg'],
+        enc_data_key: response.headers['Enc-Data-Key'],
+        filename: 'File-Name',
+      }
+    }
   }
 };
 
@@ -281,12 +347,17 @@ let BitmarkService = {
   doCheckFileToIssue,
   doCheckMetadata,
   doIssueFile,
+  doTransferBitmark,
   doGetBitmarkInformation,
   doGetTrackingBitmarks,
   doGetProvenance,
   doConfirmWebAccount,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
+
+  uploadFileToCourierServer,
+  downloadFileToCourierServer,
+
 };
 
 export { BitmarkService };

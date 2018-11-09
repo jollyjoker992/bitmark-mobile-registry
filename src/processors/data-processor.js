@@ -716,7 +716,7 @@ const doIssueIftttData = async (touchFaceIdSession, iftttBitmarkFile) => {
   if (downloadResult.statusCode >= 400) {
     throw new Error('Download file error!');
   }
-  await BitmarkService.doIssueFile(touchFaceIdSession, filePath, iftttBitmarkFile.assetInfo.propertyName, iftttBitmarkFile.assetInfo.metadata, 1);
+  await BitmarkService.doIssueFile(touchFaceIdSession, userInformation.bitmarkAccountNumber, filePath, iftttBitmarkFile.assetInfo.propertyName, iftttBitmarkFile.assetInfo.metadata, 1);
 
   let iftttInformation = await IftttModel.doRemoveBitmarkFile(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id);
   await doCheckNewIftttInformation(iftttInformation);
@@ -750,7 +750,7 @@ const doRejectTransferBitmark = async (touchFaceIdSession, transferOffer, ) => {
 };
 
 const doIssueFile = async (touchFaceIdSession, filePath, assetName, metadataList, quantity, isPublicAsset) => {
-  let result = await BitmarkService.doIssueFile(touchFaceIdSession, filePath, assetName, metadataList, quantity, isPublicAsset);
+  let result = await BitmarkService.doIssueFile(touchFaceIdSession, userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, quantity, isPublicAsset);
 
   let appInfo = await doGetAppInformation();
   appInfo = appInfo || {};
@@ -769,9 +769,18 @@ const doIssueFile = async (touchFaceIdSession, filePath, assetName, metadataList
 };
 
 const doTransferBitmark = async (touchFaceIdSession, bitmarkId, receiver) => {
-  let result = await TransactionService.doTransferBitmark(touchFaceIdSession, bitmarkId, receiver);
+  let { asset } = await doGetLocalBitmarkInformation(bitmarkId);
+  let result = await BitmarkService.doTransferBitmark(touchFaceIdSession, bitmarkId, receiver);
   await doReloadTransferOffers();
   await runGetLocalBitmarksInBackground();
+
+
+  let localAssets = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS);
+  let currentAsset = localAssets.find(la => la.id === asset.id);
+  if (!currentAsset) {
+    // TODO
+    await FileUtil.removeSafe(`${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}`);
+  }
   return result;
 };
 
@@ -1019,7 +1028,20 @@ const doDecentralizedIssuance = async (touchFaceIdSession, token, encryptionKey)
 };
 
 const doDecentralizedTransfer = async (touchFaceIdSession, token, ) => {
-  let result = await BitmarkService.doDecentralizedTransfer(touchFaceIdSession, userInformation.bitmarkAccountNumber, token);
+  let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
+  let info = await BitmarkModel.doGetInfoInfoOfDecentralizedTransfer(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, token);
+  let bitmarkId = info.bitmark_id;
+  let receiver = info.receiver;
+
+  let { asset } = await doGetLocalBitmarkInformation(bitmarkId);
+  let result = await BitmarkService.doDecentralizedTransfer(touchFaceIdSession, userInformation.bitmarkAccountNumber, token, bitmarkId, receiver);
+
+  let localAssets = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS);
+  let currentAsset = localAssets.find(la => la.id === asset.id);
+  if (!currentAsset) {
+    // TODO
+    await FileUtil.removeSafe(`${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}`);
+  }
   return result;
 };
 
@@ -1071,13 +1093,8 @@ const doMetricOnScreen = async (isActive) => {
 const doMigrateFilesToLocalStorage = async (touchFaceIdSession) => {
   await runGetLocalBitmarksInBackground();
 
-  let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
-  let result = await AccountModel.doRegisterJWT(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
-  let jwt = result.jwt_token;
-
   let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
   let total = 0;
-  let existPending = false;
   for (let asset of localAssets) {
     let assetFolderPath = `${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}`;
     let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
@@ -1112,14 +1129,12 @@ const doMigrateFilesToLocalStorage = async (touchFaceIdSession) => {
         await FileUtil.removeSafe(downloadingFolderPath);
 
         asset.filePath = `${downloadedFilePath}`;
-      } else {
-        existPending = true;
       }
     } else {
       let list = await FileUtil.readDir(`${assetFolderPath}/downloaded`);
       asset.filePath = `${assetFolderPath}/downloaded/${list[0]}`;
     }
-    EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT, Math.floor(total * 100 / bitmarks.length));
+    EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT, Math.floor(total * 100 / localAssets.length));
     total++;
   }
   await doCheckNewBitmarks(localAssets);

@@ -195,10 +195,6 @@ const doGetAllTransferOffers = async (accountNumber) => {
   };
 };
 
-const doTransferBitmark = async (touchFaceIdSession, bitmarkId, receiver) => {
-  return await BitmarkSDK.transferOneSignature(touchFaceIdSession, bitmarkId, receiver);
-};
-
 const doGetTransferOfferDetail = async (transferOfferId) => {
   let incomingTransferOffer = await TransferOfferModel.doGetTransferOfferDetail(transferOfferId);
   let transactionData = await BitmarkModel.doGetTransactionDetail(incomingTransferOffer.record.link);
@@ -229,7 +225,6 @@ const doCancelTransferBitmark = async (touchFaceIdSession, transferOfferId) => {
 const TransactionService = {
   doGetAllTransactions,
   doGet100Transactions,
-  doTransferBitmark,
   doGetTransferOfferDetail,
   doGetAllTransferOffers,
   doAcceptTransferBitmark,

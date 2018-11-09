@@ -36,13 +36,17 @@ const FileUtil = {
     }
     return RNFS.moveFile(sourcePath, destinationPath);
   },
-  downloadFile: async (urlDownload, filePath, headers) => {
-    const options = {
-      fromUrl: urlDownload,
-      toFile: filePath,
-      headers,
-    };
+  downloadFile: async (options) => {
     return await RNFS.downloadFile(options).promise;
+  },
+  uploadFile: async (options) => {
+    return await RNFS.uploadFile(options).promise;
+  },
+  readDir: async (folderPath) => {
+    return await RNFS.readdir(folderPath);
+  },
+  readFile: async (filePath, encoding) => {
+    return await RNFS.readFile(filePath, encoding);
   },
 
   zip: async (inputPath, outputPath) => {

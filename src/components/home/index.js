@@ -26,7 +26,7 @@ import { WebAccountSignInComponent } from './account/web-account/sign-in/sign-in
 import { IssuanceOptionsComponent } from './properties/local-issuance/issuance-options/issuance-options.component';
 import { EventEmitterService } from '../../services';
 import { AppProcessor, DataProcessor } from '../../processors';
-import { LocalStorageMigrationComponent } from './account/local-storeage-migration.component';
+import { LocalStorageMigrationComponent } from './account/local-storage-migration.component';
 
 // import PushNotification from 'react-native-push-notification';
 
@@ -61,7 +61,7 @@ export class UserRouterComponent extends Component {
     console.log('UserComponent handerReceivedNotification data :', data);
     if (data.name === 'transfer_request' && data.id) {
       AppProcessor.doGetTransferOfferDetail(data.id).then(transferOfferDetail => {
-        Actions.localPropertyTransfer({ transferOffer: transferOfferDetail, });
+        Actions.transactionDetail({ transferOffer: transferOfferDetail, });
       }).catch(console.log);
 
     } else if (data.name === 'transfer_rejected') {
