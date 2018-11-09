@@ -28,6 +28,8 @@ export default StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
     alignItems: 'center',
+    borderWidth: 1,
+    zIndex: 10,
   },
   welcomeButton: {
     paddingTop: 10,

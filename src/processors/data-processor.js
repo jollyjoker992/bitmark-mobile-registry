@@ -24,6 +24,8 @@ const helper = require('../utils/helper');
 
 let userInformation = {};
 let isLoadingData = false;
+let jwt;
+let isMigratingFileToLocalStorage = false;
 let didMigrationFileToLocalStorage = false;
 
 // ================================================================================================================================================
@@ -279,9 +281,9 @@ const runGetLocalBitmarksInBackground = (outgoingTransferOffers) => {
           lastOffset = data.lastOffset;
         }
       }
-      let localAsset = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS);
-      localAsset = recheckLocalAssets(localAsset, outgoingTransferOffers);
-      await doCheckNewBitmarks(localAsset);
+      let localAssets = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS);
+      localAssets = recheckLocalAssets(localAssets, outgoingTransferOffers);
+      await doCheckNewBitmarks(localAssets);
     };
 
     doGetAllBitmarks().then(() => {
@@ -477,7 +479,7 @@ const checkAppNeedResetLocalData = async (appInfo) => {
   }
 };
 
-const doOpenApp = async () => {
+const doOpenApp = async (justCreatedBitmarkAccount) => {
   userInformation = await UserModel.doTryGetCurrentUser();
 
   let appInfo = await doGetAppInformation();
@@ -498,6 +500,21 @@ const doOpenApp = async () => {
   if (userInformation && userInformation.bitmarkAccountNumber) {
     configNotification();
     await checkAppNeedResetLocalData(appInfo);
+
+    let signatureData = await CommonModel.doCreateSignatureData(CommonModel.getFaceTouchSessionId());
+    let result = await AccountModel.doRegisterJWT(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+    jwt = result.jwt_token;
+
+    if (justCreatedBitmarkAccount) {
+      // await AccountModel.doMarkMigration(jwt);
+      // didMigrationFileToLocalStorage = true;
+    } else {
+      didMigrationFileToLocalStorage = await AccountModel.doCheckMigration(jwt);
+      if (!didMigrationFileToLocalStorage && !isMigratingFileToLocalStorage) {
+        isMigratingFileToLocalStorage = true;
+        EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE);
+      }
+    }
 
     let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
     let trackingBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS)) || [];
@@ -590,10 +607,10 @@ const doDownloadBitmark = async (touchFaceIdSession, bitmark) => {
 const doUpdateViewStatus = async (assetId, bitmarkId) => {
   if (assetId && bitmarkId) {
     let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
-    let localAsset = (localAssets || []).find(la => la.id === assetId);
-    if (localAsset && !localAsset.isViewed) {
+    let asset = (localAssets || []).find(la => la.id === assetId);
+    if (asset && !asset.isViewed) {
       let assetViewed = true;
-      localAsset.bitmarks.forEach(bitmark => {
+      asset.bitmarks.forEach(bitmark => {
         if (bitmarkId === bitmark.id) {
           bitmark.isViewed = true;
         }
@@ -601,7 +618,7 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
           assetViewed = false;
         }
       });
-      localAsset.isViewed = assetViewed;
+      asset.isViewed = assetViewed;
       await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS, localAssets);
 
       let assetsStoreState = merge({}, AssetsStore.getState().data);
@@ -620,8 +637,7 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
       }
 
       let propertyStoreState = merge({}, PropertyStore.getState().data);
-      if (propertyStoreState.bitmark && propertyStoreState.bitmark.id) {
-        let asset = localAssets.find(asset => asset.id === propertyStoreState.asset.id);
+      if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id === assetId) {
         propertyStoreState.asset = asset;
         propertyStoreState.bitmark = asset.find(bitmark => bitmark.id === propertyStoreState.bitmark.id);
         propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
@@ -811,13 +827,13 @@ const doGetLocalBitmarkInformation = async (bitmarkId, assetId) => {
   let bitmark;
   let asset;
   if (assetId) {
-    asset = localAssets.find(localAsset => localAsset.id === assetId);
+    asset = localAssets.find(la => la.id === assetId);
     if (bitmarkId) {
       bitmark = (asset ? asset.bitmarks : []).find(localBitmark => localBitmark.id === bitmarkId);
     }
   } else if (bitmarkId) {
-    asset = localAssets.find(localAsset => {
-      bitmark = localAsset.bitmarks.find(localBitmark => localBitmark.id === bitmarkId);
+    asset = localAssets.find(la => {
+      bitmark = la.bitmarks.find(localBitmark => localBitmark.id === bitmarkId);
       return !!bitmark;
     });
   }
@@ -1106,11 +1122,11 @@ const doMigrateFilesToLocalStorage = async (touchFaceIdSession) => {
     EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT, Math.floor(total * 100 / bitmarks.length));
     total++;
   }
-  await doCheckNewBitmarks(localAsset);
+  await doCheckNewBitmarks(localAssets);
   EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT, 100);
 
-  await AccountModel.doMarkMigration(jwt);
-  didMigrationFileToLocalStorage = true;
+  // await AccountModel.doMarkMigration(jwt);
+  // didMigrationFileToLocalStorage = true;
 };
 
 const DataProcessor = {

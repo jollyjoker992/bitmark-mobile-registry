@@ -13,11 +13,11 @@ import {
 } from './src';
 import { config } from './src/configs';
 
-if (config.network === config.NETWORKS.livenet) {
-  i18n.locale = 'en';
-} else {
-  i18n.locale = DeviceInfo.getDeviceLocale();
-}
+// if (config.network === config.NETWORKS.livenet) {
+//   i18n.locale = 'en';
+// } else {
+//   i18n.locale = DeviceInfo.getDeviceLocale();
+// }
 i18n.fallbacks = true;
 i18n.translations = require('./assets/localizations.json');
 global.i18n = i18n;

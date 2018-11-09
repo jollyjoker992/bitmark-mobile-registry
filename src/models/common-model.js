@@ -105,12 +105,16 @@ const doStartFaceTouchSessionId = async (touchFaceIdMessage) => {
   if (!currentFaceTouchSessionId) {
     isRequestingSessionId = true;
     currentFaceTouchSessionId = await BitmarkSDK.requestSession(config.bitmark_network, touchFaceIdMessage);
+    console.log('currentFaceTouchSessionId :', currentFaceTouchSessionId);
   }
   isRequestingSessionId = false;
   return currentFaceTouchSessionId;
 };
 const setFaceTouchSessionId = (sessionId) => {
   currentFaceTouchSessionId = sessionId;
+};
+const getFaceTouchSessionId = () => {
+  return currentFaceTouchSessionId;
 };
 
 const doTryRickSignMessage = async (messages, touchFaceIdMessage) => {
@@ -216,6 +220,7 @@ let CommonModel = {
   doTryCreateSignatureData,
   doTryRickSignMessage,
   setFaceTouchSessionId,
+  getFaceTouchSessionId,
 
   doTrackEvent,
 }

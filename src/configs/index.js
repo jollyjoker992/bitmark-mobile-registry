@@ -13,8 +13,8 @@ network = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? NETWORKS
 
 let config = {
   network,
-
   NETWORKS,
+  localization: DeviceInfo.getDeviceLocale(),
   bitmark_network: NETWORKS.testnet,
   appLink: 'https://itunes.apple.com/us/app/bitmark-registry/id1429427796?ls=1&mt=8',
   api_server_url: 'https://api.test.bitmark.com',

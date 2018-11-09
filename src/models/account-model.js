@@ -26,6 +26,37 @@ const doLogout = async () => {
   return await BitmarkSDK.removeAccount();
 };
 
+let doRegisterJWT = (accountNumber, timestamp, signature) => {
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    //TODO API
+    let tempURL = `${config.mobile_server_url}/api/auth`;
+    fetch(tempURL, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        requester: accountNumber,
+        timestamp,
+        signature,
+      })
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode >= 500) {
+        return response.text();
+      }
+      return response.json();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error('Request failed!' + statusCode + ' - ' + JSON.stringify(data)));
+      }
+      resolve(data);
+    }).catch(reject);
+  });
+};
+
 const doCheckMigration = (jwt) => {
   return new Promise((resolve) => {
     let statusCode;
@@ -47,7 +78,7 @@ const doCheckMigration = (jwt) => {
       if (statusCode >= 400) {
         return resolve();
       }
-      resolve(data.metadata.bitmarks_migrated);
+      resolve(data.metadata.registry_bitmarks_migrated);
     }).catch(() => resolve());
   });
 };
@@ -64,7 +95,7 @@ const doMarkMigration = (jwt, status) => {
         Authorization: 'Bearer ' + jwt,
       },
       body: JSON.stringify({
-        metadata: { bitmarks_migrated: status === undefined ? true : status },
+        metadata: { registry_bitmarks_migrated: status === undefined ? true : status },
       })
     }).then((response) => {
       statusCode = response.status;
@@ -81,7 +112,6 @@ const doMarkMigration = (jwt, status) => {
   });
 };
 
-
 let AccountModel = {
   doGetCurrentAccount,
   doCheckPhraseWords,
@@ -89,6 +119,7 @@ let AccountModel = {
   doLogin,
   doLogout,
 
+  doRegisterJWT,
   doCheckMigration,
   doMarkMigration,
 }

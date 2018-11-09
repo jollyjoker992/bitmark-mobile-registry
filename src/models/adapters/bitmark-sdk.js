@@ -137,7 +137,7 @@ const BitmarkSDK = {
     });
   },
 
-  issueFile: (sessionId, filePath, propertyName, metadata, quantity, isPublicAsset) => {
+  issueFile: (sessionId, localFolderPath, filePath, propertyName, metadata, quantity, isPublicAsset) => {
     return new Promise((resolve, reject) => {
       SwiftBitmarkSDK.issueFile(sessionId, {
         url: filePath,
@@ -145,13 +145,15 @@ const BitmarkSDK = {
         metadata,
         quantity,
         is_public_asset: !!isPublicAsset
-      }, (ok, results) => {
-        if (ok && results) {
-          resolve(results);
-        } else {
-          reject(new Error(results || global.i18n.t("BitmarkSDK_canNotIssueFile")));
-        }
-      });
+      }, localFolderPath,
+        (ok, bitmarkIds, assetId, sessionData, encryptedFilePath) => {
+          console.log('issueFile :', ok, bitmarkIds, assetId, sessionData, encryptedFilePath);
+          if (ok) {
+            resolve({ bitmarkIds, assetId, sessionData, encryptedFilePath });
+          } else {
+            reject(new Error(bitmarkIds || 'Can not issue file!'));
+          }
+        });
     });
   },
   transferOneSignature: (sessionId, bitmarkId, address) => {

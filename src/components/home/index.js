@@ -26,6 +26,7 @@ import { WebAccountSignInComponent } from './account/web-account/sign-in/sign-in
 import { IssuanceOptionsComponent } from './properties/local-issuance/issuance-options/issuance-options.component';
 import { EventEmitterService } from '../../services';
 import { AppProcessor, DataProcessor } from '../../processors';
+import { LocalStorageMigrationComponent } from './account/local-storeage-migration.component';
 
 // import PushNotification from 'react-native-push-notification';
 
@@ -106,6 +107,7 @@ export class UserRouterComponent extends Component {
             <Scene key="localAssetDetail" panHandlers={null} component={LocalAssetDetailComponent} />
             <Scene key="localPropertyDetail" panHandlers={null} component={LocalPropertyDetailComponent} />
             <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
+            <Scene key="localStorageMigration" component={LocalStorageMigrationComponent} />
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >

@@ -33,6 +33,7 @@ import { config } from '../configs';
 import { iosConstant } from '../configs/ios/ios.config';
 import { DefaultRouterComponent } from './onboarding';
 import { UserRouterComponent } from './home';
+import { Actions } from 'react-native-router-flux';
 
 const CRASH_LOG_FILE_NAME = 'crash_log.txt';
 const CRASH_LOG_FILE_PATH = FileUtil.CacheDirectory + '/' + CRASH_LOG_FILE_NAME;
@@ -50,20 +51,25 @@ class MainEventsHandlerComponent extends Component {
     this.handleNetworkChange = this.handleNetworkChange.bind(this);
     this.handerProcessErrorEvent = this.handerProcessErrorEvent.bind(this);
     this.doTryConnectInternet = this.doTryConnectInternet.bind(this);
+    this.doRefresh = this.doRefresh.bind(this);
+    this.migrationFilesToLocalStorage = this.migrationFilesToLocalStorage.bind(this);
 
     this.state = {
       user: null,
       processingCount: 0,
       submitting: null,
       networkStatus: true,
+      passTouchFaceId: true,
     };
     this.appState = AppState.currentState;
   }
 
   componentDidMount() {
+    EventEmitterService.on(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);
     EventEmitterService.on(EventEmitterService.events.APP_PROCESSING, this.handerProcessingEvent);
     EventEmitterService.on(EventEmitterService.events.APP_SUBMITTING, this.handerSubmittingEvent);
     EventEmitterService.on(EventEmitterService.events.APP_PROCESS_ERROR, this.handerProcessErrorEvent);
+    EventEmitterService.on(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE, this.migrationFilesToLocalStorage);
     Linking.addEventListener('url', this.handleDeppLink);
     AppState.addEventListener('change', this.handleAppStateChange);
     NetInfo.isConnected.fetch().then().done(() => {
@@ -75,12 +81,21 @@ class MainEventsHandlerComponent extends Component {
     this.registerCrashHandler();
   }
   componentWillUnmount() {
+    EventEmitterService.remove(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);
     EventEmitterService.remove(EventEmitterService.events.APP_PROCESSING, this.handerProcessingEvent);
     EventEmitterService.remove(EventEmitterService.events.APP_SUBMITTING, this.handerSubmittingEvent);
     EventEmitterService.remove(EventEmitterService.events.APP_PROCESS_ERROR, this.handerProcessErrorEvent);
+    EventEmitterService.remove(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE, this.migrationFilesToLocalStorage);
     Linking.addEventListener('url', this.handleDeppLink);
     AppState.removeEventListener('change', this.handleAppStateChange);
     NetInfo.isConnected.removeEventListener('connectionChange', this.handleNetworkChange);
+  }
+
+  migrationFilesToLocalStorage() {
+    Alert.alert(i18n.t('LocalStorageMigrationComponent_title'), i18n.t('LocalStorageMigrationComponent_message'), [{
+      text: i18n.t('LocalStorageMigrationComponent_buttonText'), style: 'cancel',
+      onPress: () => Actions.localStorageMigration()
+    }]);
   }
 
   handerProcessingEvent(processing) {
@@ -248,11 +263,6 @@ class MainEventsHandlerComponent extends Component {
 
   handleAppStateChange = (nextAppState) => {
     if (this.appState.match(/background/) && nextAppState === 'active') {
-      if (config.network === config.NETWORKS.livenet) {
-        i18n.locale = 'en';
-      } else {
-        i18n.locale = DeviceInfo.getDeviceLocale();
-      }
       runPromiseWithoutError(DataProcessor.doMetricOnScreen(true));
       this.doTryConnectInternet();
     }
@@ -263,8 +273,21 @@ class MainEventsHandlerComponent extends Component {
   }
 
   handleNetworkChange(networkStatus) {
-    EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, networkStatus);
     this.setState({ networkStatus });
+    if (networkStatus) {
+      UserModel.doTryGetCurrentUser().then(async (userInformation) => {
+        if (userInformation && userInformation.bitmarkAccountNumber) {
+          let passTouchFaceId = !!(await CommonModel.doStartFaceTouchSessionId(i18n.t('FaceTouchId_doOpenApp')));
+          console.log('passTouchFaceId :', passTouchFaceId);
+          this.setState({ passTouchFaceId });
+          if (passTouchFaceId) {
+            EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
+          }
+        } else {
+          EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
+        }
+      });
+    }
   }
 
   doTryConnectInternet() {
@@ -274,9 +297,24 @@ class MainEventsHandlerComponent extends Component {
     });
   }
 
+  async doRefresh(justCreatedBitmarkAccount) {
+    if (DataProcessor.getUserInformation() && DataProcessor.getUserInformation().bitmarkAccountNumber) {
+      let passTouchFaceId = !!CommonModel.getFaceTouchSessionId();
+      if (!passTouchFaceId) {
+        passTouchFaceId = !!(await CommonModel.doStartFaceTouchSessionId(i18n.t('FaceTouchId_doOpenApp')));
+      }
+      this.setState({ passTouchFaceId });
+      if (passTouchFaceId && this.state.networkStatus) {
+        EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus: this.state.networkStatus, justCreatedBitmarkAccount });
+      }
+    } else if (this.state.networkStatus) {
+      EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus: this.state.networkStatus, justCreatedBitmarkAccount });
+    }
+  }
+
   render() {
     let styles = {};
-    if (!this.state.networkStatus || this.state.processingCount || this.state.emptyDataSource ||
+    if (!this.state.networkStatus || this.state.processingCount || this.state.emptyDataSource || !this.state.passTouchFaceId ||
       (!!this.state.submitting && !this.state.submitting.title && !this.state.submitting.message) ||
       (!!this.state.submitting && (this.state.submitting.title || this.state.submitting.message))) {
       styles.height = '100%';
@@ -285,6 +323,18 @@ class MainEventsHandlerComponent extends Component {
     return (
       <View style={[{ position: 'absolute', width: '100%', top: 0, left: 0, zIndex: iosConstant.zIndex.dialog }, styles]}>
         {!this.state.networkStatus && <BitmarkInternetOffComponent tryConnectInternet={this.doTryConnectInternet} />}
+        {!this.state.passTouchFaceId && <BitmarkDialogComponent dialogStyle={{
+          minHeight: 0, backgroundColor: 'rgba(256,256,256, 0.7)', flex: 1, width: '100%',
+        }}>
+          <TouchableOpacity style={{ flex: 1, justifyContent: 'center', }} onPress={this.doRefresh}>
+            <Text style={{
+              width: convertWidth(300),
+              color: 'white', fontWeight: '900', fontSize: 16,
+              backgroundColor: '#FF4444', padding: 10,
+              textAlign: 'center',
+            }}>{i18n.t('MainComponent_pleaseAuthorizeText​')}</Text>
+          </TouchableOpacity>
+        </BitmarkDialogComponent>}
         {this.state.processingCount > 0 && <DefaultIndicatorComponent />}
         {!!this.state.submitting && !this.state.submitting.title && !this.state.submitting.message && <DefaultIndicatorComponent />}
         {!!this.state.submitting && (this.state.submitting.title || this.state.submitting.message) && <BitmarkIndicatorComponent
@@ -303,7 +353,7 @@ export class BitmarkAppComponent extends Component {
     super(props);
 
     this.doOpenApp = this.doOpenApp.bind(this);
-    this.doRefresh = this.doRefresh.bind(this);
+    this.doAppRefresh = this.doAppRefresh.bind(this);
 
     this.state = {
       user: null,
@@ -312,11 +362,9 @@ export class BitmarkAppComponent extends Component {
   }
 
   componentDidMount() {
-    EventEmitterService.on(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);
     EventEmitterService.on(EventEmitterService.events.APP_NETWORK_CHANGED, this.doOpenApp);
   }
   componentWillUnmount() {
-    EventEmitterService.remove(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);
     EventEmitterService.remove(EventEmitterService.events.APP_NETWORK_CHANGED, this.doOpenApp);
   }
 
@@ -327,7 +375,7 @@ export class BitmarkAppComponent extends Component {
     return false;
   }
 
-  doOpenApp(networkStatus) {
+  doOpenApp({ networkStatus, justCreatedBitmarkAccount }) {
     if (!networkStatus) {
       return;
     }
@@ -339,12 +387,12 @@ export class BitmarkAppComponent extends Component {
         }]);
         return;
       }
-      this.doRefresh();
+      this.doAppRefresh(justCreatedBitmarkAccount);
     }).catch(error => {
       console.log('doOpenApp error:', error);
     });
   }
-  doRefresh(justCreatedBitmarkAccount) {
+  doAppRefresh(justCreatedBitmarkAccount) {
     return DataProcessor.doOpenApp(justCreatedBitmarkAccount).then(user => {
       console.log('doOpenApp user: ', user)
       this.setState({ user });
@@ -368,7 +416,7 @@ export class BitmarkAppComponent extends Component {
         });
       }
     }).catch(error => {
-      console.log('doRefresh error:', error);
+      console.log('doAppRefresh error:', error);
     });
   }
 
