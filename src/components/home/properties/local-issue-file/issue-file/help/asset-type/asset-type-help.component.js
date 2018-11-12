@@ -35,7 +35,7 @@ export class AssetTypeHelpComponent extends React.Component {
 
           <TouchableOpacity style={assetTypeHelpStyle.learnMore} onPress={() => {
             Actions.bitmarkWebViewFull({
-              title: 'Bitmark Blockchain', sourceUrl: config.bitmark_web_site + '/resources/basics?env=app',
+              title: 'Bitmark Blockchain', sourceUrl: config.bitmark_web_site + '/resources/technology?env=app',
             })
           }}>
             <Text style={assetTypeHelpStyle.learnMoreText}>LEARN MORE »</Text>
