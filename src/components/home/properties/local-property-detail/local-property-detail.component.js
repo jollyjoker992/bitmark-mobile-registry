@@ -70,17 +70,20 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
   }
 
   downloadAsset() {
-
-    AppProcessor.doDownloadBitmark(this.props.bitmark, {
-      indicator: true, title: global.i18n.t("LocalPropertyDetailComponent_preparingToExport"), message: global.i18n.t("LocalPropertyDetailComponent_downloadingFile", { fileName: this.props.asset.name })
-    }).then(filePath => {
-      if (filePath) {
-        Share.share({ title: this.props.asset.name, url: filePath });
-      }
-    }).catch(error => {
-      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("LocalPropertyDetailComponent_notReadyToDownload") });
-      console.log('doDownload asset error :', error);
-    });
+    if (this.props.asset.filePath) {
+      Share.share({ title: this.props.asset.name, url: this.props.asset.filePath });
+    } else {
+      AppProcessor.doDownloadBitmark(this.props.bitmark, {
+        indicator: true, title: global.i18n.t("LocalPropertyDetailComponent_preparingToExport"), message: global.i18n.t("LocalPropertyDetailComponent_downloadingFile", { fileName: this.props.asset.name })
+      }).then(filePath => {
+        if (filePath) {
+          Share.share({ title: this.props.asset.name, url: filePath });
+        }
+      }).catch(error => {
+        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("LocalPropertyDetailComponent_notReadyToDownload") });
+        console.log('doDownload asset error :', error);
+      });
+    }
   }
 
   clickOnProvenance(item) {
@@ -117,6 +120,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={[defaultStyle.header, { height: iosConstant.headerSize.height }]}>
@@ -133,10 +137,18 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
               : require('../../../../../assets/imgs/three-dot-deactive.png')} />
           </TouchableOpacity>
         </View></TouchableWithoutFeedback>
+        {/* <Text>{this.props.bitmark.owner + '\n' + DataProcessor.getUserInformation().bitmarkAccountNumber + '\n' + (this.props.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber).toString()}</Text> */}
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={propertyDetailStyle.body}>
           {this.state.displayTopButton && <View style={propertyDetailStyle.topButtonsArea}>
-            {this.props.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber && <TouchableOpacity style={propertyDetailStyle.downloadAssetButton} disabled={this.props.bitmark.status !== 'confirmed'} onPress={this.downloadAsset}>
-              <Text style={[propertyDetailStyle.downloadAssetButtonText, { color: this.props.bitmark.status === 'confirmed' ? '#0060F2' : '#A4B5CD', }]}>{global.i18n.t("LocalPropertyDetailComponent_downloadAsset")}</Text>
+            {this.props.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber && <TouchableOpacity
+              style={propertyDetailStyle.downloadAssetButton}
+              disabled={!this.props.asset.filePath && this.props.bitmark.status !== 'confirmed'}
+              onPress={this.downloadAsset}
+            >
+              {!this.props.asset.filePath && <Text style={[propertyDetailStyle.downloadAssetButtonText, this.props.bitmark.status !== 'confirmed' ? { color: '#A4B5CD', } : {}]}>
+                {global.i18n.t("LocalPropertyDetailComponent_downloadAsset")}
+              </Text>}
+              {this.props.asset.filePath && <Text style={propertyDetailStyle.downloadAssetButtonText}>{global.i18n.t("LocalPropertyDetailComponent_shareAsset")}</Text>}
             </TouchableOpacity>}
             <TouchableOpacity style={propertyDetailStyle.topButton} onPress={() => {
               Clipboard.setString(this.props.bitmark.id);
@@ -192,7 +204,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
 
               {this.props.asset && Object.keys(this.props.asset.metadata).length > 0 && <View style={propertyDetailStyle.metadataArea}>
                 {Object.keys(this.props.asset.metadata).map((label, index) => (
-                  <View key={label} style={[propertyDetailStyle.metadataItem, { marginBottom: index === Object.keys(this.props.asset.metadata).length ? 0 : 15 }]}>
+                  <View key={index} style={[propertyDetailStyle.metadataItem, { marginBottom: index === Object.keys(this.props.asset.metadata).length ? 0 : 15 }]}>
                     <Text style={[propertyDetailStyle.metadataItemLabel, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{label.toUpperCase()}:</Text>
                     <Text style={[propertyDetailStyle.metadataItemValue, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{this.props.asset.metadata[label]}</Text>
                   </View>

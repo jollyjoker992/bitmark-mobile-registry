@@ -126,9 +126,9 @@ const doCheckNewBitmarks = async (localAssets) => {
 
     let propertyStoreState = merge({}, PropertyStore.getState().data);
     if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id) {
-      let asset = localAssets.find(asset => asset.id === propertyStoreState.asset.asset_id);
+      let asset = localAssets.find(asset => asset.id === propertyStoreState.bitmark.asset_id);
       propertyStoreState.asset = asset;
-      propertyStoreState.bitmark = asset.find(bitmark => bitmark.id === propertyStoreState.bitmark.id);
+      propertyStoreState.bitmark = asset ? asset.bitmarks.find(bitmark => bitmark.id === propertyStoreState.bitmark.id) : null;
       propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
       PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
     }
@@ -512,7 +512,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       didMigrationFileToLocalStorage = await AccountModel.doCheckMigration(jwt);
       if (!didMigrationFileToLocalStorage && !isMigratingFileToLocalStorage) {
         isMigratingFileToLocalStorage = true;
-        EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE);
+        // EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE);
       }
     }
 
@@ -581,7 +581,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     if (assetStoreState.bitmark && assetStoreState.bitmark.id && assetStoreState.bitmark.asset_id) {
       let asset = localAssets.find(asset => asset.id === propertyStoreState.bitmark.asset_id);
       propertyStoreState.asset = asset;
-      propertyStoreState.bitmark = asset.find(bitmark => bitmark.id === propertyStoreState.bitmark.id);
+      propertyStoreState.bitmark = asset ? asset.bitmarks.find(bitmark => bitmark.id === propertyStoreState.bitmark.id) : null;
       propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
       PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
     }
@@ -599,9 +599,26 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
 };
 
 const doDownloadBitmark = async (touchFaceIdSession, bitmark) => {
-  let filePath = await BitmarkSDK.downloadBitmark(touchFaceIdSession, bitmark.id);
-  filePath = filePath.replace('file://', '');
-  return filePath;
+  let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
+  let asset = localAssets.find(asset => asset.id === bitmark.asset_id);
+
+  let assetFolderPath = `${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${bitmark.asset_id}`;
+  await FileUtil.mkdir(assetFolderPath);
+  let downloadingFolderPath = `${assetFolderPath}/downloading`;
+  await FileUtil.mkdir(downloadingFolderPath);
+
+  await BitmarkSDK.downloadBitmark(touchFaceIdSession, bitmark.id, downloadingFolderPath);
+  let listDownloadFile = await FileUtil.readDir(downloadingFolderPath);
+  let filePathAfterDownloading = `${downloadingFolderPath}/${listDownloadFile[0]}`;
+
+  let downloadedFolderPath = `${assetFolderPath}/downloaded`;
+  await FileUtil.mkdir(downloadedFolderPath);
+  let downloadedFilePath = `${downloadedFolderPath}${filePathAfterDownloading.substring(filePathAfterDownloading.lastIndexOf('/'), filePathAfterDownloading.length)}`;
+  await FileUtil.moveFileSafe(filePathAfterDownloading, downloadedFilePath);
+  await FileUtil.removeSafe(downloadingFolderPath);
+  asset.filePath = `${downloadedFilePath}`;
+  await doCheckNewBitmarks(localAssets);
+  return asset.filePath;
 };
 
 const doUpdateViewStatus = async (assetId, bitmarkId) => {
@@ -639,7 +656,7 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
       let propertyStoreState = merge({}, PropertyStore.getState().data);
       if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id === assetId) {
         propertyStoreState.asset = asset;
-        propertyStoreState.bitmark = asset.find(bitmark => bitmark.id === propertyStoreState.bitmark.id);
+        propertyStoreState.bitmark = asset ? asset.bitmarks.find(bitmark => bitmark.id === propertyStoreState.bitmark.id) : null;
         propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
         PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
       }
@@ -1090,7 +1107,8 @@ const doMetricOnScreen = async (isActive) => {
   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 };
 
-const doMigrateFilesToLocalStorage = async (touchFaceIdSession) => {
+const doMigrateFilesToLocalStorage = async () => {
+  let touchFaceIdSession = CommonModel.getFaceTouchSessionId();
   await runGetLocalBitmarksInBackground();
 
   let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];

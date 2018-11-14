@@ -71,16 +71,20 @@ class PrivateLocalAssetDetailComponent extends React.Component {
   }
 
   downloadAsset() {
-    AppProcessor.doDownloadBitmark(this.props.bitmarkCanDownload, {
-      indicator: true, title: global.i18n.t("LocalAssetDetailComponent_preparingToExport"), message: global.i18n.t("LocalAssetDetailComponent_downloadingFile", { fileName: this.props.asset.name })
-    }).then(filePath => {
-      if (filePath) {
-        Share.share({ title: this.props.asset.name, url: filePath });
-      }
-    }).catch(error => {
-      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("LocalAssetDetailComponent_notReadyToDownload") });
-      console.log('doDownload asset error :', error);
-    });
+    if (this.props.asset.filePath) {
+      Share.share({ title: this.props.asset.name, url: this.props.asset.filePath });
+    } else {
+      AppProcessor.doDownloadBitmark(this.props.bitmarkCanDownload, {
+        indicator: true, title: global.i18n.t("LocalAssetDetailComponent_preparingToExport"), message: global.i18n.t("LocalAssetDetailComponent_downloadingFile", { fileName: this.props.asset.name })
+      }).then(filePath => {
+        if (filePath) {
+          Share.share({ title: this.props.asset.name, url: filePath });
+        }
+      }).catch(error => {
+        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("LocalAssetDetailComponent_notReadyToDownload") });
+        console.log('doDownload asset error :', error);
+      });
+    }
   }
 
   render() {
@@ -98,11 +102,15 @@ class PrivateLocalAssetDetailComponent extends React.Component {
           </TouchableOpacity>
         </View></TouchableWithoutFeedback>
 
-
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={assetDetailStyle.body}>
           {this.state.displayTopButton && <View style={assetDetailStyle.topButtonsArea}>
-            <TouchableOpacity style={assetDetailStyle.downloadAssetButton} disabled={!this.props.bitmarkCanDownload} onPress={this.downloadAsset}>
-              <Text style={[assetDetailStyle.downloadAssetButtonText, { color: this.props.bitmarkCanDownload ? '#0060F2' : '#A4B5CD', }]}>{global.i18n.t("LocalAssetDetailComponent_downloadAssetButtonText")}</Text>
+            <TouchableOpacity style={assetDetailStyle.downloadAssetButton} disabled={!this.props.bitmarkCanDownload && !this.props.asset.filePath} onPress={this.downloadAsset}>
+              {this.props.asset.filePath && <Text style={[assetDetailStyle.downloadAssetButtonText]}>
+                {global.i18n.t("LocalAssetDetailComponent_shareAssetButtonText")}
+              </Text>}
+              {!this.props.asset.filePath && <Text style={[assetDetailStyle.downloadAssetButtonText, !this.props.bitmarkCanDownload ? { color: '#A4B5CD' } : {}]}>
+                {global.i18n.t("LocalAssetDetailComponent_downloadAssetButtonText")}
+              </Text>}
             </TouchableOpacity>
             <TouchableOpacity style={assetDetailStyle.copyAssetIddButton} onPress={() => {
               Clipboard.setString(this.props.asset.id);
@@ -144,7 +152,7 @@ class PrivateLocalAssetDetailComponent extends React.Component {
 
               {this.props.asset && Object.keys(this.props.asset.metadata).length > 0 && <View style={assetDetailStyle.metadataArea}>
                 {Object.keys(this.props.asset.metadata).map((label, index) => (
-                  <View key={label} style={[assetDetailStyle.metadataItem, { marginBottom: index === Object.keys(this.props.asset.metadata).length ? 0 : 15 }]}>
+                  <View key={index} style={[assetDetailStyle.metadataItem, { marginBottom: index === Object.keys(this.props.asset.metadata).length ? 0 : 15 }]}>
                     <Text style={[assetDetailStyle.metadataItemLabel, { color: this.props.asset.created_at ? 'black' : '#999999' }]}>{label.toUpperCase()}:</Text>
                     <Text style={[assetDetailStyle.metadataItemValue, { color: this.props.asset.created_at ? 'black' : '#999999' }]}>{this.props.asset.metadata[label]}</Text>
                   </View>

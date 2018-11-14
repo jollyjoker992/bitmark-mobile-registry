@@ -57,7 +57,7 @@ export default StyleSheet.create({
     fontWeight: '900',
     fontSize: 16,
     lineHeight: 19,
-    // color: '#A4B5CD',
+    color: '#0060F2',
     textAlign: 'right',
   },
   topButton: {
