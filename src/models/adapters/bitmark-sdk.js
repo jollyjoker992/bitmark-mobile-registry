@@ -255,9 +255,9 @@ const BitmarkSDK = {
       });
     });
   },
-  downloadBitmark: (sessionId, bitmarkId) => {
+  downloadBitmark: (sessionId, bitmarkId, downloadingFolderPath) => {
     return new Promise((resolve, reject) => {
-      SwiftBitmarkSDK.downloadBitmark(sessionId, bitmarkId, (ok, result) => {
+      SwiftBitmarkSDK.downloadBitmark(sessionId, bitmarkId, downloadingFolderPath, (ok, result) => {
         if (ok) {
           resolve(result);
         } else {

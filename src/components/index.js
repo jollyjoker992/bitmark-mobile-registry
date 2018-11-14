@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactNative from 'react-native';
 import KeepAwake from 'react-native-keep-awake';
-import DeviceInfo from 'react-native-device-info';
 
 // import PushNotification from 'react-native-push-notification';
 
@@ -13,7 +12,7 @@ const {
   AppState,
   NetInfo,
   // PushNotificationIOS,
-  View,
+  View, TouchableOpacity, Text
 } = ReactNative;
 
 import {
@@ -21,6 +20,7 @@ import {
   DefaultIndicatorComponent,
   BitmarkIndicatorComponent,
   BitmarkInternetOffComponent,
+  BitmarkDialogComponent,
 } from './../commons/components';
 import { EventEmitterService } from './../services';
 import { AppProcessor, DataProcessor } from '../processors';
@@ -28,7 +28,7 @@ import { CommonModel, UserModel } from '../models';
 import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler';
 import RNExitApp from 'react-native-exit-app';
 import Mailer from 'react-native-mail';
-import { FileUtil } from "../utils";
+import { FileUtil, runPromiseWithoutError, convertWidth } from "../utils";
 import { config } from '../configs';
 import { iosConstant } from '../configs/ios/ios.config';
 import { DefaultRouterComponent } from './onboarding';
