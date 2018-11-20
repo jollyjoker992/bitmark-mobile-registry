@@ -459,6 +459,43 @@ class BitmarkSDK: NSObject {
       }
     }
   }
+  
+  @objc(encryptFile:::::)
+  func encryptFile(_ sessionId: String, _ filePath: String, _ key: String, outputFilePath: String, _ callback: @escaping RCTResponseSenderBlock) -> Void {
+    do {
+      let account = try BitmarkSDK.getAccount(sessionId: sessionId)
+      let data = try Data(contentsOf: URL(fileURLWithPath: filePath))
+      let (encryptedData, sessionData) = try account.encryptData(data)
+      try encryptedData.write(to: URL(fileURLWithPath: outputFilePath), options: .atomicWrite)
+      callback([true, sessionData.serialize()])
+    }
+    catch let e {
+      if let msg = e as? NSString {
+        callback([false, msg])
+      } else {
+        callback([false])
+      }
+    }
+  }
+  
+  @objc(decryptFile::::::)
+  func decryptFile(_ sessionId: String, _ encryptedFilePath: String, _ sessionData: [String: String], sender: String, outputFilePath: String, _ callback: @escaping RCTResponseSenderBlock) -> Void {
+    do {
+      let account = try BitmarkSDK.getAccount(sessionId: sessionId)
+      let encryptedData = try Data(contentsOf: URL(fileURLWithPath: encryptedFilePath))
+      let encryptedDataKey = sessionData["enc_data_key"]!.hexDecodedData
+      let sessionData = SessionData(encryptedDataKey: encryptedDataKey, dataKeyAlgorithm: sessionData["enc_data_key"]!);
+      let data = try account.decryptData(encryptedData, sessionData: sessionData, sender: AccountNumber(address: sender))
+      try data.saveFileLocally(url: URL(fileURLWithPath: outputFilePath))
+    }
+    catch let e {
+      if let msg = e as? NSString {
+        callback([false, msg])
+      } else {
+        callback([false])
+      }
+    }
+  }
 }
 
 extension Data {

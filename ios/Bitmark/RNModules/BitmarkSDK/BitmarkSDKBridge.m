@@ -34,6 +34,10 @@ RCT_EXTERN_METHOD(signForTransferOfferAndSubmit:(NSString *)sessionId:(NSString 
 RCT_EXTERN_METHOD(validateMetadata:(NSDictionary *)metadata:(RCTResponseSenderBlock)callback)
 RCT_EXTERN_METHOD(validateAccountNumber:(NSString *)address:(NSString *)network:(RCTResponseSenderBlock)callback)
 
+// Encrypt / Decrypt
+RCT_EXTERN_METHOD(encryptFile:(NSString *)sessionId:(NSString *)filePath:(NSString *)key:(NSString *)outputFilePath:(RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(decryptFile:(NSString *)sessionId:(NSString *)encryptedFilePath:(NSDictionary *)sessionData:(NSString *)sender:(NSString *)outputFilePath:(RCTResponseSenderBlock)callback)
+
 // Decentrailized issuance
 RCT_EXTERN_METHOD(createSessionData:(NSString *)sessionId:(NSString *)encryptionKey:(RCTResponseSenderBlock)callback)
 RCT_EXTERN_METHOD(issueRecord:(NSString *)sessionId:(NSDictionary *)input:(RCTResponseSenderBlock)callback)

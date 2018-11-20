@@ -371,6 +371,18 @@ public extension Account {
         let decryptedData = try dataKey.decypt(data: content)
         return (filename, decryptedData)
     }
+    
+    public func encryptData(_ data: Data) throws -> (encryptedData: Data, sessionData: SessionData) {
+        return try AssetEncryption().encrypt(data: data, signWithAccount: self)
+    }
+    
+    public func decryptData(_ encryptedData: Data, sessionData: SessionData, sender: AccountNumber) throws -> Data {
+        let network = self.authKey.network
+        let api = API(network: network)
+        let senderEncryptionPublicKey = try api.getEncryptionPublicKey(accountNumber: sender.string)
+        let dataKey = try AssetEncryption.encryptionKey(fromSessionData: sessionData, account: self, senderEncryptionPublicKey: senderEncryptionPublicKey!.hexDecodedData)
+        return try dataKey.decypt(data: encryptedData)
+    }
 }
 
 extension Account {
