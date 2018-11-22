@@ -266,5 +266,28 @@ const BitmarkSDK = {
       });
     });
   },
+
+  encryptFile: (sessionId, filePath, recipient, outputFilePath) => {
+    return new Promise((resolve, reject) => {
+      SwiftBitmarkSDK.encryptFile(sessionId, filePath, recipient, outputFilePath, (ok, result) => {
+        if (ok) {
+          resolve(result);
+        } else {
+          reject(newError(result, 'Can not encrypt file!'));
+        }
+      });
+    });
+  },
+  decryptFile: (sessionId, encryptedFilePath, sessionData, sender, outputFilePath) => {
+    return new Promise((resolve, reject) => {
+      SwiftBitmarkSDK.decryptFile(sessionId, encryptedFilePath, sessionData, sender, outputFilePath, (ok, result) => {
+        if (ok) {
+          resolve();
+        } else {
+          reject(newError(result, 'Can not decrypt file!'));
+        }
+      });
+    });
+  },
 };
 export { BitmarkSDK };

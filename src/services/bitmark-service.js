@@ -279,64 +279,50 @@ const doDecentralizedTransfer = async (touchFaceIdSession, bitmarkAccountNumber,
   }
 };
 
-const uploadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNumber, assetId, receiver, filePath, ) => {
-  let sessionDataFile = `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}/assets-session-data/${assetId}/session_data.txt`;
-  let exist = await FileUtil.exists(sessionDataFile);
-  if (exist) {
-    let sessionData = await FileUtil.readFile(sessionDataFile);
-    sessionData = sessionData ? JSON.parse(sessionData) : null;
-    if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
-
-      let message = `${sessionData.data_key_alg}|${sessionData.data_key_alg}|*`;
-      let signature = (await CommonModel.doTryRickSignMessage([message], touchFaceIdSession))[0];
-      await FileUtil.uploadFile({
-        toUrl: `${config.file_courier_server}/${assetId}/${receiver}`,
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'multipart/form-data',
-          requester: bitmarkAccountNumber,
-          signature
-        },
-        fields: {
-          data_key_alg: sessionData.data_key_alg,
-          enc_data_key: sessionData.enc_data_key,
-          orig_content_type: '*',
-        },
-        files: [{
-          name: 'file',
-          filename: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length),
-          filepath: filePath,
-        }]
-      })
-    }
+const uploadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNumber, assetId, receiver, filePath, sessionData) => {
+  if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
+    let message = `${sessionData.data_key_alg}|${sessionData.data_key_alg}|*`;
+    let signature = (await CommonModel.doTryRickSignMessage([message], touchFaceIdSession))[0];
+    await FileUtil.uploadFile({
+      toUrl: `${config.file_courier_server}/${assetId}/${receiver}`,
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'multipart/form-data',
+        requester: bitmarkAccountNumber,
+        signature
+      },
+      fields: {
+        data_key_alg: sessionData.data_key_alg,
+        enc_data_key: sessionData.enc_data_key,
+        orig_content_type: '*',
+      },
+      files: [{
+        name: 'file',
+        filename: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length),
+        filepath: filePath,
+      }]
+    })
   }
 };
 
-const downloadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNumber, assetId, receiver, filePath, ) => {
-  let sessionDataFile = `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}/assets-session-data/${assetId}/session_data.txt`;
-  let exist = await FileUtil.exists(sessionDataFile);
-  if (exist) {
-    let sessionData = await FileUtil.readFile(sessionDataFile);
-    sessionData = sessionData ? JSON.parse(sessionData) : null;
-    if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
-
-      let signature = (await CommonModel.doTryRickSignMessage([assetId], touchFaceIdSession))[0];
-      let response = await FileUtil.downloadFile({
-        fromUrl: `${config.file_courier_server}/${assetId}/${receiver}`,
-        toFile: filePath,
-        method: 'GET',
-        headers: {
-          requester: bitmarkAccountNumber,
-          signature
-        },
-      });
-      return {
-        data_key_alg: response.headers['Data-Key-Alg'],
-        enc_data_key: response.headers['Enc-Data-Key'],
-        filename: 'File-Name',
-      }
-    }
+const downloadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNumber, assetId, filePath) => {
+  let signature = (await CommonModel.doTryRickSignMessage([assetId], touchFaceIdSession))[0];
+  let response;
+  await FileUtil.downloadFile({
+    fromUrl: `${config.file_courier_server}/${assetId}/${bitmarkAccountNumber}`,
+    toFile: filePath,
+    method: 'GET',
+    headers: {
+      requester: bitmarkAccountNumber,
+      signature
+    },
+    begin: (res) => response = res
+  });
+  return {
+    data_key_alg: response.headers['Data-Key-Alg'],
+    enc_data_key: response.headers['Enc-Data-Key'],
+    filename: 'File-Name',
   }
 };
 
