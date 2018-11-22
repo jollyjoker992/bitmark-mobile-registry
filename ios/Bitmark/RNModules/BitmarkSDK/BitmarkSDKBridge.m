@@ -35,7 +35,7 @@ RCT_EXTERN_METHOD(validateMetadata:(NSDictionary *)metadata:(RCTResponseSenderBl
 RCT_EXTERN_METHOD(validateAccountNumber:(NSString *)address:(NSString *)network:(RCTResponseSenderBlock)callback)
 
 // Encrypt / Decrypt
-RCT_EXTERN_METHOD(encryptFile:(NSString *)sessionId:(NSString *)filePath:(NSString *)key:(NSString *)recipient:(NSString *)outputFilePath:(RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(encryptFile:(NSString *)sessionId:(NSString *)filePath:(NSString *)recipient:(NSString *)outputFilePath:(RCTResponseSenderBlock)callback)
 RCT_EXTERN_METHOD(decryptFile:(NSString *)sessionId:(NSString *)encryptedFilePath:(NSDictionary *)sessionData:(NSString *)sender:(NSString *)outputFilePath:(RCTResponseSenderBlock)callback)
 
 // Decentrailized issuance

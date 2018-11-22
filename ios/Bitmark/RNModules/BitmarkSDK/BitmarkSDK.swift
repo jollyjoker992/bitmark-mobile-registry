@@ -460,8 +460,8 @@ class BitmarkSDK: NSObject {
     }
   }
   
-  @objc(encryptFile::::::)
-  func encryptFile(_ sessionId: String, _ filePath: String, _ key: String, recipient: String, outputFilePath: String, _ callback: @escaping RCTResponseSenderBlock) -> Void {
+  @objc(encryptFile:::::)
+  func encryptFile(_ sessionId: String, _ filePath: String, recipient: String, outputFilePath: String, _ callback: @escaping RCTResponseSenderBlock) -> Void {
     do {
       let account = try BitmarkSDK.getAccount(sessionId: sessionId)
       let data = try Data(contentsOf: URL(fileURLWithPath: filePath))
