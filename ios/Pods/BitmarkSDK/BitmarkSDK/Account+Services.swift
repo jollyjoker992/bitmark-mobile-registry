@@ -147,7 +147,7 @@ public extension Account {
         
         var newSessionData = sessionData
         if let sessionData = sessionData {
-            newSessionData = try updatedSessionData(bitmarkId: bitmarkId, sessionData: sessionData, sender: self.accountNumber.string, recipient: recipient)
+            newSessionData = try updatedSessionData(sessionData: sessionData, sender: self.accountNumber.string, recipient: recipient)
         }
         
         // Transfer records
@@ -196,7 +196,7 @@ public extension Account {
         
         var newSessionData = sessionData
         if let sessionData = sessionData {
-            newSessionData = try updatedSessionData(bitmarkId: bitmarkId, sessionData: sessionData, sender: self.accountNumber.string, recipient: recipient)
+            newSessionData = try updatedSessionData(sessionData: sessionData, sender: self.accountNumber.string, recipient: recipient)
         }
         
         // Transfer records
@@ -326,8 +326,7 @@ public extension Account {
     }
     
     public func createSessionData(forBitmark bitmarkId: String, sessionData: SessionData, recipient: String) throws -> [String: String] {
-        return try updatedSessionData(bitmarkId: bitmarkId,
-                                      sessionData: sessionData,
+        return try updatedSessionData(sessionData: sessionData,
                                       sender: self.accountNumber.string,
                                       recipient: recipient)
             .serialize()
@@ -343,8 +342,7 @@ public extension Account {
             throw("Fail to get asset's access")
         }
         
-        return try updatedSessionData(bitmarkId: bitmarkId,
-                                      sessionData: assetAccess.sessionData!,
+        return try updatedSessionData(sessionData: assetAccess.sessionData!,
                                       sender: assetAccess.sender!,
                                       recipient: recipient)
             .serialize()
@@ -372,8 +370,10 @@ public extension Account {
         return (filename, decryptedData)
     }
     
-    public func encryptData(_ data: Data) throws -> (encryptedData: Data, sessionData: SessionData) {
-        return try AssetEncryption().encrypt(data: data, signWithAccount: self)
+    public func encryptData(_ data: Data, recipient: String) throws -> (encryptedData: Data, sessionData: SessionData) {
+        let (encryptedData, hostSessionData) = try AssetEncryption().encrypt(data: data, signWithAccount: self)
+        let receiverSessionData = try updatedSessionData(sessionData: hostSessionData, sender: self.accountNumber.string, recipient: recipient)
+        return (encryptedData, receiverSessionData)
     }
     
     public func decryptData(_ encryptedData: Data, sessionData: SessionData, sender: AccountNumber) throws -> Data {
@@ -390,12 +390,12 @@ extension Account {
         let network = self.authKey.network
         let api = API(network: network)
         
-        let updatedSession = try self.updatedSessionData(bitmarkId: bitmarkId, sessionData: sessionData, sender: sender, recipient: recipient)
+        let updatedSession = try self.updatedSessionData(sessionData: sessionData, sender: sender, recipient: recipient)
         
         return try api.updateSession(account: self, bitmarkId: bitmarkId, recipient: recipient, sessionData: updatedSession)
     }
     
-    private func updatedSessionData(bitmarkId: String, sessionData: SessionData, sender: String, recipient: String) throws -> SessionData {
+    private func updatedSessionData(sessionData: SessionData, sender: String, recipient: String) throws -> SessionData {
         let network = self.authKey.network
         let api = API(network: network)
         
