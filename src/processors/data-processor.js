@@ -626,15 +626,16 @@ const doDownloadBitmark = async (touchFaceIdSession, bitmark) => {
 
   let downloadResult = await BitmarkService.downloadFileToCourierServer(touchFaceIdSession, userInformation.bitmarkAccountNumber, asset.id, downloadingFilePath)
   let filename = downloadResult.filename;
-  let decryptedFilePath = `${assetFolderPath}/downloading/${filename}`;
-  let txsDetail = await BitmarkModel.doGetTransactionDetail(bitmark.head_id);
-  let preTxsDetail = await BitmarkModel.doGetTransactionDetail(txsDetail.previous_id);
-  await BitmarkSDK.decryptFile(touchFaceIdSession, downloadingFilePath, downloadResult, preTxsDetail.owner, decryptedFilePath);
+  // let decryptedFilePath = `${assetFolderPath}/downloading/${filename}`;
+  // let txsDetail = await BitmarkModel.doGetTransactionDetail(bitmark.head_id);
+  // let preTxsDetail = await BitmarkModel.doGetTransactionDetail(txsDetail.previous_id);
+  // await BitmarkSDK.decryptFile(touchFaceIdSession, downloadingFilePath, downloadResult, preTxsDetail.owner, decryptedFilePath);
 
   let downloadedFolderPath = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(downloadedFolderPath);
   let downloadedFilePath = `${downloadedFilePath}/${filename}`;
-  await FileUtil.moveFileSafe(decryptedFilePath, downloadedFilePath);
+  // await FileUtil.moveFileSafe(decryptedFilePath, downloadedFilePath);
+  await FileUtil.moveFileSafe(downloadingFilePath, downloadedFilePath);
 
   await FileUtil.removeSafe(downloadingFolderPath);
   asset.filePath = `${downloadedFilePath}`;
@@ -808,24 +809,26 @@ const doIssueFile = async (touchFaceIdSession, filePath, assetName, metadataList
 
 const doTransferBitmark = async (touchFaceIdSession, bitmarkId, receiver) => {
   let { asset } = await doGetLocalBitmarkInformation(bitmarkId);
-  console.log('asset :', asset);
+  console.log('asset :', asset.filePath);
   if (asset && asset.filePath) {
     let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
+    await FileUtil.mkdir(`${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted`);
     let encryptedFilePath = `${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted/${filename}`;
     let sessionData = await BitmarkSDK.encryptFile(touchFaceIdSession, asset.filePath, receiver, encryptedFilePath);
-    await BitmarkService.uploadFileToCourierServer(touchFaceIdSession, userInformation.bitmarkAccountNumber, asset.id, receiver, encryptedFilePath, sessionData);
+    let uploadResult = await BitmarkService.uploadFileToCourierServer(touchFaceIdSession, userInformation.bitmarkAccountNumber, asset.id, receiver, encryptedFilePath, sessionData);
+    console.log({ uploadResult });
   }
 
-  let result = await BitmarkService.doTransferBitmark(touchFaceIdSession, bitmarkId, receiver);
-  await doReloadTransferOffers();
-  await runGetLocalBitmarksInBackground();
+  // let result = await BitmarkService.doTransferBitmark(touchFaceIdSession, bitmarkId, receiver);
+  // await doReloadTransferOffers();
+  // await runGetLocalBitmarksInBackground();
 
-  let localAssets = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS);
-  let currentAsset = localAssets.find(la => la.id === asset.id);
-  if (!currentAsset) {
-    await FileUtil.removeSafe(`${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}`);
-  }
-  return result;
+  // let localAssets = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS);
+  // let currentAsset = localAssets.find(la => la.id === asset.id);
+  // if (!currentAsset) {
+  //   await FileUtil.removeSafe(`${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}`);
+  // }
+  // return result;
 };
 
 const doMigrateWebAccount = async (touchFaceIdSession, token) => {

@@ -281,10 +281,11 @@ const doDecentralizedTransfer = async (touchFaceIdSession, bitmarkAccountNumber,
 
 const uploadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNumber, assetId, receiver, filePath, sessionData) => {
   if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
-    let message = `${sessionData.data_key_alg}|${sessionData.data_key_alg}|*`;
+    let message = `${sessionData.data_key_alg}|${sessionData.enc_data_key}|*`;
     let signature = (await CommonModel.doTryRickSignMessage([message], touchFaceIdSession))[0];
-    await FileUtil.uploadFile({
-      toUrl: `${config.file_courier_server}/${assetId}/${receiver}`,
+    console.log('upload file :', `${config.file_courier_server}/files/${assetId}/${receiver}`);
+    return await FileUtil.uploadFiles({
+      toUrl: `${config.file_courier_server}/files/${assetId}/${receiver}`,
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -302,7 +303,7 @@ const uploadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNumbe
         filename: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length),
         filepath: filePath,
       }]
-    })
+    });
   }
 };
 
@@ -310,7 +311,7 @@ const downloadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNum
   let signature = (await CommonModel.doTryRickSignMessage([assetId], touchFaceIdSession))[0];
   let response;
   await FileUtil.downloadFile({
-    fromUrl: `${config.file_courier_server}/${assetId}/${bitmarkAccountNumber}`,
+    fromUrl: `${config.file_courier_server}/files/${assetId}/${bitmarkAccountNumber}`,
     toFile: filePath,
     method: 'GET',
     headers: {

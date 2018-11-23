@@ -39,8 +39,8 @@ const FileUtil = {
   downloadFile: async (options) => {
     return await RNFS.downloadFile(options).promise;
   },
-  uploadFile: async (options) => {
-    return await RNFS.uploadFile(options).promise;
+  uploadFiles: async (options) => {
+    return await RNFS.uploadFiles(options).promise;
   },
   readDir: async (folderPath) => {
     return await RNFS.readdir(folderPath);
