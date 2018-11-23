@@ -343,6 +343,7 @@ const downloadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNum
     data_key_alg: response.headers['Data-Key-Alg'],
     enc_data_key: response.headers['Enc-Data-Key'],
     filename: response.headers['File-Name'],
+    sender: response.headers['Sender'],
   }
 };
 

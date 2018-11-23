@@ -487,6 +487,7 @@ class BitmarkSDK: NSObject {
       let sessionData = SessionData(encryptedDataKey: encryptedDataKey, dataKeyAlgorithm: sessionData["enc_data_key"]!);
       let data = try account.decryptData(encryptedData, sessionData: sessionData, sender: AccountNumber(address: sender))
       try data.saveFileLocally(url: URL(fileURLWithPath: outputFilePath))
+      callback([true])
     }
     catch let e {
       if let msg = e as? NSString {

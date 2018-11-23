@@ -626,15 +626,12 @@ const doDownloadBitmark = async (touchFaceIdSession, bitmark) => {
 
   let downloadResult = await BitmarkService.downloadFileToCourierServer(touchFaceIdSession, userInformation.bitmarkAccountNumber, asset.id, downloadingFilePath);
   console.log('downloadResult :', downloadResult);
-  let filename = downloadResult.filename;
-  let decryptedFilePath = `${assetFolderPath}/downloading/${filename}`;
-  let txsDetail = await BitmarkModel.doGetTransactionDetail(bitmark.head_id);
-  let preTxsDetail = await BitmarkModel.doGetTransactionDetail(txsDetail.previous_id);
-  await BitmarkSDK.decryptFile(touchFaceIdSession, downloadingFilePath, downloadResult, preTxsDetail.owner, decryptedFilePath);
+  let decryptedFilePath = `${assetFolderPath}/downloading/${downloadResult.filename}`;
+  await BitmarkSDK.decryptFile(touchFaceIdSession, downloadingFilePath, downloadResult, downloadResult.sender, decryptedFilePath);
 
   let downloadedFolderPath = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(downloadedFolderPath);
-  let downloadedFilePath = `${downloadedFolderPath}/${filename}`;
+  let downloadedFilePath = `${downloadedFolderPath}/${downloadResult.filename}`;
   await FileUtil.moveFileSafe(decryptedFilePath, downloadedFilePath);
   // await FileUtil.moveFileSafe(downloadingFilePath, downloadedFilePath);
 
