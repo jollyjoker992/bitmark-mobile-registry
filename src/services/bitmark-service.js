@@ -280,37 +280,55 @@ const doDecentralizedTransfer = async (touchFaceIdSession, bitmarkAccountNumber,
 };
 
 const uploadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNumber, assetId, receiver, filePath, sessionData) => {
+
   if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
     let message = `${sessionData.data_key_alg}|${sessionData.enc_data_key}|*`;
     let signature = (await CommonModel.doTryRickSignMessage([message], touchFaceIdSession))[0];
-    console.log('upload file :', `${config.file_courier_server}/files/${assetId}/${receiver}`);
-    return await FileUtil.uploadFiles({
-      toUrl: `${config.file_courier_server}/files/${assetId}/${receiver}`,
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'multipart/form-data',
-        requester: bitmarkAccountNumber,
-        signature
-      },
-      fields: {
-        data_key_alg: sessionData.data_key_alg,
-        enc_data_key: sessionData.enc_data_key,
-        orig_content_type: '*',
-      },
-      files: [{
-        name: 'file',
-        filename: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length),
-        filepath: filePath,
-      }]
+
+    const formData = new FormData();
+    formData.append('file', {
+      uri: filePath,
+      name: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length)
     });
+    formData.append('data_key_alg', sessionData.data_key_alg);
+    formData.append('enc_data_key', sessionData.enc_data_key);
+    formData.append('orig_content_type', '*');
+
+    let headers = {
+      'Content-Type': 'multipart/form-data',
+      requester: bitmarkAccountNumber,
+      signature
+    };
+
+    let uploadFunction = (headers, formData) => {
+      return new Promise((resolve, reject) => {
+        let statusCode;
+        fetch(`${config.file_courier_server}/files/${assetId}/${receiver}`, {
+          method: 'PUT',
+          headers,
+          body: formData,
+        }).then((response) => {
+          statusCode = response.status;
+          if (statusCode < 400) {
+            return response.json();
+          }
+          return response.text();
+        }).then((data) => {
+          if (statusCode >= 400) {
+            return reject(new Error(`doSubmitSessionDataForDecentralizedIssuance error :` + JSON.stringify(data)));
+          }
+          resolve(data);
+        }).catch(reject);
+      });
+    }
+    return await uploadFunction(headers, formData);
   }
 };
 
 const downloadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNumber, assetId, filePath) => {
   let signature = (await CommonModel.doTryRickSignMessage([assetId], touchFaceIdSession))[0];
   let response;
-  await FileUtil.downloadFile({
+  let result = await FileUtil.downloadFile({
     fromUrl: `${config.file_courier_server}/files/${assetId}/${bitmarkAccountNumber}`,
     toFile: filePath,
     method: 'GET',
@@ -320,10 +338,11 @@ const downloadFileToCourierServer = async (touchFaceIdSession, bitmarkAccountNum
     },
     begin: (res) => response = res
   });
+  console.log('response :', response, result);
   return {
     data_key_alg: response.headers['Data-Key-Alg'],
     enc_data_key: response.headers['Enc-Data-Key'],
-    filename: 'File-Name',
+    filename: response.headers['File-Name'],
   }
 };
 
