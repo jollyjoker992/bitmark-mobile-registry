@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import codePush from "react-native-code-push";
 import { BitmarkAppComponent, CodePushUpdateComponent } from './components';
+import { DataProcessor } from './processors';
 
 export class MainAppComponent extends React.Component {
   constructor(props) {
@@ -12,8 +13,17 @@ export class MainAppComponent extends React.Component {
       progress: 0,
     };
 
+    codePush.checkForUpdate().then((needUpdate) => {
+      console.log('checkForUpdate  :', needUpdate);
+      DataProcessor.setCodePushUpdated(!needUpdate);
+    }).catch(error => {
+      DataProcessor.setCodePushUpdated(true);
+      console.log('checkForUpdate error :', error);
+    });
     codePush.getCurrentPackage().then(updateInfo => {
       console.log('current package :', updateInfo);
+    }).catch(error => {
+      console.log('getCurrentPackage error :', error);
     });
   }
 

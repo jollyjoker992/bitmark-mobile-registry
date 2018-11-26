@@ -19,18 +19,21 @@ export class LocalStorageMigrationComponent extends React.Component {
       status: 'updating',
       progress: 0,
     };
+
+    setTimeout(() => {
+      KeepAwake.activate();
+      DataProcessor.doMigrateFilesToLocalStorage().then(() => {
+        KeepAwake.deactivate();
+      }).catch(error => {
+        KeepAwake.deactivate();
+        console.log('doMigrateFilesToLocalStorage error:', error);
+        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+      });
+    }, 500);
   }
 
   componentDidMount() {
     EventEmitterService.on(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT, this.handerProgress);
-    KeepAwake.activate();
-    DataProcessor.doMigrateFilesToLocalStorage().then(() => {
-      KeepAwake.deactivate();
-    }).catch(error => {
-      KeepAwake.deactivate();
-      console.log('doMigrateFilesToLocalStorage error:', error);
-      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-    });
   }
 
   componentWillUnmount() {
@@ -41,7 +44,10 @@ export class LocalStorageMigrationComponent extends React.Component {
     let status = this.state.status;
     if (progress === 100) {
       status = 'completed';
-      setTimeout(Actions.pop, 2000);
+      setTimeout(() => {
+        Actions.pop();
+        DataProcessor.markDoneLocalStorageMigration();
+      }, 2000);
     }
     this.setState({ progress, status });
   }

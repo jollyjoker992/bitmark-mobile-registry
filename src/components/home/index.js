@@ -41,6 +41,7 @@ export class UserRouterComponent extends Component {
 
   componentDidMount() {
     EventEmitterService.on(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, this.handerReceivedNotification, ComponentName);
+    DataProcessor.setMountedRouter();
     // setTimeout(() => {
     //   PushNotification.localNotification({
     //     message: 'test message',

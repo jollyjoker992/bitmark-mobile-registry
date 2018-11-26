@@ -25,8 +25,51 @@ const helper = require('../utils/helper');
 let userInformation = {};
 let isLoadingData = false;
 let jwt;
-let isMigratingFileToLocalStorage = false;
+
+let mapModalDisplayData = {};
+let keyIndexModalDisplaying = 0;
+const mapModalDisplayKeyIndex = {
+  local_storage_migration: 1,
+  what_new: 2,
+  email_record: 3,
+  weekly_health_data: 4,
+};
+let codePushUpdated = null;
 let didMigrationFileToLocalStorage = false;
+let mountedRouter;
+
+
+let isDisplayingModal = (keyIndex) => {
+  return keyIndexModalDisplaying === keyIndex && !!mapModalDisplayData[keyIndex];
+}
+
+let checkDisplayModal = () => {
+  if (keyIndexModalDisplaying > 0 && !mapModalDisplayData[keyIndexModalDisplaying]) {
+    keyIndexModalDisplaying = 0;
+  }
+  let keyIndexArray = Object.keys(mapModalDisplayData).sort();
+  for (let index = 0; index < keyIndexArray.length; index++) {
+    let keyIndex = parseInt(keyIndexArray[index]);
+    if (mapModalDisplayData[keyIndex] && (keyIndexModalDisplaying <= 0 || keyIndexModalDisplaying > keyIndex)) {
+      console.log('run 1');
+      if (keyIndex === mapModalDisplayKeyIndex.local_storage_migration && mountedRouter) {
+        console.log('run 2');
+        EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE);
+        keyIndexModalDisplaying = keyIndex;
+        break;
+        // } else if (keyIndex === mapModalDisplayKeyIndex.what_new && mountedRouter) {
+        //   Actions.whatNew();
+        //   keyIndexModalDisplaying = keyIndex;
+        //   break;
+      }
+    }
+  }
+};
+
+let updateModal = (keyIndex, data) => {
+  mapModalDisplayData[keyIndex] = data;
+  checkDisplayModal();
+};
 
 // ================================================================================================================================================
 const detectLocalAssetFilePath = async (assetId) => {
@@ -506,13 +549,13 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     jwt = result.jwt_token;
 
     if (justCreatedBitmarkAccount) {
-      // await AccountModel.doMarkMigration(jwt);
-      // didMigrationFileToLocalStorage = true;
+      await AccountModel.doMarkMigration(jwt);
+      didMigrationFileToLocalStorage = true;
     } else {
       didMigrationFileToLocalStorage = await AccountModel.doCheckMigration(jwt);
-      if (!didMigrationFileToLocalStorage && !isMigratingFileToLocalStorage) {
-        isMigratingFileToLocalStorage = true;
-        // EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE);
+      console.log('didMigrationFileToLocalStorage :', didMigrationFileToLocalStorage, isDisplayingModal(mapModalDisplayKeyIndex.local_storage_migration));
+      if (!didMigrationFileToLocalStorage && !isDisplayingModal(mapModalDisplayKeyIndex.local_storage_migration)) {
+        updateModal(mapModalDisplayKeyIndex.local_storage_migration, true);
       }
     }
 
@@ -1141,6 +1184,31 @@ const doMetricOnScreen = async (isActive) => {
   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 };
 
+let markDoneLocalStorageMigration = () => {
+  updateModal(mapModalDisplayKeyIndex.local_storage_migration);
+};
+
+const setMountedRouter = () => {
+  mountedRouter = true;
+  checkDisplayModal();
+};
+
+let setCodePushUpdated = (updated) => {
+  codePushUpdated = !!updated;
+};
+
+let doCheckHaveCodePushUpdate = () => {
+  return new Promise((resolve) => {
+    let checkHaveCodePushUpdate = () => {
+      if (codePushUpdated === true || codePushUpdated === false) {
+        return resolve(codePushUpdated);
+      }
+      setTimeout(checkHaveCodePushUpdate, 1000);
+    };
+    checkHaveCodePushUpdate();
+  });
+};
+
 const doMigrateFilesToLocalStorage = async () => {
   let touchFaceIdSession = CommonModel.getFaceTouchSessionId();
   await runGetLocalBitmarksInBackground();
@@ -1192,8 +1260,8 @@ const doMigrateFilesToLocalStorage = async () => {
   await doCheckNewBitmarks(localAssets);
   EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT, 100);
 
-  // await AccountModel.doMarkMigration(jwt);
-  // didMigrationFileToLocalStorage = true;
+  await AccountModel.doMarkMigration(jwt);
+  didMigrationFileToLocalStorage = true;
 };
 
 const DataProcessor = {
@@ -1245,6 +1313,10 @@ const DataProcessor = {
   doMetricOnScreen,
 
   doMigrateFilesToLocalStorage,
+  markDoneLocalStorageMigration,
+  setMountedRouter,
+  setCodePushUpdated,
+  doCheckHaveCodePushUpdate,
 };
 
 export { DataProcessor };

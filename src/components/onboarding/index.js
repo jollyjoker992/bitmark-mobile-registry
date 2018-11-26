@@ -7,8 +7,12 @@ import { SignInComponent } from './sign-in';
 import { FaceTouchIdComponent } from './face-touch-id';
 import { NotificationComponent } from './notification';
 import { BitmarkWebViewComponent } from '../../commons/components';
+import { DataProcessor } from '../../processors';
 
 export class DefaultRouterComponent extends Component {
+  componentDidMount() {
+    DataProcessor.setMountedRouter();
+  }
   render() {
 
     return (

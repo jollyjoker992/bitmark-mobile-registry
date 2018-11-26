@@ -393,30 +393,34 @@ export class BitmarkAppComponent extends Component {
     });
   }
   doAppRefresh(justCreatedBitmarkAccount) {
-    return DataProcessor.doOpenApp(justCreatedBitmarkAccount).then(user => {
-      console.log('doOpenApp user: ', user)
-      this.setState({ user });
-      if (user && user.bitmarkAccountNumber) {
-        CommonModel.doCheckPasscodeAndFaceTouchId().then(ok => {
-          if (ok) {
-            AppProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount);
-          } else {
-            if (!this.requiringTouchId) {
-              this.requiringTouchId = true;
-              Alert.alert(global.i18n.t("MainComponent_pleaseEnableYourTouchIdMessage"), '', [{
-                text: global.i18n.t("MainComponent_enable"),
-                style: 'cancel',
-                onPress: () => {
-                  Linking.openURL('app-settings:');
-                  this.requiringTouchId = false;
+    DataProcessor.doCheckHaveCodePushUpdate().then(updated => {
+      if (updated) {
+        return DataProcessor.doOpenApp(justCreatedBitmarkAccount).then(user => {
+          user = user || {};
+          this.setState({ user });
+          if (user && user.bitmarkAccountNumber) {
+            CommonModel.doCheckPasscodeAndFaceTouchId().then(ok => {
+              if (ok) {
+                AppProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount);
+              } else {
+                if (!this.requiringTouchId) {
+                  this.requiringTouchId = true;
+                  Alert.alert(global.i18n.t("MainComponent_pleaseEnableYourTouchIdMessage"), '', [{
+                    text: global.i18n.t("MainComponent_enable"),
+                    style: 'cancel',
+                    onPress: () => {
+                      Linking.openURL('app-settings:');
+                      this.requiringTouchId = false;
+                    }
+                  }]);
                 }
-              }]);
-            }
+              }
+            });
           }
+        }).catch(error => {
+          console.log('doAppRefresh error:', error);
         });
       }
-    }).catch(error => {
-      console.log('doAppRefresh error:', error);
     });
   }
 
