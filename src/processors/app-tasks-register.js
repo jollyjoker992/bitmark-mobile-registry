@@ -81,8 +81,13 @@ const doIssueFile = async ({ filePath, assetName, metadataList, quantity, isPubl
   return await submitting(DataProcessor.doIssueFile(touchFaceIdSession, filePath, assetName, metadataList, quantity, isPublicAsset), processingInfo);
 };
 
-const doTransferBitmark = async ({ bitmark, receiver }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doTransferBitmark"));
+const doTransferBitmark = async ({ bitmark, receiver, isDeleting }) => {
+  let touchFaceIdSession;
+  if (isDeleting) {
+    touchFaceIdSession = CommonModel.getFaceTouchSessionId();
+  } else {
+    touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doTransferBitmark"));
+  }
   if (!touchFaceIdSession) {
     return null;
   }

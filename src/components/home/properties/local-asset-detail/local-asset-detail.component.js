@@ -15,7 +15,7 @@ import { AppProcessor, DataProcessor } from '../../../../processors';
 import { EventEmitterService } from '../../../../services';
 import { config } from './../../../../configs';
 import { BitmarkModel } from "../../../../models";
-import { convertWidth } from '../../../../utils';
+import { convertWidth, runPromiseWithoutError } from '../../../../utils';
 import moment from 'moment';
 import { AssetStore, AssetActions } from '../../../../stores';
 import { Actions } from 'react-native-router-flux';
@@ -34,15 +34,17 @@ class PrivateLocalAssetDetailComponent extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     // Augment info for asset preview
-    let contentType = await BitmarkModel.doGetAssetTextContentType(this.props.asset.id);
-    if (contentType && contentType === 'text') {
-      let text = await BitmarkModel.doGetAssetTextContent(this.props.asset.id);
-      this.setState({ assetTextContent: text });
-    }
-
-    this.setState({ contentType });
+    let doGetContentAsset = async () => {
+      let contentType = await BitmarkModel.doGetAssetTextContentType(this.props.asset.id);
+      if (contentType && contentType === 'text') {
+        let text = await BitmarkModel.doGetAssetTextContent(this.props.asset.id);
+        this.setState({ assetTextContent: text });
+      }
+      this.setState({ contentType });
+    };
+    runPromiseWithoutError(doGetContentAsset());
   }
 
   cancelTransferring(bitmark) {
@@ -88,6 +90,9 @@ class PrivateLocalAssetDetailComponent extends React.Component {
   }
 
   render() {
+    if (!this.props.asset) {
+      Actions.pop();
+    }
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', }}>
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={[defaultStyle.header, { height: iosConstant.headerSize.height }]}>

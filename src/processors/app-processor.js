@@ -135,8 +135,8 @@ const doIssueFile = async (filePath, assetName, metadataList, quantity, isPublic
   return executeTask('doIssueFile', { filePath, assetName, metadataList, quantity, isPublicAsset, processingInfo });
 };
 
-const doTransferBitmark = async (bitmark, receiver) => {
-  return executeTask('doTransferBitmark', { bitmark, receiver });
+const doTransferBitmark = async (bitmark, receiver, isDeleting = false) => {
+  return executeTask('doTransferBitmark', { bitmark, receiver, isDeleting });
 };
 
 const doAcceptTransferBitmark = async (transferOffer, processingInfo) => {

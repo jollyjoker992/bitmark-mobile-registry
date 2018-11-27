@@ -555,7 +555,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       didMigrationFileToLocalStorage = await AccountModel.doCheckMigration(jwt);
       console.log('didMigrationFileToLocalStorage :', didMigrationFileToLocalStorage, isDisplayingModal(mapModalDisplayKeyIndex.local_storage_migration));
       if (!didMigrationFileToLocalStorage && !isDisplayingModal(mapModalDisplayKeyIndex.local_storage_migration)) {
-        updateModal(mapModalDisplayKeyIndex.local_storage_migration, true);
+        // updateModal(mapModalDisplayKeyIndex.local_storage_migration, true);
       }
     }
 

@@ -15,6 +15,7 @@ let config = {
   network,
   NETWORKS,
   localization: DeviceInfo.getDeviceLocale(),
+  zeroAddress: 'dw9MQXcC5rJZb3QE1nz86PiQAheMP1dx9M3dr52tT8NNs14m33',
   bitmark_network: NETWORKS.testnet,
   appLink: 'https://itunes.apple.com/us/app/bitmark-registry/id1429427796?ls=1&mt=8',
   api_server_url: 'https://api.test.bitmark.com',
@@ -55,6 +56,7 @@ if (config.network === NETWORKS.testnet) {
   config.web_app_server_url = "https://a.bitmark.com";
   config.preview_asset_url = "https://preview.bitmarkaccountassets.com";
   config.bitmark_web_site = 'https://bitmark.com';
+  config.zeroAddress = 'a3ezwdYVEVrHwszQrYzDTCAZwUD3yKtNsCq9YhEu97bPaGAKy1';
   // TODO
   // config.file_courier_server = 'https://file-courier.test.bitmark.com';
 }

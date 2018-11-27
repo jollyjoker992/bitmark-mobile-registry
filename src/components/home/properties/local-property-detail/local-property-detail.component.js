@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Provider, connect } from 'react-redux';
-import {
+import ReactNative, {
   View, Text, TouchableOpacity, Image, FlatList, ScrollView, ActivityIndicator, TouchableWithoutFeedback, SafeAreaView,
   Clipboard,
   Share,
@@ -22,6 +22,7 @@ import { BitmarkModel } from '../../../../models';
 import { PropertyStore, PropertyActions } from '../../../../stores';
 import { Actions } from 'react-native-router-flux';
 import { iosConstant } from '../../../../configs/ios/ios.config';
+let { ActionSheetIOS } = ReactNative;
 
 class PrivateLocalPropertyDetailComponent extends React.Component {
   constructor(props) {
@@ -119,6 +120,27 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
     }
   }
 
+  deleteBitmark() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      title: i18n.t('LocalPropertyDetailComponent_titleDeleteModal'),
+      options: [i18n.t('LocalPropertyDetailComponent_cancelButtonDeleteModal'), i18n.t('LocalPropertyDetailComponent_deleteButtonDeleteModal')],
+      destructiveButtonIndex: 1,
+      cancelButtonIndex: 0,
+    },
+      (buttonIndex) => {
+        if (buttonIndex === 1) {
+          AppProcessor.doTransferBitmark(this.props.bitmark, config.zeroAddress, true).then((result) => {
+            if (result) {
+              Actions.jump('assets');
+            }
+          }).catch(error => {
+            console.log('error:', error);
+            EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+          })
+        }
+      });
+  }
+
   render() {
     console.log(this.props);
     return (
@@ -170,6 +192,14 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
             <TouchableOpacity style={propertyDetailStyle.topButton} onPress={this.changeTrackingBitmark}>
               <Text style={[propertyDetailStyle.topButtonText]}>{this.props.isTracking ? global.i18n.t("LocalPropertyDetailComponent_stopTracking") : global.i18n.t("LocalPropertyDetailComponent_trackBitmark")}</Text>
             </TouchableOpacity>
+            {this.props.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber && <TouchableOpacity style={propertyDetailStyle.topButton}
+              disabled={this.props.bitmark.status !== 'confirmed'}
+              onPress={this.deleteBitmark.bind(this)}>
+              <Text style={[propertyDetailStyle.topButtonText, {
+                color: this.props.bitmark.status === 'confirmed' ? '#0060F2' : '#C2C2C2'
+              }]}>{global.i18n.t("LocalPropertyDetailComponent_deleteBitmark")}</Text>
+            </TouchableOpacity>
+            }
           </View>}
           <ScrollView style={propertyDetailStyle.content}>
             <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => this.setState({ displayTopButton: false })}>
