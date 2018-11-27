@@ -1,6 +1,7 @@
 import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
 import { merge } from 'lodash';
+import { Actions } from 'react-native-router-flux';
 
 import {
   EventEmitterService,
@@ -10,7 +11,7 @@ import {
   AccountService,
 } from "../services";
 import { CommonModel, AccountModel, UserModel, BitmarkSDK, IftttModel, BitmarkModel, NotificationModel } from '../models';
-import { FileUtil, runPromiseWithoutError } from '../utils';
+import { FileUtil, runPromiseWithoutError, compareVersion } from '../utils';
 import { config } from '../configs';
 import {
   AssetsStore, AssetsActions,
@@ -31,8 +32,6 @@ let keyIndexModalDisplaying = 0;
 const mapModalDisplayKeyIndex = {
   local_storage_migration: 1,
   what_new: 2,
-  email_record: 3,
-  weekly_health_data: 4,
 };
 let codePushUpdated = null;
 let didMigrationFileToLocalStorage = false;
@@ -57,10 +56,10 @@ let checkDisplayModal = () => {
         EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE);
         keyIndexModalDisplaying = keyIndex;
         break;
-        // } else if (keyIndex === mapModalDisplayKeyIndex.what_new && mountedRouter) {
-        //   Actions.whatNew();
-        //   keyIndexModalDisplaying = keyIndex;
-        //   break;
+      } else if (keyIndex === mapModalDisplayKeyIndex.what_new && mountedRouter) {
+        Actions.whatNew();
+        keyIndexModalDisplaying = keyIndex;
+        break;
       }
     }
   }
@@ -551,10 +550,15 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     if (justCreatedBitmarkAccount) {
       await AccountModel.doMarkMigration(jwt);
       didMigrationFileToLocalStorage = true;
+      appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
+      await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
     } else {
       didMigrationFileToLocalStorage = await AccountModel.doCheckMigration(jwt);
       if (!didMigrationFileToLocalStorage && !isDisplayingModal(mapModalDisplayKeyIndex.local_storage_migration)) {
         updateModal(mapModalDisplayKeyIndex.local_storage_migration, true);
+      }
+      if (!appInfo.displayedWhatNewInformation || compareVersion(appInfo.displayedWhatNewInformation, DeviceInfo.getVersion(), 2) < 0) {
+        updateModal(mapModalDisplayKeyIndex.what_new, true);
       }
     }
 
@@ -1263,6 +1267,18 @@ const doMigrateFilesToLocalStorage = async () => {
   didMigrationFileToLocalStorage = true;
 };
 
+let doMarkDisplayedWhatNewInformation = async () => {
+  let appInfo = await doGetAppInformation();
+  appInfo = appInfo || {};
+  appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
+  updateModal(mapModalDisplayKeyIndex.what_new);
+  keyIndexModalDisplaying = 0;
+  await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
+};
+const doDisplayedWhatNewInformation = async () => {
+  updateModal(mapModalDisplayKeyIndex.what_new, true);
+};
+
 const DataProcessor = {
   doOpenApp,
   doCreateAccount,
@@ -1316,6 +1332,8 @@ const DataProcessor = {
   setMountedRouter,
   setCodePushUpdated,
   doCheckHaveCodePushUpdate,
+  doMarkDisplayedWhatNewInformation,
+  doDisplayedWhatNewInformation
 };
 
 export { DataProcessor };

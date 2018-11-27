@@ -27,6 +27,7 @@ import { IssuanceOptionsComponent } from './properties/local-issuance/issuance-o
 import { EventEmitterService } from '../../services';
 import { AppProcessor, DataProcessor } from '../../processors';
 import { LocalStorageMigrationComponent } from './account/local-storage-migration.component';
+import { WhatNewComponent } from './account/what-new.component';
 
 // import PushNotification from 'react-native-push-notification';
 
@@ -109,6 +110,7 @@ export class UserRouterComponent extends Component {
             <Scene key="localPropertyDetail" panHandlers={null} component={LocalPropertyDetailComponent} />
             <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
             <Scene key="localStorageMigration" component={LocalStorageMigrationComponent} />
+            <Scene key="whatNew" component={WhatNewComponent} />
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >
