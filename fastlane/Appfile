@@ -19,6 +19,16 @@ for_lane :alpha do
     team_id "A52M7AQ8B2" # Developer Portal Team ID
 end
 
+for_lane :betatravis do
+    app_identifier "com.bitmark.registry.beta"
+    team_id "A52M7AQ8B2" # Developer Portal Team ID
+end
+
+for_lane :developtravis do
+    app_identifier "com.bitmark.registry.inhouse"
+    team_id "A52M7AQ8B2" # Developer Portal Team ID
+end
+
 
 # For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile
