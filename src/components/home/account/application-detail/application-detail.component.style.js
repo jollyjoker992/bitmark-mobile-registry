@@ -59,21 +59,21 @@ export default StyleSheet.create({
     width: '100%',
     marginTop: 38,
   },
-  bottomArea: {
-    position: 'absolute',
-    width: '100%',
-    bottom: 0,
-    left: convertWidth(19),
-  },
 
   donorInfo: {
-    flexDirection: 'column',
+    flexDirection: 'column', justifyContent: 'flex-end',
+    paddingBottom: 10,
     marginTop: 17,
+    flex: 1,
+  },
+
+  bottomArea: {
+    width: '100%',
   },
 
   version: {
     fontSize: 14,
-    color: '#838383',
+    color: 'black',
     fontFamily: 'Andale Mono'
   },
 

@@ -268,6 +268,7 @@
     "ApplicationDetailComponent_sendFeedback": "ApplicationDetailComponent_sendFeedback",
     "ApplicationDetailComponent_sendFeedbackErrorTitle": "ApplicationDetailComponent_sendFeedbackErrorTitle",
     "ApplicationDetailComponent_sendFeedbackErrorMessage": "ApplicationDetailComponent_sendFeedbackErrorMessage",
+    "ApplicationDetailComponent_whatNew": "ApplicationDetailComponent_whatNew",
     "ScanQRCodeComponent_qrCodeIsInvalid": "ScanQRCodeComponent_qrCodeIsInvalid",
     "ScanQRCodeComponent_qrCodeIsExpired": "ScanQRCodeComponent_qrCodeIsExpired",
     "ScanQRCodeComponent_successTitle": "ScanQRCodeComponent_successTitle",
@@ -368,7 +369,16 @@
     "LocalStorageMigrationComponent_status2": "LocalStorageMigrationComponent_status2",
     "LocalStorageMigrationComponent_title": "LocalStorageMigrationComponent_title",
     "LocalStorageMigrationComponent_message": "LocalStorageMigrationComponent_message",
-    "LocalStorageMigrationComponent_buttonText": "LocalStorageMigrationComponent_buttonText"
+    "LocalStorageMigrationComponent_buttonText": "LocalStorageMigrationComponent_buttonText",
+    "WhatNewComponent_headerTitle1": "WhatNewComponent_headerTitle1",
+    "WhatNewComponent_skipButtonText": "WhatNewComponent_skipButtonText",
+    "WhatNewComponent_doneButtonText": "WhatNewComponent_doneButtonText",
+    "WhatNewComponent_closeButtonText": "WhatNewComponent_closeButtonText",
+    "WhatNewComponent_headerTitle2": "WhatNewComponent_headerTitle2",
+    "WhatNewComponent_versionInformationText": "WhatNewComponent_versionInformationText",
+    "WhatNewComponent_versionInformationReleaseDiff1": "WhatNewComponent_versionInformationReleaseDiff1",
+    "WhatNewComponent_versionInformationReleaseDiff2": "WhatNewComponent_versionInformationReleaseDiff2",
+    "WhatNewComponent_releaseNoteText": "WhatNewComponent_releaseNoteText"
   },
   "en": {
     "BitmarkInternetOffComponent_networkError": "Network Error",
@@ -639,6 +649,7 @@
     "ApplicationDetailComponent_sendFeedback": "SEND FEEDBACK",
     "ApplicationDetailComponent_sendFeedbackErrorTitle": "Error",
     "ApplicationDetailComponent_sendFeedbackErrorMessage": "Could not send mail. Please send a mail to support@bitmark.com",
+    "ApplicationDetailComponent_whatNew": "WHAT’S NEW?",
     "ScanQRCodeComponent_qrCodeIsInvalid": "QR code is invalid!",
     "ScanQRCodeComponent_qrCodeIsExpired": "QR code is expired!",
     "ScanQRCodeComponent_successTitle": "Success!",
@@ -739,7 +750,16 @@
     "LocalStorageMigrationComponent_status2": "COMPLETE",
     "LocalStorageMigrationComponent_title": "New version available",
     "LocalStorageMigrationComponent_message": "Please update the app to the new version to continue using. This will be quick and will not affect any of your data.",
-    "LocalStorageMigrationComponent_buttonText": "Update"
+    "LocalStorageMigrationComponent_buttonText": "Update",
+    "WhatNewComponent_headerTitle1": "WHAT’S NEW?",
+    "WhatNewComponent_skipButtonText": "Skip",
+    "WhatNewComponent_doneButtonText": "Done",
+    "WhatNewComponent_closeButtonText": "Close",
+    "WhatNewComponent_headerTitle2": "RELEASE NOTES",
+    "WhatNewComponent_versionInformationText": "VERSION {{version}}",
+    "WhatNewComponent_versionInformationReleaseDiff1": "just now",
+    "WhatNewComponent_versionInformationReleaseDiff2": "{{day}}d ago",
+    "WhatNewComponent_releaseNoteText": "New features: \n"
   },
   "zh": {
     "BitmarkInternetOffComponent_networkError": "網路異常",
@@ -1010,6 +1030,7 @@
     "ApplicationDetailComponent_sendFeedback": "傳送反饋",
     "ApplicationDetailComponent_sendFeedbackErrorTitle": "發生錯誤",
     "ApplicationDetailComponent_sendFeedbackErrorMessage": "無法發送電子信件，請寄送至 support@bitmark.com",
+    "ApplicationDetailComponent_whatNew": "ApplicationDetailComponent_whatNew",
     "ScanQRCodeComponent_qrCodeIsInvalid": "QR 碼無效！",
     "ScanQRCodeComponent_qrCodeIsExpired": "QR 碼已失效！",
     "ScanQRCodeComponent_successTitle": "成功！",
@@ -1110,7 +1131,16 @@
     "LocalStorageMigrationComponent_status2": "完成",
     "LocalStorageMigrationComponent_title": "已可取得新版本",
     "LocalStorageMigrationComponent_message": "欲繼續使用，請更新應用程式製作新版本。這個過程相當快速且不會影響到你的任何數據。",
-    "LocalStorageMigrationComponent_buttonText": "更新"
+    "LocalStorageMigrationComponent_buttonText": "更新",
+    "WhatNewComponent_headerTitle1": "最新功能！",
+    "WhatNewComponent_skipButtonText": "略過",
+    "WhatNewComponent_doneButtonText": "完成",
+    "WhatNewComponent_closeButtonText": "關閉",
+    "WhatNewComponent_headerTitle2": "版本歷史紀錄",
+    "WhatNewComponent_versionInformationText": "版本",
+    "WhatNewComponent_versionInformationReleaseDiff1": "今天",
+    "WhatNewComponent_versionInformationReleaseDiff2": "天前",
+    "WhatNewComponent_releaseNoteText": "WhatNewComponent_releaseNoteText"
   },
   "vi": {
     "BitmarkInternetOffComponent_networkError": "BitmarkInternetOffComponent_networkError",
@@ -1381,6 +1411,7 @@
     "ApplicationDetailComponent_sendFeedback": "ApplicationDetailComponent_sendFeedback",
     "ApplicationDetailComponent_sendFeedbackErrorTitle": "ApplicationDetailComponent_sendFeedbackErrorTitle",
     "ApplicationDetailComponent_sendFeedbackErrorMessage": "ApplicationDetailComponent_sendFeedbackErrorMessage",
+    "ApplicationDetailComponent_whatNew": "ApplicationDetailComponent_whatNew",
     "ScanQRCodeComponent_qrCodeIsInvalid": "ScanQRCodeComponent_qrCodeIsInvalid",
     "ScanQRCodeComponent_qrCodeIsExpired": "ScanQRCodeComponent_qrCodeIsExpired",
     "ScanQRCodeComponent_successTitle": "ScanQRCodeComponent_successTitle",
@@ -1481,6 +1512,15 @@
     "LocalStorageMigrationComponent_status2": "LocalStorageMigrationComponent_status2",
     "LocalStorageMigrationComponent_title": "LocalStorageMigrationComponent_title",
     "LocalStorageMigrationComponent_message": "LocalStorageMigrationComponent_message",
-    "LocalStorageMigrationComponent_buttonText": "LocalStorageMigrationComponent_buttonText"
+    "LocalStorageMigrationComponent_buttonText": "LocalStorageMigrationComponent_buttonText",
+    "WhatNewComponent_headerTitle1": "WhatNewComponent_headerTitle1",
+    "WhatNewComponent_skipButtonText": "WhatNewComponent_skipButtonText",
+    "WhatNewComponent_doneButtonText": "WhatNewComponent_doneButtonText",
+    "WhatNewComponent_closeButtonText": "WhatNewComponent_closeButtonText",
+    "WhatNewComponent_headerTitle2": "WhatNewComponent_headerTitle2",
+    "WhatNewComponent_versionInformationText": "WhatNewComponent_versionInformationText",
+    "WhatNewComponent_versionInformationReleaseDiff1": "WhatNewComponent_versionInformationReleaseDiff1",
+    "WhatNewComponent_versionInformationReleaseDiff2": "WhatNewComponent_versionInformationReleaseDiff2",
+    "WhatNewComponent_releaseNoteText": "WhatNewComponent_releaseNoteText"
   }
 }

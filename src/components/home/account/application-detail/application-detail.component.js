@@ -100,6 +100,10 @@ export class ApplicationDetailComponent extends React.Component {
 
           <View style={applicationDetailStyle.bottomArea}>
             <View style={applicationDetailStyle.lineSetting}></View>
+            <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => Actions.whatNew({ showReleaseNote: true })}>
+              <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_whatNew")}</Text>
+            </TouchableOpacity>
+            <View style={applicationDetailStyle.lineSetting}></View>
             <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => rateApp()}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_appStoreRatingAndReview")}</Text>
             </TouchableOpacity>
