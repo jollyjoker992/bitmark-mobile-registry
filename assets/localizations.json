@@ -378,7 +378,8 @@
     "WhatNewComponent_versionInformationText": "WhatNewComponent_versionInformationText",
     "WhatNewComponent_versionInformationReleaseDiff1": "WhatNewComponent_versionInformationReleaseDiff1",
     "WhatNewComponent_versionInformationReleaseDiff2": "WhatNewComponent_versionInformationReleaseDiff2",
-    "WhatNewComponent_releaseNoteText": "WhatNewComponent_releaseNoteText"
+    "WhatNewComponent_releaseNoteText": "WhatNewComponent_releaseNoteText",
+    "FaceTouchId_doOpenApp": "FaceTouchId_doOpenApp"
   },
   "en": {
     "BitmarkInternetOffComponent_networkError": "Network Error",
@@ -759,7 +760,8 @@
     "WhatNewComponent_versionInformationText": "VERSION {{version}}",
     "WhatNewComponent_versionInformationReleaseDiff1": "just now",
     "WhatNewComponent_versionInformationReleaseDiff2": "{{day}}d ago",
-    "WhatNewComponent_releaseNoteText": "New features: \n"
+    "WhatNewComponent_releaseNoteText": "New features: \n",
+    "FaceTouchId_doOpenApp": "Your fingerprint signature is required."
   },
   "zh": {
     "BitmarkInternetOffComponent_networkError": "網路異常",
@@ -1140,7 +1142,8 @@
     "WhatNewComponent_versionInformationText": "版本",
     "WhatNewComponent_versionInformationReleaseDiff1": "今天",
     "WhatNewComponent_versionInformationReleaseDiff2": "天前",
-    "WhatNewComponent_releaseNoteText": "WhatNewComponent_releaseNoteText"
+    "WhatNewComponent_releaseNoteText": "WhatNewComponent_releaseNoteText",
+    "FaceTouchId_doOpenApp": "請提供你的指紋簽名"
   },
   "vi": {
     "BitmarkInternetOffComponent_networkError": "BitmarkInternetOffComponent_networkError",
@@ -1521,6 +1524,7 @@
     "WhatNewComponent_versionInformationText": "WhatNewComponent_versionInformationText",
     "WhatNewComponent_versionInformationReleaseDiff1": "WhatNewComponent_versionInformationReleaseDiff1",
     "WhatNewComponent_versionInformationReleaseDiff2": "WhatNewComponent_versionInformationReleaseDiff2",
-    "WhatNewComponent_releaseNoteText": "WhatNewComponent_releaseNoteText"
+    "WhatNewComponent_releaseNoteText": "WhatNewComponent_releaseNoteText",
+    "FaceTouchId_doOpenApp": "FaceTouchId_doOpenApp"
   }
 }
