@@ -34,7 +34,6 @@ const mapModalDisplayKeyIndex = {
   what_new: 2,
 };
 let codePushUpdated = null;
-let didMigrationFileToLocalStorage = false;
 let mountedRouter;
 
 
@@ -549,11 +548,11 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
 
     if (justCreatedBitmarkAccount) {
       await AccountModel.doMarkMigration(jwt);
-      didMigrationFileToLocalStorage = true;
+      appInfo.didMigrationFileToLocalStorage = true;
       appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
       await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
-    } else {
-      didMigrationFileToLocalStorage = await AccountModel.doCheckMigration(jwt);
+    } else if (!appInfo.didMigrationFileToLocalStorage) {
+      let didMigrationFileToLocalStorage = await AccountModel.doCheckMigration(jwt);
       if (!didMigrationFileToLocalStorage && !isDisplayingModal(mapModalDisplayKeyIndex.local_storage_migration)) {
         updateModal(mapModalDisplayKeyIndex.local_storage_migration, true);
       }
@@ -1264,7 +1263,9 @@ const doMigrateFilesToLocalStorage = async () => {
   EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT, 100);
 
   await AccountModel.doMarkMigration(jwt);
-  didMigrationFileToLocalStorage = true;
+  let appInfo = await doGetAppInformation();
+  appInfo.didMigrationFileToLocalStorage = true;
+  await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 };
 
 let doMarkDisplayedWhatNewInformation = async () => {
