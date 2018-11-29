@@ -548,18 +548,19 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
 
     if (justCreatedBitmarkAccount) {
       await AccountModel.doMarkMigration(jwt);
-      appInfo.didMigrationFileToLocalStorage = true;
+      userInformation.didMigrationFileToLocalStorage = true;
       appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
       await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
-    } else if (!appInfo.didMigrationFileToLocalStorage) {
-      let didMigrationFileToLocalStorage = await AccountModel.doCheckMigration(jwt);
-      if (!didMigrationFileToLocalStorage && !isDisplayingModal(mapModalDisplayKeyIndex.local_storage_migration)) {
+    } else if (!userInformation.didMigrationFileToLocalStorage) {
+      userInformation.didMigrationFileToLocalStorage = await AccountModel.doCheckMigration(jwt);
+      if (!userInformation.didMigrationFileToLocalStorage && !isDisplayingModal(mapModalDisplayKeyIndex.local_storage_migration)) {
         updateModal(mapModalDisplayKeyIndex.local_storage_migration, true);
       }
       if (!appInfo.displayedWhatNewInformation || compareVersion(appInfo.displayedWhatNewInformation, DeviceInfo.getVersion(), 2) < 0) {
         updateModal(mapModalDisplayKeyIndex.what_new, true);
       }
     }
+    await UserModel.doUpdateUserInfo(userInformation);
 
     let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
     let trackingBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS)) || [];
@@ -1263,9 +1264,8 @@ const doMigrateFilesToLocalStorage = async () => {
   EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT, 100);
 
   await AccountModel.doMarkMigration(jwt);
-  let appInfo = await doGetAppInformation();
-  appInfo.didMigrationFileToLocalStorage = true;
-  await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
+  userInformation.didMigrationFileToLocalStorage = true;
+  await UserModel.doUpdateUserInfo(userInformation);
 };
 
 let doMarkDisplayedWhatNewInformation = async () => {
