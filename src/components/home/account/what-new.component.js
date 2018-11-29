@@ -57,7 +57,16 @@ export class WhatNewComponent extends Component {
                 }}
               >
                 <View style={styles.newContentSwipePage}>
-
+                  <Image style={styles.newSwipeImage} source={require('./../../../../assets/imgs/what_new_1.png')} />
+                  <View style={styles.newSwipeInformationArea}>
+                    <Text style={styles.newDescription}>{i18n.t('WhatNewComponent_newDescription1')}</Text>
+                  </View>
+                </View>
+                <View style={styles.newContentSwipePage}>
+                  <Image style={styles.newSwipeImage} source={require('./../../../../assets/imgs/what_new_2.png')} />
+                  <View style={styles.newSwipeInformationArea}>
+                    <Text style={styles.newDescription}>{i18n.t('WhatNewComponent_newDescription2')}</Text>
+                  </View>
                 </View>
               </Swiper>
               {this.state.index < 1 && <TouchableOpacity style={styles.skipButton} onPress={() => this.setState({ step: 2 })}>
@@ -134,7 +143,7 @@ const styles = StyleSheet.create({
     marginTop: iosConfig.isIPhoneX ? 60 : 25,
     flex: 1, flexDirection: 'column', justifyContent: 'flex-start',
   },
-  s51New1Description: {
+  newDescription: {
     width: convertWidth(305),
     fontFamily: 'Avenir Light', fontWeight: '300', fontSize: 16, textAlign: 'center',
   },
