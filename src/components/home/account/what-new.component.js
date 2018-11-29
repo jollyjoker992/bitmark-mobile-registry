@@ -44,7 +44,7 @@ export class WhatNewComponent extends Component {
             </View>
             <View style={styles.newContent}>
               <Swiper
-                activeDotColor='#FF4444'
+                activeDotColor='#0060F2'
                 showsPagination={true}
                 showsButtons={false}
                 buttonWrapperStyle={{ color: 'black' }}
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: '100%', height: 44,
-    borderBottomColor: '#FF4444', borderBottomWidth: 1,
+    borderBottomColor: '#0060F2', borderBottomWidth: 1,
     flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
   },
   headerTitle: {
@@ -154,13 +154,13 @@ const styles = StyleSheet.create({
     position: 'absolute', bottom: iosConfig.isIPhoneX ? 0 : 15, left: 27, zIndex: 1,
   },
   skipButtonText: {
-    color: '#FF4444', fontFamily: 'Avenir Light', fontSize: 16,
+    color: '#0060F2', fontFamily: 'Avenir Light', fontSize: 16,
   },
   doneButton: {
     position: 'absolute', bottom: iosConfig.isIPhoneX ? 0 : 15, right: 27, zIndex: 1,
   },
   doneButtonText: {
-    color: '#FF4444', fontFamily: 'Avenir Light', fontSize: 16, fontWeight: 'bold'
+    color: '#0060F2', fontFamily: 'Avenir Light', fontSize: 16, fontWeight: 'bold'
   },
 
   closeButton: {
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   closeButtonText: {
-    fontFamily: 'Avenir Light', color: '#FF4444', textAlign: 'center', textAlignVertical: 'center', fontSize: 16,
+    fontFamily: 'Avenir Light', color: '#0060F2', textAlign: 'center', textAlignVertical: 'center', fontSize: 16,
   },
 
   versionInformation: {
