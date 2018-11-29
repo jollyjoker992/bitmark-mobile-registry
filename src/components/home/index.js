@@ -109,8 +109,8 @@ export class UserRouterComponent extends Component {
             <Scene key="localAssetDetail" panHandlers={null} component={LocalAssetDetailComponent} />
             <Scene key="localPropertyDetail" panHandlers={null} component={LocalPropertyDetailComponent} />
             <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
-            <Scene key="localStorageMigration" component={LocalStorageMigrationComponent} />
-            <Scene key="whatNew" component={WhatNewComponent} />
+            <Scene key="localStorageMigration" panHandlers={null} component={LocalStorageMigrationComponent} />
+            <Scene key="whatNew" panHandlers={null} component={WhatNewComponent} />
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >

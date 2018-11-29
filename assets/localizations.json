@@ -765,7 +765,7 @@
     "WhatNewComponent_versionInformationReleaseDiff1": "just now",
     "WhatNewComponent_versionInformationReleaseDiff2": "{{day}}d ago",
     "WhatNewComponent_releaseNoteText": "New features: \n",
-    "WhatNewComponent_newDescription1": "Adds Mandarin Chinese Language support in Traditional Chinese.",
+    "WhatNewComponent_newDescription1": "Add Mandarin Chinese Language support in Traditional Chinese.",
     "WhatNewComponent_newDescription2": "Delete any property from your Bitmark Registry account that you no longer want or added by mistake. ",
     "FaceTouchId_doOpenApp": "Your fingerprint signature is required."
   },
