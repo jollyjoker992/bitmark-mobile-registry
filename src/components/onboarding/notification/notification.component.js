@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
-  View, Text, Image, TouchableOpacity, SafeAreaView,
+  View, Text, Image, TouchableOpacity,
 } from 'react-native'
 
 import notificationStyle from './notification.component.style';
@@ -9,6 +10,9 @@ import { DataProcessor } from '../../../processors';
 import { iosConstant } from '../../../configs/ios/ios.config';
 
 export class NotificationComponent extends React.Component {
+  propTypes = {
+    justCreatedBitmarkAccount: PropTypes.bool,
+  }
   constructor(props) {
     super(props);
   }
@@ -16,7 +20,7 @@ export class NotificationComponent extends React.Component {
 
     let requestNotification = () => {
       NotificationService.doRequestNotificationPermissions().then((result) => {
-        EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, true);
+        EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, this.props.justCreatedBitmarkAccount);
         return DataProcessor.doMarkRequestedNotification(result);
       }).catch(error => {
         console.log('NotificationComponent requestNotification error:', error);
@@ -40,7 +44,7 @@ export class NotificationComponent extends React.Component {
             backgroundColor: '#F2FAFF',
             height: 45 + (iosConstant.blankFooter / 2)
           }]} onPress={() => {
-            EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, true);
+            EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, this.props.justCreatedBitmarkAccount);
           }}>
             <Text style={[notificationStyle.enableButtonText, {
               color: '#0060F2',

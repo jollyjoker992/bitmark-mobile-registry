@@ -50,7 +50,7 @@ export class NewAccountComponent extends React.Component {
     let user = await AppProcessor.doCreateNewAccount(enableTouchId);
     await helper.addTestWriteRecoveryPhaseActionRequired(user);
 
-    return user;
+    return { user, justCreatedBitmarkAccount: true };
   }
 
   render() {

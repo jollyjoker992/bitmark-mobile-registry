@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, Image, TouchableOpacity, SafeAreaView,
+  View, Text, Image, TouchableOpacity,
   Linking,
   AppState,
   Alert
@@ -9,7 +9,6 @@ import {
 import { CommonModel } from './../../../models';
 
 import faceTouchIdStyle from './face-touch-id.component.style';
-import { iosConstant } from '../../../configs/ios/ios.config';
 import { Actions } from 'react-native-router-flux';
 
 export class FaceTouchIdComponent extends React.Component {
@@ -49,9 +48,9 @@ export class FaceTouchIdComponent extends React.Component {
   }
 
   doContinue(enableTouchId) {
-    this.props.doContinue(enableTouchId).then((user) => {
-      if (user) {
-        Actions.notification();
+    this.props.doContinue(enableTouchId).then((result) => {
+      if (result && result.user) {
+        Actions.notification({ justCreatedBitmarkAccount: result.justCreatedBitmarkAccount });
       }
     }).catch(error => {
       console.log('error :', error);
