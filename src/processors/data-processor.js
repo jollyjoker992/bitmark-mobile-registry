@@ -49,9 +49,7 @@ let checkDisplayModal = () => {
   for (let index = 0; index < keyIndexArray.length; index++) {
     let keyIndex = parseInt(keyIndexArray[index]);
     if (mapModalDisplayData[keyIndex] && (keyIndexModalDisplaying <= 0 || keyIndexModalDisplaying > keyIndex)) {
-      console.log('run 1');
       if (keyIndex === mapModalDisplayKeyIndex.local_storage_migration && mountedRouter) {
-        console.log('run 2');
         EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE);
         keyIndexModalDisplaying = keyIndex;
         break;
@@ -1241,19 +1239,18 @@ const doMigrateFilesToLocalStorage = async () => {
       await FileUtil.mkdir(downloadingFolderPath);
       let bitmark = asset.bitmarks.find(bitmark => bitmark.status === 'confirmed');
       if (bitmark) {
-        let result = await runPromiseWithoutError(BitmarkSDK.downloadBitmark(touchFaceIdSession, bitmark.id, downloadingFolderPath));
-        if (!result || !result.error) {
-          let listDownloadFile = await FileUtil.readDir(downloadingFolderPath);
-          let filePathAfterDownloading = `${downloadingFolderPath}/${listDownloadFile[0]}`;
+        await BitmarkSDK.downloadBitmark(touchFaceIdSession, bitmark.id, downloadingFolderPath);
+        let listDownloadFile = await FileUtil.readDir(downloadingFolderPath);
+        let filePathAfterDownloading = `${downloadingFolderPath}/${listDownloadFile[0]}`;
 
-          let downloadedFolderPath = `${assetFolderPath}/downloaded`;
-          await FileUtil.mkdir(downloadedFolderPath);
-          let downloadedFilePath = `${downloadedFolderPath}${filePathAfterDownloading.substring(filePathAfterDownloading.lastIndexOf('/'), filePathAfterDownloading.length)}`;
-          await FileUtil.moveFileSafe(filePathAfterDownloading, downloadedFilePath);
-          await FileUtil.removeSafe(downloadingFolderPath);
+        let downloadedFolderPath = `${assetFolderPath}/downloaded`;
+        await FileUtil.mkdir(downloadedFolderPath);
+        let downloadedFilePath = `${downloadedFolderPath}${filePathAfterDownloading.substring(filePathAfterDownloading.lastIndexOf('/'), filePathAfterDownloading.length)}`;
+        console.log({ filePathAfterDownloading, downloadedFilePath });
+        await FileUtil.moveFileSafe(filePathAfterDownloading, downloadedFilePath);
+        await FileUtil.removeSafe(downloadingFolderPath);
 
-          asset.filePath = `${downloadedFilePath}`;
-        }
+        asset.filePath = `${downloadedFilePath}`;
       }
     } else {
       let list = await FileUtil.readDir(`${assetFolderPath}/downloaded`);

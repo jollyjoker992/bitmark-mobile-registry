@@ -25,6 +25,8 @@ export class LocalStorageMigrationComponent extends React.Component {
       AppProcessor.doMigrateFilesToLocalStorage().then(() => {
         KeepAwake.deactivate();
       }).catch(error => {
+        Actions.pop();
+        DataProcessor.markDoneLocalStorageMigration();
         KeepAwake.deactivate();
         console.log('doMigrateFilesToLocalStorage error:', error);
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
