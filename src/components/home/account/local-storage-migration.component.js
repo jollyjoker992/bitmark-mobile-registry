@@ -10,7 +10,6 @@ import { DataProcessor, AppProcessor } from '../../../processors';
 import { config } from '../../../configs';
 
 
-
 export class LocalStorageMigrationComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -19,19 +18,20 @@ export class LocalStorageMigrationComponent extends React.Component {
       status: 'updating',
       progress: 0,
     };
-
-    setTimeout(() => {
-      KeepAwake.activate();
-      AppProcessor.doMigrateFilesToLocalStorage().then(() => {
-        KeepAwake.deactivate();
-      }).catch(error => {
-        Actions.pop();
-        DataProcessor.markDoneLocalStorageMigration();
-        KeepAwake.deactivate();
-        console.log('doMigrateFilesToLocalStorage error:', error);
-        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-      });
-    }, 500);
+    if (!DataProcessor.getUserInformation().didMigrationFileToLocalStorage) {
+      setTimeout(() => {
+        KeepAwake.activate();
+        AppProcessor.doMigrateFilesToLocalStorage().then(() => {
+          KeepAwake.deactivate();
+        }).catch(error => {
+          Actions.pop();
+          DataProcessor.markDoneLocalStorageMigration();
+          KeepAwake.deactivate();
+          console.log('doMigrateFilesToLocalStorage error:', error);
+          EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+        });
+      }, 500);
+    }
   }
 
   componentDidMount() {
