@@ -203,6 +203,10 @@ const doCheckNoLongerSupportVersion = async () => {
   return true;
 };
 
+const doMigrateFilesToLocalStorage = async () => {
+  return executeTask('doMigrateFilesToLocalStorage');
+};
+
 // ================================================================================================
 // ================================================================================================
 // ================================================================================================
@@ -234,6 +238,7 @@ let AppProcessor = {
   doGetAllTransfersOffers,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
+  doMigrateFilesToLocalStorage,
 
   doStartBackgroundProcess,
 

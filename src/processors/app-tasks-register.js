@@ -203,6 +203,10 @@ const doDecentralizedTransfer = async ({ token, expiredTime }) => {
   return await processing(DataProcessor.doDecentralizedTransfer(touchFaceIdSession, token));
 };
 
+const doMigrateFilesToLocalStorage = async () => {
+  return await processing(DataProcessor.doMigrateFilesToLocalStorage());
+};
+
 // ================================================================================================
 // ================================================================================================
 // ================================================================================================
@@ -225,6 +229,7 @@ let AppTasks = {
   doSignInOnWebApp,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
+  doMigrateFilesToLocalStorage,
 };
 
 let registeredTasks = {};
