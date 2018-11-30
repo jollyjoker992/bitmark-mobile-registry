@@ -230,7 +230,8 @@ export class SignInComponent extends React.Component {
     let inputtedWords = [];
     this.state.smallerList.forEach(item => inputtedWords.push(item.word));
     this.state.biggerList.forEach(item => inputtedWords.push(item.word));
-    return await AppProcessor.doLogin(inputtedWords, enableTouchId);
+    let user = await AppProcessor.doLogin(inputtedWords, enableTouchId);
+    return { user, justCreatedBitmarkAccount: false };
   }
 
   doReset(numberPhraseWords) {
