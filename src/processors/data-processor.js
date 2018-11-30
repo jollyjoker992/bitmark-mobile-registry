@@ -1241,17 +1241,19 @@ const doMigrateFilesToLocalStorage = async () => {
       await FileUtil.mkdir(downloadingFolderPath);
       let bitmark = asset.bitmarks.find(bitmark => bitmark.status === 'confirmed');
       if (bitmark) {
-        await BitmarkSDK.downloadBitmark(touchFaceIdSession, bitmark.id, downloadingFolderPath);
-        let listDownloadFile = await FileUtil.readDir(downloadingFolderPath);
-        let filePathAfterDownloading = `${downloadingFolderPath}/${listDownloadFile[0]}`;
+        let result = await runPromiseWithoutError(BitmarkSDK.downloadBitmark(touchFaceIdSession, bitmark.id, downloadingFolderPath));
+        if (!result || !result.error) {
+          let listDownloadFile = await FileUtil.readDir(downloadingFolderPath);
+          let filePathAfterDownloading = `${downloadingFolderPath}/${listDownloadFile[0]}`;
 
-        let downloadedFolderPath = `${assetFolderPath}/downloaded`;
-        await FileUtil.mkdir(downloadedFolderPath);
-        let downloadedFilePath = `${downloadedFolderPath}${filePathAfterDownloading.substring(filePathAfterDownloading.lastIndexOf('/'), filePathAfterDownloading.length)}`;
-        await FileUtil.moveFileSafe(filePathAfterDownloading, downloadedFilePath);
-        await FileUtil.removeSafe(downloadingFolderPath);
+          let downloadedFolderPath = `${assetFolderPath}/downloaded`;
+          await FileUtil.mkdir(downloadedFolderPath);
+          let downloadedFilePath = `${downloadedFolderPath}${filePathAfterDownloading.substring(filePathAfterDownloading.lastIndexOf('/'), filePathAfterDownloading.length)}`;
+          await FileUtil.moveFileSafe(filePathAfterDownloading, downloadedFilePath);
+          await FileUtil.removeSafe(downloadingFolderPath);
 
-        asset.filePath = `${downloadedFilePath}`;
+          asset.filePath = `${downloadedFilePath}`;
+        }
       }
     } else {
       let list = await FileUtil.readDir(`${assetFolderPath}/downloaded`);
