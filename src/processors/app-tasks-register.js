@@ -204,7 +204,7 @@ const doDecentralizedTransfer = async ({ token, expiredTime }) => {
 };
 
 const doMigrateFilesToLocalStorage = async () => {
-  return await processing(DataProcessor.doMigrateFilesToLocalStorage());
+  return await DataProcessor.doMigrateFilesToLocalStorage();
 };
 
 // ================================================================================================
