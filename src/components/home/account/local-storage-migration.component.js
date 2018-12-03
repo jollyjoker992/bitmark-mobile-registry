@@ -19,18 +19,22 @@ export class LocalStorageMigrationComponent extends React.Component {
       progress: 0,
     };
     if (!DataProcessor.getUserInformation().didMigrationFileToLocalStorage) {
-      setTimeout(() => {
+
+      let doMigration = () => {
         KeepAwake.activate();
         AppProcessor.doMigrateFilesToLocalStorage().then(() => {
           KeepAwake.deactivate();
         }).catch(error => {
-          Actions.pop();
-          DataProcessor.markDoneLocalStorageMigration();
+          // Actions.pop();
+          // DataProcessor.markDoneLocalStorageMigration();
+          // EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
           KeepAwake.deactivate();
+          doMigration();
           console.log('doMigrateFilesToLocalStorage error:', error);
-          EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
         });
-      }, 500);
+      };
+
+      setTimeout(doMigration, 500);
     }
   }
 
