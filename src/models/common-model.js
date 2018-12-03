@@ -172,6 +172,19 @@ const doCreateSignatureData = async (touchFaceId) => {
   return { timestamp, signature: signatures[0] };
 };
 
+const doWaitTouchFaceId = () => {
+  return new Promise((resolve) => {
+    let checkTouchFaceIdSession = () => {
+      if (currentFaceTouchSessionId) {
+        return resolve(currentFaceTouchSessionId);
+      }
+      setTimeout(checkTouchFaceIdSession, 500);
+    };
+    checkTouchFaceIdSession();
+  });
+
+};
+
 // ================================================================================================
 // ================================================================================================
 // ================================================================================================
@@ -219,6 +232,8 @@ let CommonModel = {
   doCreateSignatureData,
   doTryCreateSignatureData,
   doTryRickSignMessage,
+
+  doWaitTouchFaceId,
   setFaceTouchSessionId,
   getFaceTouchSessionId,
 
