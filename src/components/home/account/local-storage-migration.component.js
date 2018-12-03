@@ -44,7 +44,7 @@ export class LocalStorageMigrationComponent extends React.Component {
       }).catch(error => {
         this.migrating = false;
         KeepAwake.deactivate();
-        if (this.countMigration >= 2) {
+        if (this.countMigration >= 3) {
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
         } else {
           this.doMigration();
