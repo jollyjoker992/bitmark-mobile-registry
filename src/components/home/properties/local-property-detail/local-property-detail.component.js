@@ -187,7 +187,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
                   if (this.props.asset.filePath) {
                     Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
                   } else {
-                    Alert.alert(i18n.t('LocalAssetDetailComponent_emptyFileTransferTitle'), i18n.t('LocalAssetDetailComponent_emptyFileTransferMessage'));
+                    Alert.alert(global.i18n.t('LocalAssetDetailComponent_emptyFileTransferTitle'), global.i18n.t('LocalAssetDetailComponent_emptyFileTransferMessage'));
                   }
                 }}>
                 <Text style={[propertyDetailStyle.topButtonText, {
