@@ -27,7 +27,6 @@ let { ActionSheetIOS } = ReactNative;
 class PrivateLocalPropertyDetailComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.downloadAsset = this.downloadAsset.bind(this);
     this.clickOnProvenance = this.clickOnProvenance.bind(this);
     this.changeTrackingBitmark = this.changeTrackingBitmark.bind(this);
     this.doGetScreenData = this.doGetScreenData.bind(this);
@@ -71,19 +70,23 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
   }
 
   downloadAsset() {
+    AppProcessor.doDownloadBitmark(this.props.bitmark, {
+      indicator: true, title: global.i18n.t("LocalPropertyDetailComponent_preparingToExport"), message: global.i18n.t("LocalPropertyDetailComponent_downloadingFile", { fileName: this.props.asset.name })
+    }).then(filePath => {
+      if (filePath) {
+        Share.share({ title: this.props.asset.name, url: filePath });
+      }
+    }).catch(error => {
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("LocalPropertyDetailComponent_notReadyToDownload") });
+      console.log('doDownload asset error :', error);
+    });
+  }
+
+  shareAssetFile() {
     if (this.props.asset.filePath) {
       Share.share({ title: this.props.asset.name, url: this.props.asset.filePath });
     } else {
-      AppProcessor.doDownloadBitmark(this.props.bitmark, {
-        indicator: true, title: global.i18n.t("LocalPropertyDetailComponent_preparingToExport"), message: global.i18n.t("LocalPropertyDetailComponent_downloadingFile", { fileName: this.props.asset.name })
-      }).then(filePath => {
-        if (filePath) {
-          Share.share({ title: this.props.asset.name, url: filePath });
-        }
-      }).catch(error => {
-        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("LocalPropertyDetailComponent_notReadyToDownload") });
-        console.log('doDownload asset error :', error);
-      });
+      this.downloadAsset();
     }
   }
 
@@ -165,7 +168,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
             {this.props.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber && <TouchableOpacity
               style={propertyDetailStyle.downloadAssetButton}
               disabled={!this.props.asset.filePath && this.props.bitmark.status !== 'confirmed'}
-              onPress={this.downloadAsset}
+              onPress={this.shareAssetFile.bind(this)}
             >
               {!this.props.asset.filePath && <Text style={[propertyDetailStyle.downloadAssetButtonText, this.props.bitmark.status !== 'confirmed' ? { color: '#A4B5CD', } : {}]}>
                 {global.i18n.t("LocalPropertyDetailComponent_downloadAsset")}
@@ -187,7 +190,10 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
                   if (this.props.asset.filePath) {
                     Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
                   } else {
-                    Alert.alert(global.i18n.t('LocalAssetDetailComponent_emptyFileTransferTitle'), global.i18n.t('LocalAssetDetailComponent_emptyFileTransferMessage'));
+                    Alert.alert(global.i18n.t('LocalAssetDetailComponent_emptyFileTransferTitle'), global.i18n.t('LocalAssetDetailComponent_emptyFileTransferMessage'), [{
+                      text: global.i18n.t("LocalAssetDetailComponent_downloadAssetButtonText"),
+                      onPress: this.downloadAsset.bind(this),
+                    }]);
                   }
                 }}>
                 <Text style={[propertyDetailStyle.topButtonText, {

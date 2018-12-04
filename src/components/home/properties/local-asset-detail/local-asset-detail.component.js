@@ -25,7 +25,6 @@ class PrivateLocalAssetDetailComponent extends React.Component {
   constructor(props) {
     super(props);
     this.cancelTransferring = this.cancelTransferring.bind(this);
-    this.downloadAsset = this.downloadAsset.bind(this);
 
     this.state = {
       displayTopButton: false,
@@ -73,19 +72,23 @@ class PrivateLocalAssetDetailComponent extends React.Component {
   }
 
   downloadAsset() {
+    AppProcessor.doDownloadBitmark(this.props.bitmarkCanDownload, {
+      indicator: true, title: global.i18n.t("LocalAssetDetailComponent_preparingToExport"), message: global.i18n.t("LocalAssetDetailComponent_downloadingFile", { fileName: this.props.asset.name })
+    }).then(filePath => {
+      if (filePath) {
+        Share.share({ title: this.props.asset.name, url: filePath });
+      }
+    }).catch(error => {
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("LocalAssetDetailComponent_notReadyToDownload") });
+      console.log('doDownload asset error :', error);
+    });
+  }
+
+  shareAssetFile() {
     if (this.props.asset.filePath) {
       Share.share({ title: this.props.asset.name, url: this.props.asset.filePath });
     } else {
-      AppProcessor.doDownloadBitmark(this.props.bitmarkCanDownload, {
-        indicator: true, title: global.i18n.t("LocalAssetDetailComponent_preparingToExport"), message: global.i18n.t("LocalAssetDetailComponent_downloadingFile", { fileName: this.props.asset.name })
-      }).then(filePath => {
-        if (filePath) {
-          Share.share({ title: this.props.asset.name, url: filePath });
-        }
-      }).catch(error => {
-        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("LocalAssetDetailComponent_notReadyToDownload") });
-        console.log('doDownload asset error :', error);
-      });
+      this.downloadAsset();
     }
   }
 
@@ -109,7 +112,7 @@ class PrivateLocalAssetDetailComponent extends React.Component {
 
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={assetDetailStyle.body}>
           {this.state.displayTopButton && <View style={assetDetailStyle.topButtonsArea}>
-            <TouchableOpacity style={assetDetailStyle.downloadAssetButton} disabled={!this.props.bitmarkCanDownload && !this.props.asset.filePath} onPress={this.downloadAsset}>
+            <TouchableOpacity style={assetDetailStyle.downloadAssetButton} disabled={!this.props.bitmarkCanDownload && !this.props.asset.filePath} onPress={this.shareAssetFile.bind(this)}>
               {this.props.asset.filePath && <Text style={[assetDetailStyle.downloadAssetButtonText]}>
                 {global.i18n.t("LocalAssetDetailComponent_shareAssetButtonText")}
               </Text>}
@@ -235,7 +238,10 @@ class PrivateLocalAssetDetailComponent extends React.Component {
                         if (this.props.asset.filePath) {
                           Actions.localPropertyTransfer({ asset: this.props.asset, bitmark: bitmark });
                         } else {
-                          Alert.alert(global.i18n.t('LocalAssetDetailComponent_emptyFileTransferTitle'), global.i18n.t('LocalAssetDetailComponent_emptyFileTransferMessage'));
+                          Alert.alert(global.i18n.t('LocalAssetDetailComponent_emptyFileTransferTitle'), global.i18n.t('LocalAssetDetailComponent_emptyFileTransferMessage'), [{
+                            text: global.i18n.t("LocalAssetDetailComponent_downloadAssetButtonText"),
+                            onPress: this.downloadAsset.bind(this),
+                          }]);
                         }
                       }}>
                         <Text style={[assetDetailStyle.bitmarkTransferButtonText]}>{global.i18n.t("LocalAssetDetailComponent_send")}</Text>
