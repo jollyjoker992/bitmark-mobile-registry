@@ -183,7 +183,13 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
             {this.props.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber && !this.props.bitmark.transferOfferId &&
               <TouchableOpacity style={propertyDetailStyle.topButton}
                 disabled={this.props.bitmark.status !== 'confirmed'}
-                onPress={() => Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset })}>
+                onPress={() => {
+                  if (this.props.asset.filePath) {
+                    Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
+                  } else {
+                    Alert.alert(i18n.t('LocalAssetDetailComponent_emptyFileTransferTitle'), i18n.t('LocalAssetDetailComponent_emptyFileTransferMessage'));
+                  }
+                }}>
                 <Text style={[propertyDetailStyle.topButtonText, {
                   color: this.props.bitmark.status === 'confirmed' ? '#0060F2' : '#C2C2C2'
                 }]}>{global.i18n.t("LocalPropertyDetailComponent_sendBitmark")}</Text>

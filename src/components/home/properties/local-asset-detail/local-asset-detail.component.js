@@ -232,7 +232,11 @@ class PrivateLocalAssetDetailComponent extends React.Component {
                         <Text style={[assetDetailStyle.bitmarkViewButtonText]}>{global.i18n.t("LocalAssetDetailComponent_viewDetails")}</Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={[assetDetailStyle.bitmarkTransferButton]} onPress={() => {
-                        Actions.localPropertyTransfer({ asset: this.props.asset, bitmark: bitmark });
+                        if (this.props.asset.filePath) {
+                          Actions.localPropertyTransfer({ asset: this.props.asset, bitmark: bitmark });
+                        } else {
+                          Alert.alert(i18n.t('LocalAssetDetailComponent_emptyFileTransferTitle'), i18n.t('LocalAssetDetailComponent_emptyFileTransferMessage'));
+                        }
                       }}>
                         <Text style={[assetDetailStyle.bitmarkTransferButtonText]}>{global.i18n.t("LocalAssetDetailComponent_send")}</Text>
                       </TouchableOpacity>
