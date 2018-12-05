@@ -2347,7 +2347,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.registry.beta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "204c0a64-7569-42e5-98c6-744024437b8c";
-				PROVISIONING_PROFILE_SPECIFIER = "Bitmark Registry Inhouse Development";
+				PROVISIONING_PROFILE_SPECIFIER = "Bitmark Registry Beta Development";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
