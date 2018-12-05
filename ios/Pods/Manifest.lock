@@ -5,26 +5,30 @@ PODS:
     - HockeySDK/DefaultLib (= 5.1.4)
   - HockeySDK/DefaultLib (5.1.4)
   - KeychainAccess (3.1.2)
+  - Sodium (0.7.0)
   - TweetNacl (1.0.1)
 
 DEPENDENCIES:
   - BitmarkSDK
   - HockeySDK
   - KeychainAccess
+  - Sodium
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - BitmarkSDK
     - HockeySDK
     - KeychainAccess
+    - Sodium
     - TweetNacl
 
 SPEC CHECKSUMS:
   BitmarkSDK: 8d528ebc33eaa1aed09db9f00c110916e127c352
   HockeySDK: 15afe6bc0a5bfe3a531fd73dbf082095f37dac3b
   KeychainAccess: b3816fddcf28aa29d94b10ec305cd52be14c472b
+  Sodium: c5510cc6f5e1b27858e5f260b5cac80d4a3f9379
   TweetNacl: ea279cd32bffee69c59c73631470d3419db675df
 
-PODFILE CHECKSUM: 11797dc510dbf2b50365c6ecd73c65cd37a92ce8
+PODFILE CHECKSUM: 4c3d73df54c51f4d5f4d76c985f217f699cb6854
 
 COCOAPODS: 1.5.3
