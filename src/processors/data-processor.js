@@ -1200,6 +1200,10 @@ let setCodePushUpdated = (updated) => {
 
 let doCheckHaveCodePushUpdate = () => {
   return new Promise((resolve) => {
+    if (DeviceInfo.getBundleId() === 'com.bitmark.registry.beta') {
+      resolve(true);
+      return;
+    }
     let checkHaveCodePushUpdate = () => {
       if (codePushUpdated === true || codePushUpdated === false) {
         return resolve(codePushUpdated);
