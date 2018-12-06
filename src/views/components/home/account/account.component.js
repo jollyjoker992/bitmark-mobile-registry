@@ -11,7 +11,7 @@ import { Actions } from 'react-native-router-flux';
 import accountStyle from './account.component.style';
 import { AppProcessor, EventEmitterService, DataProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
-import { AccountStore } from 'src/views/stores';
+import { AccountStore } from 'src/views';
 
 const SubTabs = {
   settings: 'SETTINGS',

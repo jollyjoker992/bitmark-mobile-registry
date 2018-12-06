@@ -15,7 +15,7 @@ import { BitmarkModel, AppProcessor, EventEmitterService, CacheData } from 'src/
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
 import { defaultStyles } from 'src/views/commons';
 import { config, constant } from 'src/configs';
-import { AssetStore, AssetActions } from 'src/views/stores';
+import { AssetStore, AssetActions } from 'src/views';
 
 
 

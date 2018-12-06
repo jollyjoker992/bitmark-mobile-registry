@@ -18,7 +18,7 @@ import { DataProcessor, BitmarkModel, AppProcessor, EventEmitterService, CacheDa
 import { defaultStyles } from 'src/views/commons';
 import { convertWidth } from 'src/utils';
 import { config, constant } from 'src/configs';
-import { PropertyStore, PropertyActions } from 'src/views/stores';
+import { PropertyStore, PropertyActions } from 'src/views';
 
 
 

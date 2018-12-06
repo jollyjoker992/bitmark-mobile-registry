@@ -15,7 +15,7 @@ import { DataProcessor, AppProcessor, EventEmitterService, CacheData } from 'src
 import { config, constant } from 'src/configs';
 import { defaultStyles } from 'src/views/commons';
 import { convertWidth } from 'src/utils';
-import { TransactionsStore } from 'src/views/stores';
+import { TransactionsStore } from 'src/views';
 
 let SubTabs = {
   required: 'ACTIONS REQUIRED',

@@ -10,7 +10,7 @@ import { config, constant } from 'src/configs';
 import { EventEmitterService, AppProcessor, DataProcessor, CacheData } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
-import { AccountStore } from 'src/views/stores';
+import { AccountStore } from 'src/views';
 
 class PrivateIftttActiveComponent extends React.Component {
   constructor(props) {
