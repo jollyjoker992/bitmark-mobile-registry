@@ -10,7 +10,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 
 import assetsStyle from './assets.component.style';
-import { DataProcessor } from 'src/processors';
+import { DataProcessor, CacheData } from 'src/processors';
 import { defaultStyles, BitmarkWebViewComponent } from 'src/views/commons';
 import { config } from 'src/configs';
 import { AssetsStore } from 'src/views/stores';
@@ -176,7 +176,7 @@ class PrivateAssetsComponent extends React.Component {
                   <Text style={[assetsStyle.assetName, { color: item.created_at ? 'black' : '#999999' }]} numberOfLines={1}>{item.name}</Text>
                   <View style={assetsStyle.assetCreatorRow}>
                     <Text style={[assetsStyle.assetCreator, { color: item.created_at ? 'black' : '#999999' }]} numberOfLines={1}>
-                      {item.registrant === DataProcessor.getUserInformation().bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : '[' + item.registrant.substring(0, 4) + '...' + item.registrant.substring(item.registrant.length - 4, item.registrant.length) + ']'}
+                      {item.registrant === CacheData.userInformation.bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : '[' + item.registrant.substring(0, 4) + '...' + item.registrant.substring(item.registrant.length - 4, item.registrant.length) + ']'}
                     </Text>
                   </View>
                   <View style={assetsStyle.assetQuantityArea}>
@@ -220,7 +220,7 @@ class PrivateAssetsComponent extends React.Component {
                   <View style={assetsStyle.trackingRowCurrentOwner}>
                     <Text style={[assetsStyle.trackingRowCurrentOwnerText, {
                       color: item.status === 'pending' ? '#999999' : '#0060F2'
-                    }]}>{global.i18n.t("AssetsComponent_currentOwner")}: {item.owner === DataProcessor.getUserInformation().bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : (
+                    }]}>{global.i18n.t("AssetsComponent_currentOwner")}: {item.owner === CacheData.userInformation.bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : (
                       '[' + item.owner.substring(0, 4) + '...' + item.owner.substring(item.owner.length - 4, item.owner.length) + ']'
                     )}
                     </Text>

@@ -7,7 +7,7 @@ import Camera from 'react-native-camera';
 import Hyperlink from 'react-native-hyperlink';
 import { Actions } from 'react-native-router-flux';
 import componentStyle from './sign-in.component.style';
-import { DataProcessor, AppProcessor, EventEmitterService } from 'src/processors';
+import { AppProcessor, EventEmitterService, CacheData } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 
 
@@ -16,7 +16,7 @@ export class WebAccountSignInComponent extends React.Component {
     super(props);
 
     this.state = {
-      userInformation: DataProcessor.getUserInformation(),
+      userInformation: CacheData.userInformation,
     };
     this.scanned = false;
   }

@@ -28,40 +28,34 @@ import {
   TransactionsStore, TransactionsActions,
 } from 'src/views/stores';
 import { config } from 'src/configs';
-
-let userInformation = {};
-let isLoadingData = false;
-let jwt;
+import { CacheData } from './caches';
 
 let mapModalDisplayData = {};
-let keyIndexModalDisplaying = 0;
 const mapModalDisplayKeyIndex = {
   local_storage_migration: 1,
   what_new: 2,
 };
-let codePushUpdated = null;
-let mountedRouter;
 
 
 let isDisplayingModal = (keyIndex) => {
-  return keyIndexModalDisplaying === keyIndex && !!mapModalDisplayData[keyIndex];
+  return CacheData.keyIndexModalDisplaying === keyIndex && !!mapModalDisplayData[keyIndex];
 }
 
 let checkDisplayModal = () => {
-  if (keyIndexModalDisplaying > 0 && !mapModalDisplayData[keyIndexModalDisplaying]) {
-    keyIndexModalDisplaying = 0;
+  if (CacheData.keyIndexModalDisplaying > 0 && !mapModalDisplayData[CacheData.keyIndexModalDisplaying]) {
+    CacheData.keyIndexModalDisplaying = 0;
   }
   let keyIndexArray = Object.keys(mapModalDisplayData).sort();
   for (let index = 0; index < keyIndexArray.length; index++) {
     let keyIndex = parseInt(keyIndexArray[index]);
-    if (mapModalDisplayData[keyIndex] && (keyIndexModalDisplaying <= 0 || keyIndexModalDisplaying > keyIndex)) {
-      if (keyIndex === mapModalDisplayKeyIndex.local_storage_migration && mountedRouter) {
+    if (mapModalDisplayData[keyIndex] && (CacheData.keyIndexModalDisplaying <= 0 || CacheData.keyIndexModalDisplaying > keyIndex)) {
+      if (keyIndex === mapModalDisplayKeyIndex.local_storage_migration && CacheData.mountedRouter) {
         EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE);
-        keyIndexModalDisplaying = keyIndex;
+        CacheData.keyIndexModalDisplaying = keyIndex;
         break;
-      } else if (keyIndex === mapModalDisplayKeyIndex.what_new && mountedRouter) {
+      } else if (keyIndex === mapModalDisplayKeyIndex.what_new && CacheData.mountedRouter) {
         Actions.whatNew();
-        keyIndexModalDisplaying = keyIndex;
+        CacheData.keyIndexModalDisplaying = keyIndex;
         break;
       }
     }
@@ -75,7 +69,7 @@ let updateModal = (keyIndex, data) => {
 
 // ================================================================================================================================================
 const detectLocalAssetFilePath = async (assetId) => {
-  let assetFolderPath = `${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${assetId}`;
+  let assetFolderPath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${assetId}`;
   let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
   if (!existAssetFolder || existAssetFolder.error) {
     return null;
@@ -182,15 +176,15 @@ const doCheckNewBitmarks = async (localAssets) => {
 
 const setAppLoadingStatus = () => {
   let assetsStoreState = merge({}, AssetsStore.getState().data);
-  assetsStoreState.appLoadingData = isLoadingData;
+  assetsStoreState.appLoadingData = CacheData.isLoadingData;
   AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
 
   let accountStoreState = merge({}, AccountStore.getState().data);
-  accountStoreState.appLoadingData = isLoadingData;
+  accountStoreState.appLoadingData = CacheData.isLoadingData;
   AccountStore.dispatch(AccountActions.init(accountStoreState));
 
   let transactionStoreState = merge({}, TransactionsStore.getState().data);
-  transactionStoreState.appLoadingData = isLoadingData;
+  transactionStoreState.appLoadingData = CacheData.isLoadingData;
   TransactionsStore.dispatch(TransactionsActions.init(transactionStoreState));
 }
 // ================================================================================================================================================
@@ -213,7 +207,7 @@ const runGetTransferOfferInBackground = () => {
     if (queueGetTransferOffer.length > 1) {
       return;
     }
-    TransactionService.doGetAllTransferOffers(userInformation.bitmarkAccountNumber).then(transferOffers => {
+    TransactionService.doGetAllTransferOffers(CacheData.userInformation.bitmarkAccountNumber).then(transferOffers => {
       console.log('runOnBackground  runGetTransferOfferInBackground success');
       queueGetTransferOffer.forEach(queueResolve => queueResolve(transferOffers));
       queueGetTransferOffer = [];
@@ -233,7 +227,7 @@ const runGetTrackingBitmarksInBackground = () => {
     if (queueGetTrackingBitmarks.length > 1) {
       return;
     }
-    BitmarkService.doGetTrackingBitmarks(userInformation.bitmarkAccountNumber).then(trackingBitmarks => {
+    BitmarkService.doGetTrackingBitmarks(CacheData.userInformation.bitmarkAccountNumber).then(trackingBitmarks => {
       console.log('runOnBackground  runGetTrackingBitmarksInBackground success');
       queueGetTrackingBitmarks.forEach(queueResolve => queueResolve(trackingBitmarks));
       queueGetTrackingBitmarks = [];
@@ -252,7 +246,7 @@ const runGetIFTTTInformationInBackground = () => {
     if (queueGetIFTTTInformation.length > 1) {
       return;
     }
-    IftttModel.doGetIFtttInformation(userInformation.bitmarkAccountNumber).then(iftttInformation => {
+    IftttModel.doGetIFtttInformation(CacheData.userInformation.bitmarkAccountNumber).then(iftttInformation => {
       console.log('runOnBackground  runGetIFTTTInformationInBackground success');
       queueGetIFTTTInformation.forEach(queueResolve => queueResolve(iftttInformation));
       queueGetIFTTTInformation = [];
@@ -277,7 +271,7 @@ const runGetTransactionsInBackground = () => {
       let oldTransactions, lastOffset;
       let canContinue = true;
       while (canContinue) {
-        let data = await TransactionService.doGet100Transactions(userInformation.bitmarkAccountNumber, oldTransactions, lastOffset);
+        let data = await TransactionService.doGet100Transactions(CacheData.userInformation.bitmarkAccountNumber, oldTransactions, lastOffset);
         canContinue = !!data;
         if (data) {
           oldTransactions = data.transactions;
@@ -317,7 +311,7 @@ const runGetLocalBitmarksInBackground = (outgoingTransferOffers) => {
       let oldLocalAssets, lastOffset;
       let canContinue = true;
       while (canContinue) {
-        let data = await BitmarkService.doGet100Bitmarks(userInformation.bitmarkAccountNumber, oldLocalAssets, lastOffset);
+        let data = await BitmarkService.doGet100Bitmarks(CacheData.userInformation.bitmarkAccountNumber, oldLocalAssets, lastOffset);
         canContinue = data.hasChanging;
         oldLocalAssets = data.localAssets;
         oldLocalAssets = recheckLocalAssets(oldLocalAssets, outgoingTransferOffers);
@@ -345,10 +339,10 @@ const runGetLocalBitmarksInBackground = (outgoingTransferOffers) => {
 
 const runOnBackground = async () => {
   let userInfo = await UserModel.doTryGetCurrentUser();
-  if (userInformation === null || JSON.stringify(userInfo) !== JSON.stringify(userInformation)) {
-    userInformation = userInfo;
+  if (CacheData.userInformation === null || JSON.stringify(userInfo) !== JSON.stringify(CacheData.userInformation)) {
+    CacheData.userInformation = userInfo;
     let accountStoreState = merge({}, AccountStore.getState().data);
-    accountStoreState.userInformation = userInformation;
+    accountStoreState.CacheData.userInformation = CacheData.userInformation;
     AccountStore.dispatch(AccountActions.init(accountStoreState));
   }
 
@@ -358,7 +352,7 @@ const runOnBackground = async () => {
   appInfo.offScreenAt = moment().toDate().getTime();
   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 
-  if (userInformation && userInformation.bitmarkAccountNumber) {
+  if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
     let runParallel = () => {
       return new Promise((resolve) => {
         Promise.all([
@@ -388,12 +382,12 @@ const runOnBackground = async () => {
 };
 
 const doReloadUserData = async () => {
-  isLoadingData = true;
+  CacheData.isLoadingData = true;
   setAppLoadingStatus();
 
   await runOnBackground();
 
-  isLoadingData = false;
+  CacheData.isLoadingData = false;
   setAppLoadingStatus();
 };
 const doReloadTrackingBitmark = async () => {
@@ -415,13 +409,13 @@ const doReloadLocalBitmarks = async () => {
 const configNotification = () => {
   const onRegistered = async (registeredNotificationInfo) => {
     let notificationUUID = registeredNotificationInfo ? registeredNotificationInfo.token : null;
-    if (!userInformation || !userInformation.bitmarkAccountNumber) {
-      userInformation = await UserModel.doGetCurrentUser();
+    if (!CacheData.userInformation || !CacheData.userInformation.bitmarkAccountNumber) {
+      CacheData.userInformation = await UserModel.doGetCurrentUser();
     }
-    if (notificationUUID && userInformation.notificationUUID !== notificationUUID) {
-      NotificationService.doRegisterNotificationInfo(userInformation.bitmarkAccountNumber, notificationUUID).then(() => {
-        userInformation.notificationUUID = notificationUUID;
-        return UserModel.doUpdateUserInfo(userInformation);
+    if (notificationUUID && CacheData.userInformation.notificationUUID !== notificationUUID) {
+      NotificationService.doRegisterNotificationInfo(CacheData.userInformation.bitmarkAccountNumber, notificationUUID).then(() => {
+        CacheData.userInformation.notificationUUID = notificationUUID;
+        return UserModel.doUpdateUserInfo(CacheData.userInformation);
       }).catch(error => {
         console.log('DataProcessor doRegisterNotificationInfo error:', error);
       });
@@ -429,8 +423,8 @@ const configNotification = () => {
   };
   const onReceivedNotification = async (notificationData) => {
     if (!notificationData.foreground) {
-      if (!userInformation || !userInformation.bitmarkAccountNumber) {
-        userInformation = await UserModel.doGetCurrentUser();
+      if (!CacheData.userInformation || !CacheData.userInformation.bitmarkAccountNumber) {
+        CacheData.userInformation = await UserModel.doGetCurrentUser();
       }
       setTimeout(async () => {
         EventEmitterService.emit(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, notificationData.data);
@@ -460,11 +454,11 @@ const stopInterval = () => {
 const doStartBackgroundProcess = async (justCreatedBitmarkAccount) => {
   await doReloadUserData();
   startInterval();
-  if (!justCreatedBitmarkAccount && userInformation && userInformation.bitmarkAccountNumber) {
+  if (!justCreatedBitmarkAccount && CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
     let result = await NotificationService.doCheckNotificationPermission();
     await doMarkRequestedNotification(result);
   }
-  return userInformation;
+  return CacheData.userInformation;
 };
 
 const doCreateAccount = async (touchFaceIdSession) => {
@@ -481,20 +475,20 @@ const doCreateAccount = async (touchFaceIdSession) => {
 };
 
 const doLogin = async (touchFaceIdSession) => {
-  userInformation = await AccountService.doGetCurrentAccount(touchFaceIdSession);
+  CacheData.userInformation = await AccountService.doGetCurrentAccount(touchFaceIdSession);
   let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
-  await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
-  return userInformation;
+  await NotificationModel.doTryRegisterAccount(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  return CacheData.userInformation;
 };
 
 const doLogout = async () => {
-  if (userInformation.notificationUUID) {
+  if (CacheData.userInformation.notificationUUID) {
     let signatureData = await CommonModel.doTryCreateSignatureData(global.i18n.t("DataProcessor_pleaseSignToAuthorizeYourTransactions"));
-    await NotificationService.doTryDeregisterNotificationInfo(userInformation.bitmarkAccountNumber, userInformation.notificationUUID, signatureData);
+    await NotificationService.doTryDeregisterNotificationInfo(CacheData.userInformation.bitmarkAccountNumber, CacheData.userInformation.notificationUUID, signatureData);
   }
   await AccountModel.doLogout();
   await UserModel.doRemoveUserInfo();
-  userInformation = {};
+  CacheData.userInformation = {};
   AssetsStore.dispatch(AssetsActions.reset());
   BottomTabStore.dispatch(BottomTabActions.reset());
   AssetStore.dispatch(AssetActions.reset());
@@ -525,7 +519,7 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 };
 
 const doOpenApp = async (justCreatedBitmarkAccount) => {
-  userInformation = await UserModel.doTryGetCurrentUser();
+  CacheData.userInformation = await UserModel.doTryGetCurrentUser();
 
   let appInfo = await doGetAppInformation();
   appInfo = appInfo || {};
@@ -538,33 +532,33 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
     await CommonModel.doTrackEvent({
       event_name: 'registry_download',
-      account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
+      account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
     });
   }
 
-  if (userInformation && userInformation.bitmarkAccountNumber) {
+  if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
     configNotification();
     await checkAppNeedResetLocalData(appInfo);
 
     let signatureData = await CommonModel.doCreateSignatureData(CommonModel.getFaceTouchSessionId());
-    let result = await AccountModel.doRegisterJWT(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
-    jwt = result.jwt_token;
+    let result = await AccountModel.doRegisterJWT(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+    CacheData.jwt = result.jwt_token;
 
     if (justCreatedBitmarkAccount) {
-      await AccountModel.doMarkMigration(jwt);
-      userInformation.didMigrationFileToLocalStorage = true;
+      await AccountModel.doMarkMigration(CacheData.jwt);
+      CacheData.userInformation.didMigrationFileToLocalStorage = true;
       appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
       await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
-    } else if (!userInformation.didMigrationFileToLocalStorage) {
-      userInformation.didMigrationFileToLocalStorage = await AccountModel.doCheckMigration(jwt);
-      if (!userInformation.didMigrationFileToLocalStorage && !isDisplayingModal(mapModalDisplayKeyIndex.local_storage_migration)) {
+    } else if (!CacheData.userInformation.didMigrationFileToLocalStorage) {
+      CacheData.userInformation.didMigrationFileToLocalStorage = await AccountModel.doCheckMigration(CacheData.jwt);
+      if (!CacheData.userInformation.didMigrationFileToLocalStorage && !isDisplayingModal(mapModalDisplayKeyIndex.local_storage_migration)) {
         updateModal(mapModalDisplayKeyIndex.local_storage_migration, true);
       }
       if (!appInfo.displayedWhatNewInformation || compareVersion(appInfo.displayedWhatNewInformation, DeviceInfo.getVersion(), 2) < 0) {
         updateModal(mapModalDisplayKeyIndex.what_new, true);
       }
     }
-    await UserModel.doUpdateUserInfo(userInformation);
+    await UserModel.doUpdateUserInfo(CacheData.userInformation);
 
     let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
     let trackingBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS)) || [];
@@ -583,7 +577,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     let totalTasks = 0;
     actionRequired.forEach(item => totalTasks += (item.number ? item.number : 1));
     // Add "Write Down Your Recovery Phrase" action required which was created when creating account if any
-    let testRecoveryPhaseActionRequired = await CommonModel.doGetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${userInformation.bitmarkAccountNumber}`);
+    let testRecoveryPhaseActionRequired = await CommonModel.doGetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${CacheData.userInformation.bitmarkAccountNumber}`);
     if (testRecoveryPhaseActionRequired) {
       actionRequired.unshift({
         key: actionRequired.length,
@@ -637,7 +631,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     }
 
     AccountStore.dispatch(AccountActions.init({
-      userInformation,
+      userInformation: CacheData.userInformation,
       iftttInformation: await doGetIftttInformation(),
     }));
 
@@ -645,14 +639,14 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
   }
 
   setAppLoadingStatus();
-  return userInformation;
+  return CacheData.userInformation;
 };
 
 const doDownloadBitmark = async (touchFaceIdSession, bitmark) => {
   let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
   let asset = localAssets.find(asset => asset.id === bitmark.asset_id);
 
-  // let assetFolderPath = `${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${bitmark.asset_id}`;
+  // let assetFolderPath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${bitmark.asset_id}`;
   // await FileUtil.mkdir(assetFolderPath);
   // let downloadingFolderPath = `${assetFolderPath}/downloading`;
   // await FileUtil.mkdir(downloadingFolderPath);
@@ -668,13 +662,13 @@ const doDownloadBitmark = async (touchFaceIdSession, bitmark) => {
   // await FileUtil.removeSafe(downloadingFolderPath);
   // asset.filePath = `${downloadedFilePath}`;
 
-  let assetFolderPath = `${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${bitmark.asset_id}`;
+  let assetFolderPath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${bitmark.asset_id}`;
   await FileUtil.mkdir(assetFolderPath);
   let downloadingFolderPath = `${assetFolderPath}/downloading`;
   await FileUtil.mkdir(downloadingFolderPath);
   let downloadingFilePath = `${assetFolderPath}/downloading/temp.encrypt`;
 
-  let downloadResult = await BitmarkService.downloadFileToCourierServer(touchFaceIdSession, userInformation.bitmarkAccountNumber, asset.id, downloadingFilePath);
+  let downloadResult = await BitmarkService.downloadFileToCourierServer(touchFaceIdSession, CacheData.userInformation.bitmarkAccountNumber, asset.id, downloadingFilePath);
   console.log('downloadResult :', downloadResult);
   let decryptedFilePath = `${assetFolderPath}/downloading/${downloadResult.filename}`;
   await BitmarkSDK.decryptFile(touchFaceIdSession, downloadingFilePath, downloadResult, downloadResult.sender, decryptedFilePath);
@@ -767,7 +761,7 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
 
 const doTrackingBitmark = async (touchFaceIdSession, asset, bitmark) => {
   let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
-  await BitmarkModel.doAddTrackingBitmark(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature,
+  await BitmarkModel.doAddTrackingBitmark(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature,
     bitmark.id, bitmark.head_id, bitmark.status);
   let trackingBitmarks = await runGetTrackingBitmarksInBackground();
   await doCheckNewTrackingBitmarks(trackingBitmarks);
@@ -775,7 +769,7 @@ const doTrackingBitmark = async (touchFaceIdSession, asset, bitmark) => {
 };
 const doStopTrackingBitmark = async (touchFaceIdSession, bitmark) => {
   let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
-  await BitmarkModel.doStopTrackingBitmark(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, bitmark.id);
+  await BitmarkModel.doStopTrackingBitmark(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, bitmark.id);
   let trackingBitmarks = await runGetTrackingBitmarksInBackground();
   await doCheckNewTrackingBitmarks(trackingBitmarks);
   return true;
@@ -789,7 +783,7 @@ const doReloadIFTTTInformation = async () => {
 
 const doRevokeIftttToken = async (touchFaceIdSession) => {
   let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
-  let iftttInformation = await IftttModel.doRevokeIftttToken(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  let iftttInformation = await IftttModel.doRevokeIftttToken(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
   await doCheckNewIftttInformation(iftttInformation);
   return iftttInformation;
 };
@@ -799,13 +793,13 @@ const doIssueIftttData = async (touchFaceIdSession, iftttBitmarkFile) => {
   let filename = iftttBitmarkFile.assetInfo.filePath.substring(iftttBitmarkFile.assetInfo.filePath.lastIndexOf("/") + 1, iftttBitmarkFile.assetInfo.filePath.length);
   let filePath = folderPath + '/' + filename;
   let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
-  let downloadResult = await IftttModel.downloadBitmarkFile(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id, filePath);
+  let downloadResult = await IftttModel.downloadBitmarkFile(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id, filePath);
   if (downloadResult.statusCode >= 400) {
     throw new Error('Download file error!');
   }
-  await BitmarkService.doIssueFile(touchFaceIdSession, userInformation.bitmarkAccountNumber, filePath, iftttBitmarkFile.assetInfo.propertyName, iftttBitmarkFile.assetInfo.metadata, 1);
+  await BitmarkService.doIssueFile(touchFaceIdSession, CacheData.userInformation.bitmarkAccountNumber, filePath, iftttBitmarkFile.assetInfo.propertyName, iftttBitmarkFile.assetInfo.metadata, 1);
 
-  let iftttInformation = await IftttModel.doRemoveBitmarkFile(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id);
+  let iftttInformation = await IftttModel.doRemoveBitmarkFile(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id);
   await doCheckNewIftttInformation(iftttInformation);
   return iftttInformation;
 };
@@ -837,7 +831,7 @@ const doRejectTransferBitmark = async (touchFaceIdSession, transferOffer, ) => {
 };
 
 const doIssueFile = async (touchFaceIdSession, filePath, assetName, metadataList, quantity, isPublicAsset) => {
-  let result = await BitmarkService.doIssueFile(touchFaceIdSession, userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, quantity, isPublicAsset);
+  let result = await BitmarkService.doIssueFile(touchFaceIdSession, CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, quantity, isPublicAsset);
 
   let appInfo = await doGetAppInformation();
   appInfo = appInfo || {};
@@ -845,7 +839,7 @@ const doIssueFile = async (touchFaceIdSession, filePath, assetName, metadataList
     (appInfo.lastTimeIssued && (appInfo.lastTimeIssued - moment().toDate().getTime()) > 7 * 24 * 60 * 60 * 1000))) {
     await CommonModel.doTrackEvent({
       event_name: 'registry_weekly_active_user',
-      account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
+      account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
     });
     appInfo.lastTimeIssued = moment().toDate().getTime();
     await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
@@ -860,12 +854,12 @@ const doTransferBitmark = async (touchFaceIdSession, bitmarkId, receiver) => {
   console.log('asset :', asset.filePath);
   if (asset && asset.filePath) {
     let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
-    await FileUtil.mkdir(`${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted`);
-    let encryptedFilePath = `${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted/${filename}`;
+    await FileUtil.mkdir(`${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted`);
+    let encryptedFilePath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted/${filename}`;
     let sessionData = await BitmarkSDK.encryptFile(touchFaceIdSession, asset.filePath, receiver, encryptedFilePath);
-    let uploadResult = await BitmarkService.uploadFileToCourierServer(touchFaceIdSession, userInformation.bitmarkAccountNumber, asset.id, receiver, encryptedFilePath, sessionData);
+    let uploadResult = await BitmarkService.uploadFileToCourierServer(touchFaceIdSession, CacheData.userInformation.bitmarkAccountNumber, asset.id, receiver, encryptedFilePath, sessionData);
 
-    // let uploadResult = await BitmarkService.uploadFileToCourierServer(touchFaceIdSession, userInformation.bitmarkAccountNumber, asset.id, receiver, asset.filePath, {
+    // let uploadResult = await BitmarkService.uploadFileToCourierServer(touchFaceIdSession, CacheData.userInformation.bitmarkAccountNumber, asset.id, receiver, asset.filePath, {
     //   data_key_alg: 'test',
     //   enc_data_key: 'test',
     // });
@@ -880,19 +874,19 @@ const doTransferBitmark = async (touchFaceIdSession, bitmarkId, receiver) => {
   let currentAsset = localAssets.find(la => la.id === asset.id);
   console.log('currentAsset :', currentAsset);
   if (!currentAsset) {
-    await FileUtil.removeSafe(`${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}`);
+    await FileUtil.removeSafe(`${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}`);
   }
   return result;
 };
 
 const doMigrateWebAccount = async (touchFaceIdSession, token) => {
-  let result = await BitmarkService.doConfirmWebAccount(touchFaceIdSession, userInformation.bitmarkAccountNumber, token);
+  let result = await BitmarkService.doConfirmWebAccount(touchFaceIdSession, CacheData.userInformation.bitmarkAccountNumber, token);
   await runGetLocalBitmarksInBackground();
   return result;
 };
 
 const doSignInOnWebApp = async (touchFaceIdSession, token) => {
-  return await BitmarkService.doConfirmWebAccount(touchFaceIdSession, userInformation.bitmarkAccountNumber, token);
+  return await BitmarkService.doConfirmWebAccount(touchFaceIdSession, CacheData.userInformation.bitmarkAccountNumber, token);
 };
 
 
@@ -920,9 +914,6 @@ const doAddMoreAssets = async (currentLength) => {
   AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
 };
 
-const getUserInformation = () => {
-  return userInformation;
-};
 
 const getApplicationVersion = () => {
   return DeviceInfo.getVersion();
@@ -1011,7 +1002,7 @@ const doGenerateTransactionActionRequiredData = async () => {
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED, actionRequired);
 
   // Add "Write Down Your Recovery Phrase" action required which was created when creating account if any
-  let testRecoveryPhaseActionRequired = await CommonModel.doGetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${userInformation.bitmarkAccountNumber}`);
+  let testRecoveryPhaseActionRequired = await CommonModel.doGetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${CacheData.userInformation.bitmarkAccountNumber}`);
   if (testRecoveryPhaseActionRequired) {
     actionRequired.unshift({
       key: actionRequired.length,
@@ -1124,24 +1115,24 @@ const doAddMoreCompleted = async (currentLength) => {
 };
 
 const doDecentralizedIssuance = async (touchFaceIdSession, token, encryptionKey) => {
-  let result = await BitmarkService.doDecentralizedIssuance(touchFaceIdSession, userInformation.bitmarkAccountNumber, token, encryptionKey);
+  let result = await BitmarkService.doDecentralizedIssuance(touchFaceIdSession, CacheData.userInformation.bitmarkAccountNumber, token, encryptionKey);
   return result;
 };
 
 const doDecentralizedTransfer = async (touchFaceIdSession, token, ) => {
   let signatureData = await CommonModel.doCreateSignatureData(touchFaceIdSession);
-  let info = await BitmarkModel.doGetInfoInfoOfDecentralizedTransfer(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, token);
+  let info = await BitmarkModel.doGetInfoInfoOfDecentralizedTransfer(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, token);
   let bitmarkId = info.bitmark_id;
   let receiver = info.receiver;
 
   let { asset } = await doGetLocalBitmarkInformation(bitmarkId);
-  let result = await BitmarkService.doDecentralizedTransfer(touchFaceIdSession, userInformation.bitmarkAccountNumber, token, bitmarkId, receiver);
+  let result = await BitmarkService.doDecentralizedTransfer(touchFaceIdSession, CacheData.userInformation.bitmarkAccountNumber, token, bitmarkId, receiver);
 
   let localAssets = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS);
   let currentAsset = localAssets.find(la => la.id === asset.id);
   if (!currentAsset) {
     // TODO
-    await FileUtil.removeSafe(`${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}`);
+    await FileUtil.removeSafe(`${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}`);
   }
   return result;
 };
@@ -1156,13 +1147,13 @@ const doMarkRequestedNotification = async (result) => {
     appInfo.trackEvents.app_user_allow_notification = true;
     await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 
-    userInformation = userInformation || (await UserModel.doTryGetCurrentUser());
+    CacheData.userInformation = CacheData.userInformation || (await UserModel.doTryGetCurrentUser());
   }
 }
 const doRemoveTestRecoveryPhaseActionRequiredIfAny = async () => {
-  let testWriteRecoveryPhaseActionRequired = await CommonModel.doGetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${userInformation.bitmarkAccountNumber}`);
+  let testWriteRecoveryPhaseActionRequired = await CommonModel.doGetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${CacheData.userInformation.bitmarkAccountNumber}`);
   if (testWriteRecoveryPhaseActionRequired) {
-    await CommonModel.doRemoveLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${userInformation.bitmarkAccountNumber}`);
+    await CommonModel.doRemoveLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${CacheData.userInformation.bitmarkAccountNumber}`);
     await doGenerateTransactionActionRequiredData();
   }
 };
@@ -1174,7 +1165,7 @@ const doMetricOnScreen = async (isActive) => {
   let offScreenAt = appInfo.offScreenAt;
   if (isActive && onScreenAt && offScreenAt) {
     if (offScreenAt && offScreenAt > onScreenAt) {
-      let userInfo = userInformation || await UserModel.doTryGetCurrentUser() || {};
+      let userInfo = CacheData.userInformation || await UserModel.doTryGetCurrentUser() || {};
 
       let totalOnScreenAtPreTime = Math.floor((offScreenAt - onScreenAt) / (1000 * 60));
       await CommonModel.doTrackEvent({
@@ -1196,12 +1187,12 @@ let markDoneLocalStorageMigration = () => {
 };
 
 const setMountedRouter = () => {
-  mountedRouter = true;
+  CacheData.mountedRouter = true;
   checkDisplayModal();
 };
 
 let setCodePushUpdated = (updated) => {
-  codePushUpdated = !!updated;
+  CacheData.codePushUpdated = !!updated;
 };
 
 let doCheckHaveCodePushUpdate = () => {
@@ -1211,8 +1202,8 @@ let doCheckHaveCodePushUpdate = () => {
       return;
     }
     let checkHaveCodePushUpdate = () => {
-      if (codePushUpdated === true || codePushUpdated === false) {
-        return resolve(codePushUpdated);
+      if (CacheData.codePushUpdated === true || CacheData.codePushUpdated === false) {
+        return resolve(CacheData.codePushUpdated);
       }
       setTimeout(checkHaveCodePushUpdate, 1000);
     };
@@ -1227,7 +1218,7 @@ const doMigrateFilesToLocalStorage = async () => {
   let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
   let total = 0;
   for (let asset of localAssets) {
-    let assetFolderPath = `${FileUtil.DocumentDirectory}/${userInformation.bitmarkAccountNumber}/assets/${asset.id}`;
+    let assetFolderPath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}`;
     let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
     let needDownload = false;
     if (!existAssetFolder || existAssetFolder.error) {
@@ -1272,9 +1263,9 @@ const doMigrateFilesToLocalStorage = async () => {
   await doCheckNewBitmarks(localAssets);
   EventEmitterService.emit(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT, 100);
 
-  await AccountModel.doMarkMigration(jwt);
-  userInformation.didMigrationFileToLocalStorage = true;
-  await UserModel.doUpdateUserInfo(userInformation);
+  await AccountModel.doMarkMigration(CacheData.jwt);
+  CacheData.userInformation.didMigrationFileToLocalStorage = true;
+  await UserModel.doUpdateUserInfo(CacheData.userInformation);
 };
 
 let doMarkDisplayedWhatNewInformation = async () => {
@@ -1282,7 +1273,7 @@ let doMarkDisplayedWhatNewInformation = async () => {
   appInfo = appInfo || {};
   appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
   updateModal(mapModalDisplayKeyIndex.what_new);
-  keyIndexModalDisplaying = 0;
+  CacheData.keyIndexModalDisplaying = 0;
   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 };
 const doDisplayedWhatNewInformation = async () => {
@@ -1332,8 +1323,6 @@ const DataProcessor = {
 
   getApplicationVersion,
   getApplicationBuildNumber,
-  getUserInformation,
-  isAppLoadingData: () => isLoadingData,
   doAddMoreAssets,
   doMetricOnScreen,
 

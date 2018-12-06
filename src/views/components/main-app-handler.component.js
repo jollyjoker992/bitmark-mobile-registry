@@ -20,7 +20,7 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, DataProcessor, CommonModel } from 'src/processors';
+import { UserModel, EventEmitterService, DataProcessor, CommonModel, CacheData } from 'src/processors';
 import { FileUtil, convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
 
@@ -287,7 +287,7 @@ export class MainAppHandlerComponent extends Component {
   }
 
   async doRefresh(justCreatedBitmarkAccount) {
-    if (DataProcessor.getUserInformation() && DataProcessor.getUserInformation().bitmarkAccountNumber) {
+    if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
       let passTouchFaceId = !!CommonModel.getFaceTouchSessionId();
       if (!passTouchFaceId) {
         passTouchFaceId = !!(await CommonModel.doStartFaceTouchSessionId(i18n.t('FaceTouchId_doOpenApp')));

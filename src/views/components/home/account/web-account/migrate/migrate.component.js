@@ -8,7 +8,7 @@ import Camera from 'react-native-camera';
 import componentStyle from './migrate.component.style';
 
 import { Actions } from 'react-native-router-flux';
-import { DataProcessor, EventEmitterService, AppProcessor } from 'src/processors';
+import { EventEmitterService, AppProcessor, CacheData } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 
 const STEPS = {
@@ -23,7 +23,7 @@ export class WebAccountMigrateComponent extends React.Component {
 
     this.state = {
       step: STEPS.scan,
-      userInformation: DataProcessor.getUserInformation(),
+      userInformation: CacheData.userInformation,
       token: '',
     };
     this.scanned = false;

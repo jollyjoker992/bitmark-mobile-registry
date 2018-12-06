@@ -11,7 +11,7 @@ import { Actions } from 'react-native-router-flux';
 
 
 import transactionsStyle from './transactions.component.style';
-import { DataProcessor, AppProcessor, EventEmitterService } from 'src/processors';
+import { DataProcessor, AppProcessor, EventEmitterService, CacheData } from 'src/processors';
 import { config, constant } from 'src/configs';
 import { defaultStyles } from 'src/views/commons';
 import { convertWidth } from 'src/utils';
@@ -49,7 +49,7 @@ class PrivateTransactionsComponent extends React.Component {
 
     let subTab = this.props.subTab || SubTabs.required;
     this.state = {
-      currentUser: DataProcessor.getUserInformation(),
+      currentUser: CacheData.userInformation,
       subTab,
     };
 
@@ -94,7 +94,7 @@ class PrivateTransactionsComponent extends React.Component {
       let sourceUrl = config.registry_server_url + `/transaction/${item.txid}?env=app`;
       Actions.bitmarkWebViewFull({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, })
     } else if (item.title === 'ISSUANCE') {
-      let sourceUrl = config.registry_server_url + `/issuance/${item.blockNumber}/${item.assetId}/${DataProcessor.getUserInformation().bitmarkAccountNumber}?env=app`;
+      let sourceUrl = config.registry_server_url + `/issuance/${item.blockNumber}/${item.assetId}/${CacheData.userInformation.bitmarkAccountNumber}?env=app`;
       Actions.bitmarkWebViewFull({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, })
     }
   }

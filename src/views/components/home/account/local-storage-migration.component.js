@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import KeepAwake from 'react-native-keep-awake';
 import { Actions } from 'react-native-router-flux';
-import { DataProcessor, CommonModel, AppProcessor, EventEmitterService } from 'src/processors';
+import { DataProcessor, CommonModel, AppProcessor, EventEmitterService, CacheData } from 'src/processors';
 import { config } from 'src/configs';
 
 
@@ -24,7 +24,7 @@ export class LocalStorageMigrationComponent extends React.Component {
     this.countMigration = 0;
     this.migrating = false;
 
-    if (!DataProcessor.getUserInformation().didMigrationFileToLocalStorage) {
+    if (!CacheData.userInformation.didMigrationFileToLocalStorage) {
       setTimeout(this.doMigration, 500);
     }
   }
@@ -65,7 +65,7 @@ export class LocalStorageMigrationComponent extends React.Component {
   handleAppStateChange = (nextAppState) => {
     if (this.appState !== 'active' && nextAppState === 'active') {
       this.countMigration = 0;
-      if (!DataProcessor.getUserInformation().didMigrationFileToLocalStorage) {
+      if (!CacheData.userInformation.didMigrationFileToLocalStorage) {
         setTimeout(this.doMigration, 500);
       }
     }

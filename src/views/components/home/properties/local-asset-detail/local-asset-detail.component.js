@@ -11,7 +11,7 @@ import Hyperlink from 'react-native-hyperlink';
 import { Provider, connect } from 'react-redux';
 import assetDetailStyle from './local-asset-detail.component.style';
 import { Actions } from 'react-native-router-flux';
-import { BitmarkModel, AppProcessor, EventEmitterService, DataProcessor } from 'src/processors';
+import { BitmarkModel, AppProcessor, EventEmitterService, CacheData } from 'src/processors';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
 import { defaultStyles } from 'src/views/commons';
 import { config, constant } from 'src/configs';
@@ -145,7 +145,7 @@ class PrivateLocalAssetDetailComponent extends React.Component {
                   linkStyle={{ color: this.props.asset.created_at ? '#0060F2' : '#999999' }}
                   linkText={url => {
                     if (url === `${config.registry_server_url}/account/${this.props.asset.registrant}`) {
-                      if (this.props.asset.registrant === DataProcessor.getUserInformation().bitmarkAccountNumber) {
+                      if (this.props.asset.registrant === CacheData.userInformation.bitmarkAccountNumber) {
                         return global.i18n.t("LocalAssetDetailComponent_you");
                       }
                       return `[${this.props.asset.registrant.substring(0, 4)}...${this.props.asset.registrant.substring(this.props.asset.registrant.length - 4, this.props.asset.registrant.length)}]`;

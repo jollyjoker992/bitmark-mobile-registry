@@ -7,7 +7,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import styles from './ifttt-active.component.style';
 import { config, constant } from 'src/configs';
-import { EventEmitterService, AppProcessor, DataProcessor } from 'src/processors';
+import { EventEmitterService, AppProcessor, DataProcessor, CacheData } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
 import { AccountStore } from 'src/views/stores';
@@ -107,7 +107,7 @@ class PrivateIftttActiveComponent extends React.Component {
             onLoadStart={() => this.setState({ loading: true })}
             onLoadEnd={() => {
               this.setState({ loading: false });
-              let bitmarkAccountNumber = DataProcessor.getUserInformation().bitmarkAccountNumber;
+              let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
 
               if (this.state.currentUrl.indexOf(config.ifttt_server_url) >= 0 && this.state.currentUrl.indexOf(bitmarkAccountNumber) < 0) {
                 this.setState({
