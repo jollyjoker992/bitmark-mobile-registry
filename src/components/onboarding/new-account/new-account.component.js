@@ -157,22 +157,22 @@ export class NewAccountComponent extends React.Component {
                 <View style={newAccountStyle.introductionTermPrivacy}>
                   <Hyperlink
                     onPress={(url) => {
-                      if (url === (config.bitmark_web_site + '/privacy')) {
-                        Actions.bitmarkWebViewFull({ title: global.i18n.t("PublicAccountNumberComponent_privacyPolicy"), sourceUrl: config.bitmark_web_site + '/privacy?env=app', });
-                      } else if (url === (config.bitmark_web_site + '/terms')) {
-                        Actions.bitmarkWebViewFull({ title: global.i18n.t("PublicAccountNumberComponent_termsOfService"), sourceUrl: config.bitmark_web_site + '/terms?env=app', });
+                      if (url === (config.bitmark_web_site + '/legal/privacy')) {
+                        Actions.bitmarkWebViewFull({ title: global.i18n.t("PublicAccountNumberComponent_privacyPolicy"), sourceUrl: config.bitmark_web_site + '/legal/privacy?env=app', });
+                      } else if (url === (config.bitmark_web_site + '/legal/terms')) {
+                        Actions.bitmarkWebViewFull({ title: global.i18n.t("PublicAccountNumberComponent_termsOfService"), sourceUrl: config.bitmark_web_site + '/legal/terms?env=app', });
                       }
                     }}
                     linkStyle={newAccountStyle.bitmarkTermsPrivacyButtonText}
                     linkText={url => {
-                      if (url === (config.bitmark_web_site + '/terms')) {
+                      if (url === (config.bitmark_web_site + '/legal/terms')) {
                         return global.i18n.t("PublicAccountNumberComponent_termsOfService");
-                      } else if (url === (config.bitmark_web_site + '/privacy')) {
+                      } else if (url === (config.bitmark_web_site + '/legal/privacy')) {
                         return global.i18n.t("PublicAccountNumberComponent_privacyPolicy");
                       }
                       return '';
                     }}>
-                    <Text style={newAccountStyle.bitmarkTermsPrivacyText}>{global.i18n.t("PublicAccountNumberComponent_bitmarkTermsPrivacyText", { 0: config.bitmark_web_site + '/terms', 1: config.bitmark_web_site + '/privacy' })}</Text>
+                    <Text style={newAccountStyle.bitmarkTermsPrivacyText}>{global.i18n.t("PublicAccountNumberComponent_bitmarkTermsPrivacyText", { 0: config.bitmark_web_site + '/legal/terms', 1: config.bitmark_web_site + '/legal/privacy' })}</Text>
                   </Hyperlink>
                 </View>
               </ View>

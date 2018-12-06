@@ -76,7 +76,7 @@ export class ApplicationDetailComponent extends React.Component {
           <View style={applicationDetailStyle.topArea}>
             <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => {
               Actions.bitmarkWebView({
-                title: global.i18n.t("ApplicationDetailComponent_termsOfService"), sourceUrl: config.bitmark_web_site + '/terms?env=app',
+                title: global.i18n.t("ApplicationDetailComponent_termsOfService"), sourceUrl: config.bitmark_web_site + '/legal/terms?env=app',
                 hideBottomController: true,
               });
             }}>
@@ -85,7 +85,7 @@ export class ApplicationDetailComponent extends React.Component {
             <View style={applicationDetailStyle.lineSetting}></View>
             <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => {
               Actions.bitmarkWebView({
-                title: global.i18n.t("ApplicationDetailComponent_privacyPolicy"), sourceUrl: config.bitmark_web_site + '/privacy?env=app',
+                title: global.i18n.t("ApplicationDetailComponent_privacyPolicy"), sourceUrl: config.bitmark_web_site + '/legal/privacy?env=app',
                 hideBottomController: true,
               });
             }}>
