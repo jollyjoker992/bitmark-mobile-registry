@@ -5,7 +5,6 @@ def pods
     
     pod 'BitmarkSDK'
     pod 'KeychainAccess'
-    pod 'Sodium'
     
 end
 
