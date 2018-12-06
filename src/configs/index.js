@@ -57,8 +57,7 @@ if (config.network === NETWORKS.testnet) {
   config.preview_asset_url = "https://preview.bitmarkaccountassets.com";
   config.bitmark_web_site = 'https://bitmark.com';
   config.zeroAddress = 'a3ezwdYVEVrHwszQrYzDTCAZwUD3yKtNsCq9YhEu97bPaGAKy1';
-  // TODO
-  // config.file_courier_server = 'https://file-courier.test.bitmark.com';
+  config.file_courier_server = 'https://file-courier.bitmark.com';
 }
 
 let ios = {
