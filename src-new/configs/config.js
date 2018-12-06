@@ -3,7 +3,7 @@ import DeviceInfo from 'react-native-device-info';
 import { merge } from 'lodash';
 
 import { iosConfig } from './ios-config';
-import { androidConfig } from 'src/configs/android/android.config';
+import { androidConfig } from './android-config';
 
 const NETWORKS = {
   devnet: 'devnet',
