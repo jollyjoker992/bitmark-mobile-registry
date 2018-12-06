@@ -18,7 +18,7 @@ export class WhatNewComponent extends Component {
   }
   constructor(props) {
     super(props);
-    let releaseDate = moment('22-11-2018', 'DD-MM-YYYY');
+    let releaseDate = moment('07-12-2018', 'DD-MM-YYYY');
     let diffDay = moment().diff(releaseDate, 'days');
     this.state = {
       step: this.props.showReleaseNote ? 2 : 1,

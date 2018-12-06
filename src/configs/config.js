@@ -60,8 +60,7 @@ if (commonConfig.network === NETWORKS.testnet) {
   commonConfig.preview_asset_url = "https://preview.bitmarkaccountassets.com";
   commonConfig.bitmark_web_site = 'https://bitmark.com';
   commonConfig.zeroAddress = 'a3ezwdYVEVrHwszQrYzDTCAZwUD3yKtNsCq9YhEu97bPaGAKy1';
-  // TODO
-  // config.file_courier_server = 'https://file-courier.test.bitmark.com';
+  config.file_courier_server = 'https://file-courier.bitmark.com';
 }
 
 
