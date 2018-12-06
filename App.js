@@ -10,7 +10,7 @@ import i18n from 'i18n-js';
 import {
   BitmarkAppComponent,
   MainAppComponent
-} from './src';
+} from './src-new';
 
 // if (config.network === config.NETWORKS.livenet) {
 //   i18n.locale = 'en';
