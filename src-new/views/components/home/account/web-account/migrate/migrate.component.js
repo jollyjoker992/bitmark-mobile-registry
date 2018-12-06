@@ -7,10 +7,9 @@ import Camera from 'react-native-camera';
 
 import componentStyle from './migrate.component.style';
 
-import defaultStyles from '../../../../../commons/styles';
-import { DataProcessor, AppProcessor } from '../../../../../processors';
-import { EventEmitterService } from '../../../../../services';
 import { Actions } from 'react-native-router-flux';
+import { DataProcessor, EventEmitterService, AppProcessor } from 'src-new/processors';
+import { defaultStyles } from 'src-new/views/commons';
 
 const STEPS = {
   scan: 0,
@@ -68,7 +67,7 @@ export class WebAccountMigrateComponent extends React.Component {
     return (<SafeAreaView style={componentStyle.body}>
       <View style={componentStyle.header}>
         <TouchableOpacity style={defaultStyles.headerLeft} onPress={this.goBack.bind(this)} >
-          <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../../../assets/imgs/header_blue_icon.png')} />
+          <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
         </TouchableOpacity>
         {this.state.step === STEPS.scan && <Text style={defaultStyles.headerTitle}>{global.i18n.t("WebAccountMigrateComponent_migrateWebAccount")}</Text>}
         {this.state.step === STEPS.confirm && <Text style={defaultStyles.headerTitle}>{global.i18n.t("WebAccountMigrateComponent_confirmMigration")}</Text>}

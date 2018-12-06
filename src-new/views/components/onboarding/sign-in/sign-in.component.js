@@ -273,7 +273,7 @@ export class SignInComponent extends React.Component {
         <View style={[defaultStyles.header, { backgroundColor: '#F5F5F5', height: constant.headerSize.height }]} onPress={Keyboard.dismiss}>
           <StatusBar hidden={false} />
           <TouchableOpacity style={[defaultStyles.headerLeft, { width: 50 }]} onPress={Actions.pop}>
-            <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../assets/imgs/header_blue_icon.png')} />
+            <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>{global.i18n.t("SignInComponent_headerTitle")}</Text>
           <TouchableOpacity style={[defaultStyles.headerRight, { width: 50 }]}>
@@ -365,10 +365,10 @@ export class SignInComponent extends React.Component {
         {this.state.keyboardHeight > 0 &&
           <Animated.View style={[signStyle.keyboardExternal, { bottom: this.state.keyboardExternalBottom, opacity: this.state.keyboardExternalOpacity, }]}>
             <TouchableOpacity style={signStyle.nextButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 1) % 24)}>
-              <Image style={signStyle.nextButtonImage} source={require('./../../../../assets/imgs/arrow_down_enable.png')} />
+              <Image style={signStyle.nextButtonImage} source={require('assets/imgs/arrow_down_enable.png')} />
             </TouchableOpacity>
             <TouchableOpacity style={signStyle.prevButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 23) % 24)}>
-              <Image style={signStyle.prevButtonImage} source={require('./../../../../assets/imgs/arrow_up_enable.png')} />
+              <Image style={signStyle.prevButtonImage} source={require('assets/imgs/arrow_up_enable.png')} />
             </TouchableOpacity>
             {this.state.dataSource && <View style={[signStyle.selectionList]}>
               <FlatList

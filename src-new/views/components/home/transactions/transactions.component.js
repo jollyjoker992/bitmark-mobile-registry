@@ -205,7 +205,7 @@ class PrivateTransactionsComponent extends React.Component {
                     <View style={transactionsStyle.transferOfferTitle}>
                       <Text style={transactionsStyle.transferOfferTitleType}>{item.typeTitle.toUpperCase()}</Text>
                       <Text style={transactionsStyle.transferOfferTitleTime} >{moment(item.timestamp).format('YYYY MMM DD').toUpperCase()}</Text>
-                      <Image style={transactionsStyle.transferOfferTitleIcon} source={require('./../../../../assets/imgs/sign-request-icon.png')} />
+                      <Image style={transactionsStyle.transferOfferTitleIcon} source={require('assets/imgs/sign-request-icon.png')} />
                     </View>
 
                     {item.type === ActionTypes.transfer && <View style={transactionsStyle.iftttTask}>
@@ -222,7 +222,7 @@ class PrivateTransactionsComponent extends React.Component {
                       <Text style={transactionsStyle.recoveryPhaseActionRequiredTitle}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredTitle")}</Text>
                       <View style={transactionsStyle.recoveryPhaseActionRequiredDescriptionArea}>
                         <Text style={transactionsStyle.recoveryPhaseActionRequiredDescription}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredDescription")}</Text>
-                        <Image style={transactionsStyle.recoveryPhaseActionRequiredImportantIcon} source={require('./../../../../assets/imgs/alert.png')} />
+                        <Image style={transactionsStyle.recoveryPhaseActionRequiredImportantIcon} source={require('assets/imgs/alert.png')} />
                       </View>
                     </View>}
                   </TouchableOpacity>)

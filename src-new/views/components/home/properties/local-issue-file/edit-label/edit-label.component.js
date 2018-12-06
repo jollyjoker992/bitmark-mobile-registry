@@ -54,7 +54,7 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
           <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
-            <Image style={defaultStyles.headerLeftIcon} source={require('../../../../../../assets/imgs/header_blue_icon.png')} />
+            <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={[defaultStyles.headerTitle, { color: this.state.label ? 'black' : '#C1C1C1' }]}>{this.state.label || global.i18n.t("LocalIssueFileEditLabelComponent_headerTitle", { number: this.props.labelKey + 1 })}</Text>
           <TouchableOpacity style={defaultStyles.headerRight} onPress={() => {
@@ -79,7 +79,7 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
               selectTextOnFocus={true}
             />
             {!!this.state.label && <TouchableOpacity style={localAddPropertyStyle.removeLabelNumberButton} onPress={() => this.onChangeText('')} >
-              <Image style={localAddPropertyStyle.removeLabelNumberIcon} source={require('../../../../../../assets/imgs/remove-icon.png')} />
+              <Image style={localAddPropertyStyle.removeLabelNumberIcon} source={require('assets/imgs/remove-icon.png')} />
             </TouchableOpacity>}
             <View style={localAddPropertyStyle.inputLabelBar} />
             <View style={localAddPropertyStyle.suggestionsList}>

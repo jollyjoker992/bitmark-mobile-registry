@@ -4,7 +4,7 @@ import {
   Text, ActivityIndicator, View,
 } from 'react-native';
 
-import { BitmarkDialogComponent } from './../bitmark-dialog';
+import { BitmarkDialogComponent } from '../bitmark-dialog';
 import dialogStyles from './bitmark-indicator.component.style';
 
 export class BitmarkIndicatorComponent extends React.Component {

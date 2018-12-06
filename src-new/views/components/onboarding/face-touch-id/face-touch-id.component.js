@@ -79,8 +79,8 @@ export class FaceTouchIdComponent extends React.Component {
             {global.i18n.t("FaceTouchIdComponent_faceTouchIdDescription")}
           </Text>
           <View style={faceTouchIdStyle.passcodeRemindImages}>
-            <Image style={[faceTouchIdStyle.touchIdImage]} source={require('../../../../assets/imgs/touch-id.png')} />
-            <Image style={[faceTouchIdStyle.faceIdImage]} source={require('../../../../assets/imgs/face-id.png')} />
+            <Image style={[faceTouchIdStyle.touchIdImage]} source={require('assets/imgs/touch-id.png')} />
+            <Image style={[faceTouchIdStyle.faceIdImage]} source={require('assets/imgs/face-id.png')} />
           </View>
 
         </View>

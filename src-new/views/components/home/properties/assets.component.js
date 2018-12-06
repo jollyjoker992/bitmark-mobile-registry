@@ -58,7 +58,7 @@ class PrivateAssetsComponent extends React.Component {
           <TouchableOpacity style={defaultStyles.headerLeft}></TouchableOpacity>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("AssetsComponent_headerTitle")}</Text>
           <TouchableOpacity style={defaultStyles.headerRight} onPress={this.addProperty}>
-            <Image style={assetsStyle.addPropertyIcon} source={require('./../../../../assets/imgs/plus-icon.png')} />
+            <Image style={assetsStyle.addPropertyIcon} source={require('assets/imgs/plus-icon.png')} />
           </TouchableOpacity>
         </View>
 
@@ -182,7 +182,7 @@ class PrivateAssetsComponent extends React.Component {
                   <View style={assetsStyle.assetQuantityArea}>
                     {item.created_at && <Text style={assetsStyle.assetQuantity}>{global.i18n.t("AssetsComponent_quantity")}: {item.bitmarks.length}</Text>}
                     {!item.created_at && <Text style={assetsStyle.assetQuantityPending}>{global.i18n.t("AssetsComponent_quantity")}: {item.bitmarks.length}</Text>}
-                    {!item.created_at && <Image style={assetsStyle.assetQuantityPendingIcon} source={require('./../../../../assets/imgs/pending-status.png')} />}
+                    {!item.created_at && <Image style={assetsStyle.assetQuantityPendingIcon} source={require('assets/imgs/pending-status.png')} />}
                   </View>
                 </View>
               </TouchableOpacity>
@@ -224,7 +224,7 @@ class PrivateAssetsComponent extends React.Component {
                       '[' + item.owner.substring(0, 4) + '...' + item.owner.substring(item.owner.length - 4, item.owner.length) + ']'
                     )}
                     </Text>
-                    {item.status === 'pending' && <Image style={assetsStyle.assetQuantityPendingIcon} source={require('./../../../../assets/imgs/pending-status.png')} />}
+                    {item.status === 'pending' && <Image style={assetsStyle.assetQuantityPendingIcon} source={require('assets/imgs/pending-status.png')} />}
                   </View>
                 </TouchableOpacity>)
               }}

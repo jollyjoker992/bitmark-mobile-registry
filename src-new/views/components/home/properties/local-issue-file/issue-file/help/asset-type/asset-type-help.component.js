@@ -16,7 +16,7 @@ export class AssetTypeHelpComponent extends React.Component {
       <SafeAreaView style={assetTypeHelpStyle.body}>
         <View style={assetTypeHelpStyle.header}>
           <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop} >
-            <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../../../../../assets/imgs/header_blue_icon.png')} />
+            <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
         </View>
 

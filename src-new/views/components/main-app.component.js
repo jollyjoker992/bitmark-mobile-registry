@@ -8,18 +8,15 @@ const {
   View,
 } = ReactNative;
 
-import {
-  LoadingComponent,
-} from './../commons/components';
-import { EventEmitterService } from './../services';
-import { AppProcessor, DataProcessor } from '../processors';
-import { CommonModel, } from '../models';
-import { config } from '../configs';
+
 import { DefaultRouterComponent } from './onboarding';
 import { UserRouterComponent } from './home';
 import { MainAppHandlerComponent } from './main-app-handler.component';
 import { CodePushUpdateComponent } from './code-push/code-push.component';
 import CodePush from 'react-native-code-push';
+import { EventEmitterService, AppProcessor, DataProcessor, CommonModel } from 'src-new/processors';
+import { config } from 'src-new/configs';
+import { LoadingComponent } from '../commons';
 
 export class BitmarkAppComponent extends Component {
   static propTypes = {

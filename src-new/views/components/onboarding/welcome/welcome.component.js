@@ -17,7 +17,7 @@ export class WelcomeComponent extends React.Component {
       <View style={welcomeComponentStyle.body}>
         <StatusBar hidden={true} />
         <View style={welcomeComponentStyle.welcomeBackground}>
-          <Image style={welcomeComponentStyle.welcomeLogo} source={require('./../../../../assets/imgs/loading-logo.png')} />
+          <Image style={welcomeComponentStyle.welcomeLogo} source={require('assets/imgs/loading-logo.png')} />
           <View style={[welcomeComponentStyle.welcomeButtonArea]}>
             <TouchableOpacity style={[welcomeComponentStyle.welcomeButton,]} onPress={Actions.newAccount}>
               <Text style={[welcomeComponentStyle.welcomeButtonText,]}>{global.i18n.t("WelcomeComponent_createNewAccount")}</Text>

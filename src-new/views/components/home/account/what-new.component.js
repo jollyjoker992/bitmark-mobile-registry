@@ -55,13 +55,13 @@ export class WhatNewComponent extends Component {
                 }}
               >
                 <View style={styles.newContentSwipePage}>
-                  <Image style={styles.newSwipeImage} source={require('./../../../../assets/imgs/what_new_1.png')} />
+                  <Image style={styles.newSwipeImage} source={require('assets/imgs/what_new_1.png')} />
                   <View style={styles.newSwipeInformationArea}>
                     <Text style={styles.newDescription}>{i18n.t('WhatNewComponent_newDescription1')}</Text>
                   </View>
                 </View>
                 <View style={styles.newContentSwipePage}>
-                  <Image style={styles.newSwipeImage} source={require('./../../../../assets/imgs/what_new_2.png')} />
+                  <Image style={styles.newSwipeImage} source={require('assets/imgs/what_new_2.png')} />
                   <View style={styles.newSwipeInformationArea}>
                     <Text style={styles.newDescription}>{i18n.t('WhatNewComponent_newDescription2')}</Text>
                   </View>

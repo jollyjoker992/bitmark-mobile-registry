@@ -50,7 +50,7 @@ export class WebAccountSignInComponent extends React.Component {
     return (<SafeAreaView style={componentStyle.body}>
       <View style={componentStyle.header}>
         <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop} >
-          <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../../../assets/imgs/header_blue_icon.png')} />
+          <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
         </TouchableOpacity>
         <Text style={defaultStyles.headerTitle}>{global.i18n.t("WebAccountSignInComponent_webAccountSignIn")}</Text>
         <TouchableOpacity style={defaultStyles.headerRight} />

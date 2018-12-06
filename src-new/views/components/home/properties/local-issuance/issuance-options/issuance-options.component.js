@@ -88,7 +88,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
       <SafeAreaView style={issuanceOptionsStyle.body}>
         <View style={issuanceOptionsStyle.header}>
           <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
-            <Image style={defaultStyles.headerLeftIcon} source={require('../../../../../../assets/imgs/header_blue_icon.png')} />
+            <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("IssuanceOptionsComponent_register")}</Text>
           <TouchableOpacity style={defaultStyles.headerRight} />
@@ -102,7 +102,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData}>
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
-            {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) && <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('./../../../../../../assets/imgs/next-icon-blue.png')} />}
+            {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) && <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />}
             {this.props.iftttInformation && !!this.props.iftttInformation.connectIFTTT && <Text style={issuanceOptionsStyle.optionButtonStatus}>{global.i18n.t("IssuanceOptionsComponent_authorized")}</Text>}
           </TouchableOpacity>
 

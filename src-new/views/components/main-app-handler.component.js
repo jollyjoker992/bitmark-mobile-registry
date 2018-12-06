@@ -2,8 +2,6 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import KeepAwake from 'react-native-keep-awake';
-
-
 const {
   Linking,
   Alert,
@@ -11,23 +9,20 @@ const {
   NetInfo,
   View, TouchableOpacity, Text
 } = ReactNative;
+import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler';
+import RNExitApp from 'react-native-exit-app';
+import Mailer from 'react-native-mail';
+import { Actions } from 'react-native-router-flux';
 
 import {
   DefaultIndicatorComponent,
   BitmarkIndicatorComponent,
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
-} from './../commons/components';
-import { EventEmitterService } from './../services';
-import { DataProcessor } from '../processors';
-import { CommonModel, UserModel } from '../models';
-import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler';
-import RNExitApp from 'react-native-exit-app';
-import Mailer from 'react-native-mail';
-import { FileUtil, runPromiseWithoutError, convertWidth } from "../utils";
-import { iosConstant } from '../configs/ios/ios.config';
-
-import { Actions } from 'react-native-router-flux';
+} from './../commons';
+import { UserModel, EventEmitterService, DataProcessor, CommonModel } from 'src-new/processors';
+import { FileUtil, convertWidth, runPromiseWithoutError } from 'src-new/utils';
+import { constant } from 'src-new/configs';
 
 const CRASH_LOG_FILE_NAME = 'crash_log.txt';
 const CRASH_LOG_FILE_PATH = FileUtil.CacheDirectory + '/' + CRASH_LOG_FILE_NAME;
@@ -315,7 +310,7 @@ export class MainAppHandlerComponent extends Component {
     }
 
     return (
-      <View style={[{ position: 'absolute', width: '100%', top: 0, left: 0, zIndex: iosConstant.zIndex.dialog }, styles]}>
+      <View style={[{ position: 'absolute', width: '100%', top: 0, left: 0, zIndex: constant.zIndex.dialog }, styles]}>
         {!this.state.networkStatus && <BitmarkInternetOffComponent tryConnectInternet={this.doTryConnectInternet} />}
         {!this.state.passTouchFaceId && <BitmarkDialogComponent dialogStyle={{
           minHeight: 0, backgroundColor: 'rgba(256,256,256, 0.7)', flex: 1, width: '100%',

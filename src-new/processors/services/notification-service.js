@@ -4,7 +4,7 @@ const {
   PushNotificationIOS,
   Platform,
 } = ReactNative;
-import { NotificationModel, CommonModel } from './../models';
+import { NotificationModel, CommonModel } from '../models';
 
 let configure = (onRegister, onNotification) => {
   return NotificationModel.configure(onRegister, onNotification);

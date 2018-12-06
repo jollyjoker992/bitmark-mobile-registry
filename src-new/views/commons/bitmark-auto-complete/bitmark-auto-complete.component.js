@@ -69,10 +69,10 @@ export class BitmarkAutoCompleteComponent extends React.Component {
     return (
       <View style={styles.selectionArea}>
         <TouchableOpacity style={styles.nextButton} onPress={this.props.goToNextInputField}>
-          <Image style={styles.nextButtonImage} source={require('./../../../../assets/imgs/arrow_down_enable.png')} />
+          <Image style={styles.nextButtonImage} source={require('assets/imgs/arrow_down_enable.png')} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.prevButton} onPress={this.props.goToPrevInputField}>
-          <Image style={styles.prevButtonImage} source={require('./../../../../assets/imgs/arrow_up_enable.png')} />
+          <Image style={styles.prevButtonImage} source={require('assets/imgs/arrow_up_enable.png')} />
         </TouchableOpacity>
         {this.props.dataSource && !!this.state.inputtedText && <View style={[styles.selectionList]}>
           <FlatList

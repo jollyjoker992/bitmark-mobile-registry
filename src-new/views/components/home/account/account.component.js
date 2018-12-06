@@ -66,11 +66,11 @@ class PrivateAccountDetailComponent extends React.Component {
       <SafeAreaView style={accountStyle.body}>
         <View style={accountStyle.header}>
           <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.scanQRCode}>
-            <Image style={accountStyle.cameraIcon} source={require('./../../../../assets/imgs/camera.png')} />
+            <Image style={accountStyle.cameraIcon} source={require('assets/imgs/camera.png')} />
           </TouchableOpacity>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("AccountDetailComponent_account")}</Text>
           <TouchableOpacity style={defaultStyles.headerRight} onPress={Actions.applicationDetail}>
-            <Image style={accountStyle.bitmarkAccountHelpIcon} source={require('./../../../../assets/imgs/icon_help.png')} />
+            <Image style={accountStyle.bitmarkAccountHelpIcon} source={require('assets/imgs/icon_help.png')} />
           </TouchableOpacity>
         </View>
         <View style={accountStyle.subTabArea}>
@@ -169,7 +169,7 @@ class PrivateAccountDetailComponent extends React.Component {
                   </View>
 
                   <View style={accountStyle.authorizedItemDescription}>
-                    <Image style={accountStyle.authorizedItemDescriptionIcon} source={require('./../../../../assets/imgs/ifttt-icon.png')} />
+                    <Image style={accountStyle.authorizedItemDescriptionIcon} source={require('assets/imgs/ifttt-icon.png')} />
                     <View style={accountStyle.authorizedItemDescriptionDetail}>
                       <Text style={accountStyle.authorizedItemDescriptionText}>{global.i18n.t("AccountDetailComponent_authorizedItemDescriptionText")}</Text>
                       {/* TODO */}

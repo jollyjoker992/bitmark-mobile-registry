@@ -63,7 +63,7 @@ export class LocalPropertyTransferComponent extends React.Component {
       <SafeAreaView style={{ flex: 1, borderBottomWidth: 0.3, backgroundColor: '#F5F5F5' }}>
         <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
           <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
-            <Image style={defaultStyles.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
+            <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <View style={defaultStyles.headerCenter}>
             <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(180), }]} numberOfLines={1}>{this.state.asset.name} </Text>
@@ -84,7 +84,7 @@ export class LocalPropertyTransferComponent extends React.Component {
                   onFocus={() => { this.setState({ bitmarkAccountError: false, transferError: '' }) }}
                 />
                 {!!this.state.bitmarkAccount && <TouchableOpacity style={propertyTransferStyle.removeAccountNumberButton} onPress={() => this.setState({ bitmarkAccount: '', bitmarkAccountError: false, transferError: '' })} >
-                  <Image style={propertyTransferStyle.removeAccountNumberIcon} source={require('./../../../../../assets/imgs/remove-icon.png')} />
+                  <Image style={propertyTransferStyle.removeAccountNumberIcon} source={require('assets/imgs/remove-icon.png')} />
                 </TouchableOpacity>}
               </View>
               <Text style={propertyTransferStyle.accountNumberError}>{this.state.bitmarkAccountError}</Text>

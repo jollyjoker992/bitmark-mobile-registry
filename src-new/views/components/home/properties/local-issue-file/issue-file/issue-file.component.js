@@ -194,7 +194,7 @@ export class LocalIssueFileComponent extends React.Component {
         <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }} >
           <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
             <TouchableOpacity style={[defaultStyles.headerLeft, { width: 50, }]} onPress={Actions.pop}>
-              <Image style={defaultStyles.headerLeftIcon} source={require('../../../../../../assets/imgs/header_blue_icon.png')} />
+              <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
             </TouchableOpacity>
             <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>{global.i18n.t("LocalIssueFileComponent_registerPropertyRights")}</Text>
             <TouchableOpacity style={[defaultStyles.headerRight, { width: 50, }]} />
@@ -285,7 +285,7 @@ export class LocalIssueFileComponent extends React.Component {
                     return (
                       <View style={localAddPropertyStyle.metadataField}>
                         {!this.state.existingAsset && this.state.isEditingMetadata && <TouchableOpacity style={localAddPropertyStyle.metadataFieldKeyRemoveButton} onPress={() => this.removeMetadata(item.key)}>
-                          <Image style={localAddPropertyStyle.metadataFieldKeyRemoveIcon} source={require('./../../../../../../assets/imgs/remove-icon-red.png')} />
+                          <Image style={localAddPropertyStyle.metadataFieldKeyRemoveIcon} source={require('assets/imgs/remove-icon-red.png')} />
                         </TouchableOpacity>}
                         <View style={[localAddPropertyStyle.metadataFieldInfo, { width: convertWidth(this.state.isEditingMetadata ? 322 : 337) }]}>
                           <TouchableOpacity style={[localAddPropertyStyle.metadataFieldKeyArea, {
@@ -306,7 +306,7 @@ export class LocalIssueFileComponent extends React.Component {
                               width: convertWidth(this.state.isEditingMetadata ? 286 : 302),
                             }]}>{item.label || global.i18n.t("LocalIssueFileComponent_label")}</Text>
                             {!this.state.existingAsset && <Image style={localAddPropertyStyle.metadataFieldKeyEditIcon}
-                              source={require('./../../../../../../assets/imgs/next-icon-blue.png')} />}
+                              source={require('assets/imgs/next-icon-blue.png')} />}
                           </TouchableOpacity>
                           <TextInput style={[localAddPropertyStyle.metadataFieldValue, {
                             color: (item.label && !this.state.existingAsset) ? 'black' : '#C1C1C1',
@@ -336,7 +336,7 @@ export class LocalIssueFileComponent extends React.Component {
               {!this.state.existingAsset && <View style={localAddPropertyStyle.metadataFieldButtons}>
                 <TouchableOpacity style={localAddPropertyStyle.addMetadataButton} disabled={!this.state.canAddNewMetadata} onPress={this.addNewMetadataField}>
                   <Image style={localAddPropertyStyle.addMetadataButtonIcon} source={
-                    this.state.canAddNewMetadata ? require('./../../../../../../assets/imgs/plus-white-blue-icon.png') : require('./../../../../../../assets/imgs/plus-white-blue-icon-disable.png')} />
+                    this.state.canAddNewMetadata ? require('assets/imgs/plus-white-blue-icon.png') : require('assets/imgs/plus-white-blue-icon-disable.png')} />
                   <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: this.state.canAddNewMetadata ? '#0060F2' : '#C2C2C2' }]}> {global.i18n.t("LocalIssueFileComponent_addLabel")}</Text>
                 </TouchableOpacity>
 

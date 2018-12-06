@@ -36,8 +36,8 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
             }}>
               {(this.props.existNewAsset || this.props.existNewTracking) && <View style={componentStyles.haveNewBitmark} />}
               <Image style={componentStyles.bottomTabButtonIcon} source={active
-                ? require('./../../../../assets/imgs/properties-icon-enable.png')
-                : require('./../../../../assets/imgs/properties-icon-disable.png')} />
+                ? require('assets/imgs/properties-icon-enable.png')
+                : require('assets/imgs/properties-icon-disable.png')} />
               <Text style={[componentStyles.bottomTabButtonText, {
                 color: active ? '#0060F2' : '#A4B5CD'
               }]}>{global.i18n.t("BottomTabsComponent_properties")}</Text>
@@ -54,8 +54,8 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
                 <Text style={componentStyles.transactionNumberText}>{this.props.totalTasks < 100 ? this.props.totalTasks : 99}</Text>
               </View>}
               <Image style={componentStyles.bottomTabButtonIcon} source={active
-                ? require('./../../../../assets/imgs/transaction-icon-enable.png')
-                : require('./../../../../assets/imgs/transaction-icon-disable.png')} />
+                ? require('assets/imgs/transaction-icon-enable.png')
+                : require('assets/imgs/transaction-icon-disable.png')} />
               <Text style={[componentStyles.bottomTabButtonText, {
                 color: active ? '#0060F2' : '#A4B5CD'
               }]}>{global.i18n.t("BottomTabsComponent_transactions")}</Text>
@@ -68,8 +68,8 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
               Actions.reset('accountDetail');
             }}>
               <Image style={componentStyles.bottomTabButtonIcon} source={active
-                ? require('./../../../../assets/imgs/account-icon-enable.png')
-                : require('./../../../../assets/imgs/account-icon-disable.png')} />
+                ? require('assets/imgs/account-icon-enable.png')
+                : require('assets/imgs/account-icon-disable.png')} />
               <Text style={[componentStyles.bottomTabButtonText, {
                 color: active ? '#0060F2' : '#A4B5CD'
               }]}>{global.i18n.t("BottomTabsComponent_account")}</Text>

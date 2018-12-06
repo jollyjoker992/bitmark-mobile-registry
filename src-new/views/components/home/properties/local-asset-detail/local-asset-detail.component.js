@@ -98,13 +98,13 @@ class PrivateLocalAssetDetailComponent extends React.Component {
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', }}>
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
           <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
-            <Image style={defaultStyles.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
+            <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={[defaultStyles.headerTitle]} numberOfLines={1}>{this.props.asset.name}</Text>
           <TouchableOpacity style={defaultStyles.headerRight} onPress={() => this.setState({ displayTopButton: !this.state.displayTopButton })}>
             <Image style={assetDetailStyle.threeDotIcon} source={this.state.displayTopButton
-              ? require('../../../../../assets/imgs/three-dot-active.png')
-              : require('../../../../../assets/imgs/three-dot-deactive.png')} />
+              ? require('assets/imgs/three-dot-active.png')
+              : require('assets/imgs/three-dot-deactive.png')} />
           </TouchableOpacity>
         </View></TouchableWithoutFeedback>
 

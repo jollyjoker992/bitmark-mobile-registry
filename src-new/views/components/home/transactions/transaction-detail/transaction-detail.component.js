@@ -104,7 +104,7 @@ export class TransactionDetailComponent extends React.Component {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={defaultStyles.header}>
           <TouchableOpacity style={defaultStyles.headerLeft} onPress={() => this.props.navigation.goBack()}>
-            <Image style={defaultStyles.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
+            <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("TransactionDetailComponent_signForBitmark")}</Text>
           <TouchableOpacity style={defaultStyles.headerRight}></TouchableOpacity>

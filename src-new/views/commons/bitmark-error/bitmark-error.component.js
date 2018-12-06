@@ -4,7 +4,7 @@ import {
   Text, View, TouchableOpacity,
 } from 'react-native';
 
-import { BitmarkDialogComponent } from './../bitmark-dialog';
+import { BitmarkDialogComponent } from '../bitmark-dialog';
 import dialogStyles from './bitmark-error.component.style';
 
 export class BitmarkErrorComponent extends React.Component {

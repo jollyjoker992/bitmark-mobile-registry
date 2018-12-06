@@ -148,7 +148,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
           <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
-            <Image style={defaultStyles.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
+            <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <View style={defaultStyles.headerCenter}>
             <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(180), }]} numberOfLines={1}>{this.props.asset.name} </Text>
@@ -156,8 +156,8 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
           </View>
           <TouchableOpacity style={[defaultStyles.headerRight, { padding: 4 }]} onPress={() => this.setState({ displayTopButton: !this.state.displayTopButton })}>
             <Image style={propertyDetailStyle.threeDotIcon} source={this.state.displayTopButton
-              ? require('../../../../../assets/imgs/three-dot-active.png')
-              : require('../../../../../assets/imgs/three-dot-deactive.png')} />
+              ? require('assets/imgs/three-dot-active.png')
+              : require('assets/imgs/three-dot-deactive.png')} />
           </TouchableOpacity>
         </View></TouchableWithoutFeedback>
         {/* <Text>{this.props.bitmark.owner + '\n' + DataProcessor.getUserInformation().bitmarkAccountNumber + '\n' + (this.props.bitmark.owner === DataProcessor.getUserInformation().bitmarkAccountNumber).toString()}</Text> */}

@@ -1,5 +1,4 @@
 import { Dimensions } from 'react-native';
-import { CommonModel, UserModel } from "../models";
 let currentSize = Dimensions.get('window');
 let widthDesign = 375;
 
@@ -44,14 +43,6 @@ const compareVersion = (version1, version2) => {
   return 0;
 };
 
-const addTestWriteRecoveryPhaseActionRequired = async (user) => {
-  await CommonModel.doSetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${user.bitmarkAccountNumber}`, {
-    timestamp: (new Date()).toISOString()
-  });
-};
-
-
 export {
   convertWidth, calculateAdditionalHeight, runPromiseWithoutError, compareVersion,
-  addTestWriteRecoveryPhaseActionRequired,
 };

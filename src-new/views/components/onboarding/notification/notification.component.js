@@ -32,7 +32,7 @@ export class NotificationComponent extends React.Component {
           <Text style={[notificationStyle.notificationDescription,]}>
             {global.i18n.t("NotificationComponent_notificationDescription")}
           </Text>
-          <Image style={[notificationStyle.notificationImage]} source={require('../../../../assets/imgs/notification.png')} />
+          <Image style={[notificationStyle.notificationImage]} source={require('assets/imgs/notification.png')} />
         </View>
 
         <View style={notificationStyle.enableButtonArea}>

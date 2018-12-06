@@ -1,4 +1,4 @@
-import { AccountModel, CommonModel, BitmarkSDK, UserModel } from './../models';
+import { AccountModel, CommonModel, BitmarkSDK, UserModel } from '../models';
 import { config } from 'src-new/configs';
 
 // ================================================================================================\

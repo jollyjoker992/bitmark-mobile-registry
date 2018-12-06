@@ -86,7 +86,7 @@ class PrivateIftttActiveComponent extends React.Component {
             runPromiseWithoutError(DataProcessor.doReloadIFTTTInformation())
             Actions.pop();
           }}>
-            <Image style={defaultStyles.headerLeftIcon} source={require('../../../../../assets/imgs/header_blue_icon.png')} />
+            <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>}
 
           <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(375) - 120 }]}>{global.i18n.t("IftttActiveComponent_registerYourIftttData")}</Text>

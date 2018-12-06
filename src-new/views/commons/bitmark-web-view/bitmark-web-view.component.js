@@ -4,7 +4,7 @@ import {
   Text, View, TouchableOpacity, WebView, Image, Share, SafeAreaView,
 } from 'react-native';
 
-import defaultStyles from './../styles/index';
+import defaultStyles from '../styles/index';
 import termsStyles from './bitmark-web-view.component.style';
 import { Actions } from 'react-native-router-flux';
 
@@ -41,7 +41,7 @@ export class BitmarkWebViewComponent extends React.Component {
     return (<SafeAreaView style={termsStyles.body}>
       {!!title && <View style={termsStyles.header}>
         <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
-          <Image style={defaultStyles.headerLeftIcon} source={require('./../../../../assets/imgs/header_blue_icon.png')} />
+          <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
         </TouchableOpacity>
         <Text style={defaultStyles.headerTitle}>{title.toUpperCase()}</Text>
         <TouchableOpacity style={defaultStyles.headerRight} />
@@ -58,10 +58,10 @@ export class BitmarkWebViewComponent extends React.Component {
         height: (heightButtonController || constant.bottomTabsHeight),
       }]}>
         <TouchableOpacity style={termsStyles.webViewControlButton} onPress={() => { this.webViewRef.goBack(); }}>
-          <Image style={termsStyles.webViewControlIcon} source={require('./../../../../assets/imgs/webview-back.png')} />
+          <Image style={termsStyles.webViewControlIcon} source={require('assets/imgs/webview-back.png')} />
         </TouchableOpacity>
         <TouchableOpacity style={[termsStyles.webViewControlButton, { marginLeft: 90 }]} onPress={() => { this.webViewRef.goForward(); }}>
-          <Image style={termsStyles.webViewControlIcon} source={require('./../../../../assets/imgs/webview-next.png')} />
+          <Image style={termsStyles.webViewControlIcon} source={require('assets/imgs/webview-next.png')} />
         </TouchableOpacity>
       </View>}
     </SafeAreaView>);
