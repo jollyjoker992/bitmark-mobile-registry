@@ -23,7 +23,6 @@ import {
 import { WebAccountMigrateComponent } from './account/web-account/migrate/migrate.component';
 import { WebAccountSignInComponent } from './account/web-account/sign-in/sign-in.component';
 import { IssuanceOptionsComponent } from './properties/local-issuance/issuance-options/issuance-options.component';
-import { LocalStorageMigrationComponent } from './account/local-storage-migration.component';
 import { WhatNewComponent } from './account/what-new.component';
 import { BitmarkWebViewComponent } from 'src/views/commons';
 import { EventEmitterService, DataProcessor, AppProcessor } from 'src/processors';
@@ -108,7 +107,6 @@ export class UserRouterComponent extends Component {
             <Scene key="localAssetDetail" panHandlers={null} component={LocalAssetDetailComponent} />
             <Scene key="localPropertyDetail" panHandlers={null} component={LocalPropertyDetailComponent} />
             <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
-            <Scene key="localStorageMigration" panHandlers={null} component={LocalStorageMigrationComponent} />
             <Scene key="whatNew" panHandlers={null} component={WhatNewComponent} />
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >

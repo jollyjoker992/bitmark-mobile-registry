@@ -34,7 +34,6 @@ export class LocalIssueFileComponent extends React.Component {
     let filePath = this.props.filePath || '';
     let fileName = this.props.fileName || '';
 
-    let assetAccessibility = 'private';
     let existingAsset = !!(asset && asset.name);
     if (existingAsset) {
       let key = 0;
@@ -42,12 +41,10 @@ export class LocalIssueFileComponent extends React.Component {
         metadataList.push({ key, label, value: asset.metadata[label] });
         key++;
       }
-      assetAccessibility = asset.accessibility || assetAccessibility;
     }
 
     this.state = {
       existingAsset,
-      assetAccessibility,
       fingerprint,
       metadataList,
       filePath,
@@ -71,7 +68,7 @@ export class LocalIssueFileComponent extends React.Component {
   // ==========================================================================================
   // ==========================================================================================
   onIssueFile() {
-    AppProcessor.doIssueFile(this.state.filePath, this.state.assetName, this.state.metadataList, parseInt(this.state.quantity), this.state.assetAccessibility === 'public', {
+    AppProcessor.doIssueFile(this.state.filePath, this.state.assetName, this.state.metadataList, parseInt(this.state.quantity), {
       indicator: true, title: '', message: global.i18n.t("LocalIssueFileComponent_issueMessage")
     }).then((data) => {
       if (data) {
@@ -179,15 +176,6 @@ export class LocalIssueFileComponent extends React.Component {
     this.checkIssuance(this.state.assetName, this.state.metadataList, quantity);
   }
 
-  toggleAssetType(accessibility) {
-    if (accessibility === this.state.assetAccessibility) return;
-
-    this.setState({
-      assetAccessibility: this.state.assetAccessibility === 'public' ? 'private' : 'public'
-    });
-  }
-
-
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', }}>
@@ -208,51 +196,6 @@ export class LocalIssueFileComponent extends React.Component {
                 <Text style={localAddPropertyStyle.fingerprintInfoMessage}>{global.i18n.t("LocalIssueFileComponent_generatedFrom")} </Text>
                 <Text style={localAddPropertyStyle.fingerprintInfoFilename} numberOfLines={1} >{this.state.fileName}</Text>
                 <Text style={localAddPropertyStyle.fingerprintInfoFileFormat}>{this.state.fileFormat}</Text>
-              </View>
-
-              {/*Asset Type*/}
-              <View>
-                {/*Asset Type Label*/}
-                <Text style={localAddPropertyStyle.assetTypeLabel}>{global.i18n.t("LocalIssueFileComponent_assetTypeLabel")}</Text>
-
-                {/* Asset Type value / Asset Type chooser */}
-                {this.state.existingAsset ? (
-                  // Asset Type value
-                  <View style={localAddPropertyStyle.assetTypeTypeInfoContainer}>
-                    {/*<Text style={localAddPropertyStyle.assetTypeTypeInfo}>{this.state.assetAccessibility.charAt(0).toUpperCase() + this.state.assetAccessibility.slice(1)} asset</Text>*/}
-                    <Text style={localAddPropertyStyle.assetTypeTypeInfo}>{global.i18n.t("LocalIssueFileComponent_assetAccessibilityAsset", { assetAccessibility: global.i18n.t("LocalIssueFileComponent_" + this.state.assetAccessibility) })}</Text>
-                    <TouchableOpacity onPress={Actions.assetTypeHelp}>
-                      <Text style={localAddPropertyStyle.assetTypeHelperLinkText}>{global.i18n.t("LocalIssueFileComponent_whatIsAssetType")}</Text>
-                    </TouchableOpacity>
-                  </View>
-                ) : (
-                    <View>
-                      {/*Asset Type chooser*/}
-                      <View style={localAddPropertyStyle.assetTypeChooser}>
-                        <TouchableOpacity onPress={() => this.toggleAssetType('private')}
-                          style={this.state.assetAccessibility !== 'public' ? localAddPropertyStyle.assetTypeActiveButton : localAddPropertyStyle.assetTypeInActiveButton}>
-                          <Text style={this.state.assetAccessibility !== 'public' ? localAddPropertyStyle.assetTypeActiveButtonText : localAddPropertyStyle.assetTypeInActiveButtonText}>
-                            {global.i18n.t("LocalIssueFileComponent_privateAsset")}
-                          </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => this.toggleAssetType('public')}
-                          style={this.state.assetAccessibility === 'public' ? localAddPropertyStyle.assetTypeActiveButton : localAddPropertyStyle.assetTypeInActiveButton}>
-                          <Text style={this.state.assetAccessibility === 'public' ? localAddPropertyStyle.assetTypeActiveButtonText : localAddPropertyStyle.assetTypeInActiveButtonText}>
-                            {global.i18n.t("LocalIssueFileComponent_publicAsset")}
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-
-                      {/*Asset Type helper*/}
-                      <View style={localAddPropertyStyle.assetTypeHelper}>
-                        <TouchableOpacity onPress={Actions.assetTypeHelp}>
-                          <Text style={localAddPropertyStyle.assetTypeHelperLinkText}>
-                            {global.i18n.t("LocalIssueFileComponent_whatArePrivateAndPublicAssets")}
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  )}
               </View>
 
               <Text style={localAddPropertyStyle.assetNameLabel}>{global.i18n.t("LocalIssueFileComponent_propertyName")}</Text>

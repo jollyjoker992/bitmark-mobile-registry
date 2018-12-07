@@ -2,15 +2,15 @@ import { AccountModel, CommonModel, BitmarkSDK, UserModel } from '../models';
 import { config } from 'src/configs';
 
 // ================================================================================================\
-const doGetCurrentAccount = async (touchFaceIdSession) => {
-  let userInfo = await AccountModel.doGetCurrentAccount(touchFaceIdSession);
+const doGetCurrentAccount = async () => {
+  let userInfo = await AccountModel.doGetCurrentAccount();
   let userInformation = { bitmarkAccountNumber: userInfo.bitmarkAccountNumber };
   await UserModel.doUpdateUserInfo(userInformation);
   return userInformation;
 }
 
-const doCreateSignatureData = async (touchFaceIdMessage) => {
-  let signatureData = await CommonModel.doTryCreateSignatureData(touchFaceIdMessage);
+const doCreateSignatureData = async () => {
+  let signatureData = await CommonModel.doCreateSignatureData();
   if (!signatureData) {
     return null;
   }

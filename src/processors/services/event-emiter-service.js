@@ -14,8 +14,6 @@ let EventEmitterService = {
 
     NEED_RELOAD_USER_DATA: 'need-reload-user-data',
 
-    APP_MIGRATION_FILE_LOCAL_STORAGE: 'app-migration:file-local-storage',
-    APP_MIGRATION_FILE_LOCAL_STORAGE_PERCENT: 'app-migration:file-local-storage-percent',
     NEED_REFRESH_USER_COMPONENT_STATE: 'need-refresh-user-component-state',
   },
   on: (eventName, func, extra) => {

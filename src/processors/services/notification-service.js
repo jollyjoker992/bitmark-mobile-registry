@@ -48,7 +48,7 @@ let setApplicationIconBadgeNumber = (number) => {
 };
 
 let doRegisterNotificationInfo = async (accountNumber, token) => {
-  let signatureData = await CommonModel.doTryCreateSignatureData(global.i18n.t("NotificationService_pleaseSignToAuthorizeYourTransactions"));
+  let signatureData = await CommonModel.doCreateSignatureData();
   if (!signatureData) {
     return;
   }

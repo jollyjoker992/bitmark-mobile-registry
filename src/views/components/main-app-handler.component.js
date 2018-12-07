@@ -12,7 +12,6 @@ const {
 import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler';
 import RNExitApp from 'react-native-exit-app';
 import Mailer from 'react-native-mail';
-import { Actions } from 'react-native-router-flux';
 
 import {
   DefaultIndicatorComponent,
@@ -20,7 +19,7 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, DataProcessor, CommonModel, CacheData } from 'src/processors';
+import { UserModel, EventEmitterService, DataProcessor, CacheData, BitmarkSDK } from 'src/processors';
 import { FileUtil, convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
 
@@ -41,7 +40,6 @@ export class MainAppHandlerComponent extends Component {
     this.handerProcessErrorEvent = this.handerProcessErrorEvent.bind(this);
     this.doTryConnectInternet = this.doTryConnectInternet.bind(this);
     this.doRefresh = this.doRefresh.bind(this);
-    this.migrationFilesToLocalStorage = this.migrationFilesToLocalStorage.bind(this);
 
     this.state = {
       user: null,
@@ -58,7 +56,6 @@ export class MainAppHandlerComponent extends Component {
     EventEmitterService.on(EventEmitterService.events.APP_PROCESSING, this.handerProcessingEvent);
     EventEmitterService.on(EventEmitterService.events.APP_SUBMITTING, this.handerSubmittingEvent);
     EventEmitterService.on(EventEmitterService.events.APP_PROCESS_ERROR, this.handerProcessErrorEvent);
-    EventEmitterService.on(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE, this.migrationFilesToLocalStorage);
     Linking.addEventListener('url', this.handleDeppLink);
     AppState.addEventListener('change', this.handleAppStateChange);
     NetInfo.isConnected.fetch().then().done(() => {
@@ -74,17 +71,9 @@ export class MainAppHandlerComponent extends Component {
     EventEmitterService.remove(EventEmitterService.events.APP_PROCESSING, this.handerProcessingEvent);
     EventEmitterService.remove(EventEmitterService.events.APP_SUBMITTING, this.handerSubmittingEvent);
     EventEmitterService.remove(EventEmitterService.events.APP_PROCESS_ERROR, this.handerProcessErrorEvent);
-    EventEmitterService.remove(EventEmitterService.events.APP_MIGRATION_FILE_LOCAL_STORAGE, this.migrationFilesToLocalStorage);
     Linking.addEventListener('url', this.handleDeppLink);
     AppState.removeEventListener('change', this.handleAppStateChange);
     NetInfo.isConnected.removeEventListener('connectionChange', this.handleNetworkChange);
-  }
-
-  migrationFilesToLocalStorage() {
-    Alert.alert(i18n.t('LocalStorageMigrationComponent_title'), i18n.t('LocalStorageMigrationComponent_message'), [{
-      text: i18n.t('LocalStorageMigrationComponent_buttonText'), style: 'cancel',
-      onPress: () => Actions.localStorageMigration()
-    }]);
   }
 
   handerProcessingEvent(processing) {
@@ -266,8 +255,8 @@ export class MainAppHandlerComponent extends Component {
     if (networkStatus) {
       UserModel.doTryGetCurrentUser().then(async (userInformation) => {
         if (userInformation && userInformation.bitmarkAccountNumber) {
-          let passTouchFaceId = !!(await CommonModel.doStartFaceTouchSessionId(i18n.t('FaceTouchId_doOpenApp')));
-          console.log('passTouchFaceId :', passTouchFaceId);
+          let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
+          let passTouchFaceId = !result || !result.error;
           this.setState({ passTouchFaceId });
           if (passTouchFaceId) {
             EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
@@ -288,10 +277,8 @@ export class MainAppHandlerComponent extends Component {
 
   async doRefresh(justCreatedBitmarkAccount) {
     if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
-      let passTouchFaceId = !!CommonModel.getFaceTouchSessionId();
-      if (!passTouchFaceId) {
-        passTouchFaceId = !!(await CommonModel.doStartFaceTouchSessionId(i18n.t('FaceTouchId_doOpenApp')));
-      }
+      let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
+      let passTouchFaceId = !result || !result.error;
       this.setState({ passTouchFaceId });
       if (passTouchFaceId && this.state.networkStatus) {
         EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus: this.state.networkStatus, justCreatedBitmarkAccount });

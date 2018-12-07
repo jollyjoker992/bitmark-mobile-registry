@@ -32,7 +32,7 @@ class PrivateIftttActiveComponent extends React.Component {
     if (message === 'enable-ifttt') {
       this.setState({ processing: true });
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESSING, true);
-      AppProcessor.doCreateSignatureData(global.i18n.t("IftttActiveComponent_pleaseSignToConnectYourIftttAccount"), true).then(data => {
+      AppProcessor.doCreateSignatureData().then(data => {
         // this.setState({ processing: false });
         if (!data) {
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESSING, false);

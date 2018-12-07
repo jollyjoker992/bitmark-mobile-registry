@@ -2,7 +2,7 @@ import { Platform, AppRegistry } from 'react-native';
 import moment from 'moment';
 import { registerTasks } from './app-tasks';
 
-import { CommonModel, AccountModel, FaceTouchId, NotificationModel } from './models';
+import { AccountModel, FaceTouchId, NotificationModel } from './models';
 import { AccountService, BitmarkService, EventEmitterService, TransactionService } from './services'
 import { DataProcessor } from './data-processor';
 
@@ -67,20 +67,11 @@ const doCreateNewAccount = async (enableTouchId) => {
   if (enableTouchId && Platform.OS === 'ios' && config.isIPhoneX) {
     await FaceTouchId.authenticate();
   }
-  let touchFaceIdSession = await AccountModel.doCreateAccount(enableTouchId);
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  CommonModel.setFaceTouchSessionId(touchFaceIdSession);
-  return await processing(DataProcessor.doCreateAccount(touchFaceIdSession));
+  return await processing(DataProcessor.doCreateAccount());
 };
 
-const doGetCurrentAccount = async (touchFaceIdMessage) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(touchFaceIdMessage);
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  let userInfo = await processing(AccountModel.doGetCurrentAccount(touchFaceIdSession));
+const doGetCurrentAccount = async () => {
+  let userInfo = await processing(AccountModel.doGetCurrentAccount());
   return userInfo;
 };
 
@@ -96,14 +87,8 @@ const doCheckFileToIssue = async (filePath) => {
   return await processing(BitmarkService.doCheckFileToIssue(filePath));
 };
 
-const doCreateSignatureData = async (touchFaceIdMessage, newSession) => {
-  if (newSession) {
-    let sessionId = await CommonModel.doStartFaceTouchSessionId(touchFaceIdMessage);
-    if (!sessionId) {
-      return null;
-    }
-  }
-  return await processing(AccountService.doCreateSignatureData(touchFaceIdMessage));
+const doCreateSignatureData = async () => {
+  return await processing(AccountService.doCreateSignatureData());
 };
 
 const doReloadUserData = async () => {
@@ -204,10 +189,6 @@ const doCheckNoLongerSupportVersion = async () => {
   return true;
 };
 
-const doMigrateFilesToLocalStorage = async () => {
-  return executeTask('doMigrateFilesToLocalStorage');
-};
-
 // ================================================================================================
 // ================================================================================================
 // ================================================================================================
@@ -239,7 +220,6 @@ let AppProcessor = {
   doGetAllTransfersOffers,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
-  doMigrateFilesToLocalStorage,
 
   doStartBackgroundProcess,
 

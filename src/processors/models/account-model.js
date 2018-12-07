@@ -5,20 +5,20 @@ import { config } from 'src/configs';
 
 const doCreateAccount = async (authentication) => {
   await CookieManager.clearAll();
-  return await BitmarkSDK.newAccount(config.bitmark_network, authentication);
+  return await BitmarkSDK.newAccount(authentication);
 };
 
 const doLogin = async (phraseWords, authentication) => {
   await CookieManager.clearAll();
-  return await BitmarkSDK.newAccountFromPhraseWords(phraseWords, config.bitmark_network, authentication);
+  return await BitmarkSDK.newAccountFromPhraseWords(phraseWords, authentication);
 }
 
-const doGetCurrentAccount = async (touchFaceIdSession) => {
-  return await BitmarkSDK.accountInfo(touchFaceIdSession);
+const doGetCurrentAccount = async () => {
+  return await BitmarkSDK.accountInfo();
 };
 
 const doCheckPhraseWords = async (phraseWords) => {
-  return await BitmarkSDK.tryPhraseWords(phraseWords, config.bitmark_network);
+  return await BitmarkSDK.tryPhrase(phraseWords);
 };
 
 const doLogout = async () => {
@@ -57,60 +57,6 @@ let doRegisterJWT = (accountNumber, timestamp, signature) => {
   });
 };
 
-const doCheckMigration = (jwt) => {
-  return new Promise((resolve) => {
-    let statusCode;
-    let tempURL = `${config.mobile_server_url}/api/accounts/metadata`;
-    fetch(tempURL, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + jwt,
-      },
-    }).then((response) => {
-      statusCode = response.status;
-      if (statusCode >= 500) {
-        return response.text();
-      }
-      return response.json();
-    }).then((data) => {
-      if (statusCode >= 400) {
-        return resolve();
-      }
-      resolve(data.metadata.registry_bitmarks_migrated);
-    }).catch(() => resolve());
-  });
-};
-
-const doMarkMigration = (jwt, status) => {
-  return new Promise((resolve, reject) => {
-    let statusCode;
-    let tempURL = `${config.mobile_server_url}/api/accounts/metadata`;
-    fetch(tempURL, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + jwt,
-      },
-      body: JSON.stringify({
-        metadata: { registry_bitmarks_migrated: status === undefined ? true : status },
-      })
-    }).then((response) => {
-      statusCode = response.status;
-      if (statusCode >= 500) {
-        return response.text();
-      }
-      return response.json();
-    }).then((data) => {
-      if (statusCode >= 400) {
-        return resolve();
-      }
-      resolve(data);
-    }).catch(reject);
-  });
-};
 
 let AccountModel = {
   doGetCurrentAccount,
@@ -120,8 +66,6 @@ let AccountModel = {
   doLogout,
 
   doRegisterJWT,
-  doCheckMigration,
-  doMarkMigration,
 }
 
 export {

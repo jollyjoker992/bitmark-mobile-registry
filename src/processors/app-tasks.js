@@ -1,7 +1,7 @@
 import { Platform, AppRegistry } from 'react-native';
 import moment from 'moment';
 
-import { CommonModel, AccountModel, FaceTouchId, } from './models';
+import { AccountModel, FaceTouchId, } from './models';
 import { EventEmitterService, } from './services'
 import { DataProcessor } from './data-processor';
 import { config } from 'src/configs';
@@ -61,150 +61,77 @@ const doLogin = async ({ phraseWords, enableTouchId }) => {
   if (enableTouchId && Platform.OS === 'ios' && config.isIPhoneX) {
     await FaceTouchId.authenticate();
   }
-  let touchFaceIdSession = await AccountModel.doLogin(phraseWords, enableTouchId);
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  CommonModel.setFaceTouchSessionId(touchFaceIdSession);
-  return await processing(DataProcessor.doLogin(touchFaceIdSession));
+  await AccountModel.doLogin(phraseWords, enableTouchId);
+  return await processing(DataProcessor.doLogin());
 };
 
 const doLogout = async () => {
   return await processing(DataProcessor.doLogout());
 };
 
-const doIssueFile = async ({ filePath, assetName, metadataList, quantity, isPublicAsset, processingInfo }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_authorizeBitmarkIssuance"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await submitting(DataProcessor.doIssueFile(touchFaceIdSession, filePath, assetName, metadataList, quantity, isPublicAsset), processingInfo);
+const doIssueFile = async ({ filePath, assetName, metadataList, quantity, processingInfo }) => {
+  return await submitting(DataProcessor.doIssueFile(filePath, assetName, metadataList, quantity), processingInfo);
 };
 
 const doTransferBitmark = async ({ bitmark, receiver, isDeleting }) => {
-  let touchFaceIdSession;
-  if (isDeleting) {
-    touchFaceIdSession = CommonModel.getFaceTouchSessionId();
-  } else {
-    touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doTransferBitmark"));
-  }
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await processing(DataProcessor.doTransferBitmark(touchFaceIdSession, bitmark.id, receiver));
+  return await processing(DataProcessor.doTransferBitmark(bitmark.id, receiver, isDeleting));
 };
 
 const doAcceptTransferBitmark = async ({ transferOffer, processingInfo }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doAcceptTransferBitmark"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await submitting(DataProcessor.doAcceptTransferBitmark(touchFaceIdSession, transferOffer), processingInfo);
+  return await submitting(DataProcessor.doAcceptTransferBitmark(transferOffer), processingInfo);
 };
 
 const doAcceptAllTransfers = async ({ transferOffers, processingInfo }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doAcceptAllTransfers"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await submitting(DataProcessor.doAcceptAllTransfers(touchFaceIdSession, transferOffers), processingInfo);
+  return await submitting(DataProcessor.doAcceptAllTransfers(transferOffers), processingInfo);
 };
 
 
-const doCancelTransferBitmark = async ({ transferOfferId, faceTouchMessage }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(faceTouchMessage || global.i18n.t("AppTasksRegister_doCancelTransferBitmark"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await processing(DataProcessor.doCancelTransferBitmark(touchFaceIdSession, transferOfferId));
+const doCancelTransferBitmark = async ({ transferOfferId }) => {
+  return await processing(DataProcessor.doCancelTransferBitmark(transferOfferId));
 };
 
 const doRejectTransferBitmark = async ({ transferOffer, processingInfo }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doRejectTransferBitmark"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await submitting(DataProcessor.doRejectTransferBitmark(touchFaceIdSession, transferOffer), processingInfo);
+  return await submitting(DataProcessor.doRejectTransferBitmark(transferOffer), processingInfo);
 };
 
 const doDownloadBitmark = async ({ bitmark, processingData }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doDownloadBitmark"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await submitting(DataProcessor.doDownloadBitmark(touchFaceIdSession, bitmark), processingData);
+  return await submitting(DataProcessor.doDownloadBitmark(bitmark), processingData);
 };
 
 const doTrackingBitmark = async ({ asset, bitmark }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doTrackingBitmark"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await processing(DataProcessor.doTrackingBitmark(touchFaceIdSession, asset, bitmark));
+  return await processing(DataProcessor.doTrackingBitmark(asset, bitmark));
 };
 
 const doStopTrackingBitmark = async ({ bitmark }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doStopTrackingBitmark"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await processing(DataProcessor.doStopTrackingBitmark(touchFaceIdSession, bitmark));
+  return await processing(DataProcessor.doStopTrackingBitmark(bitmark));
 }
 const doRevokeIftttToken = async () => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doRevokeIftttToken"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await processing(DataProcessor.doRevokeIftttToken(touchFaceIdSession));
+  return await processing(DataProcessor.doRevokeIftttToken());
 };
 const doIssueIftttData = async ({ iftttBitmarkFile, processingInfo }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doIssueIftttData"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await submitting(DataProcessor.doIssueIftttData(touchFaceIdSession, iftttBitmarkFile), processingInfo);
+  return await submitting(DataProcessor.doIssueIftttData(iftttBitmarkFile), processingInfo);
 };
 
 const doMigrateWebAccount = async ({ token }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doMigrateWebAccount"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await processing(DataProcessor.doMigrateWebAccount(touchFaceIdSession, token));
+  return await processing(DataProcessor.doMigrateWebAccount(token));
 };
 
 const doSignInOnWebApp = async ({ token }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doSignInOnWebApp"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  return await processing(DataProcessor.doSignInOnWebApp(touchFaceIdSession, token));
+  return await processing(DataProcessor.doSignInOnWebApp(token));
 };
 
 const doDecentralizedIssuance = async ({ token, encryptionKey, expiredTime }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doDecentralizedIssuance"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
   if (expiredTime < moment().toDate().getTime()) {
     return new Error(global.i18n.t("AppTasksRegister_qrCodeIsExpired"));
   }
-  return await processing(DataProcessor.doDecentralizedIssuance(touchFaceIdSession, token, encryptionKey));
+  return await processing(DataProcessor.doDecentralizedIssuance(token, encryptionKey));
 };
 
 const doDecentralizedTransfer = async ({ token, expiredTime }) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(global.i18n.t("AppTasksRegister_doDecentralizedTransfer"));
-  if (!touchFaceIdSession) {
-    return null;
-  }
   if (expiredTime < moment().toDate().getTime()) {
     return new Error(global.i18n.t("AppTasksRegister_qrCodeIsExpired"));
   }
-  return await processing(DataProcessor.doDecentralizedTransfer(touchFaceIdSession, token));
-};
-
-const doMigrateFilesToLocalStorage = async () => {
-  return await DataProcessor.doMigrateFilesToLocalStorage();
+  return await processing(DataProcessor.doDecentralizedTransfer(token));
 };
 
 // ================================================================================================
@@ -229,7 +156,6 @@ let AppTasks = {
   doSignInOnWebApp,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
-  doMigrateFilesToLocalStorage,
 };
 
 let registeredTasks = {};

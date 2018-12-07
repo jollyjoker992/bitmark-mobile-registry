@@ -206,20 +206,17 @@ const doGetTransferOfferDetail = async (transferOfferId) => {
   incomingTransferOffer.created_at = moment(incomingTransferOffer.created_at);
   return incomingTransferOffer;
 };
-const doAcceptTransferBitmark = async (touchFaceIdSession, transferOffer) => {
-  return await BitmarkSDK.signForTransferOfferAndSubmit(touchFaceIdSession, transferOffer.record.link,
-    transferOffer.record.signature, transferOffer.id, 'accept');
+const doAcceptTransferBitmark = async (transferOffer) => {
+  return await BitmarkSDK.signForTransferOfferAndSubmit('accept', transferOffer.record.link);
 };
 
-const doRejectTransferBitmark = async (touchFaceIdSession, transferOffer) => {
-  return await BitmarkSDK.signForTransferOfferAndSubmit(touchFaceIdSession, transferOffer.record.link,
-    transferOffer.record.signature, transferOffer.id, 'reject');
+const doRejectTransferBitmark = async (transferOffer) => {
+  return await BitmarkSDK.signForTransferOfferAndSubmit('reject', transferOffer.record.link);
 };
 
-const doCancelTransferBitmark = async (touchFaceIdSession, transferOfferId) => {
+const doCancelTransferBitmark = async (transferOfferId) => {
   let transferOffer = await TransferOfferModel.doGetTransferOfferDetail(transferOfferId);
-  return await BitmarkSDK.signForTransferOfferAndSubmit(touchFaceIdSession, transferOffer.record.link,
-    transferOffer.record.signature, transferOffer.id, 'cancel');
+  return await BitmarkSDK.signForTransferOfferAndSubmit('cancel', transferOffer.record.link);
 };
 
 const TransactionService = {
