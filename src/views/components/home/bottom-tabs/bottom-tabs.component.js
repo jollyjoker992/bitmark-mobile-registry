@@ -9,7 +9,7 @@ import { BottomTabBar } from 'react-navigation-tabs';
 
 import componentStyles from './bottom-tabs.component.style';
 import { Actions } from 'react-native-router-flux';
-import { BottomTabStore } from 'src/views';
+import { BottomTabStore } from 'src/views/stores';
 
 const MainTabs = {
   properties: 'Properties',

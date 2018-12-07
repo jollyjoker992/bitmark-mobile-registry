@@ -26,7 +26,7 @@ import {
   PropertyStore, PropertyActions,
   AccountStore, AccountActions,
   TransactionsStore, TransactionsActions,
-} from 'src/views';
+} from 'src/views/stores';
 import { config } from 'src/configs';
 import { CacheData } from './caches';
 

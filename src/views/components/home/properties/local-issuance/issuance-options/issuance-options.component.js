@@ -12,7 +12,7 @@ import issuanceOptionsStyle from './issuance-options.component.style';
 import { FileUtil } from 'src/utils';
 import { AppProcessor, EventEmitterService } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
-import { AccountStore } from 'src/views';
+import { AccountStore } from 'src/views/stores';
 
 
 export class PrivateIssuanceOptionsComponent extends React.Component {

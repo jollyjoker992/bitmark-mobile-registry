@@ -13,7 +13,7 @@ import assetsStyle from './assets.component.style';
 import { DataProcessor, CacheData } from 'src/processors';
 import { defaultStyles, BitmarkWebViewComponent } from 'src/views/commons';
 import { config } from 'src/configs';
-import { AssetsStore } from 'src/views';
+import { AssetsStore } from 'src/views/stores';
 let currentSize = Dimensions.get('window');
 
 let SubTabs = {
