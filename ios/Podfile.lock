@@ -1,5 +1,5 @@
 PODS:
-  - BitmarkSDK (0.0.5):
+  - BitmarkSDK (2.2.0):
     - TweetNacl
   - HockeySDK (5.1.4):
     - HockeySDK/DefaultLib (= 5.1.4)
@@ -8,32 +8,23 @@ PODS:
   - TweetNacl (1.0.1)
 
 DEPENDENCIES:
-  - BitmarkSDK (from `https://github.com/bitmark-inc/bitmark-sdk-swift.git`, branch `v1`)
+  - BitmarkSDK
   - HockeySDK
   - KeychainAccess
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - BitmarkSDK
     - HockeySDK
     - KeychainAccess
     - TweetNacl
 
-EXTERNAL SOURCES:
-  BitmarkSDK:
-    :branch: v1
-    :git: https://github.com/bitmark-inc/bitmark-sdk-swift.git
-
-CHECKOUT OPTIONS:
-  BitmarkSDK:
-    :commit: 981c2e86369b00e20e3289c5406bafd45497751a
-    :git: https://github.com/bitmark-inc/bitmark-sdk-swift.git
-
 SPEC CHECKSUMS:
-  BitmarkSDK: 3234949ba38f292e9ac3bd5d13a8981b182990a1
+  BitmarkSDK: 8d528ebc33eaa1aed09db9f00c110916e127c352
   HockeySDK: 15afe6bc0a5bfe3a531fd73dbf082095f37dac3b
   KeychainAccess: b3816fddcf28aa29d94b10ec305cd52be14c472b
   TweetNacl: ea279cd32bffee69c59c73631470d3419db675df
 
-PODFILE CHECKSUM: 42a9fa170bb299e816718ec0da904922b8683025
+PODFILE CHECKSUM: 11797dc510dbf2b50365c6ecd73c65cd37a92ce8
 
 COCOAPODS: 1.5.3
