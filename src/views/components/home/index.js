@@ -24,6 +24,14 @@ import { WebAccountMigrateComponent } from './account/web-account/migrate/migrat
 import { WebAccountSignInComponent } from './account/web-account/sign-in/sign-in.component';
 import { IssuanceOptionsComponent } from './properties/local-issuance/issuance-options/issuance-options.component';
 import { WhatNewComponent } from './account/what-new.component';
+import {
+  MusicBasicInfoComponent,
+  MusicFileChosenComponent,
+  MusicIssueSuccessComponent,
+  MusicMetadataComponent,
+  MusicMetadataEditComponent
+} from './properties/local-issue-music';
+
 import { BitmarkWebViewComponent } from 'src/views/commons';
 import { EventEmitterService, DataProcessor, AppProcessor } from 'src/processors';
 
@@ -108,6 +116,12 @@ export class UserRouterComponent extends Component {
             <Scene key="localPropertyDetail" panHandlers={null} component={LocalPropertyDetailComponent} />
             <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
             <Scene key="whatNew" panHandlers={null} component={WhatNewComponent} />
+
+            <Scene key="musicBasicInfo" panHandlers={null} component={MusicBasicInfoComponent} />
+            <Scene key="musicFileChosen" panHandlers={null} component={MusicFileChosenComponent} />
+            <Scene key="musicIssueSuccess" panHandlers={null} component={MusicIssueSuccessComponent} />
+            <Scene key="musicMetadata" panHandlers={null} component={MusicMetadataComponent} />
+            <Scene key="musicMetadataEdit" panHandlers={null} component={MusicMetadataEditComponent} />
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >

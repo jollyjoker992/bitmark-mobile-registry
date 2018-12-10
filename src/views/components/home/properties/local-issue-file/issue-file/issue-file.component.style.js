@@ -359,7 +359,7 @@ export default StyleSheet.create({
     width: convertWidth(375),
     height: constant.buttonHeight,
     borderTopWidth: 2,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#E6FF00',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -369,6 +369,6 @@ export default StyleSheet.create({
     fontWeight: '900',
     fontSize: 17,
     lineHeight: 19,
-    color: '#0060F2',
+    color: 'white',
   },
 });

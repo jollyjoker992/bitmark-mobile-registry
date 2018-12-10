@@ -16,15 +16,7 @@ import { AccountStore } from 'src/views/stores';
 
 
 export class PrivateIssuanceOptionsComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onChooseFile = this.onChooseFile.bind(this);
-    this.onChoosePhotoFile = this.onChoosePhotoFile.bind(this);
-    this.issueIftttData = this.issueIftttData.bind(this);
-  }
-
   // ==========================================================================================
-
   onChoosePhotoFile() {
     let options = {
       title: '',
@@ -51,6 +43,9 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
       }
       this.prepareToIssue(response);
     });
+  }
+  onChooseMusic() {
+    Actions.musicFileChosen();
   }
 
   async prepareToIssue(response) {
@@ -94,13 +89,23 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
           <TouchableOpacity style={defaultStyles.headerRight} />
         </View>
         <View style={issuanceOptionsStyle.content}>
-          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile}>
+          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChooseMusic.bind(this)}>
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/music_icon.png')} />
+            <Text style={issuanceOptionsStyle.optionButtonText}>MUSICS</Text>
+            <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
+          </TouchableOpacity>
+          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile.bind(this)}>
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/photo_icon.png')} />
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>
+            <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
           </TouchableOpacity>
-          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChooseFile}>
+          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChooseFile.bind(this)}>
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/file_icon.png')} />
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_files")}</Text>
+            <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
           </TouchableOpacity>
-          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData}>
+          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData.bind(this)}>
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/ifttt-icon.png')} />
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
             {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) && <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />}
             {this.props.iftttInformation && !!this.props.iftttInformation.connectIFTTT && <Text style={issuanceOptionsStyle.optionButtonStatus}>{global.i18n.t("IssuanceOptionsComponent_authorized")}</Text>}

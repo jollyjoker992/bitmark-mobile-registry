@@ -30,7 +30,6 @@ export default StyleSheet.create({
   optionButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     minHeight: 45,
     width: '100%',
     marginTop: 10,
@@ -40,10 +39,16 @@ export default StyleSheet.create({
   },
   optionButtonText: {
     fontFamily: 'Avenir black',
-    textAlign: 'center',
     fontSize: 16,
     fontWeight: '900',
     color: '#0060F2',
+    flex: 1,
+    paddingLeft: convertWidth(30),
+  },
+  chooseIcon: {
+    width: 24,
+    height: 28,
+    resizeMode: 'contain',
   },
   optionButtonNextIcon: {
     width: 15,
