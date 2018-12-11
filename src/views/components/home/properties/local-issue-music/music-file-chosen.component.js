@@ -31,7 +31,11 @@ export class MusicFileChosenComponent extends React.Component {
       let filePath = response.uri.replace('file://', '');
       filePath = decodeURIComponent(filePath);
       AppProcessor.doCheckFileToIssue(filePath).then(asset => {
-        Actions.musicBasicInfo({ filePath, asset });
+        if (asset && asset.name) {
+          Alert.alert('Registration Failed', 'The file is already registered before and will not be added again. Please try to add different file.');
+        } else {
+          Actions.musicBasicInfo({ filePath });
+        }
       }).catch(error => {
         Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
         console.log({ error });
@@ -54,6 +58,7 @@ export class MusicFileChosenComponent extends React.Component {
           <View style={cStyles.mainContent}>
             <Text style={cStyles.title}>{'RELease limited\nedition Music!'.toUpperCase()}</Text>
             <Text style={cStyles.description}>Register the ownership of your tracks.{'\n'}Share it with the public.{'\n'}Build your legacy.</Text>
+            <Image style={cStyles.musicImage} source={require('assets/imgs/music_upload.png')} />
           </View>
           <View>
             <Text style={cStyles.message}>Distribute your music in only 3 steps!</Text>
@@ -95,6 +100,10 @@ const cStyles = StyleSheet.create({
   description: {
     fontFamily: 'Avenir-Light', fontSize: 17, fontWeight: '300', color: 'white', lineHeight: 23,
     marginLeft: convertWidth(39), marginTop: 30,
+  },
+  musicImage: {
+    width: 303, height: 248, resizeMode: 'contain',
+    marginTop: 75,
   },
   message: {
     fontFamily: 'Avenir-Medium', fontSize: 15, fontWeight: '300', color: 'white', textAlign: 'center', fontStyle: 'italic',

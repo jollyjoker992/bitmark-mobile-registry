@@ -125,7 +125,7 @@ const doCheckMetadata = (metadataList) => {
       }
     }
 
-    BitmarkModel.doCheckMetadata(metadata).then(resolve).catch(() => resolve(global.i18n.t("BitmarkService_metadataIsTooLong")));
+    BitmarkModel.doCheckMetadata(metadata).then(() => resolve()).catch(() => resolve(global.i18n.t("BitmarkService_metadataIsTooLong")));
   });
 };
 
