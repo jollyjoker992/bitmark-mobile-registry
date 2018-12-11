@@ -63,20 +63,24 @@ export class MusicIssueSuccessComponent extends React.Component {
                 </View>
               </View>}
               <View style={cStyles.resultContent}>
-                <Text style={cStyles.resultContentText}>test</Text>
+                <Text style={cStyles.resultContentText} >test</Text>
               </View>
               <View style={cStyles.musicSuccessButtons}>
-                <TouchableOpacity style={[cStyles.musicSuccessButton, {
-                  backgroundColor: this.state.selected === 'embed' ? '#E6FF00' : 'white',
-                  borderColor: this.state.selected === 'embed' ? '#E6FF00' : 'white'
-                }]}>
+                <TouchableOpacity
+                  onPress={() => this.setState({ selected: 'embed' })}
+                  style={[cStyles.musicSuccessButton, {
+                    backgroundColor: this.state.selected === 'embed' ? '#E6FF00' : 'white',
+                    borderColor: this.state.selected === 'embed' ? '#E6FF00' : 'white'
+                  }]}>
                   <Image style={cStyles.musicSuccessButtonIcon} source={require('assets/imgs/music_embed_icon.png')} />
                 </TouchableOpacity>
-                <TouchableOpacity style={[cStyles.musicSuccessButton, {
-                  backgroundColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
-                  borderColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
-                  marginLeft: 25,
-                }]}>
+                <TouchableOpacity
+                  onPress={() => this.setState({ selected: 'link' })}
+                  style={[cStyles.musicSuccessButton, {
+                    backgroundColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
+                    borderColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
+                    marginLeft: 25,
+                  }]}>
                   <Image style={cStyles.musicSuccessButtonIcon} source={require('assets/imgs/music_link_icon.png')} />
                 </TouchableOpacity>
               </View>
@@ -149,9 +153,9 @@ const cStyles = StyleSheet.create({
     backgroundColor: '#E6FF00',
     alignItems: 'center', justifyContent: 'center',
     paddingLeft: 10,
-    borderWidth: 1,
   },
   resultContentText: {
+    fontFamily: 'Avenir-Roman', fontSize: 14, fontWeight: '600',
     width: '100%',
   },
 
