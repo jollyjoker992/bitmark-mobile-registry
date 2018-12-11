@@ -45,7 +45,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     });
   }
   onChooseMusic() {
-    Actions.musicFileChosen();
+    Actions.musicIssueSuccess();
   }
 
   async prepareToIssue(response) {
