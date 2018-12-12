@@ -108,6 +108,9 @@
 		58908AC820A18A5A00C0064A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		58908AC920A18A5A00C0064A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		589626E9201B28380026C4A5 /* BitmarkSDKBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 589626E8201B28380026C4A5 /* BitmarkSDKBridge.m */; };
+		58A59F1921BA5B1300FB4B02 /* AssetEncryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A59F1821BA5B1300FB4B02 /* AssetEncryption.swift */; };
+		58A59F1A21BA5B1300FB4B02 /* AssetEncryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A59F1821BA5B1300FB4B02 /* AssetEncryption.swift */; };
+		58A59F1B21BA5B1300FB4B02 /* AssetEncryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A59F1821BA5B1300FB4B02 /* AssetEncryption.swift */; };
 		58ADB52B211A8CED005BBA73 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58ADB52A211A8CED005BBA73 /* CloudKit.framework */; };
 		58ADB52C211A8D3C005BBA73 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58ADB52A211A8CED005BBA73 /* CloudKit.framework */; };
 		58B4A9B720B6C89A000FF769 /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F179A21C20AF9760002D5539 /* libKCKeepAwake.a */; };
@@ -638,6 +641,7 @@
 		588E9D34216C609500F0E5D9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		58908AD220A18A5A00C0064A /* Bitmark Registry dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bitmark Registry dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		589626E8201B28380026C4A5 /* BitmarkSDKBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BitmarkSDKBridge.m; sourceTree = "<group>"; };
+		58A59F1821BA5B1300FB4B02 /* AssetEncryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetEncryption.swift; sourceTree = "<group>"; };
 		58ADB52A211A8CED005BBA73 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		58B92EA5205A23450037AB9D /* Bitmark-beta.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "Bitmark-beta.entitlements"; path = "Bitmark/Bitmark-beta.entitlements"; sourceTree = "<group>"; };
 		58C9510C20202AF70050A9D4 /* TouchID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchID.h; sourceTree = "<group>"; };
@@ -978,6 +982,7 @@
 			children = (
 				5842C2A221B91F640044B5A9 /* KeychainUtil.swift */,
 				5842C2A621B91F930044B5A9 /* Chacha20.swift */,
+				58A59F1821BA5B1300FB4B02 /* AssetEncryption.swift */,
 			);
 			name = Utilities;
 			path = Bitmark/Utilities;
@@ -2227,6 +2232,7 @@
 				5842C2A321B91F640044B5A9 /* KeychainUtil.swift in Sources */,
 				5842C2A721B91F930044B5A9 /* Chacha20.swift in Sources */,
 				58C9513920202AF80050A9D4 /* TouchID.m in Sources */,
+				58A59F1921BA5B1300FB4B02 /* AssetEncryption.swift in Sources */,
 				58FC1E56201B21CC00F60AF9 /* BitmarkSDK.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				589626E9201B28380026C4A5 /* BitmarkSDKBridge.m in Sources */,
@@ -2241,6 +2247,7 @@
 				5842C2A521B91F640044B5A9 /* KeychainUtil.swift in Sources */,
 				5842C2A921B91F930044B5A9 /* Chacha20.swift in Sources */,
 				583BABFC216F51600015E3A0 /* TouchID.m in Sources */,
+				58A59F1B21BA5B1300FB4B02 /* AssetEncryption.swift in Sources */,
 				583BABFD216F51600015E3A0 /* BitmarkSDK.swift in Sources */,
 				583BABFE216F51600015E3A0 /* AppDelegate.m in Sources */,
 				583BABFF216F51600015E3A0 /* BitmarkSDKBridge.m in Sources */,
@@ -2255,6 +2262,7 @@
 				5842C2A421B91F640044B5A9 /* KeychainUtil.swift in Sources */,
 				5842C2A821B91F930044B5A9 /* Chacha20.swift in Sources */,
 				58908A8C20A18A5A00C0064A /* TouchID.m in Sources */,
+				58A59F1A21BA5B1300FB4B02 /* AssetEncryption.swift in Sources */,
 				58908A9520A18A5A00C0064A /* BitmarkSDK.swift in Sources */,
 				58908A9720A18A5A00C0064A /* AppDelegate.m in Sources */,
 				58908A9820A18A5A00C0064A /* BitmarkSDKBridge.m in Sources */,

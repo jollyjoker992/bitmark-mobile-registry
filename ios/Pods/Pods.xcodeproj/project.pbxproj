@@ -7,129 +7,130 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		05B2A27272B2CE67127CD9DD9E729606 /* buttonRoundedRegularHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = DF7C01A8C0F50526232D2BBA5BEF6C1F /* buttonRoundedRegularHighlighted.png */; };
-		0BE0EB2E46F8813032EC45640B8B595B /* hu.lproj in Resources */ = {isa = PBXBuildFile; fileRef = C192264EEBEEA572866FFA972B6C6518 /* hu.lproj */; };
-		0D8745BE6FBD38C8105E3299A074BB64 /* TweetNacl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52027C71B9E26E784B58A809B471BF0 /* TweetNacl.swift */; };
-		0E0F078A7311D4E79FCC3F549EE24A92 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = F724995883DCBA2A5E634F4B03F05331 /* Constant.swift */; };
-		0EB4EA6580DAE04E7C6E70ECF6434B32 /* buttonRoundedRegular@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3491E97C4051D998036D40898CD2DD64 /* buttonRoundedRegular@2x.png */; };
-		0FD6FAC8894241C661CB45D35F2C569A /* RegistrationParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD88D693727593AF068E0E279041342 /* RegistrationParams.swift */; };
-		10102D2E1E4FCF01E4839F71170EF4FA /* hr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 6F138CFCE58282FBFF1DA1384B8D85FF /* hr.lproj */; };
-		10E71ECB9306E5534B085AEA0BCD8A52 /* buttonRoundedDeleteHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A2C00C759307F1E4CC2B479682FBBC56 /* buttonRoundedDeleteHighlighted@2x.png */; };
+		02E668C269C103A951D1E05C73CFA186 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB9563ACCEF60DE809D511529950EB7 /* Base58.swift */; };
+		05B2A27272B2CE67127CD9DD9E729606 /* buttonRoundedRegularHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = EBECD0D530CE1785AA39B63E4BF4DC37 /* buttonRoundedRegularHighlighted.png */; };
+		0BE0EB2E46F8813032EC45640B8B595B /* hu.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 8706A9CC27D27C72F5225BE355B22E21 /* hu.lproj */; };
+		0EB4EA6580DAE04E7C6E70ECF6434B32 /* buttonRoundedRegular@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7F6B4E0420144E76EA22230ACF31A /* buttonRoundedRegular@2x.png */; };
+		10102D2E1E4FCF01E4839F71170EF4FA /* hr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 2980667EE765A143B615D57CE4A9C0BD /* hr.lproj */; };
+		10E71ECB9306E5534B085AEA0BCD8A52 /* buttonRoundedDeleteHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A1D61BA3A87D012F3480755A4E34EA5 /* buttonRoundedDeleteHighlighted@2x.png */; };
 		1207512EE9F91FCC0EF3A90290E1A28F /* Pods-BitmarkTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 092685644DF65CBB7ABAAD05B546621F /* Pods-BitmarkTests-dummy.m */; };
 		1344E160ED2ECEF270CEB7836B191772 /* Pods-Bitmark Registry dev-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 607EB922D57A0BC5F22EFCF0151DC752 /* Pods-Bitmark Registry dev-dummy.m */; };
+		13F28D53E529C4E9F5AAF4D6C2E70A55 /* Bitmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBBCAF6B729032993D18C89B8AE87F /* Bitmark.swift */; };
 		14489A1DEC3BB7D354206CC7F15E881F /* Pods-Bitmark Registry dev-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1337EEE6A6FADC4325370A7380351E8B /* Pods-Bitmark Registry dev-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		15A2F3DA000E7DE65A39BDB7D875E465 /* module.map in Sources */ = {isa = PBXBuildFile; fileRef = C60C96D2AC7F0CE1485B5EB8F48B1AD9 /* module.map */; };
-		1741C39F86DB6FEA459F2B549CD326FB /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 69D1170DB1D484A1CC9B51011BF77519 /* Arrow.png */; };
+		1515E6EB026620821EDDBE879F867142 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FABACA1C8E9C3EDF451AEF43872454 /* Foundation.framework */; };
+		1741C39F86DB6FEA459F2B549CD326FB /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B3491A4816C5D03828D96654A6CC1 /* Arrow.png */; };
 		191F18A595C4413127FB400EA789D87D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FABACA1C8E9C3EDF451AEF43872454 /* Foundation.framework */; };
-		1B9228F487DF7B494E7E8E93DF2D2371 /* buttonRoundedDeleteHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 2553272B2DFC71A5469295B6E0FEEE4B /* buttonRoundedDeleteHighlighted.png */; };
-		2037CB8F9F112DD5A36EA35A5A211E23 /* ctweetnacl.c in Sources */ = {isa = PBXBuildFile; fileRef = CA0455068664422942AE34B7026F768A /* ctweetnacl.c */; };
-		211848600C7182B0051E73DE82B20421 /* Rectangle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6456F78BFDE4AE999417ED911A8414DF /* Rectangle@3x.png */; };
+		1B9228F487DF7B494E7E8E93DF2D2371 /* buttonRoundedDeleteHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = ABBDCCA8B1779C974402768FC76F7D6D /* buttonRoundedDeleteHighlighted.png */; };
+		1BD453782B7F29EE3DE319AC43F1FEE6 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35F05BEEB09C52B643BBE824C9C48AD /* Asset.swift */; };
+		211848600C7182B0051E73DE82B20421 /* Rectangle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EF94FA89D652A49631B300182609E93 /* Rectangle@3x.png */; };
 		2173F675AC13B15F9F50AB8F97F14EF0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FABACA1C8E9C3EDF451AEF43872454 /* Foundation.framework */; };
-		23CB69B4D5B49C7A98B5287A508950F6 /* API+Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378F1FF1A0D4F903E8192419B200FEC /* API+Asset.swift */; };
-		259217ECA7888D8C53B90B0FC900A115 /* IssuanceParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC0CAEC34BCF92BE8B635524EFCCB3D /* IssuanceParams.swift */; };
-		25B9F54840B222DFB4D361922ADBFC08 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC5AB73A6A4B0E16655E0F0AC84A03A /* Data+Extension.swift */; };
-		265805E1047CD65FCD12995B9ACDB13B /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BFE1DA352D33AB9FAF4BA06782DCA5 /* Queryable.swift */; };
-		2744196B80834C8C64B2B22220285201 /* nl.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 55AD0F07E0336EFA157C11A324A36EE3 /* nl.lproj */; };
-		28651274912DC8779EAB01823DD6C8BF /* ctweetnacl.h in Headers */ = {isa = PBXBuildFile; fileRef = FB2AEF42CACC90C05A6CF9CCD41687CB /* ctweetnacl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2B4FF18D925A972A8371E4CCD4F059DE /* TweetNacl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CA9EF34C20F4B77DAB4ADCEC9AF515BA /* TweetNacl-dummy.m */; };
-		34F1B4DCE098F105AAE2C9CA9A58EF85 /* Blur@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FAA02EC56241EEADCAC0846F65B9CD7 /* Blur@2x.png */; };
-		35720EF83CF77037C3DF93CCA5394BF6 /* nb.lproj in Resources */ = {isa = PBXBuildFile; fileRef = C2C75A5EB96967C86242D71088B177D1 /* nb.lproj */; };
+		229C0D036E9312F5CD53592917E6CE46 /* BinaryPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD52DEEB9C0DD0AB8728690B8297CF9 /* BinaryPacking.swift */; };
+		2744196B80834C8C64B2B22220285201 /* nl.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 245104882C75573B12A8F446863FDF63 /* nl.lproj */; };
+		31494726FFF8906CD763814874468698 /* sha3.h in Headers */ = {isa = PBXBuildFile; fileRef = 616D6CE5296DF6D8151528C035BB796E /* sha3.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		34F1B4DCE098F105AAE2C9CA9A58EF85 /* Blur@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27D2AF3E3B2D7C5A5A1B04A101AFD4B /* Blur@2x.png */; };
+		35720EF83CF77037C3DF93CCA5394BF6 /* nb.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 46F0236A1ED32CC401D2C081D6B0AA10 /* nb.lproj */; };
 		364899C8E91D275625D04D6E64AF3914 /* Pods-Bitmark Registry beta-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 985979128707951133525908BBBA752B /* Pods-Bitmark Registry beta-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		36858112121128A158CA56086A6F7CE1 /* Pods-Bitmark Registry-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50187A0D2D6FA516870C39FE2C6CD4 /* Pods-Bitmark Registry-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		37C1C666F6B5892EB566BC4E21A19C6E /* AssetQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874FBFA4992B02174B039432A4F1DB9D /* AssetQuery.swift */; };
-		3B13A83F0B416416FE3AE60DD68D00B4 /* buttonRoundedDelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 325855783B5D6FCB14F106AD15B5E4DB /* buttonRoundedDelete@2x.png */; };
-		3D99AEFD65C4B18FF4D751CC43DEAF0D /* IconGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 62B9F5980EABD95FA5F50101A3E3111B /* IconGradient.png */; };
-		3E08E40938C162E223543E74CC97374E /* Cancel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5C15FC7BAC9BBDEDE1AAE22E41C240 /* Cancel@3x.png */; };
-		3E85CCD8C85EF04098E844F163D32CFC /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC74BD5CF17558DEF6E8F41FEF7EB28 /* Transaction.swift */; };
-		40902EEE245159F48FE2048E0DAE9168 /* feedbackActivity@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3621633AD4B3EE8AFF68A29BA5D5EDEE /* feedbackActivity@2x~ipad.png */; };
-		4548C1011A02C777B4B263AD821A2DD3 /* pt-PT.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 1C0B17187AEE9BEA907A71D6B35B3C29 /* pt-PT.lproj */; };
-		4565031E0304574C7A466B62E73E7478 /* KeychainAccess-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E6DD9C724649F50A688B6C1D530147AE /* KeychainAccess-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		466DBA881E2B4DB0C42CBE5926A675AF /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E912DC08CD1395EBDF668EB24972F0 /* API.swift */; };
-		46EED041A791CDE130752019D762AB6B /* API+Issuing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3349C743BA7E052FBFF51E7597750F24 /* API+Issuing.swift */; };
-		49B9615071CA1A76D89E0A74DB89E3AC /* API+Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E75069EC2CC8617C0B5549E706896F88 /* API+Transfer.swift */; };
-		4BD0CD3F98A9DECD717A405B6F5B7D85 /* Arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BABFD5310D6EAD64031DDB47401C8035 /* Arrow@2x.png */; };
-		4EC2B357CD04FCBA1A75CC7A477153CC /* it.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 11F08CBDB458814F6F170CF877CDBFC9 /* it.lproj */; };
-		4F01E11E5BC96B92C255589CF5BBCC49 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 47992EA721CD48859B78F648B4D8E57F /* de.lproj */; };
-		4F3DB7C05A112729848E874876D6EEE3 /* BitmarkSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C62C20C91E8A6627F4C029B70D80D95F /* BitmarkSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		50FF1CFCA55ACB0ECB1FF503EB28CB72 /* BItmarkSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 657B1620C5BE36E90757F811FB154E8E /* BItmarkSDK.swift */; };
-		56F996FB4257C5D11633AE75B13BCF03 /* Signable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9F3BC25285F00FF409BB0044A899B1 /* Signable.swift */; };
-		57ACA38E59EF73C327ED17F9893A8F7C /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795234676D0C3472A97A947CC5E14672 /* Asset.swift */; };
-		58A6CA7498C734F1B3A230E326FCDC0A /* BitmarkSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = E37C2895F749FFF64039FB593E337440 /* BitmarkSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		59CA5F7719005184AB71884C81DFA971 /* feedbackActivity~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 1018F3D35B7611B8AA3941E73CF18BB4 /* feedbackActivity~ipad.png */; };
-		5E8AD6566274585603087ABB06DE58D4 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696B819487D0696CEB7B909AB64EC5A4 /* Common.swift */; };
+		3B13A83F0B416416FE3AE60DD68D00B4 /* buttonRoundedDelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF4CBCBFFA62BAF9C211CD05F586205C /* buttonRoundedDelete@2x.png */; };
+		3B384DAC10D2E537452641C609CF9006 /* TweetNacl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E16FBD772B576A160E0728279E76809 /* TweetNacl-dummy.m */; };
+		3D5540F3A0FDD1C883EF85C0ED2EC0FB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF48A178478C356AE01930F4E079C68 /* Config.swift */; };
+		3D99AEFD65C4B18FF4D751CC43DEAF0D /* IconGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 8626B11DEEDC1C42280DC754D3F11D63 /* IconGradient.png */; };
+		3E08E40938C162E223543E74CC97374E /* Cancel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91C4CACBF751B7728839B9E32BB9123 /* Cancel@3x.png */; };
+		40902EEE245159F48FE2048E0DAE9168 /* feedbackActivity@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F40288E966086467DAF9C2E733150E6 /* feedbackActivity@2x~ipad.png */; };
+		4548C1011A02C777B4B263AD821A2DD3 /* pt-PT.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 0E0788C611862D08ADE47BAE8A72DE70 /* pt-PT.lproj */; };
+		4565031E0304574C7A466B62E73E7478 /* KeychainAccess-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 87421E25EAFD9E5CC2CEC0287B7AA18E /* KeychainAccess-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4764A0CCB17FC1663236EB10E6F895E3 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDB130AB5847DADE709AA46B76B2516 /* Data+Extension.swift */; };
+		4BD0CD3F98A9DECD717A405B6F5B7D85 /* Arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2486DEAA1D6858D001AFE7BD6588C9EE /* Arrow@2x.png */; };
+		4E528CC3282ED867146F11A945E98113 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8633D96C8B7E30C090CE797EE23131F1 /* Constant.swift */; };
+		4EC2B357CD04FCBA1A75CC7A477153CC /* it.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 90B38AB5F042255FFABEB018251789CB /* it.lproj */; };
+		4F01E11E5BC96B92C255589CF5BBCC49 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = F7202EF450111EB7587126EF90B44A94 /* de.lproj */; };
+		4F2EA33489B8F31F486AECB47EC08E8E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FABACA1C8E9C3EDF451AEF43872454 /* Foundation.framework */; };
+		4F5AF44ADE8CE63E292079A838E78F96 /* BitmarkSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 993B07AB3F543B2AD6040F2D8A1E277A /* BitmarkSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		504FDC57948E1EC58AD587C23CB49396 /* sha3.c in Sources */ = {isa = PBXBuildFile; fileRef = 9E41DCD25194127BDF96E5722A70B299 /* sha3.c */; };
+		582A4FFEC67A1EA7283416CCF7DE3DC9 /* AccountNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1A9975892B5AAED591519E0496F4C0 /* AccountNumber.swift */; };
+		59CA5F7719005184AB71884C81DFA971 /* feedbackActivity~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 759DB75FFF1911769C832BD8623797BD /* feedbackActivity~ipad.png */; };
+		5D3F6EA40089DBB3DA67D28A747275BA /* RecoverPhrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6CA227A552757028186B026DE911BD /* RecoverPhrase.swift */; };
 		5F721432F1CEB041C45655D3D5F85B7B /* Pods-BitmarkTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D84516B87C52088C7F76F457DF375FE /* Pods-BitmarkTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		668B81BBCA77676DE2F990C90243A1A5 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAF2EDE2E364BF1502D1E370E78BCA1 /* Migration.swift */; };
-		682F3F35A8D7954EAD87213CF6D92CA6 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 403D25E19EBF2F5CDD960CBD7D365243 /* en.lproj */; };
-		68C4BD518BB32B9F21C1329FBE0C2FBD /* FileUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDAE4D8E5086AD0E2926398BD6B36F21 /* FileUtil.swift */; };
-		6CEC5CB0570F0B1DCACCE45788D76FB7 /* AuthKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460BF6B6D820B4783EE37184F3B7163B /* AuthKey.swift */; };
-		6EC8E3228BB60E487E156467919BA83A /* fr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 2672F18BBECCD3367864CEA1035C75F0 /* fr.lproj */; };
-		6F37BD737772B024D48916AB58F6921F /* TweetNacl.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F08F3BA3BF095291D5956E257302446 /* TweetNacl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		71B29DB21F6409285D47047E0E1AEAD6 /* TweetNacl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7AB504DC3715B5A248D017A8B60F486 /* TweetNacl.framework */; };
+		6158FA3F19FA47E4477906F3CE3CAC79 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9559D52EFB065ADAF19125EEBBB6DA76 /* Transaction.swift */; };
+		64315A995D7D5B487D2CC42A9C9D4C38 /* TransactionQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7AE523E28B35F0E276ED178A91FE39 /* TransactionQuery.swift */; };
+		6648D2C2740A1BA5611347DEB7201E17 /* SHA3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF48BF3AB621FB859783B3EC7C9A2F /* SHA3.swift */; };
+		6716AE3BF2076B797200E0CD079B44EE /* API+Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFCA33FB72C072E17C7A733E6D1BBE5 /* API+Asset.swift */; };
+		682F3F35A8D7954EAD87213CF6D92CA6 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 1819D90E60BEE0074531C37696B0ED6F /* en.lproj */; };
+		6C0E710FA822BBAAE16DE5011BB653C9 /* Signable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637881BA46D6D5436798B610B0E82080 /* Signable.swift */; };
+		6EC8E3228BB60E487E156467919BA83A /* fr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 34C63638D6DF1E8B2C6484C33EAFA350 /* fr.lproj */; };
+		70BC9C2195FDF2D42B55E0C3097D0899 /* Seed.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9C496BDC47416C8A730DD9453C13D /* Seed.swift */; };
+		717A3E0BA053ABCDB3A34C68D48DED20 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 52854E59CDF4570AAC9E51E191700BB8 /* main.c */; };
+		728A8D695148322532797F2881FA0CC6 /* TweetNacl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7AB504DC3715B5A248D017A8B60F486 /* TweetNacl.framework */; };
+		728B9051546EA3999FE0E17688AB2707 /* FileUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A897A752E7C7F26B70FF0A55B8B773 /* FileUtil.swift */; };
 		73C4327C8376E69FB8AA2136B8D7CE58 /* Pods-Bitmark Registry beta-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F9A3CED6EDA3F548B9E9EEAD3F1688A2 /* Pods-Bitmark Registry beta-dummy.m */; };
-		7BF1BC9703683E3CDD159A6264CFB58B /* Rectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D3A00D264DCF57A5274201B2B132536 /* Rectangle.png */; };
-		7C4D1F326A2B12AE370997778531801A /* iconCamera.png in Resources */ = {isa = PBXBuildFile; fileRef = 80526754974EC43F21929374B250AD65 /* iconCamera.png */; };
-		7D498B858EFD7F9E012A78B81781175B /* Cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A20382847AA1687AC1751143E3384E7 /* Cancel@2x.png */; };
-		7D99EDF1A4767CCDB9B5E29DA6D6B8D6 /* Ok@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CED5C36B3A80EB5724FE79166ED6221 /* Ok@2x.png */; };
-		7DDD41B9276BFE828CD85F7E049F9A7A /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 8BE7914C183CE7D0FAE58CC032D73B8C /* ru.lproj */; };
-		7F3549A42A7AD66716F88B7662A4E908 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D051F970B0C16979882D498F8499CB /* Account.swift */; };
-		7FC1A2AC6EE5A2A9FED69B5D8C39ECA9 /* tr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 83F61F096F95543D1AADB0FA50171CDD /* tr.lproj */; };
-		7FD1C9171DE80CDCBE2C974D9EE0991A /* KeychainAccess-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B47AF74BE14233685F8399324ED56C02 /* KeychainAccess-dummy.m */; };
-		80D4050E9FDA098A2BC3EF963843977B /* TransactionQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C61D712328C750ADB5E9ED64AD5B9E9 /* TransactionQuery.swift */; };
-		81D43C20003C7048E0901198FC3909B0 /* RecoverPhrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB3C4210EB8456F6200B5E389EBE59C5 /* RecoverPhrase.swift */; };
-		884C46BA834A972F5049A6686FFA981C /* TransferParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9BE05C743E26E1E8C2AEBE54F6195DD /* TransferParams.swift */; };
-		8B5384236EADAD0F54CDEEFC6B9F721B /* sha3.h in Headers */ = {isa = PBXBuildFile; fileRef = 1801DFC1CB9A096984B556D87087A4FE /* sha3.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		8C574DC028A09D73CBB21A0965309C73 /* RecoverPhrase+Dic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F5AAB90E38C93525102C1EBCB6D0517 /* RecoverPhrase+Dic.swift */; };
-		8D401BC540B6CF254C8C5E2B2E41636D /* Rectangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 324EBF7E2579B281637FB5C12BF3F565 /* Rectangle@2x.png */; };
-		8F7E5E1D1B7D7B814864BFCAEBCAF00F /* zh-Hans.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 208818BDDB2147C025AC517763FF5549 /* zh-Hans.lproj */; };
-		9369C7444953229DAAFC0D616CCAC0FF /* ja.lproj in Resources */ = {isa = PBXBuildFile; fileRef = F4D8F77BC629FB85A8E007D2380709E3 /* ja.lproj */; };
-		945181D2B7E30D3C0B07EDEC26E1FC2B /* authorize_denied@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96C0A95816BC3FE3FD493181D941C77B /* authorize_denied@3x.png */; };
-		94673DF28CFD10AF179F7D04CDA8BAC5 /* Blur@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = CBB7EF4C90BD6D857A0A3740126A4D37 /* Blur@3x.png */; };
-		94B7C8911B2A9A08A71606D9581A1148 /* buttonRoundedDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = BC7193DCB1A3CB924963085758AC155B /* buttonRoundedDelete.png */; };
-		95B86A37516E4159141D192C653EC815 /* buttonRoundedRegularHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B0C189F3B6835B9963E185AD4056DA6 /* buttonRoundedRegularHighlighted@2x.png */; };
-		970466C82DB88ECDDD27BF3E9DF4FC46 /* AppIconPlaceHolder.png in Resources */ = {isa = PBXBuildFile; fileRef = 7546A8694771FC5B0646061E106FB847 /* AppIconPlaceHolder.png */; };
-		9FCE8FD2D152025E892912E7CBC38228 /* Seed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815EA95EEE64B8F9A9B4B3ECDC8DB9C5 /* Seed.swift */; };
-		A416F348274132328F2F7889EE0070B0 /* buttonRoundedRegular.png in Resources */ = {isa = PBXBuildFile; fileRef = 89EF3CE287A840906F460819D892B861 /* buttonRoundedRegular.png */; };
+		7AC37665783490E831ADDDB2F4E4E542 /* OfferParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1517EC20137E2BE9750CADB6EBD551 /* OfferParams.swift */; };
+		7BF1BC9703683E3CDD159A6264CFB58B /* Rectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2816E59B8D599EF658076ECC705E879D /* Rectangle.png */; };
+		7C4D1F326A2B12AE370997778531801A /* iconCamera.png in Resources */ = {isa = PBXBuildFile; fileRef = C3C6518B46C8385A5B51C34ACB1FE89A /* iconCamera.png */; };
+		7CAC1795A174343E8B68D073C8CD82DA /* BItmarkSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = C608308B3D88B90D196FD96AE6BCC48E /* BItmarkSDK.swift */; };
+		7D498B858EFD7F9E012A78B81781175B /* Cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BEA89CE93A71D2719AA858F2C5FD921 /* Cancel@2x.png */; };
+		7D99EDF1A4767CCDB9B5E29DA6D6B8D6 /* Ok@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFD32C6AA3163AE89C7378480EC6BFE4 /* Ok@2x.png */; };
+		7DDD41B9276BFE828CD85F7E049F9A7A /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 02417CB0338DE29F0503ABE8D136608B /* ru.lproj */; };
+		7FC1A2AC6EE5A2A9FED69B5D8C39ECA9 /* tr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 662C5A069392066706054909DC454629 /* tr.lproj */; };
+		7FD1C9171DE80CDCBE2C974D9EE0991A /* KeychainAccess-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C2F39CB76676BFBF510857004A4AA /* KeychainAccess-dummy.m */; };
+		8081AD9B625A552B803F3796DCD207A2 /* BitmarkSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 03844A9555EC02B89DB57FD0ECD583FF /* BitmarkSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		85D126F98E588C703E15F192B538BBB0 /* Ed25519.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5098EB384D237CC566F65062DCE5808 /* Ed25519.swift */; };
+		86080098A45FE4FFAA0BB22AFFBCACCF /* AuthKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6FAEC8A02116094C0D362E6FDDCC1A /* AuthKey.swift */; };
+		891A9595F2143798530744349E3D1D9F /* BitmarkQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C788F729C2423C4D1BDA0446C58BF5 /* BitmarkQuery.swift */; };
+		8D401BC540B6CF254C8C5E2B2E41636D /* Rectangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6ACCBA42298F4CACF900AA564A31F5E /* Rectangle@2x.png */; };
+		8F7E5E1D1B7D7B814864BFCAEBCAF00F /* zh-Hans.lproj in Resources */ = {isa = PBXBuildFile; fileRef = AB2E5CB873EE34E9328B6FEF63C3FEA3 /* zh-Hans.lproj */; };
+		91BC54F739A468F50D09AB5E6B67360F /* TransferParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD26618E4B4035F007B54E571D03A358 /* TransferParams.swift */; };
+		9369C7444953229DAAFC0D616CCAC0FF /* ja.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 22CEF1F2633AF4F06F22A55C9FD078FA /* ja.lproj */; };
+		945181D2B7E30D3C0B07EDEC26E1FC2B /* authorize_denied@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64726C9327A9228A7398B21E20379C54 /* authorize_denied@3x.png */; };
+		94673DF28CFD10AF179F7D04CDA8BAC5 /* Blur@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2EEE4A7752A915AA96A5CA8A54D711C /* Blur@3x.png */; };
+		94B7C8911B2A9A08A71606D9581A1148 /* buttonRoundedDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = EEFA50C6399012DCAC78DD1BFC7123A3 /* buttonRoundedDelete.png */; };
+		95B86A37516E4159141D192C653EC815 /* buttonRoundedRegularHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AD79B40FDBC91D3E82FC74AECE2FAE10 /* buttonRoundedRegularHighlighted@2x.png */; };
+		970466C82DB88ECDDD27BF3E9DF4FC46 /* AppIconPlaceHolder.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B90899498365E518CE90321E3B9C3B /* AppIconPlaceHolder.png */; };
+		9836CA5C10A6CAB5D7365A71B4943CF1 /* ctweetnacl.c in Sources */ = {isa = PBXBuildFile; fileRef = 9124C46E265F016535C020148E9E96D6 /* ctweetnacl.c */; };
+		A416F348274132328F2F7889EE0070B0 /* buttonRoundedRegular.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AF25740E32DDBC6BC4F0D382A3834D0 /* buttonRoundedRegular.png */; };
 		A53E78085ADC84142979065679AF9ACA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FABACA1C8E9C3EDF451AEF43872454 /* Foundation.framework */; };
-		A8D32AA73678855CF6E93D4FFEA2F7AF /* pt.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 26AC359609A87C7871AA5F7F48C003CA /* pt.lproj */; };
-		A8FC628BC39A85B021B33CD0EDF94E06 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566FC07B70FCB2B1CF824F0D84C66AF1 /* Keychain.swift */; };
-		A90327106D05E2E22D4A9F58C2FF27CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 22B484680892C2E14B7847950F63D07A /* main.c */; };
-		A9DDA23615CC07AA99D48471BF75C2C1 /* es.lproj in Resources */ = {isa = PBXBuildFile; fileRef = C310369C599E05F5A49BE3B1254B387A /* es.lproj */; };
+		A5F8767258CC31F16AC9AB2CA0A723EF /* ModelEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CD296FCDECDBC899230D910B1FDD94 /* ModelEquatable.swift */; };
+		A8D32AA73678855CF6E93D4FFEA2F7AF /* pt.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 76151AD14CDFC8E1906EC4829163F4C0 /* pt.lproj */; };
+		A8FC628BC39A85B021B33CD0EDF94E06 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50BD2877A7C6B36D4F0935327B11331 /* Keychain.swift */; };
+		A9DDA23615CC07AA99D48471BF75C2C1 /* es.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D43634A113C831689669AFE51ECA0E6B /* es.lproj */; };
 		AB8CC1D553EA759444663CE60E1DD12A /* Pods-Bitmark Registry-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D2EA65ADCFF22EAAD6C8EDAA26D23D /* Pods-Bitmark Registry-dummy.m */; };
-		AD12DCF1C2174A7E2FA68AF2D7D59DAF /* feedbackActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D54A90E03E6307CB50B00F11930D16F /* feedbackActivity@2x.png */; };
-		AF7D5E766817529321F34F04A7B8E178 /* BitmarkQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB88A6B0319E4D9C0AC00216BC571D6 /* BitmarkQuery.swift */; };
-		B1070CE31A9C590A47BD15EDCD929E97 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6E32E1C8A474A13649780CFC15C476 /* Config.swift */; };
-		B1D6F430898C96C1D49124D7D3BA49C4 /* AccountNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C71FB02C2806E6F5AF0D50A2F77E37 /* AccountNumber.swift */; };
-		B4FB3ABE77CEA47AF7F21812FE10ECC1 /* Parameterizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FD35B164667FF1F0EEB097A0D30E98 /* Parameterizable.swift */; };
-		B6DDCB66E01373E1B9964AFE335445A5 /* sha3.c in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2D234646B71DE06980C7EFDE0B5E6 /* sha3.c */; };
-		B8D849B69A2177B7C31381E54D1A0712 /* fa.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 17015A0AF65FFD6BEC59706052394427 /* fa.lproj */; };
-		BA2233A98BC53B7D3A80D66A15750525 /* Blur.png in Resources */ = {isa = PBXBuildFile; fileRef = B686F3152BCFF80236A752FFD72D4BF8 /* Blur.png */; };
-		BF9BA87EFEB1661385681C47E3F5AF1F /* iconCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FFCDB6AC30D3FA26DBED539853ED8F57 /* iconCamera@2x.png */; };
-		C0D2F49E14B8AFA9B1BE1690440A80BE /* Ed25519.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284D73B8CBD9DCC0F3BA7FB087297E4D /* Ed25519.swift */; };
-		C55B22B5563005DBE84409659356E8F3 /* Cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 3BC842D0803D715A224F6ACB4134F7AB /* Cancel.png */; };
-		C9112413873EB7A32E93BD2AC2498802 /* Varint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4CF620D7032DE48956C8D67A8D9F87 /* Varint.swift */; };
+		AD12DCF1C2174A7E2FA68AF2D7D59DAF /* feedbackActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 745EBBDC7FB799CA2B7268636B7B666B /* feedbackActivity@2x.png */; };
+		B31E1A951071DAA01CA7843C3CF2C2CD /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82398B7FEF4ADE0CA3B432E160596708 /* Common.swift */; };
+		B83E79A322A7C5250E051A71106E4867 /* API+Bitmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BF31E1DF025BF43A69B37731D367A1 /* API+Bitmark.swift */; };
+		B8AE7225CEF20209E6A50211950C5DAA /* EncryptionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E66B72AD62A268AE1039783AC600C7B /* EncryptionKey.swift */; };
+		B8D849B69A2177B7C31381E54D1A0712 /* fa.lproj in Resources */ = {isa = PBXBuildFile; fileRef = AB00701A70EF9D59EE351BB917680AC9 /* fa.lproj */; };
+		BA2233A98BC53B7D3A80D66A15750525 /* Blur.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CAD4A03E2E9B368B285CD2CFBB4967 /* Blur.png */; };
+		BC874915FD7ED4CE0EA30076BFCEF099 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6956190CC8F604153EA0616E4B1586C4 /* Migration.swift */; };
+		BF9BA87EFEB1661385681C47E3F5AF1F /* iconCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D14BA84F781750A7148814E4C1049B5 /* iconCamera@2x.png */; };
+		C55B22B5563005DBE84409659356E8F3 /* Cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A4A0B94B0122DE86957392AFD369644 /* Cancel.png */; };
+		C936B09D61C39335C2A35BD7A7C4C20C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA675EE53645B9E24465BD211C942C9F /* Account.swift */; };
 		C9CB509A7620FE52DA3E22668261E2EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FABACA1C8E9C3EDF451AEF43872454 /* Foundation.framework */; };
-		CA8BF5345E764D249B03B1A6778AED0F /* Ok.png in Resources */ = {isa = PBXBuildFile; fileRef = F1472B1C0BA1215E55BBA7B64E160F61 /* Ok.png */; };
-		CB873ECFC009A5770559C9A722D49361 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FABACA1C8E9C3EDF451AEF43872454 /* Foundation.framework */; };
-		CCFF4CE602C8186E2465ADE936E75F08 /* IconGradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6FC36F4756F222A48A99FC1238AC478E /* IconGradient@2x.png */; };
-		CF06D2A6538A5E191A84AAD84742D4B2 /* FeedbackPlaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 2A645EA91CCFE995D0D488BD8D754D24 /* FeedbackPlaceholder.png */; };
-		D07FABF52BC4DA8B8D3C35DCAD6BC2BD /* authorize_denied@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 686F699F2482F593325A41DA9DAF99E2 /* authorize_denied@2x.png */; };
-		D44D120E50517928C444F97488AB3556 /* BinaryPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0390B71DE603D1942632B712169BBA /* BinaryPacking.swift */; };
-		D4FCFE35B0290DC10FCC769A26C39465 /* TweetNacl-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DE2C9AA80D5EAC988BACCA70B28810B1 /* TweetNacl-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CA8BF5345E764D249B03B1A6778AED0F /* Ok.png in Resources */ = {isa = PBXBuildFile; fileRef = 63D05F2CEC1353FE744E04B901D1637F /* Ok.png */; };
+		CB56A193E4A5163236E4AA04AD0FE7CB /* AssetQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8949922E739D55C3C153DC5C2B4254F2 /* AssetQuery.swift */; };
+		CCFF4CE602C8186E2465ADE936E75F08 /* IconGradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD89345783ABE9B8D2C2AC16E75B71E6 /* IconGradient@2x.png */; };
+		CF06D2A6538A5E191A84AAD84742D4B2 /* FeedbackPlaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 80CD50BE33A74B2CE269B4FEED78C500 /* FeedbackPlaceholder.png */; };
+		D07FABF52BC4DA8B8D3C35DCAD6BC2BD /* authorize_denied@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F684D4FC34F3C49DD49A6B2F3828002A /* authorize_denied@2x.png */; };
 		D5D906F1E52900C949BDAB4204994474 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FABACA1C8E9C3EDF451AEF43872454 /* Foundation.framework */; };
-		D61FF5C41D600EE9BDDE2059355B361A /* ModelEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF6D6C1AFBBB08ED7B94AB835F13636 /* ModelEquatable.swift */; };
-		D86C2F898CD5C5E92ED68042AE7D47E5 /* API+BItmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FC7219D5B2CC8C59FA988C71457274 /* API+BItmark.swift */; };
-		D9DEFA783A3190B4261843DCF2D07E6E /* feedbackActivity@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30A6A4BFE3487890DCBCD9E341A34EAB /* feedbackActivity@3x.png */; };
-		DCFAD73394AFD9385B2A879FC2857048 /* BitmarkSDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E67DA3964D5B9CC2D5E583C42583D42 /* BitmarkSDK-dummy.m */; };
-		DDC7B4901BAFE62B6B02777D1FA029F4 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 5B36830413CFAEDA1FF3C2077F361FA7 /* bg.png */; };
-		E244908082C989A96CA733AD2B3C78AB /* Arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 705C37C6296F1F800D81F2506AD54101 /* Arrow@3x.png */; };
-		E78BB476F7A6B87D6B28EA765F7CFA73 /* OfferParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6840177AAD86B407169C5AA1FE0FF1 /* OfferParams.swift */; };
-		ECAE78B15FAE7AF144F6EA0A1F03AF16 /* Ok@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CDE1FA465F027014A57F97742AA8890 /* Ok@3x.png */; };
-		ED89915DB2F0FDBF435EA06A0E21DA9A /* Bitmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8667DE011FC81CAF1168F196C26DB69D /* Bitmark.swift */; };
-		EEBE916DB2F225C07EF64E2D05060418 /* authorize_denied.png in Resources */ = {isa = PBXBuildFile; fileRef = 5F4BCAD05CC08B32A6E6A9FEB306D881 /* authorize_denied.png */; };
-		FC3045CA8195C0BF3460910978BEE9B2 /* feedbackActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = F67BE45130A49A97C309CE7C0C3B98AB /* feedbackActivity.png */; };
-		FEB6974C5BF0F878EB5201EC8616A75B /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84D82617FE006725FD9B45C7702F6AC /* Base58.swift */; };
-		FEF9A9305AB3DA9A7D651FE7701DC651 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22FABACA1C8E9C3EDF451AEF43872454 /* Foundation.framework */; };
-		FFD3B163207BEC2AAD225B9BB9D75B4B /* SHA3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1383CB2B034F428C9BFF982F5047B7CC /* SHA3.swift */; };
+		D84A0585A2A6B72CD4940DE92EC36967 /* Parameterizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA8406A17DEE3824DD674BCCD9EB607 /* Parameterizable.swift */; };
+		D9DEFA783A3190B4261843DCF2D07E6E /* feedbackActivity@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1592D569BD6FEAD8A296257D5A3422 /* feedbackActivity@3x.png */; };
+		DBB00B9A4A1B3C4933AD2DA7E4E23C69 /* BitmarkSDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD1733641B1581CC3FB7708CAEA8229 /* BitmarkSDK-dummy.m */; };
+		DDC7B4901BAFE62B6B02777D1FA029F4 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1919BF69C703344E2F29FB6BB912ED06 /* bg.png */; };
+		DDDB2E55D48030593C5DBFA794601F57 /* API+Issuing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85565BBF34F12BBD5BDCCDC993E9F10 /* API+Issuing.swift */; };
+		E081DED6B068CCD1698020967CFA72A3 /* RecoverPhrase+Dic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C11CD7DD379FEA278CAC6938AC5842E /* RecoverPhrase+Dic.swift */; };
+		E244908082C989A96CA733AD2B3C78AB /* Arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 165EC854D662D121E626B79E109501B1 /* Arrow@3x.png */; };
+		E2A6F85F24BE0871E91D31ECAD64CF53 /* API+Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F89509C27FF8B60BB8263762FBDBD8C1 /* API+Transfer.swift */; };
+		E450928BB9FD3A9B6A34691F12C447ED /* TweetNacl-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F15BA54CDFEDF650C0C730BE08F80411 /* TweetNacl-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E564C9B9AE4DA2CB53E056D5CE930999 /* RegistrationParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88ABF3D5399FD99E44E4E9669F58B7A7 /* RegistrationParams.swift */; };
+		EAA6391E1FFC02C8C35CDC8DB5E81C4E /* Varint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DA1F30F3FC93D2F0B42C9964F86082 /* Varint.swift */; };
+		EC9861BCD34B71E38B20097084D58FF0 /* module.map in Sources */ = {isa = PBXBuildFile; fileRef = D63E3FD9F05C1F0C93449E23EC7A8110 /* module.map */; };
+		ECAE78B15FAE7AF144F6EA0A1F03AF16 /* Ok@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CCDD3D9931EC986C0683CC517EBBD1A /* Ok@3x.png */; };
+		EEBE916DB2F225C07EF64E2D05060418 /* authorize_denied.png in Resources */ = {isa = PBXBuildFile; fileRef = 63718E96B3854F4331BECF6ABCD57FAE /* authorize_denied.png */; };
+		F30DA8A1A205D8A310348D48E9C15C7C /* TweetNacl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602037F263B9A62C8F1368AF56FA0EB8 /* TweetNacl.swift */; };
+		F7DBF447F0D19C414CC5B796FBAAB435 /* IssuanceParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5F675BBDF5A61D4182B52E2B53C01F /* IssuanceParams.swift */; };
+		F9DB93F751270C11803813D5F11A2575 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA976389C6A08CD65FA831D694BA760 /* API.swift */; };
+		FA38A143B8B8EC23339FDE37345DDBD9 /* TweetNacl.h in Headers */ = {isa = PBXBuildFile; fileRef = CC9C070ADE8782FDB07D3C540645992F /* TweetNacl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FB6511402D6A0DC16A819AAAE87CFE4D /* ctweetnacl.h in Headers */ = {isa = PBXBuildFile; fileRef = EE773198658F39DC88DFC468F61EC3C8 /* ctweetnacl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FC3045CA8195C0BF3460910978BEE9B2 /* feedbackActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 66AF35D85D7504C66440B733F926654E /* feedbackActivity.png */; };
+		FD9D4AEB1C57DF9D1C882BB3AD5E2F6E /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D01B95F1C75E7F5CDE4DFA2AE8371CE /* Queryable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,14 +138,21 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9C1A144D2B63437F4D0C2F53257BC666;
+			remoteGlobalIDString = 9A7D03B11EFCF7AB036D170ED5FD506F;
 			remoteInfo = BitmarkSDK;
 		};
 		18AD114AF54905C01B85E07723ED1144 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 032E0402A45D5942C6822CB61751AB03;
+			remoteGlobalIDString = C2AE887ED5B0FE5BC099FBE4A5504306;
+			remoteInfo = TweetNacl;
+		};
+		63809A4FBDDBC97659E6DC3B9F7CA248 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C2AE887ED5B0FE5BC099FBE4A5504306;
 			remoteInfo = TweetNacl;
 		};
 		7CFE57398EA887E3BF5FF36B2C37EE19 /* PBXContainerItemProxy */ = {
@@ -158,7 +166,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 032E0402A45D5942C6822CB61751AB03;
+			remoteGlobalIDString = C2AE887ED5B0FE5BC099FBE4A5504306;
 			remoteInfo = TweetNacl;
 		};
 		894548F7ECBB6C4F7C1BCBEAE8A5A785 /* PBXContainerItemProxy */ = {
@@ -179,7 +187,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9C1A144D2B63437F4D0C2F53257BC666;
+			remoteGlobalIDString = 9A7D03B11EFCF7AB036D170ED5FD506F;
 			remoteInfo = BitmarkSDK;
 		};
 		DBA68A67F225C1557A76A4A6AF599C11 /* PBXContainerItemProxy */ = {
@@ -188,13 +196,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 1630C0AC0CCE2704C3F517D1DFD56586;
 			remoteInfo = KeychainAccess;
-		};
-		E60851895FB18FD307DCE27854FCD174 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 032E0402A45D5942C6822CB61751AB03;
-			remoteInfo = TweetNacl;
 		};
 		E9B7305E603F9FFA68103DF836D407C4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -214,191 +215,192 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 032E0402A45D5942C6822CB61751AB03;
+			remoteGlobalIDString = C2AE887ED5B0FE5BC099FBE4A5504306;
 			remoteInfo = TweetNacl;
 		};
 		FEBA45FEA8CBDEBC6AC86F7BFBBFC78F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9C1A144D2B63437F4D0C2F53257BC666;
+			remoteGlobalIDString = 9A7D03B11EFCF7AB036D170ED5FD506F;
 			remoteInfo = BitmarkSDK;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		04FC7219D5B2CC8C59FA988C71457274 /* API+BItmark.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+BItmark.swift"; path = "BitmarkSDK/Services/API+BItmark.swift"; sourceTree = "<group>"; };
-		06F31B70A2B8FF724A4C9A4F459742C2 /* BitmarkSDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BitmarkSDK-prefix.pch"; sourceTree = "<group>"; };
+		01684943C983E1C5D614DC671D8E0318 /* TweetNacl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TweetNacl-prefix.pch"; sourceTree = "<group>"; };
+		02417CB0338DE29F0503ABE8D136608B /* ru.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ru.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/ru.lproj"; sourceTree = "<group>"; };
+		03844A9555EC02B89DB57FD0ECD583FF /* BitmarkSDK-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BitmarkSDK-umbrella.h"; sourceTree = "<group>"; };
 		092685644DF65CBB7ABAAD05B546621F /* Pods-BitmarkTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BitmarkTests-dummy.m"; sourceTree = "<group>"; };
-		0AC5AB73A6A4B0E16655E0F0AC84A03A /* Data+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Data+Extension.swift"; path = "BitmarkSDK/Extensions/Data+Extension.swift"; sourceTree = "<group>"; };
+		0A1D61BA3A87D012F3480755A4E34EA5 /* buttonRoundedDeleteHighlighted@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedDeleteHighlighted@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDeleteHighlighted@2x.png"; sourceTree = "<group>"; };
 		0BE5D3DADADCD90A7A1983E1E4272676 /* Pods-BitmarkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BitmarkTests.release.xcconfig"; sourceTree = "<group>"; };
-		0C5C15FC7BAC9BBDEDE1AAE22E41C240 /* Cancel@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Cancel@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Cancel@3x.png"; sourceTree = "<group>"; };
-		1018F3D35B7611B8AA3941E73CF18BB4 /* feedbackActivity~ipad.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity~ipad.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity~ipad.png"; sourceTree = "<group>"; };
-		11F08CBDB458814F6F170CF877CDBFC9 /* it.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = it.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/it.lproj"; sourceTree = "<group>"; };
+		0E0788C611862D08ADE47BAE8A72DE70 /* pt-PT.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "pt-PT.lproj"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/pt-PT.lproj"; sourceTree = "<group>"; };
 		1337EEE6A6FADC4325370A7380351E8B /* Pods-Bitmark Registry dev-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bitmark Registry dev-umbrella.h"; sourceTree = "<group>"; };
-		1383CB2B034F428C9BFF982F5047B7CC /* SHA3.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SHA3.swift; path = BitmarkSDK/Utils/SHA3.swift; sourceTree = "<group>"; };
-		148E64356EC468A4DB4E968AE57D352C /* KeychainAccess.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = KeychainAccess.modulemap; sourceTree = "<group>"; };
-		152BF7BD386A46331B202D37BE5636C2 /* BitmarkSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = BitmarkSDK.modulemap; sourceTree = "<group>"; };
-		17015A0AF65FFD6BEC59706052394427 /* fa.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = fa.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/fa.lproj"; sourceTree = "<group>"; };
+		13DA1F30F3FC93D2F0B42C9964F86082 /* Varint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Varint.swift; path = BitmarkSDK/Utils/Varint.swift; sourceTree = "<group>"; };
+		165EC854D662D121E626B79E109501B1 /* Arrow@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Arrow@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Arrow@3x.png"; sourceTree = "<group>"; };
 		17D8E77C4D6511D0FDB01C3ABFF593C7 /* Pods-Bitmark Registry beta-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Bitmark Registry beta-acknowledgements.plist"; sourceTree = "<group>"; };
-		1801DFC1CB9A096984B556D87087A4FE /* sha3.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = sha3.h; path = BitmarkSDK/tiny_sha3/sha3.h; sourceTree = "<group>"; };
-		1C0B17187AEE9BEA907A71D6B35B3C29 /* pt-PT.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "pt-PT.lproj"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/pt-PT.lproj"; sourceTree = "<group>"; };
-		1D54A90E03E6307CB50B00F11930D16F /* feedbackActivity@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity@2x.png"; sourceTree = "<group>"; };
-		1D9F3BC25285F00FF409BB0044A899B1 /* Signable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Signable.swift; path = BitmarkSDK/Records/Signable.swift; sourceTree = "<group>"; };
-		1E67DA3964D5B9CC2D5E583C42583D42 /* BitmarkSDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "BitmarkSDK-dummy.m"; sourceTree = "<group>"; };
-		1FAA02EC56241EEADCAC0846F65B9CD7 /* Blur@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Blur@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Blur@2x.png"; sourceTree = "<group>"; };
+		1819D90E60BEE0074531C37696B0ED6F /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/en.lproj"; sourceTree = "<group>"; };
+		1919BF69C703344E2F29FB6BB912ED06 /* bg.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = bg.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/bg.png"; sourceTree = "<group>"; };
+		1AF25740E32DDBC6BC4F0D382A3834D0 /* buttonRoundedRegular.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedRegular.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegular.png"; sourceTree = "<group>"; };
+		1BEA89CE93A71D2719AA858F2C5FD921 /* Cancel@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Cancel@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Cancel@2x.png"; sourceTree = "<group>"; };
+		1C11CD7DD379FEA278CAC6938AC5842E /* RecoverPhrase+Dic.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "RecoverPhrase+Dic.swift"; path = "BitmarkSDK/Utils/RecoverPhrase+Dic.swift"; sourceTree = "<group>"; };
 		2085DF33E8040DCF777E15BBE6180CA8 /* Pods-Bitmark Registry.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Bitmark Registry.modulemap"; sourceTree = "<group>"; };
-		208818BDDB2147C025AC517763FF5549 /* zh-Hans.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "zh-Hans.lproj"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/zh-Hans.lproj"; sourceTree = "<group>"; };
-		21BFE1DA352D33AB9FAF4BA06782DCA5 /* Queryable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Queryable.swift; path = BitmarkSDK/Records/Queryable.swift; sourceTree = "<group>"; };
-		22B484680892C2E14B7847950F63D07A /* main.c */ = {isa = PBXFileReference; includeInIndex = 1; name = main.c; path = BitmarkSDK/tiny_sha3/main.c; sourceTree = "<group>"; };
+		22CEF1F2633AF4F06F22A55C9FD078FA /* ja.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ja.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/ja.lproj"; sourceTree = "<group>"; };
 		22FABACA1C8E9C3EDF451AEF43872454 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS11.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		2553272B2DFC71A5469295B6E0FEEE4B /* buttonRoundedDeleteHighlighted.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedDeleteHighlighted.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDeleteHighlighted.png"; sourceTree = "<group>"; };
-		25D051F970B0C16979882D498F8499CB /* Account.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Account.swift; path = BitmarkSDK/Account.swift; sourceTree = "<group>"; };
-		2672F18BBECCD3367864CEA1035C75F0 /* fr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = fr.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/fr.lproj"; sourceTree = "<group>"; };
-		26AC359609A87C7871AA5F7F48C003CA /* pt.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = pt.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/pt.lproj"; sourceTree = "<group>"; };
-		284D73B8CBD9DCC0F3BA7FB087297E4D /* Ed25519.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Ed25519.swift; path = BitmarkSDK/Utils/Ed25519.swift; sourceTree = "<group>"; };
-		2915537C8110CD502AF2DFDAA34E0BB2 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2A645EA91CCFE995D0D488BD8D754D24 /* FeedbackPlaceholder.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = FeedbackPlaceholder.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/FeedbackPlaceholder.png"; sourceTree = "<group>"; };
-		2B0C189F3B6835B9963E185AD4056DA6 /* buttonRoundedRegularHighlighted@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedRegularHighlighted@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegularHighlighted@2x.png"; sourceTree = "<group>"; };
-		2C61D712328C750ADB5E9ED64AD5B9E9 /* TransactionQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransactionQuery.swift; path = BitmarkSDK/Transaction/TransactionQuery.swift; sourceTree = "<group>"; };
-		2CDE1FA465F027014A57F97742AA8890 /* Ok@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Ok@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Ok@3x.png"; sourceTree = "<group>"; };
-		2D0C5EF6820E2B1818EE154278BBD486 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2D340C71109BF694D2169863AA719DA8 /* BitmarkSDK.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = BitmarkSDK.xcconfig; sourceTree = "<group>"; };
+		245104882C75573B12A8F446863FDF63 /* nl.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = nl.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/nl.lproj"; sourceTree = "<group>"; };
+		2486DEAA1D6858D001AFE7BD6588C9EE /* Arrow@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Arrow@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Arrow@2x.png"; sourceTree = "<group>"; };
+		27F7F6B4E0420144E76EA22230ACF31A /* buttonRoundedRegular@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedRegular@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegular@2x.png"; sourceTree = "<group>"; };
+		2816E59B8D599EF658076ECC705E879D /* Rectangle.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Rectangle.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Rectangle.png"; sourceTree = "<group>"; };
+		2980667EE765A143B615D57CE4A9C0BD /* hr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = hr.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/hr.lproj"; sourceTree = "<group>"; };
+		2A6CA227A552757028186B026DE911BD /* RecoverPhrase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecoverPhrase.swift; path = BitmarkSDK/Utils/RecoverPhrase.swift; sourceTree = "<group>"; };
+		2BF48A178478C356AE01930F4E079C68 /* Config.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Config.swift; path = BitmarkSDK/Config.swift; sourceTree = "<group>"; };
+		2D14BA84F781750A7148814E4C1049B5 /* iconCamera@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "iconCamera@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/iconCamera@2x.png"; sourceTree = "<group>"; };
 		2E4362D1D3AFD3FFF0CE18D0B883192D /* Pods-Bitmark Registry beta-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Bitmark Registry beta-acknowledgements.markdown"; sourceTree = "<group>"; };
+		2EF94FA89D652A49631B300182609E93 /* Rectangle@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Rectangle@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Rectangle@3x.png"; sourceTree = "<group>"; };
 		30186FBE818B74344B62510B15FF7399 /* Pods-BitmarkTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BitmarkTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		30A6A4BFE3487890DCBCD9E341A34EAB /* feedbackActivity@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity@3x.png"; sourceTree = "<group>"; };
 		31006E812DE79A009524FF5549FD1DF5 /* Pods-Bitmark Registry dev-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry dev-frameworks.sh"; sourceTree = "<group>"; };
-		31C854FE5563FDF7DD048E6B8CDEF261 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		324EBF7E2579B281637FB5C12BF3F565 /* Rectangle@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Rectangle@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Rectangle@2x.png"; sourceTree = "<group>"; };
-		325855783B5D6FCB14F106AD15B5E4DB /* buttonRoundedDelete@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedDelete@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDelete@2x.png"; sourceTree = "<group>"; };
-		3349C743BA7E052FBFF51E7597750F24 /* API+Issuing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Issuing.swift"; path = "BitmarkSDK/Services/API+Issuing.swift"; sourceTree = "<group>"; };
-		33649AD495E1198A5CB9DFDB1AC88920 /* KeychainAccess-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeychainAccess-prefix.pch"; sourceTree = "<group>"; };
-		3491E97C4051D998036D40898CD2DD64 /* buttonRoundedRegular@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedRegular@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegular@2x.png"; sourceTree = "<group>"; };
-		3621633AD4B3EE8AFF68A29BA5D5EDEE /* feedbackActivity@2x~ipad.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity@2x~ipad.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity@2x~ipad.png"; sourceTree = "<group>"; };
-		3BC842D0803D715A224F6ACB4134F7AB /* Cancel.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Cancel.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Cancel.png"; sourceTree = "<group>"; };
-		3CED5C36B3A80EB5724FE79166ED6221 /* Ok@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Ok@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Ok@2x.png"; sourceTree = "<group>"; };
-		3D3A00D264DCF57A5274201B2B132536 /* Rectangle.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Rectangle.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Rectangle.png"; sourceTree = "<group>"; };
-		3F4CF620D7032DE48956C8D67A8D9F87 /* Varint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Varint.swift; path = BitmarkSDK/Utils/Varint.swift; sourceTree = "<group>"; };
-		3F5AAB90E38C93525102C1EBCB6D0517 /* RecoverPhrase+Dic.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "RecoverPhrase+Dic.swift"; path = "BitmarkSDK/Utils/RecoverPhrase+Dic.swift"; sourceTree = "<group>"; };
-		403D25E19EBF2F5CDD960CBD7D365243 /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/en.lproj"; sourceTree = "<group>"; };
+		34C63638D6DF1E8B2C6484C33EAFA350 /* fr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = fr.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/fr.lproj"; sourceTree = "<group>"; };
+		40BF31E1DF025BF43A69B37731D367A1 /* API+Bitmark.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Bitmark.swift"; path = "BitmarkSDK/Services/API+Bitmark.swift"; sourceTree = "<group>"; };
+		40CD296FCDECDBC899230D910B1FDD94 /* ModelEquatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ModelEquatable.swift; path = BitmarkSDK/Extensions/ModelEquatable.swift; sourceTree = "<group>"; };
 		41F5498EFF0BCE4EF82B1E77A9F4F433 /* Pods-BitmarkTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BitmarkTests-frameworks.sh"; sourceTree = "<group>"; };
-		44F0740C5D81E03551045BC1B9ACE38E /* ResourceBundle-HockeySDKResources-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-HockeySDKResources-Info.plist"; sourceTree = "<group>"; };
-		460BF6B6D820B4783EE37184F3B7163B /* AuthKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AuthKey.swift; path = BitmarkSDK/AuthKey.swift; sourceTree = "<group>"; };
-		47992EA721CD48859B78F648B4D8E57F /* de.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = de.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/de.lproj"; sourceTree = "<group>"; };
+		46F0236A1ED32CC401D2C081D6B0AA10 /* nb.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = nb.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/nb.lproj"; sourceTree = "<group>"; };
 		4A1449FDF39D3741FC985546DD1D718B /* Pods-Bitmark Registry-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry-frameworks.sh"; sourceTree = "<group>"; };
-		4A20382847AA1687AC1751143E3384E7 /* Cancel@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Cancel@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Cancel@2x.png"; sourceTree = "<group>"; };
-		4AA2D234646B71DE06980C7EFDE0B5E6 /* sha3.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sha3.c; path = BitmarkSDK/tiny_sha3/sha3.c; sourceTree = "<group>"; };
-		4BA19C5598F5D9DF8244B7C7703A43F5 /* TweetNacl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TweetNacl-prefix.pch"; sourceTree = "<group>"; };
+		4B5F675BBDF5A61D4182B52E2B53C01F /* IssuanceParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IssuanceParams.swift; path = BitmarkSDK/Bitmark/IssuanceParams.swift; sourceTree = "<group>"; };
+		4B7AE523E28B35F0E276ED178A91FE39 /* TransactionQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransactionQuery.swift; path = BitmarkSDK/Transaction/TransactionQuery.swift; sourceTree = "<group>"; };
 		4BAD1B2C82C557268DD70794C85630B3 /* Pods-Bitmark Registry-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Bitmark Registry-acknowledgements.plist"; sourceTree = "<group>"; };
+		4F6C2F39CB76676BFBF510857004A4AA /* KeychainAccess-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KeychainAccess-dummy.m"; sourceTree = "<group>"; };
 		4FC4EC3463DDFF2CC758C7848E7B07F0 /* Pods-Bitmark Registry dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry dev.debug.xcconfig"; sourceTree = "<group>"; };
+		52854E59CDF4570AAC9E51E191700BB8 /* main.c */ = {isa = PBXFileReference; includeInIndex = 1; name = main.c; path = BitmarkSDK/tiny_sha3/main.c; sourceTree = "<group>"; };
 		528690B235587E680CFFAFE7EBA0C829 /* Pods-Bitmark Registry-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Bitmark Registry-acknowledgements.markdown"; sourceTree = "<group>"; };
-		55AD0F07E0336EFA157C11A324A36EE3 /* nl.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = nl.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/nl.lproj"; sourceTree = "<group>"; };
+		556B3491A4816C5D03828D96654A6CC1 /* Arrow.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Arrow.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Arrow.png"; sourceTree = "<group>"; };
 		566E7D368634E0903AB8ED1333BE6578 /* Pods-Bitmark Registry beta.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry beta.debug.xcconfig"; sourceTree = "<group>"; };
-		566FC07B70FCB2B1CF824F0D84C66AF1 /* Keychain.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
-		57A2E426F5F7697CD6BDB6F605693B80 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDK.framework"; sourceTree = "<group>"; };
+		57C2191D31B391668BE390CC3609CA54 /* BitmarkSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = BitmarkSDK.modulemap; sourceTree = "<group>"; };
 		58C419A7E85284110885815296105113 /* Pods-Bitmark Registry beta-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry beta-resources.sh"; sourceTree = "<group>"; };
-		5B36830413CFAEDA1FF3C2077F361FA7 /* bg.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = bg.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/bg.png"; sourceTree = "<group>"; };
-		5CC0CAEC34BCF92BE8B635524EFCCB3D /* IssuanceParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IssuanceParams.swift; path = BitmarkSDK/Bitmark/IssuanceParams.swift; sourceTree = "<group>"; };
+		5AD1733641B1581CC3FB7708CAEA8229 /* BitmarkSDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "BitmarkSDK-dummy.m"; sourceTree = "<group>"; };
+		5D01B95F1C75E7F5CDE4DFA2AE8371CE /* Queryable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Queryable.swift; path = BitmarkSDK/Records/Queryable.swift; sourceTree = "<group>"; };
 		5E076E791D768F83BCC1CB76644DA15D /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5E16FBD772B576A160E0728279E76809 /* TweetNacl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TweetNacl-dummy.m"; sourceTree = "<group>"; };
 		5EA1A416AD83C08C1D0E34C3F29AD6A1 /* Pods_Bitmark_Registry_beta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bitmark_Registry_beta.framework; path = "Pods-Bitmark Registry beta.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EE4EBA4B8E980D51895FA916E9476A4 /* Pods-Bitmark Registry dev-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Bitmark Registry dev-acknowledgements.plist"; sourceTree = "<group>"; };
-		5F4BCAD05CC08B32A6E6A9FEB306D881 /* authorize_denied.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = authorize_denied.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/authorize_denied.png"; sourceTree = "<group>"; };
+		602037F263B9A62C8F1368AF56FA0EB8 /* TweetNacl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TweetNacl.swift; path = Sources/TweetNacl/TweetNacl.swift; sourceTree = "<group>"; };
 		607EB922D57A0BC5F22EFCF0151DC752 /* Pods-Bitmark Registry dev-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Bitmark Registry dev-dummy.m"; sourceTree = "<group>"; };
-		62B9F5980EABD95FA5F50101A3E3111B /* IconGradient.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = IconGradient.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/IconGradient.png"; sourceTree = "<group>"; };
+		616D6CE5296DF6D8151528C035BB796E /* sha3.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = sha3.h; path = BitmarkSDK/tiny_sha3/sha3.h; sourceTree = "<group>"; };
+		63718E96B3854F4331BECF6ABCD57FAE /* authorize_denied.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = authorize_denied.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/authorize_denied.png"; sourceTree = "<group>"; };
+		637881BA46D6D5436798B610B0E82080 /* Signable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Signable.swift; path = BitmarkSDK/Records/Signable.swift; sourceTree = "<group>"; };
+		63D05F2CEC1353FE744E04B901D1637F /* Ok.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Ok.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Ok.png"; sourceTree = "<group>"; };
 		63E4F944361680C8D609EEDF11ADDECC /* Pods_Bitmark_Registry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bitmark_Registry.framework; path = "Pods-Bitmark Registry.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6456F78BFDE4AE999417ED911A8414DF /* Rectangle@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Rectangle@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Rectangle@3x.png"; sourceTree = "<group>"; };
-		657B1620C5BE36E90757F811FB154E8E /* BItmarkSDK.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BItmarkSDK.swift; path = BitmarkSDK/BItmarkSDK.swift; sourceTree = "<group>"; };
-		686F699F2482F593325A41DA9DAF99E2 /* authorize_denied@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "authorize_denied@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/authorize_denied@2x.png"; sourceTree = "<group>"; };
+		64726C9327A9228A7398B21E20379C54 /* authorize_denied@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "authorize_denied@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/authorize_denied@3x.png"; sourceTree = "<group>"; };
+		662C5A069392066706054909DC454629 /* tr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = tr.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/tr.lproj"; sourceTree = "<group>"; };
+		66AF35D85D7504C66440B733F926654E /* feedbackActivity.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = feedbackActivity.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity.png"; sourceTree = "<group>"; };
+		68EE47D7CE8F22FE4115EF95958C4FAD /* BitmarkSDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BitmarkSDK-prefix.pch"; sourceTree = "<group>"; };
 		695328FCCDA47B83F9CB589B2F06FD63 /* Pods-Bitmark Registry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry.release.xcconfig"; sourceTree = "<group>"; };
-		696B819487D0696CEB7B909AB64EC5A4 /* Common.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Common.swift; path = BitmarkSDK/Utils/Common.swift; sourceTree = "<group>"; };
-		69D1170DB1D484A1CC9B51011BF77519 /* Arrow.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Arrow.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Arrow.png"; sourceTree = "<group>"; };
+		6956190CC8F604153EA0616E4B1586C4 /* Migration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Migration.swift; path = BitmarkSDK/Utils/Migration.swift; sourceTree = "<group>"; };
+		6CCDD3D9931EC986C0683CC517EBBD1A /* Ok@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Ok@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Ok@3x.png"; sourceTree = "<group>"; };
 		6CEC4A663186B3C7FB8C550DA3C6E6E2 /* KeychainAccess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KeychainAccess.framework; path = KeychainAccess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EF6D6C1AFBBB08ED7B94AB835F13636 /* ModelEquatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ModelEquatable.swift; path = BitmarkSDK/Extensions/ModelEquatable.swift; sourceTree = "<group>"; };
-		6F138CFCE58282FBFF1DA1384B8D85FF /* hr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = hr.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/hr.lproj"; sourceTree = "<group>"; };
+		6DA8406A17DEE3824DD674BCCD9EB607 /* Parameterizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Parameterizable.swift; path = BitmarkSDK/Records/Parameterizable.swift; sourceTree = "<group>"; };
+		6F40288E966086467DAF9C2E733150E6 /* feedbackActivity@2x~ipad.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity@2x~ipad.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity@2x~ipad.png"; sourceTree = "<group>"; };
 		6F4C2FFD4C5593CAE7FA95BC422A88DF /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6FC36F4756F222A48A99FC1238AC478E /* IconGradient@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "IconGradient@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/IconGradient@2x.png"; sourceTree = "<group>"; };
-		705C37C6296F1F800D81F2506AD54101 /* Arrow@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Arrow@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Arrow@3x.png"; sourceTree = "<group>"; };
-		72FD35B164667FF1F0EEB097A0D30E98 /* Parameterizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Parameterizable.swift; path = BitmarkSDK/Records/Parameterizable.swift; sourceTree = "<group>"; };
-		7546A8694771FC5B0646061E106FB847 /* AppIconPlaceHolder.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = AppIconPlaceHolder.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/AppIconPlaceHolder.png"; sourceTree = "<group>"; };
+		70C788F729C2423C4D1BDA0446C58BF5 /* BitmarkQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BitmarkQuery.swift; path = BitmarkSDK/Bitmark/BitmarkQuery.swift; sourceTree = "<group>"; };
+		745EBBDC7FB799CA2B7268636B7B666B /* feedbackActivity@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity@2x.png"; sourceTree = "<group>"; };
+		759DB75FFF1911769C832BD8623797BD /* feedbackActivity~ipad.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity~ipad.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity~ipad.png"; sourceTree = "<group>"; };
+		76151AD14CDFC8E1906EC4829163F4C0 /* pt.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = pt.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/pt.lproj"; sourceTree = "<group>"; };
+		76A897A752E7C7F26B70FF0A55B8B773 /* FileUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FileUtil.swift; path = BitmarkSDK/Utils/FileUtil.swift; sourceTree = "<group>"; };
 		78ADDB353380A63FECAB4242130BD1F7 /* Pods-BitmarkTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BitmarkTests-resources.sh"; sourceTree = "<group>"; };
-		795234676D0C3472A97A947CC5E14672 /* Asset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Asset.swift; path = BitmarkSDK/Asset/Asset.swift; sourceTree = "<group>"; };
-		80526754974EC43F21929374B250AD65 /* iconCamera.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = iconCamera.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/iconCamera.png"; sourceTree = "<group>"; };
-		815EA95EEE64B8F9A9B4B3ECDC8DB9C5 /* Seed.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Seed.swift; path = BitmarkSDK/Seed.swift; sourceTree = "<group>"; };
-		83F61F096F95543D1AADB0FA50171CDD /* tr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = tr.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/tr.lproj"; sourceTree = "<group>"; };
-		8667DE011FC81CAF1168F196C26DB69D /* Bitmark.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Bitmark.swift; path = BitmarkSDK/Bitmark/Bitmark.swift; sourceTree = "<group>"; };
-		874FBFA4992B02174B039432A4F1DB9D /* AssetQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AssetQuery.swift; path = BitmarkSDK/Asset/AssetQuery.swift; sourceTree = "<group>"; };
-		89EF3CE287A840906F460819D892B861 /* buttonRoundedRegular.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedRegular.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegular.png"; sourceTree = "<group>"; };
-		8BE7914C183CE7D0FAE58CC032D73B8C /* ru.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ru.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/ru.lproj"; sourceTree = "<group>"; };
+		7BBBBCAF6B729032993D18C89B8AE87F /* Bitmark.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Bitmark.swift; path = BitmarkSDK/Bitmark/Bitmark.swift; sourceTree = "<group>"; };
+		7CB9563ACCEF60DE809D511529950EB7 /* Base58.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Base58.swift; path = BitmarkSDK/Utils/Base58.swift; sourceTree = "<group>"; };
+		80CD50BE33A74B2CE269B4FEED78C500 /* FeedbackPlaceholder.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = FeedbackPlaceholder.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/FeedbackPlaceholder.png"; sourceTree = "<group>"; };
+		82398B7FEF4ADE0CA3B432E160596708 /* Common.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Common.swift; path = BitmarkSDK/Utils/Common.swift; sourceTree = "<group>"; };
+		8626B11DEEDC1C42280DC754D3F11D63 /* IconGradient.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = IconGradient.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/IconGradient.png"; sourceTree = "<group>"; };
+		8633D96C8B7E30C090CE797EE23131F1 /* Constant.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = Sources/TweetNacl/Constant.swift; sourceTree = "<group>"; };
+		8706A9CC27D27C72F5225BE355B22E21 /* hu.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = hu.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/hu.lproj"; sourceTree = "<group>"; };
+		87421E25EAFD9E5CC2CEC0287B7AA18E /* KeychainAccess-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeychainAccess-umbrella.h"; sourceTree = "<group>"; };
+		884E25AC03801652BDC8A1121B81BA4F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		88ABF3D5399FD99E44E4E9669F58B7A7 /* RegistrationParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RegistrationParams.swift; path = BitmarkSDK/Asset/RegistrationParams.swift; sourceTree = "<group>"; };
+		8949922E739D55C3C153DC5C2B4254F2 /* AssetQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AssetQuery.swift; path = BitmarkSDK/Asset/AssetQuery.swift; sourceTree = "<group>"; };
+		8A4A0B94B0122DE86957392AFD369644 /* Cancel.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Cancel.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Cancel.png"; sourceTree = "<group>"; };
+		90B38AB5F042255FFABEB018251789CB /* it.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = it.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/it.lproj"; sourceTree = "<group>"; };
 		90C3595A2448AB77FE93C10796907722 /* Pods-Bitmark Registry dev-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry dev-resources.sh"; sourceTree = "<group>"; };
 		90DC431F7D84A3AE60892BE267711292 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9124C46E265F016535C020148E9E96D6 /* ctweetnacl.c */ = {isa = PBXFileReference; includeInIndex = 1; name = ctweetnacl.c; path = Sources/CTweetNacl/ctweetnacl.c; sourceTree = "<group>"; };
+		91278A3B4DF7E7BFD4F08F9E82B081DF /* TweetNacl.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TweetNacl.xcconfig; sourceTree = "<group>"; };
+		92ACDA2EA65184305FE0F7190485ADF9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		96C0A95816BC3FE3FD493181D941C77B /* authorize_denied@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "authorize_denied@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/authorize_denied@3x.png"; sourceTree = "<group>"; };
+		9559D52EFB065ADAF19125EEBBB6DA76 /* Transaction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Transaction.swift; path = BitmarkSDK/Transaction/Transaction.swift; sourceTree = "<group>"; };
+		9752F5911E4412C452C34C249905CABE /* KeychainAccess-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeychainAccess-prefix.pch"; sourceTree = "<group>"; };
 		985979128707951133525908BBBA752B /* Pods-Bitmark Registry beta-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bitmark Registry beta-umbrella.h"; sourceTree = "<group>"; };
-		9BD88D693727593AF068E0E279041342 /* RegistrationParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RegistrationParams.swift; path = BitmarkSDK/Asset/RegistrationParams.swift; sourceTree = "<group>"; };
-		9D031AF49730F3539F11BC3568853A06 /* TweetNacl.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TweetNacl.xcconfig; sourceTree = "<group>"; };
+		993B07AB3F543B2AD6040F2D8A1E277A /* BitmarkSDK.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BitmarkSDK.h; path = BitmarkSDK/BitmarkSDK.h; sourceTree = "<group>"; };
 		9D84516B87C52088C7F76F457DF375FE /* Pods-BitmarkTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-BitmarkTests-umbrella.h"; sourceTree = "<group>"; };
+		9E41DCD25194127BDF96E5722A70B299 /* sha3.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sha3.c; path = BitmarkSDK/tiny_sha3/sha3.c; sourceTree = "<group>"; };
+		9E66B72AD62A268AE1039783AC600C7B /* EncryptionKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EncryptionKey.swift; path = BitmarkSDK/EncryptionKey.swift; sourceTree = "<group>"; };
 		9EBDACD9E8CB35934960487DD7E1A1EF /* Pods_Bitmark_Registry_dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bitmark_Registry_dev.framework; path = "Pods-Bitmark Registry dev.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9F08F3BA3BF095291D5956E257302446 /* TweetNacl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TweetNacl.h; path = Sources/TweetNacl/TweetNacl.h; sourceTree = "<group>"; };
-		A1E912DC08CD1395EBDF668EB24972F0 /* API.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = API.swift; path = BitmarkSDK/Services/API.swift; sourceTree = "<group>"; };
-		A2C00C759307F1E4CC2B479682FBBC56 /* buttonRoundedDeleteHighlighted@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedDeleteHighlighted@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDeleteHighlighted@2x.png"; sourceTree = "<group>"; };
-		A378F1FF1A0D4F903E8192419B200FEC /* API+Asset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Asset.swift"; path = "BitmarkSDK/Services/API+Asset.swift"; sourceTree = "<group>"; };
+		A35F05BEEB09C52B643BBE824C9C48AD /* Asset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Asset.swift; path = BitmarkSDK/Asset/Asset.swift; sourceTree = "<group>"; };
 		A5D2EA65ADCFF22EAAD6C8EDAA26D23D /* Pods-Bitmark Registry-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Bitmark Registry-dummy.m"; sourceTree = "<group>"; };
-		A84D82617FE006725FD9B45C7702F6AC /* Base58.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Base58.swift; path = BitmarkSDK/Utils/Base58.swift; sourceTree = "<group>"; };
+		A7B5558E5C02B1FBA0EE9BF8A675E2E8 /* BitmarkSDK.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = BitmarkSDK.xcconfig; sourceTree = "<group>"; };
 		A8E6F403572EDD5B47DD0FACB95DD07B /* Pods-Bitmark Registry-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry-resources.sh"; sourceTree = "<group>"; };
-		AB3C4210EB8456F6200B5E389EBE59C5 /* RecoverPhrase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecoverPhrase.swift; path = BitmarkSDK/Utils/RecoverPhrase.swift; sourceTree = "<group>"; };
+		AB00701A70EF9D59EE351BB917680AC9 /* fa.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = fa.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/fa.lproj"; sourceTree = "<group>"; };
+		AB2E5CB873EE34E9328B6FEF63C3FEA3 /* zh-Hans.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "zh-Hans.lproj"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/zh-Hans.lproj"; sourceTree = "<group>"; };
+		ABBDCCA8B1779C974402768FC76F7D6D /* buttonRoundedDeleteHighlighted.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedDeleteHighlighted.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDeleteHighlighted.png"; sourceTree = "<group>"; };
+		AD79B40FDBC91D3E82FC74AECE2FAE10 /* buttonRoundedRegularHighlighted@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedRegularHighlighted@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegularHighlighted@2x.png"; sourceTree = "<group>"; };
 		AE3E2B3370B301976CF38C73E29EF0E5 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = HockeySDKResources.bundle; path = "HockeySDK-HockeySDKResources.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE50187A0D2D6FA516870C39FE2C6CD4 /* Pods-Bitmark Registry-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bitmark Registry-umbrella.h"; sourceTree = "<group>"; };
-		B47AF74BE14233685F8399324ED56C02 /* KeychainAccess-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KeychainAccess-dummy.m"; sourceTree = "<group>"; };
+		AFD32C6AA3163AE89C7378480EC6BFE4 /* Ok@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Ok@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Ok@2x.png"; sourceTree = "<group>"; };
+		B375DAA0787634E7FA243B9657C59D75 /* KeychainAccess.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KeychainAccess.xcconfig; sourceTree = "<group>"; };
 		B5040F36BFC69829A4BE3353D4F26BA3 /* Pods_BitmarkTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_BitmarkTests.framework; path = "Pods-BitmarkTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B52027C71B9E26E784B58A809B471BF0 /* TweetNacl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TweetNacl.swift; path = Sources/TweetNacl/TweetNacl.swift; sourceTree = "<group>"; };
-		B686F3152BCFF80236A752FFD72D4BF8 /* Blur.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Blur.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Blur.png"; sourceTree = "<group>"; };
+		B6ACCBA42298F4CACF900AA564A31F5E /* Rectangle@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Rectangle@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Rectangle@2x.png"; sourceTree = "<group>"; };
 		B8B8A89385510E06E8E2E9657794FC32 /* BitmarkSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = BitmarkSDK.framework; path = BitmarkSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9C71FB02C2806E6F5AF0D50A2F77E37 /* AccountNumber.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AccountNumber.swift; path = BitmarkSDK/AccountNumber.swift; sourceTree = "<group>"; };
-		BABFD5310D6EAD64031DDB47401C8035 /* Arrow@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Arrow@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Arrow@2x.png"; sourceTree = "<group>"; };
-		BC7193DCB1A3CB924963085758AC155B /* buttonRoundedDelete.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedDelete.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDelete.png"; sourceTree = "<group>"; };
+		BA663579E96E1A75ADD8C0E33BCDE53E /* KeychainAccess.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = KeychainAccess.modulemap; sourceTree = "<group>"; };
+		BA675EE53645B9E24465BD211C942C9F /* Account.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Account.swift; path = BitmarkSDK/Account.swift; sourceTree = "<group>"; };
+		BBE0923514616E3AE7F3660F03E784BF /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BC1517EC20137E2BE9750CADB6EBD551 /* OfferParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OfferParams.swift; path = BitmarkSDK/Bitmark/OfferParams.swift; sourceTree = "<group>"; };
+		BCA976389C6A08CD65FA831D694BA760 /* API.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = API.swift; path = BitmarkSDK/Services/API.swift; sourceTree = "<group>"; };
 		BCB2BF8B48A1F4B482C6F3F8AF47C944 /* Pods-BitmarkTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BitmarkTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		BD6E32E1C8A474A13649780CFC15C476 /* Config.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Config.swift; path = BitmarkSDK/Config.swift; sourceTree = "<group>"; };
-		BDAF2EDE2E364BF1502D1E370E78BCA1 /* Migration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Migration.swift; path = BitmarkSDK/Utils/Migration.swift; sourceTree = "<group>"; };
+		BD26618E4B4035F007B54E571D03A358 /* TransferParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransferParams.swift; path = BitmarkSDK/Bitmark/TransferParams.swift; sourceTree = "<group>"; };
 		BDC51794A45BD6F94528A093EA4AD6D6 /* Pods-Bitmark Registry.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry.debug.xcconfig"; sourceTree = "<group>"; };
-		BFC74BD5CF17558DEF6E8F41FEF7EB28 /* Transaction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Transaction.swift; path = BitmarkSDK/Transaction/Transaction.swift; sourceTree = "<group>"; };
+		BDDB130AB5847DADE709AA46B76B2516 /* Data+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Data+Extension.swift"; path = "BitmarkSDK/Extensions/Data+Extension.swift"; sourceTree = "<group>"; };
+		BFD52DEEB9C0DD0AB8728690B8297CF9 /* BinaryPacking.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BinaryPacking.swift; path = BitmarkSDK/Utils/BinaryPacking.swift; sourceTree = "<group>"; };
 		C015C4D3D400192CA6BA3DAE16935312 /* Pods-Bitmark Registry dev-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Bitmark Registry dev-acknowledgements.markdown"; sourceTree = "<group>"; };
-		C192264EEBEEA572866FFA972B6C6518 /* hu.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = hu.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/hu.lproj"; sourceTree = "<group>"; };
-		C2C75A5EB96967C86242D71088B177D1 /* nb.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = nb.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/nb.lproj"; sourceTree = "<group>"; };
-		C310369C599E05F5A49BE3B1254B387A /* es.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = es.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/es.lproj"; sourceTree = "<group>"; };
-		C469EA4E17DDD95538E35300873D6E96 /* KeychainAccess.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KeychainAccess.xcconfig; sourceTree = "<group>"; };
-		C60C96D2AC7F0CE1485B5EB8F48B1AD9 /* module.map */ = {isa = PBXFileReference; includeInIndex = 1; name = module.map; path = Sources/module.map; sourceTree = "<group>"; };
-		C62C20C91E8A6627F4C029B70D80D95F /* BitmarkSDK-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BitmarkSDK-umbrella.h"; sourceTree = "<group>"; };
+		C1CAD4A03E2E9B368B285CD2CFBB4967 /* Blur.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Blur.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Blur.png"; sourceTree = "<group>"; };
+		C2BF48BF3AB621FB859783B3EC7C9A2F /* SHA3.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SHA3.swift; path = BitmarkSDK/Utils/SHA3.swift; sourceTree = "<group>"; };
+		C3C6518B46C8385A5B51C34ACB1FE89A /* iconCamera.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = iconCamera.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/iconCamera.png"; sourceTree = "<group>"; };
+		C608308B3D88B90D196FD96AE6BCC48E /* BItmarkSDK.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BItmarkSDK.swift; path = BitmarkSDK/BItmarkSDK.swift; sourceTree = "<group>"; };
 		C7AB504DC3715B5A248D017A8B60F486 /* TweetNacl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TweetNacl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA0455068664422942AE34B7026F768A /* ctweetnacl.c */ = {isa = PBXFileReference; includeInIndex = 1; name = ctweetnacl.c; path = Sources/CTweetNacl/ctweetnacl.c; sourceTree = "<group>"; };
-		CA6840177AAD86B407169C5AA1FE0FF1 /* OfferParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OfferParams.swift; path = BitmarkSDK/Bitmark/OfferParams.swift; sourceTree = "<group>"; };
-		CA9EF34C20F4B77DAB4ADCEC9AF515BA /* TweetNacl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TweetNacl-dummy.m"; sourceTree = "<group>"; };
-		CAB88A6B0319E4D9C0AC00216BC571D6 /* BitmarkQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BitmarkQuery.swift; path = BitmarkSDK/Bitmark/BitmarkQuery.swift; sourceTree = "<group>"; };
-		CBB7EF4C90BD6D857A0A3740126A4D37 /* Blur@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Blur@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Blur@3x.png"; sourceTree = "<group>"; };
-		D0897BAEB0CFE668DB0210BA2367EFAE /* TweetNacl.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TweetNacl.modulemap; sourceTree = "<group>"; };
+		C8BDD2CFBDEA8220F2CCD37B19AE8A15 /* TweetNacl.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TweetNacl.modulemap; sourceTree = "<group>"; };
+		C91C4CACBF751B7728839B9E32BB9123 /* Cancel@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Cancel@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Cancel@3x.png"; sourceTree = "<group>"; };
+		CC9C070ADE8782FDB07D3C540645992F /* TweetNacl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TweetNacl.h; path = Sources/TweetNacl/TweetNacl.h; sourceTree = "<group>"; };
 		D16DB891B2086F9A42CB37BE614636D9 /* Pods-Bitmark Registry dev.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Bitmark Registry dev.modulemap"; sourceTree = "<group>"; };
+		D2EEE4A7752A915AA96A5CA8A54D711C /* Blur@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Blur@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Blur@3x.png"; sourceTree = "<group>"; };
 		D4229A980AF7381B2AD867437442B123 /* Pods-BitmarkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BitmarkTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D43634A113C831689669AFE51ECA0E6B /* es.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = es.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/es.lproj"; sourceTree = "<group>"; };
+		D50BD2877A7C6B36D4F0935327B11331 /* Keychain.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
+		D63E3FD9F05C1F0C93449E23EC7A8110 /* module.map */ = {isa = PBXFileReference; includeInIndex = 1; name = module.map; path = Sources/module.map; sourceTree = "<group>"; };
+		D7B90899498365E518CE90321E3B9C3B /* AppIconPlaceHolder.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = AppIconPlaceHolder.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/AppIconPlaceHolder.png"; sourceTree = "<group>"; };
+		D85565BBF34F12BBD5BDCCDC993E9F10 /* API+Issuing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Issuing.swift"; path = "BitmarkSDK/Services/API+Issuing.swift"; sourceTree = "<group>"; };
 		D85A78F26F8AE4E005895C9F95E2691B /* Pods-BitmarkTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-BitmarkTests.modulemap"; sourceTree = "<group>"; };
 		DA9C82422DE13BB6F1462357FF9C6E44 /* Pods-Bitmark Registry beta.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Bitmark Registry beta.modulemap"; sourceTree = "<group>"; };
-		DB0390B71DE603D1942632B712169BBA /* BinaryPacking.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BinaryPacking.swift; path = BitmarkSDK/Utils/BinaryPacking.swift; sourceTree = "<group>"; };
-		DE2C9AA80D5EAC988BACCA70B28810B1 /* TweetNacl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TweetNacl-umbrella.h"; sourceTree = "<group>"; };
+		DE58B76BD2C845DF103D4A4D28578902 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDK.framework"; sourceTree = "<group>"; };
 		DF1B77A658A2F9F982C3E0D5E46B5E3C /* Pods-Bitmark Registry beta-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry beta-frameworks.sh"; sourceTree = "<group>"; };
-		DF7C01A8C0F50526232D2BBA5BEF6C1F /* buttonRoundedRegularHighlighted.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedRegularHighlighted.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegularHighlighted.png"; sourceTree = "<group>"; };
 		E04E4381193A4C3E9E7ACE6033C34151 /* TweetNacl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TweetNacl.framework; path = TweetNacl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E37C2895F749FFF64039FB593E337440 /* BitmarkSDK.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BitmarkSDK.h; path = BitmarkSDK/BitmarkSDK.h; sourceTree = "<group>"; };
-		E6DD9C724649F50A688B6C1D530147AE /* KeychainAccess-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeychainAccess-umbrella.h"; sourceTree = "<group>"; };
-		E75069EC2CC8617C0B5549E706896F88 /* API+Transfer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Transfer.swift"; path = "BitmarkSDK/Services/API+Transfer.swift"; sourceTree = "<group>"; };
+		E3C9C496BDC47416C8A730DD9453C13D /* Seed.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Seed.swift; path = BitmarkSDK/Seed.swift; sourceTree = "<group>"; };
+		E5C8BD54F96F86B1BAE301E461E8957B /* ResourceBundle-HockeySDKResources-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-HockeySDKResources-Info.plist"; sourceTree = "<group>"; };
 		E7ABBA314843EBAF10F87824D4256E95 /* Pods-Bitmark Registry dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry dev.release.xcconfig"; sourceTree = "<group>"; };
-		EDAE4D8E5086AD0E2926398BD6B36F21 /* FileUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FileUtil.swift; path = BitmarkSDK/Utils/FileUtil.swift; sourceTree = "<group>"; };
-		F1472B1C0BA1215E55BBA7B64E160F61 /* Ok.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Ok.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Ok.png"; sourceTree = "<group>"; };
+		EBECD0D530CE1785AA39B63E4BF4DC37 /* buttonRoundedRegularHighlighted.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedRegularHighlighted.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegularHighlighted.png"; sourceTree = "<group>"; };
+		EC1A9975892B5AAED591519E0496F4C0 /* AccountNumber.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AccountNumber.swift; path = BitmarkSDK/AccountNumber.swift; sourceTree = "<group>"; };
+		EE1592D569BD6FEAD8A296257D5A3422 /* feedbackActivity@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity@3x.png"; sourceTree = "<group>"; };
+		EE773198658F39DC88DFC468F61EC3C8 /* ctweetnacl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ctweetnacl.h; path = Sources/CTweetNacl/include/ctweetnacl.h; sourceTree = "<group>"; };
+		EEFA50C6399012DCAC78DD1BFC7123A3 /* buttonRoundedDelete.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedDelete.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDelete.png"; sourceTree = "<group>"; };
+		F15BA54CDFEDF650C0C730BE08F80411 /* TweetNacl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TweetNacl-umbrella.h"; sourceTree = "<group>"; };
+		F27D2AF3E3B2D7C5A5A1B04A101AFD4B /* Blur@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Blur@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Blur@2x.png"; sourceTree = "<group>"; };
 		F4D0E3B6891C8DC93BC4BC1B8FB73582 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F4D8F77BC629FB85A8E007D2380709E3 /* ja.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ja.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/ja.lproj"; sourceTree = "<group>"; };
-		F67BE45130A49A97C309CE7C0C3B98AB /* feedbackActivity.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = feedbackActivity.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity.png"; sourceTree = "<group>"; };
-		F724995883DCBA2A5E634F4B03F05331 /* Constant.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = Sources/TweetNacl/Constant.swift; sourceTree = "<group>"; };
+		F5098EB384D237CC566F65062DCE5808 /* Ed25519.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Ed25519.swift; path = BitmarkSDK/Utils/Ed25519.swift; sourceTree = "<group>"; };
+		F684D4FC34F3C49DD49A6B2F3828002A /* authorize_denied@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "authorize_denied@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/authorize_denied@2x.png"; sourceTree = "<group>"; };
+		F7202EF450111EB7587126EF90B44A94 /* de.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = de.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/de.lproj"; sourceTree = "<group>"; };
+		F89509C27FF8B60BB8263762FBDBD8C1 /* API+Transfer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Transfer.swift"; path = "BitmarkSDK/Services/API+Transfer.swift"; sourceTree = "<group>"; };
 		F9A3CED6EDA3F548B9E9EEAD3F1688A2 /* Pods-Bitmark Registry beta-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Bitmark Registry beta-dummy.m"; sourceTree = "<group>"; };
-		F9BE05C743E26E1E8C2AEBE54F6195DD /* TransferParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransferParams.swift; path = BitmarkSDK/Bitmark/TransferParams.swift; sourceTree = "<group>"; };
-		FB2AEF42CACC90C05A6CF9CCD41687CB /* ctweetnacl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ctweetnacl.h; path = Sources/CTweetNacl/include/ctweetnacl.h; sourceTree = "<group>"; };
+		FB6FAEC8A02116094C0D362E6FDDCC1A /* AuthKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AuthKey.swift; path = BitmarkSDK/AuthKey.swift; sourceTree = "<group>"; };
+		FBFCA33FB72C072E17C7A733E6D1BBE5 /* API+Asset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Asset.swift"; path = "BitmarkSDK/Services/API+Asset.swift"; sourceTree = "<group>"; };
 		FC3113124E48D425989C4BD5EF6CD1D8 /* Pods-Bitmark Registry beta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry beta.release.xcconfig"; sourceTree = "<group>"; };
-		FFCDB6AC30D3FA26DBED539853ED8F57 /* iconCamera@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "iconCamera@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/iconCamera@2x.png"; sourceTree = "<group>"; };
+		FD89345783ABE9B8D2C2AC16E75B71E6 /* IconGradient@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "IconGradient@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/IconGradient@2x.png"; sourceTree = "<group>"; };
+		FF4CBCBFFA62BAF9C211CD05F586205C /* buttonRoundedDelete@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedDelete@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDelete@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -410,15 +412,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		138044B71E44DD29C39D57EF449AEFE3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FEF9A9305AB3DA9A7D651FE7701DC651 /* Foundation.framework in Frameworks */,
-				71B29DB21F6409285D47047E0E1AEAD6 /* TweetNacl.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		1A647A655C87DCB554ADDABA492672E8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -427,19 +420,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		651D02AB59085C48157594811FD7BD3E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CB873ECFC009A5770559C9A722D49361 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		9B9ECDC61316D0EF467B5E438651CB8A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				C9CB509A7620FE52DA3E22668261E2EA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D387793F175F24DB8D3C6FFAD29C836 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F2EA33489B8F31F486AECB47EC08E8E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,17 +459,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E2B0E6E98089DB5FE16111843746B8CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1515E6EB026620821EDDBE879F867142 /* Foundation.framework in Frameworks */,
+				728A8D695148322532797F2881FA0CC6 /* TweetNacl.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		30E4CD1E0B44950C4657E958FE715017 /* HockeySDK */ = {
+		0F20189BEC04A54F0AB82F44C3636EAB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DC377A23039B32B83A70641405B7B627 /* DefaultLib */,
-				92B811EA502A9188F6FC780854871E58 /* Support Files */,
+				DE58B76BD2C845DF103D4A4D28578902 /* HockeySDK.framework */,
 			);
-			name = HockeySDK;
-			path = HockeySDK;
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		36D7349B95809039849125AFF5763491 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6998F2289B4F935F9C7EF133391863B3 /* BitmarkSDK */,
+				9782AE8B7C7BB7F0154205785E79116D /* HockeySDK */,
+				B77BE3928462594E9082243A3A37F67F /* KeychainAccess */,
+				B14E0C20C7612D671C09CB55711B098C /* TweetNacl */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		37602EB11E4BB0CCDDECD2386FF27685 /* Pods-Bitmark Registry */ = {
@@ -497,30 +508,18 @@
 			path = "Target Support Files/Pods-Bitmark Registry";
 			sourceTree = "<group>";
 		};
-		3EF1CB1501832DE7F8E7C46C3F1B8D77 /* Pods */ = {
+		4A3159D0E79A0DE90E07A12A93A44025 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				A8021409364F1D12DF3B796EE098779D /* BitmarkSDK */,
-				30E4CD1E0B44950C4657E958FE715017 /* HockeySDK */,
-				E4228D944C0B1EDA261E64A86A82E657 /* KeychainAccess */,
-				495D6C6DC4EB8B5BBC1C39D6CF652463 /* TweetNacl */,
+				BBE0923514616E3AE7F3660F03E784BF /* Info.plist */,
+				BA663579E96E1A75ADD8C0E33BCDE53E /* KeychainAccess.modulemap */,
+				B375DAA0787634E7FA243B9657C59D75 /* KeychainAccess.xcconfig */,
+				4F6C2F39CB76676BFBF510857004A4AA /* KeychainAccess-dummy.m */,
+				9752F5911E4412C452C34C249905CABE /* KeychainAccess-prefix.pch */,
+				87421E25EAFD9E5CC2CEC0287B7AA18E /* KeychainAccess-umbrella.h */,
 			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		495D6C6DC4EB8B5BBC1C39D6CF652463 /* TweetNacl */ = {
-			isa = PBXGroup;
-			children = (
-				F724995883DCBA2A5E634F4B03F05331 /* Constant.swift */,
-				CA0455068664422942AE34B7026F768A /* ctweetnacl.c */,
-				FB2AEF42CACC90C05A6CF9CCD41687CB /* ctweetnacl.h */,
-				C60C96D2AC7F0CE1485B5EB8F48B1AD9 /* module.map */,
-				9F08F3BA3BF095291D5956E257302446 /* TweetNacl.h */,
-				B52027C71B9E26E784B58A809B471BF0 /* TweetNacl.swift */,
-				BE18F0102E8EDFE3C100464D72648FCE /* Support Files */,
-			);
-			name = TweetNacl;
-			path = TweetNacl;
+			name = "Support Files";
+			path = "../Target Support Files/KeychainAccess";
 			sourceTree = "<group>";
 		};
 		506CEFFDEA426E790F08A95E1819866C /* iOS */ = {
@@ -529,6 +528,70 @@
 				22FABACA1C8E9C3EDF451AEF43872454 /* Foundation.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		55C112AE39D7665BEEDB99CC5A475030 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				57C2191D31B391668BE390CC3609CA54 /* BitmarkSDK.modulemap */,
+				A7B5558E5C02B1FBA0EE9BF8A675E2E8 /* BitmarkSDK.xcconfig */,
+				5AD1733641B1581CC3FB7708CAEA8229 /* BitmarkSDK-dummy.m */,
+				68EE47D7CE8F22FE4115EF95958C4FAD /* BitmarkSDK-prefix.pch */,
+				03844A9555EC02B89DB57FD0ECD583FF /* BitmarkSDK-umbrella.h */,
+				92ACDA2EA65184305FE0F7190485ADF9 /* Info.plist */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/BitmarkSDK";
+			sourceTree = "<group>";
+		};
+		6998F2289B4F935F9C7EF133391863B3 /* BitmarkSDK */ = {
+			isa = PBXGroup;
+			children = (
+				BA675EE53645B9E24465BD211C942C9F /* Account.swift */,
+				EC1A9975892B5AAED591519E0496F4C0 /* AccountNumber.swift */,
+				BCA976389C6A08CD65FA831D694BA760 /* API.swift */,
+				FBFCA33FB72C072E17C7A733E6D1BBE5 /* API+Asset.swift */,
+				40BF31E1DF025BF43A69B37731D367A1 /* API+Bitmark.swift */,
+				D85565BBF34F12BBD5BDCCDC993E9F10 /* API+Issuing.swift */,
+				F89509C27FF8B60BB8263762FBDBD8C1 /* API+Transfer.swift */,
+				A35F05BEEB09C52B643BBE824C9C48AD /* Asset.swift */,
+				8949922E739D55C3C153DC5C2B4254F2 /* AssetQuery.swift */,
+				FB6FAEC8A02116094C0D362E6FDDCC1A /* AuthKey.swift */,
+				7CB9563ACCEF60DE809D511529950EB7 /* Base58.swift */,
+				BFD52DEEB9C0DD0AB8728690B8297CF9 /* BinaryPacking.swift */,
+				7BBBBCAF6B729032993D18C89B8AE87F /* Bitmark.swift */,
+				70C788F729C2423C4D1BDA0446C58BF5 /* BitmarkQuery.swift */,
+				993B07AB3F543B2AD6040F2D8A1E277A /* BitmarkSDK.h */,
+				C608308B3D88B90D196FD96AE6BCC48E /* BItmarkSDK.swift */,
+				82398B7FEF4ADE0CA3B432E160596708 /* Common.swift */,
+				2BF48A178478C356AE01930F4E079C68 /* Config.swift */,
+				BDDB130AB5847DADE709AA46B76B2516 /* Data+Extension.swift */,
+				F5098EB384D237CC566F65062DCE5808 /* Ed25519.swift */,
+				9E66B72AD62A268AE1039783AC600C7B /* EncryptionKey.swift */,
+				76A897A752E7C7F26B70FF0A55B8B773 /* FileUtil.swift */,
+				4B5F675BBDF5A61D4182B52E2B53C01F /* IssuanceParams.swift */,
+				52854E59CDF4570AAC9E51E191700BB8 /* main.c */,
+				6956190CC8F604153EA0616E4B1586C4 /* Migration.swift */,
+				40CD296FCDECDBC899230D910B1FDD94 /* ModelEquatable.swift */,
+				BC1517EC20137E2BE9750CADB6EBD551 /* OfferParams.swift */,
+				6DA8406A17DEE3824DD674BCCD9EB607 /* Parameterizable.swift */,
+				5D01B95F1C75E7F5CDE4DFA2AE8371CE /* Queryable.swift */,
+				2A6CA227A552757028186B026DE911BD /* RecoverPhrase.swift */,
+				1C11CD7DD379FEA278CAC6938AC5842E /* RecoverPhrase+Dic.swift */,
+				88ABF3D5399FD99E44E4E9669F58B7A7 /* RegistrationParams.swift */,
+				E3C9C496BDC47416C8A730DD9453C13D /* Seed.swift */,
+				9E41DCD25194127BDF96E5722A70B299 /* sha3.c */,
+				616D6CE5296DF6D8151528C035BB796E /* sha3.h */,
+				C2BF48BF3AB621FB859783B3EC7C9A2F /* SHA3.swift */,
+				637881BA46D6D5436798B610B0E82080 /* Signable.swift */,
+				9559D52EFB065ADAF19125EEBBB6DA76 /* Transaction.swift */,
+				4B7AE523E28B35F0E276ED178A91FE39 /* TransactionQuery.swift */,
+				BD26618E4B4035F007B54E571D03A358 /* TransferParams.swift */,
+				13DA1F30F3FC93D2F0B42C9964F86082 /* Varint.swift */,
+				55C112AE39D7665BEEDB99CC5A475030 /* Support Files */,
+			);
+			name = BitmarkSDK;
+			path = BitmarkSDK;
 			sourceTree = "<group>";
 		};
 		734A898E388A9BA7F36EB0C243105928 /* Pods-Bitmark Registry dev */ = {
@@ -549,85 +612,43 @@
 			path = "Target Support Files/Pods-Bitmark Registry dev";
 			sourceTree = "<group>";
 		};
+		7D725C97509368C8FDCA1344F21F544D /* DefaultLib */ = {
+			isa = PBXGroup;
+			children = (
+				0F20189BEC04A54F0AB82F44C3636EAB /* Frameworks */,
+				BE70C10F032E19B77CF51ACEBCE333CB /* Resources */,
+			);
+			name = DefaultLib;
+			sourceTree = "<group>";
+		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				D3B8EA42790C5D45F5024084E47E58B1 /* Frameworks */,
-				3EF1CB1501832DE7F8E7C46C3F1B8D77 /* Pods */,
+				36D7349B95809039849125AFF5763491 /* Pods */,
 				EB270BF9FFB8D3F038D099667BACF70D /* Products */,
 				F13043AB962782633F0BADE753B6D98C /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		8C19DB54D6628C63C7A091A0EE22484A /* Resources */ = {
+		85EEA538241FE10F3452F4C89D8E9D89 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				7546A8694771FC5B0646061E106FB847 /* AppIconPlaceHolder.png */,
-				69D1170DB1D484A1CC9B51011BF77519 /* Arrow.png */,
-				BABFD5310D6EAD64031DDB47401C8035 /* Arrow@2x.png */,
-				705C37C6296F1F800D81F2506AD54101 /* Arrow@3x.png */,
-				5F4BCAD05CC08B32A6E6A9FEB306D881 /* authorize_denied.png */,
-				686F699F2482F593325A41DA9DAF99E2 /* authorize_denied@2x.png */,
-				96C0A95816BC3FE3FD493181D941C77B /* authorize_denied@3x.png */,
-				5B36830413CFAEDA1FF3C2077F361FA7 /* bg.png */,
-				B686F3152BCFF80236A752FFD72D4BF8 /* Blur.png */,
-				1FAA02EC56241EEADCAC0846F65B9CD7 /* Blur@2x.png */,
-				CBB7EF4C90BD6D857A0A3740126A4D37 /* Blur@3x.png */,
-				BC7193DCB1A3CB924963085758AC155B /* buttonRoundedDelete.png */,
-				325855783B5D6FCB14F106AD15B5E4DB /* buttonRoundedDelete@2x.png */,
-				2553272B2DFC71A5469295B6E0FEEE4B /* buttonRoundedDeleteHighlighted.png */,
-				A2C00C759307F1E4CC2B479682FBBC56 /* buttonRoundedDeleteHighlighted@2x.png */,
-				89EF3CE287A840906F460819D892B861 /* buttonRoundedRegular.png */,
-				3491E97C4051D998036D40898CD2DD64 /* buttonRoundedRegular@2x.png */,
-				DF7C01A8C0F50526232D2BBA5BEF6C1F /* buttonRoundedRegularHighlighted.png */,
-				2B0C189F3B6835B9963E185AD4056DA6 /* buttonRoundedRegularHighlighted@2x.png */,
-				3BC842D0803D715A224F6ACB4134F7AB /* Cancel.png */,
-				4A20382847AA1687AC1751143E3384E7 /* Cancel@2x.png */,
-				0C5C15FC7BAC9BBDEDE1AAE22E41C240 /* Cancel@3x.png */,
-				47992EA721CD48859B78F648B4D8E57F /* de.lproj */,
-				403D25E19EBF2F5CDD960CBD7D365243 /* en.lproj */,
-				C310369C599E05F5A49BE3B1254B387A /* es.lproj */,
-				17015A0AF65FFD6BEC59706052394427 /* fa.lproj */,
-				F67BE45130A49A97C309CE7C0C3B98AB /* feedbackActivity.png */,
-				1D54A90E03E6307CB50B00F11930D16F /* feedbackActivity@2x.png */,
-				3621633AD4B3EE8AFF68A29BA5D5EDEE /* feedbackActivity@2x~ipad.png */,
-				30A6A4BFE3487890DCBCD9E341A34EAB /* feedbackActivity@3x.png */,
-				1018F3D35B7611B8AA3941E73CF18BB4 /* feedbackActivity~ipad.png */,
-				2A645EA91CCFE995D0D488BD8D754D24 /* FeedbackPlaceholder.png */,
-				2672F18BBECCD3367864CEA1035C75F0 /* fr.lproj */,
-				6F138CFCE58282FBFF1DA1384B8D85FF /* hr.lproj */,
-				C192264EEBEEA572866FFA972B6C6518 /* hu.lproj */,
-				80526754974EC43F21929374B250AD65 /* iconCamera.png */,
-				FFCDB6AC30D3FA26DBED539853ED8F57 /* iconCamera@2x.png */,
-				62B9F5980EABD95FA5F50101A3E3111B /* IconGradient.png */,
-				6FC36F4756F222A48A99FC1238AC478E /* IconGradient@2x.png */,
-				11F08CBDB458814F6F170CF877CDBFC9 /* it.lproj */,
-				F4D8F77BC629FB85A8E007D2380709E3 /* ja.lproj */,
-				C2C75A5EB96967C86242D71088B177D1 /* nb.lproj */,
-				55AD0F07E0336EFA157C11A324A36EE3 /* nl.lproj */,
-				F1472B1C0BA1215E55BBA7B64E160F61 /* Ok.png */,
-				3CED5C36B3A80EB5724FE79166ED6221 /* Ok@2x.png */,
-				2CDE1FA465F027014A57F97742AA8890 /* Ok@3x.png */,
-				26AC359609A87C7871AA5F7F48C003CA /* pt.lproj */,
-				1C0B17187AEE9BEA907A71D6B35B3C29 /* pt-PT.lproj */,
-				3D3A00D264DCF57A5274201B2B132536 /* Rectangle.png */,
-				324EBF7E2579B281637FB5C12BF3F565 /* Rectangle@2x.png */,
-				6456F78BFDE4AE999417ED911A8414DF /* Rectangle@3x.png */,
-				8BE7914C183CE7D0FAE58CC032D73B8C /* ru.lproj */,
-				83F61F096F95543D1AADB0FA50171CDD /* tr.lproj */,
-				208818BDDB2147C025AC517763FF5549 /* zh-Hans.lproj */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
-		92B811EA502A9188F6FC780854871E58 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				44F0740C5D81E03551045BC1B9ACE38E /* ResourceBundle-HockeySDKResources-Info.plist */,
+				E5C8BD54F96F86B1BAE301E461E8957B /* ResourceBundle-HockeySDKResources-Info.plist */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/HockeySDK";
+			sourceTree = "<group>";
+		};
+		9782AE8B7C7BB7F0154205785E79116D /* HockeySDK */ = {
+			isa = PBXGroup;
+			children = (
+				7D725C97509368C8FDCA1344F21F544D /* DefaultLib */,
+				85EEA538241FE10F3452F4C89D8E9D89 /* Support Files */,
+			);
+			name = HockeySDK;
+			path = HockeySDK;
 			sourceTree = "<group>";
 		};
 		9CE2241380848F1A83CC3DB24E28EF88 /* Pods-Bitmark Registry beta */ = {
@@ -648,81 +669,90 @@
 			path = "Target Support Files/Pods-Bitmark Registry beta";
 			sourceTree = "<group>";
 		};
-		A8021409364F1D12DF3B796EE098779D /* BitmarkSDK */ = {
+		B14E0C20C7612D671C09CB55711B098C /* TweetNacl */ = {
 			isa = PBXGroup;
 			children = (
-				25D051F970B0C16979882D498F8499CB /* Account.swift */,
-				B9C71FB02C2806E6F5AF0D50A2F77E37 /* AccountNumber.swift */,
-				A1E912DC08CD1395EBDF668EB24972F0 /* API.swift */,
-				A378F1FF1A0D4F903E8192419B200FEC /* API+Asset.swift */,
-				04FC7219D5B2CC8C59FA988C71457274 /* API+BItmark.swift */,
-				3349C743BA7E052FBFF51E7597750F24 /* API+Issuing.swift */,
-				E75069EC2CC8617C0B5549E706896F88 /* API+Transfer.swift */,
-				795234676D0C3472A97A947CC5E14672 /* Asset.swift */,
-				874FBFA4992B02174B039432A4F1DB9D /* AssetQuery.swift */,
-				460BF6B6D820B4783EE37184F3B7163B /* AuthKey.swift */,
-				A84D82617FE006725FD9B45C7702F6AC /* Base58.swift */,
-				DB0390B71DE603D1942632B712169BBA /* BinaryPacking.swift */,
-				8667DE011FC81CAF1168F196C26DB69D /* Bitmark.swift */,
-				CAB88A6B0319E4D9C0AC00216BC571D6 /* BitmarkQuery.swift */,
-				E37C2895F749FFF64039FB593E337440 /* BitmarkSDK.h */,
-				657B1620C5BE36E90757F811FB154E8E /* BItmarkSDK.swift */,
-				696B819487D0696CEB7B909AB64EC5A4 /* Common.swift */,
-				BD6E32E1C8A474A13649780CFC15C476 /* Config.swift */,
-				0AC5AB73A6A4B0E16655E0F0AC84A03A /* Data+Extension.swift */,
-				284D73B8CBD9DCC0F3BA7FB087297E4D /* Ed25519.swift */,
-				EDAE4D8E5086AD0E2926398BD6B36F21 /* FileUtil.swift */,
-				5CC0CAEC34BCF92BE8B635524EFCCB3D /* IssuanceParams.swift */,
-				22B484680892C2E14B7847950F63D07A /* main.c */,
-				BDAF2EDE2E364BF1502D1E370E78BCA1 /* Migration.swift */,
-				6EF6D6C1AFBBB08ED7B94AB835F13636 /* ModelEquatable.swift */,
-				CA6840177AAD86B407169C5AA1FE0FF1 /* OfferParams.swift */,
-				72FD35B164667FF1F0EEB097A0D30E98 /* Parameterizable.swift */,
-				21BFE1DA352D33AB9FAF4BA06782DCA5 /* Queryable.swift */,
-				AB3C4210EB8456F6200B5E389EBE59C5 /* RecoverPhrase.swift */,
-				3F5AAB90E38C93525102C1EBCB6D0517 /* RecoverPhrase+Dic.swift */,
-				9BD88D693727593AF068E0E279041342 /* RegistrationParams.swift */,
-				815EA95EEE64B8F9A9B4B3ECDC8DB9C5 /* Seed.swift */,
-				4AA2D234646B71DE06980C7EFDE0B5E6 /* sha3.c */,
-				1801DFC1CB9A096984B556D87087A4FE /* sha3.h */,
-				1383CB2B034F428C9BFF982F5047B7CC /* SHA3.swift */,
-				1D9F3BC25285F00FF409BB0044A899B1 /* Signable.swift */,
-				BFC74BD5CF17558DEF6E8F41FEF7EB28 /* Transaction.swift */,
-				2C61D712328C750ADB5E9ED64AD5B9E9 /* TransactionQuery.swift */,
-				F9BE05C743E26E1E8C2AEBE54F6195DD /* TransferParams.swift */,
-				3F4CF620D7032DE48956C8D67A8D9F87 /* Varint.swift */,
-				B9D4A974C76B1F0E7A0FA72E04BC6F64 /* Support Files */,
+				8633D96C8B7E30C090CE797EE23131F1 /* Constant.swift */,
+				9124C46E265F016535C020148E9E96D6 /* ctweetnacl.c */,
+				EE773198658F39DC88DFC468F61EC3C8 /* ctweetnacl.h */,
+				D63E3FD9F05C1F0C93449E23EC7A8110 /* module.map */,
+				CC9C070ADE8782FDB07D3C540645992F /* TweetNacl.h */,
+				602037F263B9A62C8F1368AF56FA0EB8 /* TweetNacl.swift */,
+				C8552D747B5E2981108FE4A62816A752 /* Support Files */,
 			);
-			name = BitmarkSDK;
-			path = BitmarkSDK;
+			name = TweetNacl;
+			path = TweetNacl;
 			sourceTree = "<group>";
 		};
-		B9D4A974C76B1F0E7A0FA72E04BC6F64 /* Support Files */ = {
+		B77BE3928462594E9082243A3A37F67F /* KeychainAccess */ = {
 			isa = PBXGroup;
 			children = (
-				152BF7BD386A46331B202D37BE5636C2 /* BitmarkSDK.modulemap */,
-				2D340C71109BF694D2169863AA719DA8 /* BitmarkSDK.xcconfig */,
-				1E67DA3964D5B9CC2D5E583C42583D42 /* BitmarkSDK-dummy.m */,
-				06F31B70A2B8FF724A4C9A4F459742C2 /* BitmarkSDK-prefix.pch */,
-				C62C20C91E8A6627F4C029B70D80D95F /* BitmarkSDK-umbrella.h */,
-				2D0C5EF6820E2B1818EE154278BBD486 /* Info.plist */,
+				D50BD2877A7C6B36D4F0935327B11331 /* Keychain.swift */,
+				4A3159D0E79A0DE90E07A12A93A44025 /* Support Files */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/BitmarkSDK";
+			name = KeychainAccess;
+			path = KeychainAccess;
 			sourceTree = "<group>";
 		};
-		BE18F0102E8EDFE3C100464D72648FCE /* Support Files */ = {
+		BE70C10F032E19B77CF51ACEBCE333CB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2915537C8110CD502AF2DFDAA34E0BB2 /* Info.plist */,
-				D0897BAEB0CFE668DB0210BA2367EFAE /* TweetNacl.modulemap */,
-				9D031AF49730F3539F11BC3568853A06 /* TweetNacl.xcconfig */,
-				CA9EF34C20F4B77DAB4ADCEC9AF515BA /* TweetNacl-dummy.m */,
-				4BA19C5598F5D9DF8244B7C7703A43F5 /* TweetNacl-prefix.pch */,
-				DE2C9AA80D5EAC988BACCA70B28810B1 /* TweetNacl-umbrella.h */,
+				D7B90899498365E518CE90321E3B9C3B /* AppIconPlaceHolder.png */,
+				556B3491A4816C5D03828D96654A6CC1 /* Arrow.png */,
+				2486DEAA1D6858D001AFE7BD6588C9EE /* Arrow@2x.png */,
+				165EC854D662D121E626B79E109501B1 /* Arrow@3x.png */,
+				63718E96B3854F4331BECF6ABCD57FAE /* authorize_denied.png */,
+				F684D4FC34F3C49DD49A6B2F3828002A /* authorize_denied@2x.png */,
+				64726C9327A9228A7398B21E20379C54 /* authorize_denied@3x.png */,
+				1919BF69C703344E2F29FB6BB912ED06 /* bg.png */,
+				C1CAD4A03E2E9B368B285CD2CFBB4967 /* Blur.png */,
+				F27D2AF3E3B2D7C5A5A1B04A101AFD4B /* Blur@2x.png */,
+				D2EEE4A7752A915AA96A5CA8A54D711C /* Blur@3x.png */,
+				EEFA50C6399012DCAC78DD1BFC7123A3 /* buttonRoundedDelete.png */,
+				FF4CBCBFFA62BAF9C211CD05F586205C /* buttonRoundedDelete@2x.png */,
+				ABBDCCA8B1779C974402768FC76F7D6D /* buttonRoundedDeleteHighlighted.png */,
+				0A1D61BA3A87D012F3480755A4E34EA5 /* buttonRoundedDeleteHighlighted@2x.png */,
+				1AF25740E32DDBC6BC4F0D382A3834D0 /* buttonRoundedRegular.png */,
+				27F7F6B4E0420144E76EA22230ACF31A /* buttonRoundedRegular@2x.png */,
+				EBECD0D530CE1785AA39B63E4BF4DC37 /* buttonRoundedRegularHighlighted.png */,
+				AD79B40FDBC91D3E82FC74AECE2FAE10 /* buttonRoundedRegularHighlighted@2x.png */,
+				8A4A0B94B0122DE86957392AFD369644 /* Cancel.png */,
+				1BEA89CE93A71D2719AA858F2C5FD921 /* Cancel@2x.png */,
+				C91C4CACBF751B7728839B9E32BB9123 /* Cancel@3x.png */,
+				F7202EF450111EB7587126EF90B44A94 /* de.lproj */,
+				1819D90E60BEE0074531C37696B0ED6F /* en.lproj */,
+				D43634A113C831689669AFE51ECA0E6B /* es.lproj */,
+				AB00701A70EF9D59EE351BB917680AC9 /* fa.lproj */,
+				66AF35D85D7504C66440B733F926654E /* feedbackActivity.png */,
+				745EBBDC7FB799CA2B7268636B7B666B /* feedbackActivity@2x.png */,
+				6F40288E966086467DAF9C2E733150E6 /* feedbackActivity@2x~ipad.png */,
+				EE1592D569BD6FEAD8A296257D5A3422 /* feedbackActivity@3x.png */,
+				759DB75FFF1911769C832BD8623797BD /* feedbackActivity~ipad.png */,
+				80CD50BE33A74B2CE269B4FEED78C500 /* FeedbackPlaceholder.png */,
+				34C63638D6DF1E8B2C6484C33EAFA350 /* fr.lproj */,
+				2980667EE765A143B615D57CE4A9C0BD /* hr.lproj */,
+				8706A9CC27D27C72F5225BE355B22E21 /* hu.lproj */,
+				C3C6518B46C8385A5B51C34ACB1FE89A /* iconCamera.png */,
+				2D14BA84F781750A7148814E4C1049B5 /* iconCamera@2x.png */,
+				8626B11DEEDC1C42280DC754D3F11D63 /* IconGradient.png */,
+				FD89345783ABE9B8D2C2AC16E75B71E6 /* IconGradient@2x.png */,
+				90B38AB5F042255FFABEB018251789CB /* it.lproj */,
+				22CEF1F2633AF4F06F22A55C9FD078FA /* ja.lproj */,
+				46F0236A1ED32CC401D2C081D6B0AA10 /* nb.lproj */,
+				245104882C75573B12A8F446863FDF63 /* nl.lproj */,
+				63D05F2CEC1353FE744E04B901D1637F /* Ok.png */,
+				AFD32C6AA3163AE89C7378480EC6BFE4 /* Ok@2x.png */,
+				6CCDD3D9931EC986C0683CC517EBBD1A /* Ok@3x.png */,
+				76151AD14CDFC8E1906EC4829163F4C0 /* pt.lproj */,
+				0E0788C611862D08ADE47BAE8A72DE70 /* pt-PT.lproj */,
+				2816E59B8D599EF658076ECC705E879D /* Rectangle.png */,
+				B6ACCBA42298F4CACF900AA564A31F5E /* Rectangle@2x.png */,
+				2EF94FA89D652A49631B300182609E93 /* Rectangle@3x.png */,
+				02417CB0338DE29F0503ABE8D136608B /* ru.lproj */,
+				662C5A069392066706054909DC454629 /* tr.lproj */,
+				AB2E5CB873EE34E9328B6FEF63C3FEA3 /* zh-Hans.lproj */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/TweetNacl";
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		C270F4273B97A544B02D055E4A383254 /* Pods-BitmarkTests */ = {
@@ -743,6 +773,20 @@
 			path = "Target Support Files/Pods-BitmarkTests";
 			sourceTree = "<group>";
 		};
+		C8552D747B5E2981108FE4A62816A752 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				884E25AC03801652BDC8A1121B81BA4F /* Info.plist */,
+				C8BDD2CFBDEA8220F2CCD37B19AE8A15 /* TweetNacl.modulemap */,
+				91278A3B4DF7E7BFD4F08F9E82B081DF /* TweetNacl.xcconfig */,
+				5E16FBD772B576A160E0728279E76809 /* TweetNacl-dummy.m */,
+				01684943C983E1C5D614DC671D8E0318 /* TweetNacl-prefix.pch */,
+				F15BA54CDFEDF650C0C730BE08F80411 /* TweetNacl-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/TweetNacl";
+			sourceTree = "<group>";
+		};
 		D3B8EA42790C5D45F5024084E47E58B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -750,39 +794,6 @@
 				506CEFFDEA426E790F08A95E1819866C /* iOS */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DC377A23039B32B83A70641405B7B627 /* DefaultLib */ = {
-			isa = PBXGroup;
-			children = (
-				F6CBC31BA3A235F9FF1C8FEC895EB1A8 /* Frameworks */,
-				8C19DB54D6628C63C7A091A0EE22484A /* Resources */,
-			);
-			name = DefaultLib;
-			sourceTree = "<group>";
-		};
-		E40709A2A002E4AC50B0E49C35FA50EC /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				31C854FE5563FDF7DD048E6B8CDEF261 /* Info.plist */,
-				148E64356EC468A4DB4E968AE57D352C /* KeychainAccess.modulemap */,
-				C469EA4E17DDD95538E35300873D6E96 /* KeychainAccess.xcconfig */,
-				B47AF74BE14233685F8399324ED56C02 /* KeychainAccess-dummy.m */,
-				33649AD495E1198A5CB9DFDB1AC88920 /* KeychainAccess-prefix.pch */,
-				E6DD9C724649F50A688B6C1D530147AE /* KeychainAccess-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/KeychainAccess";
-			sourceTree = "<group>";
-		};
-		E4228D944C0B1EDA261E64A86A82E657 /* KeychainAccess */ = {
-			isa = PBXGroup;
-			children = (
-				566FC07B70FCB2B1CF824F0D84C66AF1 /* Keychain.swift */,
-				E40709A2A002E4AC50B0E49C35FA50EC /* Support Files */,
-			);
-			name = KeychainAccess;
-			path = KeychainAccess;
 			sourceTree = "<group>";
 		};
 		EB270BF9FFB8D3F038D099667BACF70D /* Products */ = {
@@ -811,14 +822,6 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		F6CBC31BA3A235F9FF1C8FEC895EB1A8 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				57A2E426F5F7697CD6BDB6F605693B80 /* HockeySDK.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -827,6 +830,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				364899C8E91D275625D04D6E64AF3914 /* Pods-Bitmark Registry beta-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0E5FB5537F072334882784434371D576 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8081AD9B625A552B803F3796DCD207A2 /* BitmarkSDK-umbrella.h in Headers */,
+				4F5AF44ADE8CE63E292079A838E78F96 /* BitmarkSDK.h in Headers */,
+				31494726FFF8906CD763814874468698 /* sha3.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -846,31 +859,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7655872101B15F688ECE1132168C0D01 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4F3DB7C05A112729848E874876D6EEE3 /* BitmarkSDK-umbrella.h in Headers */,
-				58A6CA7498C734F1B3A230E326FCDC0A /* BitmarkSDK.h in Headers */,
-				8B5384236EADAD0F54CDEEFC6B9F721B /* sha3.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A5CF004E33CCFF195061F721A4FAE4F1 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				28651274912DC8779EAB01823DD6C8BF /* ctweetnacl.h in Headers */,
-				D4FCFE35B0290DC10FCC769A26C39465 /* TweetNacl-umbrella.h in Headers */,
-				6F37BD737772B024D48916AB58F6921F /* TweetNacl.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B18763D319FCF9A8AD725C1F415A8CFE /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				5F721432F1CEB041C45655D3D5F85B7B /* Pods-BitmarkTests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D366AEC5BD821CB4BDD29CE284AA7299 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB6511402D6A0DC16A819AAAE87CFE4D /* ctweetnacl.h in Headers */,
+				E450928BB9FD3A9B6A34691F12C447ED /* TweetNacl-umbrella.h in Headers */,
+				FA38A143B8B8EC23339FDE37345DDBD9 /* TweetNacl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -885,24 +888,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		032E0402A45D5942C6822CB61751AB03 /* TweetNacl */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DFD4F6A215DE50F5DA2F259386257630 /* Build configuration list for PBXNativeTarget "TweetNacl" */;
-			buildPhases = (
-				A5CF004E33CCFF195061F721A4FAE4F1 /* Headers */,
-				BE3A5738F8AD7419AA494C1246CA162B /* Sources */,
-				651D02AB59085C48157594811FD7BD3E /* Frameworks */,
-				4896EDFB4DAE56E7B749D32186E5B740 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = TweetNacl;
-			productName = TweetNacl;
-			productReference = E04E4381193A4C3E9E7ACE6033C34151 /* TweetNacl.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		1630C0AC0CCE2704C3F517D1DFD56586 /* KeychainAccess */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BC26EB508840B6B2446C27E690E60BC /* Build configuration list for PBXNativeTarget "KeychainAccess" */;
@@ -962,19 +947,19 @@
 			productReference = B5040F36BFC69829A4BE3353D4F26BA3 /* Pods_BitmarkTests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		9C1A144D2B63437F4D0C2F53257BC666 /* BitmarkSDK */ = {
+		9A7D03B11EFCF7AB036D170ED5FD506F /* BitmarkSDK */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1760415843B3979726200A9B9601C8CC /* Build configuration list for PBXNativeTarget "BitmarkSDK" */;
+			buildConfigurationList = 67CDF8F88468A59E5C5606319382AF9D /* Build configuration list for PBXNativeTarget "BitmarkSDK" */;
 			buildPhases = (
-				7655872101B15F688ECE1132168C0D01 /* Headers */,
-				7237B1D1868105541BD1D49AAE7FBE61 /* Sources */,
-				138044B71E44DD29C39D57EF449AEFE3 /* Frameworks */,
-				949780E6FC663AA3BA7F78737EF3274C /* Resources */,
+				0E5FB5537F072334882784434371D576 /* Headers */,
+				AFF10B399C8F6105022035786E7B960E /* Sources */,
+				E2B0E6E98089DB5FE16111843746B8CF /* Frameworks */,
+				25A3A9ABDC9DBAE5D02A7FBFF5E00201 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				B4C9DE7ABBC7F77C48CD26573C51256D /* PBXTargetDependency */,
+				A12DB9B223822ACA7CD091C3A5CE271B /* PBXTargetDependency */,
 			);
 			name = BitmarkSDK;
 			productName = BitmarkSDK;
@@ -1001,6 +986,24 @@
 			name = "Pods-Bitmark Registry beta";
 			productName = "Pods-Bitmark Registry beta";
 			productReference = 5EA1A416AD83C08C1D0E34C3F29AD6A1 /* Pods_Bitmark_Registry_beta.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7426EFE9DC8CD76828693A410546A1C4 /* Build configuration list for PBXNativeTarget "TweetNacl" */;
+			buildPhases = (
+				D366AEC5BD821CB4BDD29CE284AA7299 /* Headers */,
+				AF2BE25ADABD217F58CCC675A1C09CC2 /* Sources */,
+				9D387793F175F24DB8D3C6FFAD29C836 /* Frameworks */,
+				708B7C01B9A5B82DABB543C50A8745C3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TweetNacl;
+			productName = TweetNacl;
+			productReference = E04E4381193A4C3E9E7ACE6033C34151 /* TweetNacl.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		C587F1B2FA2CB38A29F84936DEFD569D /* HockeySDK-HockeySDKResources */ = {
@@ -1062,19 +1065,26 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9C1A144D2B63437F4D0C2F53257BC666 /* BitmarkSDK */,
+				9A7D03B11EFCF7AB036D170ED5FD506F /* BitmarkSDK */,
 				C587F1B2FA2CB38A29F84936DEFD569D /* HockeySDK-HockeySDKResources */,
 				1630C0AC0CCE2704C3F517D1DFD56586 /* KeychainAccess */,
 				F347ABA86F9EE731898211163CB5580B /* Pods-Bitmark Registry */,
 				AE83927FE69E82F550595BB839D9B817 /* Pods-Bitmark Registry beta */,
 				26FF84AF2636419193FA0EF4C9B9C759 /* Pods-Bitmark Registry dev */,
 				6E0C8D103C3D1B950AE579C6228A1F6F /* Pods-BitmarkTests */,
-				032E0402A45D5942C6822CB61751AB03 /* TweetNacl */,
+				C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		25A3A9ABDC9DBAE5D02A7FBFF5E00201 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		46F92F5F6EB75A3BD9DD34765AADB940 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1082,14 +1092,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4896EDFB4DAE56E7B749D32186E5B740 /* Resources */ = {
+		6A5BC79F5D8665BD96675E51D0C84703 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6A5BC79F5D8665BD96675E51D0C84703 /* Resources */ = {
+		708B7C01B9A5B82DABB543C50A8745C3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1104,13 +1114,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		82731D02B1DBAC326E46F5E6E83C1130 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		949780E6FC663AA3BA7F78737EF3274C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1220,52 +1223,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7237B1D1868105541BD1D49AAE7FBE61 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7F3549A42A7AD66716F88B7662A4E908 /* Account.swift in Sources */,
-				B1D6F430898C96C1D49124D7D3BA49C4 /* AccountNumber.swift in Sources */,
-				23CB69B4D5B49C7A98B5287A508950F6 /* API+Asset.swift in Sources */,
-				D86C2F898CD5C5E92ED68042AE7D47E5 /* API+BItmark.swift in Sources */,
-				46EED041A791CDE130752019D762AB6B /* API+Issuing.swift in Sources */,
-				49B9615071CA1A76D89E0A74DB89E3AC /* API+Transfer.swift in Sources */,
-				466DBA881E2B4DB0C42CBE5926A675AF /* API.swift in Sources */,
-				57ACA38E59EF73C327ED17F9893A8F7C /* Asset.swift in Sources */,
-				37C1C666F6B5892EB566BC4E21A19C6E /* AssetQuery.swift in Sources */,
-				6CEC5CB0570F0B1DCACCE45788D76FB7 /* AuthKey.swift in Sources */,
-				FEB6974C5BF0F878EB5201EC8616A75B /* Base58.swift in Sources */,
-				D44D120E50517928C444F97488AB3556 /* BinaryPacking.swift in Sources */,
-				ED89915DB2F0FDBF435EA06A0E21DA9A /* Bitmark.swift in Sources */,
-				AF7D5E766817529321F34F04A7B8E178 /* BitmarkQuery.swift in Sources */,
-				DCFAD73394AFD9385B2A879FC2857048 /* BitmarkSDK-dummy.m in Sources */,
-				50FF1CFCA55ACB0ECB1FF503EB28CB72 /* BItmarkSDK.swift in Sources */,
-				5E8AD6566274585603087ABB06DE58D4 /* Common.swift in Sources */,
-				B1070CE31A9C590A47BD15EDCD929E97 /* Config.swift in Sources */,
-				25B9F54840B222DFB4D361922ADBFC08 /* Data+Extension.swift in Sources */,
-				C0D2F49E14B8AFA9B1BE1690440A80BE /* Ed25519.swift in Sources */,
-				68C4BD518BB32B9F21C1329FBE0C2FBD /* FileUtil.swift in Sources */,
-				259217ECA7888D8C53B90B0FC900A115 /* IssuanceParams.swift in Sources */,
-				A90327106D05E2E22D4A9F58C2FF27CF /* main.c in Sources */,
-				668B81BBCA77676DE2F990C90243A1A5 /* Migration.swift in Sources */,
-				D61FF5C41D600EE9BDDE2059355B361A /* ModelEquatable.swift in Sources */,
-				E78BB476F7A6B87D6B28EA765F7CFA73 /* OfferParams.swift in Sources */,
-				B4FB3ABE77CEA47AF7F21812FE10ECC1 /* Parameterizable.swift in Sources */,
-				265805E1047CD65FCD12995B9ACDB13B /* Queryable.swift in Sources */,
-				8C574DC028A09D73CBB21A0965309C73 /* RecoverPhrase+Dic.swift in Sources */,
-				81D43C20003C7048E0901198FC3909B0 /* RecoverPhrase.swift in Sources */,
-				0FD6FAC8894241C661CB45D35F2C569A /* RegistrationParams.swift in Sources */,
-				9FCE8FD2D152025E892912E7CBC38228 /* Seed.swift in Sources */,
-				B6DDCB66E01373E1B9964AFE335445A5 /* sha3.c in Sources */,
-				FFD3B163207BEC2AAD225B9BB9D75B4B /* SHA3.swift in Sources */,
-				56F996FB4257C5D11633AE75B13BCF03 /* Signable.swift in Sources */,
-				3E85CCD8C85EF04098E844F163D32CFC /* Transaction.swift in Sources */,
-				80D4050E9FDA098A2BC3EF963843977B /* TransactionQuery.swift in Sources */,
-				884C46BA834A972F5049A6686FFA981C /* TransferParams.swift in Sources */,
-				C9112413873EB7A32E93BD2AC2498802 /* Varint.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7919077099697644678AD75A40CF679C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1274,15 +1231,62 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BE3A5738F8AD7419AA494C1246CA162B /* Sources */ = {
+		AF2BE25ADABD217F58CCC675A1C09CC2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E0F078A7311D4E79FCC3F549EE24A92 /* Constant.swift in Sources */,
-				2037CB8F9F112DD5A36EA35A5A211E23 /* ctweetnacl.c in Sources */,
-				15A2F3DA000E7DE65A39BDB7D875E465 /* module.map in Sources */,
-				2B4FF18D925A972A8371E4CCD4F059DE /* TweetNacl-dummy.m in Sources */,
-				0D8745BE6FBD38C8105E3299A074BB64 /* TweetNacl.swift in Sources */,
+				4E528CC3282ED867146F11A945E98113 /* Constant.swift in Sources */,
+				9836CA5C10A6CAB5D7365A71B4943CF1 /* ctweetnacl.c in Sources */,
+				EC9861BCD34B71E38B20097084D58FF0 /* module.map in Sources */,
+				3B384DAC10D2E537452641C609CF9006 /* TweetNacl-dummy.m in Sources */,
+				F30DA8A1A205D8A310348D48E9C15C7C /* TweetNacl.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFF10B399C8F6105022035786E7B960E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C936B09D61C39335C2A35BD7A7C4C20C /* Account.swift in Sources */,
+				582A4FFEC67A1EA7283416CCF7DE3DC9 /* AccountNumber.swift in Sources */,
+				6716AE3BF2076B797200E0CD079B44EE /* API+Asset.swift in Sources */,
+				B83E79A322A7C5250E051A71106E4867 /* API+Bitmark.swift in Sources */,
+				DDDB2E55D48030593C5DBFA794601F57 /* API+Issuing.swift in Sources */,
+				E2A6F85F24BE0871E91D31ECAD64CF53 /* API+Transfer.swift in Sources */,
+				F9DB93F751270C11803813D5F11A2575 /* API.swift in Sources */,
+				1BD453782B7F29EE3DE319AC43F1FEE6 /* Asset.swift in Sources */,
+				CB56A193E4A5163236E4AA04AD0FE7CB /* AssetQuery.swift in Sources */,
+				86080098A45FE4FFAA0BB22AFFBCACCF /* AuthKey.swift in Sources */,
+				02E668C269C103A951D1E05C73CFA186 /* Base58.swift in Sources */,
+				229C0D036E9312F5CD53592917E6CE46 /* BinaryPacking.swift in Sources */,
+				13F28D53E529C4E9F5AAF4D6C2E70A55 /* Bitmark.swift in Sources */,
+				891A9595F2143798530744349E3D1D9F /* BitmarkQuery.swift in Sources */,
+				DBB00B9A4A1B3C4933AD2DA7E4E23C69 /* BitmarkSDK-dummy.m in Sources */,
+				7CAC1795A174343E8B68D073C8CD82DA /* BItmarkSDK.swift in Sources */,
+				B31E1A951071DAA01CA7843C3CF2C2CD /* Common.swift in Sources */,
+				3D5540F3A0FDD1C883EF85C0ED2EC0FB /* Config.swift in Sources */,
+				4764A0CCB17FC1663236EB10E6F895E3 /* Data+Extension.swift in Sources */,
+				85D126F98E588C703E15F192B538BBB0 /* Ed25519.swift in Sources */,
+				B8AE7225CEF20209E6A50211950C5DAA /* EncryptionKey.swift in Sources */,
+				728B9051546EA3999FE0E17688AB2707 /* FileUtil.swift in Sources */,
+				F7DBF447F0D19C414CC5B796FBAAB435 /* IssuanceParams.swift in Sources */,
+				717A3E0BA053ABCDB3A34C68D48DED20 /* main.c in Sources */,
+				BC874915FD7ED4CE0EA30076BFCEF099 /* Migration.swift in Sources */,
+				A5F8767258CC31F16AC9AB2CA0A723EF /* ModelEquatable.swift in Sources */,
+				7AC37665783490E831ADDDB2F4E4E542 /* OfferParams.swift in Sources */,
+				D84A0585A2A6B72CD4940DE92EC36967 /* Parameterizable.swift in Sources */,
+				FD9D4AEB1C57DF9D1C882BB3AD5E2F6E /* Queryable.swift in Sources */,
+				E081DED6B068CCD1698020967CFA72A3 /* RecoverPhrase+Dic.swift in Sources */,
+				5D3F6EA40089DBB3DA67D28A747275BA /* RecoverPhrase.swift in Sources */,
+				E564C9B9AE4DA2CB53E056D5CE930999 /* RegistrationParams.swift in Sources */,
+				70BC9C2195FDF2D42B55E0C3097D0899 /* Seed.swift in Sources */,
+				504FDC57948E1EC58AD587C23CB49396 /* sha3.c in Sources */,
+				6648D2C2740A1BA5611347DEB7201E17 /* SHA3.swift in Sources */,
+				6C0E710FA822BBAAE16DE5011BB653C9 /* Signable.swift in Sources */,
+				6158FA3F19FA47E4477906F3CE3CAC79 /* Transaction.swift in Sources */,
+				64315A995D7D5B487D2CC42A9C9D4C38 /* TransactionQuery.swift in Sources */,
+				91BC54F739A468F50D09AB5E6B67360F /* TransferParams.swift in Sources */,
+				EAA6391E1FFC02C8C35CDC8DB5E81C4E /* Varint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1312,7 +1316,7 @@
 		25F89D88061A739293A654485B59DF49 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = BitmarkSDK;
-			target = 9C1A144D2B63437F4D0C2F53257BC666 /* BitmarkSDK */;
+			target = 9A7D03B11EFCF7AB036D170ED5FD506F /* BitmarkSDK */;
 			targetProxy = 1216E7FBC76E93CAF94A73BA23A43962 /* PBXContainerItemProxy */;
 		};
 		3F1A7272C827907033F3CF1C0DBD846A /* PBXTargetDependency */ = {
@@ -1330,31 +1334,31 @@
 		450A4753D511B40DA5967BB75CC0D49C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = TweetNacl;
-			target = 032E0402A45D5942C6822CB61751AB03 /* TweetNacl */;
+			target = C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */;
 			targetProxy = 18AD114AF54905C01B85E07723ED1144 /* PBXContainerItemProxy */;
 		};
 		717E5E420BDF2AEADC398CBCDED83A04 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = TweetNacl;
-			target = 032E0402A45D5942C6822CB61751AB03 /* TweetNacl */;
+			target = C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */;
 			targetProxy = F9A7C389D8479C2EBD37B0B5F6EDC6D0 /* PBXContainerItemProxy */;
+		};
+		A12DB9B223822ACA7CD091C3A5CE271B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TweetNacl;
+			target = C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */;
+			targetProxy = 63809A4FBDDBC97659E6DC3B9F7CA248 /* PBXContainerItemProxy */;
 		};
 		B022E81533CFB9F03D03302F8153F527 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = TweetNacl;
-			target = 032E0402A45D5942C6822CB61751AB03 /* TweetNacl */;
+			target = C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */;
 			targetProxy = 85FC82FD58EF3671FE3FFB2DD1813D75 /* PBXContainerItemProxy */;
-		};
-		B4C9DE7ABBC7F77C48CD26573C51256D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TweetNacl;
-			target = 032E0402A45D5942C6822CB61751AB03 /* TweetNacl */;
-			targetProxy = E60851895FB18FD307DCE27854FCD174 /* PBXContainerItemProxy */;
 		};
 		BEE2C8A25E7BFBD15D67CBD197F1A9D4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = BitmarkSDK;
-			target = 9C1A144D2B63437F4D0C2F53257BC666 /* BitmarkSDK */;
+			target = 9A7D03B11EFCF7AB036D170ED5FD506F /* BitmarkSDK */;
 			targetProxy = D5025A26FAC38833F3B6D3AD668AAA4F /* PBXContainerItemProxy */;
 		};
 		BEE6268815953DD567F6FF4724795FFB /* PBXTargetDependency */ = {
@@ -1372,17 +1376,16 @@
 		D0344A60A4033CCD6DC73B68392B8522 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = BitmarkSDK;
-			target = 9C1A144D2B63437F4D0C2F53257BC666 /* BitmarkSDK */;
+			target = 9A7D03B11EFCF7AB036D170ED5FD506F /* BitmarkSDK */;
 			targetProxy = FEBA45FEA8CBDEBC6AC86F7BFBBFC78F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		172842483ACE6E3F4F78BFD527669043 /* Release */ = {
+		2A5D87AB059AB570FC8544180A1CB3F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2D340C71109BF694D2169863AA719DA8 /* BitmarkSDK.xcconfig */;
+			baseConfigurationReference = 91278A3B4DF7E7BFD4F08F9E82B081DF /* TweetNacl.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1392,26 +1395,24 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/BitmarkSDK/BitmarkSDK-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/BitmarkSDK/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/TweetNacl/TweetNacl-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TweetNacl/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/BitmarkSDK/BitmarkSDK.modulemap";
-				PRODUCT_MODULE_NAME = BitmarkSDK;
-				PRODUCT_NAME = BitmarkSDK;
+				MODULEMAP_FILE = "Target Support Files/TweetNacl/TweetNacl.modulemap";
+				PRODUCT_MODULE_NAME = TweetNacl;
+				PRODUCT_NAME = TweetNacl;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
 		3243181901E3C36ED95734FB5B958A39 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1449,6 +1450,75 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
+		};
+		3E4BA702CC126C9DEC43DDC2223D86DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91278A3B4DF7E7BFD4F08F9E82B081DF /* TweetNacl.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/TweetNacl/TweetNacl-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TweetNacl/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/TweetNacl/TweetNacl.modulemap";
+				PRODUCT_MODULE_NAME = TweetNacl;
+				PRODUCT_NAME = TweetNacl;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		52C7A255C7C1B17A3333324426B7A883 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7B5558E5C02B1FBA0EE9BF8A675E2E8 /* BitmarkSDK.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/BitmarkSDK/BitmarkSDK-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/BitmarkSDK/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/BitmarkSDK/BitmarkSDK.modulemap";
+				PRODUCT_MODULE_NAME = BitmarkSDK;
+				PRODUCT_NAME = BitmarkSDK;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
 		};
 		69DF26DE6AC2D3075EFAD5D43EB4C524 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1525,39 +1595,6 @@
 			};
 			name = Debug;
 		};
-		6FAD44555ECF1EC93E90E076CF2D2C0D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2D340C71109BF694D2169863AA719DA8 /* BitmarkSDK.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/BitmarkSDK/BitmarkSDK-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/BitmarkSDK/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/BitmarkSDK/BitmarkSDK.modulemap";
-				PRODUCT_MODULE_NAME = BitmarkSDK;
-				PRODUCT_NAME = BitmarkSDK;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		73ACCA04BA7F0000F07561FEBABDE5DD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1602,38 +1639,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		7EF43B97749D741CB9F7E75C925F95A7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9D031AF49730F3539F11BC3568853A06 /* TweetNacl.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/TweetNacl/TweetNacl-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TweetNacl/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TweetNacl/TweetNacl.modulemap";
-				PRODUCT_MODULE_NAME = TweetNacl;
-				PRODUCT_NAME = TweetNacl;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1840,7 +1845,7 @@
 		};
 		D12960F3F82B8DCFC356B6E72A616F4D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C469EA4E17DDD95538E35300873D6E96 /* KeychainAccess.xcconfig */;
+			baseConfigurationReference = B375DAA0787634E7FA243B9657C59D75 /* KeychainAccess.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1888,7 +1893,7 @@
 		};
 		D7839946924E81CC86397EEC57C35CB5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C469EA4E17DDD95538E35300873D6E96 /* KeychainAccess.xcconfig */;
+			baseConfigurationReference = B375DAA0787634E7FA243B9657C59D75 /* KeychainAccess.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1919,6 +1924,39 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
+		};
+		E7379591B9DDC50B61EBF040032169DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7B5558E5C02B1FBA0EE9BF8A675E2E8 /* BitmarkSDK.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/BitmarkSDK/BitmarkSDK-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/BitmarkSDK/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/BitmarkSDK/BitmarkSDK.modulemap";
+				PRODUCT_MODULE_NAME = BitmarkSDK;
+				PRODUCT_NAME = BitmarkSDK;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 		F492AAB273E12493F6D1C9AA07FD1ADF /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1956,40 +1994,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
-		};
-		FBB2494F66A4451D5CA2C14A9E7CD8E0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9D031AF49730F3539F11BC3568853A06 /* TweetNacl.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/TweetNacl/TweetNacl-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TweetNacl/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TweetNacl/TweetNacl.modulemap";
-				PRODUCT_MODULE_NAME = TweetNacl;
-				PRODUCT_NAME = TweetNacl;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
 		};
 		FF1769FA60FBD4956CA780147C9C7900 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -2041,15 +2045,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1760415843B3979726200A9B9601C8CC /* Build configuration list for PBXNativeTarget "BitmarkSDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6FAD44555ECF1EC93E90E076CF2D2C0D /* Debug */,
-				172842483ACE6E3F4F78BFD527669043 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2086,6 +2081,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		67CDF8F88468A59E5C5606319382AF9D /* Build configuration list for PBXNativeTarget "BitmarkSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E7379591B9DDC50B61EBF040032169DD /* Debug */,
+				52C7A255C7C1B17A3333324426B7A883 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7426EFE9DC8CD76828693A410546A1C4 /* Build configuration list for PBXNativeTarget "TweetNacl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A5D87AB059AB570FC8544180A1CB3F8 /* Debug */,
+				3E4BA702CC126C9DEC43DDC2223D86DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		941191C23143C4F463E0DA870BBB9EBD /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2100,15 +2113,6 @@
 			buildConfigurations = (
 				6E83F197FB7020F034187A3D4C21BBBD /* Debug */,
 				B3C2DF1D9F12279316485A1C81D9FEC5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DFD4F6A215DE50F5DA2F259386257630 /* Build configuration list for PBXNativeTarget "TweetNacl" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7EF43B97749D741CB9F7E75C925F95A7 /* Debug */,
-				FBB2494F66A4451D5CA2C14A9E7CD8E0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
