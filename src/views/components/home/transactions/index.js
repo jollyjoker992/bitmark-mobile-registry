@@ -1,2 +1,3 @@
 export * from './transactions.component'
-export * from './transaction-detail';
+export * from './transfer-offer';
+export * from './claim-request';

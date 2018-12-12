@@ -11,7 +11,11 @@ import {
   AssetTypeHelpComponent,
 } from './properties';
 
-import { TransactionDetailComponent, TransactionsComponent } from './transactions';
+import {
+  TransactionsComponent,
+  TransferOfferComponent,
+  ClaimRequestComponent
+} from './transactions';
 import { AssetsComponent } from './properties/assets.component';
 import { BottomTabsComponent } from './bottom-tabs/bottom-tabs.component';
 import { AccountDetailComponent } from './account/account.component';
@@ -69,7 +73,7 @@ export class UserRouterComponent extends Component {
     console.log('UserComponent handerReceivedNotification data :', data);
     if (data.name === 'transfer_request' && data.id) {
       AppProcessor.doGetTransferOfferDetail(data.id).then(transferOfferDetail => {
-        Actions.transactionDetail({ transferOffer: transferOfferDetail, });
+        Actions.transferOffer({ transferOffer: transferOfferDetail, });
       }).catch(console.log);
 
     } else if (data.name === 'transfer_rejected') {
@@ -108,7 +112,8 @@ export class UserRouterComponent extends Component {
         <Modal headerMode='none'>
           <Stack key="user" headerMode='none' wrapRouter={true} >
             <Scene key="bitmarkWebViewFull" panHandlers={null} component={BitmarkWebViewComponent} />
-            <Scene key="transactionDetail" panHandlers={null} component={TransactionDetailComponent} />
+            <Scene key="transferOffer" panHandlers={null} component={TransferOfferComponent} />
+            <Scene key="claimRequest" panHandlers={null} component={ClaimRequestComponent} />
             <Scene key="localIssueFile" panHandlers={null} component={LocalIssueFileComponent} />
             <Scene key="localIssueFileEditLabel" panHandlers={null} component={LocalIssueFileEditLabelComponent} />
             <Scene key="assetTypeHelp" panHandlers={null} component={AssetTypeHelpComponent} />

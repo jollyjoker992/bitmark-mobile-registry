@@ -68,7 +68,7 @@ class PrivateTransactionsComponent extends React.Component {
 
   clickToActionRequired(item) {
     if (item.type === ActionTypes.transfer && item.transferOffer) {
-      Actions.transactionDetail({ transferOffer: item.transferOffer, })
+      Actions.transferOffer({ transferOffer: item.transferOffer, })
     } else if (item.type === ActionTypes.ifttt) {
       AppProcessor.doIssueIftttData(item, {
         indicator: true, title: '', message: global.i18n.t("TransactionsComponent_sendingYourTransactionToTheBitmarkNetwork")
