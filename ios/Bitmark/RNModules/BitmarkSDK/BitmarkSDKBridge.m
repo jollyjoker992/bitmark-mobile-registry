@@ -28,6 +28,8 @@ RCT_EXTERN_METHOD(signForTransferOfferAndSubmit:(NSDictionary *)params:(RCTPromi
 RCT_EXTERN_METHOD(validateMetadata:(NSDictionary *)metadata:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(validateAccountNumber:(NSString *)address:(NSString *)network:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(giveAwayBitmark:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
+// grant access bitmark
+
 
 // Query APIs
 RCT_EXTERN_METHOD(getBitmark:(NSString *)bitmarkID:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)

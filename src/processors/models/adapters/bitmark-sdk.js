@@ -29,35 +29,11 @@
 //           resolve(result);
 //         } else {
 //           reject(newError(result, global.i18n.t("BitmarkSDK_canNotIssueBitmark")));
-//         }
+//         } 
 //       });
 //     });
 //   },
 
-// TODO don't have in SKD v2
-//   encryptFile: (sessionId, filePath, recipient, outputFilePath) => {
-//     return new Promise((resolve, reject) => {
-//       SwiftBitmarkSDK.encryptFile(sessionId, filePath, recipient, outputFilePath, (ok, result) => {
-//         if (ok) {
-//           resolve(result);
-//         } else {
-//           reject(newError(result, 'Can not encrypt file!'));
-//         }
-//       });
-//     });
-//   },
-// TODO don't have in SKD v2
-//   decryptFile: (sessionId, encryptedFilePath, sessionData, sender, outputFilePath) => {
-//     return new Promise((resolve, reject) => {
-//       SwiftBitmarkSDK.decryptFile(sessionId, encryptedFilePath, sessionData, sender, outputFilePath, (ok, result) => {
-//         if (ok) {
-//           resolve();
-//         } else {
-//           reject(newError(result, 'Can not decrypt file!'));
-//         }
-//       });
-//     });
-//   },
 // };
 // export { BitmarkSDK };
 
@@ -143,6 +119,22 @@ const BitmarkSDK = {
   signForTransferOfferAndSubmit: async (action, bitmark_id, ) => {
     return await SwiftBitmarkSDK.signForTransferOfferAndSubmit({
       action, bitmark_id,
+    });
+  },
+
+  encryptFile: async (filePath, recipient, outputFilePath) => {
+    return await SwiftBitmarkSDK.encryptFile({
+      file_path: filePath,
+      recipient,
+      output_file_path: outputFilePath,
+    });
+  },
+  decryptFile: async (encryptedFilePath, sessionData, sender, outputFilePath) => {
+    return await SwiftBitmarkSDK.encryptFile({
+      encrypted_file_path: encryptedFilePath,
+      session_data: sessionData,
+      sender: sender,
+      output_file_path: outputFilePath,
     });
   },
 
