@@ -105,6 +105,7 @@
 		58A59F1921BA5B1300FB4B02 /* AssetEncryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A59F1821BA5B1300FB4B02 /* AssetEncryption.swift */; };
 		58A59F1A21BA5B1300FB4B02 /* AssetEncryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A59F1821BA5B1300FB4B02 /* AssetEncryption.swift */; };
 		58A59F1B21BA5B1300FB4B02 /* AssetEncryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A59F1821BA5B1300FB4B02 /* AssetEncryption.swift */; };
+		58AA9D3821C0F9DB00634F03 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB9A321C0E63A0092FB45 /* libRNSentry.a */; };
 		58ADB52B211A8CED005BBA73 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58ADB52A211A8CED005BBA73 /* CloudKit.framework */; };
 		58ADB52C211A8D3C005BBA73 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58ADB52A211A8CED005BBA73 /* CloudKit.framework */; };
 		58B4A9B720B6C89A000FF769 /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F179A21C20AF9760002D5539 /* libKCKeepAwake.a */; };
@@ -119,7 +120,6 @@
 		CFBBBFF1C6905C6AC271A896 /* Pods_Bitmark_Registry_beta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD21E6F81C2089EF0AA72A6B /* Pods_Bitmark_Registry_beta.framework */; };
 		F11FB9A721C0E6730092FB45 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB9A321C0E63A0092FB45 /* libRNSentry.a */; };
 		F11FB9A821C0E67C0092FB45 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB9A321C0E63A0092FB45 /* libRNSentry.a */; };
-		F11FB9A921C0E6830092FB45 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB9A321C0E63A0092FB45 /* libRNSentry.a */; };
 		F150CA412023230B00C8FC17 /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F150CA152023230B00C8FC17 /* AndaleMono.ttf */; };
 		F15C1D112063B9D4002DDF98 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15C1D102063B9B6002DDF98 /* libRNZipArchive.a */; };
 		F15F68E1203D70EC00A5A582 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15F68DE203D70DE00A5A582 /* libRNImagePicker.a */; };
@@ -726,7 +726,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F11FB9A921C0E6830092FB45 /* libRNSentry.a in Frameworks */,
+				58AA9D3821C0F9DB00634F03 /* libRNSentry.a in Frameworks */,
 				583BAC04216F51600015E3A0 /* CloudKit.framework in Frameworks */,
 				583BAC07216F51600015E3A0 /* libRNCookieManagerIOS.a in Frameworks */,
 				583BAC08216F51600015E3A0 /* libKCKeepAwake.a in Frameworks */,

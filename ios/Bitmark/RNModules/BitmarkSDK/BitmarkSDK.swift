@@ -674,6 +674,7 @@ class BitmarkSDKWrapper: NSObject {
     }
   }
   
+  @objc(giveAwayBitmark:::)
   func giveAwayBitmark(_ params: [String: Any], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) -> Void {
     do {
       guard let assetId = params["asset_id"] as? String,
