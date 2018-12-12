@@ -277,9 +277,7 @@ export class AssetsComponent extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
         <Provider store={AssetsStore}>
-          <StoreAssetsComponent
-          // screenProps={this.props.screenProps} navigation={this.props.navigation}
-          />
+          <StoreAssetsComponent />
         </Provider>
       </SafeAreaView>
     );

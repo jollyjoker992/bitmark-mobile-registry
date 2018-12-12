@@ -5,22 +5,27 @@ import {
   View, Text, TouchableOpacity, ScrollView, Image, FlatList, SafeAreaView,
   Alert,
 } from 'react-native';
-import { NavigationActions } from 'react-navigation';
 
 import transferOfferStyle from './transfer-offer.component.style';
 import { BitmarkModel, EventEmitterService, AppProcessor } from 'src/processors';
-import { BottomTabsComponent } from '../../bottom-tabs/bottom-tabs.component';
 import { defaultStyles } from 'src/views/commons';
+import { Actions } from 'react-native-router-flux';
 
 export class TransferOfferComponent extends React.Component {
+  propTypes = {
+    transferOffer: PropTypes.any,
+  }
   constructor(props) {
     super(props);
     this.doReject = this.doReject.bind(this);
     this.doAccept = this.doAccept.bind(this);
 
-    let transferOffer = this.props.navigation.state.params.transferOffer;
+    let transferOffer = this.props.transferOffer;
+    if (!transferOffer) {
+      Actions.pop();
+    }
     let metadataList = [];
-    if (transferOffer.asset) {
+    if (transferOffer && transferOffer.asset) {
       for (let key in transferOffer.asset.metadata) {
         metadataList.push({ key, description: transferOffer.asset.metadata[key] })
       }
@@ -51,19 +56,7 @@ export class TransferOfferComponent extends React.Component {
           if (data) {
             Alert.alert(global.i18n.t("TransferOfferComponent_receiptRejectedTitle"), global.i18n.t("TransferOfferComponent_receiptRejectedMessage"), [{
               text: global.i18n.t("TransferOfferComponent_ok"),
-              onPress: () => {
-                const resetHomePage = NavigationActions.reset({
-                  index: 0,
-                  actions: [
-                    NavigationActions.navigate({
-                      routeName: 'User', params: {
-                        displayedTab: { mainTab: BottomTabsComponent.MainTabs.transaction, subTab: 'ACTIONS REQUIRED' },
-                      }
-                    }),
-                  ]
-                });
-                this.props.navigation.dispatch(resetHomePage);
-              }
+              onPress: () => Actions.reset('assets')
             }]);
           }
         }).catch(error => {
@@ -78,19 +71,7 @@ export class TransferOfferComponent extends React.Component {
       if (data) {
         Alert.alert(global.i18n.t("TransferOfferComponent_signatureSubmittedTitle"), global.i18n.t("TransferOfferComponent_signatureSubmittedMessage"), [{
           text: global.i18n.t("TransferOfferComponent_ok"),
-          onPress: () => {
-            const resetHomePage = NavigationActions.reset({
-              index: 0,
-              actions: [
-                NavigationActions.navigate({
-                  routeName: 'User', params: {
-                    displayedTab: { mainTab: BottomTabsComponent.MainTabs.properties },
-                  }
-                }),
-              ]
-            });
-            this.props.navigation.dispatch(resetHomePage);
-          }
+          onPress: () => Actions.reset('assets')
         }]);
       }
     }).catch(error => {
@@ -103,7 +84,7 @@ export class TransferOfferComponent extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={defaultStyles.header}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={() => this.props.navigation.goBack()}>
+          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("TransferOfferComponent_signForBitmark")}</Text>
@@ -169,17 +150,4 @@ export class TransferOfferComponent extends React.Component {
       </SafeAreaView>
     );
   }
-}
-
-TransferOfferComponent.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func,
-    goBack: PropTypes.func,
-    dispatch: PropTypes.func,
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        transferOffer: PropTypes.object,
-      }),
-    }),
-  }),
 }

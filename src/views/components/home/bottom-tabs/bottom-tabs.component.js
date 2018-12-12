@@ -4,7 +4,6 @@ import { Provider, connect } from 'react-redux';
 import {
   View, TouchableOpacity, Image, Text, SafeAreaView,
 } from 'react-native';
-// import { NavigationActions } from 'react-navigation';
 import { BottomTabBar } from 'react-navigation-tabs';
 
 import componentStyles from './bottom-tabs.component.style';

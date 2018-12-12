@@ -5,8 +5,8 @@ export default StyleSheet.create({
   body: {
     flexDirection: 'column',
     alignItems: 'center',
-    height: '100%',
     width: '100%',
+    flex: 1,
     backgroundColor: 'white',
   },
   contentScroll: {
@@ -14,32 +14,35 @@ export default StyleSheet.create({
     width: '100%',
   },
   content: {
-    flex: 1,
-    flexDirection: 'column',
+    flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
     paddingLeft: convertWidth(19),
     paddingRight: convertWidth(19),
   },
-  assetName: {
-    fontFamily: 'Avenir black',
-    fontSize: 16,
-    lineHeight: 19,
-    fontWeight: '900',
-    marginTop: 38,
+  assetThumbnail: {
+    width: 229, height: 229, resizeMode: 'contain',
+    borderWidth: 1,
   },
- 
+  assetInfo: {
+    marginTop: 21,
+    fontFamily: 'Avenir-Black', fontSize: 17, fontWeight: '900',
+  },
+  claimMessage: {
+    marginTop: 75,
+    fontFamily: 'Avenir-Black', fontSize: 16, fontWeight: '300',
+  },
+
   buttonsArea: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'row', alignItems: 'center',
     width: convertWidth(375),
     backgroundColor: 'white',
+    height: 45,
   },
   rejectButton: {
     borderTopWidth: 3,
     borderTopColor: '#A4B5CD',
     flexDirection: 'column',
     alignItems: 'center',
-    width: '50%',
-    height: 45,
+    width: '50%', height: '100%',
     backgroundColor: '#F5F5F5',
   },
   rejectButtonText: {
@@ -53,8 +56,7 @@ export default StyleSheet.create({
     borderTopColor: '#0060F2',
     flexDirection: 'column',
     alignItems: 'center',
-    width: '50%',
-    height: 45,
+    width: '50%', height: '100%',
     backgroundColor: '#F5F5F5',
   },
   acceptButtonText: {

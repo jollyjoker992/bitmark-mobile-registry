@@ -58,6 +58,8 @@ export class MusicMetadataComponent extends React.Component {
 
     if (!metadataError) {
       let tempMetadata = merge([], metadata);
+      tempMetadata.push({ label: 'type', value: constant.asset.type.music });
+
       //TODO Chinese
       tempMetadata.push({ label: 'description', value: this.props.description });
       metadataError = await BitmarkService.doCheckMetadata(tempMetadata);

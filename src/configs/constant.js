@@ -5,7 +5,11 @@ import { iosConstant } from './ios-constant';
 import { androidConstant } from './android-constant';
 
 let commonConstant = {
-
+  asset: {
+    type: {
+      music: 'music',
+    }
+  }
 };
 
 let constant = merge({}, commonConstant, Platform.select({ ios: iosConstant, android: androidConstant }));
