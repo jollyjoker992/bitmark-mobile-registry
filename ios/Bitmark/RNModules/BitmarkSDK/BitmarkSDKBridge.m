@@ -30,6 +30,7 @@ RCT_EXTERN_METHOD(createAndSubmitTransferOffer:(NSDictionary *)params:(RCTPromis
 RCT_EXTERN_METHOD(signForTransferOfferAndSubmit:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(validateMetadata:(NSDictionary *)metadata:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(validateAccountNumber:(NSString *)address:(NSString *)network:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(giveAwayBitmark:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 // grant access bitmark
 //RCT_EXTERN_METHOD(createSessionDataForRecipient:(NSString *)bitmarkId:(NSString *)recipient:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 //RCT_EXTERN_METHOD(createSessionDataFromLocalForRecipient:(NSString *)bitmarkId:(NSDictionary *)sessionData:(NSString *)recipient:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)

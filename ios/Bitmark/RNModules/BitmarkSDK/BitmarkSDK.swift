@@ -673,6 +673,40 @@ class BitmarkSDKWrapper: NSObject {
       reject(nil, "Cannot decrypt file", e)
     }
   }
+  
+  func giveAwayBitmark(_ params: [String: Any], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) -> Void {
+    do {
+      guard let assetId = params["asset_id"] as? String,
+      let recipient = params["recipient"] as? String else {
+        reject(nil, "Invalid parameters", nil)
+        return
+      }
+      
+      guard let account = self.account else {
+        reject(nil, BitmarkSDKWrapper.accountNotFound, nil)
+        return
+      }
+      
+      // Do issue more with quantity = 1
+      var issueParam = try Bitmark.newIssuanceParams(assetID: assetId, owner: account.accountNumber, quantity: 1)
+      try issueParam.sign(account)
+      guard let bitmarkId = try Bitmark.issue(issueParam).first else {
+        reject(nil, "Error occured when issuing bitmark", nil)
+        return
+      }
+      
+      // Create transfer payload
+      var transferParam = try Bitmark.newTransferParams(to: recipient)
+      try transferParam.from(bitmarkID: bitmarkId)
+      try transferParam.sign(account)
+      let transferPayload = try transferParam.toJSON()
+      
+      resolve([bitmarkId, transferPayload])
+    }
+    catch let e {
+      reject(nil, "Cannot process bitmark giveaway file", e)
+    }
+  }
 }
 
 extension BitmarkSDKWrapper {
