@@ -123,6 +123,9 @@
 		B7856E9B0E4B4CF3BA90EB21 /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 295B8983183E4140AD6083BB /* libRNMail.a */; };
 		B862400A315FB553A9902C97 /* Pods_Bitmark_Registry_dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 053A7DD717C04E7341EB70AE /* Pods_Bitmark_Registry_dev.framework */; };
 		CFBBBFF1C6905C6AC271A896 /* Pods_Bitmark_Registry_beta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD21E6F81C2089EF0AA72A6B /* Pods_Bitmark_Registry_beta.framework */; };
+		F11FB9A721C0E6730092FB45 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB9A321C0E63A0092FB45 /* libRNSentry.a */; };
+		F11FB9A821C0E67C0092FB45 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB9A321C0E63A0092FB45 /* libRNSentry.a */; };
+		F11FB9A921C0E6830092FB45 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB9A321C0E63A0092FB45 /* libRNSentry.a */; };
 		F150CA412023230B00C8FC17 /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F150CA152023230B00C8FC17 /* AndaleMono.ttf */; };
 		F15C1D112063B9D4002DDF98 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15C1D102063B9B6002DDF98 /* libRNZipArchive.a */; };
 		F15F68E1203D70EC00A5A582 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15F68DE203D70DE00A5A582 /* libRNImagePicker.a */; };
@@ -458,6 +461,20 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		F11FB9A221C0E63A0092FB45 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F11FB96621C0E63A0092FB45 /* RNSentry.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNSentry;
+		};
+		F11FB9A421C0E63A0092FB45 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F11FB96621C0E63A0092FB45 /* RNSentry.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 274692C321B4414400BF91A8;
+			remoteInfo = "RNSentry-tvOS";
+		};
 		F15C1D0F2063B9B6002DDF98 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F15C1CDA2063B9B6002DDF98 /* RNZipArchive.xcodeproj */;
@@ -670,6 +687,7 @@
 		DDDF52A44890C0CADB5CC2CF /* Pods-Bitmark dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark dev.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark dev/Pods-Bitmark dev.release.xcconfig"; sourceTree = "<group>"; };
 		E3045E478EDA4BB795BE1653 /* RNMail.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "../node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		E68EEEE1542C435DA913552D /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
+		F11FB96621C0E63A0092FB45 /* RNSentry.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
 		F150CA152023230B00C8FC17 /* AndaleMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AndaleMono.ttf; path = ../assets/fonts/AndaleMono.ttf; sourceTree = "<group>"; };
 		F15C1CDA2063B9B6002DDF98 /* RNZipArchive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNZipArchive.xcodeproj; path = "../node_modules/react-native-zip-archive/ios/RNZipArchive.xcodeproj"; sourceTree = "<group>"; };
 		F15F68AF203D70DE00A5A582 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
@@ -695,6 +713,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F11FB9A721C0E6730092FB45 /* libRNSentry.a in Frameworks */,
 				58ADB52C211A8D3C005BBA73 /* CloudKit.framework in Frameworks */,
 				0E25DE3520F470F500635A33 /* libRNExitApp.a in Frameworks */,
 				0E25DDFC20F470EB00635A33 /* libReactNativeExceptionHandler.a in Frameworks */,
@@ -731,6 +750,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F11FB9A921C0E6830092FB45 /* libRNSentry.a in Frameworks */,
 				583BAC04216F51600015E3A0 /* CloudKit.framework in Frameworks */,
 				583BAC05216F51600015E3A0 /* libRNExitApp.a in Frameworks */,
 				583BAC06216F51600015E3A0 /* libReactNativeExceptionHandler.a in Frameworks */,
@@ -767,6 +787,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F11FB9A821C0E67C0092FB45 /* libRNSentry.a in Frameworks */,
 				58ADB52B211A8CED005BBA73 /* CloudKit.framework in Frameworks */,
 				0E608BE220F312CE00F40874 /* libRNExitApp.a in Frameworks */,
 				0E7B97DE20EF56170064EEEC /* libReactNativeExceptionHandler.a in Frameworks */,
@@ -1137,6 +1158,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F11FB96621C0E63A0092FB45 /* RNSentry.xcodeproj */,
 				0E608BA420F3126700F40874 /* RNExitApp.xcodeproj */,
 				0E7B97A120EF55C90064EEEC /* ReactNativeExceptionHandler.xcodeproj */,
 				F1F6E2A520B6BF4000CECD53 /* RNCookieManagerIOS.xcodeproj */,
@@ -1229,6 +1251,15 @@
 			children = (
 				ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */,
 				2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F11FB96721C0E63A0092FB45 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F11FB9A321C0E63A0092FB45 /* libRNSentry.a */,
+				F11FB9A521C0E63A0092FB45 /* libRNSentry-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1535,6 +1566,10 @@
 				{
 					ProductGroup = 58FC1DFD201B14CB00F60AF9 /* Products */;
 					ProjectRef = E3045E478EDA4BB795BE1653 /* RNMail.xcodeproj */;
+				},
+				{
+					ProductGroup = F11FB96721C0E63A0092FB45 /* Products */;
+					ProjectRef = F11FB96621C0E63A0092FB45 /* RNSentry.xcodeproj */;
 				},
 				{
 					ProductGroup = F15C1CDB2063B9B6002DDF98 /* Products */;
@@ -1865,6 +1900,20 @@
 			fileType = archive.ar;
 			path = libRCTBlob.a;
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F11FB9A321C0E63A0092FB45 /* libRNSentry.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSentry.a;
+			remoteRef = F11FB9A221C0E63A0092FB45 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F11FB9A521C0E63A0092FB45 /* libRNSentry-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNSentry-tvOS.a";
+			remoteRef = F11FB9A421C0E63A0092FB45 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F15C1D102063B9B6002DDF98 /* libRNZipArchive.a */ = {

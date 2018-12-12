@@ -15,6 +15,7 @@
 #import <React/RCTLinkingManager.h>
 #import <React/RCTPushNotificationManager.h>
 #import "ReactNativeExceptionHandler.h"
+#import <React/RNSentry.h> 
 
 #ifdef HOCKEYAPP
   @import HockeySDK;
@@ -25,14 +26,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+ [RNSentry installWithRootView:rootView];
+
   NSURL *jsCodeLocation;
 
-  
-    #ifdef DEBUG
-        jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-    #else
-        jsCodeLocation = [CodePush bundleURL];
-    #endif
+  #ifdef DEBUG
+      jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  #else
+      jsCodeLocation = [CodePush bundleURL];
+  #endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"Bitmark"

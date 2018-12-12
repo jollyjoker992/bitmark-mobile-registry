@@ -1,6 +1,8 @@
 import { Text } from 'react-native';
 import codePush from "react-native-code-push";
 import DeviceInfo from 'react-native-device-info';
+import { Sentry } from 'react-native-sentry';
+Sentry.config('https://24a5a145b3af4985b5162cd1f866168f@sentry.io/1342482').install();
 
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
