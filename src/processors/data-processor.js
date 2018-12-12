@@ -2,6 +2,7 @@ import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
 import { merge } from 'lodash';
 import { Actions } from 'react-native-router-flux';
+import { Sentry } from 'react-native-sentry';
 
 import {
   EventEmitterService,
@@ -531,6 +532,10 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
   }
 
   if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
+    // set the user context
+    if (!__DEV__) {
+      Sentry.setUserContext({ accountNumber: CacheData.userInformation.bitmarkAccountNumber, });
+    }
     configNotification();
     await checkAppNeedResetLocalData(appInfo);
 

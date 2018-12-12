@@ -2,7 +2,6 @@ import { Text } from 'react-native';
 import codePush from "react-native-code-push";
 import DeviceInfo from 'react-native-device-info';
 import { Sentry } from 'react-native-sentry';
-Sentry.config('https://24a5a145b3af4985b5162cd1f866168f@sentry.io/1342482').install();
 
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
@@ -15,6 +14,17 @@ import {
 } from './src';
 import { BitmarkSDK } from 'src/processors';
 import { config } from 'src/configs';
+
+if (!__DEV__) {
+  Sentry.config('https://24a5a145b3af4985b5162cd1f866168f@sentry.io/1342482').install();
+  // set the tag context
+  Sentry.setTagsContext({
+    "BundleId": DeviceInfo.getBundleId(),
+    "Version": DeviceInfo.getVersion(),
+    "BuildNumber": DeviceInfo.getBuildNumber(),
+  });
+}
+
 
 i18n.locale = DeviceInfo.getDeviceLocale();
 i18n.fallbacks = true;
