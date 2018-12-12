@@ -21,7 +21,7 @@ export class MusicFileChosenComponent extends React.Component {
       filetype: [DocumentPickerUtil.audio(), 'public.data'],
     }, (error, response) => {
       if (error) {
-        Actions.reset('assets');
+        Actions.jump('assets');
         return;
       }
       if (response.fileSize > 100 * 1024 * 1024) {

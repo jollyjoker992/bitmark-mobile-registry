@@ -33,7 +33,7 @@ export class MusicIssueSuccessComponent extends React.Component {
         <View style={cStyles.header}>
           <TouchableOpacity style={defaultStyles.headerLeft} />
           <Text style={defaultStyles.headerTitle}></Text>
-          <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.reset('assets')}>
+          <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.jump('assets')}>
             <Text style={[defaultStyles.headerRightText, { color: '#E6FF00', fontWeight: '900' }]}>Done</Text>
           </TouchableOpacity>
         </View>

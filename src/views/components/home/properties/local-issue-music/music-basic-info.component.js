@@ -37,7 +37,7 @@ export class MusicBasicInfoComponent extends React.Component {
           filetype: [DocumentPickerUtil.audio(), 'public.data'],
         }, (error, response) => {
           if (error) {
-            Actions.reset('assets');
+            Actions.jump('assets');
             return;
           }
           if (response.fileSize > 100 * 1024 * 1024) {
@@ -70,7 +70,7 @@ export class MusicBasicInfoComponent extends React.Component {
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
             </TouchableOpacity>
             <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{'Basic info (2 OF 3)'.toUpperCase()}</Text>
-            <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.reset('assets')}>
+            <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.jump('assets')}>
               <Text style={defaultStyles.headerRightText}>Cancel</Text>
             </TouchableOpacity>
           </View>

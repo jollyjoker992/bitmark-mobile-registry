@@ -67,6 +67,7 @@ const doCreateNewAccount = async (enableTouchId) => {
   if (enableTouchId && Platform.OS === 'ios' && config.isIPhoneX) {
     await FaceTouchId.authenticate();
   }
+  await AccountModel.doCreateAccount(enableTouchId);
   return await processing(DataProcessor.doCreateAccount());
 };
 
