@@ -42,4 +42,9 @@ RCT_EXTERN_METHOD(getTransactions:(NSDictionary *)params:(RCTPromiseResolveBlock
 RCT_EXTERN_METHOD(getAsset:(NSString *)assetID:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(getAssets:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 
+// File encryption
+RCT_EXTERN_METHOD(encryptFile:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(decryptFile:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
+
+
 @end
