@@ -9,8 +9,6 @@ const {
   NetInfo,
   View, TouchableOpacity, Text
 } = ReactNative;
-import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler';
-import RNExitApp from 'react-native-exit-app';
 import Mailer from 'react-native-mail';
 
 import {
@@ -64,7 +62,6 @@ export class MainAppHandlerComponent extends Component {
 
     // Handle Crashes
     this.checkAndShowCrashLog();
-    this.registerCrashHandler();
   }
   componentWillUnmount() {
     EventEmitterService.remove(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);
@@ -87,32 +84,6 @@ export class MainAppHandlerComponent extends Component {
       KeepAwake.deactivate();
     }
 
-  }
-
-  registerCrashHandler() {
-    // Handle JS error
-    const jsErrorHandler = async (error, isFatal) => {
-      if (error && isFatal) {
-        let userInformation = await UserModel.doGetCurrentUser();
-        let crashLog = `${error.name} : ${error.message}\r\n${error.stack ? error.stack : ''}`;
-        crashLog = `${userInformation.bitmarkAccountNumber ? 'Bitmark account number:' + userInformation.bitmarkAccountNumber + '\r\n' : ''}${crashLog}`;
-
-        console.log('Unexpected JS error:', crashLog);
-
-        await FileUtil.create(CRASH_LOG_FILE_PATH, crashLog);
-        RNExitApp.exitApp();
-      }
-    };
-    setJSExceptionHandler(jsErrorHandler, false);
-
-    // Handle native code error
-    setNativeExceptionHandler(async (exceptionString) => {
-      let userInformation = await UserModel.doGetCurrentUser();
-      let crashLog = `${userInformation.bitmarkAccountNumber ? 'Bitmark account number:' + userInformation.bitmarkAccountNumber + '\r\n' : ''}${exceptionString}`;
-      console.log('Unexpected Native Code error:', crashLog);
-
-      await FileUtil.create(CRASH_LOG_FILE_PATH, crashLog);
-    });
   }
 
   async checkAndShowCrashLog() {
