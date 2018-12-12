@@ -65,9 +65,10 @@ class PrivateAccountDetailComponent extends React.Component {
     return (
       <SafeAreaView style={accountStyle.body}>
         <View style={accountStyle.header}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.scanQRCode}>
+          <TouchableOpacity style={defaultStyles.headerLeft} />
+          {/* <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.scanQRCode}>
             <Image style={accountStyle.cameraIcon} source={require('assets/imgs/camera.png')} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("AccountDetailComponent_account")}</Text>
           <TouchableOpacity style={defaultStyles.headerRight} onPress={Actions.applicationDetail}>
             <Image style={accountStyle.bitmarkAccountHelpIcon} source={require('assets/imgs/icon_help.png')} />
@@ -147,13 +148,13 @@ class PrivateAccountDetailComponent extends React.Component {
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_removeAccessFromThisDevice")} » </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.webAccountMigrate}>
+              {/* <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.webAccountMigrate}>
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_migrateWebAccount")} » </Text>
               </TouchableOpacity>
 
               <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.webAccountSignIn}>
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_signInUsingMobileApp")} » </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>}
 
             {this.state.subTab === SubTabs.authorized && <View style={accountStyle.contentSubTab}>
