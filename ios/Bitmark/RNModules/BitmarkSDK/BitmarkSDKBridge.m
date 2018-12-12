@@ -27,6 +27,9 @@ RCT_EXTERN_METHOD(createAndSubmitTransferOffer:(NSDictionary *)params:(RCTPromis
 RCT_EXTERN_METHOD(signForTransferOfferAndSubmit:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(validateMetadata:(NSDictionary *)metadata:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(validateAccountNumber:(NSString *)address:(NSString *)network:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(giveAwayBitmark:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
+// grant access bitmark
+
 
 // Query APIs
 RCT_EXTERN_METHOD(getBitmark:(NSString *)bitmarkID:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
@@ -35,5 +38,10 @@ RCT_EXTERN_METHOD(getTransaction:(NSString *)transactionID:(RCTPromiseResolveBlo
 RCT_EXTERN_METHOD(getTransactions:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(getAsset:(NSString *)assetID:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(getAssets:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
+
+// File encryption
+RCT_EXTERN_METHOD(encryptFile:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(decryptFile:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
+
 
 @end

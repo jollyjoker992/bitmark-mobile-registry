@@ -33,7 +33,7 @@ public protocol Seedable {
     var network: Network { get }
     var version: SeedVersion { get }
     var core: Data { get }
-    func getAuthKeyData() throws -> Data
+    func getKeysData() throws -> (Data, Data)
     func getRecoveryPhrase(language: RecoveryLanguage) throws -> [String]
 }
 
@@ -142,8 +142,9 @@ public struct SeedV1: Seedable {
         return try RecoverPhrase.V1.createPhrase(fromData: data, language: language)
     }
     
-    public func getAuthKeyData() throws -> Data {
-        return try SeedV1.derive(core: core, indexData: "000000000000000000000000000003e7".hexDecodedData)
+    public func getKeysData() throws -> (Data, Data) {
+        return (try SeedV1.derive(core: core, indexData: "000000000000000000000000000003e7".hexDecodedData),
+        try SeedV1.derive(core: core, indexData: "000000000000000000000000000003e2".hexDecodedData))
     }
 }
 
@@ -270,9 +271,9 @@ public struct SeedV2: Seedable {
         return try RecoverPhrase.V2.createPhrase(fromData: core, language: language)
     }
     
-    public func getAuthKeyData() throws -> Data {
-        let (result, _) = try SeedV2.seedToKeys(seed: core, keyCount: 1, keySize: 32)
-        return result.first!
+    public func getKeysData() throws -> (Data, Data) {
+        let (result, _) = try SeedV2.seedToKeys(seed: core, keyCount: 2, keySize: 32)
+        return (result[0], result[1])
     }
 }
 

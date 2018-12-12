@@ -604,6 +604,109 @@ class BitmarkSDKWrapper: NSObject {
       reject(nil, nil, e);
     }
   }
+  
+  @objc(encryptFile:::)
+  func encryptFile(_ params:[String: Any], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) -> Void {
+    do {
+      guard let filePath = params["file_path"] as? String,
+        let recipient = params["recipient"] as? String,
+        let outputFilePath = params["output_file_path"] as? String else {
+          reject(nil, "Invalid parameters", nil)
+          return
+      }
+      
+      guard let account = self.account else {
+        reject(nil, BitmarkSDKWrapper.accountNotFound, nil)
+        return
+      }
+      
+      let data = try Data(contentsOf: URL(fileURLWithPath: filePath))
+      let assetEncryption = try AssetEncryption()
+      let (encryptedData, sessionData) = try assetEncryption.encrypt(data: data, signWithAccount: account, forRecipient: recipient.hexDecodedData)
+      try encryptedData.write(to: URL(fileURLWithPath: outputFilePath), options: .atomicWrite)
+      
+      resolve(try sessionData.asDictionary())
+    }
+    catch let e {
+      reject(nil, "Cannot encrypt file", e)
+    }
+  }
+  
+  @objc(decryptFile:::)
+  func decryptFile(_ params: [String: Any], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) -> Void {
+    do {
+      guard let encryptedFilePath = params["encrypted_file_path"] as? String,
+      let sessionDataParams = params["session_data"] as? [String: String],
+      let sender = params["sender"] as? String,
+      let outputFilePath = params["output_file_path"] as? String else {
+        reject(nil, "Invalid parameters", nil)
+        return
+      }
+      
+      guard let account = self.account else {
+        reject(nil, BitmarkSDKWrapper.accountNotFound, nil)
+        return
+      }
+      
+      guard let sessionDataKeyHex = sessionDataParams["enc_data_key"],
+        let dataKeyAlgorithm = sessionDataParams["data_key_alg"] else {
+          reject(nil, "Invalid session data", nil)
+          return
+      }
+      
+      if dataKeyAlgorithm != "chacha20poly1305" {
+        reject(nil, "Unsupported encryption method: " + dataKeyAlgorithm, nil)
+        return
+      }
+      
+      let encryptedData = try Data(contentsOf: URL(fileURLWithPath: encryptedFilePath))
+      
+      let encryptedDataKey = sessionDataKeyHex.hexDecodedData
+      let sessionData = SessionData(encryptedDataKey: encryptedDataKey, dataKeyAlgorithm: dataKeyAlgorithm)
+      
+      let assetEncryption = try AssetEncryption(fromSessionData: sessionData, account: account, senderEncryptionPublicKey: sender.hexDecodedData)
+      let data = try assetEncryption.decypt(data: encryptedData)
+      try data.write(to: URL(fileURLWithPath: outputFilePath), options: [.completeFileProtection, .atomic])
+      resolve(nil)
+    }
+    catch let e {
+      reject(nil, "Cannot decrypt file", e)
+    }
+  }
+  
+  func giveAwayBitmark(_ params: [String: Any], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) -> Void {
+    do {
+      guard let assetId = params["asset_id"] as? String,
+      let recipient = params["recipient"] as? String else {
+        reject(nil, "Invalid parameters", nil)
+        return
+      }
+      
+      guard let account = self.account else {
+        reject(nil, BitmarkSDKWrapper.accountNotFound, nil)
+        return
+      }
+      
+      // Do issue more with quantity = 1
+      var issueParam = try Bitmark.newIssuanceParams(assetID: assetId, owner: account.accountNumber, quantity: 1)
+      try issueParam.sign(account)
+      guard let bitmarkId = try Bitmark.issue(issueParam).first else {
+        reject(nil, "Error occured when issuing bitmark", nil)
+        return
+      }
+      
+      // Create transfer payload
+      var transferParam = try Bitmark.newTransferParams(to: recipient)
+      try transferParam.from(bitmarkID: bitmarkId)
+      try transferParam.sign(account)
+      let transferPayload = try transferParam.toJSON()
+      
+      resolve([bitmarkId, transferPayload])
+    }
+    catch let e {
+      reject(nil, "Cannot process bitmark giveaway file", e)
+    }
+  }
 }
 
 extension BitmarkSDKWrapper {
