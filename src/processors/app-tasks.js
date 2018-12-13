@@ -72,6 +72,10 @@ const doLogout = async () => {
 const doIssueFile = async ({ filePath, assetName, metadataList, quantity, processingInfo }) => {
   return await submitting(DataProcessor.doIssueFile(filePath, assetName, metadataList, quantity), processingInfo);
 };
+const doIssueMusic = async ({ filePath, assetName, metadataList, thumbnailPath, limitedEdition, processingInfo }) => {
+  return await submitting(DataProcessor.doIssueMusic(filePath, assetName, metadataList, thumbnailPath, limitedEdition), processingInfo);
+};
+
 
 const doTransferBitmark = async ({ bitmark, receiver, isDeleting }) => {
   return await processing(DataProcessor.doTransferBitmark(bitmark.id, receiver, isDeleting));
@@ -142,6 +146,7 @@ let AppTasks = {
   doLogin,
   doLogout,
   doIssueFile,
+  doIssueMusic,
   doTransferBitmark,
   doAcceptTransferBitmark,
   doRejectTransferBitmark,

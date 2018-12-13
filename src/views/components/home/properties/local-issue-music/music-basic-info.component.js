@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
+import ReactNative, {
   View, TouchableOpacity, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
   StyleSheet,
   Alert,
 } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 import { Actions } from 'react-native-router-flux';
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
-import { convertWidth } from 'src/utils';
+import { convertWidth, isImageFile } from 'src/utils';
 import { AppProcessor } from 'src/processors';
 
+const { ActionSheetIOS } = ReactNative;
+
 export class MusicBasicInfoComponent extends React.Component {
-  propTypes = {
+  static propTypes = {
     filePath: PropTypes.string,
   }
 
@@ -24,6 +27,13 @@ export class MusicBasicInfoComponent extends React.Component {
       filePath: this.props.filePath || 'abc/test.mp4',
       thumbnailPath: null,
       canContinue: false,
+      assetName: '',
+      assetNameError: '',
+      limited: '',
+      limitedError: '',
+      description: '',
+      descriptionError: '',
+      thumbnailPathError: '',
     }
   }
 
@@ -36,6 +46,7 @@ export class MusicBasicInfoComponent extends React.Component {
         DocumentPicker.show({
           filetype: [DocumentPickerUtil.audio(), 'public.data'],
         }, (error, response) => {
+          console.log({ error, response });
           if (error) {
             Actions.jump('assets');
             return;
@@ -61,6 +72,165 @@ export class MusicBasicInfoComponent extends React.Component {
     }])
   }
 
+  onChooseThumbnail() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      title: 'Add an image',
+      options: ['Cancel', 'Take Photo...', 'Choose from Library...', 'Files...'],
+      cancelButtonIndex: 0,
+    },
+      (buttonIndex) => {
+        switch (buttonIndex) {
+          case 1: {
+            ImagePicker.launchCamera({}, (response) => {
+              if (response.fileSize > 100 * 1024 * 1024) {
+                Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
+                return;
+              }
+              this.setState({
+                thumbnailPath: response.uri.replace('file://', ''), thumbnailPathError: '',
+                canContinue: this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
+              });
+            });
+            break;
+          }
+          case 2: {
+            ImagePicker.launchImageLibrary({}, (response) => {
+              if (response.fileSize > 100 * 1024 * 1024) {
+                Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
+                return;
+              }
+              this.setState({
+                thumbnailPath: response.uri.replace('file://', ''), thumbnailPathError: '',
+                canContinue: this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
+              });
+            });
+            break;
+          }
+          case 3: {
+            DocumentPicker.show({
+              filetype: [DocumentPickerUtil.allFiles()],
+            }, (error, response) => {
+              if (error) {
+                return;
+              }
+              if (response.fileSize > 100 * 1024 * 1024) {
+                Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
+                return;
+              }
+              let thumbnailPath = response.uri.replace('file://', '')
+              let thumbnailPathError = '';
+              if (!isImageFile(this.thumbnailPath)) {
+                thumbnailPath = '';
+                thumbnailPathError = 'The file is not image!'
+              }
+              this.setState({
+                thumbnailPath, thumbnailPathError,
+                canContinue: !!thumbnailPath && this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
+              });
+            });
+            break;
+          }
+          default: {
+            break;
+          }
+        }
+      });
+  }
+
+  onInputAsset(assetName) {
+    let assetNameError = '';
+    if (assetName) {
+      let temp = new Buffer(assetName);
+      if (temp.length > 64) {
+        assetNameError = 'Property name has maximum 64 bytes!';
+      }
+    } else {
+      assetNameError = 'Property name is required!';
+    }
+
+    this.setState({
+      assetName, assetNameError,
+      canContinue: assetName && this.state.limited && this.state.description && !!this.state.thumbnailPath && !assetNameError && !this.state.descriptionError && !this.state.limitedError,
+    });
+  }
+  onInputLimited(limited) {
+    limited = parseInt(limited);
+    let limitedError = '';
+    if (isNaN(limited) || limited <= 0) {
+      limitedError = 'The limited number should be greater than 0.';
+    }
+    console.log({ limited, limitedError });
+    this.setState({
+      limited, limitedError,
+      canContinue: this.state.assetName && limited && this.state.description && !!this.state.thumbnailPath && !limitedError && !this.state.descriptionError && !this.state.assetNameError,
+    });
+  }
+
+  onInputDescription(description) {
+    let descriptionError = '';
+    if (description) {
+      let temp = new Buffer(description);
+      if (temp.length > 1024) {
+        descriptionError = 'Description has maximum 1024 bytes!';
+      }
+    } else {
+      descriptionError = 'Description is required!';
+    }
+    this.setState({
+      description, descriptionError,
+      canContinue: this.state.assetName && this.state.limited && description && !!this.state.thumbnailPath && !descriptionError && !this.state.limitedError && !this.state.assetNameError,
+    });
+  }
+  onContinue() {
+    let assetNameError = '';
+    if (this.state.assetName) {
+      let temp = new Buffer(this.state.assetName);
+      if (temp.length > 64) {
+        assetNameError = 'Property name has maximum 64 bytes!';
+      }
+    } else {
+      assetNameError = 'Property name is required!';
+    }
+    let limited = parseInt(this.state.limited);
+    let limitedError = '';
+    if (isNaN(limited) || limited <= 0) {
+      limitedError = 'The limited number should be greater than 0.';
+    }
+    let descriptionError = '';
+    if (this.state.description) {
+      let temp = new Buffer(this.state.description);
+      if (temp.length > 1024) {
+        descriptionError = 'Description has maximum 1024 bytes!';
+      }
+    } else {
+      descriptionError = 'Description is required!';
+    }
+    let thumbnailPathError = '';
+    if (!this.state.thumbnailPath) {
+      thumbnailPathError = 'Thumbnail is require!'
+    }
+    let canContinue = this.state.assetName && this.state.limited && this.state.description && !!this.state.thumbnailPath && !descriptionError && !limitedError && !assetNameError;
+
+    if (canContinue) {
+      Actions.musicMetadata({
+        filePath: this.state.filePath,
+        thumbnailPath: this.state.thumbnailPath,
+        assetName: this.state.asset,
+        limitedEdition: this.state.limited,
+        description: this.state.description,
+      });
+    } else {
+      this.setState({
+        canContinue,
+        thumbnailPathError,
+        assetNameError,
+        limitedError,
+        descriptionError,
+      });
+    }
+  }
+
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -77,13 +247,14 @@ export class MusicBasicInfoComponent extends React.Component {
           <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
             <View style={cStyles.content}>
               <View style={cStyles.mainContent}>
-                {!!this.state.thumbnailPath && <View style={cStyles.thumbnailArea}>
+                {!!this.state.thumbnailPath && <TouchableOpacity style={cStyles.thumbnailArea} onPress={this.onChooseThumbnail.bind(this)}>
                   <Image style={cStyles.thumbnailImage} source={{ uri: this.state.thumbnailPath }} />
-                </View>}
-                {!this.state.thumbnailPath && <View style={cStyles.thumbnailArea}>
+                </TouchableOpacity>}
+                {!this.state.thumbnailPath && <TouchableOpacity style={[cStyles.thumbnailArea, { backgroundColor: '#E6FF00' }]} onPress={this.onChooseThumbnail.bind(this)}>
                   <Image style={cStyles.thumbnailImageIcon} source={require('assets/imgs/music_thumbnail.png')} />
                   <Text style={cStyles.thumbnailImageText}>{'+ add cover image'.toUpperCase()}</Text>
-                </View>}
+                  <Text style={[cStyles.fieldInputError, { width: 'auto' }]}>{this.state.thumbnailPathError}</Text>
+                </TouchableOpacity>}
 
                 <View style={cStyles.fileInfo}>
                   <Text style={cStyles.fileName}>{this.state.filePath.substring(this.state.filePath.lastIndexOf('/') + 1, this.state.filePath.length)}</Text>
@@ -94,27 +265,34 @@ export class MusicBasicInfoComponent extends React.Component {
 
                 <View style={cStyles.fieldArea}>
                   <Text style={cStyles.fieldLabel}>PROPERTY NAME</Text>
-                  <TextInput style={cStyles.fieldInput}
+                  <TextInput style={[cStyles.fieldInput, this.state.assetNameError ? { borderBottomColor: '#FF003C' } : {}]}
                     placeholder='64-CHARACTER MAX'
+                    onChangeText={(assetName) => this.onInputAsset.bind(this)(assetName)}
                   />
+                  <Text style={cStyles.fieldInputError}>{this.state.assetNameError}</Text>
                 </View>
 
                 <View style={cStyles.fieldArea}>
                   <Text style={cStyles.fieldLabel}>{'NUMBER OF Limited Editions'.toUpperCase()}</Text>
-                  <TextInput style={cStyles.fieldInput}
+                  <TextInput style={[cStyles.fieldInput, this.state.limitedError ? { borderBottomColor: '#FF003C' } : {}]}
+                    keyboardType='number-pad'
+                    onChangeText={(limitedNumber) => this.onInputLimited.bind(this)(limitedNumber)}
                   />
+                  <Text style={cStyles.fieldInputError}>{this.state.limitedError}</Text>
                 </View>
 
                 <View style={cStyles.fieldArea}>
                   <Text style={cStyles.fieldLabel}>{'Description'.toUpperCase()}</Text>
-                  <TextInput style={cStyles.fieldInput}
+                  <TextInput style={[cStyles.fieldInput, this.state.descriptionError ? { borderBottomColor: '#FF003C' } : {}]}
                     placeholder='1024 CHARACTER MAX'
+                    onChangeText={(description) => this.onInputDescription.bind(this)(description)}
                   />
+                  <Text style={cStyles.fieldInputError}>{this.state.descriptionError}</Text>
                 </View>
               </View>
             </View>
           </ScrollView>
-          <TouchableOpacity style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}]}>
+          <TouchableOpacity style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}]} onPress={this.onContinue.bind(this)}>
             <Text style={cStyles.continueButtonText}>NEXT STEP</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
@@ -146,12 +324,11 @@ const cStyles = StyleSheet.create({
     width: '100%',
   },
   thumbnailArea: {
-    backgroundColor: '#E6FF00',
     flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
     width: '100%', height: 206,
   },
   thumbnailImage: {
-
+    width: '100%', height: '100%', resizeMode: 'contain',
   },
   thumbnailImageIcon: {
     width: 78, height: 55, resizeMode: 'contain',
@@ -176,8 +353,7 @@ const cStyles = StyleSheet.create({
   },
   fieldArea: {
     alignItems: 'center',
-    borderBottomWidth: 1, borderBottomColor: '#0060F2',
-    marginTop: 30,
+    marginTop: 10,
     width: '100%',
   },
   fieldLabel: {
@@ -189,6 +365,11 @@ const cStyles = StyleSheet.create({
     marginTop: 9, marginBottom: 4,
     fontFamily: 'Avenir-Book', fontSize: 16, fontWeight: '300',
     paddingLeft: 7,
+    borderBottomWidth: 1, borderBottomColor: '#0060F2',
+  },
+  fieldInputError: {
+    minHeight: 20, width: '100%',
+    fontFamily: 'Avenir-Light', fontSize: 14, fontWeight: '300', color: '#FF003C',
   },
 
   continueButton: {

@@ -2,9 +2,7 @@ import { Text } from 'react-native';
 import codePush from "react-native-code-push";
 import DeviceInfo from 'react-native-device-info';
 import { Sentry } from 'react-native-sentry';
-
-Text.defaultProps = Text.defaultProps || {};
-Text.defaultProps.allowFontScaling = false;
+import { Buffer } from 'safe-buffer';
 
 import i18n from 'i18n-js';
 
@@ -14,6 +12,9 @@ import {
 } from './src';
 import { BitmarkSDK } from 'src/processors';
 import { config } from 'src/configs';
+
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
 
 if (!__DEV__) {
   Sentry.config('https://24a5a145b3af4985b5162cd1f866168f@sentry.io/1342482').install();
@@ -30,6 +31,7 @@ i18n.locale = DeviceInfo.getDeviceLocale();
 i18n.fallbacks = true;
 i18n.translations = require('./assets/localizations.json');
 global.i18n = i18n;
+global.Buffer = global.Buffer ||  Buffer;
 
 BitmarkSDK.sdkInit(config.network);
 

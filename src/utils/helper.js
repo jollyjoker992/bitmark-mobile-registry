@@ -43,6 +43,17 @@ const compareVersion = (version1, version2) => {
   return 0;
 };
 
+const isImageFile = (filePath) => {
+  if (!filePath) {
+    return false;
+  }
+  const imageExtensions = ['PNG', 'JPG', 'JPEG', 'HEIC', 'TIFF', 'BMP', 'HEIF', 'IMG'];
+  let fileExtension = filePath.substring(filePath.lastIndexOf('.') + 1);
+
+  return imageExtensions.includes(fileExtension.toUpperCase());
+};
+
 export {
   convertWidth, calculateAdditionalHeight, runPromiseWithoutError, compareVersion,
+  isImageFile,
 };

@@ -20,7 +20,7 @@ const MetadataLabelSamples = [
   'Type', 'Version'];
 
 export class MusicMetadataEditComponent extends React.Component {
-  propTypes = {
+  static propTypes = {
     label: PropTypes.string,
     index: PropTypes.number,
     onChangeMetadataLabel: PropTypes.func,
@@ -90,6 +90,7 @@ export class MusicMetadataEditComponent extends React.Component {
             <View style={cStyles.inputLabelBar} />
             <View style={cStyles.suggestionsList}>
               <FlatList
+                keyExtractor={(item, index) => index}
                 data={this.state.suggestions}
                 renderItem={({ item }) => {
                   return (<TouchableOpacity style={cStyles.suggestionsButton} onPress={() => this.onChooseLabel(item.text)}>

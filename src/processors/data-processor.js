@@ -28,7 +28,7 @@ import {
   AccountStore, AccountActions,
   TransactionsStore, TransactionsActions,
 } from 'src/views/stores';
-import { config } from 'src/configs';
+import { config, constant } from 'src/configs';
 import { CacheData } from './caches';
 
 let mapModalDisplayData = {};
@@ -76,6 +76,20 @@ const detectLocalAssetFilePath = async (assetId) => {
   }
   let list = await FileUtil.readDir(`${assetFolderPath}/downloaded`);
   return (list && list.length > 0) ? `${assetFolderPath}/downloaded/${list[0]}` : null;
+};
+
+const detectLocalAssetThumbnailPath = async (assetId) => {
+  let assetFolderPath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${assetId}`;
+  let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
+  if (!existAssetFolder || existAssetFolder.error) {
+    return null;
+  }
+  let thumbnailPath = `${assetFolderPath}/thumbnail.png`;
+  let existFile = await runPromiseWithoutError(FileUtil.exists(thumbnailPath));
+  if (!existFile || existFile.error) {
+    return null;
+  }
+  return thumbnailPath;
 };
 // ================================================================================================================================================
 
@@ -134,6 +148,9 @@ const doCheckNewBitmarks = async (localAssets) => {
   if (localAssets) {
     for (let asset of localAssets) {
       asset.filePath = await detectLocalAssetFilePath(asset.id);
+      if (asset.metadata && asset.metadata.type === constant.asset.type.music) {
+        asset.thumbnailPath = await detectLocalAssetThumbnailPath(asset.id);
+      }
     }
 
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS, localAssets);
@@ -825,6 +842,26 @@ const doIssueFile = async (filePath, assetName, metadataList, quantity) => {
   return result;
 };
 
+const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, limitedEdition) => {
+  let result = await BitmarkService.doIssueMusic(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, thumbnailPath, limitedEdition);
+
+  let appInfo = await doGetAppInformation();
+  appInfo = appInfo || {};
+  if (appInfo && (!appInfo.lastTimeIssued ||
+    (appInfo.lastTimeIssued && (appInfo.lastTimeIssued - moment().toDate().getTime()) > 7 * 24 * 60 * 60 * 1000))) {
+    await CommonModel.doTrackEvent({
+      event_name: 'registry_weekly_active_user',
+      account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
+    });
+    appInfo.lastTimeIssued = moment().toDate().getTime();
+    await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
+  }
+
+  await runGetLocalBitmarksInBackground();
+  return result;
+};
+
+
 const doTransferBitmark = async (bitmarkId, receiver, isDeleting) => {
   console.log('doTransferBitmark :', bitmarkId, receiver, isDeleting);
   let { asset } = await doGetLocalBitmarkInformation(bitmarkId);
@@ -1213,6 +1250,7 @@ const DataProcessor = {
   doCancelTransferBitmark,
   doRejectTransferBitmark,
   doIssueFile,
+  doIssueMusic,
   doTransferBitmark,
   doMigrateWebAccount,
   doSignInOnWebApp,

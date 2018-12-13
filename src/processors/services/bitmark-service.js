@@ -154,7 +154,43 @@ const doIssueFile = async (bitmarkAccountNumber, filePath, assetName, metadataLi
   issueResult.bitmarkIds.forEach(id => {
     results.push({
       id,
-      sessionData: issueResult.sessionData,
+      assetId: issueResult.assetId,
+      filePath: `${downloadedFolder}/${listFile[0]}`
+    });
+  });
+  return results;
+};
+
+let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataList, thumbnailPath, limitedEdition) => {
+  let metadata = {};
+  if (Array.isArray(metadataList)) {
+    metadataList.forEach(item => {
+      if (item.label && item.value) {
+        metadata[item.label] = item.value;
+      }
+    });
+  } else {
+    metadata = metadataList;
+  }
+  let issueResult = await BitmarkModel.doIssueFile(filePath, assetName, metadata, 1);
+
+  let signatures = await BitmarkSDK.signMessages([issueResult.assetId + '|' + limitedEdition]);
+  await BitmarkModel.doUploadMusicThumbnail(bitmarkAccountNumber, issueResult.assetId, thumbnailPath, limitedEdition, signatures[0]);
+
+  let assetFolderPath = `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}/assets/${issueResult.assetId}`;
+  let downloadedFolder = `${assetFolderPath}/downloaded`;
+  await FileUtil.mkdir(assetFolderPath);
+  await FileUtil.mkdir(downloadedFolder);
+
+  let filename = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
+  await BitmarkSDK.storeFileSecurely(filePath, `${downloadedFolder}/${filename}`);
+  await FileUtil.copyFile(thumbnailPath, `${assetFolderPath}/thumbnail.png`);
+
+  let listFile = await FileUtil.readDir(downloadedFolder);
+  let results = [];
+  issueResult.bitmarkIds.forEach(id => {
+    results.push({
+      id,
       assetId: issueResult.assetId,
       filePath: `${downloadedFolder}/${listFile[0]}`
     });
@@ -352,6 +388,7 @@ let BitmarkService = {
   doCheckFileToIssue,
   doCheckMetadata,
   doIssueFile,
+  doIssueMusic,
   doTransferBitmark,
   doGetBitmarkInformation,
   doGetTrackingBitmarks,

@@ -604,6 +604,40 @@ const doUpdateStatusForDecentralizedTransfer = (bitmarkAccount, timestamp, signa
     }).catch(reject);
   });
 };
+const doUploadMusicThumbnail = async (bitmarkAccountNumber, assetId, thumbnailPath, limitedEdition, signature, ) => {
+  const formData = new FormData();
+  formData.append('file', {
+    uri: thumbnailPath,
+    name: thumbnailPath.substring(thumbnailPath.lastIndexOf('/') + 1, thumbnailPath.length)
+  });
+  let headers = {
+    'Content-Type': 'multipart/form-data',
+    requester: bitmarkAccountNumber,
+    asset_id: assetId,
+    limited_edition: limitedEdition,
+    signature
+  };
+
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.bitmark_profile_server}/s/asset/thumbnail`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doUploadMusicThumbnail error :` + JSON.stringify(data)));
+      }
+      resolve(data);
+    }).catch(reject);
+  });
+};
 
 let BitmarkModel = {
   doGetAssetInformation,
@@ -630,7 +664,9 @@ let BitmarkModel = {
   doUpdateStatusForDecentralizedIssuance,
   doSubmitSessionDataForDecentralizedIssuance,
   doGetInfoInfoOfDecentralizedTransfer,
-  doUpdateStatusForDecentralizedTransfer
+  doUpdateStatusForDecentralizedTransfer,
+
+  doUploadMusicThumbnail,
 };
 
 export { BitmarkModel };

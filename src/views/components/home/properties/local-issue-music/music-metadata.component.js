@@ -15,8 +15,10 @@ import { BitmarkService } from 'src/processors';
 
 
 export class MusicMetadataComponent extends React.Component {
-  propTypes = {
+  static propTypes = {
     filePath: PropTypes.string,
+    thumbnailPath: PropTypes.string,
+    assetName: PropTypes.string,
     limitedEdition: PropTypes.number,
     description: PropTypes.string,
   }
@@ -100,6 +102,10 @@ export class MusicMetadataComponent extends React.Component {
     }]);
   }
 
+  onSubmit() {
+
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -169,8 +175,9 @@ export class MusicMetadataComponent extends React.Component {
         <TouchableOpacity
           style={[cStyles.continueButton, (!this.state.metadataError) ? { backgroundColor: '#0060F2' } : {}]}
           disabled={this.state.metadataError}
+          onPress={this.onSubmit.bind(this)}
         >
-          <Text style={cStyles.continueButtonText}>NEXT STEP</Text>
+          <Text style={cStyles.continueButtonText}>RELEASE MUSIC</Text>
         </TouchableOpacity>
       </View>
     );

@@ -118,8 +118,11 @@ const doLogout = async () => {
   return executeTask('doLogout');
 };
 
-const doIssueFile = async (filePath, assetName, metadataList, quantity, isPublicAsset, processingInfo) => {
-  return executeTask('doIssueFile', { filePath, assetName, metadataList, quantity, isPublicAsset, processingInfo });
+const doIssueFile = async (filePath, assetName, metadataList, quantity, processingInfo) => {
+  return executeTask('doIssueFile', { filePath, assetName, metadataList, quantity, processingInfo });
+};
+const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, limitedEdition, processingInfo) => {
+  return executeTask('doIssueMusic', { filePath, assetName, metadataList, thumbnailPath, limitedEdition, processingInfo });
 };
 
 const doTransferBitmark = async (bitmark, receiver, isDeleting = false) => {
@@ -203,6 +206,7 @@ let AppProcessor = {
   doCreateSignatureData,
   doCheckFileToIssue,
   doIssueFile,
+  doIssueMusic,
   doGetProvenance,
   doGetTransferOfferDetail,
   doTransferBitmark,

@@ -44,9 +44,6 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
       this.prepareToIssue(response);
     });
   }
-  onChooseMusic() {
-    Actions.musicIssueSuccess();
-  }
 
   async prepareToIssue(response) {
     let filePath = response.uri.replace('file://', '');
@@ -89,7 +86,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
           <TouchableOpacity style={defaultStyles.headerRight} />
         </View>
         <View style={issuanceOptionsStyle.content}>
-          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChooseMusic.bind(this)}>
+          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={Actions.musicFileChosen}>
             <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/music_icon.png')} />
             <Text style={issuanceOptionsStyle.optionButtonText}>MUSICS</Text>
             <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
