@@ -31,7 +31,6 @@
       jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
   #else
       jsCodeLocation = [CodePush bundleURL];
-      [RNSentry installWithRootView:rootView];
   #endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation

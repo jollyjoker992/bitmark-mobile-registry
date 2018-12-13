@@ -74,3 +74,15 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# Bundle artifact
+*.jsbundle
+
+.travis/ssh-deploy.sh
+./package-lock.json
+
+package-lock.json
+
+.env
+sentry.properties
+secret.tar
