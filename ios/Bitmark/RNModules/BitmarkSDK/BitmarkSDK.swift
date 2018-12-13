@@ -89,7 +89,8 @@ class BitmarkSDKWrapper: NSObject {
       }
       resolve([account.accountNumber,
                try account.getRecoverPhrase(language: .english),
-               BitmarkSDKWrapper.stringFromVersion(account.seed.version)])
+               BitmarkSDKWrapper.stringFromVersion(account.seed.version),
+               account.encryptionKey.publicKey.hexEncodedString])
     }
     catch let e {
       reject(nil, nil, e);
