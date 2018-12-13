@@ -137,6 +137,9 @@ const BitmarkSDK = {
       output_file_path: outputFilePath,
     });
   },
+  giveAwayBitmark: async (asset_id, recipient) => {
+    return await SwiftBitmarkSDK.giveAwayBitmark({ asset_id, recipient, });
+  }
 
 };
 export { BitmarkSDK };

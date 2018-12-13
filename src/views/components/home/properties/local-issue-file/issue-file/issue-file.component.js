@@ -24,7 +24,6 @@ export class LocalIssueFileComponent extends React.Component {
     this.addNewMetadataField = this.addNewMetadataField.bind(this);
 
     this.doInputQuantity = this.doInputQuantity.bind(this);
-    this.toggleAssetType = this.toggleAssetType.bind(this);
 
     let metadataList = [];
 
