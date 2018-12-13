@@ -5,6 +5,7 @@ client-app/src/markets-old
 client-app/source-map-tool/source-map
 .idea/
 **/node_modules/
+package-lock.json
 
 .travis/ssh-deploy.sh
 
