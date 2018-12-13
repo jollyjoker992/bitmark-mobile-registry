@@ -1,8 +1,8 @@
-package com.bitmark;
+package com.bitmark.registry;
 
-import com.facebook.react.ReactActivity;
+import com.bitmark.sdk.authentication.StatefulReactActivity;
 
-public class MainActivity extends ReactActivity {
+public class MainActivity extends StatefulReactActivity {
 
     /**
      * Returns the name of the main component registered from JavaScript.
