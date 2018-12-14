@@ -7,5 +7,5 @@
 */
 
 "NSFaceIDUsageDescription" = "請使用指紋與人臉辨識或密碼來授權你的交易。";
-"NSCameraUsageDescription" = "授權 Bitmark Registry 開啟你的相機。";
+"NSCameraUsageDescription" = "藉由相機掃描 QR 碼來快速並安全的從手機版 Registry 應用程式來登入Bitmark 網頁版。";
 "NSPhotoLibraryUsageDescription" = "授權 Bitmark Registry 開啟你的相簿。";
