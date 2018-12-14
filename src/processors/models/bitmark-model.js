@@ -693,7 +693,7 @@ const doGetLimitedEdition = async (issuer, assetId) => {
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doUploadMusicThumbnail error :` + JSON.stringify(data)));
+        return reject(new Error(`doGetLimitedEdition error :` + JSON.stringify(data)));
       }
       resolve(data);
     }).catch(reject);
@@ -721,7 +721,7 @@ const doPostClaimRequest = (jwt, assetId, toAccount, ) => {
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doUploadMusicThumbnail error :` + JSON.stringify(data)));
+        return reject(new Error(`doPostClaimRequest error :` + JSON.stringify(data)));
       }
       resolve(data);
     }).catch(reject);
@@ -746,7 +746,7 @@ const doGetClaimRequest = (jwt) => {
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doUploadMusicThumbnail error :` + JSON.stringify(data)));
+        return reject(new Error(`doGetClaimRequest error :` + JSON.stringify(data)));
       }
       resolve(data.claim_requests);
     }).catch(reject);
@@ -774,7 +774,7 @@ const doDeleteClaimRequests = (jwt, ids) => {
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doUploadMusicThumbnail error :` + JSON.stringify(data)));
+        return reject(new Error(`doDeleteClaimRequests error :` + JSON.stringify(data)));
       }
       resolve(data);
     }).catch(reject);

@@ -53,6 +53,10 @@ let checkDisplayModal = () => {
         Actions.whatNew();
         CacheData.keyIndexModalDisplaying = keyIndex;
         break;
+      } else if (keyIndex === mapModalDisplayKeyIndex.claim_asset && CacheData.mountedRouter) {
+        Actions.musicSentClaimRequest(mapModalDisplayData[keyIndex]);
+        CacheData.keyIndexModalDisplaying = keyIndex;
+        break;
       }
     }
   }
@@ -180,11 +184,9 @@ const doCheckNewBitmarks = async (localAssets) => {
           asset.limitedEdition = resultGetLimitedEdition.limited;
         }
         let bitmarks = asset.bitmarks;
-        console.log('bitmarks :', bitmarks);
         let totalIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(CacheData.userInformation.bitmarkAccountNumber, asset.id);
-        console.log('totalIssuedBitmarks :', totalIssuedBitmarks);
         let bitmarkIds = await BitmarkModel.doGetAwaitTransfers(CacheData.jwt, asset.id);
-        console.log('bitmarkIds waiting :', bitmarkIds);
+
         for (let bid of bitmarkIds) {
           let index = bitmarks.findIndex(bitmark => bitmark.id === bid);
           if (index >= 0) {
@@ -205,6 +207,7 @@ const doCheckNewBitmarks = async (localAssets) => {
         asset.bitmarks = bitmarks;
         asset.issuedBitmarks = issuedBitmarks;
       }
+      asset.registrantName = CacheData.identities[asset.registrant];
     }
 
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS, localAssets);
@@ -425,6 +428,10 @@ const runGetLocalBitmarksInBackground = (outgoingTransferOffers) => {
 
 const runOnBackground = async () => {
   let userInfo = await UserModel.doTryGetCurrentUser();
+  let identities = await runPromiseWithoutError(AccountModel.doGetIdentities());
+  if (identities && !identities.error) {
+    CacheData.identities = identities;
+  }
   if (CacheData.userInformation === null || JSON.stringify(userInfo) !== JSON.stringify(CacheData.userInformation)) {
     CacheData.userInformation = userInfo;
     let accountStoreState = merge({}, AccountStore.getState().data);
@@ -1355,7 +1362,20 @@ const doSendClaimRequest = async (asset) => {
 };
 
 const doViewSendClaimRequest = async (asset) => {
-  updateModal(mapModalDisplayKeyIndex.claim_asset, asset);
+  updateModal(mapModalDisplayKeyIndex.claim_asset, { asset });
+};
+
+const doGetAssetToClaim = async (assetId) => {
+  let asset = await BitmarkModel.doGetAssetInformation(assetId);
+  let totalIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(asset.registrant, asset.id);
+  asset.totalBitmarks = totalIssuedBitmarks.length;
+  let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(asset.registrant, asset.id);
+  if (resultGetLimitedEdition) {
+    asset.limitedEdition = resultGetLimitedEdition.limited;
+  }
+  console.log('CacheData :', CacheData);
+  asset.registrantName = CacheData.identities[asset.registrant];
+  return asset;
 };
 
 const DataProcessor = {
@@ -1397,6 +1417,7 @@ const DataProcessor = {
   doSendClaimRequest,
   doViewSendClaimRequest,
   doReloadClaimAssetRequest,
+  doGetAssetToClaim,
 
   doGetAllTransfersOffers,
   doAddMoreActionRequired,

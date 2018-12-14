@@ -183,7 +183,11 @@ const doProcessClaimRequest = (claimRequest, isAccept) => {
 };
 const doSendClaimRequest = async (asset) => {
   return executeTask('doSendClaimRequest', { asset });
-}
+};
+const doGetAssetToClaim = async (assetId) => {
+  return executeTask('doGetAssetToClaim', { assetId });
+};
+
 
 const doCheckNoLongerSupportVersion = async () => {
   let data = await NotificationModel.doTryGetAppVersion();
@@ -232,6 +236,7 @@ let AppProcessor = {
   doDecentralizedTransfer,
   doProcessClaimRequest,
   doSendClaimRequest,
+  doGetAssetToClaim,
 
   doStartBackgroundProcess,
 

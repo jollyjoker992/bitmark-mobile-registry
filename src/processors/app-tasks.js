@@ -143,6 +143,9 @@ const doProcessClaimRequest = async ({ claimRequest, isAccept }) => {
 const doSendClaimRequest = async ({ asset }) => {
   return await processing(DataProcessor.doSendClaimRequest(asset));
 };
+const doGetAssetToClaim = async ({ assetId }) => {
+  return await processing(DataProcessor.doGetAssetToClaim(assetId));
+};
 
 
 // ================================================================================================
@@ -170,6 +173,7 @@ let AppTasks = {
   doDecentralizedTransfer,
   doProcessClaimRequest,
   doSendClaimRequest,
+  doGetAssetToClaim,
 };
 
 let registeredTasks = {};

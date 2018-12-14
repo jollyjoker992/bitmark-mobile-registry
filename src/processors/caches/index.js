@@ -7,5 +7,6 @@ let CacheData = {
   codePushUpdated: null,
   mountedRouter: null,
 
+  identities: {},
 };
 export { CacheData };

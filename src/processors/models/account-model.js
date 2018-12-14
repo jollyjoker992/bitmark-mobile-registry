@@ -111,6 +111,34 @@ const doGetEncryptionPublicKey = (accountNumber) => {
   });
 };
 
+const doGetIdentities = () => {
+  return new Promise((resolve) => {
+    let statusCode;
+    fetch(`${config.bitmark_profile_server}/s/account/identities`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        resolve();
+      }
+      resolve(data ? data.identities : null);
+    }).catch(() => {
+      resolve();
+    });
+  });
+};
+
+
+
 
 let AccountModel = {
   doGetCurrentAccount,
@@ -122,6 +150,7 @@ let AccountModel = {
   doRegisterJWT,
   doGetEncryptionPublicKey,
   doRegisterEncryptionPublicKey,
+  doGetIdentities,
 }
 
 export {

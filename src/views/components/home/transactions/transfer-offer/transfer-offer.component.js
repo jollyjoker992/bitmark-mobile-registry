@@ -112,7 +112,7 @@ export class TransferOfferComponent extends React.Component {
                   <Text style={transferOfferStyle.externalAreaRowLabel}>{global.i18n.t("TransferOfferComponent_issuer")}:</Text>
                   <View style={transferOfferStyle.externalAreaRowValueIssuerView}>
                     <Text style={transferOfferStyle.externalAreaRowValueIssuer_}>[</Text>
-                    <Text style={transferOfferStyle.externalAreaRowValueIssuer} numberOfLines={1}>{this.state.transferOffer.asset.registrant}</Text>
+                    <Text style={transferOfferStyle.externalAreaRowValueIssuer} numberOfLines={1}>{this.state.transferOffer.asset.registrantName || this.state.transferOffer.asset.registrant}</Text>
                     <Text style={transferOfferStyle.externalAreaRowValueIssuer_}>]</Text>
                   </View>
                 </View>
