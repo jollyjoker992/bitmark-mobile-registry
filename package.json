@@ -34,6 +34,7 @@
     "react-native-router-flux": "^4.0.5",
     "react-native-sentry": "^0.40.2",
     "react-native-swiper": "^1.5.13",
+    "react-native-video": "^3.2.1",
     "react-native-zip-archive": "^2.2.1",
     "react-navigation": "^2.17.0",
     "react-navigation-tabs": "^0.8.2",
