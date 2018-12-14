@@ -307,6 +307,26 @@ class BitmarkSDKWrapper: NSObject {
     }
   }
   
+  @objc(signHexData:::)
+  func signHexData(_ messages: [String], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) {
+    do {
+      guard let account = self.account else {
+        reject(nil, BitmarkSDKWrapper.accountNotFound, nil)
+        return
+      }
+      
+      let signatures = try messages.map({ (message) -> String in
+        let messageData = message.hexDecodedData
+        return (try account.sign(withMessage: messageData)).hexEncodedString
+      })
+      
+      resolve(signatures)
+    }
+    catch let e {
+      reject(nil, nil, e);
+    }
+  }
+  
   @objc(validateMetadata:::)
   func validateMetadata(_ metadata: [String: String], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) {
     let tmp = metadata.reduce([]) { (result, keyvalue) -> [String] in
