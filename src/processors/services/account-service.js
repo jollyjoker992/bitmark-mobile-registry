@@ -24,7 +24,12 @@ const doValidateBitmarkAccountNumber = async (accountNumber) => {
   if (userInfo.bitmarkAccountNumber === accountNumber) {
     throw new Error('Can not transfer for current user!');
   }
-  return await BitmarkSDK.validateAccountNumber(accountNumber, config.bitmark_network);
+  let result = await BitmarkSDK.validateAccountNumber(accountNumber, config.bitmark_network);
+  if (result) {
+    let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(accountNumber);
+    result = !!encryptionPublicKey;
+  }
+  return result;
 }
 
 // ================================================================================================

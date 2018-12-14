@@ -22,6 +22,7 @@ let commonConfig = {
   bitmark_network: NETWORKS.testnet,
   appLink: 'https://itunes.apple.com/us/app/bitmark-registry/id1429427796?ls=1&mt=8',
   api_server_url: 'https://api.test.bitmark.com',
+  key_account_server_url: 'https://key.test.bitmarkaccountassets.com',
   registry_server_url: 'https://registry.test.bitmark.com',
   trade_server_url: 'https://trade.devel.bitmark.com',
   mobile_server_url: 'https://bm.devel.bitmark.com',
@@ -47,8 +48,9 @@ if (commonConfig.network === NETWORKS.testnet) {
   commonConfig.web_app_server_url = "https://webapp.test.bitmark.com";
   commonConfig.preview_asset_url = "https://preview.test.bitmarkaccountassets.com";
   commonConfig.file_courier_server = 'https://file-courier.test.bitmark.com';
+  commonConfig.key_account_server_url = 'https://key.test.bitmarkaccountassets.com';
   //TODO
-  // commonConfig.bitmark_profile_server = 'https://file-courier.test.bitmark.com';
+  // commonConfig.bitmark_profile_server = '';
 
 } else if (commonConfig.network === NETWORKS.livenet) {
   commonConfig.bitmark_network = NETWORKS.livenet;
@@ -66,7 +68,8 @@ if (commonConfig.network === NETWORKS.testnet) {
   commonConfig.zeroAddress = 'a3ezwdYVEVrHwszQrYzDTCAZwUD3yKtNsCq9YhEu97bPaGAKy1';
   config.file_courier_server = 'https://file-courier.bitmark.com';
   //TODO
-  // commonConfig.bitmark_profile_server = 'https://file-courier.test.bitmark.com';
+  // commonConfig.bitmark_profile_server = '';
+  commonConfig.key_account_server_url = 'https://key.bitmarkaccountassets.com';
 }
 
 

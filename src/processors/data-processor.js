@@ -553,6 +553,9 @@ const doCreateAccount = async () => {
   let signatureData = await CommonModel.doCreateSignatureData();
   await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
 
+  let signatures = await BitmarkSDK.signMessages(userInformation.encryptionPublicKey);
+  await AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]);
+
   await CommonModel.doTrackEvent({
     event_name: 'registry_create_new_account',
     account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
@@ -565,6 +568,10 @@ const doLogin = async () => {
   CacheData.userInformation = await AccountService.doGetCurrentAccount();
   let signatureData = await CommonModel.doCreateSignatureData();
   await NotificationModel.doTryRegisterAccount(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+
+  let signatures = await BitmarkSDK.signMessages(CacheData.userInformation.encryptionPublicKey);
+  await AccountModel.doRegisterEncryptionPublicKey(CacheData.userInformation.bitmarkAccountNumber, CacheData.userInformation.encryptionPublicKey, signatures[0]);
+
   return CacheData.userInformation;
 };
 

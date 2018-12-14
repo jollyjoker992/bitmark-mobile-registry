@@ -57,6 +57,60 @@ let doRegisterJWT = (accountNumber, timestamp, signature) => {
   });
 };
 
+const doRegisterEncryptionPublicKey = (accountNumber, encryptionPublicKey, signature) => {
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.api_server_url}/v1/encryption_keys/${accountNumber}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        encryption_pubkey: encryptionPublicKey,
+        signature,
+      })
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doRegisterEncryptionPublicKey error :` + JSON.stringify(data)));
+      }
+      resolve(data.claim_requests);
+    }).catch(reject);
+  });
+};
+
+const doGetEncryptionPublicKey = (accountNumber) => {
+  return new Promise((resolve) => {
+    let statusCode;
+    fetch(`${config.key_account_server_url}${accountNumber}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        resolve();
+      }
+      resolve(data ? data.encryption_pubkey : null);
+    }).catch(() => {
+      resolve();
+    });
+  });
+};
+
 
 let AccountModel = {
   doGetCurrentAccount,
@@ -66,6 +120,8 @@ let AccountModel = {
   doLogout,
 
   doRegisterJWT,
+  doGetEncryptionPublicKey,
+  doRegisterEncryptionPublicKey,
 }
 
 export {
