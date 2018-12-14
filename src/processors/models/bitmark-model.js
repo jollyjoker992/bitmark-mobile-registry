@@ -697,32 +697,6 @@ const doGetLimitedEdition = async (issuer, assetId) => {
   });
 };
 
-const doGetWaitingBitmarks = async (jwt, assetId) => {
-  return new Promise((resolve, reject) => {
-    let statusCode;
-    //TODO url
-    fetch(`${config.mobile_server_url}/s/assets/${assetId}/waiting-bitmarks`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + jwt,
-      },
-    }).then((response) => {
-      statusCode = response.status;
-      if (statusCode < 400) {
-        return response.json();
-      }
-      return response.text();
-    }).then((data) => {
-      if (statusCode >= 400) {
-        return reject(new Error(`doUploadMusicThumbnail error :` + JSON.stringify(data)));
-      }
-      resolve(data.bitmarks);
-    }).catch(reject);
-  });
-};
-
 const doPostClaimRequest = (jwt, assetId, toAccount, ) => {
   return new Promise((resolve, reject) => {
     let statusCode;
@@ -804,6 +778,59 @@ const doDeleteClaimRequests = (jwt, ids) => {
   });
 };
 
+const doPostAwaitTransfer = (jwt, bitmarkId, transferPayload) => {
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.mobile_server_url}/api/transfer_queues`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + jwt,
+      },
+      body: JSON.stringify({
+        bitmark_id: bitmarkId, transfer_payload: transferPayload,
+      })
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doPostAwaitTransfer error :` + JSON.stringify(data)));
+      }
+      resolve(data);
+    }).catch(reject);
+  });
+};
+
+const doGetAwaitTransfers = (jwt) => {
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.mobile_server_url}/api/transfer_queues`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + jwt,
+      },
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doGetAwaitTransfers error :` + JSON.stringify(data)));
+      }
+      resolve(data ? data.bitmark_ids : []);
+    }).catch(reject);
+  });
+};
+
 let BitmarkModel = {
   doGetAssetInformation,
   doGet100Bitmarks,
@@ -834,10 +861,11 @@ let BitmarkModel = {
   doUploadMusicThumbnail,
   doGetTotalBitmarksOfAssetOfIssuer,
   doGetLimitedEdition,
-  doGetWaitingBitmarks,
   doPostClaimRequest,
   doGetClaimRequest,
   doDeleteClaimRequests,
+  doPostAwaitTransfer,
+  doGetAwaitTransfers,
 };
 
 export { BitmarkModel };

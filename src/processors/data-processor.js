@@ -180,9 +180,9 @@ const doCheckNewBitmarks = async (localAssets) => {
         }
         let bitmarks = asset.bitmarks;
         let totalIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(CacheData.userInformation.bitmarkAccountNumber, asset.id);
-        let waitingBitmarks = await BitmarkModel.doGetWaitingBitmarks(CacheData.jwt, asset.id);
-        for (let wb of waitingBitmarks) {
-          let index = bitmarks.findIndex(bitmark => bitmark.id = wb.id);
+        let bitmarkIds = await BitmarkModel.doGetAwaitTransfers(CacheData.jwt, asset.id);
+        for (let bid of bitmarkIds) {
+          let index = bitmarks.findIndex(bitmark => bitmark.id === bid);
           if (index >= 0) {
             bitmarks.splice(index, 1);
           }
@@ -190,10 +190,8 @@ const doCheckNewBitmarks = async (localAssets) => {
         let issuedBitmarks = [];
         for (let ib of totalIssuedBitmarks) {
           if (ib.owner === CacheData.userInformation.bitmarkAccountNumber) {
-            let waitingBitmark = waitingBitmarks.find(wb => wb.id = ib.id);
-            if (waitingBitmark) {
-              // TODO
-              ib.owner = waitingBitmark.to_account;
+            let index = bitmarkIds.findIndex(bid => bid === ib.id);
+            if (index >= 0) {
               issuedBitmarks.push(ib);
             }
           } else {
@@ -1335,7 +1333,8 @@ const doProcessClaimRequest = async (claimRequest, isAccept) => {
       let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, claimRequest.to, encryptedFilePath, sessionData);
       console.log('uploadResult :', uploadResult);
     }
-    await BitmarkSDK.giveAwayBitmark(claimRequest.asset.id, claimRequest.to);
+    let result = await BitmarkSDK.giveAwayBitmark(claimRequest.asset.id, claimRequest.to);
+    await BitmarkModel.doPostAwaitTransfer(CacheData.jwt, result.bitmarkId, result.transferPayload);
   }
   await BitmarkModel.doDeleteClaimRequests(CacheData.jwt, [claimRequest.id]);
   await runGetTransferOfferInBackground

@@ -144,7 +144,11 @@ const BitmarkSDK = {
     });
   },
   giveAwayBitmark: async (asset_id, recipient) => {
-    return await SwiftBitmarkSDK.giveAwayBitmark({ asset_id, recipient, });
+    let list = await SwiftBitmarkSDK.giveAwayBitmark({ asset_id, recipient, });
+    return {
+      bitmarkId: list[0],
+      transferPayload: list[1],
+    }
   }
 
 };
