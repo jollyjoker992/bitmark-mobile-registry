@@ -8,6 +8,7 @@ import com.chirag.RNMail.RNMail;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.react.ReactApplication;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -15,11 +16,7 @@ import com.facebook.soloader.SoLoader;
 import com.github.wumke.RNExitApp.RNExitAppPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
-import com.microsoft.appcenter.reactnative.analytics.AppCenterReactNativeAnalyticsPackage;
-import com.microsoft.appcenter.reactnative.appcenter.AppCenterReactNativePackage;
-import com.microsoft.appcenter.reactnative.crashes.AppCenterReactNativeCrashesPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
@@ -49,14 +46,10 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
+                    new RCTCameraPackage(),
                     new ReactVideoPackage(),
                     new KCKeepAwakePackage(),
                     new RNExitAppPackage(),
-                    new AppCenterReactNativeCrashesPackage(MainApplication.this,
-                            getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
-                    new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources()
-                            .getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
-                    new AppCenterReactNativePackage(MainApplication.this),
                     new CodePush(
                             API_KEY_MANAGER.getCodePushApiKey(),
                             getApplicationContext(), BuildConfig.DEBUG),
@@ -65,7 +58,6 @@ public class MainApplication extends Application implements ReactApplication {
                     new ReactNativeDocumentPicker(),
                     new RNZipArchivePackage(),
                     new ImagePickerPackage(),
-                    new RCTCameraPackage(),
                     new RNDeviceInfo(),
                     new ReactNativePushNotificationPackage(),
                     new RNMail(),

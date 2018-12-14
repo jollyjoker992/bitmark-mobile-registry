@@ -1,11 +1,13 @@
 ext {
     compileSdkVersion = 28
+    targetSdkVersion = 28
     buildToolsVersion = "28.0.2"
+    supportLibVersion = "28.0.0"
 }
 
 subprojects { subproject ->
-    afterEvaluate{
-        if((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
+    afterEvaluate {
+        if ((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
             android {
                 compileSdkVersion rootProject.ext.compileSdkVersion
                 buildToolsVersion rootProject.ext.buildToolsVersion
@@ -14,13 +16,23 @@ subprojects { subproject ->
     }
 }
 
-// Workaround for keeping react-native-image-picker android gradle build tool
 subprojects {
+    // Workaround for keeping react-native-image-picker android gradle build tool
     if (project.name.contains('react-native-image-picker')) {
         buildscript {
             repositories {
                 jcenter()
-                maven { url "https://dl.bintray.com/android/android-tools/"  }
+                maven { url "https://dl.bintray.com/android/android-tools/" }
+            }
+        }
+    }
+
+    // Force all sub project using the same version of android support lib
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.android.support'
+                    && !details.requested.name.contains('multidex')) {
+                details.useVersion "$supportLibVersion"
             }
         }
     }
