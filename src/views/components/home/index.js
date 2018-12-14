@@ -33,7 +33,8 @@ import {
   MusicFileChosenComponent,
   MusicIssueSuccessComponent,
   MusicMetadataComponent,
-  MusicMetadataEditComponent
+  MusicMetadataEditComponent,
+  MusicSentClaimRequestComponent,
 } from './properties/local-issue-music';
 
 import { BitmarkWebViewComponent } from 'src/views/commons';
@@ -102,6 +103,11 @@ export class UserRouterComponent extends Component {
       }).then(trackingBitmark => {
         Actions.localPropertyDetail({ asset: trackingBitmark.asset, bitmark: trackingBitmark });
       }).catch(console.log);
+    } else if (data.event === 'claim_asset_request') {
+      DataProcessor.doReloadClaimAssetRequest().then((claimRequests) => {
+        let claimRequest = (claimRequests || []).find(cr => cr.id = data.id);
+        Actions.claimRequest({ claimRequest });
+      }).catch(console.log);
     }
   }
 
@@ -113,7 +119,6 @@ export class UserRouterComponent extends Component {
           <Stack key="user" headerMode='none' wrapRouter={true} >
             <Scene key="bitmarkWebViewFull" panHandlers={null} component={BitmarkWebViewComponent} />
             <Scene key="transferOffer" panHandlers={null} component={TransferOfferComponent} />
-            <Scene key="claimRequest" panHandlers={null} component={ClaimRequestComponent} />
             <Scene key="localIssueFile" panHandlers={null} component={LocalIssueFileComponent} />
             <Scene key="localIssueFileEditLabel" panHandlers={null} component={LocalIssueFileEditLabelComponent} />
             <Scene key="assetTypeHelp" panHandlers={null} component={AssetTypeHelpComponent} />
@@ -122,11 +127,13 @@ export class UserRouterComponent extends Component {
             <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
             <Scene key="whatNew" panHandlers={null} component={WhatNewComponent} />
 
+            <Scene key="claimRequest" panHandlers={null} component={ClaimRequestComponent} />
             <Scene key="musicBasicInfo" panHandlers={null} component={MusicBasicInfoComponent} />
             <Scene key="musicFileChosen" panHandlers={null} component={MusicFileChosenComponent} />
             <Scene key="musicIssueSuccess" panHandlers={null} component={MusicIssueSuccessComponent} />
             <Scene key="musicMetadata" panHandlers={null} component={MusicMetadataComponent} />
             <Scene key="musicMetadataEdit" panHandlers={null} component={MusicMetadataEditComponent} />
+            <Scene key="musicSentClaimRequest" panHandlers={null} component={MusicSentClaimRequestComponent} />
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >

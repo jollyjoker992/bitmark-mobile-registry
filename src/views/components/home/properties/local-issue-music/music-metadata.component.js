@@ -113,7 +113,7 @@ export class MusicMetadataComponent extends React.Component {
     }).then(result => {
       console.log('doIssueMusic result:', result);
       if (result) {
-        Actions.musicIssueSuccess();
+        Actions.musicIssueSuccess({ assetId: result.assetId, assetName: this.props.assetName });
       }
     }).catch(error => {
       console.log('doIssueMusic error:', error);

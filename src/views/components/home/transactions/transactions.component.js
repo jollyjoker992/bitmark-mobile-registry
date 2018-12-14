@@ -24,6 +24,7 @@ let SubTabs = {
 
 const ActionTypes = {
   transfer: 'transfer',
+  claim_request: 'claim_request',
   ifttt: 'ifttt',
   test_write_down_recovery_phase: 'test_write_down_recovery_phase'
 };
@@ -68,7 +69,7 @@ class PrivateTransactionsComponent extends React.Component {
 
   clickToActionRequired(item) {
     if (item.type === ActionTypes.transfer && item.transferOffer) {
-      Actions.transferOffer({ transferOffer: item.transferOffer, })
+      Actions.transferOffer({ transferOffer: item.transferOffer, });
     } else if (item.type === ActionTypes.ifttt) {
       AppProcessor.doIssueIftttData(item, {
         indicator: true, title: '', message: global.i18n.t("TransactionsComponent_sendingYourTransactionToTheBitmarkNetwork")
@@ -86,6 +87,8 @@ class PrivateTransactionsComponent extends React.Component {
       });
     } else if (item.type === ActionTypes.test_write_down_recovery_phase) {
       Actions.jump('recoveryPhrase');
+    } else if (item.type === ActionTypes.claim_request) {
+      Actions.claimRequest({ claimRequest: item.claimRequest });
     }
   }
 

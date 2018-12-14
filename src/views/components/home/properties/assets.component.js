@@ -51,6 +51,7 @@ class PrivateAssetsComponent extends React.Component {
   }
 
   render() {
+    console.log('assets props:', this.props);
     loadingDataWhenScroll = false;
     return (
       <View style={assetsStyle.body}>

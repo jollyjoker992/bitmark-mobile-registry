@@ -34,6 +34,7 @@ import { CacheData } from './caches';
 let mapModalDisplayData = {};
 const mapModalDisplayKeyIndex = {
   what_new: 1,
+  claim_asset: 2,
 };
 
 // let isDisplayingModal = (keyIndex) => {
@@ -79,8 +80,8 @@ const detectLocalAssetFilePath = async (assetId) => {
 };
 
 const detectMusicThumbnailPath = async (assetId) => {
-  let thumbnailPath = `${assetFolderPath}/thumbnail.png`;
   let assetFolderPath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${assetId}`;
+  let thumbnailPath = `${assetFolderPath}/thumbnail.png`;
   let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
   if (!existAssetFolder || existAssetFolder.error) {
     thumbnailPath = null;
@@ -179,8 +180,11 @@ const doCheckNewBitmarks = async (localAssets) => {
           asset.limitedEdition = resultGetLimitedEdition.limited;
         }
         let bitmarks = asset.bitmarks;
+        console.log('bitmarks :', bitmarks);
         let totalIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(CacheData.userInformation.bitmarkAccountNumber, asset.id);
+        console.log('totalIssuedBitmarks :', totalIssuedBitmarks);
         let bitmarkIds = await BitmarkModel.doGetAwaitTransfers(CacheData.jwt, asset.id);
+        console.log('bitmarkIds waiting :', bitmarkIds);
         for (let bid of bitmarkIds) {
           let index = bitmarks.findIndex(bitmark => bitmark.id === bid);
           if (index >= 0) {
@@ -479,6 +483,12 @@ const doReloadTrackingBitmark = async () => {
   let trackingBitmarks = await runGetTrackingBitmarksInBackground();
   await doCheckNewTrackingBitmarks(trackingBitmarks);
   return trackingBitmarks;
+};
+
+const doReloadClaimAssetRequest = async () => {
+  let claimRequests = await runGetClaimRequestInBackground();
+  await doCheckClaimRequests(claimRequests);
+  return claimRequests;
 };
 
 const doReloadTransferOffers = async () => {
@@ -1340,6 +1350,14 @@ const doProcessClaimRequest = async (claimRequest, isAccept) => {
   await runGetTransferOfferInBackground
 };
 
+const doSendClaimRequest = async (asset) => {
+  return await BitmarkModel.doPostClaimRequest(CacheData.jwt, asset.id, asset.registrant);
+};
+
+const doViewSendClaimRequest = async (asset) => {
+  updateModal(mapModalDisplayKeyIndex.claim_asset, asset);
+};
+
 const DataProcessor = {
   doOpenApp,
   doCreateAccount,
@@ -1376,6 +1394,9 @@ const DataProcessor = {
   doGetIftttInformation,
 
   doProcessClaimRequest,
+  doSendClaimRequest,
+  doViewSendClaimRequest,
+  doReloadClaimAssetRequest,
 
   doGetAllTransfersOffers,
   doAddMoreActionRequired,

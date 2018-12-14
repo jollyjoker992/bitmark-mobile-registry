@@ -17,7 +17,7 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, DataProcessor, CacheData, BitmarkSDK } from 'src/processors';
+import { UserModel, EventEmitterService, DataProcessor, CacheData, BitmarkSDK, AppProcessor } from 'src/processors';
 import { FileUtil, convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
 
@@ -200,9 +200,17 @@ export class MainAppHandlerComponent extends Component {
     const route = event.url.replace(/.*?:\/\//g, '');
     const params = route.split('/');
     switch (params[0]) {
-      // case 'login': {
-      //   break;
-      // }
+      case 'claim': {
+        let assetId = params[1];
+        if (assetId) {
+          AppProcessor.doGetAssetToClaim(assetId).then(asset => {
+            DataProcessor.doViewSendClaimRequest(asset);
+          }).catch(error => {
+            EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+          })
+        }
+        break;
+      }
       default: {
         // TODO
         break;

@@ -641,7 +641,7 @@ const doUploadMusicThumbnail = async (bitmarkAccountNumber, assetId, thumbnailPa
 
 const getBitmarksOfAssetOfIssuer = (accountNumber, assetId, lastOffset) => {
   return new Promise((resolve, reject) => {
-    let bitmarkUrl = `${config.api_server}/v1/bitmarks?issuer=${accountNumber}&asset_id=${assetId}&pending=true&to=later` + (lastOffset ? `&at=${lastOffset}` : '');
+    let bitmarkUrl = `${config.api_server_url}/v1/bitmarks?issuer=${accountNumber}&asset_id=${assetId}&pending=true&to=later` + (lastOffset ? `&at=${lastOffset}` : '');
     let statusCode;
     fetch(bitmarkUrl, {
       method: 'GET',
@@ -657,7 +657,10 @@ const getBitmarksOfAssetOfIssuer = (accountNumber, assetId, lastOffset) => {
         return reject(new Error('getBitmarksOfAssetOfIssuer error :' + JSON.stringify(data)));
       }
       resolve(data);
-    }).catch(reject);
+    }).catch(error => {
+      console.log('error:', error);
+      return reject(new Error('getBitmarksOfAssetOfIssuer error :' + JSON.stringify(error)));
+    });
   });
 };
 

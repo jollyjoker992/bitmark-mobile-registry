@@ -34,7 +34,7 @@ let commonConfig = {
   preview_asset_url: 'https://preview.test.bitmarkaccountassets.com',
   bitmark_web_site: 'https://bitmark.com',
   file_courier_server: 'https://file-courier.test.bitmark.com',
-  bitmark_profile_server: 'http://192.168.0.107:1102',
+  bitmark_profile_server: 'http://192.168.0.114:1102',
   needResetLocalData: 1535081368111,
 };
 

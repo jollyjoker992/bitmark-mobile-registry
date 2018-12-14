@@ -1,29 +1,36 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   View, TouchableOpacity, Image, Text,
   WebView,
   StyleSheet,
+  Clipboard
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import { defaultStyles } from 'src/views/commons';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 
 export class MusicIssueSuccessComponent extends React.Component {
-
+  static propTypes = {
+    assetName: PropTypes.string,
+    assetId: PropTypes.string,
+  }
   constructor(props) {
     super(props);
     this.state = {
       selected: 'embed',
       copied: false,
-    }
+    };
   }
 
   copySelectedResult() {
     this.setState({ copied: true });
+    Clipboard.setString(this.selected === 'embed'
+      ? `<iframe width="320" height="180" frameborder="0" frameborder="0" src="${config.bitmark_profile_server}/asset/${this.props.assetId}/claim"/>`
+      : `${config.registry_server_url}/assets/${this.props.assetId}/claim`);
     setTimeout(() => this.setState({ copied: false }), 1000);
   }
 
@@ -42,7 +49,7 @@ export class MusicIssueSuccessComponent extends React.Component {
             <Text style={cStyles.title}>{'Music successfully\nregistered!'.toUpperCase()}</Text>
             <Text style={cStyles.description}>You’re now ready to share and distribute your music to your fans.</Text>
             <View style={cStyles.claimIframe}>
-
+              <WebView source={{ uri: `${config.bitmark_profile_server}/asset/${this.props.assetId}/claim` }} />
             </View>
             <View style={cStyles.issueResult}>
               {this.state.selected === 'embed' && <View style={cStyles.resultArea}>
@@ -63,7 +70,12 @@ export class MusicIssueSuccessComponent extends React.Component {
                 </View>
               </View>}
               <View style={cStyles.resultContent}>
-                <Text style={cStyles.resultContentText} >test</Text>
+                <Text style={cStyles.resultContentText}>
+                  {this.selected === 'embed'
+                    ? `<iframe width="320" height="180" frameborder="0" frameborder="0" src="${config.bitmark_profile_server}/asset/${this.props.assetId}/claim"/>`
+                    : `${config.registry_server_url}/assets/${this.props.assetId}/claim`
+                  }
+                </Text>
               </View>
               <View style={cStyles.musicSuccessButtons}>
                 <TouchableOpacity

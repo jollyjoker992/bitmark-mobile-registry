@@ -7,19 +7,60 @@ import {
 import { Actions } from 'react-native-router-flux';
 
 import { defaultStyles } from 'src/views/commons';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 
-const MetadataLabelSamples = [
-  'Created (date)', 'Contributor', 'Coverage',
-  'Creator', 'Description', 'Dimensions',
-  'Duration', 'Edition', 'Format',
-  'Identifier', 'Language', 'License',
-  'Medium', 'Publisher', 'Relation',
-  'Rights', 'Size', 'Source',
-  'Subject', 'Keywords', 'Type', 'Version'
-];
+const MetadataLabelSamples = config.localization.startsWith('zh')
+  ? [
+    '藝人',
+    '歌曲原文名稱',
+    '歌曲英文名稱',
+    '歌曲中文名稱',
+    '歌曲羅馬名稱',
+    '版本',
+    '歌曲語言',
+    '歌詞',
+    '音樂主類型',
+    '音樂次類型',
+    'ISRC',
+    '生效日期',
+    '情色暴力內容',
+    '服務型態',
+    '音樂著作集管團體',
+    '製作人',
+    '編曲人',
+    '有聲著作權年份',
+    '有聲著作權擁有者',
+    '設計著作權年份',
+    '設計著作權擁有者',
+    '原廠牌',
+    '數位發行日期',
+    '實體專輯發行',
+    '實體發行日期',
+  ]
+  : [
+    'Title',
+    'Genre',
+    'Contains music',
+    'Record label',
+    'Music language',
+    'Album',
+    'Lyrics',
+    'Artist',
+    'Publisher',
+    'ISRC',
+    'Composer',
+    'Release title',
+    'Buy-link',
+    'Album title',
+    'Record label',
+    'Release date',
+    'Barcode',
+    'ISWC',
+    'P line',
+    'Contains explicit content',
+  ];
 
 export class MusicMetadataEditComponent extends React.Component {
   static propTypes = {
