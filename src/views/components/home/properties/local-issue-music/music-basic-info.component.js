@@ -11,7 +11,7 @@ import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker
 
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
-import { convertWidth, isImageFile } from 'src/utils';
+import { convertWidth, isImageFile, FileUtil } from 'src/utils';
 import { AppProcessor } from 'src/processors';
 
 const { ActionSheetIOS } = ReactNative;
@@ -19,6 +19,7 @@ const { ActionSheetIOS } = ReactNative;
 export class MusicBasicInfoComponent extends React.Component {
   static propTypes = {
     filePath: PropTypes.string,
+    asset: PropTypes.any,
   }
 
   constructor(props) {
@@ -27,11 +28,11 @@ export class MusicBasicInfoComponent extends React.Component {
       filePath: this.props.filePath || 'abc/test.mp4',
       thumbnailPath: null,
       canContinue: false,
-      assetName: '',
+      assetName: this.props.asset.name || '',
       assetNameError: '',
       limited: '',
       limitedError: '',
-      description: '',
+      description: this.props.asset.metadata.description || '',
       descriptionError: '',
       thumbnailPathError: '',
     }
@@ -45,8 +46,7 @@ export class MusicBasicInfoComponent extends React.Component {
       onPress: () => {
         DocumentPicker.show({
           filetype: [DocumentPickerUtil.audio(), 'public.data'],
-        }, (error, response) => {
-          console.log({ error, response });
+        }, async (error, response) => {
           if (error) {
             Actions.jump('assets');
             return;
@@ -57,6 +57,11 @@ export class MusicBasicInfoComponent extends React.Component {
           }
           let filePath = response.uri.replace('file://', '');
           filePath = decodeURIComponent(filePath);
+
+          let destPath = FileUtil.CacheDirectory + '/' + (response.fileName || (response.uri.substring(response.uri.lastIndexOf('/') + 1, response.uri.length)));
+          await FileUtil.moveFileSafe(filePath, destPath);
+          filePath = destPath;
+
           AppProcessor.doCheckFileToIssue(filePath).then(asset => {
             if (asset && asset.name) {
               Alert.alert('Registration Failed', 'The file is already registered before and will not be added again. Please try to add different file.');
@@ -81,26 +86,40 @@ export class MusicBasicInfoComponent extends React.Component {
       (buttonIndex) => {
         switch (buttonIndex) {
           case 1: {
-            ImagePicker.launchCamera({}, (response) => {
+            ImagePicker.launchCamera({}, async (response) => {
               if (response.fileSize > 100 * 1024 * 1024) {
                 Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
                 return;
               }
+              console.log('response :', response);
+              let thumbnailPath = response.uri.replace('file://', '');
+              thumbnailPath = decodeURIComponent(thumbnailPath);
+              let destPath = FileUtil.CacheDirectory + '/' + (response.fileName || (response.uri.substring(response.uri.lastIndexOf('/') + 1, response.uri.length)));
+              await FileUtil.copyFileSafe(thumbnailPath, destPath);
+              console.log('destPath :', destPath);
+              thumbnailPath = destPath;
               this.setState({
-                thumbnailPath: response.uri.replace('file://', ''), thumbnailPathError: '',
+                thumbnailPath, thumbnailPathError: '',
                 canContinue: this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
               });
             });
             break;
           }
           case 2: {
-            ImagePicker.launchImageLibrary({}, (response) => {
+            ImagePicker.launchImageLibrary({}, async (response) => {
               if (response.fileSize > 100 * 1024 * 1024) {
                 Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
                 return;
               }
+              console.log('response :', response);
+              let thumbnailPath = response.uri.replace('file://', '');
+              thumbnailPath = decodeURIComponent(thumbnailPath);
+              let destPath = FileUtil.CacheDirectory + '/' + (response.fileName || (response.uri.substring(response.uri.lastIndexOf('/') + 1, response.uri.length)));
+              await FileUtil.copyFileSafe(thumbnailPath, destPath);
+              console.log('destPath :', destPath);
+              thumbnailPath = destPath;
               this.setState({
-                thumbnailPath: response.uri.replace('file://', ''), thumbnailPathError: '',
+                thumbnailPath, thumbnailPathError: '',
                 canContinue: this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
               });
             });
@@ -109,7 +128,7 @@ export class MusicBasicInfoComponent extends React.Component {
           case 3: {
             DocumentPicker.show({
               filetype: [DocumentPickerUtil.allFiles()],
-            }, (error, response) => {
+            }, async (error, response) => {
               if (error) {
                 return;
               }
@@ -117,7 +136,12 @@ export class MusicBasicInfoComponent extends React.Component {
                 Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
                 return;
               }
-              let thumbnailPath = response.uri.replace('file://', '')
+              let thumbnailPath = response.uri.replace('file://', '');
+              thumbnailPath = decodeURIComponent(thumbnailPath);
+              let destPath = FileUtil.CacheDirectory + '/' + (response.fileName || (response.uri.substring(response.uri.lastIndexOf('/') + 1, response.uri.length)));
+              await FileUtil.moveFileSafe(thumbnailPath, destPath);
+              thumbnailPath = destPath;
+
               let thumbnailPathError = '';
               if (!isImageFile(this.thumbnailPath)) {
                 thumbnailPath = '';
@@ -215,7 +239,7 @@ export class MusicBasicInfoComponent extends React.Component {
       Actions.musicMetadata({
         filePath: this.state.filePath,
         thumbnailPath: this.state.thumbnailPath,
-        assetName: this.state.asset,
+        assetName: this.state.assetName,
         limitedEdition: this.state.limited,
         description: this.state.description,
       });
@@ -267,6 +291,7 @@ export class MusicBasicInfoComponent extends React.Component {
                   <Text style={cStyles.fieldLabel}>PROPERTY NAME</Text>
                   <TextInput style={[cStyles.fieldInput, this.state.assetNameError ? { borderBottomColor: '#FF003C' } : {}]}
                     placeholder='64-CHARACTER MAX'
+                    defaultValue={this.state.assetName}
                     onChangeText={(assetName) => this.onInputAsset.bind(this)(assetName)}
                   />
                   <Text style={cStyles.fieldInputError}>{this.state.assetNameError}</Text>
@@ -285,6 +310,7 @@ export class MusicBasicInfoComponent extends React.Component {
                   <Text style={cStyles.fieldLabel}>{'Description'.toUpperCase()}</Text>
                   <TextInput style={[cStyles.fieldInput, this.state.descriptionError ? { borderBottomColor: '#FF003C' } : {}]}
                     placeholder='1024 CHARACTER MAX'
+                    defaultValue={this.state.description}
                     onChangeText={(description) => this.onInputDescription.bind(this)(description)}
                   />
                   <Text style={cStyles.fieldInputError}>{this.state.descriptionError}</Text>

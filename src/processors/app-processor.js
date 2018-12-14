@@ -178,6 +178,9 @@ const doDecentralizedIssuance = async (token, encryptionKey, expiredTime) => {
 const doDecentralizedTransfer = async (token, expiredTime) => {
   return executeTask('doDecentralizedTransfer', { token, expiredTime });
 };
+const doProcessClaimRequest = (claimRequest, isAccept) => {
+  return executeTask('doProcessClaimRequest', { claimRequest, isAccept });
+};
 
 
 const doCheckNoLongerSupportVersion = async () => {
@@ -225,6 +228,7 @@ let AppProcessor = {
   doGetAllTransfersOffers,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
+  doProcessClaimRequest,
 
   doStartBackgroundProcess,
 

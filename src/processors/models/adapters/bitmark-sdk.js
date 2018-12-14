@@ -56,7 +56,12 @@ const BitmarkSDK = {
     return await SwiftBitmarkSDK.createAccountFromPhrase(phraseWords, enableTouchFaceId);
   },
   requestSession: async (message) => {
-    return await SwiftBitmarkSDK.authenticate(message);
+    try {
+      await SwiftBitmarkSDK.authenticate(message);
+      return true;
+    } catch (error) {
+      return null;
+    }
   },
 
   // one time

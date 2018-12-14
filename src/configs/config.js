@@ -33,7 +33,7 @@ let commonConfig = {
   preview_asset_url: 'https://preview.test.bitmarkaccountassets.com',
   bitmark_web_site: 'https://bitmark.com',
   file_courier_server: 'https://file-courier.test.bitmark.com',
-  bitmark_profile_server: 'http://localhost:1102',
+  bitmark_profile_server: 'http://192.168.0.107:1102',
   needResetLocalData: 1535081368111,
 };
 
@@ -48,7 +48,7 @@ if (commonConfig.network === NETWORKS.testnet) {
   commonConfig.preview_asset_url = "https://preview.test.bitmarkaccountassets.com";
   commonConfig.file_courier_server = 'https://file-courier.test.bitmark.com';
   //TODO
-  commonConfig.bitmark_profile_server = 'https://file-courier.test.bitmark.com';
+  // commonConfig.bitmark_profile_server = 'https://file-courier.test.bitmark.com';
 
 } else if (commonConfig.network === NETWORKS.livenet) {
   commonConfig.bitmark_network = NETWORKS.livenet;
@@ -66,7 +66,7 @@ if (commonConfig.network === NETWORKS.testnet) {
   commonConfig.zeroAddress = 'a3ezwdYVEVrHwszQrYzDTCAZwUD3yKtNsCq9YhEu97bPaGAKy1';
   config.file_courier_server = 'https://file-courier.bitmark.com';
   //TODO
-  commonConfig.bitmark_profile_server = 'https://file-courier.test.bitmark.com';
+  // commonConfig.bitmark_profile_server = 'https://file-courier.test.bitmark.com';
 }
 
 

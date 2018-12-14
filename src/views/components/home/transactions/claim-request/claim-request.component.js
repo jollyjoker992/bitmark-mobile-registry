@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   View, Text, TouchableOpacity, ScrollView, Image, SafeAreaView,
+  Alert,
 } from 'react-native';
 
 import claimRequestStyle from './claim-request.component.style';
 import { defaultStyles } from 'src/views/commons';
 import { constant } from 'src/configs';
 import { Actions } from 'react-native-router-flux';
+import { AppProcessor, EventEmitterService } from 'src/processors';
 
 export class ClaimRequestComponent extends React.Component {
   propTypes = {
@@ -21,10 +23,28 @@ export class ClaimRequestComponent extends React.Component {
   }
 
   doReject() {
-
+    Alert.alert('Do you want reject this request?', '', [{
+      text: 'OK', onPress: () => {
+        AppProcessor.doProcessClaimRequest(this.props.claimRequest, false).then((result => {
+          if (result) {
+            Actions.jump('transactions');
+          }
+        })).catch(error => {
+          EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+        });
+      }
+    }, {
+      text: 'Cancel', style: 'cancel',
+    }])
   }
   doAccept() {
-
+    AppProcessor.doProcessClaimRequest(this.props.claimRequest, false).then((result => {
+      if (result) {
+        Actions.jump('transactions');
+      }
+    })).catch(error => {
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+    });
   }
 
   render() {

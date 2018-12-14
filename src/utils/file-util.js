@@ -25,6 +25,14 @@ const FileUtil = {
   copyFile: async (sourcePath, destinationPath) => {
     return RNFS.copyFile(sourcePath, destinationPath);
   },
+  copyFileSafe: async (sourcePath, destinationPath) => {
+    try {
+      await FileUtil.removeSafe(destinationPath);
+      return await RNFS.copyFile(sourcePath, destinationPath);
+    } catch (err) {
+      console.log("File isn't existing");
+    }
+  },
   moveFile: async (sourcePath, destinationPath) => {
     return RNFS.moveFile(sourcePath, destinationPath);
   },

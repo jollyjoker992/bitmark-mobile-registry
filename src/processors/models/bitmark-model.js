@@ -639,6 +639,171 @@ const doUploadMusicThumbnail = async (bitmarkAccountNumber, assetId, thumbnailPa
   });
 };
 
+const getBitmarksOfAssetOfIssuer = (accountNumber, assetId, lastOffset) => {
+  return new Promise((resolve, reject) => {
+    let bitmarkUrl = `${config.api_server}/v1/bitmarks?issuer=${accountNumber}&asset_id=${assetId}&pending=true&to=later` + (lastOffset ? `&at=${lastOffset}` : '');
+    let statusCode;
+    fetch(bitmarkUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }).then((response) => {
+      statusCode = response.status;
+      return response.json();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error('getBitmarksOfAssetOfIssuer error :' + JSON.stringify(data)));
+      }
+      resolve(data);
+    }).catch(reject);
+  });
+};
+
+const doGetTotalBitmarksOfAssetOfIssuer = async (issuer, assetId) => {
+  let returnedBitmarks = [];
+
+  let results = await getBitmarksOfAssetOfIssuer(issuer, assetId);
+  returnedBitmarks = returnedBitmarks.concat(results.bitmarks || []);
+  while (results && results.bitmarks && results.bitmarks.length === 100) {
+    results = await getBitmarksOfAssetOfIssuer(issuer, assetId);
+    returnedBitmarks = returnedBitmarks.concat(results.bitmarks || []);
+  }
+  return returnedBitmarks;
+};
+
+const doGetLimitedEdition = async (issuer, assetId) => {
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.bitmark_profile_server}/s/asset/limit-by-issuer?asset_id=${assetId}&issuer=${issuer}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doUploadMusicThumbnail error :` + JSON.stringify(data)));
+      }
+      resolve(data);
+    }).catch(reject);
+  });
+};
+
+const doGetWaitingBitmarks = async (jwt, assetId) => {
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    //TODO url
+    fetch(`${config.mobile_server_url}/s/assets/${assetId}/waiting-bitmarks`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + jwt,
+      },
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doUploadMusicThumbnail error :` + JSON.stringify(data)));
+      }
+      resolve(data.bitmarks);
+    }).catch(reject);
+  });
+};
+
+const doPostClaimRequest = (jwt, assetId, toAccount, ) => {
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.mobile_server_url}/api/claim_requests`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + jwt,
+      },
+      body: JSON.stringify({
+        asset_id: assetId, to: toAccount,
+      })
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doUploadMusicThumbnail error :` + JSON.stringify(data)));
+      }
+      resolve(data);
+    }).catch(reject);
+  });
+};
+
+const doGetClaimRequest = (jwt) => {
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.mobile_server_url}/api/claim_requests`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + jwt,
+      },
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doUploadMusicThumbnail error :` + JSON.stringify(data)));
+      }
+      resolve(data.claim_requests);
+    }).catch(reject);
+  });
+};
+
+const doDeleteClaimRequests = (jwt, ids) => {
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.mobile_server_url}/api/claim_requests`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + jwt,
+      },
+      body: JSON.stringify({
+        ids
+      })
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doUploadMusicThumbnail error :` + JSON.stringify(data)));
+      }
+      resolve(data);
+    }).catch(reject);
+  });
+};
+
 let BitmarkModel = {
   doGetAssetInformation,
   doGet100Bitmarks,
@@ -667,6 +832,12 @@ let BitmarkModel = {
   doUpdateStatusForDecentralizedTransfer,
 
   doUploadMusicThumbnail,
+  doGetTotalBitmarksOfAssetOfIssuer,
+  doGetLimitedEdition,
+  doGetWaitingBitmarks,
+  doPostClaimRequest,
+  doGetClaimRequest,
+  doDeleteClaimRequests,
 };
 
 export { BitmarkModel };

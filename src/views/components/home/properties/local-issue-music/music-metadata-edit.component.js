@@ -12,12 +12,14 @@ import { convertWidth } from 'src/utils';
 
 
 const MetadataLabelSamples = [
-  'Created (date)', 'Contributor', 'Coverage', 'Creator',
-  'Description', 'Dimensions', 'Duration', 'Edition',
-  'Format', 'Identifier', 'Language', 'License',
-  'Medium', 'Publisher', 'Relation', 'Rights',
-  'Size', 'Source', 'Subject', 'Keywords',
-  'Type', 'Version'];
+  'Created (date)', 'Contributor', 'Coverage',
+  'Creator', 'Description', 'Dimensions',
+  'Duration', 'Edition', 'Format',
+  'Identifier', 'Language', 'License',
+  'Medium', 'Publisher', 'Relation',
+  'Rights', 'Size', 'Source',
+  'Subject', 'Keywords', 'Type', 'Version'
+];
 
 export class MusicMetadataEditComponent extends React.Component {
   static propTypes = {

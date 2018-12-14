@@ -78,16 +78,27 @@ const detectLocalAssetFilePath = async (assetId) => {
   return (list && list.length > 0) ? `${assetFolderPath}/downloaded/${list[0]}` : null;
 };
 
-const detectLocalAssetThumbnailPath = async (assetId) => {
+const detectMusicThumbnailPath = async (assetId) => {
+  let thumbnailPath = `${assetFolderPath}/thumbnail.png`;
   let assetFolderPath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${assetId}`;
   let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
   if (!existAssetFolder || existAssetFolder.error) {
-    return null;
+    thumbnailPath = null;
   }
-  let thumbnailPath = `${assetFolderPath}/thumbnail.png`;
   let existFile = await runPromiseWithoutError(FileUtil.exists(thumbnailPath));
   if (!existFile || existFile.error) {
-    return null;
+    thumbnailPath = null;
+  }
+  if (!thumbnailPath) {
+    thumbnailPath = `${assetFolderPath}/thumbnail.png`;
+    await FileUtil.downloadFile({
+      fromUrl: config.bitmark_profile_server + `/s/asset/thumbnail?asset_id=${assetId}`,
+      toFile: thumbnailPath,
+    });
+    let existFile = await runPromiseWithoutError(FileUtil.exists(thumbnailPath));
+    if (!existFile || existFile.error) {
+      thumbnailPath = null;
+    }
   }
   return thumbnailPath;
 };
@@ -115,6 +126,19 @@ const doCheckNewIftttInformation = async (iftttInformation, isLoadingAllUserData
     }
   }
 };
+
+const doCheckClaimRequests = async (claimRequests, isLoadingAllUserData) => {
+  if (claimRequests) {
+    let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
+    for (let claimRequest of claimRequests) {
+      claimRequest.asset = localAssets.find(asset => asset.id === claimRequest.asset_id);
+    }
+    await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST, claimRequests);
+    if (!isLoadingAllUserData) {
+      await doGenerateTransactionActionRequiredData();
+    }
+  }
+}
 
 const doCheckNewTrackingBitmarks = async (trackingBitmarks) => {
   if (trackingBitmarks) {
@@ -149,7 +173,35 @@ const doCheckNewBitmarks = async (localAssets) => {
     for (let asset of localAssets) {
       asset.filePath = await detectLocalAssetFilePath(asset.id);
       if (asset.metadata && asset.metadata.type === constant.asset.type.music) {
-        asset.thumbnailPath = await detectLocalAssetThumbnailPath(asset.id);
+        asset.thumbnailPath = await detectMusicThumbnailPath(asset.id);
+        let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(CacheData.userInformation.bitmarkAccountNumber, asset.id);
+        if (resultGetLimitedEdition) {
+          asset.limitedEdition = resultGetLimitedEdition.limited;
+        }
+        let bitmarks = asset.bitmarks;
+        let totalIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(CacheData.userInformation.bitmarkAccountNumber, asset.id);
+        let waitingBitmarks = await BitmarkModel.doGetWaitingBitmarks(CacheData.jwt, asset.id);
+        for (let wb of waitingBitmarks) {
+          let index = bitmarks.findIndex(bitmark => bitmark.id = wb.id);
+          if (index >= 0) {
+            bitmarks.splice(index, 1);
+          }
+        }
+        let issuedBitmarks = [];
+        for (let ib of totalIssuedBitmarks) {
+          if (ib.owner === CacheData.userInformation.bitmarkAccountNumber) {
+            let waitingBitmark = waitingBitmarks.find(wb => wb.id = ib.id);
+            if (waitingBitmark) {
+              // TODO
+              ib.owner = waitingBitmark.to_account;
+              issuedBitmarks.push(ib);
+            }
+          } else {
+            issuedBitmarks.push(ib);
+          }
+        }
+        asset.bitmarks = bitmarks;
+        asset.issuedBitmarks = issuedBitmarks;
       }
     }
 
@@ -227,6 +279,26 @@ const runGetTransferOfferInBackground = () => {
       queueGetTransferOffer.forEach(queueResolve => queueResolve());
       queueGetTransferOffer = [];
       console.log('runOnBackground  runGetTransferOfferInBackground error :', error);
+    });
+  });
+};
+
+
+let queueGetClaimRequests = [];
+const runGetClaimRequestInBackground = () => {
+  return new Promise((resolve) => {
+    queueGetClaimRequests.push(resolve);
+    if (queueGetClaimRequests.length > 1) {
+      return;
+    }
+    BitmarkModel.doGetClaimRequest(CacheData.jwt).then(claimRequests => {
+      console.log('runOnBackground  runGetClaimRequestInBackground success');
+      queueGetClaimRequests.forEach(queueResolve => queueResolve(claimRequests));
+      queueGetClaimRequests = [];
+    }).catch(error => {
+      queueGetClaimRequests.forEach(queueResolve => queueResolve());
+      queueGetClaimRequests = [];
+      console.log('runOnBackground  runGetClaimRequestInBackground error :', error);
     });
   });
 };
@@ -378,7 +450,6 @@ const runOnBackground = async () => {
     await doCheckNewTrackingBitmarks(parallelResults[0]);
     await doCheckTransferOffers(parallelResults[1], true);
     await doCheckNewIftttInformation(parallelResults[2], true);
-    await doGenerateTransactionActionRequiredData();
 
     let doParallel = () => {
       return new Promise((resolve) => {
@@ -389,6 +460,10 @@ const runOnBackground = async () => {
       });
     };
     await doParallel();
+
+    let claimRequests = await runGetClaimRequestInBackground();
+    await doCheckClaimRequests(claimRequests, true);
+    await doGenerateTransactionActionRequiredData();
   }
   console.log('runOnBackground done ====================================');
 };
@@ -963,6 +1038,7 @@ const doGetIftttInformation = async () => {
 // ======================================================================================================================================================================================
 const ActionTypes = {
   transfer: 'transfer',
+  claim_request: 'claim_request',
   ifttt: 'ifttt',
   test_write_down_recovery_phase: 'test_write_down_recovery_phase',
 };
@@ -994,6 +1070,21 @@ const doGenerateTransactionActionRequiredData = async () => {
       item.typeTitle = global.i18n.t("DataProcessor_issuanceRequest");
       item.timestamp = item.assetInfo.timestamp;
       actionRequired.push(item);
+      totalTasks++;
+    });
+  }
+
+  let claimRequests = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST)) || {};
+  if (claimRequests && claimRequests.length > 0) {
+    (claimRequests || []).forEach((item) => {
+      actionRequired.push({
+        key: actionRequired.length,
+        claimRequest: item,
+        type: ActionTypes.claim_request,
+        // typeTitle: global.i18n.t("DataProcessor_signToTransferBitmark"),
+        typeTitle: 'SIGN TO TRANSFER BITMARK', //TODO
+        timestamp: moment(item.created_at),
+      });
       totalTasks++;
     });
   }
@@ -1226,6 +1317,23 @@ const doDisplayedWhatNewInformation = async () => {
   updateModal(mapModalDisplayKeyIndex.what_new, true);
 };
 
+const doProcessClaimRequest = async (claimRequest, isAccept) => {
+  if (isAccept) {
+    let asset = claimRequest.asset;
+    if (asset && asset.filePath) {
+      let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
+      await FileUtil.mkdir(`${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted`);
+      let encryptedFilePath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted/${filename}`;
+      let sessionData = await BitmarkSDK.encryptFile(asset.filePath, claimRequest.to, encryptedFilePath);
+      let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, claimRequest.to, encryptedFilePath, sessionData);
+      console.log('uploadResult :', uploadResult);
+    }
+    await BitmarkSDK.giveAwayBitmark(claimRequest.asset.id, claimRequest.to);
+  }
+  await BitmarkModel.doDeleteClaimRequests(CacheData.jwt, [claimRequest.id]);
+  await runGetTransferOfferInBackground
+};
+
 const DataProcessor = {
   doOpenApp,
   doCreateAccount,
@@ -1260,6 +1368,8 @@ const DataProcessor = {
   doGetLocalBitmarkInformation,
   doGetTrackingBitmarkInformation,
   doGetIftttInformation,
+
+  doProcessClaimRequest,
 
   doGetAllTransfersOffers,
   doAddMoreActionRequired,

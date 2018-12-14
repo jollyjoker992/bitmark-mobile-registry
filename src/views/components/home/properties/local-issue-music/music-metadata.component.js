@@ -11,7 +11,7 @@ import { Actions } from 'react-native-router-flux';
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
-import { BitmarkService } from 'src/processors';
+import { BitmarkService, AppProcessor } from 'src/processors';
 
 
 export class MusicMetadataComponent extends React.Component {
@@ -103,7 +103,21 @@ export class MusicMetadataComponent extends React.Component {
   }
 
   onSubmit() {
+    let tempMetadata = merge([], this.state.metadata);
+    tempMetadata.push({ label: 'type', value: constant.asset.type.music });
 
+    //TODO Chinese
+    tempMetadata.push({ label: 'description', value: this.props.description });
+    AppProcessor.doIssueMusic(this.props.filePath, this.props.assetName, tempMetadata, this.props.thumbnailPath, this.props.limitedEdition, {
+      title: '', message: 'Sending your transaction to the Bitmark network...',
+    }).then(result => {
+      console.log('doIssueMusic result:', result);
+      if (result) {
+        Actions.musicIssueSuccess();
+      }
+    }).catch(error => {
+      console.log('doIssueMusic error:', error);
+    })
   }
 
   render() {
@@ -174,7 +188,7 @@ export class MusicMetadataComponent extends React.Component {
 
         <TouchableOpacity
           style={[cStyles.continueButton, (!this.state.metadataError) ? { backgroundColor: '#0060F2' } : {}]}
-          disabled={this.state.metadataError}
+          disabled={!!this.state.metadataError}
           onPress={this.onSubmit.bind(this)}
         >
           <Text style={cStyles.continueButtonText}>RELEASE MUSIC</Text>

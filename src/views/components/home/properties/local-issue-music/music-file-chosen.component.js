@@ -10,7 +10,7 @@ import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker
 
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
-import { convertWidth } from 'src/utils';
+import { convertWidth, FileUtil } from 'src/utils';
 import { AppProcessor } from 'src/processors';
 
 
@@ -19,7 +19,7 @@ export class MusicFileChosenComponent extends React.Component {
   onChooseMusicFile() {
     DocumentPicker.show({
       filetype: [DocumentPickerUtil.audio(),],
-    }, (error, response) => {
+    }, async (error, response) => {
       if (error) {
         Actions.jump('assets');
         return;
@@ -30,9 +30,15 @@ export class MusicFileChosenComponent extends React.Component {
       }
       let filePath = response.uri.replace('file://', '');
       filePath = decodeURIComponent(filePath);
+
+      let destPath = FileUtil.CacheDirectory + '/' + response.fileName;
+      await FileUtil.moveFileSafe(filePath, destPath);
+      filePath = destPath;
+
       AppProcessor.doCheckFileToIssue(filePath).then(asset => {
         if (asset && asset.name) {
-          Alert.alert('Registration Failed', 'The file is already registered before and will not be added again. Please try to add different file.');
+          Actions.musicBasicInfo({ filePath, asset });
+          // Alert.alert('Registration Failed', 'The file is already registered before and will not be added again. Please try to add different file.');
         } else {
           Actions.musicBasicInfo({ filePath });
         }
