@@ -4,7 +4,7 @@ import { config } from 'src/configs';
 // ================================================================================================\
 const doGetCurrentAccount = async () => {
   let userInfo = await AccountModel.doGetCurrentAccount();
-  let userInformation = { bitmarkAccountNumber: userInfo.bitmarkAccountNumber };
+  let userInformation = { bitmarkAccountNumber: userInfo.bitmarkAccountNumber, encryptionPublicKey: userInfo.encryptionPublicKey };
   await UserModel.doUpdateUserInfo(userInformation);
   return userInformation;
 }

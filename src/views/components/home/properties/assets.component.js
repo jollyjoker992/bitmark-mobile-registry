@@ -12,7 +12,7 @@ import { Actions } from 'react-native-router-flux';
 import assetsStyle from './assets.component.style';
 import { DataProcessor, CacheData } from 'src/processors';
 import { defaultStyles, BitmarkWebViewComponent } from 'src/views/commons';
-import { config } from 'src/configs';
+import { config, constant } from 'src/configs';
 import { AssetsStore } from 'src/views/stores';
 let currentSize = Dimensions.get('window');
 
@@ -186,10 +186,10 @@ class PrivateAssetsComponent extends React.Component {
                     {!item.created_at && <Image style={assetsStyle.assetQuantityPendingIcon} source={require('assets/imgs/pending-status.png')} />}
                   </View>
                 </View>
-                <View style={assetsStyle.extendArea}>
+                {item.metadata && item.metadata.type === constant.asset.type.music && <View style={assetsStyle.extendArea}>
                   <Image style={assetsStyle.thumbnailImage} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${item.id}` }} />
                   <Text style={assetsStyle.editionInfo}>Ed.{item.issuedBitmarks.length}/{item.limitedEdition}</Text>
-                </View>
+                </View>}
               </TouchableOpacity>
             ))}
             {(this.props.appLoadingData || (this.props.assets && this.props.assets.length < this.props.totalAssets)) && <View style={assetsStyle.messageNoAssetArea}>

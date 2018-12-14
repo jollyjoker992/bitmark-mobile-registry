@@ -83,6 +83,9 @@ const BitmarkSDK = {
   signMessages: async (messages) => {
     return await SwiftBitmarkSDK.sign(messages);
   },
+  signHexData: async (messages) => {
+    return await SwiftBitmarkSDK.signHexData(messages);
+  },
   issueFile: async (filePath, propertyName, metadata, quantity) => {
     let list = await SwiftBitmarkSDK.issueFile({
       url: filePath,

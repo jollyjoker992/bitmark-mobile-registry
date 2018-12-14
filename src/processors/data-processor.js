@@ -185,9 +185,7 @@ const doCheckNewBitmarks = async (localAssets) => {
         }
         let bitmarks = asset.bitmarks;
         let totalIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(CacheData.userInformation.bitmarkAccountNumber, asset.id);
-        console.log('totalIssuedBitmarks :', totalIssuedBitmarks);
         let bitmarkIds = await BitmarkModel.doGetAwaitTransfers(CacheData.jwt, asset.id);
-        console.log('bitmarkIds :', bitmarkIds);
 
         for (let bid of bitmarkIds) {
           let index = bitmarks.findIndex(bitmark => bitmark.id === bid);
@@ -569,7 +567,7 @@ const doCreateAccount = async () => {
   let userInformation = await AccountService.doGetCurrentAccount();
   let signatureData = await CommonModel.doCreateSignatureData();
   await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
-  let signatures = await BitmarkSDK.signMessages([userInformation.encryptionPublicKey]);
+  let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
   await AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]);
   await CommonModel.doTrackEvent({
     event_name: 'registry_create_new_account',
@@ -583,7 +581,7 @@ const doLogin = async () => {
   let userInformation = await AccountService.doGetCurrentAccount();
   let signatureData = await CommonModel.doCreateSignatureData();
   await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
-  let signatures = await BitmarkSDK.signMessages([userInformation.encryptionPublicKey]);
+  let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
   await AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]);
   return userInformation;
 };
@@ -627,6 +625,7 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 
 const doOpenApp = async (justCreatedBitmarkAccount) => {
   CacheData.userInformation = await UserModel.doTryGetCurrentUser();
+  console.log('CacheData.userInformation :', CacheData.userInformation);
 
   let appInfo = await doGetAppInformation();
   appInfo = appInfo || {};
@@ -1346,7 +1345,8 @@ const doProcessClaimRequest = async (claimRequest, isAccept) => {
       await FileUtil.mkdir(`${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted`);
       let encryptedFilePath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted/${filename}`;
       console.log('encryptedFilePath:', encryptedFilePath);
-      let sessionData = await BitmarkSDK.encryptFile(asset.filePath, claimRequest.to, encryptedFilePath);
+      let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(claimRequest.from);
+      let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptionPublicKey, encryptedFilePath);
       console.log('sessionData:', sessionData);
       let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, claimRequest.to, encryptedFilePath, sessionData);
       console.log('uploadResult:', uploadResult);
