@@ -74,6 +74,17 @@ export default StyleSheet.create({
     width: convertWidth(126),
     marginLeft: convertWidth(19),
   },
+  thumbnailImage: {
+    width: 73, height: 73, resizeMode: 'contain',
+    marginLeft: convertWidth(9),
+    marginTop: 29,
+  },
+  editionInfo: {
+    marginLeft: convertWidth(19),
+    marginTop: 5,
+    marginBottom: 10,
+    fontFamily: 'Avenir-Medium', fontSize: 14, fontWeight: '900', color: '#0060F2',
+  },
   assetName: {
     fontFamily: 'Avenir Black',
     fontWeight: '900',
@@ -138,7 +149,7 @@ export default StyleSheet.create({
     lineHeight: 16,
     fontWeight: '900',
     marginLeft: convertWidth(19),
-    marginTop: 27,
+    marginTop: 20,
   },
   bitmarksArea: {
 

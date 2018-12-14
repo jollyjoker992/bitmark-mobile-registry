@@ -7,7 +7,7 @@ import {
 
 import claimRequestStyle from './claim-request.component.style';
 import { defaultStyles } from 'src/views/commons';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { Actions } from 'react-native-router-flux';
 import { AppProcessor, EventEmitterService } from 'src/processors';
 
@@ -30,6 +30,7 @@ export class ClaimRequestComponent extends React.Component {
             Actions.jump('transactions');
           }
         })).catch(error => {
+          console.log({ error });
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
         });
       }
@@ -38,11 +39,12 @@ export class ClaimRequestComponent extends React.Component {
     }])
   }
   doAccept() {
-    AppProcessor.doProcessClaimRequest(this.props.claimRequest, false).then((result => {
+    AppProcessor.doProcessClaimRequest(this.props.claimRequest, true).then((result => {
       if (result) {
         Actions.jump('transactions');
       }
     })).catch(error => {
+      console.log({ error });
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
     });
   }
@@ -61,10 +63,10 @@ export class ClaimRequestComponent extends React.Component {
         <View style={claimRequestStyle.body}>
           <ScrollView style={[claimRequestStyle.contentScroll]} contentContainerStyle={{ flexGrow: 1, }}>
             <TouchableOpacity activeOpacity={1} style={claimRequestStyle.content}>
-              <Image style={claimRequestStyle.assetThumbnail} source={{}} />
-              <Text style={claimRequestStyle.assetInfo}>{this.props.claimRequest.asset.name} [{this.props.claimRequest.asset.totalIssuance}/{this.props.claimRequest.asset.limitedEdition}]</Text>
+              <Image style={claimRequestStyle.assetThumbnail} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.claimRequest.asset.id}` }} />
+              <Text style={claimRequestStyle.assetInfo}>{this.props.claimRequest.asset.name} [{this.props.claimRequest.asset.issuedBitmarks.length}/{this.props.claimRequest.asset.limitedEdition}]</Text>
               <Text style={claimRequestStyle.claimMessage}>
-                <Text style={{ fontFamily: 'Andale Mono' }}>{this.props.claimRequest.fromAccountNumber}</Text> {global.i18n.t("ClaimRequestComponent_claimMessage1")} <Text style={{ fontWeight: 'bold' }}>{this.props.claimRequest.asset.name}</Text>. {global.i18n.t("ClaimRequestComponent_claimMessage2")}
+                <Text style={{ fontFamily: 'Andale Mono' }}>{this.props.claimRequest.from}</Text> {global.i18n.t("ClaimRequestComponent_claimMessage1")} <Text style={{ fontWeight: 'bold' }}>{this.props.claimRequest.asset.name}</Text>. {global.i18n.t("ClaimRequestComponent_claimMessage2")}
               </Text>
             </TouchableOpacity>
           </ScrollView>

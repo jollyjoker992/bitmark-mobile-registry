@@ -129,7 +129,7 @@ export default StyleSheet.create({
 
   assetRowArea: {
     width: '100%',
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
     borderBottomColor: '#EDF0F4',
     borderBottomWidth: 1,
@@ -145,7 +145,7 @@ export default StyleSheet.create({
   },
   assetInfoArea: {
     flexDirection: 'column',
-    width: '100%',
+    flex: 1,
   },
   assetCreatedAt: {
     fontFamily: 'Andale Mono',
@@ -222,6 +222,16 @@ export default StyleSheet.create({
     width: 6,
     height: 12,
     resizeMode: 'contain',
+  },
+  extendArea: {
+    padding: 5,
+  },
+  thumbnailImage: {
+    width: 73, height: 73, resizeMode: 'contain',
+  },
+  editionInfo: {
+    marginTop: 5,
+    fontFamily: 'Avenir-Medium', fontSize: 14, fontWeight: '900', color: '#0060F2',
   },
 
 

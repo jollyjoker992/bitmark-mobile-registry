@@ -20,7 +20,6 @@ export default StyleSheet.create({
   },
   assetThumbnail: {
     width: 229, height: 229, resizeMode: 'contain',
-    borderWidth: 1,
   },
   assetInfo: {
     marginTop: 21,

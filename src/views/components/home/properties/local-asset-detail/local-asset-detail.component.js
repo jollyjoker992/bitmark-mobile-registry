@@ -94,6 +94,7 @@ class PrivateLocalAssetDetailComponent extends React.Component {
     if (!this.props.asset) {
       Actions.pop();
     }
+    console.log('PrivateLocalAssetDetailComponent props:', this.props);
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', }}>
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
@@ -127,11 +128,14 @@ class PrivateLocalAssetDetailComponent extends React.Component {
               {this.state.copied && <Text style={assetDetailStyle.copiedAssetIddButtonText}>{global.i18n.t("LocalAssetDetailComponent_copiedAssetIddButtonText")}</Text>}
             </TouchableOpacity>
           </View>}
-          <ScrollView style={assetDetailStyle.content}>
+          <ScrollView style={assetDetailStyle.content} contentContainerStyle={{ flexGrow: 1, paddingBottom: 50, }}>
             <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => this.setState({ displayTopButton: false })}>
               <View style={assetDetailStyle.bottomImageBar}></View>
-
+              {this.props.asset.metadata && this.props.asset.metadata.type === constant.asset.type.music &&
+                <Image style={assetDetailStyle.thumbnailImage} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.asset.id}` }} />}
               <Text style={[assetDetailStyle.assetName, { color: this.props.asset.created_at ? 'black' : '#999999' }]} >{this.props.asset.name}</Text>
+              {this.props.asset.issuedBitmarks && this.props.asset.limitedEdition &&
+                <Text style={assetDetailStyle.editionInfo}>Ed.{this.props.asset.issuedBitmarks.length}/{this.props.asset.limitedEdition}</Text>}
               <View style={assetDetailStyle.assetCreatorRow}>
                 <Text style={[assetDetailStyle.assetCreatorBound, { color: this.props.asset.created_at ? 'black' : '#999999' }]}>
                   {this.props.asset.created_at ? (global.i18n.t("LocalAssetDetailComponent_registeredOn") + moment(this.props.asset.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase()) : global.i18n.t("LocalAssetDetailComponent_registering")}
@@ -248,6 +252,35 @@ class PrivateLocalAssetDetailComponent extends React.Component {
                   })}
                 </View>
               </View>
+
+              <Text style={assetDetailStyle.bitmarkLabel}>{global.i18n.t("LocalAssetDetailComponent_totalIssuedBitmarks")} ({(this.props.asset.bitmarks || []).length})</Text>
+              <View style={assetDetailStyle.bitmarksArea}>
+                <View style={assetDetailStyle.bitmarksHeader}>
+                  <Text style={[assetDetailStyle.bitmarksHeaderLabel]}>{global.i18n.t("LocalAssetDetailComponent_bitmarkId")}</Text>
+                  <Text style={[assetDetailStyle.bitmarksHeaderLabel, { width: convertWidth(218) }]}>{global.i18n.t("LocalAssetDetailComponent_currentOwner")}</Text>
+                </View>
+                <View style={assetDetailStyle.bitmarkListArea}>
+                  {(this.props.asset.issuedBitmarks || []).map((bitmark) => {
+
+                    if (bitmark.owner === CacheData.userInformation.bitmarkAccountNumber) {
+                      return (<View key={bitmark.id} style={[assetDetailStyle.bitmarksRow]} >
+                        <Text style={assetDetailStyle.bitmarksRowNo} numberOfLines={1}>{bitmark.id}</Text>
+                        <Text style={[assetDetailStyle.bitmarkTransferButtonText, { color: '#999999' }]}>{global.i18n.t("LocalAssetDetailComponent_pending")}</Text>
+                      </View>);
+                    }
+
+                    return (<View key={bitmark.id} style={[assetDetailStyle.bitmarksRow]} >
+                      <Text style={assetDetailStyle.bitmarksRowNo} numberOfLines={1}>{'' + bitmark.id}</Text>
+                      <TouchableOpacity style={assetDetailStyle.bitmarkViewButton} onPress={() => {
+                        Actions.bitmarkWebViewFull({ title: 'Registry', sourceUrl: config.registry_server_url + `/account/${bitmark.owner}?env=app`, });
+                      }}>
+                        <Text style={[assetDetailStyle.bitmarkViewButtonText]}>{`${bitmark.owner.substring(0, 4)}...${bitmark.owner.substring(bitmark.owner.length - 4, bitmark.owner.length)}`}</Text>
+                      </TouchableOpacity>
+                    </View>);
+                  })}
+                </View>
+              </View>
+
             </TouchableOpacity>
           </ScrollView>
         </View></TouchableWithoutFeedback>

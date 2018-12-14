@@ -204,6 +204,7 @@ class PrivateTransactionsComponent extends React.Component {
               <FlatList data={this.props.actionRequired}
                 extraData={this.state}
                 renderItem={({ item }) => {
+                  console.log('item:', item);
                   return (<TouchableOpacity style={transactionsStyle.transferOfferRow} onPress={() => this.clickToActionRequired(item)}>
                     <View style={transactionsStyle.transferOfferTitle}>
                       <Text style={transactionsStyle.transferOfferTitleType}>{item.typeTitle.toUpperCase()}</Text>
@@ -227,6 +228,11 @@ class PrivateTransactionsComponent extends React.Component {
                         <Text style={transactionsStyle.recoveryPhaseActionRequiredDescription}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredDescription")}</Text>
                         <Image style={transactionsStyle.recoveryPhaseActionRequiredImportantIcon} source={require('assets/imgs/alert.png')} />
                       </View>
+                    </View>}
+
+                    {item.type === ActionTypes.claim_request && <View style={transactionsStyle.iftttTask}>
+                      <Text style={transactionsStyle.iftttTitle}>{item.claimRequest.asset.name} {item.claimRequest.asset.issuedBitmarks.length}/{item.claimRequest.asset.limitedEdition}</Text>
+                      <Text style={transactionsStyle.iftttDescription}>[{`${item.claimRequest.from}`}] has requested the bitmark of this property.</Text>
                     </View>}
                   </TouchableOpacity>)
                 }} />

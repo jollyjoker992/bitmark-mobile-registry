@@ -40,7 +40,7 @@ import {
 import { BitmarkWebViewComponent } from 'src/views/commons';
 import { EventEmitterService, DataProcessor, AppProcessor } from 'src/processors';
 
-// import PushNotification from 'react-native-push-notification';
+import PushNotification from 'react-native-push-notification';
 
 let ComponentName = 'UserRouterComponent';
 export class UserRouterComponent extends Component {
@@ -54,16 +54,15 @@ export class UserRouterComponent extends Component {
   componentDidMount() {
     EventEmitterService.on(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, this.handerReceivedNotification, ComponentName);
     DataProcessor.setMountedRouter();
-    // setTimeout(() => {
-    //   PushNotification.localNotification({
-    //     message: 'test message',
-    //     userInfo: {
-    //       name: 'transfer_completed',
-    //       // event: 'tracking_transfer_confirmed',
-    //       // bitmark_id: '84c0b0a97b873feff56874d33330c74755af0b55e62d1d69cc831ce6e4b567fe',
-    //     }
-    //   });
-    // }, 3000);
+    setTimeout(() => {
+      PushNotification.localNotification({
+        message: 'test message',
+        userInfo: {
+          name: 'claim_request',
+          claim_id: '7afea9e5-6ea0-4af8-b56e-79218a57eaf3',
+        }
+      });
+    }, 3000);
   }
 
   componentWillUnmount() {
@@ -103,9 +102,9 @@ export class UserRouterComponent extends Component {
       }).then(trackingBitmark => {
         Actions.localPropertyDetail({ asset: trackingBitmark.asset, bitmark: trackingBitmark });
       }).catch(console.log);
-    } else if (data.event === 'claim_asset_request') {
+    } else if (data.event === 'claim_request') {
       DataProcessor.doReloadClaimAssetRequest().then((claimRequests) => {
-        let claimRequest = (claimRequests || []).find(cr => cr.id = data.id);
+        let claimRequest = (claimRequests || []).find(cr => cr.id = data.claim_id);
         Actions.claimRequest({ claimRequest });
       }).catch(console.log);
     }

@@ -74,7 +74,7 @@ const BitmarkSDK = {
     return {
       bitmarkAccountNumber: list[0],
       phraseWords: list[1],
-      encryptionPublicKey: list[2],
+      encryptionPublicKey: list[3],
     };
   },
   storeFileSecurely: async (filePath, desFilePath) => {

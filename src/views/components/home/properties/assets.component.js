@@ -186,6 +186,10 @@ class PrivateAssetsComponent extends React.Component {
                     {!item.created_at && <Image style={assetsStyle.assetQuantityPendingIcon} source={require('assets/imgs/pending-status.png')} />}
                   </View>
                 </View>
+                <View style={assetsStyle.extendArea}>
+                  <Image style={assetsStyle.thumbnailImage} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${item.id}` }} />
+                  <Text style={assetsStyle.editionInfo}>Ed.{item.issuedBitmarks.length}/{item.limitedEdition}</Text>
+                </View>
               </TouchableOpacity>
             ))}
             {(this.props.appLoadingData || (this.props.assets && this.props.assets.length < this.props.totalAssets)) && <View style={assetsStyle.messageNoAssetArea}>

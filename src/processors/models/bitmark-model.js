@@ -753,19 +753,16 @@ const doGetClaimRequest = (jwt) => {
   });
 };
 
-const doDeleteClaimRequests = (jwt, ids) => {
+const doDeleteClaimRequests = (jwt, id) => {
   return new Promise((resolve, reject) => {
     let statusCode;
-    fetch(`${config.mobile_server_url}/api/claim_requests`, {
+    fetch(`${config.mobile_server_url}/api/claim_requests/${id}`, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + jwt,
-      },
-      body: JSON.stringify({
-        ids
-      })
+      }
     }).then((response) => {
       statusCode = response.status;
       if (statusCode < 400) {
@@ -829,7 +826,7 @@ const doGetAwaitTransfers = (jwt) => {
       if (statusCode >= 400) {
         return reject(new Error(`doGetAwaitTransfers error :` + JSON.stringify(data)));
       }
-      resolve(data ? data.bitmark_ids : []);
+      resolve(data ? (data.bitmark_ids || []) : []);
     }).catch(reject);
   });
 };
