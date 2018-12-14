@@ -144,7 +144,7 @@ public struct SeedV1: Seedable {
     
     public func getKeysData() throws -> (Data, Data) {
         return (try SeedV1.derive(core: core, indexData: "000000000000000000000000000003e7".hexDecodedData),
-        try SeedV1.derive(core: core, indexData: "000000000000000000000000000003e2".hexDecodedData))
+        try SeedV1.derive(core: core, indexData: "000000000000000000000000000003e8".hexDecodedData))
     }
 }
 
