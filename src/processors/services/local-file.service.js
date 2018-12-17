@@ -1,5 +1,5 @@
 import DeviceInfo from 'react-native-device-info';
-import { FileUtil } from '../utils';
+import { FileUtil } from 'src/utils';
 
 const setShareLocalStoragePath = async () => {
     let appBundleId = DeviceInfo.getBundleId();

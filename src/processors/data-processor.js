@@ -85,7 +85,7 @@ const detectLocalAssetFilePath = async (assetId) => {
 };
 
 const detectMusicThumbnailPath = async (assetId) => {
-  let assetFolderPath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${assetId}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${assetId}`;
   let thumbnailPath = `${assetFolderPath}/thumbnail.png`;
   let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
   if (!existAssetFolder || existAssetFolder.error) {
@@ -1353,8 +1353,8 @@ const doProcessClaimRequest = async (claimRequest, isAccept) => {
     let asset = claimRequest.asset;
     if (asset && asset.filePath) {
       let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
-      await FileUtil.mkdir(`${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted`);
-      let encryptedFilePath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted/${filename}`;
+      await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted`);
+      let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/${filename}`;
       let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(claimRequest.from);
       let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptionPublicKey, encryptedFilePath);
       let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, claimRequest.from, encryptedFilePath, sessionData);
