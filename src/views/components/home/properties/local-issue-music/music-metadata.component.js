@@ -93,7 +93,7 @@ export class MusicMetadataComponent extends React.Component {
     Alert.alert('Do you want delete this metadata?', '', [{
       text: 'Cancel', style: 'cancel',
     }, {
-      text: 'Yes',
+      text: 'Yes', style: 'destructive',
       onPress: () => {
         let metadata = this.state.metadata;
         metadata.splice(index, 1);

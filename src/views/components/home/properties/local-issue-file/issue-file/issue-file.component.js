@@ -157,7 +157,7 @@ export class LocalIssueFileComponent extends React.Component {
     Alert.alert(global.i18n.t("LocalIssueFileComponent_confirmDeleteLable"), '', [{
       text: global.i18n.t("LocalIssueFileComponent_cancel"), style: 'cancel',
     }, {
-      text: global.i18n.t("LocalIssueFileComponent_yes"),
+      text: global.i18n.t("LocalIssueFileComponent_yes"), style: 'destructive',
       onPress: () => {
         let metadataList = this.state.metadataList.filter((item) => item.key != key);
         this.checkIssuance(this.state.assetName, metadataList, this.state.quantity);

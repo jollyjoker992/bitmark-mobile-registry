@@ -44,7 +44,7 @@ export class MusicBasicInfoComponent extends React.Component {
     Alert.alert('Confirmation', 'Are you sure you want to delete the uploaded file? You will have to re-upload the file again in order to release your music.', [{
       text: 'Cancel', style: 'cancel',
     }, {
-      text: 'Delete',
+      text: 'Delete', style: 'destructive',
       onPress: () => {
         DocumentPicker.show({
           filetype: [DocumentPickerUtil.audio(), 'public.data'],
@@ -68,6 +68,9 @@ export class MusicBasicInfoComponent extends React.Component {
             if (asset && asset.name) {
               Alert.alert('Registration Failed', 'The file is already registered before and will not be added again. Please try to add different file.');
             } else {
+              if (this.state.filePath !== filePath) {
+                FileUtil.removeSafe(this.state.filePath);
+              }
               this.setState({ filePath });
             }
           }).catch(error => {
