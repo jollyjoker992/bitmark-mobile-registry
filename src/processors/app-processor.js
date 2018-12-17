@@ -1,12 +1,13 @@
 import { Platform, AppRegistry } from 'react-native';
 import moment from 'moment';
-import { registerTasks } from './app-tasks-register';
+import { registerTasks } from './app-tasks';
 
-import { CommonModel, AccountModel, FaceTouchId, NotificationModel } from './../models';
-import { AccountService, BitmarkService, EventEmitterService, TransactionService } from './../services'
+import { AccountModel, FaceTouchId, NotificationModel } from './models';
+import { AccountService, BitmarkService, EventEmitterService, TransactionService } from './services'
 import { DataProcessor } from './data-processor';
-import { ios } from '../configs';
-import { compareVersion } from '../utils';
+
+import { config } from 'src/configs';
+import { compareVersion } from 'src/utils';
 
 registerTasks();
 // ================================================================================================
@@ -63,23 +64,15 @@ const executeTask = (taskKey, data) => {
 // ================================================================================================
 // ================================================================================================
 const doCreateNewAccount = async (enableTouchId) => {
-  if (enableTouchId && Platform.OS === 'ios' && ios.config.isIPhoneX) {
+  if (enableTouchId && Platform.OS === 'ios' && config.isIPhoneX) {
     await FaceTouchId.authenticate();
   }
-  let touchFaceIdSession = await AccountModel.doCreateAccount(enableTouchId);
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  CommonModel.setFaceTouchSessionId(touchFaceIdSession);
-  return await processing(DataProcessor.doCreateAccount(touchFaceIdSession));
+  await AccountModel.doCreateAccount(enableTouchId);
+  return await processing(DataProcessor.doCreateAccount());
 };
 
-const doGetCurrentAccount = async (touchFaceIdMessage) => {
-  let touchFaceIdSession = await CommonModel.doStartFaceTouchSessionId(touchFaceIdMessage);
-  if (!touchFaceIdSession) {
-    return null;
-  }
-  let userInfo = await processing(AccountModel.doGetCurrentAccount(touchFaceIdSession));
+const doGetCurrentAccount = async () => {
+  let userInfo = await processing(AccountModel.doGetCurrentAccount());
   return userInfo;
 };
 
@@ -95,14 +88,8 @@ const doCheckFileToIssue = async (filePath) => {
   return await processing(BitmarkService.doCheckFileToIssue(filePath));
 };
 
-const doCreateSignatureData = async (touchFaceIdMessage, newSession) => {
-  if (newSession) {
-    let sessionId = await CommonModel.doStartFaceTouchSessionId(touchFaceIdMessage);
-    if (!sessionId) {
-      return null;
-    }
-  }
-  return await processing(AccountService.doCreateSignatureData(touchFaceIdMessage));
+const doCreateSignatureData = async () => {
+  return await processing(AccountService.doCreateSignatureData());
 };
 
 const doReloadUserData = async () => {
@@ -131,8 +118,11 @@ const doLogout = async () => {
   return executeTask('doLogout');
 };
 
-const doIssueFile = async (filePath, assetName, metadataList, quantity, isPublicAsset, processingInfo) => {
-  return executeTask('doIssueFile', { filePath, assetName, metadataList, quantity, isPublicAsset, processingInfo });
+const doIssueFile = async (filePath, assetName, metadataList, quantity, processingInfo) => {
+  return executeTask('doIssueFile', { filePath, assetName, metadataList, quantity, processingInfo });
+};
+const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, limitedEdition, processingInfo) => {
+  return executeTask('doIssueMusic', { filePath, assetName, metadataList, thumbnailPath, limitedEdition, processingInfo });
 };
 
 const doTransferBitmark = async (bitmark, receiver, isDeleting = false) => {
@@ -188,6 +178,15 @@ const doDecentralizedIssuance = async (token, encryptionKey, expiredTime) => {
 const doDecentralizedTransfer = async (token, expiredTime) => {
   return executeTask('doDecentralizedTransfer', { token, expiredTime });
 };
+const doProcessClaimRequest = (claimRequest, isAccept) => {
+  return executeTask('doProcessClaimRequest', { claimRequest, isAccept });
+};
+const doSendClaimRequest = async (asset) => {
+  return executeTask('doSendClaimRequest', { asset });
+};
+const doGetAssetToClaim = async (assetId) => {
+  return executeTask('doGetAssetToClaim', { assetId });
+};
 
 
 const doCheckNoLongerSupportVersion = async () => {
@@ -203,10 +202,6 @@ const doCheckNoLongerSupportVersion = async () => {
   return true;
 };
 
-const doMigrateFilesToLocalStorage = async () => {
-  return executeTask('doMigrateFilesToLocalStorage');
-};
-
 // ================================================================================================
 // ================================================================================================
 // ================================================================================================
@@ -220,6 +215,7 @@ let AppProcessor = {
   doCreateSignatureData,
   doCheckFileToIssue,
   doIssueFile,
+  doIssueMusic,
   doGetProvenance,
   doGetTransferOfferDetail,
   doTransferBitmark,
@@ -238,7 +234,9 @@ let AppProcessor = {
   doGetAllTransfersOffers,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
-  doMigrateFilesToLocalStorage,
+  doProcessClaimRequest,
+  doSendClaimRequest,
+  doGetAssetToClaim,
 
   doStartBackgroundProcess,
 
