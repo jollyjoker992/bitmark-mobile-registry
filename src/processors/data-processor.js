@@ -1358,6 +1358,7 @@ const doProcessClaimRequest = async (claimRequest, isAccept) => {
       console.log('uploadResult:', uploadResult);
     }
     let result = await BitmarkSDK.giveAwayBitmark(claimRequest.asset.id, claimRequest.from);
+    console.log('giveAwayBitmark:', result);
     let resultPost = await BitmarkModel.doPostAwaitTransfer(CacheData.jwt, result.bitmarkId, result.transferPayload);
     console.log('doPostAwaitTransfer result:', resultPost);
   }
