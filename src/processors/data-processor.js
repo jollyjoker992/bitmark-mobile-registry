@@ -1363,7 +1363,8 @@ const doProcessClaimRequest = async (claimRequest, isAccept) => {
     console.log('doPostAwaitTransfer result:', resultPost);
   }
   await BitmarkModel.doDeleteClaimRequests(CacheData.jwt, claimRequest.id);
-  await runGetClaimRequestInBackground();
+  let claimRequests = await runGetClaimRequestInBackground();
+  await doCheckClaimRequests(claimRequests);
   return true;
 };
 
