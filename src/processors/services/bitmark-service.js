@@ -141,7 +141,7 @@ const doIssueFile = async (bitmarkAccountNumber, filePath, assetName, metadataLi
   }
   let issueResult = await BitmarkModel.doIssueFile(filePath, assetName, metadata, quantity);
 
-  let assetFolderPath = `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}/assets/${issueResult.assetId}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber)}/${issueResult.assetId}`;
   let downloadedFolder = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(assetFolderPath);
   await FileUtil.mkdir(downloadedFolder);
@@ -176,7 +176,7 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
   let issueResult = await BitmarkModel.doIssueFile(filePath, assetName, metadata, 1);
   let signatures = await BitmarkSDK.signMessages([issueResult.assetId + '|' + limitedEdition]);
   await BitmarkModel.doUploadMusicThumbnail(bitmarkAccountNumber, issueResult.assetId, thumbnailPath, limitedEdition, signatures[0]);
-  let assetFolderPath = `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}/assets/${issueResult.assetId}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber)}/${issueResult.assetId}`;
   let downloadedFolder = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(assetFolderPath);
   await FileUtil.mkdir(downloadedFolder);

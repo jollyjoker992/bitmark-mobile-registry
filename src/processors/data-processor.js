@@ -10,6 +10,7 @@ import {
   TransactionService,
   BitmarkService,
   AccountService,
+  LocalFileService,
 } from './services';
 import {
   CommonModel, AccountModel, UserModel, BitmarkSDK,
@@ -69,7 +70,7 @@ let updateModal = (keyIndex, data) => {
 
 // ================================================================================================================================================
 const detectLocalAssetFilePath = async (assetId) => {
-  let assetFolderPath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${assetId}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${assetId}`;
   let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
   if (!existAssetFolder || existAssetFolder.error) {
     return null;
@@ -631,6 +632,7 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 const doOpenApp = async (justCreatedBitmarkAccount) => {
   CacheData.userInformation = await UserModel.doTryGetCurrentUser();
   console.log('CacheData.userInformation :', CacheData.userInformation);
+  await LocalFileService.setShareLocalStoragePath();
 
   let appInfo = await doGetAppInformation();
   appInfo = appInfo || {};
@@ -654,6 +656,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     }
     configNotification();
     await checkAppNeedResetLocalData(appInfo);
+    await LocalFileService.moveFilesFromLocalStorageToSharedStorage();
 
     let signatureData = await CommonModel.doCreateSignatureData();
     let result = await AccountModel.doRegisterJWT(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
@@ -754,7 +757,7 @@ const doDownloadBitmark = async (bitmark) => {
   let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
   let asset = localAssets.find(asset => asset.id === bitmark.asset_id);
 
-  let assetFolderPath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${bitmark.asset_id}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${bitmark.asset_id}`;
   await FileUtil.mkdir(assetFolderPath);
   let downloadingFolderPath = `${assetFolderPath}/downloading`;
   await FileUtil.mkdir(downloadingFolderPath);
@@ -969,8 +972,8 @@ const doTransferBitmark = async (bitmarkId, receiver, isDeleting) => {
   let { asset } = await doGetLocalBitmarkInformation(bitmarkId);
   if (asset && asset.filePath) {
     let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
-    await FileUtil.mkdir(`${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted`);
-    let encryptedFilePath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted/${filename}`;
+    await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted`);
+    let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/${filename}`;
     let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(receiver);
     let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptionPublicKey, encryptedFilePath);
     let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, receiver, encryptedFilePath, sessionData);
@@ -984,7 +987,7 @@ const doTransferBitmark = async (bitmarkId, receiver, isDeleting) => {
   let localAssets = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS);
   let currentAsset = localAssets.find(la => la.id === asset.id);
   if (!currentAsset) {
-    await FileUtil.removeSafe(`${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}`);
+    await FileUtil.removeSafe(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}`);
   }
   return result;
 };
@@ -1258,7 +1261,7 @@ const doDecentralizedTransfer = async (token, ) => {
   let currentAsset = localAssets.find(la => la.id === asset.id);
   if (!currentAsset) {
     // TODO
-    await FileUtil.removeSafe(`${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}`);
+    await FileUtil.removeSafe(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}`);
   }
   return result;
 };
