@@ -560,6 +560,7 @@
 		47DB6BF263410EE6B6BFD016 /* Pods-Bitmark Registry beta.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark Registry beta.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark Registry beta/Pods-Bitmark Registry beta.debug.xcconfig"; sourceTree = "<group>"; };
 		4E73B102E921F70474E8CA7A /* Pods_Bitmark_Registry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bitmark_Registry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		579C1381393E59B3042E29F2 /* Pods-Bitmark.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark/Pods-Bitmark.release.xcconfig"; sourceTree = "<group>"; };
+		580E1E3721C743DB0097AED4 /* Bitmark-dev.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "Bitmark-dev.entitlements"; path = "Bitmark/Bitmark-dev.entitlements"; sourceTree = "<group>"; };
 		583BAC2C216F51600015E3A0 /* Bitmark Registry beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bitmark Registry beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		583BAC2E216F52E90015E3A0 /* Info-beta.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-beta.plist"; path = "Bitmark/Info-beta.plist"; sourceTree = "<group>"; };
 		583BAC2F216F52E90015E3A0 /* Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Info-dev.plist"; path = "Bitmark/Info-dev.plist"; sourceTree = "<group>"; };
@@ -840,6 +841,7 @@
 			isa = PBXGroup;
 			children = (
 				58CB488F201EC5670058B364 /* Bitmark.entitlements */,
+				580E1E3721C743DB0097AED4 /* Bitmark-dev.entitlements */,
 				58B92EA5205A23450037AB9D /* Bitmark-beta.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				58FC1E54201B21CC00F60AF9 /* Bitmark-Bridging-Header.h */,
@@ -1278,11 +1280,19 @@
 					583BABF8216F51600015E3A0 = {
 						DevelopmentTeam = A52M7AQ8B2;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					58908A7820A18A5A00C0064A = {
 						DevelopmentTeam = A52M7AQ8B2;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.HealthKit = {
 								enabled = 0;
 							};
@@ -2403,7 +2413,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "Bitmark/Bitmark-beta.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Bitmark/Bitmark-dev.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
@@ -2444,7 +2454,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-dev";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "Bitmark/Bitmark-beta.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Bitmark/Bitmark-dev.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
