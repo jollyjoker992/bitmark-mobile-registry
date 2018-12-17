@@ -20,6 +20,8 @@ public interface BitmarkSDKExposable {
 
     void sign(ReadableArray messages, Promise promise) throws NativeModuleException;
 
+    void signHexData(ReadableArray messages, Promise promise) throws NativeModuleException;
+
     void issueBitmark(ReadableMap params, Promise promise) throws NativeModuleException;
 
     void giveAwayBitmark(ReadableMap params, Promise promise) throws NativeModuleException;

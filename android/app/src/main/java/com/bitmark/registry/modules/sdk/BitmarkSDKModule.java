@@ -209,6 +209,32 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     @ReactMethod
     @Override
+    public void signHexData(ReadableArray messages, Promise promise) throws NativeModuleException {
+        getAccount(new Callback1<Account>() {
+            @Override
+            public void onSuccess(Account account) {
+                PrivateKey key = account.getKey().privateKey();
+                String[] messageArray = toStringArray(messages);
+                String[] signatures = new String[messageArray.length];
+
+                for (int i = 0, size = messageArray.length; i < size; i++) {
+                    String message = messageArray[i];
+                    signatures[i] = HEX
+                            .encode(Ed25519.sign(HEX.decode(message), key.toBytes()));
+                }
+
+                promise.resolve(signatures);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                promise.reject(throwable);
+            }
+        });
+    }
+
+    @ReactMethod
+    @Override
     public void issueBitmark(ReadableMap params, Promise promise) throws NativeModuleException {
 
         Map<String, String> metadata = toStringMap(params.getMap("metadata"));
