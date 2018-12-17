@@ -28,58 +28,51 @@ export class MusicBasicInfoComponent extends React.Component {
       filePath: this.props.filePath || 'abc/test.mp4',
       thumbnailPath: null,
       canContinue: false,
-      assetName: '',
-      // assetName: this.props.asset.name || '',
+      // assetName: '',
+      assetName: this.props.asset.name || '',
       assetNameError: '',
       limited: '',
       limitedError: '',
-      description: '',
-      // description: this.props.asset.metadata.description || '',
+      // description: '',
+      description: this.props.asset.metadata.description || '',
       descriptionError: '',
       thumbnailPathError: '',
     }
   }
 
   changeFile() {
-    Alert.alert(global.i18n.t('MusicBasicInfoComponent_changeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_changeFileAlertMessage'), [{
-      text: global.i18n.t('MusicBasicInfoComponent_changeFileAlertCancel'), style: 'cancel',
-    }, {
-      text: global.i18n.t('MusicBasicInfoComponent_changeFileAlertDelete'), style: 'destructive',
-      onPress: () => {
-        DocumentPicker.show({
-          filetype: [DocumentPickerUtil.audio(), 'public.data'],
-        }, async (error, response) => {
-          if (error) {
-            Actions.jump('assets');
-            return;
-          }
-          if (response.fileSize > 100 * 1024 * 1024) {
-            Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
-            return;
-          }
-          let filePath = response.uri.replace('file://', '');
-          filePath = decodeURIComponent(filePath);
-
-          let destPath = FileUtil.CacheDirectory + '/' + (response.fileName || (response.uri.substring(response.uri.lastIndexOf('/') + 1, response.uri.length)));
-          await FileUtil.moveFileSafe(filePath, destPath);
-          filePath = destPath;
-
-          AppProcessor.doCheckFileToIssue(filePath).then(asset => {
-            if (asset && asset.name) {
-              Alert.alert(global.i18n.t('MusicBasicInfoComponent_registerFailedAlertTitle'), global.i18n.t('MusicBasicInfoComponent_registerFailedAlertMessage'));
-            } else {
-              if (this.state.filePath !== filePath) {
-                FileUtil.removeSafe(this.state.filePath);
-              }
-              this.setState({ filePath });
-            }
-          }).catch(error => {
-            Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
-            console.log({ error });
-          });
-        });
+    DocumentPicker.show({
+      filetype: [DocumentPickerUtil.audio(), 'public.data'],
+    }, async (error, response) => {
+      if (error) {
+        Actions.jump('assets');
+        return;
       }
-    }])
+      if (response.fileSize > 100 * 1024 * 1024) {
+        Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
+        return;
+      }
+      let filePath = response.uri.replace('file://', '');
+      filePath = decodeURIComponent(filePath);
+
+      let destPath = FileUtil.CacheDirectory + '/' + (response.fileName || (response.uri.substring(response.uri.lastIndexOf('/') + 1, response.uri.length)));
+      await FileUtil.moveFileSafe(filePath, destPath);
+      filePath = destPath;
+
+      AppProcessor.doCheckFileToIssue(filePath).then(asset => {
+        if (asset && asset.name) {
+          Alert.alert(global.i18n.t('MusicBasicInfoComponent_registerFailedAlertTitle'), global.i18n.t('MusicBasicInfoComponent_registerFailedAlertMessage'));
+        } else {
+          if (this.state.filePath !== filePath) {
+            FileUtil.removeSafe(this.state.filePath);
+          }
+          this.setState({ filePath });
+        }
+      }).catch(error => {
+        Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
+        console.log({ error });
+      });
+    });
   }
 
   onChooseThumbnail() {
@@ -295,7 +288,7 @@ export class MusicBasicInfoComponent extends React.Component {
                 <View style={cStyles.fileInfo}>
                   <Text style={cStyles.fileName}>{this.state.filePath.substring(this.state.filePath.lastIndexOf('/') + 1, this.state.filePath.length)}</Text>
                   <TouchableOpacity style={cStyles.fileRemoveButton} onPress={this.changeFile.bind(this)}>
-                    <Image style={cStyles.fileRemoveButtonIcon} source={require('assets/imgs/remove-icon.png')} />
+                    <Image style={cStyles.fileRemoveButtonIcon} source={require('assets/imgs/change_file_icon.png')} />
                   </TouchableOpacity>
                 </View>
 

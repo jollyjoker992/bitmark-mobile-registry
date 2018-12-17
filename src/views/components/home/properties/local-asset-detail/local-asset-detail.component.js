@@ -264,35 +264,36 @@ class PrivateLocalAssetDetailComponent extends React.Component {
                 </View>
               </View>
 
-              {this.props.asset.registrant === CacheData.userInformation.bitmarkAccountNumber && this.props.asset.issuedBitmarks && <View style={{ width: '100%' }}>
-                <Text style={assetDetailStyle.bitmarkLabel}>{global.i18n.t("LocalAssetDetailComponent_totalIssuedBitmarks")} ({(this.props.asset.bitmarks || []).length})</Text>
-                <View style={assetDetailStyle.bitmarksArea}>
-                  <View style={assetDetailStyle.bitmarksHeader}>
-                    <Text style={[assetDetailStyle.bitmarksHeaderLabel]}>{global.i18n.t("LocalAssetDetailComponent_bitmarkId")}</Text>
-                    <Text style={[assetDetailStyle.bitmarksHeaderLabel, { width: convertWidth(218) }]}>{global.i18n.t("LocalAssetDetailComponent_currentOwner")}</Text>
-                  </View>
-                  <View style={assetDetailStyle.bitmarkListArea}>
-                    {(this.props.asset.issuedBitmarks || []).map((bitmark) => {
+              {this.props.asset.registrant === CacheData.userInformation.bitmarkAccountNumber &&
+                this.props.asset.issuedBitmarks && this.props.asset.issuedBitmarks.length > 0 && <View style={{ width: '100%' }}>
+                  <Text style={assetDetailStyle.bitmarkLabel}>{global.i18n.t("LocalAssetDetailComponent_totalIssuedBitmarks")} ({(this.props.asset.issuedBitmarks || []).length})</Text>
+                  <View style={assetDetailStyle.bitmarksArea}>
+                    <View style={assetDetailStyle.bitmarksHeader}>
+                      <Text style={[assetDetailStyle.bitmarksHeaderLabel]}>{global.i18n.t("LocalAssetDetailComponent_bitmarkId")}</Text>
+                      <Text style={[assetDetailStyle.bitmarksHeaderLabel, { width: convertWidth(218) }]}>{global.i18n.t("LocalAssetDetailComponent_currentOwner")}</Text>
+                    </View>
+                    <View style={assetDetailStyle.bitmarkListArea}>
+                      {(this.props.asset.issuedBitmarks || []).map((bitmark) => {
 
-                      if (bitmark.owner === CacheData.userInformation.bitmarkAccountNumber) {
+                        if (bitmark.owner === CacheData.userInformation.bitmarkAccountNumber) {
+                          return (<View key={bitmark.id} style={[assetDetailStyle.bitmarksRow]} >
+                            <Text style={assetDetailStyle.bitmarksRowNo} numberOfLines={1}>{bitmark.id}</Text>
+                            <Text style={[assetDetailStyle.bitmarkTransferButtonText, { color: '#999999' }]}>{global.i18n.t("LocalAssetDetailComponent_pending")}</Text>
+                          </View>);
+                        }
+
                         return (<View key={bitmark.id} style={[assetDetailStyle.bitmarksRow]} >
-                          <Text style={assetDetailStyle.bitmarksRowNo} numberOfLines={1}>{bitmark.id}</Text>
-                          <Text style={[assetDetailStyle.bitmarkTransferButtonText, { color: '#999999' }]}>{global.i18n.t("LocalAssetDetailComponent_pending")}</Text>
+                          <Text style={assetDetailStyle.bitmarksRowNo} numberOfLines={1}>{'' + bitmark.id}</Text>
+                          <TouchableOpacity style={assetDetailStyle.bitmarkViewButton} onPress={() => {
+                            Actions.bitmarkWebViewFull({ title: 'Registry', sourceUrl: config.registry_server_url + `/account/${bitmark.owner}?env=app`, });
+                          }}>
+                            <Text style={[assetDetailStyle.bitmarkViewButtonText]}>{`${bitmark.owner.substring(0, 4)}...${bitmark.owner.substring(bitmark.owner.length - 4, bitmark.owner.length)}`}</Text>
+                          </TouchableOpacity>
                         </View>);
-                      }
-
-                      return (<View key={bitmark.id} style={[assetDetailStyle.bitmarksRow]} >
-                        <Text style={assetDetailStyle.bitmarksRowNo} numberOfLines={1}>{'' + bitmark.id}</Text>
-                        <TouchableOpacity style={assetDetailStyle.bitmarkViewButton} onPress={() => {
-                          Actions.bitmarkWebViewFull({ title: 'Registry', sourceUrl: config.registry_server_url + `/account/${bitmark.owner}?env=app`, });
-                        }}>
-                          <Text style={[assetDetailStyle.bitmarkViewButtonText]}>{`${bitmark.owner.substring(0, 4)}...${bitmark.owner.substring(bitmark.owner.length - 4, bitmark.owner.length)}`}</Text>
-                        </TouchableOpacity>
-                      </View>);
-                    })}
+                      })}
+                    </View>
                   </View>
-                </View>
-              </View>}
+                </View>}
 
             </TouchableOpacity>
           </ScrollView>

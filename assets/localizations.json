@@ -560,7 +560,7 @@
     "LocalAssetDetailComponent_you": "YOU",
     "LocalAssetDetailComponent_byAccountnumber": "BY {{accountNumber}}",
     "LocalAssetDetailComponent_yourPropertyBitmarks": "YOUR PROPERTY BITMARKS",
-    "LocalAssetDetailComponent_totalIssuedBitmarks": "TOTAL ISSUED BITMARKS",
+    "LocalAssetDetailComponent_totalIssuedBitmarks": "TOTAL CLAIMED BITMARKS",
     "LocalAssetDetailComponent_bitmarkId": "BITMARK ID",
     "LocalAssetDetailComponent_action": "ACTION",
     "LocalAssetDetailComponent_currentOwner": "CURRENT OWNER",

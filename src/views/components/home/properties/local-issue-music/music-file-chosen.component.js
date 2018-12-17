@@ -37,8 +37,8 @@ export class MusicFileChosenComponent extends React.Component {
 
       AppProcessor.doCheckFileToIssue(filePath).then(asset => {
         if (asset && asset.name) {
-          // Actions.musicBasicInfo({ filePath, asset });
-          Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle2'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage2'));
+          Actions.musicBasicInfo({ filePath, asset });
+          // Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle2'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage2'));
         } else {
           Actions.musicBasicInfo({ filePath });
         }

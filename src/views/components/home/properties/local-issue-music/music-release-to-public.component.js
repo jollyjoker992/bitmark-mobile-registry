@@ -28,7 +28,7 @@ export class MusicReleaseToPublicComponent extends React.Component {
 
   copySelectedResult() {
     this.setState({ copied: true });
-    Clipboard.setString(this.selected === 'embed'
+    Clipboard.setString(this.state.selected === 'embed'
       ? `<iframe width="320" height="180" frameborder="0" frameborder="0" src="${config.bitmark_profile_server}/asset/${this.props.assetId}/claim"/>`
       : `${config.registry_server_url}/assets/${this.props.assetId}/claim`);
     setTimeout(() => this.setState({ copied: false }), 1000);
@@ -73,7 +73,7 @@ export class MusicReleaseToPublicComponent extends React.Component {
               </View>}
               <View style={cStyles.resultContent}>
                 <Text style={cStyles.resultContentText}>
-                  {this.selected === 'embed'
+                  {this.state.selected === 'embed'
                     ? `<iframe width="320" height="180" frameborder="0" frameborder="0" src="${config.bitmark_profile_server}/asset/${this.props.assetId}/claim"/>`
                     : `${config.registry_server_url}/assets/${this.props.assetId}/claim`
                   }
