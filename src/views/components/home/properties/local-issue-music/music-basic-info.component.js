@@ -152,6 +152,9 @@ export class MusicBasicInfoComponent extends React.Component {
                 thumbnailPath = '';
                 thumbnailPathError = 'The file is not image!'
               }
+              if (this.state.thumbnailPath && this.state.thumbnailPath !== thumbnailPath) {
+                FileUtil.removeSafe(this.state.thumbnailPath);
+              }
               this.setState({
                 thumbnailPath, thumbnailPathError,
                 canContinue: !!thumbnailPath && this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
@@ -323,10 +326,10 @@ export class MusicBasicInfoComponent extends React.Component {
               </View>
             </View>
           </ScrollView>
-          <TouchableOpacity style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}]} onPress={this.onContinue.bind(this)}>
-            <Text style={cStyles.continueButtonText}>NEXT STEP</Text>
-          </TouchableOpacity>
         </KeyboardAvoidingView>
+        <TouchableOpacity style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}]} onPress={this.onContinue.bind(this)}>
+          <Text style={cStyles.continueButtonText}>NEXT STEP</Text>
+        </TouchableOpacity>
       </View>
     );
   }

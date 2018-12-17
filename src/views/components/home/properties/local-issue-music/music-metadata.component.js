@@ -25,9 +25,11 @@ export class MusicMetadataComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      canAddNewMetadata: true,
+      canAddNewMetadata: false,
       isEditingMetadata: false,
-      metadata: [],
+      metadata: [{
+        label: '', value: '',
+      }],
       isDisplayingKeyboard: false,
       metadataError: '',
     };
