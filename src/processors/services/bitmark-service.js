@@ -316,7 +316,7 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
 
   if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
     let message = `${sessionData.data_key_alg}|${sessionData.enc_data_key}|*`;
-    let signature = await BitmarkSDK.signMessages(message)[0];
+    let signature = (await BitmarkSDK.signMessages([message]))[0];
 
     const formData = new FormData();
     formData.append('file', {
@@ -333,6 +333,8 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
       signature
     };
 
+    console.log({ formData, headers });
+
     let uploadFunction = (headers, formData) => {
       return new Promise((resolve, reject) => {
         let statusCode;
@@ -348,7 +350,7 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
           return response.text();
         }).then((data) => {
           if (statusCode >= 400) {
-            return reject(new Error(`doSubmitSessionDataForDecentralizedIssuance error :` + JSON.stringify(data)));
+            return reject(new Error(`uploadFunction error :` + JSON.stringify(data)));
           }
           resolve(data);
         }).catch(reject);

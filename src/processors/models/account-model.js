@@ -89,7 +89,7 @@ const doRegisterEncryptionPublicKey = (accountNumber, encryptionPublicKey, signa
 const doGetEncryptionPublicKey = (accountNumber) => {
   return new Promise((resolve) => {
     let statusCode;
-    fetch(`${config.key_account_server_url}${accountNumber}`, {
+    fetch(`${config.key_account_server_url}/${accountNumber}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

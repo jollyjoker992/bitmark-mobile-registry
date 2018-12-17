@@ -610,11 +610,11 @@ const doUploadMusicThumbnail = async (bitmarkAccountNumber, assetId, thumbnailPa
     uri: thumbnailPath,
     name: thumbnailPath.substring(thumbnailPath.lastIndexOf('/') + 1, thumbnailPath.length)
   });
+  formData.append('asset_id', assetId);
+  formData.append('limited_edition', limitedEdition);
   let headers = {
     'Content-Type': 'multipart/form-data',
     requester: bitmarkAccountNumber,
-    asset_id: assetId,
-    limited_edition: limitedEdition,
     signature
   };
 

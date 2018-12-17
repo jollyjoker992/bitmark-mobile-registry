@@ -174,18 +174,23 @@ const doCheckNewTransactions = async (transactions) => {
   }
 };
 const doCheckNewBitmarks = async (localAssets) => {
+  console.log('doCheckNewBitmarks :', localAssets);
   if (localAssets) {
     for (let asset of localAssets) {
       asset.filePath = await detectLocalAssetFilePath(asset.id);
       if (asset.metadata && asset.metadata.type === constant.asset.type.music) {
         asset.thumbnailPath = await detectMusicThumbnailPath(asset.id);
+        console.log('detectMusicThumbnailPath :', asset.thumbnailPath);
         let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(CacheData.userInformation.bitmarkAccountNumber, asset.id);
+        console.log('doGetLimitedEdition :', resultGetLimitedEdition);
         if (resultGetLimitedEdition) {
           asset.limitedEdition = resultGetLimitedEdition.limited;
         }
         let bitmarks = asset.bitmarks;
         let totalIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(CacheData.userInformation.bitmarkAccountNumber, asset.id);
+        console.log('doGetTotalBitmarksOfAssetOfIssuer :', totalIssuedBitmarks);
         let bitmarkIds = await BitmarkModel.doGetAwaitTransfers(CacheData.jwt, asset.id);
+        console.log('doGetAwaitTransfers :', bitmarkIds);
 
         for (let bid of bitmarkIds) {
           let index = bitmarks.findIndex(bitmark => bitmark.id === bid);
@@ -937,7 +942,9 @@ const doIssueFile = async (filePath, assetName, metadataList, quantity) => {
 };
 
 const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, limitedEdition) => {
+  console.log('run1');
   let result = await BitmarkService.doIssueMusic(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, thumbnailPath, limitedEdition);
+  console.log('run2');
 
   let appInfo = await doGetAppInformation();
   appInfo = appInfo || {};
@@ -950,6 +957,7 @@ const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, li
     appInfo.lastTimeIssued = moment().toDate().getTime();
     await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
   }
+  console.log('run3');
 
   await runGetLocalBitmarksInBackground();
   return result;
@@ -963,7 +971,8 @@ const doTransferBitmark = async (bitmarkId, receiver, isDeleting) => {
     let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
     await FileUtil.mkdir(`${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted`);
     let encryptedFilePath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted/${filename}`;
-    let sessionData = await BitmarkSDK.encryptFile(asset.filePath, receiver, encryptedFilePath);
+    let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(receiver);
+    let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptionPublicKey, encryptedFilePath);
     let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, receiver, encryptedFilePath, sessionData);
     console.log('uploadResult :', uploadResult);
   }
@@ -1341,23 +1350,19 @@ const doProcessClaimRequest = async (claimRequest, isAccept) => {
     let asset = claimRequest.asset;
     if (asset && asset.filePath) {
       let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
-      console.log('filename:', filename);
       await FileUtil.mkdir(`${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted`);
       let encryptedFilePath = `${FileUtil.DocumentDirectory}/${CacheData.userInformation.bitmarkAccountNumber}/assets/${asset.id}/encrypted/${filename}`;
-      console.log('encryptedFilePath:', encryptedFilePath);
       let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(claimRequest.from);
       let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptionPublicKey, encryptedFilePath);
-      console.log('sessionData:', sessionData);
-      let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, claimRequest.to, encryptedFilePath, sessionData);
+      let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, claimRequest.from, encryptedFilePath, sessionData);
       console.log('uploadResult:', uploadResult);
     }
-    let result = await BitmarkSDK.giveAwayBitmark(claimRequest.asset.id, claimRequest.to);
-    console.log('giveAwayBitmark result:', result);
+    let result = await BitmarkSDK.giveAwayBitmark(claimRequest.asset.id, claimRequest.from);
     let resultPost = await BitmarkModel.doPostAwaitTransfer(CacheData.jwt, result.bitmarkId, result.transferPayload);
     console.log('doPostAwaitTransfer result:', resultPost);
   }
   await BitmarkModel.doDeleteClaimRequests(CacheData.jwt, claimRequest.id);
-  await runGetTransferOfferInBackground();
+  await runGetClaimRequestInBackground();
   return true;
 };
 

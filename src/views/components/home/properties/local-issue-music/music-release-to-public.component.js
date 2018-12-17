@@ -13,7 +13,7 @@ import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 
-export class MusicIssueSuccessComponent extends React.Component {
+export class MusicReleaseToPublicComponent extends React.Component {
   static propTypes = {
     assetName: PropTypes.string,
     assetId: PropTypes.string,
@@ -35,20 +35,18 @@ export class MusicIssueSuccessComponent extends React.Component {
   }
 
   render() {
-    console.log('this.props :', this.props);
     return (
       <View style={{ flex: 1, backgroundColor: '#0060F2' }}>
         <View style={cStyles.header}>
           <TouchableOpacity style={defaultStyles.headerLeft} />
           <Text style={defaultStyles.headerTitle}></Text>
-          <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.jump('assets')}>
+          <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.pop()}>
             <Text style={[defaultStyles.headerRightText, { color: '#E6FF00', fontWeight: '900' }]}>Done</Text>
           </TouchableOpacity>
         </View>
         <View style={cStyles.content}>
           <ScrollView contentContainerStyle={cStyles.mainContent}>
-            <Text style={cStyles.title}>{'Music successfully\nregistered!'.toUpperCase()}</Text>
-            <Text style={cStyles.description}>You’re now ready to share and distribute your music to your fans.</Text>
+            <Text style={cStyles.description}>Share and distribute your music to your fans.</Text>
             <View style={cStyles.claimIframe}>
               <WebView style={{ width: '100%', height: 'auto', backgroundColor: 'rgba(0,0,0,0)' }} scalesPageToFit={false}
                 scrollEnabled={false}
@@ -75,7 +73,7 @@ export class MusicIssueSuccessComponent extends React.Component {
               </View>}
               <View style={cStyles.resultContent}>
                 <Text style={cStyles.resultContentText}>
-                  {this.state.selected === 'embed'
+                  {this.selected === 'embed'
                     ? `<iframe width="320" height="180" frameborder="0" frameborder="0" src="${config.bitmark_profile_server}/asset/${this.props.assetId}/claim"/>`
                     : `${config.registry_server_url}/assets/${this.props.assetId}/claim`
                   }
@@ -130,14 +128,10 @@ const cStyles = StyleSheet.create({
     width: '100%',
     paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
   },
-  title: {
-    fontFamily: 'Avenir-Black', fontSize: 24, fontWeight: '900', color: 'white', lineHeight: 33,
-    marginLeft: convertWidth(39),
-    width: '100%',
-  },
+
   description: {
     fontFamily: 'Avenir-Light', fontSize: 17, fontWeight: '300', color: 'white', lineHeight: 23,
-    marginLeft: convertWidth(39), marginTop: 30,
+    paddingLeft: convertWidth(39), paddingRight: convertWidth(39), marginTop: 30,
     width: '100%',
   },
   claimIframe: {
@@ -147,7 +141,7 @@ const cStyles = StyleSheet.create({
   issueResult: {
     flex: 1,
     width: '100%',
-    marginTop: 50,
+    marginTop: 30,
   },
   resultArea: {
     width: '100%',
@@ -177,7 +171,7 @@ const cStyles = StyleSheet.create({
   musicSuccessButton: {
     width: 60, height: 60,
     borderRadius: 30, borderWidth: 1,
-    marginTop: 19,
+    marginTop: 15,
   },
   musicSuccessButtons: {
     width: '100%',

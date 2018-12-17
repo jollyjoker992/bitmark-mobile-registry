@@ -41,6 +41,7 @@ import { BitmarkWebViewComponent } from 'src/views/commons';
 import { EventEmitterService, DataProcessor, AppProcessor } from 'src/processors';
 
 import PushNotification from 'react-native-push-notification';
+import { MusicReleaseToPublicComponent } from './properties/local-issue-music/music-release-to-public.component';
 
 let ComponentName = 'UserRouterComponent';
 export class UserRouterComponent extends Component {
@@ -133,6 +134,8 @@ export class UserRouterComponent extends Component {
             <Scene key="musicMetadata" panHandlers={null} component={MusicMetadataComponent} />
             <Scene key="musicMetadataEdit" panHandlers={null} component={MusicMetadataEditComponent} />
             <Scene key="musicSentClaimRequest" panHandlers={null} component={MusicSentClaimRequestComponent} />
+            <Scene key="musicReleaseToPublic" panHandlers={null} component={MusicReleaseToPublicComponent} />
+
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >

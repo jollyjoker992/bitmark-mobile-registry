@@ -208,12 +208,13 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
               <Text style={[propertyDetailStyle.topButtonText, {
                 color: this.props.bitmark.status === 'confirmed' ? '#0060F2' : '#C2C2C2'
               }]}>{global.i18n.t("LocalPropertyDetailComponent_deleteBitmark")}</Text>
-            </TouchableOpacity>
-            }
+            </TouchableOpacity>}
           </View>}
           <ScrollView style={propertyDetailStyle.content}>
             <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => this.setState({ displayTopButton: false })}>
               <View style={propertyDetailStyle.bottomImageBar}></View>
+              {this.props.asset.metadata && this.props.asset.metadata.type === constant.asset.type.music &&
+                <Image style={propertyDetailStyle.thumbnailImage} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.asset.id}` }} />}
               <Text style={[propertyDetailStyle.assetName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{this.props.asset.name}</Text>
 
               {this.props.bitmark.status !== 'pending' && <Hyperlink

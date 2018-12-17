@@ -37,8 +37,8 @@ export class MusicFileChosenComponent extends React.Component {
 
       AppProcessor.doCheckFileToIssue(filePath).then(asset => {
         if (asset && asset.name) {
-          Actions.musicBasicInfo({ filePath, asset });
-          // Alert.alert('Registration Failed', 'The file is already registered before and will not be added again. Please try to add different file.');
+          // Actions.musicBasicInfo({ filePath, asset });
+          Alert.alert('Registration Failed', 'The file is already registered before and will not be added again. Please try to add different file.');
         } else {
           Actions.musicBasicInfo({ filePath });
         }
