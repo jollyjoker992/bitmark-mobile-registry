@@ -44,7 +44,7 @@ export class MusicSentClaimRequestComponent extends React.Component {
             <Image style={cStyles.thumbnailImage} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.asset.id}` }} />
             <View style={cStyles.assetInfo}>
               <Text style={cStyles.assetName}>{this.props.asset.name}</Text>
-              <Text style={cStyles.editionInfo}>Ed.{this.props.asset.totalBitmarks}/{this.props.asset.limitedEdition}</Text>
+              <Text style={cStyles.editionInfo}>Ed.{this.props.asset.limitedEdition - this.props.asset.totalBitmarks}/{this.props.asset.limitedEdition}</Text>
             </View>
             <Text style={cStyles.registrant}>{this.props.asset.registrantName || this.props.asset.registrant}</Text>
             <Text style={cStyles.informationTitle}>{'SIGN to SEND REQUEST'.toUpperCase()}</Text>

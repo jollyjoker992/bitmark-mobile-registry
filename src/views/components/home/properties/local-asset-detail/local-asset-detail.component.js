@@ -141,10 +141,12 @@ class PrivateLocalAssetDetailComponent extends React.Component {
                 <Image style={assetDetailStyle.thumbnailImage} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.asset.id}` }} />}
               <Text style={[assetDetailStyle.assetName, { color: this.props.asset.created_at ? 'black' : '#999999' }]} >{this.props.asset.name}</Text>
               {this.props.asset.issuedBitmarks && this.props.asset.limitedEdition &&
-                <Text style={assetDetailStyle.editionInfo}>Ed.{this.props.asset.issuedBitmarks.length}/{this.props.asset.limitedEdition}</Text>}
+                <Text style={assetDetailStyle.editionInfo}>Edition {this.props.asset.limitedEdition - this.props.asset.issuedBitmarks.length}/{this.props.asset.limitedEdition} left.</Text>}
               <View style={assetDetailStyle.assetCreatorRow}>
                 <Text style={[assetDetailStyle.assetCreatorBound, { color: this.props.asset.created_at ? 'black' : '#999999' }]}>
-                  {this.props.asset.created_at ? (global.i18n.t("LocalAssetDetailComponent_registeredOn") + moment(this.props.asset.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase()) : global.i18n.t("LocalAssetDetailComponent_registering")}
+                  {this.props.asset.created_at
+                    ? (global.i18n.t("LocalAssetDetailComponent_registeredOn") + moment(this.props.asset.created_at).format(' YYYY MMM DD HH:mm:ss').toUpperCase())
+                    : global.i18n.t("LocalAssetDetailComponent_registering")}
                 </Text>
                 <Hyperlink
                   onPress={(url) => {
