@@ -42,13 +42,13 @@ export class MusicIssueSuccessComponent extends React.Component {
           <TouchableOpacity style={defaultStyles.headerLeft} />
           <Text style={defaultStyles.headerTitle}></Text>
           <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.jump('assets')}>
-            <Text style={[defaultStyles.headerRightText, { color: '#E6FF00', fontWeight: '900' }]}>Done</Text>
+            <Text style={[defaultStyles.headerRightText, { color: '#E6FF00', fontWeight: '900' }]}>{global.i18n.t("MusicIssueSuccessComponent_headerRightText")}</Text>
           </TouchableOpacity>
         </View>
         <View style={cStyles.content}>
           <ScrollView contentContainerStyle={cStyles.mainContent}>
-            <Text style={cStyles.title}>{'Music successfully\nregistered!'.toUpperCase()}</Text>
-            <Text style={cStyles.description}>You’re now ready to share and distribute your music to your fans.</Text>
+            <Text style={cStyles.title}>{global.i18n.t("MusicIssueSuccessComponent_title")}</Text>
+            <Text style={cStyles.description}>{global.i18n.t("MusicIssueSuccessComponent_description")}</Text>
             <View style={cStyles.claimIframe}>
               <WebView style={{ width: '100%', height: 'auto', backgroundColor: 'rgba(0,0,0,0)' }} scalesPageToFit={false}
                 scrollEnabled={false}
@@ -58,18 +58,18 @@ export class MusicIssueSuccessComponent extends React.Component {
             <View style={cStyles.issueResult}>
               {this.state.selected === 'embed' && <View style={cStyles.resultArea}>
                 <View style={cStyles.resultHeader}>
-                  <Text style={cStyles.resultHeaderTitle}>Embed Bitmark</Text>
+                  <Text style={cStyles.resultHeaderTitle}>{global.i18n.t("MusicIssueSuccessComponent_resultHeaderTitle1")}</Text>
                   <TouchableOpacity onPress={this.copySelectedResult.bind(this)}>
-                    <Text style={cStyles.resultHeaderCopy}>{this.state.copied ? 'COPIED' : 'COPY'}</Text>
+                    <Text style={cStyles.resultHeaderCopy}>{this.state.copied ? global.i18n.t("MusicIssueSuccessComponent_resultHeaderCopy1") : global.i18n.t("MusicIssueSuccessComponent_resultHeaderCopy2")}</Text>
                   </TouchableOpacity>
                 </View>
               </View>}
 
               {this.state.selected !== 'embed' && <View style={cStyles.resultArea}>
                 <View style={cStyles.resultHeader}>
-                  <Text style={cStyles.resultHeaderTitle}>Share link</Text>
+                  <Text style={cStyles.resultHeaderTitle}>{global.i18n.t("MusicIssueSuccessComponent_resultHeaderTitle2")}</Text>
                   <TouchableOpacity onPress={this.copySelectedResult.bind(this)}>
-                    <Text style={cStyles.resultHeaderCopy}>{this.state.copied ? 'COPIED' : 'COPY'}</Text>
+                    <Text style={cStyles.resultHeaderCopy}>{this.state.copied ? global.i18n.t("MusicIssueSuccessComponent_resultHeaderCopy1") : global.i18n.t("MusicIssueSuccessComponent_resultHeaderCopy2")}</Text>
                   </TouchableOpacity>
                 </View>
               </View>}

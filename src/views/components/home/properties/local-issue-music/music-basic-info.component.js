@@ -41,10 +41,10 @@ export class MusicBasicInfoComponent extends React.Component {
   }
 
   changeFile() {
-    Alert.alert('Confirmation', 'Are you sure you want to delete the uploaded file? You will have to re-upload the file again in order to release your music.', [{
-      text: 'Cancel', style: 'cancel',
+    Alert.alert(global.i18n.t('MusicBasicInfoComponent_changeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_changeFileAlertMessage'), [{
+      text: global.i18n.t('MusicBasicInfoComponent_changeFileAlertCancel'), style: 'cancel',
     }, {
-      text: 'Delete', style: 'destructive',
+      text: global.i18n.t('MusicBasicInfoComponent_changeFileAlertDelete'), style: 'destructive',
       onPress: () => {
         DocumentPicker.show({
           filetype: [DocumentPickerUtil.audio(), 'public.data'],
@@ -54,7 +54,7 @@ export class MusicBasicInfoComponent extends React.Component {
             return;
           }
           if (response.fileSize > 100 * 1024 * 1024) {
-            Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
+            Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
             return;
           }
           let filePath = response.uri.replace('file://', '');
@@ -66,7 +66,7 @@ export class MusicBasicInfoComponent extends React.Component {
 
           AppProcessor.doCheckFileToIssue(filePath).then(asset => {
             if (asset && asset.name) {
-              Alert.alert('Registration Failed', 'The file is already registered before and will not be added again. Please try to add different file.');
+              Alert.alert(global.i18n.t('MusicBasicInfoComponent_registerFailedAlertTitle'), global.i18n.t('MusicBasicInfoComponent_registerFailedAlertMessage'));
             } else {
               if (this.state.filePath !== filePath) {
                 FileUtil.removeSafe(this.state.filePath);
@@ -74,7 +74,7 @@ export class MusicBasicInfoComponent extends React.Component {
               this.setState({ filePath });
             }
           }).catch(error => {
-            Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
+            Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
             console.log({ error });
           });
         });
@@ -84,8 +84,12 @@ export class MusicBasicInfoComponent extends React.Component {
 
   onChooseThumbnail() {
     ActionSheetIOS.showActionSheetWithOptions({
-      title: 'Add an image',
-      options: ['Cancel', 'Take Photo...', 'Choose from Library...', 'Files...'],
+      title: global.i18n.t('MusicBasicInfoComponent_chooseThumbnailTitle'),
+      options: [global.i18n.t('MusicBasicInfoComponent_chooseThumbnailCancel'),
+      global.i18n.t('MusicBasicInfoComponent_chooseThumbnailCapture'),
+      global.i18n.t('MusicBasicInfoComponent_chooseThumbnailPhoto'),
+      global.i18n.t('MusicBasicInfoComponent_chooseThumbnailFile'),
+      ],
       cancelButtonIndex: 0,
     },
       (buttonIndex) => {
@@ -93,7 +97,7 @@ export class MusicBasicInfoComponent extends React.Component {
           case 1: {
             ImagePicker.launchCamera({}, async (response) => {
               if (response.fileSize > 100 * 1024 * 1024) {
-                Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
+                Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
                 return;
               }
               console.log('response :', response);
@@ -113,7 +117,7 @@ export class MusicBasicInfoComponent extends React.Component {
           case 2: {
             ImagePicker.launchImageLibrary({}, async (response) => {
               if (response.fileSize > 100 * 1024 * 1024) {
-                Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
+                Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
                 return;
               }
               console.log('response :', response);
@@ -138,7 +142,7 @@ export class MusicBasicInfoComponent extends React.Component {
                 return;
               }
               if (response.fileSize > 100 * 1024 * 1024) {
-                Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
+                Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
                 return;
               }
               let thumbnailPath = response.uri.replace('file://', '');
@@ -150,7 +154,7 @@ export class MusicBasicInfoComponent extends React.Component {
               let thumbnailPathError = '';
               if (!isImageFile(this.thumbnailPath)) {
                 thumbnailPath = '';
-                thumbnailPathError = 'The file is not image!'
+                thumbnailPathError = global.i18n.t('MusicBasicInfoComponent_chooseThumbnailFileWrong');
               }
               if (this.state.thumbnailPath && this.state.thumbnailPath !== thumbnailPath) {
                 FileUtil.removeSafe(this.state.thumbnailPath);
@@ -174,10 +178,10 @@ export class MusicBasicInfoComponent extends React.Component {
     if (assetName) {
       let temp = new Buffer(assetName);
       if (temp.length > 64) {
-        assetNameError = 'Property name has maximum 64 bytes!';
+        assetNameError = global.i18n.t('MusicBasicInfoComponent_assetNameError1');
       }
     } else {
-      assetNameError = 'Property name is required!';
+      assetNameError = global.i18n.t('MusicBasicInfoComponent_assetNameError2');
     }
 
     this.setState({
@@ -189,7 +193,7 @@ export class MusicBasicInfoComponent extends React.Component {
     limited = parseInt(limited);
     let limitedError = '';
     if (isNaN(limited) || limited <= 0) {
-      limitedError = 'The limited number should be greater than 0.';
+      limitedError = global.i18n.t('MusicBasicInfoComponent_limitedError1');
     }
     console.log({ limited, limitedError });
     this.setState({
@@ -203,10 +207,10 @@ export class MusicBasicInfoComponent extends React.Component {
     if (description) {
       let temp = new Buffer(description);
       if (temp.length > 1024) {
-        descriptionError = 'Description has maximum 1024 bytes!';
+        global.i18n.t('MusicBasicInfoComponent_descriptionError1');
       }
     } else {
-      descriptionError = 'Description is required!';
+      global.i18n.t('MusicBasicInfoComponent_descriptionError2');
     }
     this.setState({
       description, descriptionError,
@@ -218,10 +222,10 @@ export class MusicBasicInfoComponent extends React.Component {
     if (this.state.assetName) {
       let temp = new Buffer(this.state.assetName);
       if (temp.length > 64) {
-        assetNameError = 'Property name has maximum 64 bytes!';
+        assetNameError = global.i18n.t('MusicBasicInfoComponent_assetNameError1');
       }
     } else {
-      assetNameError = 'Property name is required!';
+      assetNameError = global.i18n.t('MusicBasicInfoComponent_assetNameError2');
     }
     let limited = parseInt(this.state.limited);
     let limitedError = '';
@@ -232,14 +236,14 @@ export class MusicBasicInfoComponent extends React.Component {
     if (this.state.description) {
       let temp = new Buffer(this.state.description);
       if (temp.length > 1024) {
-        descriptionError = 'Description has maximum 1024 bytes!';
+        global.i18n.t('MusicBasicInfoComponent_descriptionError1');
       }
     } else {
-      descriptionError = 'Description is required!';
+      global.i18n.t('MusicBasicInfoComponent_descriptionError2');
     }
     let thumbnailPathError = '';
     if (!this.state.thumbnailPath) {
-      thumbnailPathError = 'Thumbnail is require!'
+      thumbnailPathError = global.i18n.t('MusicBasicInfoComponent_thumbnailError');
     }
     let canContinue = this.state.assetName && this.state.limited && this.state.description && !!this.state.thumbnailPath && !descriptionError && !limitedError && !assetNameError;
 
@@ -271,9 +275,9 @@ export class MusicBasicInfoComponent extends React.Component {
             <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
             </TouchableOpacity>
-            <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{'Basic info (2 OF 3)'.toUpperCase()}</Text>
+            <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{global.i18n.t('MusicBasicInfoComponent_headerTitle')}</Text>
             <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.jump('assets')}>
-              <Text style={defaultStyles.headerRightText}>Cancel</Text>
+              <Text style={defaultStyles.headerRightText}>{global.i18n.t('MusicBasicInfoComponent_headerRightText')}</Text>
             </TouchableOpacity>
           </View>
           <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
@@ -284,7 +288,7 @@ export class MusicBasicInfoComponent extends React.Component {
                 </TouchableOpacity>}
                 {!this.state.thumbnailPath && <TouchableOpacity style={[cStyles.thumbnailArea, { backgroundColor: '#E6FF00' }]} onPress={this.onChooseThumbnail.bind(this)}>
                   <Image style={cStyles.thumbnailImageIcon} source={require('assets/imgs/music_thumbnail.png')} />
-                  <Text style={cStyles.thumbnailImageText}>{'+ add cover image'.toUpperCase()}</Text>
+                  <Text style={cStyles.thumbnailImageText}>{global.i18n.t('MusicBasicInfoComponent_thumbnailImageText')}</Text>
                   <Text style={[cStyles.fieldInputError, { width: 'auto' }]}>{this.state.thumbnailPathError}</Text>
                 </TouchableOpacity>}
 
@@ -296,9 +300,9 @@ export class MusicBasicInfoComponent extends React.Component {
                 </View>
 
                 <View style={cStyles.fieldArea}>
-                  <Text style={cStyles.fieldLabel}>PROPERTY NAME</Text>
+                  <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyName')}</Text>
                   <TextInput style={[cStyles.fieldInput, this.state.assetNameError ? { borderBottomColor: '#FF003C' } : {}]}
-                    placeholder='64-CHARACTER MAX'
+                    placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyNamePlaceholder')}
                     defaultValue={this.state.assetName}
                     onChangeText={(assetName) => this.onInputAsset.bind(this)(assetName)}
                   />
@@ -306,7 +310,7 @@ export class MusicBasicInfoComponent extends React.Component {
                 </View>
 
                 <View style={cStyles.fieldArea}>
-                  <Text style={cStyles.fieldLabel}>{'NUMBER OF Limited Editions'.toUpperCase()}</Text>
+                  <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelLimited')}</Text>
                   <TextInput style={[cStyles.fieldInput, this.state.limitedError ? { borderBottomColor: '#FF003C' } : {}]}
                     keyboardType='number-pad'
                     onChangeText={(limitedNumber) => this.onInputLimited.bind(this)(limitedNumber)}
@@ -315,9 +319,9 @@ export class MusicBasicInfoComponent extends React.Component {
                 </View>
 
                 <View style={cStyles.fieldArea}>
-                  <Text style={cStyles.fieldLabel}>{'Description'.toUpperCase()}</Text>
+                  <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelDescription')}</Text>
                   <TextInput style={[cStyles.fieldInput, this.state.descriptionError ? { borderBottomColor: '#FF003C' } : {}]}
-                    placeholder='1024 CHARACTER MAX'
+                    placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelDescriptionPlaceholder')}
                     defaultValue={this.state.description}
                     onChangeText={(description) => this.onInputDescription.bind(this)(description)}
                   />
@@ -328,7 +332,7 @@ export class MusicBasicInfoComponent extends React.Component {
           </ScrollView>
         </KeyboardAvoidingView>
         <TouchableOpacity style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}]} onPress={this.onContinue.bind(this)}>
-          <Text style={cStyles.continueButtonText}>NEXT STEP</Text>
+          <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicBasicInfoComponent_continueButtonText')}</Text>
         </TouchableOpacity>
       </View>
     );

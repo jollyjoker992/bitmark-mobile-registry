@@ -92,10 +92,10 @@ export class MusicMetadataComponent extends React.Component {
   }
 
   onRemoveMetadata(index) {
-    Alert.alert('Do you want delete this metadata?', '', [{
-      text: 'Cancel', style: 'cancel',
+    Alert.alert(global.i18n.t('MusicMetadataComponent_deleteAlertTitle'), global.i18n.t('MusicMetadataComponent_deleteAlertMesasge'), [{
+      text: global.i18n.t('MusicMetadataComponent_deleteAlertCancel'), style: 'cancel',
     }, {
-      text: 'Yes', style: 'destructive',
+      text: global.i18n.t('MusicMetadataComponent_deleteAlertYes'), style: 'destructive',
       onPress: () => {
         let metadata = this.state.metadata;
         metadata.splice(index, 1);
@@ -111,7 +111,7 @@ export class MusicMetadataComponent extends React.Component {
     //TODO Chinese
     tempMetadata.push({ label: 'description', value: this.props.description });
     AppProcessor.doIssueMusic(this.props.filePath, this.props.assetName, tempMetadata, this.props.thumbnailPath, this.props.limitedEdition, {
-      title: '', message: 'Sending your transaction to the Bitmark network...',
+      title: '', message: global.i18n.t('MusicMetadataComponent_processMessage'),
     }).then(result => {
       console.log('doIssueMusic result:', result);
       if (result) {
@@ -130,9 +130,9 @@ export class MusicMetadataComponent extends React.Component {
             <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
             </TouchableOpacity>
-            <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{'METADATA (3 OF 3)'.toUpperCase()}</Text>
+            <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{global.i18n.t('MusicMetadataComponent_headerTitle')}</Text>
             <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.jump('assets')}>
-              <Text style={defaultStyles.headerRightText}>Cancel</Text>
+              <Text style={defaultStyles.headerRightText}>{global.i18n.t('MusicMetadataComponent_headerRightText')}</Text>
             </TouchableOpacity>
           </View>
           <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
@@ -148,12 +148,12 @@ export class MusicMetadataComponent extends React.Component {
                       disabled={this.state.isEditingMetadata}
                       onPress={() => Actions.musicMetadataEdit({ index: index, label: item.label, onChangeMetadataLabel: this.onChangeMetadataLabel.bind(this) })}
                     >
-                      <Text style={[cStyles.fieldLabelButtonText, item.label ? {} : { color: '#C1C1C1' }]}>{item.label ? item.label.toUpperCase() : `LABEL ${index + 1}`}</Text>
+                      <Text style={[cStyles.fieldLabelButtonText, item.label ? {} : { color: '#C1C1C1' }]}>{item.label ? item.label.toUpperCase() : global.i18n.t('MusicMetadataComponent_fieldLabelButtonText', { index: index + 1 })}</Text>
                       <Image style={cStyles.fieldLabelButtonIcon} source={require('assets/imgs/next-icon-blue.png')} />
                     </TouchableOpacity>
                     <View style={[cStyles.fieldLabelButton, item.valueError ? { borderBottomColor: '#FF003C' } : {}]}>
                       <TextInput style={cStyles.fieldValue}
-                        placeholder={'description'.toUpperCase()} placeholderTextColor='#C1C1C1'
+                        placeholder={global.i18n.t('MusicMetadataComponent_fieldValuePlaceholder')} placeholderTextColor='#C1C1C1'
                         onChangeText={(text) => this.onChangeMetadataValue.bind(this)(index, text)}
                         onEndEditing={this.onEndChangeMetadataValue.bind(this)}
                         onFocus={() => {
@@ -168,14 +168,14 @@ export class MusicMetadataComponent extends React.Component {
                   <TouchableOpacity style={cStyles.metadataAddButton} disabled={!this.state.canAddNewMetadata} onPress={this.addMetadata.bind(this)}>
                     <Image style={cStyles.metadataAddButtonIcon} source={
                       this.state.canAddNewMetadata ? require('assets/imgs/plus-white-blue-icon.png') : require('assets/imgs/plus-white-blue-icon-disable.png')} />
-                    <Text style={[cStyles.metadataAddButtonText, { color: this.state.canAddNewMetadata ? '#0060F2' : '#C2C2C2' }]}>ADD LABEL</Text>
+                    <Text style={[cStyles.metadataAddButtonText, { color: this.state.canAddNewMetadata ? '#0060F2' : '#C2C2C2' }]}>{global.i18n.t('MusicMetadataComponent_metadataAddButtonText')}</Text>
                   </TouchableOpacity>
 
                   {this.state.isEditingMetadata && this.state.metadata.length > 0 && <TouchableOpacity style={[cStyles.metadataEditButton]} onPress={() => this.setState({ isEditingMetadata: false })}>
-                    <Text style={[cStyles.metadataEditButtonText, { color: '#0060F2' }]}>Done</Text>
+                    <Text style={[cStyles.metadataEditButtonText, { color: '#0060F2' }]}>{global.i18n.t('MusicMetadataComponent_metadataEditButtonText2')}</Text>
                   </TouchableOpacity>}
                   {!this.state.isEditingMetadata && this.state.metadata.length > 0 && <TouchableOpacity style={[cStyles.metadataEditButton]} onPress={() => this.setState({ isEditingMetadata: true })}>
-                    <Text style={[cStyles.metadataEditButtonText, { color: this.state.isEditingMetadata ? '#C2C2C2' : '#0060F2' }]}>Edit</Text>
+                    <Text style={[cStyles.metadataEditButtonText, { color: this.state.isEditingMetadata ? '#C2C2C2' : '#0060F2' }]}>{global.i18n.t('MusicMetadataComponent_metadataEditButtonText1')}</Text>
                   </TouchableOpacity>}
                 </View>
                 {!!this.state.metadataError && <Text style={cStyles.metadataInputError}>{this.state.metadataError}</Text>}
@@ -184,8 +184,8 @@ export class MusicMetadataComponent extends React.Component {
           </ScrollView>
         </KeyboardAvoidingView>
         <View style={cStyles.ownershipArea}>
-          <Text style={cStyles.ownershipTitle}>Ownership claim</Text>
-          <Text style={cStyles.ownershipDescription}>"I hereby claim that I am the legal owner of this asset and want these properties rights to be irrevocably issued and recorded on the Bitmark blockchain."</Text>
+          <Text style={cStyles.ownershipTitle}>{global.i18n.t('MusicMetadataComponent_ownershipTitle')}</Text>
+          <Text style={cStyles.ownershipDescription}>{global.i18n.t('MusicMetadataComponent_ownershipDescription')}</Text>
         </View>
 
         <TouchableOpacity
@@ -193,7 +193,7 @@ export class MusicMetadataComponent extends React.Component {
           disabled={!!this.state.metadataError}
           onPress={this.onSubmit.bind(this)}
         >
-          <Text style={cStyles.continueButtonText}>RELEASE MUSIC</Text>
+          <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicMetadataComponent_continueButtonText')}</Text>
         </TouchableOpacity>
       </View>
     );

@@ -23,8 +23,8 @@ export class ClaimRequestComponent extends React.Component {
   }
 
   doReject() {
-    Alert.alert('Do you want reject this request?', '', [{
-      text: 'OK', onPress: () => {
+    Alert.alert(global.i18n.t('ClaimRequestComponent_rejectAlertTitle'), global.i18n.t('ClaimRequestComponent_rejectAlertMessage'), [{
+      text: global.i18n.t('ClaimRequestComponent_rejectAlertOK'), onPress: () => {
         AppProcessor.doProcessClaimRequest(this.props.claimRequest, false).then((result => {
           if (result) {
             Actions.jump('transactions');
@@ -35,7 +35,7 @@ export class ClaimRequestComponent extends React.Component {
         });
       }
     }, {
-      text: 'Cancel', style: 'cancel',
+      text: global.i18n.t('ClaimRequestComponent_rejectAlertCancel'), style: 'cancel',
     }])
   }
   doAccept() {

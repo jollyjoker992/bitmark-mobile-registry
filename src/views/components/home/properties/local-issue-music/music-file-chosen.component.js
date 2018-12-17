@@ -25,7 +25,7 @@ export class MusicFileChosenComponent extends React.Component {
         return;
       }
       if (response.fileSize > 100 * 1024 * 1024) {
-        Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
+        Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage'));
         return;
       }
       let filePath = response.uri.replace('file://', '');
@@ -38,12 +38,12 @@ export class MusicFileChosenComponent extends React.Component {
       AppProcessor.doCheckFileToIssue(filePath).then(asset => {
         if (asset && asset.name) {
           // Actions.musicBasicInfo({ filePath, asset });
-          Alert.alert('Registration Failed', 'The file is already registered before and will not be added again. Please try to add different file.');
+          Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle2'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage2'));
         } else {
           Actions.musicBasicInfo({ filePath });
         }
       }).catch(error => {
-        Alert.alert('Failed to Upload', 'The file you selected is too large. Maximum file size allowed is: 100MB.');
+        Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage'));
         console.log({ error });
       });
 
@@ -62,15 +62,15 @@ export class MusicFileChosenComponent extends React.Component {
         </View>
         <View style={cStyles.content}>
           <View style={cStyles.mainContent}>
-            <Text style={cStyles.title}>{'RELease limited\nedition Music!'.toUpperCase()}</Text>
-            <Text style={cStyles.description}>Register the ownership of your tracks.{'\n'}Share it with the public.{'\n'}Build your legacy.</Text>
+            <Text style={cStyles.title}>{global.i18n.t('MusicFileChosenComponent_title')}</Text>
+            <Text style={cStyles.description}>{global.i18n.t('MusicFileChosenComponent_description')}</Text>
             <Image style={cStyles.musicImage} source={require('assets/imgs/music_upload.png')} />
           </View>
           <View>
-            <Text style={cStyles.message}>Distribute your music in only 3 steps!</Text>
+            <Text style={cStyles.message}>{global.i18n.t('MusicFileChosenComponent_message')}</Text>
           </View>
           <TouchableOpacity style={cStyles.chooseMusicButton} onPress={this.onChooseMusicFile.bind(this)}>
-            <Text style={cStyles.chooseMusicButtonText}>UPLOAD YOUR FILE</Text>
+            <Text style={cStyles.chooseMusicButtonText}>{global.i18n.t('MusicFileChosenComponent_chooseMusicButtonText')}</Text>
           </TouchableOpacity>
         </View>
       </View>
