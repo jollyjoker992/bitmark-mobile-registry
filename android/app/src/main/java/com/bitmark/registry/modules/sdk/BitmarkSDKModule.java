@@ -848,8 +848,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     }
 
     private PublicKeyEncryption getEncryption(Account account) {
-        return encryption != null ? encryption :
-                new BoxEncryption(account.getKey().privateKey().toBytes());
+        if (encryption != null) return encryption;
+        else return encryption = new BoxEncryption(account.getKey().privateKey().toBytes());
     }
 
 }
