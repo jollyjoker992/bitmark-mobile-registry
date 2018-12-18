@@ -208,7 +208,7 @@ const doCheckNewBitmarks = async (localAssets) => {
         asset.bitmarks = bitmarks;
         asset.issuedBitmarks = issuedBitmarks;
       }
-      asset.registrantName = CacheData.identities[asset.registrant];
+      asset.registrantName = CacheData.identities[asset.registrant] ? CacheData.identities[asset.registrant].name : '';
     }
 
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS, localAssets);
@@ -1383,7 +1383,7 @@ const doGetAssetToClaim = async (assetId) => {
   if (resultGetLimitedEdition) {
     asset.limitedEdition = resultGetLimitedEdition.limited;
   }
-  asset.registrantName = CacheData.identities[asset.registrant];
+  asset.registrantName = CacheData.identities[asset.registrant] ? CacheData.identities[asset.registrant].name : '';
   return asset;
 };
 
