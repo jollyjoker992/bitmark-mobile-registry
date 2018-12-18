@@ -111,7 +111,7 @@ export class MusicMetadataComponent extends React.Component {
     //TODO Chinese
     tempMetadata.push({ label: 'description', value: this.props.description });
     AppProcessor.doIssueMusic(this.props.filePath, this.props.assetName, tempMetadata, this.props.thumbnailPath, this.props.limitedEdition, {
-      title: '', message: global.i18n.t('MusicMetadataComponent_processMessage'),
+      indicator: true, title: '', message: global.i18n.t('MusicMetadataComponent_processMessage'),
     }).then(result => {
       console.log('doIssueMusic result:', result);
       if (result) {
