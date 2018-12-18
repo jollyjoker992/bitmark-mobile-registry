@@ -23,7 +23,7 @@ export class ClaimRequestComponent extends React.Component {
   }
 
   doReject() {
-    Alert.alert(global.i18n.t('ClaimRequestComponent_rejectAlertTitle'), global.i18n.t('ClaimRequestComponent_rejectAlertMessage'), [{
+    Alert.alert(global.i18n.t('ClaimRequestComponent_rejectAlertTitle'), '', [{
       text: global.i18n.t('ClaimRequestComponent_rejectAlertOK'), onPress: () => {
         AppProcessor.doProcessClaimRequest(this.props.claimRequest, false).then((result => {
           if (result) {
