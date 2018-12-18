@@ -92,7 +92,7 @@ export class MusicMetadataComponent extends React.Component {
   }
 
   onRemoveMetadata(index) {
-    Alert.alert(global.i18n.t('MusicMetadataComponent_deleteAlertTitle'), global.i18n.t('MusicMetadataComponent_deleteAlertMesasge'), [{
+    Alert.alert(global.i18n.t('MusicMetadataComponent_deleteAlertTitle'), '', [{
       text: global.i18n.t('MusicMetadataComponent_deleteAlertCancel'), style: 'cancel',
     }, {
       text: global.i18n.t('MusicMetadataComponent_deleteAlertYes'), style: 'destructive',
@@ -139,7 +139,7 @@ export class MusicMetadataComponent extends React.Component {
             <View style={cStyles.content}>
               <View style={cStyles.mainContent}>
                 {this.state.metadata.map((item, index) => (<View key={index} style={cStyles.fieldArea}>
-                  {this.state.isEditingMetadata && <TouchableOpacity style={cStyles.fieldRemoveButton} onPress={this.onRemoveMetadata.bind(this)}>
+                  {this.state.isEditingMetadata && <TouchableOpacity style={cStyles.fieldRemoveButton} onPress={() => this.onRemoveMetadata.bind(this)(index)}>
                     <Image style={cStyles.fieldRemoveButtonIcon} source={require('assets/imgs/remove-icon-red.png')} />
                   </TouchableOpacity>}
                   <View style={cStyles.filedInputArea}>
