@@ -766,7 +766,8 @@ const doDownloadBitmark = async (bitmark) => {
   let downloadResult = await BitmarkService.downloadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, downloadingFilePath);
   console.log('downloadResult :', downloadResult);
   let decryptedFilePath = `${assetFolderPath}/downloading/${downloadResult.filename}`;
-  await BitmarkSDK.decryptFile(downloadingFilePath, downloadResult, downloadResult.sender, decryptedFilePath);
+  let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(downloadResult.sender);
+  await BitmarkSDK.decryptFile(downloadingFilePath, downloadResult, encryptionPublicKey, decryptedFilePath);
 
   let downloadedFolderPath = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(downloadedFolderPath);
@@ -1115,8 +1116,8 @@ const doGenerateTransactionActionRequiredData = async (claimRequests) => {
           key: actionRequired.length,
           claimRequest: claimRequest,
           type: ActionTypes.claim_request,
-          // typeTitle: global.i18n.t("DataProcessor_signToTransferBitmark"),
-          typeTitle: 'SIGN TO TRANSFER BITMARK', //TODO
+          typeTitle: global.i18n.t("DataProcessor_signToTransferBitmark"),
+          // typeTitle: 'SIGN TO TRANSFER BITMARK', //TODO
           timestamp: moment(claimRequest.created_at),
         });
       totalTasks++;
