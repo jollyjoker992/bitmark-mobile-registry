@@ -14,3 +14,4 @@
 "notification_transfer_rejected" = "你的資產發送請求已被駁回，請稍後再試或者嘗試聯繫收件者。";
 "notification_transfer_failed" = "收到一則資產轉移請求，請點此來查看。";
 "notification_transfer_accepted" = "你的資產發送請求已成功。";
+"notification_claim_request" = "收到來自%@要求擁有資產%@的請求，請查看。";
