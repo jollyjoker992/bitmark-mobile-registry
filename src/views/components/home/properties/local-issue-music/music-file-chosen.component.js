@@ -18,7 +18,7 @@ export class MusicFileChosenComponent extends React.Component {
 
   onChooseMusicFile() {
     DocumentPicker.show({
-      filetype: [DocumentPickerUtil.audio(),],
+      filetype: [DocumentPickerUtil.allFiles(),],
     }, async (error, response) => {
       if (error) {
         Actions.jump('assets');
@@ -43,7 +43,7 @@ export class MusicFileChosenComponent extends React.Component {
           Actions.musicBasicInfo({ filePath });
         }
       }).catch(error => {
-        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {error});
+        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
         console.log('doCheckFileToIssue error:', error);
       });
 
