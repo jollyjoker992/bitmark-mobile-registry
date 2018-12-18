@@ -209,9 +209,11 @@ export class MainAppHandlerComponent extends Component {
       case 'claim': {
         let assetId = params[1];
         if (assetId) {
-          if (!CacheData.userInformation || !CacheData.userInformation.bitmarkAccountNumber) {
-            Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
-          }
+          UserModel.doTryGetCurrentUser().then(userInformation => {
+            if (!userInformation || !userInformation.bitmarkAccountNumber) {
+              Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
+            }
+          });
           AppProcessor.doGetAssetToClaim(assetId).then(asset => {
             DataProcessor.doViewSendClaimRequest(asset);
           }).catch(error => {
