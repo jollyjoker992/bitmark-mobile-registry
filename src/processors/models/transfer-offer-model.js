@@ -70,7 +70,6 @@ const doGetOutgoingTransferOffers = (accountNumber) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     let tempURL = config.api_server_url + `/v2/transfer_offers?requester=${accountNumber}`;
-    console.log("tempURL :", tempURL);
     fetch(tempURL, {
       method: 'GET',
       headers: {

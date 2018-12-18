@@ -175,23 +175,18 @@ const doCheckNewTransactions = async (transactions) => {
   }
 };
 const doCheckNewBitmarks = async (localAssets) => {
-  console.log('doCheckNewBitmarks :', localAssets);
   if (localAssets) {
     for (let asset of localAssets) {
       asset.filePath = await detectLocalAssetFilePath(asset.id);
       if (asset.metadata && asset.metadata.type === constant.asset.type.music) {
         asset.thumbnailPath = await detectMusicThumbnailPath(asset.id);
-        console.log('detectMusicThumbnailPath :', asset.thumbnailPath);
         let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(CacheData.userInformation.bitmarkAccountNumber, asset.id);
-        console.log('doGetLimitedEdition :', resultGetLimitedEdition);
         if (resultGetLimitedEdition) {
           asset.limitedEdition = resultGetLimitedEdition.limited;
         }
         let bitmarks = asset.bitmarks;
         let totalIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(CacheData.userInformation.bitmarkAccountNumber, asset.id);
-        console.log('doGetTotalBitmarksOfAssetOfIssuer :', totalIssuedBitmarks);
         let bitmarkIds = await BitmarkModel.doGetAwaitTransfers(CacheData.jwt, asset.id);
-        console.log('doGetAwaitTransfers :', bitmarkIds);
 
         for (let bid of bitmarkIds) {
           let index = bitmarks.findIndex(bitmark => bitmark.id === bid);
@@ -946,9 +941,7 @@ const doIssueFile = async (filePath, assetName, metadataList, quantity) => {
 };
 
 const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, limitedEdition) => {
-  console.log('run1');
   let result = await BitmarkService.doIssueMusic(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, thumbnailPath, limitedEdition);
-  console.log('run2');
 
   let appInfo = await doGetAppInformation();
   appInfo = appInfo || {};
@@ -961,7 +954,6 @@ const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, li
     appInfo.lastTimeIssued = moment().toDate().getTime();
     await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
   }
-  console.log('run3');
 
   await runGetLocalBitmarksInBackground();
   return result;
@@ -969,7 +961,6 @@ const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, li
 
 
 const doTransferBitmark = async (bitmarkId, receiver, isDeleting) => {
-  console.log('doTransferBitmark :', bitmarkId, receiver, isDeleting);
   let { asset } = await doGetLocalBitmarkInformation(bitmarkId);
   if (asset && asset.filePath) {
     let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
@@ -1111,7 +1102,7 @@ const doGenerateTransactionActionRequiredData = async (claimRequests) => {
   console.log('claimRequests :', claimRequests);
   if (claimRequests && claimRequests.length > 0) {
     (claimRequests || []).forEach((claimRequest, index) => {
-      claimRequest.index = (claimRequest.issuedBitmarks ? claimRequest.issuedBitmarks.length : 0) + index + 1,
+      claimRequest.index = (claimRequest.asset.issuedBitmarks ? claimRequest.asset.issuedBitmarks.length : 0) + index + 1,
         actionRequired.push({
           key: actionRequired.length,
           claimRequest: claimRequest,
@@ -1352,7 +1343,6 @@ const doDisplayedWhatNewInformation = async () => {
 };
 
 const doProcessClaimRequest = async (claimRequest, isAccept) => {
-  console.log('doProcessClaimRequest :', claimRequest, isAccept);
   if (isAccept) {
     let asset = claimRequest.asset;
     if (asset && asset.filePath) {
@@ -1365,9 +1355,7 @@ const doProcessClaimRequest = async (claimRequest, isAccept) => {
       console.log('uploadResult:', uploadResult);
     }
     let result = await BitmarkSDK.giveAwayBitmark(claimRequest.asset.id, claimRequest.from);
-    console.log('giveAwayBitmark:', result);
     let resultPost = await BitmarkModel.doPostAwaitTransfer(CacheData.jwt, result.bitmarkId, result.transferPayload);
-    console.log('doPostAwaitTransfer result:', resultPost);
   }
   await BitmarkModel.doDeleteClaimRequests(CacheData.jwt, claimRequest.id);
   let claimRequests = await runGetClaimRequestInBackground();
@@ -1393,7 +1381,6 @@ const doGetAssetToClaim = async (assetId) => {
   if (resultGetLimitedEdition) {
     asset.limitedEdition = resultGetLimitedEdition.limited;
   }
-  console.log('CacheData :', CacheData);
   asset.registrantName = CacheData.identities[asset.registrant];
   return asset;
 };

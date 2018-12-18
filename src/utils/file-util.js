@@ -8,7 +8,7 @@ class FileUtil {
 
   static async mkdir(folderPath) {
     return RNFS.mkdir(folderPath, {
-        NSURLIsExcludedFromBackupKey: true,
+      NSURLIsExcludedFromBackupKey: true,
     });
   }
 
@@ -37,7 +37,7 @@ class FileUtil {
       await FileUtil.removeSafe(destinationPath);
       return await RNFS.copyFile(sourcePath, destinationPath);
     } catch (err) {
-        console.log("File isn't existing");
+      console.log("File isn't existing");
     }
   }
 

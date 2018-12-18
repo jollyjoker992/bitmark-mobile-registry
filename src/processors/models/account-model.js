@@ -58,7 +58,6 @@ let doRegisterJWT = (accountNumber, timestamp, signature) => {
 };
 
 const doRegisterEncryptionPublicKey = (accountNumber, encryptionPublicKey, signature) => {
-  console.log({ accountNumber, encryptionPublicKey, signature });
   return new Promise((resolve, reject) => {
     let statusCode;
     fetch(`${config.api_server_url}/v1/encryption_keys/${accountNumber}`, {

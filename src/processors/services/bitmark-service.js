@@ -162,7 +162,6 @@ const doIssueFile = async (bitmarkAccountNumber, filePath, assetName, metadataLi
 };
 
 let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataList, thumbnailPath, limitedEdition) => {
-  console.log('doIssueMusic ', { bitmarkAccountNumber, filePath, assetName, metadataList, thumbnailPath, limitedEdition });
   let metadata = {};
   if (Array.isArray(metadataList)) {
     metadataList.forEach(item => {
@@ -332,8 +331,6 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
       requester: bitmarkAccountNumber,
       signature
     };
-
-    console.log({ formData, headers });
 
     let uploadFunction = (headers, formData) => {
       return new Promise((resolve, reject) => {
