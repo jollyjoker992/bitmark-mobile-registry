@@ -440,7 +440,7 @@ const runOnBackground = async () => {
   if (CacheData.userInformation === null || JSON.stringify(userInfo) !== JSON.stringify(CacheData.userInformation)) {
     CacheData.userInformation = userInfo;
     let accountStoreState = merge({}, AccountStore.getState().data);
-    accountStoreState.CacheData.userInformation = CacheData.userInformation;
+    accountStoreState.userInformation = CacheData.userInformation;
     AccountStore.dispatch(AccountActions.init(accountStoreState));
   }
 

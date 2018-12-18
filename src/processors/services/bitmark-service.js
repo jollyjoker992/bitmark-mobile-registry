@@ -361,7 +361,7 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
 };
 
 const downloadFileToCourierServer = async (bitmarkAccountNumber, assetId, filePath) => {
-  let signature = await BitmarkSDK.signMessages([assetId])[0];
+  let signature = (await BitmarkSDK.signMessages([assetId]))[0];
   let response;
   let result = await FileUtil.downloadFile({
     fromUrl: `${config.file_courier_server}/files/${assetId}/${bitmarkAccountNumber}`,

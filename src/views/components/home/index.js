@@ -106,7 +106,9 @@ export class UserRouterComponent extends Component {
     } else if (data.event === 'claim_request') {
       DataProcessor.doReloadClaimAssetRequest().then((claimRequests) => {
         let claimRequest = (claimRequests || []).find(cr => cr.id = data.claim_id);
-        Actions.claimRequest({ claimRequest });
+        if (claimRequest) {
+          Actions.claimRequest({ claimRequest });
+        }
       }).catch(console.log);
     }
   }
