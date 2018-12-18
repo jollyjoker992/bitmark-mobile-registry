@@ -259,6 +259,13 @@ export class MusicBasicInfoComponent extends React.Component {
     }
   }
 
+  doCancel() {
+    Alert.alert(global.i18n.t('MusicBasicInfoComponent_cancelTitle'), global.i18n.t('MusicBasicInfoComponent_cancelMessage'), [{
+      text: global.i18n.t('MusicBasicInfoComponent_cancelYes'), onPress: () => Actions.jump('assets'),
+    }, {
+      text: global.i18n.t('MusicBasicInfoComponent_cancelNo'), style: 'cancel',
+    }]);
+  }
 
   render() {
     return (
@@ -269,7 +276,7 @@ export class MusicBasicInfoComponent extends React.Component {
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
             </TouchableOpacity>
             <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{global.i18n.t('MusicBasicInfoComponent_headerTitle')}</Text>
-            <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.jump('assets')}>
+            <TouchableOpacity style={defaultStyles.headerRight} onPress={this.doCancel.bind(this)}>
               <Text style={defaultStyles.headerRightText}>{global.i18n.t('MusicBasicInfoComponent_headerRightText')}</Text>
             </TouchableOpacity>
           </View>

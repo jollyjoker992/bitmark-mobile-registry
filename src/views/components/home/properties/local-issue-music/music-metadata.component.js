@@ -122,6 +122,14 @@ export class MusicMetadataComponent extends React.Component {
     })
   }
 
+  doCancel() {
+    Alert.alert(global.i18n.t('MusicMetadataComponent_cancelTitle'), global.i18n.t('MusicMetadataComponent_cancelMessage'), [{
+      text: global.i18n.t('MusicMetadataComponent_cancelYes'), onPress: () => Actions.jump('assets'),
+    }, {
+      text: global.i18n.t('MusicMetadataComponent_cancelNo'), style: 'cancel',
+    }]);
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -131,7 +139,7 @@ export class MusicMetadataComponent extends React.Component {
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
             </TouchableOpacity>
             <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{global.i18n.t('MusicMetadataComponent_headerTitle')}</Text>
-            <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.jump('assets')}>
+            <TouchableOpacity style={defaultStyles.headerRight} onPress={this.doCancel.bind(this)}>
               <Text style={defaultStyles.headerRightText}>{global.i18n.t('MusicMetadataComponent_headerRightText')}</Text>
             </TouchableOpacity>
           </View>

@@ -39,14 +39,20 @@ export class ClaimRequestComponent extends React.Component {
     }])
   }
   doAccept() {
-    AppProcessor.doProcessClaimRequest(this.props.claimRequest, true).then((result => {
-      if (result) {
-        Actions.jump('transactions');
+    Alert.alert(global.i18n.t('ClaimRequestComponent_signAlertTitle'), '', [{
+      text: global.i18n.t('ClaimRequestComponent_signAlertAgree'), onPress: () => {
+        AppProcessor.doProcessClaimRequest(this.props.claimRequest, true).then((result => {
+          if (result) {
+            Actions.jump('transactions');
+          }
+        })).catch(error => {
+          console.log({ error });
+          EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+        });
       }
-    })).catch(error => {
-      console.log({ error });
-      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-    });
+    }, {
+      text: global.i18n.t('ClaimRequestComponent_signAlertDisagree'), style: 'cancel'
+    }]);
   }
 
   render() {
