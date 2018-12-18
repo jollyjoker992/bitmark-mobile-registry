@@ -1315,8 +1315,8 @@ const doMetricOnScreen = async (isActive) => {
   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 };
 
-const setMountedRouter = () => {
-  CacheData.mountedRouter = true;
+const setMountedRouter = (status = true) => {
+  CacheData.mountedRouter = status;
   checkDisplayModal();
 };
 

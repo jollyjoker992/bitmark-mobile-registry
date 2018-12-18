@@ -380,7 +380,7 @@ const cStyles = StyleSheet.create({
     paddingLeft: 8,
   },
   fileRemoveButtonIcon: {
-    width: 15, height: 15, resizeMode: 'contain'
+    width: 22, height: 22, resizeMode: 'contain'
   },
   fieldArea: {
     alignItems: 'center',

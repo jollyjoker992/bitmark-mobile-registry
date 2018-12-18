@@ -1338,7 +1338,7 @@
     "MainComponent_pleaseEnableYourTouchIdMessage": "請開啟你的指紋或者密碼來繼續使用 Bitmark。從設定內找到指紋或者密碼。",
     "MainComponent_enable": "開啟",
     "MainComponent_pleaseAuthorizeText​": "請授權登入",
-    "MainComponent_claimMessageWhenUserNotLogin": "Please sign in or create your Bitmark account and re-claim the property.",
+    "MainComponent_claimMessageWhenUserNotLogin": "請登入或建立新的 Bitmark 帳戶後再次請求擁有此資產。",
     "CodePushOptions_title": "新版本更新",
     "CodePushOptions_optionalUpdateMessage": "請升級應用程式至最新版本，此升級不會影響你的任何數據與資產。",
     "CodePushOptions_mandatoryUpdateMessage": "請升級應用程式至最新版本，此升級不會影響你的任何數據與資產。",

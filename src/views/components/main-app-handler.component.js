@@ -30,7 +30,7 @@ export class MainAppHandlerComponent extends Component {
   constructor(props) {
     super(props);
 
-    this.handleDeppLink = this.handleDeppLink.bind(this);
+    this.handleDeepLink = this.handleDeepLink.bind(this);
     this.handleAppStateChange = this.handleAppStateChange.bind(this);
     this.handerProcessingEvent = this.handerProcessingEvent.bind(this);
     this.handerSubmittingEvent = this.handerSubmittingEvent.bind(this);
@@ -54,7 +54,10 @@ export class MainAppHandlerComponent extends Component {
     EventEmitterService.on(EventEmitterService.events.APP_PROCESSING, this.handerProcessingEvent);
     EventEmitterService.on(EventEmitterService.events.APP_SUBMITTING, this.handerSubmittingEvent);
     EventEmitterService.on(EventEmitterService.events.APP_PROCESS_ERROR, this.handerProcessErrorEvent);
-    Linking.addEventListener('url', this.handleDeppLink);
+    Linking.getInitialURL().then((url) => {
+      this.handleDeepLink({ url });
+    }).catch(err => console.error('An error occurred', err));
+    Linking.addEventListener('url', this.handleDeepLink);
     AppState.addEventListener('change', this.handleAppStateChange);
     NetInfo.isConnected.fetch().then().done(() => {
       NetInfo.isConnected.addEventListener('connectionChange', this.handleNetworkChange);
@@ -68,7 +71,7 @@ export class MainAppHandlerComponent extends Component {
     EventEmitterService.remove(EventEmitterService.events.APP_PROCESSING, this.handerProcessingEvent);
     EventEmitterService.remove(EventEmitterService.events.APP_SUBMITTING, this.handerSubmittingEvent);
     EventEmitterService.remove(EventEmitterService.events.APP_PROCESS_ERROR, this.handerProcessErrorEvent);
-    Linking.addEventListener('url', this.handleDeppLink);
+    Linking.addEventListener('url', this.handleDeepLink);
     AppState.removeEventListener('change', this.handleAppStateChange);
     NetInfo.isConnected.removeEventListener('connectionChange', this.handleNetworkChange);
   }
@@ -196,14 +199,19 @@ export class MainAppHandlerComponent extends Component {
 
   }
 
-  handleDeppLink(event) {
+  handleDeepLink(event) {
+    if (!event.url) {
+      return;
+    }
     const route = event.url.replace(/.*?:\/\//g, '');
     const params = route.split('/');
     switch (params[0]) {
       case 'claim': {
         let assetId = params[1];
         if (assetId) {
-          Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
+          if (!CacheData.userInformation || !CacheData.userInformation.bitmarkAccountNumber) {
+            Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
+          }
           AppProcessor.doGetAssetToClaim(assetId).then(asset => {
             DataProcessor.doViewSendClaimRequest(asset);
           }).catch(error => {
@@ -220,11 +228,12 @@ export class MainAppHandlerComponent extends Component {
   }
 
   handleAppStateChange = (nextAppState) => {
+    console.log('nextAppState :', nextAppState);
     if (this.appState.match(/background/) && nextAppState === 'active') {
       runPromiseWithoutError(DataProcessor.doMetricOnScreen(true));
       this.doTryConnectInternet();
     }
-    if (nextAppState.match(/background/)) {
+    if (nextAppState && nextAppState.match(/background/)) {
       runPromiseWithoutError(DataProcessor.doMetricOnScreen(false));
     }
     this.appState = nextAppState;

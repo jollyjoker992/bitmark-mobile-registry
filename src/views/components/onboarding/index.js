@@ -6,13 +6,10 @@ import { NewAccountComponent } from './new-account';
 import { SignInComponent } from './sign-in';
 import { FaceTouchIdComponent } from './face-touch-id';
 import { NotificationComponent } from './notification';
-import { DataProcessor } from 'src/processors';
 import { BitmarkWebViewComponent } from 'src/views/commons';
 
 export class DefaultRouterComponent extends Component {
-  componentDidMount() {
-    DataProcessor.setMountedRouter();
-  }
+
   render() {
 
     return (
