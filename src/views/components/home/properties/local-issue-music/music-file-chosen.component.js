@@ -18,7 +18,7 @@ export class MusicFileChosenComponent extends React.Component {
 
   onChooseMusicFile() {
     DocumentPicker.show({
-      filetype: [DocumentPickerUtil.allFiles(),],
+      filetype: [DocumentPickerUtil.allFiles(), "public.data"],
     }, async (error, response) => {
       if (error) {
         Actions.jump('assets');

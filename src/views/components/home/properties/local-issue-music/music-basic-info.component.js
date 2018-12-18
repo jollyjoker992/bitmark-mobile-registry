@@ -42,7 +42,7 @@ export class MusicBasicInfoComponent extends React.Component {
 
   changeFile() {
     DocumentPicker.show({
-      filetype: [DocumentPickerUtil.allFiles(),],
+      filetype: [DocumentPickerUtil.allFiles(), "public.data"],
     }, async (error, response) => {
       if (error) {
         Actions.jump('assets');
@@ -129,7 +129,7 @@ export class MusicBasicInfoComponent extends React.Component {
           }
           case 3: {
             DocumentPicker.show({
-              filetype: [DocumentPickerUtil.allFiles(),],
+              filetype: [DocumentPickerUtil.allFiles(), "public.data"],
             }, async (error, response) => {
               if (error) {
                 return;
