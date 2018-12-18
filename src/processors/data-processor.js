@@ -141,7 +141,7 @@ const doCheckClaimRequests = async (claimRequests, isLoadingAllUserData) => {
     }
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST, claimRequests);
     if (!isLoadingAllUserData) {
-      await doGenerateTransactionActionRequiredData();
+      await doGenerateTransactionActionRequiredData(claimRequests);
     }
   }
 }
@@ -1073,7 +1073,7 @@ const ActionTypes = {
   ifttt: 'ifttt',
   test_write_down_recovery_phase: 'test_write_down_recovery_phase',
 };
-const doGenerateTransactionActionRequiredData = async () => {
+const doGenerateTransactionActionRequiredData = async (claimRequests) => {
   let actionRequired;
   let totalTasks = 0;
   let transferOffers = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSFER_OFFERS)) || {};
@@ -1105,17 +1105,20 @@ const doGenerateTransactionActionRequiredData = async () => {
     });
   }
 
-  let claimRequests = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST)) || {};
+  claimRequests = claimRequests || (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST)) || [];
+  claimRequests = claimRequests.sort((a, b) => moment(a.created_at).toDate().getTime() - moment(b.created_at).toDate().getTime());
+  console.log('claimRequests :', claimRequests);
   if (claimRequests && claimRequests.length > 0) {
-    (claimRequests || []).forEach((item) => {
-      actionRequired.push({
-        key: actionRequired.length,
-        claimRequest: item,
-        type: ActionTypes.claim_request,
-        // typeTitle: global.i18n.t("DataProcessor_signToTransferBitmark"),
-        typeTitle: 'SIGN TO TRANSFER BITMARK', //TODO
-        timestamp: moment(item.created_at),
-      });
+    (claimRequests || []).forEach((claimRequest, index) => {
+      claimRequest.index = (claimRequest.issuedBitmarks ? claimRequest.issuedBitmarks.length : 0) + index + 1,
+        actionRequired.push({
+          key: actionRequired.length,
+          claimRequest: claimRequest,
+          type: ActionTypes.claim_request,
+          // typeTitle: global.i18n.t("DataProcessor_signToTransferBitmark"),
+          typeTitle: 'SIGN TO TRANSFER BITMARK', //TODO
+          timestamp: moment(claimRequest.created_at),
+        });
       totalTasks++;
     });
   }

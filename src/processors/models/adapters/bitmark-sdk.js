@@ -139,7 +139,7 @@ const BitmarkSDK = {
     });
   },
   decryptFile: async (encryptedFilePath, sessionData, sender, outputFilePath) => {
-    return await SwiftBitmarkSDK.encryptFile({
+    return await SwiftBitmarkSDK.decryptFile({
       encrypted_file_path: encryptedFilePath,
       session_data: sessionData,
       sender: sender,

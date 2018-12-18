@@ -231,7 +231,7 @@ class PrivateTransactionsComponent extends React.Component {
                     </View>}
 
                     {item.type === ActionTypes.claim_request && <View style={transactionsStyle.iftttTask}>
-                      <Text style={transactionsStyle.iftttTitle}>{item.claimRequest.asset.name} {item.claimRequest.asset.issuedBitmarks.length}/{item.claimRequest.asset.limitedEdition}</Text>
+                      <Text style={transactionsStyle.iftttTitle}>{item.claimRequest.asset.name} {item.claimRequest.index}/{item.claimRequest.asset.limitedEdition}</Text>
                       <Text style={transactionsStyle.iftttDescription}>[{`${item.claimRequest.from}`}] has requested the bitmark of this property.</Text>
                     </View>}
                   </TouchableOpacity>)

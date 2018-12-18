@@ -64,7 +64,7 @@ export class ClaimRequestComponent extends React.Component {
           <ScrollView style={[claimRequestStyle.contentScroll]} contentContainerStyle={{ flexGrow: 1, }}>
             <TouchableOpacity activeOpacity={1} style={claimRequestStyle.content}>
               <Image style={claimRequestStyle.assetThumbnail} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.claimRequest.asset.id}` }} />
-              <Text style={claimRequestStyle.assetInfo}>{this.props.claimRequest.asset.name} [{this.props.claimRequest.asset.issuedBitmarks.length}/{this.props.claimRequest.asset.limitedEdition}]</Text>
+              <Text style={claimRequestStyle.assetInfo}>{this.props.claimRequest.asset.name} [{this.props.claimRequest.index}/{this.props.claimRequest.asset.limitedEdition}]</Text>
               <Text style={claimRequestStyle.claimMessage}>
                 <Text style={{ fontFamily: 'Andale Mono' }}>{this.props.claimRequest.from}</Text> {global.i18n.t("ClaimRequestComponent_claimMessage1")} <Text style={{ fontWeight: 'bold' }}>{this.props.claimRequest.asset.name}</Text>. {global.i18n.t("ClaimRequestComponent_claimMessage2")}
               </Text>
