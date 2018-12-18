@@ -11,7 +11,7 @@ import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth, FileUtil } from 'src/utils';
-import { AppProcessor } from 'src/processors';
+import { AppProcessor, EventEmitterService } from 'src/processors';
 
 
 export class MusicFileChosenComponent extends React.Component {
@@ -37,14 +37,14 @@ export class MusicFileChosenComponent extends React.Component {
 
       AppProcessor.doCheckFileToIssue(filePath).then(asset => {
         if (asset && asset.name) {
-          Actions.musicBasicInfo({ filePath, asset });
-          // Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle2'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage2'));
+          // Actions.musicBasicInfo({ filePath, asset });
+          Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle2'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage2'));
         } else {
           Actions.musicBasicInfo({ filePath });
         }
       }).catch(error => {
-        Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage'));
-        console.log({ error });
+        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {error});
+        console.log('doCheckFileToIssue error:', error);
       });
 
 
