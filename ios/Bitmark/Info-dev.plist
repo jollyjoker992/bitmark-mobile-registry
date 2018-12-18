@@ -100,5 +100,7 @@
 	<string>bmk-lljpzkhqdkzmblhg</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>

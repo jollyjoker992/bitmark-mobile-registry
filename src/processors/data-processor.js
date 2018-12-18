@@ -626,7 +626,7 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 
 const doOpenApp = async (justCreatedBitmarkAccount) => {
   CacheData.userInformation = await UserModel.doTryGetCurrentUser();
-  console.log('CacheData.userInformation :', CacheData.userInformation);
+  console.log('CacheData.userInformation :', CacheData.userInformation, FileUtil.DocumentDirectory);
   await LocalFileService.setShareLocalStoragePath();
 
   let appInfo = await doGetAppInformation();
@@ -760,13 +760,14 @@ const doDownloadBitmark = async (bitmark) => {
 
   let downloadResult = await BitmarkService.downloadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, downloadingFilePath);
   console.log('downloadResult :', downloadResult);
-  let decryptedFilePath = `${assetFolderPath}/downloading/${downloadResult.filename}`;
+  let filename = decodeURIComponent(downloadResult.filename)
+  let decryptedFilePath = `${assetFolderPath}/downloading/${filename}`;
   let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(downloadResult.sender);
   await BitmarkSDK.decryptFile(downloadingFilePath, downloadResult, encryptionPublicKey, decryptedFilePath);
-
+  console.log('decryptedFilePath :', decryptedFilePath);
   let downloadedFolderPath = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(downloadedFolderPath);
-  let downloadedFilePath = `${downloadedFolderPath}/${downloadResult.filename}`;
+  let downloadedFilePath = `${downloadedFolderPath}/${filename}`;
   await FileUtil.moveFileSafe(decryptedFilePath, downloadedFilePath);
   // await FileUtil.moveFileSafe(downloadingFilePath, downloadedFilePath);
 
