@@ -203,6 +203,7 @@ export class MainAppHandlerComponent extends Component {
       case 'claim': {
         let assetId = params[1];
         if (assetId) {
+          Alert.alert('', 'Please sign in or create your Bitmark account and re-claim the property.');
           AppProcessor.doGetAssetToClaim(assetId).then(asset => {
             DataProcessor.doViewSendClaimRequest(asset);
           }).catch(error => {
