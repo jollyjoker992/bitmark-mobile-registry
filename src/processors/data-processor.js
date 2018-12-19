@@ -752,30 +752,55 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
 const doDownloadBitmark = async (bitmark) => {
   let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
   let asset = localAssets.find(asset => asset.id === bitmark.asset_id);
-
   let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${bitmark.asset_id}`;
+
+  if ((await FileUtil.exists(`${assetFolderPath}/decrypted`))) {
+    let list = await FileUtil.readDir(`${assetFolderPath}/decrypted`);
+    if (list.length > 0) {
+      await FileUtil.moveFileSafe(`${assetFolderPath}/downloaded/${list[0]}`, `${assetFolderPath}/decrypted/${list[0]}`);
+      asset.filePath = `${assetFolderPath}/downloaded/${list[0]}`;
+      await doCheckNewBitmarks(localAssets);
+      return;
+    }
+  }
+
+  if ((await FileUtil.exists(`${assetFolderPath}/decrypting`)) &&
+    (await FileUtil.readDir(`${assetFolderPath}/decrypting`)).length > 0 &&
+    (await FileUtil.readDir(`${assetFolderPath}/decrypting_session_data`)).length > 0) {
+
+    let downloadResult = JSON.stringify(await FileUtil.readFile(`${assetFolderPath}/decrypting_session_data/data.text`));
+    let filename = decodeURIComponent(downloadResult.filename);
+    await FileUtil.mkdir(`${assetFolderPath}/downloaded`);
+    let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(downloadResult.sender);
+    await BitmarkSDK.decryptFile(`${assetFolderPath}/decrypting/${filename}`, downloadResult, encryptionPublicKey, `${assetFolderPath}/downloaded/${filename}`);
+    await FileUtil.removeSafe(`${assetFolderPath}/decrypting`);
+    await FileUtil.removeSafe(`${assetFolderPath}/decrypting_session_data`);
+    asset.filePath = `${assetFolderPath}/downloaded/${filename}`;
+    await doCheckNewBitmarks(localAssets);
+    return;
+  }
+
   await FileUtil.mkdir(assetFolderPath);
-  let downloadingFolderPath = `${assetFolderPath}/downloading`;
-  await FileUtil.mkdir(downloadingFolderPath);
-  let downloadingFilePath = `${assetFolderPath}/downloading/temp.encrypt`;
+  await FileUtil.mkdir(`${assetFolderPath}/downloading`);
+  let downloadResult = await BitmarkService.downloadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id,
+    `${assetFolderPath}/downloading/temp.encrypt`);
 
-  let downloadResult = await BitmarkService.downloadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, downloadingFilePath);
-  console.log('downloadResult :', downloadResult);
-  let filename = decodeURIComponent(downloadResult.filename)
-  let decryptedFilePath = `${assetFolderPath}/downloading/${filename}`;
+  let filename = decodeURIComponent(downloadResult.filename);
+  let downloadResultFilePath = `${assetFolderPath}/decrypting_session_data/data.text`;
+  await FileUtil.mkdir(`${assetFolderPath}/decrypting_session_data`);
+  await FileUtil.writeFile(downloadResultFilePath, JSON.stringify(downloadResult));
+  await FileUtil.mkdir(`${assetFolderPath}/decrypting`);
+  await FileUtil.moveFileSafe(`${assetFolderPath}/downloading/temp.encrypt`, `${assetFolderPath}/decrypting/${filename}`);
+  await FileUtil.removeSafe(`${assetFolderPath}/downloading`);
+
+  await FileUtil.mkdir(`${assetFolderPath}/downloaded`);
   let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(downloadResult.sender);
-  await BitmarkSDK.decryptFile(downloadingFilePath, downloadResult, encryptionPublicKey, decryptedFilePath);
-  console.log('decryptedFilePath :', decryptedFilePath);
-  let downloadedFolderPath = `${assetFolderPath}/downloaded`;
-  await FileUtil.mkdir(downloadedFolderPath);
-  let downloadedFilePath = `${downloadedFolderPath}/${filename}`;
-  await FileUtil.moveFileSafe(decryptedFilePath, downloadedFilePath);
-  // await FileUtil.moveFileSafe(downloadingFilePath, downloadedFilePath);
-
-  await FileUtil.removeSafe(downloadingFolderPath);
-  asset.filePath = `${downloadedFilePath}`;
+  await BitmarkSDK.decryptFile(`${assetFolderPath}/decrypting/${filename}`, downloadResult, encryptionPublicKey, `${assetFolderPath}/downloaded/${filename}`);
+  await FileUtil.removeSafe(`${assetFolderPath}/decrypting`);
+  await FileUtil.removeSafe(`${assetFolderPath}/decrypting_session_data`);
+  asset.filePath = `${assetFolderPath}/downloaded/${filename}`;
   await doCheckNewBitmarks(localAssets);
-  return asset.filePath;
+  return `${assetFolderPath}/downloaded/${filename}`;
 };
 
 const doUpdateViewStatus = async (assetId, bitmarkId) => {
@@ -962,7 +987,7 @@ const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, li
 };
 
 
-const doTransferBitmark = async (bitmarkId, receiver, isDeleting) => {
+const doTransferBitmark = async (bitmarkId, receiver) => {
   let { asset } = await doGetLocalBitmarkInformation(bitmarkId);
   if (asset && asset.filePath) {
     let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);

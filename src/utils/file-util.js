@@ -100,6 +100,10 @@ class FileUtil {
     return await RNFS.readFile(filePath, encoding);
   }
 
+  static async writeFile(filePath, content, encoding = 'utf8') {
+    return await RNFS.writeFile(filePath, content, encoding);
+  }
+
   static async zip(inputPath, outputPath) {
     return zip(inputPath, outputPath);
   }
