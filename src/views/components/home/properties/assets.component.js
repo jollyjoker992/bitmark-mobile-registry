@@ -188,7 +188,7 @@ class PrivateAssetsComponent extends React.Component {
                 </View>
                 {item.metadata && item.metadata.type === constant.asset.type.music && <View style={assetsStyle.extendArea}>
                   <Image style={assetsStyle.thumbnailImage} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${item.id}` }} />
-                  {item.registrant === CacheData.userInformation.bitmarkAccountNumber && <Text style={assetsStyle.editionInfo}>Ed. {item.limitedEdition - item.issuedBitmarks.length}/{item.limitedEdition}</Text>}
+                  {item.registrant === CacheData.userInformation.bitmarkAccountNumber && <Text style={assetsStyle.editionInfo}>Ed. {item.limitedEdition - item.totalIssuedBitmarks + 1}/{item.limitedEdition}</Text>}
                 </View>}
               </TouchableOpacity>
             ))}

@@ -961,8 +961,7 @@ const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, li
   return result;
 };
 
-
-const doTransferBitmark = async (bitmarkId, receiver, isDeleting) => {
+const doTransferBitmark = async (bitmarkId, receiver, ) => {
   let { asset } = await doGetLocalBitmarkInformation(bitmarkId);
   if (asset && asset.filePath) {
     let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
@@ -1378,8 +1377,8 @@ const doViewSendClaimRequest = async (asset) => {
 
 const doGetAssetToClaim = async (assetId) => {
   let asset = await BitmarkModel.doGetAssetInformation(assetId);
-  let totalIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(asset.registrant, asset.id);
-  asset.totalBitmarks = totalIssuedBitmarks.length;
+  let allIssuedBitmaks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(asset.registrant, asset.id);
+  asset.totalIssuedBitmarks = allIssuedBitmaks.length;
   let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(asset.registrant, asset.id);
   if (resultGetLimitedEdition) {
     asset.limitedEdition = resultGetLimitedEdition.limited;
