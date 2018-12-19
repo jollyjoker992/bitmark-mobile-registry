@@ -185,7 +185,7 @@ const doCheckNewBitmarks = async (localAssets) => {
           asset.limitedEdition = resultGetLimitedEdition.limited;
         }
         let bitmarks = asset.bitmarks;
-        let totalIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(CacheData.userInformation.bitmarkAccountNumber, asset.id);
+        let allIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(CacheData.userInformation.bitmarkAccountNumber, asset.id);
         let bitmarkIds = await BitmarkModel.doGetAwaitTransfers(CacheData.jwt, asset.id);
 
         for (let bid of bitmarkIds) {
@@ -195,7 +195,7 @@ const doCheckNewBitmarks = async (localAssets) => {
           }
         }
         let issuedBitmarks = [];
-        for (let ib of totalIssuedBitmarks) {
+        for (let ib of allIssuedBitmarks) {
           if (ib.owner === CacheData.userInformation.bitmarkAccountNumber) {
             let index = bitmarkIds.findIndex(bid => bid === ib.id);
             if (index >= 0) {
@@ -205,6 +205,7 @@ const doCheckNewBitmarks = async (localAssets) => {
             issuedBitmarks.push(ib);
           }
         }
+        asset.totalIssuedBitmarks = allIssuedBitmarks.length;
         asset.bitmarks = bitmarks;
         asset.issuedBitmarks = issuedBitmarks;
       }

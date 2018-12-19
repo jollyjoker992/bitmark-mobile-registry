@@ -43,4 +43,4 @@ export {
 // react-native run-ios --device "iPhone 5 testing" --scheme 'Bitmark dev'
 
 
-// code-push release-react dungle_bitmark/Bitmark-Registry ios --pre "Bitmark Registry dev" --mandatory true  --sourcemapOutput "tools/source-map-tool/source-map/test/main.jsbundle_1.0.8.map" --plistFile=/Users/binle/Workspace/src/github.com/bitmark-inc/bitmark-mobile-registry/client-app/ios/Bitmark/Info-dev.plist
+// code-push release-react dungle_bitmark/Bitmark-Registry ios --pre "Bitmark Registry dev" --mandatory true  --sourcemapOutput "tools/source-map-tool/source-map/test/main.jsbundle_1.53.0.map" --plistFile=ios/Bitmark/Info-dev.plist

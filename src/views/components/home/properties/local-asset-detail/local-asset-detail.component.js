@@ -142,7 +142,7 @@ class PrivateLocalAssetDetailComponent extends React.Component {
               <Text style={[assetDetailStyle.assetName, { color: this.props.asset.created_at ? 'black' : '#999999' }]} >{this.props.asset.name}</Text>
               {this.props.asset.issuedBitmarks && this.props.asset.limitedEdition &&
                 <Text style={assetDetailStyle.editionInfo}>{global.i18n.t("LocalAssetDetailComponent_editionInfo",
-                  { text: `${(this.props.asset.limitedEdition - this.props.asset.issuedBitmarks.length)}/${this.props.asset.limitedEdition}` })}</Text>}
+                  { text: `${(this.props.asset.limitedEdition - this.props.asset.totalIssuedBitmarks + 1)}/${this.props.asset.limitedEdition}` })}</Text>}
               <View style={assetDetailStyle.assetCreatorRow}>
                 <Text style={[assetDetailStyle.assetCreatorBound, { color: this.props.asset.created_at ? 'black' : '#999999' }]}>
                   {this.props.asset.created_at
