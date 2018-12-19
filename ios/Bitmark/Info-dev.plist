@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.52.0</string>
+	<string>1.53.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -35,8 +35,8 @@
 	<string>1</string>
 	<key>CodePushDeploymentKey</key>
 	<string>CGnP-G4I33angJRWeHM-6O3yPtwHS1KHiyySm</string>
-  <key>HockeyAppID</key>
-  <string>2a49612a73ad401690f7f94fc44cfb46</string>
+	<key>HockeyAppID</key>
+	<string>2a49612a73ad401690f7f94fc44cfb46</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -96,7 +96,11 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>BitmarkSDKAPIKey</key>
+	<string>bmk-lljpzkhqdkzmblhg</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>

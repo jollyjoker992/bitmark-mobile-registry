@@ -37,7 +37,13 @@ platform :ios do
       export_options: {iCloudContainerEnvironment: 'Production'},
       workspace: "ios/Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry",
-      include_bitcode: false
+      include_bitcode: true
+    )
+    sentry_upload_dsym(
+      auth_token: ENV['SENTRY_AUTH_TOKEN'],
+      org_slug: 'bitmark-inc',
+      project_slug: 'bitmark-registry',
+      dsym_path: './Bitmark Registry.app.dSYM.zip'
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY']
@@ -61,6 +67,12 @@ platform :ios do
       scheme: "Bitmark Registry beta",
       include_bitcode: false
     )
+    sentry_upload_dsym(
+      auth_token: ENV['SENTRY_AUTH_TOKEN'],
+      org_slug: 'bitmark-inc',
+      project_slug: 'bitmark-registry',
+      dsym_path: './Bitmark Registry beta.app.dSYM.zip'
+    )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY']
       )
@@ -83,9 +95,16 @@ platform :ios do
       scheme: "Bitmark Registry dev",
       include_bitcode: false
     )
+    sentry_upload_dsym(
+      auth_token: ENV['SENTRY_AUTH_TOKEN'],
+      org_slug: 'bitmark-inc',
+      project_slug: 'bitmark-registry',
+      dsym_path: './Bitmark Registry dev.app.dSYM.zip'
+    )
     hockey(
-      api_token: ENV['HOCKEYAPP_KEY']
-      )
+      api_token: ENV['HOCKEYAPP_KEY'],
+      notes_type: "1"
+    )
   end
   lane :betatravis do
     sh "npm install"
@@ -126,13 +145,20 @@ platform :ios do
       export_options: {iCloudContainerEnvironment: 'Production'},
       workspace: "ios/Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry beta",
+      silent:true,
       include_bitcode: true
+    )
+    sentry_upload_dsym(
+      auth_token: ENV['SENTRY_AUTH_TOKEN'],
+      org_slug: 'bitmark-inc',
+      project_slug: 'bitmark-registry',
+      dsym_path: './Bitmark Registry beta.app.dSYM.zip'
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY'],
       release_type: "2",
       tags: "internal_testers",
-      )
+    )
   end
   lane :developtravis do
     sh "npm install"
@@ -173,7 +199,8 @@ platform :ios do
       export_options: {iCloudContainerEnvironment: 'Production'},
       workspace: "ios/Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry dev",
-      include_bitcode: true
+      silent:true,
+      include_bitcode: false
     )
 
     hockey(
@@ -181,7 +208,15 @@ platform :ios do
       notes: "*Branch*: ```" + ENV['TRAVIS_BRANCH'] + "``` --- *CI build*: ```" + ENV['TRAVIS_JOB_WEB_URL'] + "```",
       notes_type: "1",
       build_server_url: ENV['TRAVIS_JOB_WEB_URL'],
+      bypass_cdn: true,
       repository_url: "https://github.com/bitmark-inc/bitmark-mobile-health-plus",
-      )
+    )
+    
+    sentry_upload_dsym(
+      auth_token: ENV['SENTRY_AUTH_TOKEN'],
+      org_slug: 'bitmark-inc',
+      project_slug: 'bitmark-registry',
+      dsym_path: './Bitmark Registry dev.app.dSYM.zip'
+    )
   end
 end

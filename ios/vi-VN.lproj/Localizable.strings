@@ -14,3 +14,4 @@
 "notification_transfer_rejected" = "notification_transfer_rejected";
 "notification_transfer_failed" = "notification_transfer_failed";
 "notification_transfer_accepted" = "notification_transfer_accepted";
+"notification_claim_request" = "You’ve received a claim request for property %@ from %@.";

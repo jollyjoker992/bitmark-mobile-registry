@@ -14,7 +14,7 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 #import <React/RCTPushNotificationManager.h>
-#import "ReactNativeExceptionHandler.h"
+#import <React/RNSentry.h> 
 
 #ifdef HOCKEYAPP
   @import HockeySDK;
@@ -27,12 +27,11 @@
 {
   NSURL *jsCodeLocation;
 
-  
-    #ifdef DEBUG
-        jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-    #else
-        jsCodeLocation = [CodePush bundleURL];
-    #endif
+  #ifdef DEBUG
+      jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+  #else
+      jsCodeLocation = [CodePush bundleURL];
+  #endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"Bitmark"
@@ -57,24 +56,6 @@
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   
-  // Handle Crash App by native code
-  [ReactNativeExceptionHandler replaceNativeExceptionHandlerBlock:^(NSException *exception, NSString *readeableException){
-    
-    // THIS IS THE IMPORTANT PART
-    // By default when an exception is raised we will show an alert box as per our code.
-    // But since our buttons wont work because our click handlers wont work.
-    // to close the app or to remove the UI lockup on exception.
-    // we need to call this method
-    // [ReactNativeExceptionHandler releaseExceptionHold]; // to release the lock and let the app crash.
-    
-    // Hence we set a timer of 1 secs and then call the method releaseExceptionHold to quit the app after
-    // 1 secs of showing the popup
-    [NSTimer scheduledTimerWithTimeInterval:1.0
-                                     target:[ReactNativeExceptionHandler class]
-                                   selector:@selector(releaseExceptionHold)
-                                   userInfo:nil
-                                    repeats:NO];
-  }];
   return YES;
 }
 

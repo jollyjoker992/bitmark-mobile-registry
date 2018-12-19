@@ -1,5 +1,5 @@
 PODS:
-  - BitmarkSDK (0.0.5):
+  - BitmarkSDK (2.2.0):
     - TweetNacl
   - HockeySDK (5.1.4):
     - HockeySDK/DefaultLib (= 5.1.4)
@@ -8,7 +8,7 @@ PODS:
   - TweetNacl (1.0.1)
 
 DEPENDENCIES:
-  - BitmarkSDK (from `https://github.com/bitmark-inc/bitmark-sdk-swift.git`, branch `v1`)
+  - BitmarkSDK (from `https://github.com/bitmark-inc/bitmark-sdk-swift.git`, branch `expose-encryption-method`)
   - HockeySDK
   - KeychainAccess
 
@@ -20,20 +20,20 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   BitmarkSDK:
-    :branch: v1
+    :branch: expose-encryption-method
     :git: https://github.com/bitmark-inc/bitmark-sdk-swift.git
 
 CHECKOUT OPTIONS:
   BitmarkSDK:
-    :commit: 981c2e86369b00e20e3289c5406bafd45497751a
+    :commit: b6d6124ac24cdd36b22c0dbaaa5a8a6db7e10360
     :git: https://github.com/bitmark-inc/bitmark-sdk-swift.git
 
 SPEC CHECKSUMS:
-  BitmarkSDK: 3234949ba38f292e9ac3bd5d13a8981b182990a1
+  BitmarkSDK: 8d528ebc33eaa1aed09db9f00c110916e127c352
   HockeySDK: 15afe6bc0a5bfe3a531fd73dbf082095f37dac3b
   KeychainAccess: b3816fddcf28aa29d94b10ec305cd52be14c472b
   TweetNacl: ea279cd32bffee69c59c73631470d3419db675df
 
-PODFILE CHECKSUM: 42a9fa170bb299e816718ec0da904922b8683025
+PODFILE CHECKSUM: 0c5479f164c7cf53bed37450273686c2cefc9dec
 
 COCOAPODS: 1.5.3

@@ -14,3 +14,4 @@
 "notification_transfer_rejected" = "Your transfer request has been rejected. Please try again later or contact the recipient for further information.";
 "notification_transfer_failed" = "You’ve received a property transfer request. Tap to review the request.";
 "notification_transfer_accepted" = "Your property transfer request has been accpeted.";
+"notification_claim_request" = "You’ve received a claim request for property %@ from %@.";
