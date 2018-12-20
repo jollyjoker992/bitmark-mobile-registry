@@ -229,10 +229,10 @@ export class MusicBasicInfoComponent extends React.Component {
     if (this.state.description) {
       let temp = new Buffer(this.state.description);
       if (temp.length > 1024) {
-        global.i18n.t('MusicBasicInfoComponent_descriptionError1');
+        descriptionError = global.i18n.t('MusicBasicInfoComponent_descriptionError1');
       }
     } else {
-      global.i18n.t('MusicBasicInfoComponent_descriptionError2');
+      descriptionError = global.i18n.t('MusicBasicInfoComponent_descriptionError2');
     }
     let thumbnailPathError = '';
     if (!this.state.thumbnailPath) {
@@ -270,7 +270,7 @@ export class MusicBasicInfoComponent extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }} >
+        <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} >
           <View style={cStyles.header}>
             <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
@@ -299,32 +299,36 @@ export class MusicBasicInfoComponent extends React.Component {
                   </TouchableOpacity>
                 </View>
 
-                <View style={cStyles.fieldArea}>
+                <View style={[cStyles.fieldArea, { marginTop: 30 }]}>
                   <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyName')}</Text>
-                  <TextInput style={[cStyles.fieldInput, this.state.assetNameError ? { borderBottomColor: '#FF003C' } : {}]}
+                  <TextInput style={[cStyles.fieldInput]}
                     placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyNamePlaceholder')}
                     defaultValue={this.state.assetName}
                     onChangeText={(assetName) => this.onInputAsset.bind(this)(assetName)}
                   />
+                  <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.assetNameError ? '#FF003C' : '#0060F2', width: '100%' }} />
                   <Text style={cStyles.fieldInputError}>{this.state.assetNameError}</Text>
                 </View>
 
                 <View style={cStyles.fieldArea}>
                   <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelLimited')}</Text>
-                  <TextInput style={[cStyles.fieldInput, this.state.limitedError ? { borderBottomColor: '#FF003C' } : {}]}
+                  <TextInput style={[cStyles.fieldInput]}
                     keyboardType='number-pad'
                     onChangeText={(limitedNumber) => this.onInputLimited.bind(this)(limitedNumber)}
                   />
+                  <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.limitedError ? '#FF003C' : '#0060F2', width: '100%' }} />
                   <Text style={cStyles.fieldInputError}>{this.state.limitedError}</Text>
                 </View>
 
                 <View style={cStyles.fieldArea}>
                   <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelDescription')}</Text>
-                  <TextInput style={[cStyles.fieldInput, this.state.descriptionError ? { borderBottomColor: '#FF003C' } : {}]}
+                  <TextInput style={[cStyles.fieldInput]}
                     placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelDescriptionPlaceholder')}
                     defaultValue={this.state.description}
+                    multiline={true}
                     onChangeText={(description) => this.onInputDescription.bind(this)(description)}
                   />
+                  <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.descriptionError ? '#FF003C' : '#0060F2', width: '100%' }} />
                   <Text style={cStyles.fieldInputError}>{this.state.descriptionError}</Text>
                 </View>
               </View>
@@ -350,6 +354,7 @@ const cStyles = StyleSheet.create({
     paddingTop: constant.headerSize.paddingTop,
     width: '100%',
     borderBottomWidth: 1, borderBottomColor: '#0060F2',
+    backgroundColor: 'white',
   },
 
   content: {
@@ -401,9 +406,8 @@ const cStyles = StyleSheet.create({
   fieldInput: {
     width: '100%',
     marginTop: 9, marginBottom: 4,
+    paddingLeft: 7, paddingBottom: 5,
     fontFamily: 'Avenir-Book', fontSize: 16, fontWeight: '300',
-    paddingLeft: 7,
-    borderBottomWidth: 1, borderBottomColor: '#0060F2',
   },
   fieldInputError: {
     minHeight: 20, width: '100%',

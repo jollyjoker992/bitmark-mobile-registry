@@ -105,12 +105,12 @@ export class MusicMetadataEditComponent extends React.Component {
           <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={[defaultStyles.headerTitle, { color: this.state.label ? 'black' : '#C1C1C1' }]}>{this.state.label || global.i18n.t("MusicMetadataEditComponent_headerTitle", { number: this.props.index + 1 })}</Text>
+          <Text style={[defaultStyles.headerTitle, { color:  '#0060F2' }]}>{this.state.label || global.i18n.t("MusicMetadataEditComponent_headerTitle", { number: this.props.index + 1 })}</Text>
           <TouchableOpacity style={defaultStyles.headerRight} onPress={() => {
             this.props.onChangeMetadataLabel(this.props.index, this.state.label);
             Actions.pop();
           }}>
-            <Text style={defaultStyles.headerRightText}>{global.i18n.t("MusicMetadataEditComponent_done")}</Text>
+            <Text style={defaultStyles.headerRightText}>{global.i18n.t("MusicMetadataEditComponent_headerRightText")}</Text>
           </TouchableOpacity>
         </View>
 
@@ -160,6 +160,7 @@ const cStyles = StyleSheet.create({
     paddingTop: constant.headerSize.paddingTop,
     width: '100%',
     borderBottomWidth: 1, borderBottomColor: '#0060F2',
+    backgroundColor: 'white'
   },
 
   body: {
