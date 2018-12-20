@@ -12,7 +12,7 @@ import { convertWidth } from 'src/utils';
 import { AppProcessor, EventEmitterService } from 'src/processors';
 
 
-export class MusicSentClaimRequestComponent extends React.Component {
+export class MusicSentIncomingClaimRequestComponent extends React.Component {
   static propTypes = {
     asset: PropTypes.any,
   }
@@ -21,7 +21,7 @@ export class MusicSentClaimRequestComponent extends React.Component {
   }
 
   onSubmit() {
-    AppProcessor.doSendClaimRequest(this.props.asset).then(() => {
+    AppProcessor.doSendIncomingClaimRequest(this.props.asset).then(() => {
       Actions.pop();
     }).catch(error => {
       console.log('error :', error);

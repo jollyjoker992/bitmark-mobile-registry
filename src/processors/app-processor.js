@@ -178,11 +178,11 @@ const doDecentralizedIssuance = async (token, encryptionKey, expiredTime) => {
 const doDecentralizedTransfer = async (token, expiredTime) => {
   return executeTask('doDecentralizedTransfer', { token, expiredTime });
 };
-const doProcessClaimRequest = (claimRequest, isAccept) => {
-  return executeTask('doProcessClaimRequest', { claimRequest, isAccept });
+const doProcessIncomingClaimRequest = (incomingClaimRequest, isAccept) => {
+  return executeTask('doProcessIncomingClaimRequest', { incomingClaimRequest, isAccept });
 };
-const doSendClaimRequest = async (asset) => {
-  return executeTask('doSendClaimRequest', { asset });
+const doSendIncomingClaimRequest = async (asset) => {
+  return executeTask('doSendIncomingClaimRequest', { asset });
 };
 const doGetAssetToClaim = async (assetId) => {
   return executeTask('doGetAssetToClaim', { assetId });
@@ -234,8 +234,8 @@ let AppProcessor = {
   doGetAllTransfersOffers,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
-  doProcessClaimRequest,
-  doSendClaimRequest,
+  doProcessIncomingClaimRequest,
+  doSendIncomingClaimRequest,
   doGetAssetToClaim,
 
   doStartBackgroundProcess,

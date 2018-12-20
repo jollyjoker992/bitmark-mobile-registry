@@ -14,7 +14,7 @@ import {
 import {
   TransactionsComponent,
   TransferOfferComponent,
-  ClaimRequestComponent
+  IncomingClaimRequestComponent
 } from './transactions';
 import { AssetsComponent } from './properties/assets.component';
 import { BottomTabsComponent } from './bottom-tabs/bottom-tabs.component';
@@ -34,7 +34,7 @@ import {
   MusicIssueSuccessComponent,
   MusicMetadataComponent,
   MusicMetadataEditComponent,
-  MusicSentClaimRequestComponent,
+  MusicSentIncomingClaimRequestComponent,
 } from './properties/local-issue-music';
 
 import { BitmarkWebViewComponent } from 'src/views/commons';
@@ -105,9 +105,9 @@ export class UserRouterComponent extends Component {
       }).catch(console.log);
     } else if (data.event === 'claim_request') {
       DataProcessor.doReloadClaimAssetRequest().then((claimRequests) => {
-        let claimRequest = (claimRequests || []).find(cr => cr.id === data.claim_id);
-        if (claimRequest) {
-          Actions.claimRequest({ claimRequest });
+        let incomingClaimRequest = (claimRequests.incoming_claim_requests || []).find(cr => cr.id === data.claim_id);
+        if (incomingClaimRequest) {
+          Actions.incomingClaimRequest({ incomingClaimRequest });
         }
       }).catch(console.log);
     }
@@ -129,13 +129,13 @@ export class UserRouterComponent extends Component {
             <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
             <Scene key="whatNew" panHandlers={null} component={WhatNewComponent} />
 
-            <Scene key="claimRequest" panHandlers={null} component={ClaimRequestComponent} />
+            <Scene key="incomingClaimRequest" panHandlers={null} component={IncomingClaimRequestComponent} />
             <Scene key="musicBasicInfo" panHandlers={null} component={MusicBasicInfoComponent} />
             <Scene key="musicFileChosen" panHandlers={null} component={MusicFileChosenComponent} />
             <Scene key="musicIssueSuccess" panHandlers={null} component={MusicIssueSuccessComponent} />
             <Scene key="musicMetadata" panHandlers={null} component={MusicMetadataComponent} />
             <Scene key="musicMetadataEdit" panHandlers={null} component={MusicMetadataEditComponent} />
-            <Scene key="musicSentClaimRequest" panHandlers={null} component={MusicSentClaimRequestComponent} />
+            <Scene key="musicSentIncomingClaimRequest" panHandlers={null} component={MusicSentIncomingClaimRequestComponent} />
             <Scene key="musicReleaseToPublic" panHandlers={null} component={MusicReleaseToPublicComponent} />
 
 

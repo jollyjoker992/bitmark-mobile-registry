@@ -700,7 +700,7 @@ const doGetLimitedEdition = async (issuer, assetId) => {
   });
 };
 
-const doPostClaimRequest = (jwt, assetId, toAccount, ) => {
+const doPostIncomingClaimRequest = (jwt, assetId, toAccount, ) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     fetch(`${config.mobile_server_url}/api/claim_requests`, {
@@ -721,7 +721,7 @@ const doPostClaimRequest = (jwt, assetId, toAccount, ) => {
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doPostClaimRequest error :` + JSON.stringify(data)));
+        return reject(new Error(`doPostIncomingClaimRequest error :` + JSON.stringify(data)));
       }
       resolve(data);
     }).catch(reject);
@@ -748,21 +748,23 @@ const doGetClaimRequest = (jwt) => {
       if (statusCode >= 400) {
         return reject(new Error(`doGetClaimRequest error :` + JSON.stringify(data)));
       }
-      resolve(data.claim_requests);
+      resolve(data);
     }).catch(reject);
   });
 };
 
-const doDeleteClaimRequests = (jwt, id) => {
+
+const doSubmitIncomingClaimRequests = (jwt, id, status) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     fetch(`${config.mobile_server_url}/api/claim_requests/${id}`, {
-      method: 'DELETE',
+      method: 'PATCH',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + jwt,
-      }
+      },
+      body: JSON.stringify({ status })
     }).then((response) => {
       statusCode = response.status;
       if (statusCode < 400) {
@@ -771,7 +773,7 @@ const doDeleteClaimRequests = (jwt, id) => {
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doDeleteClaimRequests error :` + JSON.stringify(data)));
+        return reject(new Error(`doSubmitIncomingClaimRequests error :` + JSON.stringify(data)));
       }
       resolve(data);
     }).catch(reject);
@@ -861,9 +863,9 @@ let BitmarkModel = {
   doUploadMusicThumbnail,
   doGetTotalBitmarksOfAssetOfIssuer,
   doGetLimitedEdition,
-  doPostClaimRequest,
+  doPostIncomingClaimRequest,
   doGetClaimRequest,
-  doDeleteClaimRequests,
+  doSubmitIncomingClaimRequests,
   doPostAwaitTransfer,
   doGetAwaitTransfers,
 };

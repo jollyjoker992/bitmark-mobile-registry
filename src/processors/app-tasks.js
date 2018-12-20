@@ -137,11 +137,11 @@ const doDecentralizedTransfer = async ({ token, expiredTime }) => {
   }
   return await processing(DataProcessor.doDecentralizedTransfer(token));
 };
-const doProcessClaimRequest = async ({ claimRequest, isAccept }) => {
-  return await processing(DataProcessor.doProcessClaimRequest(claimRequest, isAccept));
+const doProcessIncomingClaimRequest = async ({ incomingClaimRequest, isAccept }) => {
+  return await processing(DataProcessor.doProcessIncomingClaimRequest(incomingClaimRequest, isAccept));
 };
-const doSendClaimRequest = async ({ asset }) => {
-  return await processing(DataProcessor.doSendClaimRequest(asset));
+const doSendIncomingClaimRequest = async ({ asset }) => {
+  return await processing(DataProcessor.doSendIncomingClaimRequest(asset));
 };
 const doGetAssetToClaim = async ({ assetId }) => {
   return await processing(DataProcessor.doGetAssetToClaim(assetId));
@@ -171,8 +171,8 @@ let AppTasks = {
   doSignInOnWebApp,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
-  doProcessClaimRequest,
-  doSendClaimRequest,
+  doProcessIncomingClaimRequest,
+  doSendIncomingClaimRequest,
   doGetAssetToClaim,
 };
 

@@ -215,7 +215,7 @@ export class MainAppHandlerComponent extends Component {
             }
           });
           AppProcessor.doGetAssetToClaim(assetId).then(asset => {
-            DataProcessor.doViewSendClaimRequest(asset);
+            DataProcessor.doViewSendIncomingClaimRequest(asset);
           }).catch(error => {
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
           })
