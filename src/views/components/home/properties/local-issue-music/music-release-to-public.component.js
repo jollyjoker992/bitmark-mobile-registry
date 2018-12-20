@@ -71,32 +71,38 @@ export class MusicReleaseToPublicComponent extends React.Component {
                   </TouchableOpacity>
                 </View>
               </View>}
-              <View style={cStyles.resultContent}>
+              <TouchableOpacity style={cStyles.resultContent} onPress={this.copySelectedResult.bind(this)}>
                 <Text style={cStyles.resultContentText}>
                   {this.state.selected === 'embed'
                     ? `<iframe width="320" height="180" frameborder="0" frameborder="0" src="${config.bitmark_profile_server}/asset/${this.props.assetId}/claim"/>`
                     : `${config.registry_server_url}/assets/${this.props.assetId}/claim`
                   }
                 </Text>
-              </View>
+              </TouchableOpacity>
               <View style={cStyles.musicSuccessButtons}>
-                <TouchableOpacity
-                  onPress={() => this.setState({ selected: 'embed' })}
-                  style={[cStyles.musicSuccessButton, {
-                    backgroundColor: this.state.selected === 'embed' ? '#E6FF00' : 'white',
-                    borderColor: this.state.selected === 'embed' ? '#E6FF00' : 'white'
-                  }]}>
-                  <Image style={cStyles.musicSuccessButtonIcon} source={require('assets/imgs/music_embed_icon.png')} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => this.setState({ selected: 'link' })}
-                  style={[cStyles.musicSuccessButton, {
-                    backgroundColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
-                    borderColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
-                    marginLeft: 25,
-                  }]}>
-                  <Image style={cStyles.musicSuccessButtonIcon} source={require('assets/imgs/music_link_icon.png')} />
-                </TouchableOpacity>
+                <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                  <TouchableOpacity
+                    onPress={() => this.setState({ selected: 'embed' })}
+                    style={[cStyles.musicSuccessButton, {
+                      backgroundColor: this.state.selected === 'embed' ? '#E6FF00' : 'white',
+                      borderColor: this.state.selected === 'embed' ? '#E6FF00' : 'white'
+                    }]}>
+                    <Image style={cStyles.musicSuccessButtonIcon} source={require('assets/imgs/music_embed_icon.png')} />
+                  </TouchableOpacity>
+                  <Text style={[cStyles.embedLabelText, { color: this.state.selected === 'embed' ? '#E6FF00' : 'white' }]}>{global.i18n.t("MusicReleaseToPublicComponent_embedLabelText")}</Text>
+                </View>
+                <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                  <TouchableOpacity
+                    onPress={() => this.setState({ selected: 'link' })}
+                    style={[cStyles.musicSuccessButton, {
+                      backgroundColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
+                      borderColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
+                      marginLeft: 25,
+                    }]}>
+                    <Image style={cStyles.musicSuccessButtonIcon} source={require('assets/imgs/music_link_icon.png')} />
+                  </TouchableOpacity>
+                  <Text style={[cStyles.embedLabelText, { color: this.state.selected === 'embed' ? 'white' : '#E6FF00' }]}>{global.i18n.t("MusicReleaseToPublicComponent_linkLabelText")}</Text>
+                </View>
               </View>
             </View>
           </ScrollView>
@@ -168,16 +174,21 @@ const cStyles = StyleSheet.create({
     width: '100%',
   },
 
-  musicSuccessButton: {
-    width: 60, height: 60,
-    borderRadius: 30, borderWidth: 1,
-    marginTop: 15,
-  },
   musicSuccessButtons: {
+    marginTop: 15,
     width: '100%',
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
   },
+  musicSuccessButton: {
+    width: 60, height: 60,
+    borderRadius: 30, borderWidth: 1,
+    flexDirection: 'column', alignItems: 'center',
+  },
   musicSuccessButtonIcon: {
     width: 60, height: 60, resizeMode: 'contain',
-  }
+  },
+  embedLabelText: {
+    marginTop: 9,
+    fontFamily: 'Avenir-Light', fontSize: 17, fontWeight: '300',
+  },
 });

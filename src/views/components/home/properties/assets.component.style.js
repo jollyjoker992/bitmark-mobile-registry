@@ -224,6 +224,7 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   extendArea: {
+    flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
     padding: 5,
   },
   thumbnailImage: {
@@ -233,7 +234,6 @@ export default StyleSheet.create({
     marginTop: 5,
     fontFamily: 'Avenir-Medium', fontSize: 14, fontWeight: '900', color: '#0060F2',
   },
-
 
   trackingRow: {
     width: '100%',
