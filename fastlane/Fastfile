@@ -28,6 +28,11 @@ platform :ios do
       xcodeproj: "ios/Bitmark Registry.xcodeproj",
       build_number: (version_number + 1).to_i
     )
+    set_info_plist_value(
+      path: "ios/Info.plist",
+      key: "BitmarkSDKAPIKey",
+      value: ENV['BITMARKSDK_API_KEY']
+    )
     cert
     sigh(
       force: false,
@@ -56,6 +61,11 @@ platform :ios do
     increment_build_number(
       xcodeproj: "ios/Bitmark Registry.xcodeproj",
       build_number: (version_number + 1).to_i
+    )
+    set_info_plist_value(
+      path: "ios/Info-beta.plist",
+      key: "BitmarkSDKAPIKey",
+      value: ENV['BITMARKSDK_API_KEY']
     )
     cert
     sigh(
@@ -117,6 +127,11 @@ platform :ios do
     increment_build_number(
       xcodeproj: "ios/Bitmark Registry.xcodeproj",
       build_number: (version_number + 1).to_i
+    )
+    set_info_plist_value(
+      path: "ios/Info-beta.plist",
+      key: "BitmarkSDKAPIKey",
+      value: ENV['BITMARKSDK_API_KEY']
     )
     create_keychain(
       name: keychain_name,
