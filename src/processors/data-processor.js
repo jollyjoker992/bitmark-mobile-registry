@@ -395,7 +395,7 @@ const runGetTransactionsInBackground = () => {
 };
 
 let queueGetLocalBitmarks = [];
-const runGetLocalBitmarksInBackground = (outgoingTransferOffers) => {
+const runGetLocalBitmarksInBackground = () => {
   return new Promise((resolve) => {
     queueGetLocalBitmarks.push(resolve);
     if (queueGetLocalBitmarks.length > 1) {
@@ -403,10 +403,8 @@ const runGetLocalBitmarksInBackground = (outgoingTransferOffers) => {
     }
 
     let doGetAllBitmarks = async () => {
-      if (!outgoingTransferOffers) {
-        let transferOffers = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSFER_OFFERS)) || {};
-        outgoingTransferOffers = transferOffers.outgoingTransferOffers || [];
-      }
+      let transferOffers = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSFER_OFFERS)) || {};
+      let outgoingTransferOffers = transferOffers.outgoingTransferOffers || [];
       let oldLocalAssets, lastOffset;
       let canContinue = true;
       while (canContinue) {
@@ -473,7 +471,7 @@ const runOnBackground = async () => {
     let doParallel = () => {
       return new Promise((resolve) => {
         Promise.all([
-          runGetLocalBitmarksInBackground(parallelResults[1].outgoingTransferOffers),
+          runGetLocalBitmarksInBackground(),
           runGetTransactionsInBackground()
         ]).then(resolve);
       });
