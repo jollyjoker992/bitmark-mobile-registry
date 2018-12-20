@@ -132,8 +132,8 @@ export class MusicMetadataComponent extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }} >
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1, borderBottomColor: '#0060F2', borderBottomWidth: 1, backgroundColor: 'white' }} >
           <View style={cStyles.header}>
             <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
@@ -143,7 +143,7 @@ export class MusicMetadataComponent extends React.Component {
               <Text style={defaultStyles.headerRightText}>{global.i18n.t('MusicMetadataComponent_headerRightText')}</Text>
             </TouchableOpacity>
           </View>
-          <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', backgroundColor: 'white' }}>
             <View style={cStyles.content}>
               <View style={cStyles.mainContent}>
                 {this.state.metadata.map((item, index) => (<View key={index} style={cStyles.fieldArea}>
@@ -156,11 +156,12 @@ export class MusicMetadataComponent extends React.Component {
                       disabled={this.state.isEditingMetadata}
                       onPress={() => Actions.musicMetadataEdit({ index: index, label: item.label, onChangeMetadataLabel: this.onChangeMetadataLabel.bind(this) })}
                     >
-                      <Text style={[cStyles.fieldLabelButtonText, item.label ? {} : { color: '#C1C1C1' }]}>{item.label ? item.label.toUpperCase() : global.i18n.t('MusicMetadataComponent_fieldLabelButtonText', { index: index + 1 })}</Text>
+                      <Text style={[cStyles.fieldLabelButtonText, item.label ? {} : { color: '#C1C1C1' }]}>{item.label ? item.label : global.i18n.t('MusicMetadataComponent_fieldLabelButtonText', { index: index + 1 })}</Text>
                       <Image style={cStyles.fieldLabelButtonIcon} source={require('assets/imgs/next-icon-blue.png')} />
                     </TouchableOpacity>
                     <View style={[cStyles.fieldLabelButton, item.valueError ? { borderBottomColor: '#FF003C' } : {}]}>
                       <TextInput style={cStyles.fieldValue}
+                        multiline={true}
                         placeholder={global.i18n.t('MusicMetadataComponent_fieldValuePlaceholder')} placeholderTextColor='#C1C1C1'
                         onChangeText={(text) => this.onChangeMetadataValue.bind(this)(index, text)}
                         onEndEditing={this.onEndChangeMetadataValue.bind(this)}
@@ -219,12 +220,13 @@ const cStyles = StyleSheet.create({
     paddingTop: constant.headerSize.paddingTop,
     width: '100%',
     borderBottomWidth: 1, borderBottomColor: '#0060F2',
+    backgroundColor: 'white'
   },
 
   content: {
     flex: 1, flexDirection: 'column',
     width: '100%',
-    paddingTop: 20, paddingLeft: 19, paddingRight: 19,
+    paddingTop: 20, paddingLeft: 19, paddingRight: 19, paddingBottom: 10,
     backgroundColor: 'white',
   },
   mainContent: {
@@ -255,7 +257,7 @@ const cStyles = StyleSheet.create({
   },
   fieldLabelButtonText: {
     flex: 1,
-    fontFamily: 'Avenir-Book', fontSize: 13, fontWeight: '300',
+    fontFamily: 'Avenir-Book', fontSize: 16, fontWeight: '300',
   },
   fieldLabelButtonIcon: {
     width: 10, height: 10, resizeMode: 'contain',
@@ -263,7 +265,7 @@ const cStyles = StyleSheet.create({
   fieldValue: {
     width: '100%',
     marginTop: 9,
-    fontFamily: 'Avenir-Book', fontSize: 13, fontWeight: '300',
+    fontFamily: 'Avenir-Book', fontSize: 16, fontWeight: '300',
   },
 
   metadataButtonArea: {
@@ -283,10 +285,9 @@ const cStyles = StyleSheet.create({
     fontFamily: 'Andale Mono', fontSize: 13,
   },
   metadataEditButton: {
-
   },
   metadataEditButtonText: {
-
+    fontFamily: 'Andale Mono', fontSize: 14,
   },
   metadataInputError: {
     color: 'red',
