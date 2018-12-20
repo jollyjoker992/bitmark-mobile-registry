@@ -113,7 +113,7 @@ export class MusicBasicInfoComponent extends React.Component {
                 Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
                 return;
               }
-              console.log('response :', response);
+              console.log('response.uri :', response.uri);
               let thumbnailPath = response.uri.replace('file://', '');
               thumbnailPath = decodeURIComponent(thumbnailPath);
               let destPath = FileUtil.CacheDirectory + '/' + (response.fileName || (response.uri.substring(response.uri.lastIndexOf('/') + 1, response.uri.length)));

@@ -648,7 +648,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
   if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
     // set the user context
     if (!__DEV__) {
-      Sentry.setUserContext({ accountNumber: CacheData.userInformation.bitmarkAccountNumber, });
+      Sentry.setUserContext({ userID: CacheData.userInformation.bitmarkAccountNumber, });
     }
     configNotification();
     await checkAppNeedResetLocalData(appInfo);
