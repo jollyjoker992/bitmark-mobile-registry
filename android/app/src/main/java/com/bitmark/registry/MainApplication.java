@@ -8,15 +8,13 @@ import com.chirag.RNMail.RNMail;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.react.ReactApplication;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.github.wumke.RNExitApp.RNExitAppPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.psykar.cookiemanager.CookieManagerPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
@@ -25,6 +23,8 @@ import com.rnziparchive.RNZipArchivePackage;
 
 import java.util.Arrays;
 import java.util.List;
+
+import io.sentry.RNSentryPackage;
 
 import static com.bitmark.registry.keymanagement.ApiKeyManager.API_KEY_MANAGER;
 
@@ -46,14 +46,13 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
+                    new RNSentryPackage(),
                     new RCTCameraPackage(),
                     new ReactVideoPackage(),
                     new KCKeepAwakePackage(),
-                    new RNExitAppPackage(),
                     new CodePush(
                             API_KEY_MANAGER.getCodePushApiKey(),
                             getApplicationContext(), BuildConfig.DEBUG),
-                    new ReactNativeExceptionHandlerPackage(),
                     new CookieManagerPackage(),
                     new ReactNativeDocumentPicker(),
                     new RNZipArchivePackage(),
