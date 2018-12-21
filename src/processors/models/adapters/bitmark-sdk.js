@@ -38,26 +38,26 @@
 // export { BitmarkSDK };
 
 
-import { NativeModules } from 'react-native'
-let SwiftBitmarkSDK = NativeModules.BitmarkSDKWrapper;
+import {NativeModules, Platform} from 'react-native'
+let NativeBitmarkSDK = NativeModules.BitmarkSDKWrapper;
 
 const BitmarkSDK = {
 
   sdkInit: async (network) => {
-    return await SwiftBitmarkSDK.sdkInit(network);
+    return await NativeBitmarkSDK.sdkInit(network);
   },
   // return session id
   newAccount: async (enableTouchFaceId) => {
     // todo call authenticate before call new account for case enableTouchFaceId
-    return await SwiftBitmarkSDK.createAccount(enableTouchFaceId);
+    return await NativeBitmarkSDK.createAccount(enableTouchFaceId);
   },
   newAccountFromPhraseWords: async (phraseWords, enableTouchFaceId) => {
     // todo call authenticate before call login for case enableTouchFaceId
-    return await SwiftBitmarkSDK.createAccountFromPhrase(phraseWords, enableTouchFaceId);
+    return await NativeBitmarkSDK.createAccountFromPhrase(phraseWords, enableTouchFaceId);
   },
   requestSession: async (message) => {
     try {
-      await SwiftBitmarkSDK.authenticate(message);
+      if (Platform.OS === 'ios') await NativeBitmarkSDK.authenticate(message);
       return true;
     } catch (error) {
       return null;
@@ -66,11 +66,11 @@ const BitmarkSDK = {
 
   // one time
   removeAccount: async () => {
-    return await SwiftBitmarkSDK.removeAccount();
+    return await NativeBitmarkSDK.removeAccount();
   },
 
   accountInfo: async () => {
-    let list = await SwiftBitmarkSDK.accountInfo();
+    let list = await NativeBitmarkSDK.accountInfo();
     return {
       bitmarkAccountNumber: list[0],
       phraseWords: list[1],
@@ -78,16 +78,16 @@ const BitmarkSDK = {
     };
   },
   storeFileSecurely: async (filePath, desFilePath) => {
-    return await SwiftBitmarkSDK.storeFileSecurely(filePath, desFilePath);
+    return await NativeBitmarkSDK.storeFileSecurely(filePath, desFilePath);
   },
   signMessages: async (messages) => {
-    return await SwiftBitmarkSDK.sign(messages);
+    return await NativeBitmarkSDK.sign(messages);
   },
   signHexData: async (messages) => {
-    return await SwiftBitmarkSDK.signHexData(messages);
+    return await NativeBitmarkSDK.signHexData(messages);
   },
   issue: async (filePath, propertyName, metadata, quantity) => {
-    let list = await SwiftBitmarkSDK.issue({
+    let list = await NativeBitmarkSDK.issue({
       url: filePath,
       property_name: propertyName,
       metadata,
@@ -99,47 +99,47 @@ const BitmarkSDK = {
     };
   },
   transfer: async (bitmarkId, address) => {
-    return await SwiftBitmarkSDK.transfer({
+    return await NativeBitmarkSDK.transfer({
       address, bitmark_id: bitmarkId
     });
   },
 
   // don use session di
   tryPhrase: async (phraseWords) => {
-    return await SwiftBitmarkSDK.tryPhrase(phraseWords);
+    return await NativeBitmarkSDK.tryPhrase(phraseWords);
   },
 
   getAssetInfo: async (filePath) => {
-    let list = await SwiftBitmarkSDK.getAssetInfo(filePath);
-    return { id: list[0], fingerprint: list[1] };
+    let list = await NativeBitmarkSDK.getAssetInfo(filePath);
+    return {id: list[0], fingerprint: list[1]};
   },
   validateMetadata: async (metadata) => {
     try {
-      await SwiftBitmarkSDK.validateMetadata(metadata);
+      await NativeBitmarkSDK.validateMetadata(metadata);
       return true;
     } catch (error) {
       return false;
     }
   },
   validateAccountNumber: async (accountNumber) => {
-    return await SwiftBitmarkSDK.validateAccountNumber(accountNumber);
+    return await NativeBitmarkSDK.validateAccountNumber(accountNumber);
   },
 
-  response: async (action, bitmark_id, ) => {
-    return await SwiftBitmarkSDK.response({
+  response: async (action, bitmark_id,) => {
+    return await NativeBitmarkSDK.response({
       action, bitmark_id,
     });
   },
 
   encryptFile: async (filePath, recipient, outputFilePath) => {
-    return await SwiftBitmarkSDK.encryptFile({
+    return await NativeBitmarkSDK.encryptFile({
       file_path: filePath,
       recipient,
       output_file_path: outputFilePath,
     });
   },
   decryptFile: async (encryptedFilePath, sessionData, sender, outputFilePath) => {
-    return await SwiftBitmarkSDK.decryptFile({
+    return await NativeBitmarkSDK.decryptFile({
       encrypted_file_path: encryptedFilePath,
       session_data: sessionData,
       sender: sender,
@@ -147,7 +147,7 @@ const BitmarkSDK = {
     });
   },
   giveAwayBitmark: async (asset_id, recipient) => {
-    let list = await SwiftBitmarkSDK.giveAwayBitmark({ asset_id, recipient, });
+    let list = await NativeBitmarkSDK.giveAwayBitmark({asset_id, recipient,});
     return {
       bitmarkId: list[0],
       transferPayload: list[1],
@@ -155,4 +155,4 @@ const BitmarkSDK = {
   }
 
 };
-export { BitmarkSDK };
+export {BitmarkSDK};
