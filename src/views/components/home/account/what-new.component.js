@@ -18,7 +18,7 @@ export class WhatNewComponent extends Component {
   }
   constructor(props) {
     super(props);
-    let releaseDate = moment('07-12-2018', 'DD-MM-YYYY');
+    let releaseDate = moment('21-12-2018', 'DD-MM-YYYY');
     let diffDay = moment().diff(releaseDate, 'days');
     this.state = {
       step: this.props.showReleaseNote ? 2 : 1,
@@ -60,17 +60,11 @@ export class WhatNewComponent extends Component {
                     <Text style={styles.newDescription}>{i18n.t('WhatNewComponent_newDescription1')}</Text>
                   </View>
                 </View>
-                <View style={styles.newContentSwipePage}>
-                  <Image style={styles.newSwipeImage} source={require('assets/imgs/what_new_2.png')} />
-                  <View style={styles.newSwipeInformationArea}>
-                    <Text style={styles.newDescription}>{i18n.t('WhatNewComponent_newDescription2')}</Text>
-                  </View>
-                </View>
               </Swiper>
-              {this.state.index < 1 && <TouchableOpacity style={styles.skipButton} onPress={() => this.setState({ step: 2 })}>
+              {/* {this.state.index < 1 && <TouchableOpacity style={styles.skipButton} onPress={() => this.setState({ step: 2 })}>
                 <Text style={styles.skipButtonText}>{i18n.t('WhatNewComponent_skipButtonText')}</Text>
-              </TouchableOpacity>}
-              {this.state.index === 1 && <TouchableOpacity style={styles.doneButton} onPress={() => this.setState({ step: 2 })}>
+              </TouchableOpacity>} */}
+              {this.state.index === 0 && <TouchableOpacity style={styles.doneButton} onPress={() => this.setState({ step: 2 })}>
                 <Text style={styles.doneButtonText}>{i18n.t('WhatNewComponent_doneButtonText')}</Text>
               </TouchableOpacity>}
             </View>
@@ -109,7 +103,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   body: {
-    paddingTop: (config.isIPhoneX ? constant.headerSize.paddingTop : 0),
     flex: 1,
   },
   bodyContent: {

@@ -630,10 +630,8 @@
 		5842C3B421B92AEE0044B5A9 /* crypto_generichash_blake2b.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_generichash_blake2b.h; sourceTree = "<group>"; };
 		5842C3B521B92AEE0044B5A9 /* crypto_sign_edwards25519sha512batch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_sign_edwards25519sha512batch.h; sourceTree = "<group>"; };
 		586D2E802167219C002A84B5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		586D2E82216721BC002A84B5 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		588E9CEF216C520200F0E5D9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		588E9D31216C609100F0E5D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		588E9D33216C609400F0E5D9 /* vi-VN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "vi-VN"; path = "vi-VN.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		588E9D34216C609500F0E5D9 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		58908AD220A18A5A00C0064A /* Bitmark Registry dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bitmark Registry dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		589626E8201B28380026C4A5 /* BitmarkSDKBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BitmarkSDKBridge.m; sourceTree = "<group>"; };
@@ -1431,7 +1429,6 @@
 			knownRegions = (
 				en,
 				Base,
-				"vi-VN",
 				"zh-Hant",
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
@@ -2288,7 +2285,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				586D2E802167219C002A84B5 /* en */,
-				586D2E82216721BC002A84B5 /* vi-VN */,
 				588E9CEF216C520200F0E5D9 /* zh-Hant */,
 			);
 			name = Localizable.strings;
@@ -2298,7 +2294,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				588E9D31216C609100F0E5D9 /* en */,
-				588E9D33216C609400F0E5D9 /* vi-VN */,
 				588E9D34216C609500F0E5D9 /* zh-Hant */,
 			);
 			name = InfoPlist.strings;

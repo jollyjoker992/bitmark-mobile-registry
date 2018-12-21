@@ -167,7 +167,7 @@ const cStyles = StyleSheet.create({
     minHeight: 40, width: '100%',
     backgroundColor: '#E6FF00',
     alignItems: 'center', justifyContent: 'center',
-    paddingLeft: 10,
+    padding: 10,
   },
   resultContentText: {
     fontFamily: 'Avenir-Roman', fontSize: 14, fontWeight: '600',
