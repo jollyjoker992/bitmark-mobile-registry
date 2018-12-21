@@ -1,0 +1,8 @@
+*.properties
+/*.properties
+/build
+build
+*.iml
+/*.iml
+.gradle
+.externalNativeBuild
