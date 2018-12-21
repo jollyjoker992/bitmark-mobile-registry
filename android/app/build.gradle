@@ -122,7 +122,7 @@ android {
     signingConfigs {
 
         debug {
-            def keystorePropertiesFile = rootProject.file("keystores/debug.keystore.properties")
+            def keystorePropertiesFile = rootProject.file("keystores/debug-keystore.properties")
             def keystoreProperties = new Properties()
             keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             keyAlias keystoreProperties['key.alias']
@@ -132,7 +132,7 @@ android {
         }
 
         release {
-            def keystorePropertiesFile = rootProject.file("keystores/release.keystore.properties")
+            def keystorePropertiesFile = rootProject.file("keystores/release-keystore.properties")
             def keystoreProperties = new Properties()
             keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             keyAlias keystoreProperties['key.alias']
