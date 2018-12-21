@@ -42,6 +42,12 @@ export class MusicMetadataComponent extends React.Component {
       metadata,
     });
     this.checkMetadata(metadata);
+    setTimeout(() => {
+      if (this.scrollRef) {
+        this.scrollRef.scrollToEnd();
+      }
+    }, 500);
+
   }
   async checkMetadata(metadata) {
     metadata = metadata || this.state.metadata;
@@ -143,7 +149,7 @@ export class MusicMetadataComponent extends React.Component {
               <Text style={defaultStyles.headerRightText}>{global.i18n.t('MusicMetadataComponent_headerRightText')}</Text>
             </TouchableOpacity>
           </View>
-          <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', backgroundColor: 'white' }}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', backgroundColor: 'white' }} ref={(ref) => this.scrollRef = ref}>
             <View style={cStyles.content}>
               <View style={cStyles.mainContent}>
                 {this.state.metadata.map((item, index) => (<View key={index} style={cStyles.fieldArea}>
