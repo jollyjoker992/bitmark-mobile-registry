@@ -25,7 +25,7 @@ export class MusicSentClaimRequestComponent extends React.Component {
     AppProcessor.doSendClaimRequest(this.props.asset).then(() => {
       Actions.pop();
     }).catch(error => {
-      console.log('error :', error);
+      console.log('error :', JSON.stringify(error));
       if (error.data && error.data.code === 1012 && error.statusCode === 429) {
         Alert.alert('', global.i18n.t("MusicSentClaimRequestComponent_limitRequestErrorMessage"), [{
           text: 'OK', onPress: Actions.pop

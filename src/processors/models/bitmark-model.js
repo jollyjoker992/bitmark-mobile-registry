@@ -715,7 +715,7 @@ const doPostClaimRequest = (jwt, assetId, toAccount, ) => {
       })
     }).then((response) => {
       statusCode = response.status;
-      if (statusCode < 400) {
+      if (statusCode < 500) {
         return response.json();
       }
       return response.text();
