@@ -235,7 +235,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     @ReactMethod
     @Override
-    public void issueBitmark(ReadableMap params, Promise promise) throws NativeModuleException {
+    public void issue(ReadableMap params, Promise promise) throws NativeModuleException {
 
         Map<String, String> metadata = toStringMap(params.getMap("metadata"));
         String assetName = params.getString("asset_name");
@@ -345,7 +345,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     @ReactMethod
     @Override
-    public void transferBitmark(ReadableMap params, Promise promise) throws NativeModuleException {
+    public void transfer(ReadableMap params, Promise promise) throws NativeModuleException {
 
         String bitmarkId = params.getString("bitmark_id");
         String receiver = params.getString("recipient");
@@ -391,7 +391,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     @ReactMethod
     @Override
-    public void offerBitmark(ReadableMap params, Promise promise) throws NativeModuleException {
+    public void offer(ReadableMap params, Promise promise) throws NativeModuleException {
 
         String bitmarkId = params.getString("bitmark_id");
         String receiver = params.getString("recipient");
@@ -436,7 +436,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     @ReactMethod
     @Override
-    public void respondOfferBitmark(ReadableMap params, Promise promise)
+    public void response(ReadableMap params, Promise promise)
             throws NativeModuleException {
 
         String bitmarkId = params.getString("bitmark_id");

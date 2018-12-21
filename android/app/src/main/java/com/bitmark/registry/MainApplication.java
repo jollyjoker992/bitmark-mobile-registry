@@ -3,7 +3,6 @@ package com.bitmark.registry;
 import android.app.Application;
 
 import com.bitmark.registry.modules.sdk.BitmarkSDKPackage;
-import com.brentvatne.react.ReactVideoPackage;
 import com.chirag.RNMail.RNMail;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
@@ -48,7 +47,6 @@ public class MainApplication extends Application implements ReactApplication {
                     new MainReactPackage(),
                     new RNSentryPackage(),
                     new RCTCameraPackage(),
-                    new ReactVideoPackage(),
                     new KCKeepAwakePackage(),
                     new CodePush(
                             API_KEY_MANAGER.getCodePushApiKey(),

@@ -22,15 +22,15 @@ public interface BitmarkSDKExposable {
 
     void signHexData(ReadableArray messages, Promise promise) throws NativeModuleException;
 
-    void issueBitmark(ReadableMap params, Promise promise) throws NativeModuleException;
+    void issue(ReadableMap params, Promise promise) throws NativeModuleException;
 
     void giveAwayBitmark(ReadableMap params, Promise promise) throws NativeModuleException;
 
-    void transferBitmark(ReadableMap params, Promise promise) throws NativeModuleException;
+    void transfer(ReadableMap params, Promise promise) throws NativeModuleException;
 
-    void offerBitmark(ReadableMap params, Promise promise) throws NativeModuleException;
+    void offer(ReadableMap params, Promise promise) throws NativeModuleException;
 
-    void respondOfferBitmark(ReadableMap params, Promise promise) throws NativeModuleException;
+    void response(ReadableMap params, Promise promise) throws NativeModuleException;
 
     void tryPhrase(ReadableArray phraseWords, Promise promise);
 

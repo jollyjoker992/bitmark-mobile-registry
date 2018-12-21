@@ -211,7 +211,6 @@ android {
 dependencies {
     implementation project(':react-native-sentry')
     implementation project(':react-native-zip-archive')
-    implementation project(':react-native-video')
     implementation project(':react-native-push-notification')
     implementation project(':react-native-mail')
     implementation project(':react-native-keep-awake')
