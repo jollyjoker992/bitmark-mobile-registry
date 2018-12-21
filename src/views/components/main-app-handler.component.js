@@ -9,7 +9,7 @@ const {
   NetInfo,
   View, TouchableOpacity, Text
 } = ReactNative;
-import Mailer from 'react-native-mail';
+import { Sentry } from 'react-native-sentry';
 
 import {
   DefaultIndicatorComponent,
@@ -18,13 +18,8 @@ import {
   BitmarkDialogComponent,
 } from './../commons';
 import { UserModel, EventEmitterService, DataProcessor, CacheData, BitmarkSDK, AppProcessor } from 'src/processors';
-import { FileUtil, convertWidth, runPromiseWithoutError } from 'src/utils';
+import {  convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
-
-const CRASH_LOG_FILE_NAME = 'crash_log.txt';
-const CRASH_LOG_FILE_PATH = FileUtil.CacheDirectory + '/' + CRASH_LOG_FILE_NAME;
-const ERROR_LOG_FILE_NAME = 'error_log.txt';
-const ERROR_LOG_FILE_PATH = FileUtil.CacheDirectory + '/' + ERROR_LOG_FILE_NAME;
 
 export class MainAppHandlerComponent extends Component {
   constructor(props) {
@@ -63,8 +58,6 @@ export class MainAppHandlerComponent extends Component {
       NetInfo.isConnected.addEventListener('connectionChange', this.handleNetworkChange);
     });
 
-    // Handle Crashes
-    this.checkAndShowCrashLog();
   }
   componentWillUnmount() {
     EventEmitterService.remove(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);
@@ -87,49 +80,6 @@ export class MainAppHandlerComponent extends Component {
       KeepAwake.deactivate();
     }
 
-  }
-
-  async checkAndShowCrashLog() {
-    //let crashLog = await CommonModel.doGetLocalData(CommonModel.KEYS.CRASH_LOG);
-    let hasCrashLog = await FileUtil.exists(CRASH_LOG_FILE_PATH);
-
-    if (hasCrashLog) {
-      let title = global.i18n.t("MainComponent_crashReportTitle");
-      let message = global.i18n.t("MainComponent_crashReportMessage");
-
-      Alert.alert(title, message, [{
-        text: global.i18n.t("MainComponent_cancel"),
-        style: 'cancel',
-        onPress: () => {
-          FileUtil.removeSafe(CRASH_LOG_FILE_PATH);
-        }
-      }, {
-        text: global.i18n.t("MainComponent_send"),
-        onPress: () => {
-          this.sendReport(CRASH_LOG_FILE_PATH, CRASH_LOG_FILE_NAME);
-        }
-      }]);
-    }
-  }
-
-  sendReport(logFilePath, attachmentName) {
-    Mailer.mail({
-      subject: (attachmentName == CRASH_LOG_FILE_NAME) ? 'Crash Report' : 'Error Report',
-      recipients: ['support@bitmark.com'],
-      body: `App version: ${DataProcessor.getApplicationVersion()} (${DataProcessor.getApplicationBuildNumber()})`,
-      attachment: {
-        path: logFilePath,
-        type: 'doc',
-        name: attachmentName,
-      }
-    }, (error) => {
-      if (error) {
-        Alert.alert(global.i18n.t("MainComponent_error"), global.i18n.t("MainComponent_couldNotSendMail"));
-      }
-
-      // Remove crash/error log file
-      FileUtil.removeSafe(logFilePath);
-    });
   }
 
   handerProcessErrorEvent(processError) {
@@ -172,14 +122,7 @@ export class MainAppHandlerComponent extends Component {
       onPress: async () => {
         // Write error to log file
         let error = processError.error || new Error('There was an error');
-        let userInformation = await UserModel.doGetCurrentUser();
-        let errorLog = `${error.name} : ${error.message}\r\n${error.stack ? error.stack : ''}`;
-        errorLog = `${userInformation.bitmarkAccountNumber ? 'Bitmark account number:' + userInformation.bitmarkAccountNumber + '\r\n' : ''}${errorLog}`;
-
-        console.log('Handled JS error:', errorLog);
-
-        await FileUtil.create(ERROR_LOG_FILE_PATH, errorLog);
-        this.sendReport(ERROR_LOG_FILE_PATH, ERROR_LOG_FILE_NAME);
+        Sentry.captureException(error, { logger: 'user' });
 
         if (processError && processError.onClose) {
           processError.onClose();
