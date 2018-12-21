@@ -311,8 +311,7 @@ const doDecentralizedTransfer = async (bitmarkAccountNumber, token, bitmarkId, r
   }
 };
 
-const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver, filePath, sessionData) => {
-
+const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver, filePath, sessionData, filename) => {
   if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
     let message = `${sessionData.data_key_alg}|${sessionData.enc_data_key}|*`;
     let signature = (await BitmarkSDK.signMessages([message]))[0];
@@ -320,13 +319,14 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
     const formData = new FormData();
     formData.append('file', {
       uri: filePath,
-      name: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length)
+      name: filename
     });
     formData.append('data_key_alg', sessionData.data_key_alg);
     formData.append('enc_data_key', sessionData.enc_data_key);
     formData.append('orig_content_type', '*');
 
     let headers = {
+      'Accept': 'application/json',
       'Content-Type': 'multipart/form-data',
       requester: bitmarkAccountNumber,
       signature
