@@ -91,13 +91,12 @@ export class MusicReleaseToPublicComponent extends React.Component {
                   </TouchableOpacity>
                   <Text style={[cStyles.embedLabelText, { color: this.state.selected === 'embed' ? '#E6FF00' : 'white' }]}>{global.i18n.t("MusicReleaseToPublicComponent_embedLabelText")}</Text>
                 </View>
-                <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginLeft: 25, }}>
                   <TouchableOpacity
                     onPress={() => this.setState({ selected: 'link' })}
                     style={[cStyles.musicSuccessButton, {
                       backgroundColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
                       borderColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
-                      marginLeft: 25,
                     }]}>
                     <Image style={cStyles.musicSuccessButtonIcon} source={require('assets/imgs/music_link_icon.png')} />
                   </TouchableOpacity>
