@@ -28,7 +28,7 @@ const data = (state = initialState, action) => {
       return merge({}, initialState);
     case ACTION_TYPES.INIT: {
       let tempState = merge({}, state);
-      tempState.bitmarkCanDownload = (action.asset.bitmarks || []).find(bitmark => bitmark.status === 'confirmed');
+      tempState.bitmarkCanDownload = action.asset ? (action.asset.bitmarks || []).find(bitmark => bitmark.status === 'confirmed') : null;
       tempState.asset = action.asset;
       return tempState;
     }

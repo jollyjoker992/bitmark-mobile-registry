@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   View, TouchableOpacity, Image, Text, ScrollView, ImageBackground,
+  Alert,
   StyleSheet,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -25,6 +26,12 @@ export class MusicSentClaimRequestComponent extends React.Component {
       Actions.pop();
     }).catch(error => {
       console.log('error :', error);
+      if (error.data && error.data.code === 1012 && error.statusCode === 429) {
+        Alert.alert('', `You've reached the limit of 5 claim requests for this asset. Please try again later!`, [{
+          text: 'OK', onPress: Actions.pop
+        }]);
+        return;
+      }
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
     })
   }

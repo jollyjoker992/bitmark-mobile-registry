@@ -1100,14 +1100,15 @@ const doGenerateTransactionActionRequiredData = async (claimRequests) => {
   claimRequests = claimRequests.sort((a, b) => moment(a.created_at).toDate().getTime() - moment(b.created_at).toDate().getTime());
   console.log('claimRequests :', claimRequests);
   if (claimRequests && claimRequests.length > 0) {
-    (claimRequests || []).forEach((claimRequest, index) => {
-      claimRequest.index = (claimRequest.asset.issuedBitmarks ? claimRequest.asset.issuedBitmarks.length : 0) + index + 1,
+    let mapCount = {};
+    (claimRequests || []).forEach((claimRequest) => {
+      mapCount[claimRequest.asset.id] = mapCount[claimRequest.asset.id] ? (mapCount[claimRequest.asset.id] + 1) : 1;
+      claimRequest.index = (claimRequest.asset.totalIssuedBitmarks || 1) - 1 + mapCount[claimRequest.asset.id],
         actionRequired.push({
           key: actionRequired.length,
           claimRequest: claimRequest,
           type: ActionTypes.claim_request,
           typeTitle: global.i18n.t("DataProcessor_signToTransferBitmark"),
-          // typeTitle: 'SIGN TO TRANSFER BITMARK', //TODO
           timestamp: moment(claimRequest.created_at),
         });
       totalTasks++;
