@@ -10,8 +10,7 @@ import { Actions } from 'react-native-router-flux';
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
-import { AppProcessor, EventEmitterService } from 'src/processors';
-
+import { AppProcessor, EventEmitterService, DataProcessor } from 'src/processors';
 
 export class MusicSentClaimRequestComponent extends React.Component {
   static propTypes = {
@@ -23,8 +22,10 @@ export class MusicSentClaimRequestComponent extends React.Component {
 
   onSubmit() {
     AppProcessor.doSendClaimRequest(this.props.asset).then(() => {
+      DataProcessor.doMarkDoneSendClaimRequest();
       Actions.pop();
     }).catch(error => {
+      DataProcessor.doMarkDoneSendClaimRequest();
       console.log('error :', JSON.stringify(error));
       if (error.data && error.data.code === 1012 && error.statusCode === 429) {
         Alert.alert('', global.i18n.t("MusicSentClaimRequestComponent_limitRequestErrorMessage"), [{

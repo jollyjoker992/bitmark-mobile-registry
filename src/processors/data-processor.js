@@ -1365,9 +1365,11 @@ const doProcessClaimRequest = async (claimRequest, isAccept) => {
 };
 
 const doSendClaimRequest = async (asset) => {
-  let result = await BitmarkModel.doPostClaimRequest(CacheData.jwt, asset.id, asset.registrant);
+  return await BitmarkModel.doPostClaimRequest(CacheData.jwt, asset.id, asset.registrant);
+};
+
+const doMarkDoneSendClaimRequest = async () => {
   updateModal(mapModalDisplayKeyIndex.claim_asset);
-  return result;
 };
 
 const doViewSendClaimRequest = async (asset) => {
@@ -1423,6 +1425,7 @@ const DataProcessor = {
 
   doProcessClaimRequest,
   doSendClaimRequest,
+  doMarkDoneSendClaimRequest,
   doViewSendClaimRequest,
   doReloadClaimAssetRequest,
   doGetAssetToClaim,
