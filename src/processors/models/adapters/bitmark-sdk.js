@@ -38,8 +38,12 @@
 // export { BitmarkSDK };
 
 
-import {NativeModules, Platform} from 'react-native'
-let NativeBitmarkSDK = NativeModules.BitmarkSDKWrapper;
+import { NativeModules, Platform } from 'react-native'
+
+let NativeBitmarkSDK = Platform.select({
+  ios: NativeModules.BitmarkSDKWrapper,
+  android: NativeModules.BitmarkSDK,
+});
 
 const BitmarkSDK = {
 
@@ -111,7 +115,7 @@ const BitmarkSDK = {
 
   getAssetInfo: async (filePath) => {
     let list = await NativeBitmarkSDK.getAssetInfo(filePath);
-    return {id: list[0], fingerprint: list[1]};
+    return { id: list[0], fingerprint: list[1] };
   },
   validateMetadata: async (metadata) => {
     try {
@@ -125,7 +129,7 @@ const BitmarkSDK = {
     return await NativeBitmarkSDK.validateAccountNumber(accountNumber);
   },
 
-  response: async (action, bitmark_id,) => {
+  response: async (action, bitmark_id, ) => {
     return await NativeBitmarkSDK.response({
       action, bitmark_id,
     });
@@ -147,7 +151,7 @@ const BitmarkSDK = {
     });
   },
   giveAwayBitmark: async (asset_id, recipient) => {
-    let list = await NativeBitmarkSDK.giveAwayBitmark({asset_id, recipient,});
+    let list = await NativeBitmarkSDK.giveAwayBitmark({ asset_id, recipient, });
     return {
       bitmarkId: list[0],
       transferPayload: list[1],
@@ -155,4 +159,4 @@ const BitmarkSDK = {
   }
 
 };
-export {BitmarkSDK};
+export { BitmarkSDK };
