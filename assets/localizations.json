@@ -1413,7 +1413,7 @@
     "WhatNewComponent_versionInformationText": "版本",
     "WhatNewComponent_versionInformationReleaseDiff1": "今天",
     "WhatNewComponent_versionInformationReleaseDiff2": "{{day}}天前",
-    "WhatNewComponent_releaseNoteText": "New features\n\nMusicians can now issue limited-edition bitmarks for their original music and send the bitmarks to their fans.\n\n\nImprovements\n\nWe've increased privacy, security, and performance by storing all assets locally on the device.",
+    "WhatNewComponent_releaseNoteText": "新增功能：\n\n音樂家可以藉由登記其個人創作來發行限量數位音樂 Bitmark，並且傳送給粉絲。\n\n技術改善：\n\n\n\n升級應用程式的隱私，安全性與應用程式流暢度藉由將使用者的檔案妥善地保存於本機端。",
     "WhatNewComponent_newDescription1": "音樂家可以藉由登記其個人創作來發行限量數位音樂 Bitmark，並且傳送給粉絲。",
     "FaceTouchId_doOpenApp": "請提供你的指紋簽名。",
     "ClaimRequestComponent_headerTitle": "BITMARK簽收",
