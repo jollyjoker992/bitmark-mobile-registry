@@ -48,7 +48,7 @@ export class MusicReleaseToPublicComponent extends React.Component {
           <ScrollView contentContainerStyle={cStyles.mainContent}>
             <Text style={cStyles.description}>{global.i18n.t("MusicReleaseToPublicComponent_description")}</Text>
             <View style={cStyles.claimIframe}>
-              <WebView style={{ width: '100%', height: 'auto', backgroundColor: 'rgba(0,0,0,0)' }} scalesPageToFit={false}
+              <WebView style={{ width: '100%', height: 'auto', backgroundColor: 'rgba(0,0,0,0)', }} scalesPageToFit={false}
                 scrollEnabled={false}
                 source={{ uri: `${config.bitmark_profile_server}/asset/${this.props.assetId}/claim` }} />
               <View style={{ position: 'absolute', flex: 1, zIndex: 1, width: '100%', height: '100%' }} />
@@ -131,25 +131,26 @@ const cStyles = StyleSheet.create({
   mainContent: {
     flexGrow: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
     width: '100%',
-    paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
   },
 
   description: {
     fontFamily: 'Avenir-Light', fontSize: 17, fontWeight: '300', color: 'white', lineHeight: 23,
-    paddingLeft: convertWidth(39), paddingRight: convertWidth(39), marginTop: 30,
+    paddingLeft: convertWidth(35), paddingRight: convertWidth(35), marginTop: 30,
     width: '100%',
   },
   claimIframe: {
-    width: convertWidth(306), minHeight: 180,
+    width: '100%', minHeight: 180,
+    paddingLeft: convertWidth(30), paddingRight: convertWidth(30),
     marginTop: 25,
   },
   issueResult: {
     flex: 1,
     width: '100%',
     marginTop: 30,
+    paddingLeft: convertWidth(35), paddingRight: convertWidth(35),
   },
   resultArea: {
-    width: '100%',
+    width: '100%'
   },
   resultHeader: {
     flexDirection: 'row',

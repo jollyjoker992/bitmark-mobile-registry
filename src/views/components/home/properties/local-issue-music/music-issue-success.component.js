@@ -93,13 +93,12 @@ export class MusicIssueSuccessComponent extends React.Component {
                   </TouchableOpacity>
                   <Text style={[cStyles.embedLabelText, { color: this.state.selected === 'embed' ? '#E6FF00' : 'white' }]}>{global.i18n.t("MusicIssueSuccessComponent_embedLabelText")}</Text>
                 </View>
-                <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginLeft: 25, }}>
                   <TouchableOpacity
                     onPress={() => this.setState({ selected: 'link' })}
                     style={[cStyles.musicSuccessButton, {
                       backgroundColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
                       borderColor: this.state.selected === 'embed' ? 'white' : '#E6FF00',
-                      marginLeft: 25,
                     }]}>
                     <Image style={cStyles.musicSuccessButtonIcon} source={require('assets/imgs/music_link_icon.png')} />
                   </TouchableOpacity>
@@ -134,26 +133,28 @@ const cStyles = StyleSheet.create({
   mainContent: {
     flexGrow: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
     width: '100%',
-    paddingLeft: convertWidth(19), paddingRight: convertWidth(19), paddingBottom: 10,
+    paddingBottom: 10,
   },
   title: {
     fontFamily: 'Avenir-Black', fontSize: 24, fontWeight: '900', color: 'white', lineHeight: 33,
-    marginLeft: convertWidth(39),
+    paddingLeft: convertWidth(35), paddingRight: convertWidth(35),
     width: '100%',
   },
   description: {
     fontFamily: 'Avenir-Light', fontSize: 17, fontWeight: '300', color: 'white', lineHeight: 23,
-    marginLeft: convertWidth(39), marginTop: 30,
+    paddingLeft: convertWidth(35), paddingRight: convertWidth(35), marginTop: 30,
     width: '100%',
   },
   claimIframe: {
-    width: convertWidth(306), minHeight: 180,
+    width: '100%', minHeight: 180,
+    paddingLeft: convertWidth(30), paddingRight: convertWidth(30),
     marginTop: 25,
   },
   issueResult: {
     flex: 1,
     width: '100%',
     marginTop: 50,
+    paddingLeft: convertWidth(35), paddingRight: convertWidth(35),
   },
   resultArea: {
     width: '100%',
