@@ -1362,10 +1362,10 @@ const doProcessClaimRequest = async (claimRequest, isAccept) => {
     if (asset && asset.filePath) {
       let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
       await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted`);
-      let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/${filename}`;
+      let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/temp.encrypted`;
       let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(claimRequest.from);
       let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptionPublicKey, encryptedFilePath);
-      let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, claimRequest.from, encryptedFilePath, sessionData);
+      let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, claimRequest.from, encryptedFilePath, sessionData, filename);
       console.log('uploadResult:', uploadResult);
     }
     let result = await BitmarkSDK.giveAwayBitmark(claimRequest.asset.id, claimRequest.from);
