@@ -185,23 +185,22 @@ android {
 
     productFlavors {
 
-        dev {
+        alpha {
             dimension "version"
-            applicationIdSuffix ".dev"
-            versionNameSuffix "-dev"
-            resValue "string", "app_name", "Registry - DEV"
+            applicationIdSuffix ".inhouse"
+            versionNameSuffix "-inhouse"
+            resValue "string", "app_name", "Registry - INHOUSE"
         }
 
-        stg {
+        beta {
             dimension "version"
-            applicationIdSuffix ".stg"
-            versionNameSuffix "-stg"
-            resValue "string", "app_name", "Registry - STG"
+            applicationIdSuffix ".beta"
+            versionNameSuffix "-beta"
+            resValue "string", "app_name", "Registry - BETA"
         }
 
         prd {
             dimension "version"
-            versionNameSuffix "-prd"
             resValue "string", "app_name", "Bitmark Registry"
         }
     }
