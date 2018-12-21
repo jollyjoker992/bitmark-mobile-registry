@@ -500,7 +500,12 @@
     "MusicReleaseToPublicComponent_resultHeaderCopy1": "MusicReleaseToPublicComponent_resultHeaderCopy1",
     "MusicReleaseToPublicComponent_resultHeaderCopy2": "MusicReleaseToPublicComponent_resultHeaderCopy2",
     "MusicReleaseToPublicComponent_embedLabelText": "MusicReleaseToPublicComponent_embedLabelText",
-    "MusicReleaseToPublicComponent_linkLabelText": "MusicReleaseToPublicComponent_linkLabelText"
+    "MusicReleaseToPublicComponent_linkLabelText": "MusicReleaseToPublicComponent_linkLabelText",
+    "MusicSentClaimRequestComponent_headerTitle": "MusicSentClaimRequestComponent_headerTitle",
+    "MusicSentClaimRequestComponent_informationTitle": "MusicSentClaimRequestComponent_informationTitle",
+    "MusicSentClaimRequestComponent_informationDescription": "MusicSentClaimRequestComponent_informationDescription",
+    "MusicSentClaimRequestComponent_continueButtonText": "MusicSentClaimRequestComponent_continueButtonText",
+    "MusicSentClaimRequestComponent_limitRequestErrorMessage": "MusicSentClaimRequestComponent_limitRequestErrorMessage"
   },
   "en": {
     "BitmarkInternetOffComponent_networkError": "Network Error",
@@ -1003,7 +1008,12 @@
     "MusicReleaseToPublicComponent_resultHeaderCopy1": "COPIED",
     "MusicReleaseToPublicComponent_resultHeaderCopy2": "COPY",
     "MusicReleaseToPublicComponent_embedLabelText": "Embed",
-    "MusicReleaseToPublicComponent_linkLabelText": "Link"
+    "MusicReleaseToPublicComponent_linkLabelText": "Link",
+    "MusicSentClaimRequestComponent_headerTitle": "SEND REQUEST",
+    "MusicSentClaimRequestComponent_informationTitle": "SIGN TO SEND REQUEST",
+    "MusicSentClaimRequestComponent_informationDescription": "We will inform the artist of your request by sending a message with your account number. After the artist accepts the request, the property will be automatically transferred to your account.",
+    "MusicSentClaimRequestComponent_continueButtonText": "SIGN",
+    "MusicSentClaimRequestComponent_limitRequestErrorMessage": "You've reached the limit of 5 claim requests for this asset. Please try again later!"
   },
   "zh": {
     "BitmarkInternetOffComponent_networkError": "網路異常",
@@ -1497,15 +1507,20 @@
     "MusicIssueSuccessComponent_resultHeaderTitle2": "分享連結",
     "MusicIssueSuccessComponent_resultHeaderCopy1": "已複製",
     "MusicIssueSuccessComponent_resultHeaderCopy2": "複製",
-    "MusicIssueSuccessComponent_embedLabelText": "嵌",
-    "MusicIssueSuccessComponent_linkLabelText": "链接",
+    "MusicIssueSuccessComponent_embedLabelText": "嵌入",
+    "MusicIssueSuccessComponent_linkLabelText": "連結",
     "MusicReleaseToPublicComponent_headerRightText": "完成",
     "MusicReleaseToPublicComponent_description": "發行並公開分享你的音樂給粉絲們！",
     "MusicReleaseToPublicComponent_resultHeaderTitle1": "嵌入 Bitmark",
     "MusicReleaseToPublicComponent_resultHeaderTitle2": "分享連結",
     "MusicReleaseToPublicComponent_resultHeaderCopy1": "已複製",
     "MusicReleaseToPublicComponent_resultHeaderCopy2": "複製",
-    "MusicReleaseToPublicComponent_embedLabelText": "嵌",
-    "MusicReleaseToPublicComponent_linkLabelText": "链接"
+    "MusicReleaseToPublicComponent_embedLabelText": "嵌入",
+    "MusicReleaseToPublicComponent_linkLabelText": "連結",
+    "MusicSentClaimRequestComponent_headerTitle": "SEND REQUEST",
+    "MusicSentClaimRequestComponent_informationTitle": "SIGN TO SEND REQUEST",
+    "MusicSentClaimRequestComponent_informationDescription": "We will inform the artist of your request by sending a message with your account number. After the artist accepts the request, the property will be automatically transferred to your account.",
+    "MusicSentClaimRequestComponent_continueButtonText": "SIGN",
+    "MusicSentClaimRequestComponent_limitRequestErrorMessage": "You've reached the limit of 5 claim requests for this asset. Please try again later!"
   }
 }

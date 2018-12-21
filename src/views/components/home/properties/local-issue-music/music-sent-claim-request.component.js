@@ -27,7 +27,7 @@ export class MusicSentClaimRequestComponent extends React.Component {
     }).catch(error => {
       console.log('error :', error);
       if (error.data && error.data.code === 1012 && error.statusCode === 429) {
-        Alert.alert('', `You've reached the limit of 5 claim requests for this asset. Please try again later!`, [{
+        Alert.alert('', global.i18n.t("MusicSentClaimRequestComponent_limitRequestErrorMessage"), [{
           text: 'OK', onPress: Actions.pop
         }]);
         return;
@@ -43,7 +43,7 @@ export class MusicSentClaimRequestComponent extends React.Component {
           <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={[defaultStyles.headerTitle,]}>{'SEND REQUEST'.toUpperCase()}</Text>
+          <Text style={[defaultStyles.headerTitle,]}>{global.i18n.t("MusicSentClaimRequestComponent_headerTitle")}</Text>
           <TouchableOpacity style={defaultStyles.headerRight} />
         </View>
         <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, }}>
@@ -54,8 +54,8 @@ export class MusicSentClaimRequestComponent extends React.Component {
               <Text style={cStyles.editionInfo}>Ed. {this.props.asset.limitedEdition - this.props.asset.totalIssuedBitmarks + 1}/{this.props.asset.limitedEdition}</Text>
             </View>
             <Text style={cStyles.registrant}>{this.props.asset.registrantName || this.props.asset.registrant}</Text>
-            <Text style={cStyles.informationTitle}>{'SIGN to SEND REQUEST'.toUpperCase()}</Text>
-            <Text style={cStyles.informationDescription}>We will inform the artist of your request by sending a message with your account number. After the artist accepts the request, the property will be automatically transferred to your account.</Text>
+            <Text style={cStyles.informationTitle}>{global.i18n.t("MusicSentClaimRequestComponent_informationTitle")}</Text>
+            <Text style={cStyles.informationDescription}>{global.i18n.t("MusicSentClaimRequestComponent_informationDescription")}</Text>
           </View>
         </ScrollView>
 
