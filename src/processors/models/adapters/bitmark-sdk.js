@@ -86,8 +86,8 @@ const BitmarkSDK = {
   signHexData: async (messages) => {
     return await SwiftBitmarkSDK.signHexData(messages);
   },
-  issueFile: async (filePath, propertyName, metadata, quantity) => {
-    let list = await SwiftBitmarkSDK.issueFile({
+  issue: async (filePath, propertyName, metadata, quantity) => {
+    let list = await SwiftBitmarkSDK.issue({
       url: filePath,
       property_name: propertyName,
       metadata,
@@ -98,8 +98,8 @@ const BitmarkSDK = {
       assetId: list[1],
     };
   },
-  transferOneSignature: async (bitmarkId, address) => {
-    return await SwiftBitmarkSDK.transferOneSignature({
+  transfer: async (bitmarkId, address) => {
+    return await SwiftBitmarkSDK.transfer({
       address, bitmark_id: bitmarkId
     });
   },
@@ -125,8 +125,8 @@ const BitmarkSDK = {
     return await SwiftBitmarkSDK.validateAccountNumber(accountNumber);
   },
 
-  signForTransferOfferAndSubmit: async (action, bitmark_id, ) => {
-    return await SwiftBitmarkSDK.signForTransferOfferAndSubmit({
+  response: async (action, bitmark_id, ) => {
+    return await SwiftBitmarkSDK.response({
       action, bitmark_id,
     });
   },

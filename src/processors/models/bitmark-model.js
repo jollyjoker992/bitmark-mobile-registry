@@ -240,7 +240,7 @@ const doCheckMetadata = async (metadata) => {
 };
 
 const doIssueFile = async (filePath, assetName, metadata, quantity) => {
-  let result = await BitmarkSDK.issueFile(filePath, assetName, metadata, quantity);
+  let result = await BitmarkSDK.issue(filePath, assetName, metadata, quantity);
   return result;
 };
 

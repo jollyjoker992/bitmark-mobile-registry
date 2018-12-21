@@ -295,12 +295,12 @@ const doDecentralizedIssuance = async (bitmarkAccountNumber, token, encryptionKe
 };
 
 const doTransferBitmark = async (bitmarkId, receiver) => {
-  return await BitmarkSDK.transferOneSignature(bitmarkId, receiver);
+  return await BitmarkSDK.transfer(bitmarkId, receiver);
 };
 
 const doDecentralizedTransfer = async (bitmarkAccountNumber, token, bitmarkId, receiver) => {
   try {
-    let result = await BitmarkSDK.transferOneSignature(bitmarkId, receiver);
+    let result = await BitmarkSDK.transfer(bitmarkId, receiver);
     let signatureData = await CommonModel.doCreateSignatureData();
     await BitmarkModel.doUpdateStatusForDecentralizedTransfer(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, token, 'success');
     return result;

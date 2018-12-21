@@ -207,16 +207,16 @@ const doGetTransferOfferDetail = async (transferOfferId) => {
   return incomingTransferOffer;
 };
 const doAcceptTransferBitmark = async (transferOffer) => {
-  return await BitmarkSDK.signForTransferOfferAndSubmit('accept', transferOffer.record.link);
+  return await BitmarkSDK.response('accept', transferOffer.record.link);
 };
 
 const doRejectTransferBitmark = async (transferOffer) => {
-  return await BitmarkSDK.signForTransferOfferAndSubmit('reject', transferOffer.record.link);
+  return await BitmarkSDK.response('reject', transferOffer.record.link);
 };
 
 const doCancelTransferBitmark = async (transferOfferId) => {
   let transferOffer = await TransferOfferModel.doGetTransferOfferDetail(transferOfferId);
-  return await BitmarkSDK.signForTransferOfferAndSubmit('cancel', transferOffer.record.link);
+  return await BitmarkSDK.response('cancel', transferOffer.record.link);
 };
 
 const TransactionService = {
