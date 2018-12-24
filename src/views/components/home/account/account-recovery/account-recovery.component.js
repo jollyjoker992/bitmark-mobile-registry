@@ -246,8 +246,8 @@ export class TryRecoveryPhraseComponent extends React.Component {
     for (let i = 0; i < temp.length; i++) {
       inputtedWords.push(temp[i].word);
     }
-    AppProcessor.doCheckPhraseWords(inputtedWords).then((user) => {
-      if (this.state.user.bitmarkAccountNumber === user.bitmarkAccountNumber) {
+    AppProcessor.doCheckPhraseWords(inputtedWords).then((bitmarkAccountNumber) => {
+      if (this.state.user.bitmarkAccountNumber === bitmarkAccountNumber) {
         this.setState({ testResult: 'done' });
       } else {
         this.setState({ testResult: 'retry' });
