@@ -5,6 +5,7 @@ import android.app.Application;
 import com.bitmark.registry.modules.sdk.BitmarkSDKPackage;
 import com.chirag.RNMail.RNMail;
 import com.corbt.keepawake.KCKeepAwakePackage;
+import com.crashlytics.android.Crashlytics;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -23,6 +24,7 @@ import com.rnziparchive.RNZipArchivePackage;
 import java.util.Arrays;
 import java.util.List;
 
+import io.fabric.sdk.android.Fabric;
 import io.sentry.RNSentryPackage;
 
 import static com.bitmark.registry.keymanagement.ApiKeyManager.API_KEY_MANAGER;
@@ -77,6 +79,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         SoLoader.init(this, /* native exopackage */ false);
     }
 }
