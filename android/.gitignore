@@ -6,3 +6,6 @@ build
 .gradle
 .externalNativeBuild
 keystores
+fastlane/*.md
+fastlane/*.xml
+index.android.bundle

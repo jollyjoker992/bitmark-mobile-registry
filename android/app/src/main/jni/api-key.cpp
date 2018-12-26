@@ -1,7 +1,7 @@
 #include <jni.h>
 
-const char *BITMARK_API_KEY = "TOBEFILLEDDURINGBUILD";
-const char *CODE_PUSH_API_KEY = "TOBEFILLEDDURINGBUILD";
+const char *BITMARK_API_KEY = "bitmark-api-key-to-be-filled";
+const char *CODE_PUSH_API_KEY = "code-push-api-key-to-be-filled";
 
 extern "C"
 JNIEXPORT jstring JNICALL
