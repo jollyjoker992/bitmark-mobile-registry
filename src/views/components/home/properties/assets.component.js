@@ -177,7 +177,8 @@ class PrivateAssetsComponent extends React.Component {
                   <Text style={[assetsStyle.assetName, { color: item.created_at ? 'black' : '#999999' }]} numberOfLines={1}>{item.name}</Text>
                   <View style={assetsStyle.assetCreatorRow}>
                     <Text style={[assetsStyle.assetCreator, { color: item.created_at ? 'black' : '#999999' }]} numberOfLines={1}>
-                      {item.registrant === CacheData.userInformation.bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : '[' + item.registrant.substring(0, 4) + '...' + item.registrant.substring(item.registrant.length - 4, item.registrant.length) + ']'}
+                      {item.registrant === CacheData.userInformation.bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") :
+                        (item.registrantName ? item.registrantName : ('[' + item.registrant.substring(0, 4) + '...' + item.registrant.substring(item.registrant.length - 4, item.registrant.length) + ']'))}
                     </Text>
                   </View>
                   <View style={assetsStyle.assetQuantityArea}>
