@@ -43,6 +43,9 @@ export class NewAccountComponent extends React.Component {
 
   async createNewAccount(enableTouchId) {
     let user = await AppProcessor.doCreateNewAccount(enableTouchId);
+    if (!user) {
+      return;
+    }
     await CommonModel.doSetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${user.bitmarkAccountNumber}`, {
       timestamp: (new Date()).toISOString()
     });

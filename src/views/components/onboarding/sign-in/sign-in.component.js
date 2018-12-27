@@ -232,6 +232,9 @@ export class SignInComponent extends React.Component {
     this.state.smallerList.forEach(item => inputtedWords.push(item.word));
     this.state.biggerList.forEach(item => inputtedWords.push(item.word));
     let user = await AppProcessor.doLogin(inputtedWords, enableTouchId);
+    if (!user) {
+      return;
+    }
     return { user, justCreatedBitmarkAccount: false };
   }
 
