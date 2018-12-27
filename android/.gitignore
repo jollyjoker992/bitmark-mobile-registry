@@ -5,7 +5,8 @@ build
 /*.iml
 .gradle
 .externalNativeBuild
-keystores
+keystores/release.keystore
+keystores/*.properties
 fastlane/*.md
 fastlane/*.xml
 index.android.bundle

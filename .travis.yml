@@ -1,31 +1,99 @@
-language: swift
-osx_image: xcode10.1
-xcode_sdk: iphonesimulator12.1
-node_js:
-- '8'
-branches:
-  only:
-  - devel
-  - ux-loop
-  - master
-cache:
-  bundler: true
-    
-before_install:
-- openssl aes-256-cbc -K $encrypted_2be08fd24366_key -iv $encrypted_2be08fd24366_iv -in .travis/secret.tar.enc -out secret.tar -d
-- tar xvf secret.tar
-- chmod +x ssh-deploy.sh
-- ./ssh-deploy.sh
-- gem install fastlane
-install:
-- fastlane add_plugin latest_hockey_build_number
-- fastlane add_plugin sentry
-- brew install getsentry/tools/sentry-cli
-script:
-- |
-    if [ $TRAVIS_BRANCH == "master" ]; then
-      fastlane ios betatravis
-    else
-      fastlane ios developtravis
-    fi
-after_success: 
+notifications:
+    email:
+      on_success: never
+      on_failure: always
+
+matrix:
+  include:
+    - language: swift
+      name: "Build iOS"
+      osx_image: xcode10.1
+      xcode_sdk: iphonesimulator12.1
+      node_js:
+      - '8'
+      cache:
+        bundler: true
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_2be08fd24366_key -iv $encrypted_2be08fd24366_iv -in .travis/secret.tar.enc -out secret.tar -d
+        - tar xvf secret.tar
+        - chmod +x ssh-deploy.sh
+        - ./ssh-deploy.sh
+        - gem install fastlane
+      install:
+        - fastlane add_plugin latest_hockey_build_number
+        - fastlane add_plugin sentry
+        - brew install getsentry/tools/sentry-cli
+      script:
+        - |
+          if [ $TRAVIS_BRANCH == "master" ]; then
+            fastlane ios betatravis
+          else
+            fastlane ios developtravis
+          fi
+      branches:
+        only:
+        - devel
+        - ux-loop
+        - master
+      after_success:
+
+    - language: android
+      name: "Build android"
+      jdk: oraclejdk8
+      sudo: required
+      before_cache:
+        - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+        - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+      cache:
+        yarn: true
+        directories:
+          - $HOME/.yarn-cache
+          - $HOME/.gradle/caches/
+          - $HOME/.gradle/wrapper/
+          - node_modules
+      android:
+        components:
+          - platform-tools
+          - tools
+          - build-tools-28.0.2
+          - android-28
+          - extra-android-m2repository
+          - extra-google-google_play_services
+          - extra-google-m2repository
+        licenses:
+          - android-sdk-preview-license-.+
+          - android-sdk-license-.+
+          - google-gdk-license-.+
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_bd9e378025b3_key -iv $encrypted_bd9e378025b3_iv -in .travis/release.keystore.enc -out android/keystores/release.keystore -d
+        - gem install fastlane
+        - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
+      install:
+        - npm install
+        - echo y | sdkmanager "ndk-bundle"
+        - echo y | sdkmanager "cmake;3.6.4111459"
+      env:
+        - ANDROID_HOME=$HOME/android-sdk
+        - ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
+        - TRAVIS_NODE_VERSION=9.0.0
+      before_script: 
+        - cd android
+      script:
+        - |
+          if [ $TRAVIS_BRANCH == "master" ]; then
+            fastlane production
+          fi
+          
+          if [ $TRAVIS_BRANCH == "devel" ]; then
+            fastlane beta
+          fi
+
+          if [ $TRAVIS_BRANCH == "devel-android" ]; then
+            fastlane alpha DISTRIBUTE:true
+          fi
+      branches:
+        only:
+        - devel
+        - ux-loop
+        - master
+        - devel-android
