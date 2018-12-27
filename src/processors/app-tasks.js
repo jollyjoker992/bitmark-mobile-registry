@@ -5,6 +5,7 @@ import { AccountModel, FaceTouchId, } from './models';
 import { EventEmitterService, } from './services'
 import { DataProcessor } from './data-processor';
 import { config } from 'src/configs';
+import { runPromiseWithoutError } from 'src/utils';
 
 // ================================================================================================
 // ================================================================================================
@@ -59,9 +60,15 @@ let submitting = (promise, processingData) => {
 
 const doLogin = async ({ phraseWords, enableTouchId }) => {
   if (enableTouchId && Platform.OS === 'ios' && config.isIPhoneX) {
-    await FaceTouchId.authenticate();
+    let result = await runPromiseWithoutError(FaceTouchId.authenticate());
+    if (result && result.error) {
+      return null;
+    }
   }
-  await AccountModel.doLogin(phraseWords, enableTouchId);
+  let result = await runPromiseWithoutError(AccountModel.doLogin(phraseWords, enableTouchId));
+  if (result && result.error) {
+    return null;
+  }
   return await processing(DataProcessor.doLogin());
 };
 
