@@ -77,11 +77,13 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
     return (
       <SafeAreaView style={accountRecoveryStyle.body}>
         <View style={[accountRecoveryStyle.header]}>
-          <TouchableOpacity style={[defaultStyles.headerLeft, { width: 40 }]} onPress={Actions.pop}>
+          <TouchableOpacity style={[defaultStyles.headerLeft, { width: 30 }]} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={[defaultStyles.headerTitle, { maxHeight: convertWidth(375) - 80 }]}>{isSignOut ? global.i18n.t("WriteDownRecoveryPhraseComponent_writeDownRecoveryPhrase") : global.i18n.t("WriteDownRecoveryPhraseComponent_recoveryPhrase")}</Text>
-          <TouchableOpacity style={[defaultStyles.headerRight, { width: 40 }]} />
+          <Text style={[defaultStyles.headerTitle,]}>
+            {isSignOut ? global.i18n.t("WriteDownRecoveryPhraseComponent_writeDownRecoveryPhrase") : global.i18n.t("WriteDownRecoveryPhraseComponent_recoveryPhrase")}
+          </Text>
+          <TouchableOpacity style={[defaultStyles.headerRight, { width: 30 }]} />
         </View>
         <ScrollView style={accountRecoveryStyle.recoveryPhraseContent}>
           {!isSignOut && <Text style={accountRecoveryStyle.writeRecoveryPhraseContentMessage}>{global.i18n.t("WriteDownRecoveryPhraseComponent_writeRecoveryPhraseContentMessage1")}</Text>}
