@@ -359,7 +359,7 @@ export default StyleSheet.create({
     width: convertWidth(375),
     height: constant.buttonHeight,
     borderTopWidth: 2,
-    backgroundColor: '#E6FF00',
+    backgroundColor: '#F5F5F5',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
