@@ -25,14 +25,11 @@ platform :android do
   desc "Build alpha version"
   lane :alpha do |options|
 
+     # Fill key
+    fillKey()
+
     #Create keystore properties file
-    keystore_file = '../keystores/debug-keystore.properties'
-    File.open(keystore_file, "w") do |f| 
-      ["key.alias=%s" % [ENV['DEBUG_KEYSTORE_ALIAS']],"key.store.password=%s" % [ENV['DEBUG_ALIAS_PASSWORD']],"key.alias.password=%s" % [ENV['DEBUG_KEYSTORE_PASSWORD']]].each do |content|
-          f.write(content)
-          f.puts @string 
-      end
-    end
+    createKeyStoreProperties()
 
     # Bundle js react native 
     bundleJs()
@@ -57,13 +54,7 @@ platform :android do
     fillKey()
 
     # Create keystore properties file
-    keystore_file = '../keystores/release-keystore.properties'
-    File.open(keystore_file, "w") do |f| 
-      ["key.alias=%s" % [ENV['RELEASE_KEYSTORE_ALIAS']],"key.store.password=%s" % [ENV['RELEASE_ALIAS_PASSWORD']],"key.alias.password=%s" % [ENV['RELEASE_KEYSTORE_PASSWORD']]].each do |content|
-          f.write(content)
-          f.puts @string 
-      end
-    end
+    createKeyStoreProperties()
 
     # Bundle js react native 
     bundleJs()
@@ -86,13 +77,7 @@ platform :android do
     fillKey()
 
     # Create keystore properties file
-    keystore_file = '../keystores/release-keystore.properties'
-    File.open(keystore_file, "w") do |f| 
-      ["key.alias=%s" % [ENV['RELEASE_KEYSTORE_ALIAS']],"key.store.password=%s" % [ENV['RELEASE_ALIAS_PASSWORD']],"key.alias.password=%s" % [ENV['RELEASE_KEYSTORE_PASSWORD']]].each do |content|
-          f.write(content)
-          f.puts @string 
-      end
-    end
+    createKeyStoreProperties()
 
     # Bundle js react native 
    bundleJs()
@@ -103,6 +88,24 @@ platform :android do
           })
     #upload_to_play_store
   end
+
+  def createKeyStoreProperties()
+  
+    File.open('../keystores/debug-keystore.properties', "w") do |f| 
+      ["key.alias=%s" % [ENV['DEBUG_KEYSTORE_ALIAS']],"key.store.password=%s" % [ENV['DEBUG_ALIAS_PASSWORD']],"key.alias.password=%s" % [ENV['DEBUG_KEYSTORE_PASSWORD']]].each do |content|
+          f.write(content)
+          f.puts @string 
+      end
+    end
+
+    File.open('../keystores/release-keystore.properties', "w") do |f| 
+      ["key.alias=%s" % [ENV['RELEASE_KEYSTORE_ALIAS']],"key.store.password=%s" % [ENV['RELEASE_ALIAS_PASSWORD']],"key.alias.password=%s" % [ENV['RELEASE_KEYSTORE_PASSWORD']]].each do |content|
+          f.write(content)
+          f.puts @string 
+      end
+    end
+  end
+
 
   def fillKey()
     api_key_file = '../app/src/main/jni/api-key.cpp'
@@ -127,7 +130,6 @@ platform :android do
       emails: ENV['CRASHLYTICS_TESTER_EMAIL'],
       notes_path: release_note_path,
       debug: false,
-      notes: 'Beta version is distributed with fastlane',
       notifications: true,
       apk_path: apk_path
     )
