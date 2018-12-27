@@ -1403,7 +1403,7 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
     let resultPost = await BitmarkModel.doPostAwaitTransfer(CacheData.jwt, result.bitmarkId, result.transferPayload);
     console.log('doPostAwaitTransfer result:', resultPost);
   }
-  await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, incomingClaimRequest.id, isAccept ? 'accepted' : 'rejected');
+  await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, [{ id: incomingClaimRequest.id, status: isAccept ? 'accepted' : 'rejected' }]);
   let claimRequests = await runGetClaimRequestInBackground();
   await doCheckClaimRequests(claimRequests);
   return true;

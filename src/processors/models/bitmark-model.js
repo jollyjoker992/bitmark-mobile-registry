@@ -751,23 +751,26 @@ const doGetClaimRequest = (jwt) => {
       if (statusCode >= 400) {
         return reject(new Error(`doGetClaimRequest error :` + JSON.stringify(data)));
       }
-      resolve(data);
+      resolve({
+        incoming_claim_requests: data.claim_requests,
+        outgoing_claim_requests: data.my_submitted_claim_requests
+      });
     }).catch(reject);
   });
 };
 
 
-const doSubmitIncomingClaimRequests = (jwt, id, status) => {
+const doSubmitIncomingClaimRequests = (jwt, statuses) => {
   return new Promise((resolve, reject) => {
     let statusCode;
-    fetch(`${config.mobile_server_url}/api/claim_requests/${id}`, {
+    fetch(`${config.mobile_server_url}/api/claim_requests`, {
       method: 'PATCH',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + jwt,
       },
-      body: JSON.stringify({ status })
+      body: JSON.stringify({ statuses })
     }).then((response) => {
       statusCode = response.status;
       if (statusCode < 400) {
