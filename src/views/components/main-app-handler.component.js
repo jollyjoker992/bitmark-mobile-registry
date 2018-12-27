@@ -240,7 +240,7 @@ export class MainAppHandlerComponent extends Component {
             <Text style={{
               width: convertWidth(300),
               color: 'white', fontWeight: '900', fontSize: 16,
-              backgroundColor: '#FF4444', padding: 10,
+              backgroundColor: '#0060F2', padding: 10,
               textAlign: 'center',
             }}>{i18n.t('MainComponent_pleaseAuthorizeText​')}</Text>
           </TouchableOpacity>

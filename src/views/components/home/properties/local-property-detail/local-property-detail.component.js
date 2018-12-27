@@ -293,7 +293,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
                         <View style={propertyDetailStyle.provenancesRowOwnerRow}>
                           <Text style={[propertyDetailStyle.provenancesRowOwner, { color: item.status === 'pending' ? '#999999' : '#0060F2' }]} numberOfLines={1}>
                             {item.owner === CacheData.userInformation.bitmarkAccountNumber ? global.i18n.t("LocalPropertyDetailComponent_you") :
-                              (CacheData.identities[item.owner] ? CacheData.identities[item.owner] : ('[' + item.owner.substring(0, 4) + '...' + item.owner.substring(item.owner.length - 4, item.owner.length) + ']'))}
+                              (CacheData.identities[item.owner] ? CacheData.identities[item.owner].name : ('[' + item.owner.substring(0, 4) + '...' + item.owner.substring(item.owner.length - 4, item.owner.length) + ']'))}
                           </Text>
                         </View>
                       </TouchableOpacity>);
