@@ -18,7 +18,7 @@ import {
   BitmarkDialogComponent,
 } from './../commons';
 import { UserModel, EventEmitterService, DataProcessor, CacheData, BitmarkSDK, AppProcessor } from 'src/processors';
-import {  convertWidth, runPromiseWithoutError } from 'src/utils';
+import { convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
 
 export class MainAppHandlerComponent extends Component {

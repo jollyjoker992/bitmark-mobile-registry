@@ -172,7 +172,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'space-between',
-    width: convertWidth(329),
+    width: '100%',
   },
   assetQuantity: {
     fontFamily: 'Andale Mono',

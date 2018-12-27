@@ -715,13 +715,16 @@ const doPostClaimRequest = (jwt, assetId, toAccount, ) => {
       })
     }).then((response) => {
       statusCode = response.status;
-      if (statusCode < 400) {
+      if (statusCode < 500) {
         return response.json();
       }
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doPostClaimRequest error :` + JSON.stringify(data)));
+        let error = new Error(`doPostClaimRequest error :` + JSON.stringify(data));
+        error.data = data;
+        error.statusCode = statusCode;
+        return reject(error);
       }
       resolve(data);
     }).catch(reject);

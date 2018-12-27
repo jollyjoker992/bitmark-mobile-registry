@@ -23,6 +23,7 @@ class PrivateLocalAssetDetailComponent extends React.Component {
   constructor(props) {
     super(props);
     this.cancelTransferring = this.cancelTransferring.bind(this);
+    this.downloadAsset = this.downloadAsset.bind(this);
 
     this.state = {
       displayTopButton: false,
@@ -42,6 +43,14 @@ class PrivateLocalAssetDetailComponent extends React.Component {
       this.setState({ contentType });
     };
     runPromiseWithoutError(doGetContentAsset());
+  }
+
+  shouldComponentUpdate(nextProps) {
+    if (!nextProps.asset || !nextProps.asset.id) {
+      Actions.pop();
+      return false;
+    }
+    return true;
   }
 
   cancelTransferring(bitmark) {
@@ -70,31 +79,30 @@ class PrivateLocalAssetDetailComponent extends React.Component {
   }
 
   downloadAsset() {
-    AppProcessor.doDownloadBitmark(this.props.bitmarkCanDownload, {
-      indicator: true, title: global.i18n.t("LocalAssetDetailComponent_preparingToExport"), message: global.i18n.t("LocalAssetDetailComponent_downloadingFile", { fileName: this.props.asset.name })
-    }).then(filePath => {
-      if (filePath) {
-        Share.share({ title: this.props.asset.name, url: filePath });
-      }
-    }).catch(error => {
-      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("LocalAssetDetailComponent_notReadyToDownload") });
-      console.log('doDownload asset error :', error);
-    });
+    return new Promise((resolve) => {
+      AppProcessor.doDownloadBitmark(this.props.bitmarkCanDownload, {
+        indicator: true, title: global.i18n.t("LocalAssetDetailComponent_preparingToExport"), message: global.i18n.t("LocalAssetDetailComponent_downloadingFile", { fileName: this.props.asset.name })
+      }).then(resolve).catch(error => {
+        resolve();
+        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("LocalAssetDetailComponent_notReadyToDownload") });
+        console.log('doDownload asset error :', error);
+      });
+    })
   }
 
   shareAssetFile() {
     if (this.props.asset.filePath) {
       Share.share({ title: this.props.asset.name, url: this.props.asset.filePath });
     } else {
-      this.downloadAsset();
+      this.downloadAsset().then((filePath) => {
+        if (filePath) {
+          Share.share({ title: this.props.asset.name, url: filePath });
+        }
+      });
     }
   }
 
   render() {
-    if (!this.props.asset) {
-      Actions.pop();
-    }
-    console.log('PrivateLocalAssetDetailComponent props:', this.props);
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', }}>
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
@@ -254,7 +262,13 @@ class PrivateLocalAssetDetailComponent extends React.Component {
                         } else {
                           Alert.alert(global.i18n.t('LocalAssetDetailComponent_emptyFileTransferTitle'), global.i18n.t('LocalAssetDetailComponent_emptyFileTransferMessage'), [{
                             text: global.i18n.t("LocalAssetDetailComponent_downloadAssetButtonText"),
-                            onPress: this.downloadAsset.bind(this),
+                            onPress: () => {
+                              this.downloadAsset().then(filePath => {
+                                if (filePath) {
+                                  Actions.localPropertyTransfer({ asset: this.props.asset, bitmark: bitmark });
+                                }
+                              });
+                            },
                           }]);
                         }
                       }}>
