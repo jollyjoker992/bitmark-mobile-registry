@@ -307,7 +307,7 @@ const runGetClaimRequestInBackground = () => {
       return;
     }
     BitmarkModel.doGetClaimRequest(CacheData.jwt).then(claimRequests => {
-      console.log('runOnBackground  runGetClaimRequestInBackground success');
+      console.log('runOnBackground  runGetClaimRequestInBackground success', claimRequests);
       queueGetClaimRequests.forEach(queueResolve => queueResolve(claimRequests));
       queueGetClaimRequests = [];
     }).catch(error => {
