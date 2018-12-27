@@ -752,7 +752,7 @@ const doGetClaimRequest = (jwt) => {
         return reject(new Error(`doGetClaimRequest error :` + JSON.stringify(data)));
       }
       resolve({
-        incoming_claim_requests: data.claim_requests,
+        incoming_claim_requests: data.claim_requests.filter(item => item.status === 'pending'),
         outgoing_claim_requests: data.my_submitted_claim_requests
       });
     }).catch(reject);

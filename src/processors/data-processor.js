@@ -133,7 +133,7 @@ const doCheckNewIftttInformation = async (iftttInformation, isLoadingAllUserData
   }
 };
 
-const doCheckClaimRequests = async (claimRequests, isLoadingAllUserData) => {
+const doCheckClaimRequests = async (claimRequests) => {
   if (claimRequests) {
     let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
     for (let incomingClaimRequest of claimRequests.incoming_claim_requests) {
@@ -147,10 +147,8 @@ const doCheckClaimRequests = async (claimRequests, isLoadingAllUserData) => {
     claimRequests.outgoing_claim_requests = (claimRequests.outgoing_claim_requests || []).sort((a, b) => moment(a.created_at).toDate().getTime() - moment(b.created_at).toDate().getTime());
 
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST, claimRequests);
-    if (!isLoadingAllUserData) {
-      await doGenerateTransactionActionRequiredData(claimRequests.incoming_claim_requests);
-      await doGenerateTransactionHistoryData(claimRequests.outgoing_claim_requests);
-    }
+    await doGenerateTransactionActionRequiredData(claimRequests.incoming_claim_requests);
+    await doGenerateTransactionHistoryData(claimRequests.outgoing_claim_requests);
   }
 }
 
@@ -479,8 +477,7 @@ const runOnBackground = async () => {
     await doParallel();
 
     let claimRequests = await runGetClaimRequestInBackground();
-    await doCheckClaimRequests(claimRequests, true);
-    await doGenerateTransactionActionRequiredData();
+    await doCheckClaimRequests(claimRequests);
   }
   console.log('runOnBackground done ====================================');
 };
@@ -1123,16 +1120,18 @@ const doGenerateTransactionActionRequiredData = async (incomingClaimRequests) =>
   if (incomingClaimRequests && incomingClaimRequests.length > 0) {
     let mapCount = {};
     (incomingClaimRequests || []).forEach((incomingClaimRequest) => {
-      mapCount[incomingClaimRequests.asset.id] = mapCount[incomingClaimRequests.asset.id] ? (mapCount[incomingClaimRequests.asset.id] + 1) : 1;
-      incomingClaimRequest.index = (incomingClaimRequests.asset.totalIssuedBitmarks || 1) - 1 + mapCount[incomingClaimRequests.asset.id],
-        actionRequired.push({
-          key: actionRequired.length,
-          incomingClaimRequest: incomingClaimRequest,
-          type: ActionRequireTypes.claim_request,
-          typeTitle: global.i18n.t("DataProcessor_signToTransferBitmark"),
-          timestamp: moment(incomingClaimRequest.created_at),
-        });
-      totalTasks++;
+      if (incomingClaimRequest.status === 'pending') {
+        mapCount[incomingClaimRequest.asset.id] = mapCount[incomingClaimRequest.asset.id] ? (mapCount[incomingClaimRequest.asset.id] + 1) : 1;
+        incomingClaimRequest.index = (incomingClaimRequest.asset.totalIssuedBitmarks || 1) - 1 + mapCount[incomingClaimRequest.asset.id],
+          actionRequired.push({
+            key: actionRequired.length,
+            incomingClaimRequest: incomingClaimRequest,
+            type: ActionRequireTypes.claim_request,
+            typeTitle: global.i18n.t("DataProcessor_signToTransferBitmark"),
+            timestamp: moment(incomingClaimRequest.created_at),
+          });
+        totalTasks++;
+      }
     });
   }
 
@@ -1235,8 +1234,8 @@ const doGenerateTransactionHistoryData = async (outgoingClaimRequest) => {
   outgoingClaimRequest = outgoingClaimRequest || (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST).outgoing_claim_requests) || [];
   outgoingClaimRequest.forEach(item => {
     completed.push({
-      title: TransactionsActions.claim_request.title,
-      type: TransactionsActions.claim_request.type,
+      title: TransactionHistoryTypes.claim_request.title,
+      type: TransactionHistoryTypes.claim_request.type,
       outgoingClaimRequest: item,
     });
   });
@@ -1403,7 +1402,7 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
     let resultPost = await BitmarkModel.doPostAwaitTransfer(CacheData.jwt, result.bitmarkId, result.transferPayload);
     console.log('doPostAwaitTransfer result:', resultPost);
   }
-  await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, [{ id: incomingClaimRequest.id, status: isAccept ? 'accepted' : 'rejected' }]);
+  await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, isAccept ? { accepted: [incomingClaimRequest.id] } : { rejected: [incomingClaimRequest.id] });
   let claimRequests = await runGetClaimRequestInBackground();
   await doCheckClaimRequests(claimRequests);
   return true;

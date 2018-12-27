@@ -198,9 +198,9 @@ class PrivateTransactionsComponent extends React.Component {
 
             {this.props.actionRequired && this.props.actionRequired.length > 0 && <View style={transactionsStyle.contentSubTab}>
               <FlatList data={this.props.actionRequired}
+                keyExtractor={(item, index) => (index + '')}
                 extraData={this.state}
                 renderItem={({ item }) => {
-                  console.log('item:', item);
                   return (<TouchableOpacity style={transactionsStyle.transferOfferRow} onPress={() => this.clickToActionRequired(item)}>
                     <View style={transactionsStyle.transferOfferTitle}>
                       <Text style={transactionsStyle.transferOfferTitleType}>{item.typeTitle.toUpperCase()}</Text>
@@ -267,8 +267,41 @@ class PrivateTransactionsComponent extends React.Component {
             </View>}
             {this.props.completed && this.props.completed.length > 0 && <View style={transactionsStyle.contentSubTab}>
               <FlatList data={this.props.completed}
+                keyExtractor={(item, index) => (index + '')}
                 extraData={this.state}
                 renderItem={({ item }) => {
+                  if (item.outgoingClaimRequest) {
+                    return (
+                      <TouchableOpacity style={transactionsStyle.completedTransfer}>
+                        <View style={transactionsStyle.completedTransferHeader}>
+                          <Text style={[transactionsStyle.completedTransferHeaderTitle, {
+                            color: item.outgoingClaimRequest.status === 'pending' ? '#999999' : (item.outgoingClaimRequest.status === 'rejected') ? '#FF003C' : '#0060F2',
+                          }]}>{item.outgoingClaimRequest.status.toUpperCase()}</Text>
+                        </View>
+                        <View style={transactionsStyle.completedTransferContent}>
+                          <View style={transactionsStyle.completedTransferContentRow}>
+                            <Text style={[transactionsStyle.completedTransferContentRowLabel, { marginTop: 1, }]}>{global.i18n.t("TransactionsComponent_property")}</Text>
+                            <Text style={[transactionsStyle.completedTransferContentRowPropertyName]} numberOfLines={1} >{item.outgoingClaimRequest.asset.name}</Text>
+                          </View>
+                          <View style={transactionsStyle.completedTransferContentRow}>
+                            <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_type")}</Text>
+                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.title.toUpperCase()}</Text>
+                          </View>
+                          <View style={[transactionsStyle.completedTransferContentRow, { marginTop: 1, }]}>
+                            <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_from")}</Text>
+                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.outgoingClaimRequest.from === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
+                              ('[' + item.outgoingClaimRequest.from.substring(0, 4) + '...' + item.outgoingClaimRequest.from.substring(item.outgoingClaimRequest.from.length - 4, item.outgoingClaimRequest.from.length) + ']')}</Text>
+                          </View>
+                          <View style={transactionsStyle.completedTransferContentRow}>
+                            <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_to")}</Text>
+                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{(item.outgoingClaimRequest.asset.registrant === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
+                              (CacheData.identities[item.outgoingClaimRequest.asset.registrant] ? CacheData.identities[item.outgoingClaimRequest.asset.registrant] :
+                                ('[' + item.outgoingClaimRequest.asset.registrant.substring(0, 4) + '...' + item.outgoingClaimRequest.asset.registrant.substring(item.outgoingClaimRequest.asset.registrant.length - 4, item.outgoingClaimRequest.asset.registrant.length) + ']')))}</Text>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    )
+                  }
                   return (
                     <TouchableOpacity style={transactionsStyle.completedTransfer} onPress={() => this.clickToCompleted(item)} disabled={(item.status === 'pending' || item.status === 'waiting')}>
                       <View style={transactionsStyle.completedTransferHeader}>
