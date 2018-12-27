@@ -143,7 +143,6 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}><View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
@@ -293,7 +292,8 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
                         </Text>
                         <View style={propertyDetailStyle.provenancesRowOwnerRow}>
                           <Text style={[propertyDetailStyle.provenancesRowOwner, { color: item.status === 'pending' ? '#999999' : '#0060F2' }]} numberOfLines={1}>
-                            {item.owner === CacheData.userInformation.bitmarkAccountNumber ? global.i18n.t("LocalPropertyDetailComponent_you") : '[' + item.owner.substring(0, 4) + '...' + item.owner.substring(item.owner.length - 4, item.owner.length) + ']'}
+                            {item.owner === CacheData.userInformation.bitmarkAccountNumber ? global.i18n.t("LocalPropertyDetailComponent_you") :
+                              (CacheData.identities[item.owner] ? CacheData.identities[item.owner] : ('[' + item.owner.substring(0, 4) + '...' + item.owner.substring(item.owner.length - 4, item.owner.length) + ']'))}
                           </Text>
                         </View>
                       </TouchableOpacity>);
