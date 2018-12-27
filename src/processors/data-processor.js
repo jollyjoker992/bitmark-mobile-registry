@@ -576,7 +576,7 @@ const doCreateAccount = async () => {
   let signatureData = await CommonModel.doCreateSignatureData();
   await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
   let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
-  await AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]);
+  await runPromiseWithoutError(AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]));
   await CommonModel.doTrackEvent({
     event_name: 'registry_create_new_account',
     account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
@@ -590,7 +590,7 @@ const doLogin = async () => {
   let signatureData = await CommonModel.doCreateSignatureData();
   await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
   let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
-  await AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]);
+  await runPromiseWithoutError(AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]));
   return userInformation;
 };
 
@@ -1121,14 +1121,15 @@ const doGenerateTransactionActionRequiredData = async (incomingClaimRequests) =>
 
   incomingClaimRequests = incomingClaimRequests || (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST).incoming_claim_requests) || [];
   if (incomingClaimRequests && incomingClaimRequests.length > 0) {
-    (incomingClaimRequests || []).forEach((incomingClaimRequest, index) => {
-      incomingClaimRequest.index = (incomingClaimRequest.asset.issuedBitmarks ? incomingClaimRequest.asset.issuedBitmarks.length : 0) + index + 1,
+    let mapCount = {};
+    (incomingClaimRequests || []).forEach((incomingClaimRequest) => {
+      mapCount[incomingClaimRequests.asset.id] = mapCount[incomingClaimRequests.asset.id] ? (mapCount[incomingClaimRequests.asset.id] + 1) : 1;
+      incomingClaimRequest.index = (incomingClaimRequests.asset.totalIssuedBitmarks || 1) - 1 + mapCount[incomingClaimRequests.asset.id],
         actionRequired.push({
           key: actionRequired.length,
           incomingClaimRequest: incomingClaimRequest,
           type: ActionRequireTypes.claim_request,
           typeTitle: global.i18n.t("DataProcessor_signToTransferBitmark"),
-          // typeTitle: 'SIGN TO TRANSFER BITMARK', //TODO
           timestamp: moment(incomingClaimRequest.created_at),
         });
       totalTasks++;
@@ -1409,9 +1410,11 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
 };
 
 const doSendIncomingClaimRequest = async (asset) => {
-  let result = await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
+  return await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
+};
+
+const doMarkDoneSendClaimRequest = async () => {
   updateModal(mapModalDisplayKeyIndex.claim_asset);
-  return result;
 };
 
 const doViewSendIncomingClaimRequest = async (asset) => {
@@ -1468,6 +1471,7 @@ const DataProcessor = {
   doProcessIncomingClaimRequest,
   doSendIncomingClaimRequest,
   doViewSendIncomingClaimRequest,
+  doMarkDoneSendClaimRequest,
   doReloadClaimAssetRequest,
   doGetAssetToClaim,
 
