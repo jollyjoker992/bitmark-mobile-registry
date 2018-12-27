@@ -228,7 +228,7 @@ class PrivateTransactionsComponent extends React.Component {
 
                     {item.type === ActionRequireTypes.claim_request && <View style={transactionsStyle.iftttTask}>
                       <Text style={transactionsStyle.iftttTitle}>{item.incomingClaimRequest.asset.name} {item.incomingClaimRequest.index}/{item.incomingClaimRequest.asset.limitedEdition}</Text>
-                      <Text style={transactionsStyle.iftttDescription}>[{`${item.incomingClaimRequest.from}`}] has requested the bitmark of this property.</Text>
+                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_claimRequestMessage", { accountNumber: item.incomingClaimRequest.from })}</Text>
                     </View>}
                   </TouchableOpacity>)
                 }} />
@@ -276,7 +276,10 @@ class PrivateTransactionsComponent extends React.Component {
                         <View style={transactionsStyle.completedTransferHeader}>
                           <Text style={[transactionsStyle.completedTransferHeaderTitle, {
                             color: item.outgoingClaimRequest.status === 'pending' ? '#999999' : (item.outgoingClaimRequest.status === 'rejected') ? '#FF003C' : '#0060F2',
-                          }]}>{item.outgoingClaimRequest.status.toUpperCase()}</Text>
+                          }]}>
+                            {item.outgoingClaimRequest.status === 'accepted' ? global.i18n.t("TransactionsComponent_claimRequestHistoryAccepted") :
+                              item.outgoingClaimRequest.status === 'rejected' ? global.i18n.t("TransactionsComponent_claimRequestHistoryRejected") : global.i18n.t("TransactionsComponent_claimRequestHistoryPending")}
+                          </Text>
                         </View>
                         <View style={transactionsStyle.completedTransferContent}>
                           <View style={transactionsStyle.completedTransferContentRow}>
@@ -285,7 +288,7 @@ class PrivateTransactionsComponent extends React.Component {
                           </View>
                           <View style={transactionsStyle.completedTransferContentRow}>
                             <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_type")}</Text>
-                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.title.toUpperCase()}</Text>
+                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{global.i18n.t("TransactionsComponent_claimRequestHistoryTitle")}</Text>
                           </View>
                           <View style={[transactionsStyle.completedTransferContentRow, { marginTop: 1, }]}>
                             <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_from")}</Text>

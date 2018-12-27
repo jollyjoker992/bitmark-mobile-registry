@@ -1231,7 +1231,7 @@ const doGenerateTransactionHistoryData = async (outgoingClaimRequest) => {
     });
   }
 
-  outgoingClaimRequest = outgoingClaimRequest || (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST).outgoing_claim_requests) || [];
+  outgoingClaimRequest = outgoingClaimRequest || ((await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST)).outgoing_claim_requests) || [];
   outgoingClaimRequest.forEach(item => {
     completed.push({
       title: TransactionHistoryTypes.claim_request.title,
