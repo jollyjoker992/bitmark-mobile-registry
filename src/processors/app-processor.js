@@ -7,7 +7,7 @@ import { AccountService, BitmarkService, EventEmitterService, TransactionService
 import { DataProcessor } from './data-processor';
 
 import { config } from 'src/configs';
-import { compareVersion } from 'src/utils';
+import { compareVersion, runPromiseWithoutError } from 'src/utils';
 
 registerTasks();
 // ================================================================================================
@@ -65,9 +65,15 @@ const executeTask = (taskKey, data) => {
 // ================================================================================================
 const doCreateNewAccount = async (enableTouchId) => {
   if (enableTouchId && Platform.OS === 'ios' && config.isIPhoneX) {
-    await FaceTouchId.authenticate();
+    let result = await runPromiseWithoutError(FaceTouchId.authenticate());
+    if (result && result.error) {
+      return null;
+    }
   }
-  await AccountModel.doCreateAccount(enableTouchId);
+  let result = await runPromiseWithoutError(AccountModel.doCreateAccount(enableTouchId));
+  if (result && result.error) {
+    return null;
+  }
   return await processing(DataProcessor.doCreateAccount());
 };
 
