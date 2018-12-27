@@ -190,7 +190,7 @@ export class MainAppHandlerComponent extends Component {
       UserModel.doTryGetCurrentUser().then(async (userInformation) => {
         if (userInformation && userInformation.bitmarkAccountNumber) {
           let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
-          let passTouchFaceId = !result || !result.error;
+          let passTouchFaceId = result && !result.error;
           this.setState({ passTouchFaceId });
           if (passTouchFaceId) {
             EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
@@ -212,7 +212,7 @@ export class MainAppHandlerComponent extends Component {
   async doRefresh(justCreatedBitmarkAccount) {
     if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
       let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
-      let passTouchFaceId = !result || !result.error;
+      let passTouchFaceId = result && !result.error;
       this.setState({ passTouchFaceId });
       if (passTouchFaceId && this.state.networkStatus) {
         EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus: this.state.networkStatus, justCreatedBitmarkAccount });

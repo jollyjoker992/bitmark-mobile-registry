@@ -26,7 +26,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    maxWidth: convertWidth(375) - 140,
+    flex: 1,
     height: '100%',
   },
   headerTitle: {
@@ -34,7 +34,7 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: '900',
     fontFamily: 'Avenir Black',
-    maxWidth: convertWidth(375) - 140,
+    flex: 1,
   },
   headerRight: {
     width: 70,
