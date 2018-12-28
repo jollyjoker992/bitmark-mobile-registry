@@ -24,7 +24,6 @@ target 'Bitmark Registry beta' do
     use_frameworks!
     
     pods
-    pod 'HockeySDK'
     
 end
 
@@ -32,7 +31,6 @@ target 'Bitmark Registry dev' do
     use_frameworks!
     
     pods
-    pod 'HockeySDK'
     
 end
 

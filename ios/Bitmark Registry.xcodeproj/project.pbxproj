@@ -1329,7 +1329,6 @@
 				583BAC20216F51600015E3A0 /* Resources */,
 				583BAC26216F51600015E3A0 /* Bundle React Native code and images */,
 				C6FDD1A2175791FD31B3FD30 /* [CP] Embed Pods Frameworks */,
-				B8F7B29607CAEFB5CFA6AA8C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1350,7 +1349,6 @@
 				58908ABF20A18A5A00C0064A /* Resources */,
 				58908ACC20A18A5A00C0064A /* Bundle React Native code and images */,
 				58908ACD20A18A5A00C0064A /* [CP] Embed Pods Frameworks */,
-				58908ACE20A18A5A00C0064A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2077,24 +2075,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		58908ACE20A18A5A00C0064A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HockeySDKResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		912484C07EACD4CABE823B67 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2115,28 +2095,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry/Pods-Bitmark Registry-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B8F7B29607CAEFB5CFA6AA8C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry beta/Pods-Bitmark Registry beta-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HockeySDKResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bitmark Registry beta/Pods-Bitmark Registry beta-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C6FDD1A2175791FD31B3FD30 /* [CP] Embed Pods Frameworks */ = {
