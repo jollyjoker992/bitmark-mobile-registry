@@ -84,7 +84,6 @@ export class UserRouterComponent extends Component {
 
     } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
       Actions.transactions({ subTab: 'HISTORY' });
-
     } else if (data.name === 'transfer_confirmed_receiver' && data.bitmark_id) {
       DataProcessor.doReloadLocalBitmarks().then(() => {
         return DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id);
@@ -110,6 +109,8 @@ export class UserRouterComponent extends Component {
           Actions.incomingClaimRequest({ incomingClaimRequest });
         }
       }).catch(console.log);
+    } else if (data.event === 'claim_request_rejected') {
+      Actions.transactions({ subTab: 'HISTORY' });
     }
   }
 

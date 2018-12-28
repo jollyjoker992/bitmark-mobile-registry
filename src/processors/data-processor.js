@@ -1237,6 +1237,7 @@ const doGenerateTransactionHistoryData = async (outgoingClaimRequest) => {
       title: TransactionHistoryTypes.claim_request.title,
       type: TransactionHistoryTypes.claim_request.type,
       outgoingClaimRequest: item,
+      timestamp: item.created_at
     });
   });
 
