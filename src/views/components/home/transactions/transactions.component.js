@@ -298,7 +298,7 @@ class PrivateTransactionsComponent extends React.Component {
                           <View style={transactionsStyle.completedTransferContentRow}>
                             <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_to")}</Text>
                             <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{(item.outgoingClaimRequest.asset.registrant === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
-                              (CacheData.identities[item.outgoingClaimRequest.asset.registrant] ? CacheData.identities[item.outgoingClaimRequest.asset.registrant] :
+                              (CacheData.identities[item.outgoingClaimRequest.asset.registrant] ? CacheData.identities[item.outgoingClaimRequest.asset.registrant].name :
                                 ('[' + item.outgoingClaimRequest.asset.registrant.substring(0, 4) + '...' + item.outgoingClaimRequest.asset.registrant.substring(item.outgoingClaimRequest.asset.registrant.length - 4, item.outgoingClaimRequest.asset.registrant.length) + ']')))}</Text>
                           </View>
                         </View>
