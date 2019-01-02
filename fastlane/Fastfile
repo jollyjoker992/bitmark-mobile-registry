@@ -11,16 +11,11 @@
 
 default_platform(:ios)
 
-reset_git_repo(
-  force: true,
-  skip_clean: true
-)
-git_pull
-sh "npm install"
-
 platform :ios do
   desc "Push a new beta build to Hockeyapp"
   lane :prepare_appstore do
+    git_pull
+    sh "rm -rf node_modules/ && rm -rf ios/build/ && npm cache clean --force && npm install"
     version_number = latest_hockey_build_number(
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
@@ -53,8 +48,14 @@ platform :ios do
     hockey(
       api_token: ENV['HOCKEYAPP_KEY']
     )
+    reset_git_repo(
+      force: true,
+      skip_clean: true
+    )
   end
   lane :beta do
+    git_pull
+    sh "rm -rf node_modules/ && rm -rf ios/build/ && npm cache clean --force && npm install"
     version_number = latest_hockey_build_number(
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
@@ -85,9 +86,15 @@ platform :ios do
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY']
-      )
+    )
+    reset_git_repo(
+      force: true,
+      skip_clean: true
+    )
   end
   lane :alpha do
+    git_pull
+    sh "rm -rf node_modules/ && rm -rf ios/build/ && npm cache clean --force && npm install"
     version_number = latest_hockey_build_number(
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
@@ -114,6 +121,10 @@ platform :ios do
     hockey(
       api_token: ENV['HOCKEYAPP_KEY'],
       notes_type: "1"
+    )
+    reset_git_repo(
+      force: true,
+      skip_clean: true
     )
   end
   lane :betatravis do
