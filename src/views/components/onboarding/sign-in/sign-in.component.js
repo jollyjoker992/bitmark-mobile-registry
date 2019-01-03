@@ -22,17 +22,18 @@ const statuses = {
   inputting: 'inputting'
 };
 
-// madelena testnet
+// m testnet
 // let testWords = ["acid", "dinner", "west", "satisfy", "ranch", "include", "remove", "vanish", "visual", "shift", "delay", "spot", "table", "feed", "volume", "oblige", "crisp", "bracket", "acoustic", "nurse", "where", "wreck", "fly", "marriage",];
-// madelena livenet
+// m livenet
 // let testWords = ["absent", "ostrich", "injury", "pill", "episode", "permit", "endless", "happy", "thing", "devote", "robust", "earth", "punch", "robot", "jelly", "demand", "topple", "diamond", "climb", "turn", "reveal", "suspect", "fat", "assault",];
 
-// victor testnet
+// v testnet
 // let testWords = ["access", "say", "write", "artwork", "broom", "wife", "patch", "skill", "snack", "cabin", "best", "target", "night", "notable", "appear", "life", "blame", "enter", "glide", "vocal", "chuckle", "biology", "spy", "inspire",];
 
 // let testWords = ["accident", "sausage", "ticket", "dolphin", "original", "nasty", "theme", "life", "polar", "donor", "office", "weird", "neither", "escape", "flag", "spell", "submit", "salute", "sustain", "habit", "soap", "oil", "romance", "drama",];
 // let testWords = ["accuse", "angry", "thing", "alone", "day", "guitar", "gown", "possible", "rotate", "erupt", "teach", "myth", "final", "rule", "conduct", "term", "mom", "soldier", "prepare", "bench", "hurt", "banana", "joy", "asset",];
 // let testWords = ["undo", "scrap", "churn", "maze", "fiber", "pluck", "group", "dream", "diamond", "palace", "salon", "convince"];
+// let testWords = ["little", "hat", "interest", "exclude", "spray", "run", "food", "private", "observe", "toe", "rival", "hero"];
 export class SignInComponent extends React.Component {
 
   constructor(props) {
@@ -231,6 +232,9 @@ export class SignInComponent extends React.Component {
     this.state.smallerList.forEach(item => inputtedWords.push(item.word));
     this.state.biggerList.forEach(item => inputtedWords.push(item.word));
     let user = await AppProcessor.doLogin(inputtedWords, enableTouchId);
+    if (!user) {
+      return;
+    }
     return { user, justCreatedBitmarkAccount: false };
   }
 

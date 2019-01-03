@@ -22,12 +22,8 @@ let SubTabs = {
   completed: 'HISTORY',
 };
 
-const ActionTypes = {
-  transfer: 'transfer',
-  claim_request: 'claim_request',
-  ifttt: 'ifttt',
-  test_write_down_recovery_phase: 'test_write_down_recovery_phase'
-};
+const ActionRequireTypes = DataProcessor.ActionRequireTypes;
+const TransactionHistoryTypes = DataProcessor.TransactionHistoryTypes;
 
 let currentSize = Dimensions.get('window');
 
@@ -68,9 +64,9 @@ class PrivateTransactionsComponent extends React.Component {
   }
 
   clickToActionRequired(item) {
-    if (item.type === ActionTypes.transfer && item.transferOffer) {
+    if (item.type === ActionRequireTypes.transfer && item.transferOffer) {
       Actions.transferOffer({ transferOffer: item.transferOffer, });
-    } else if (item.type === ActionTypes.ifttt) {
+    } else if (item.type === ActionRequireTypes.ifttt) {
       AppProcessor.doIssueIftttData(item, {
         indicator: true, title: '', message: global.i18n.t("TransactionsComponent_sendingYourTransactionToTheBitmarkNetwork")
       }).then(result => {
@@ -85,18 +81,18 @@ class PrivateTransactionsComponent extends React.Component {
         console.log('doIssueIftttData error:', error);
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
       });
-    } else if (item.type === ActionTypes.test_write_down_recovery_phase) {
+    } else if (item.type === ActionRequireTypes.test_write_down_recovery_phase) {
       Actions.jump('recoveryPhrase');
-    } else if (item.type === ActionTypes.claim_request) {
-      Actions.claimRequest({ claimRequest: item.claimRequest });
+    } else if (item.type === ActionRequireTypes.claim_request) {
+      Actions.incomingClaimRequest({ incomingClaimRequest: item.incomingClaimRequest });
     }
   }
 
   clickToCompleted(item) {
-    if (item.title === 'SEND' && item.type === 'P2P TRANSFER') {
+    if (item.title === TransactionHistoryTypes.transfer.title && item.type === TransactionHistoryTypes.transfer.type) {
       let sourceUrl = config.registry_server_url + `/transaction/${item.txid}?env=app`;
       Actions.bitmarkWebViewFull({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, })
-    } else if (item.title === 'ISSUANCE') {
+    } else if (item.title === TransactionHistoryTypes.issuance.title) {
       let sourceUrl = config.registry_server_url + `/issuance/${item.blockNumber}/${item.assetId}/${CacheData.userInformation.bitmarkAccountNumber}?env=app`;
       Actions.bitmarkWebViewFull({ title: global.i18n.t("TransactionsComponent_registry"), sourceUrl, })
     }
@@ -202,9 +198,9 @@ class PrivateTransactionsComponent extends React.Component {
 
             {this.props.actionRequired && this.props.actionRequired.length > 0 && <View style={transactionsStyle.contentSubTab}>
               <FlatList data={this.props.actionRequired}
+                keyExtractor={(item, index) => (index + '')}
                 extraData={this.state}
                 renderItem={({ item }) => {
-                  console.log('item:', item);
                   return (<TouchableOpacity style={transactionsStyle.transferOfferRow} onPress={() => this.clickToActionRequired(item)}>
                     <View style={transactionsStyle.transferOfferTitle}>
                       <Text style={transactionsStyle.transferOfferTitleType}>{item.typeTitle.toUpperCase()}</Text>
@@ -212,17 +208,17 @@ class PrivateTransactionsComponent extends React.Component {
                       <Image style={transactionsStyle.transferOfferTitleIcon} source={require('assets/imgs/sign-request-icon.png')} />
                     </View>
 
-                    {item.type === ActionTypes.transfer && <View style={transactionsStyle.iftttTask}>
+                    {item.type === ActionRequireTypes.transfer && <View style={transactionsStyle.iftttTask}>
                       <Text style={transactionsStyle.iftttTitle}>{item.transferOffer.asset.name}</Text>
                       <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signToReceiveTheBitmarkFrom", { accountNumber: item.transferOffer.bitmark.owner.substring(0, 4) + '...' + item.transferOffer.bitmark.owner.substring(item.transferOffer.bitmark.owner.length - 4, item.transferOffer.bitmark.owner.length) })}</Text>
                     </View>}
 
-                    {item.type === ActionTypes.ifttt && <View style={transactionsStyle.iftttTask}>
+                    {item.type === ActionRequireTypes.ifttt && <View style={transactionsStyle.iftttTask}>
                       <Text style={transactionsStyle.iftttTitle}>{item.assetInfo.propertyName}</Text>
                       <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signYourBitmarkIssuanceForYourIftttData")}</Text>
                     </View>}
 
-                    {item.type === ActionTypes.test_write_down_recovery_phase && <View style={transactionsStyle.recoveryPhaseActionRequired}>
+                    {item.type === ActionRequireTypes.test_write_down_recovery_phase && <View style={transactionsStyle.recoveryPhaseActionRequired}>
                       <Text style={transactionsStyle.recoveryPhaseActionRequiredTitle}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredTitle")}</Text>
                       <View style={transactionsStyle.recoveryPhaseActionRequiredDescriptionArea}>
                         <Text style={transactionsStyle.recoveryPhaseActionRequiredDescription}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredDescription")}</Text>
@@ -230,9 +226,9 @@ class PrivateTransactionsComponent extends React.Component {
                       </View>
                     </View>}
 
-                    {item.type === ActionTypes.claim_request && <View style={transactionsStyle.iftttTask}>
-                      <Text style={transactionsStyle.iftttTitle}>{item.claimRequest.asset.name} {item.claimRequest.index}/{item.claimRequest.asset.limitedEdition}</Text>
-                      <Text style={transactionsStyle.iftttDescription}>[{`${item.claimRequest.from}`}] has requested the bitmark of this property.</Text>
+                    {item.type === ActionRequireTypes.claim_request && <View style={transactionsStyle.iftttTask}>
+                      <Text style={transactionsStyle.iftttTitle}>{item.incomingClaimRequest.asset.name} {item.incomingClaimRequest.index}/{item.incomingClaimRequest.asset.limitedEdition}</Text>
+                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_claimRequestMessage", { accountNumber: item.incomingClaimRequest.from })}</Text>
                     </View>}
                   </TouchableOpacity>)
                 }} />
@@ -246,7 +242,7 @@ class PrivateTransactionsComponent extends React.Component {
         </ScrollView>}
 
         {this.state.subTab === SubTabs.required && this.props.actionRequired && this.props.actionRequired.length > 0
-          && (this.props.actionRequired.findIndex(item => item.type === ActionTypes.transfer) >= 0) && <TouchableOpacity style={transactionsStyle.acceptAllTransfersButton} onPress={this.acceptAllTransfers} >
+          && (this.props.actionRequired.findIndex(item => item.type === ActionRequireTypes.transfer) >= 0) && <TouchableOpacity style={transactionsStyle.acceptAllTransfersButton} onPress={this.acceptAllTransfers} >
             <Text style={transactionsStyle.acceptAllTransfersButtonText}>{global.i18n.t("TransactionsComponent_acceptAllTransfersButtonText")}</Text>
           </TouchableOpacity>
         }
@@ -271,8 +267,47 @@ class PrivateTransactionsComponent extends React.Component {
             </View>}
             {this.props.completed && this.props.completed.length > 0 && <View style={transactionsStyle.contentSubTab}>
               <FlatList data={this.props.completed}
+                keyExtractor={(item, index) => (index + '')}
                 extraData={this.state}
                 renderItem={({ item }) => {
+                  if (item.outgoingClaimRequest) {
+                    return (
+                      <TouchableOpacity style={transactionsStyle.completedTransfer}>
+                        <View style={transactionsStyle.completedTransferHeader}>
+                          <Text style={[transactionsStyle.completedTransferHeaderTitle, {
+                            color: item.outgoingClaimRequest.status === 'pending' ? '#999999' : (item.outgoingClaimRequest.status === 'rejected') ? '#FF003C' : '#0060F2',
+                          }]}>
+                            {item.outgoingClaimRequest.status === 'accepted' ? global.i18n.t("TransactionsComponent_claimRequestHistoryAccepted") :
+                              item.outgoingClaimRequest.status === 'rejected' ? global.i18n.t("TransactionsComponent_claimRequestHistoryRejected") : global.i18n.t("TransactionsComponent_claimRequestHistoryPending")}
+                          </Text>
+                          <Text style={[transactionsStyle.completedTransferHeaderValue, {
+                            color: item.status === 'pending' ? '#999999' : '#0060F2'
+                          }]}>{moment(item.timestamp).format('YYYY MMM DD HH:mm:ss').toUpperCase()}</Text>
+                        </View>
+                        <View style={transactionsStyle.completedTransferContent}>
+                          <View style={transactionsStyle.completedTransferContentRow}>
+                            <Text style={[transactionsStyle.completedTransferContentRowLabel, { marginTop: 1, }]}>{global.i18n.t("TransactionsComponent_property")}</Text>
+                            <Text style={[transactionsStyle.completedTransferContentRowPropertyName]} numberOfLines={1} >{item.outgoingClaimRequest.asset.name}</Text>
+                          </View>
+                          <View style={transactionsStyle.completedTransferContentRow}>
+                            <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_type")}</Text>
+                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{global.i18n.t("TransactionsComponent_claimRequestHistoryTitle")}</Text>
+                          </View>
+                          <View style={[transactionsStyle.completedTransferContentRow, { marginTop: 1, }]}>
+                            <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_from")}</Text>
+                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.outgoingClaimRequest.from === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
+                              ('[' + item.outgoingClaimRequest.from.substring(0, 4) + '...' + item.outgoingClaimRequest.from.substring(item.outgoingClaimRequest.from.length - 4, item.outgoingClaimRequest.from.length) + ']')}</Text>
+                          </View>
+                          <View style={transactionsStyle.completedTransferContentRow}>
+                            <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_to")}</Text>
+                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{(item.outgoingClaimRequest.asset.registrant === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
+                              (CacheData.identities[item.outgoingClaimRequest.asset.registrant] ? CacheData.identities[item.outgoingClaimRequest.asset.registrant].name :
+                                ('[' + item.outgoingClaimRequest.asset.registrant.substring(0, 4) + '...' + item.outgoingClaimRequest.asset.registrant.substring(item.outgoingClaimRequest.asset.registrant.length - 4, item.outgoingClaimRequest.asset.registrant.length) + ']')))}</Text>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    )
+                  }
                   return (
                     <TouchableOpacity style={transactionsStyle.completedTransfer} onPress={() => this.clickToCompleted(item)} disabled={(item.status === 'pending' || item.status === 'waiting')}>
                       <View style={transactionsStyle.completedTransferHeader}>

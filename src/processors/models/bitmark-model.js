@@ -700,7 +700,7 @@ const doGetLimitedEdition = async (issuer, assetId) => {
   });
 };
 
-const doPostClaimRequest = (jwt, assetId, toAccount, ) => {
+const doPostIncomingClaimRequest = (jwt, assetId, toAccount, ) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     fetch(`${config.mobile_server_url}/api/claim_requests`, {
@@ -715,13 +715,16 @@ const doPostClaimRequest = (jwt, assetId, toAccount, ) => {
       })
     }).then((response) => {
       statusCode = response.status;
-      if (statusCode < 400) {
+      if (statusCode < 500) {
         return response.json();
       }
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doPostClaimRequest error :` + JSON.stringify(data)));
+        let error = new Error(`doPostClaimRequest error :` + JSON.stringify(data));
+        error.data = data;
+        error.statusCode = statusCode;
+        return reject(error);
       }
       resolve(data);
     }).catch(reject);
@@ -748,21 +751,26 @@ const doGetClaimRequest = (jwt) => {
       if (statusCode >= 400) {
         return reject(new Error(`doGetClaimRequest error :` + JSON.stringify(data)));
       }
-      resolve(data.claim_requests);
+      resolve({
+        incoming_claim_requests: data.claim_requests.filter(item => item.status === 'pending'),
+        outgoing_claim_requests: data.my_submitted_claim_requests
+      });
     }).catch(reject);
   });
 };
 
-const doDeleteClaimRequests = (jwt, id) => {
+
+const doSubmitIncomingClaimRequests = (jwt, statuses) => {
   return new Promise((resolve, reject) => {
     let statusCode;
-    fetch(`${config.mobile_server_url}/api/claim_requests/${id}`, {
-      method: 'DELETE',
+    fetch(`${config.mobile_server_url}/api/claim_requests`, {
+      method: 'PATCH',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + jwt,
-      }
+      },
+      body: JSON.stringify({ statuses })
     }).then((response) => {
       statusCode = response.status;
       if (statusCode < 400) {
@@ -771,7 +779,7 @@ const doDeleteClaimRequests = (jwt, id) => {
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doDeleteClaimRequests error :` + JSON.stringify(data)));
+        return reject(new Error(`doSubmitIncomingClaimRequests error :` + JSON.stringify(data)));
       }
       resolve(data);
     }).catch(reject);
@@ -861,9 +869,9 @@ let BitmarkModel = {
   doUploadMusicThumbnail,
   doGetTotalBitmarksOfAssetOfIssuer,
   doGetLimitedEdition,
-  doPostClaimRequest,
+  doPostIncomingClaimRequest,
   doGetClaimRequest,
-  doDeleteClaimRequests,
+  doSubmitIncomingClaimRequests,
   doPostAwaitTransfer,
   doGetAwaitTransfers,
 };

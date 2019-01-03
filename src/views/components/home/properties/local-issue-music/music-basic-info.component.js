@@ -89,6 +89,9 @@ export class MusicBasicInfoComponent extends React.Component {
         switch (buttonIndex) {
           case 1: {
             ImagePicker.launchCamera({}, async (response) => {
+              if (response.error || response.didCancel) {
+                return;
+              }
               if (response.fileSize > 100 * 1024 * 1024) {
                 Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
                 return;
@@ -109,6 +112,9 @@ export class MusicBasicInfoComponent extends React.Component {
           }
           case 2: {
             ImagePicker.launchImageLibrary({}, async (response) => {
+              if (response.error || response.didCancel) {
+                return;
+              }
               if (response.fileSize > 100 * 1024 * 1024) {
                 Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
                 return;

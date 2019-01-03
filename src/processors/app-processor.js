@@ -7,7 +7,7 @@ import { AccountService, BitmarkService, EventEmitterService, TransactionService
 import { DataProcessor } from './data-processor';
 
 import { config } from 'src/configs';
-import { compareVersion } from 'src/utils';
+import { compareVersion, runPromiseWithoutError } from 'src/utils';
 
 registerTasks();
 // ================================================================================================
@@ -65,9 +65,15 @@ const executeTask = (taskKey, data) => {
 // ================================================================================================
 const doCreateNewAccount = async (enableTouchId) => {
   if (enableTouchId && Platform.OS === 'ios' && config.isIPhoneX) {
-    await FaceTouchId.authenticate();
+    let result = await runPromiseWithoutError(FaceTouchId.authenticate());
+    if (result && result.error) {
+      return null;
+    }
   }
-  await AccountModel.doCreateAccount(enableTouchId);
+  let result = await runPromiseWithoutError(AccountModel.doCreateAccount(enableTouchId));
+  if (result && result.error) {
+    return null;
+  }
   return await processing(DataProcessor.doCreateAccount());
 };
 
@@ -178,11 +184,11 @@ const doDecentralizedIssuance = async (token, encryptionKey, expiredTime) => {
 const doDecentralizedTransfer = async (token, expiredTime) => {
   return executeTask('doDecentralizedTransfer', { token, expiredTime });
 };
-const doProcessClaimRequest = (claimRequest, isAccept) => {
-  return executeTask('doProcessClaimRequest', { claimRequest, isAccept });
+const doProcessIncomingClaimRequest = (incomingClaimRequest, isAccept) => {
+  return executeTask('doProcessIncomingClaimRequest', { incomingClaimRequest, isAccept });
 };
-const doSendClaimRequest = async (asset) => {
-  return executeTask('doSendClaimRequest', { asset });
+const doSendIncomingClaimRequest = async (asset) => {
+  return executeTask('doSendIncomingClaimRequest', { asset });
 };
 const doGetAssetToClaim = async (assetId) => {
   return executeTask('doGetAssetToClaim', { assetId });
@@ -234,8 +240,8 @@ let AppProcessor = {
   doGetAllTransfersOffers,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
-  doProcessClaimRequest,
-  doSendClaimRequest,
+  doProcessIncomingClaimRequest,
+  doSendIncomingClaimRequest,
   doGetAssetToClaim,
 
   doStartBackgroundProcess,

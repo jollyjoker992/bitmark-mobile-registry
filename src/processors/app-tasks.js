@@ -5,6 +5,7 @@ import { AccountModel, FaceTouchId, } from './models';
 import { EventEmitterService, } from './services'
 import { DataProcessor } from './data-processor';
 import { config } from 'src/configs';
+import { runPromiseWithoutError } from 'src/utils';
 
 // ================================================================================================
 // ================================================================================================
@@ -59,9 +60,15 @@ let submitting = (promise, processingData) => {
 
 const doLogin = async ({ phraseWords, enableTouchId }) => {
   if (enableTouchId && Platform.OS === 'ios' && config.isIPhoneX) {
-    await FaceTouchId.authenticate();
+    let result = await runPromiseWithoutError(FaceTouchId.authenticate());
+    if (result && result.error) {
+      return null;
+    }
   }
-  await AccountModel.doLogin(phraseWords, enableTouchId);
+  let result = await runPromiseWithoutError(AccountModel.doLogin(phraseWords, enableTouchId));
+  if (result && result.error) {
+    return null;
+  }
   return await processing(DataProcessor.doLogin());
 };
 
@@ -137,11 +144,11 @@ const doDecentralizedTransfer = async ({ token, expiredTime }) => {
   }
   return await processing(DataProcessor.doDecentralizedTransfer(token));
 };
-const doProcessClaimRequest = async ({ claimRequest, isAccept }) => {
-  return await processing(DataProcessor.doProcessClaimRequest(claimRequest, isAccept));
+const doProcessIncomingClaimRequest = async ({ incomingClaimRequest, isAccept }) => {
+  return await processing(DataProcessor.doProcessIncomingClaimRequest(incomingClaimRequest, isAccept));
 };
-const doSendClaimRequest = async ({ asset }) => {
-  return await processing(DataProcessor.doSendClaimRequest(asset));
+const doSendIncomingClaimRequest = async ({ asset }) => {
+  return await processing(DataProcessor.doSendIncomingClaimRequest(asset));
 };
 const doGetAssetToClaim = async ({ assetId }) => {
   return await processing(DataProcessor.doGetAssetToClaim(assetId));
@@ -171,8 +178,8 @@ let AppTasks = {
   doSignInOnWebApp,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
-  doProcessClaimRequest,
-  doSendClaimRequest,
+  doProcessIncomingClaimRequest,
+  doSendIncomingClaimRequest,
   doGetAssetToClaim,
 };
 

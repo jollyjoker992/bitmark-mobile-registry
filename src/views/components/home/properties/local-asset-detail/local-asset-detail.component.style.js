@@ -81,8 +81,7 @@ export default StyleSheet.create({
   },
   editionInfo: {
     marginLeft: convertWidth(19),
-    marginTop: 5,
-    marginBottom: 10,
+    paddingTop: 5, paddingBottom: 5,
     fontFamily: 'Avenir-Medium', fontSize: 14, fontWeight: '900', color: '#0060F2',
   },
   assetName: {
@@ -95,6 +94,7 @@ export default StyleSheet.create({
     width: convertWidth(337),
   },
   assetCreatorRow: {
+    marginTop: 5,
     flexDirection: 'column',
     marginBottom: 10,
     marginLeft: convertWidth(19),

@@ -16,10 +16,6 @@
 #import <React/RCTPushNotificationManager.h>
 #import <React/RNSentry.h> 
 
-#ifdef HOCKEYAPP
-  @import HockeySDK;
-#endif
-
 
 @implementation AppDelegate
 
@@ -38,17 +34,6 @@
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-  
-#ifdef HOCKEYAPP
-  NSString *hockeyAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"HockeyAppID"];
-  [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:hockeyAppID];
-#ifdef HOCKEYAPP_UPDATE
-  [[BITHockeyManager sharedHockeyManager].updateManager setUpdateSetting:BITUpdateCheckStartup];
-#endif
-  [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus: BITCrashManagerStatusAutoSend];
-  [[BITHockeyManager sharedHockeyManager] startManager];
-  [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
-#endif
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

@@ -55,7 +55,7 @@ let checkDisplayModal = () => {
         CacheData.keyIndexModalDisplaying = keyIndex;
         break;
       } else if (keyIndex === mapModalDisplayKeyIndex.claim_asset && CacheData.mountedRouter) {
-        Actions.musicSentClaimRequest(mapModalDisplayData[keyIndex]);
+        Actions.musicSentIncomingClaimRequest(mapModalDisplayData[keyIndex]);
         CacheData.keyIndexModalDisplaying = keyIndex;
         break;
       }
@@ -133,16 +133,22 @@ const doCheckNewIftttInformation = async (iftttInformation, isLoadingAllUserData
   }
 };
 
-const doCheckClaimRequests = async (claimRequests, isLoadingAllUserData) => {
+const doCheckClaimRequests = async (claimRequests) => {
   if (claimRequests) {
     let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
-    for (let claimRequest of claimRequests) {
-      claimRequest.asset = localAssets.find(asset => asset.id === claimRequest.asset_id);
+    for (let incomingClaimRequest of claimRequests.incoming_claim_requests) {
+      incomingClaimRequest.asset = localAssets.find(asset => asset.id === incomingClaimRequest.asset_id);
     }
+    for (let outgoingClaimRequest of claimRequests.outgoing_claim_requests) {
+      outgoingClaimRequest.asset = await doGetAssetToClaim(outgoingClaimRequest.asset_id);
+    }
+
+    claimRequests.incoming_claim_requests = (claimRequests.incoming_claim_requests || []).sort((a, b) => moment(a.created_at).toDate().getTime() - moment(b.created_at).toDate().getTime());
+    claimRequests.outgoing_claim_requests = (claimRequests.outgoing_claim_requests || []).sort((a, b) => moment(a.created_at).toDate().getTime() - moment(b.created_at).toDate().getTime());
+
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST, claimRequests);
-    if (!isLoadingAllUserData) {
-      await doGenerateTransactionActionRequiredData(claimRequests);
-    }
+    await doGenerateTransactionActionRequiredData(claimRequests.incoming_claim_requests);
+    await doGenerateTransactionHistoryData(claimRequests.outgoing_claim_requests);
   }
 }
 
@@ -299,7 +305,7 @@ const runGetClaimRequestInBackground = () => {
       return;
     }
     BitmarkModel.doGetClaimRequest(CacheData.jwt).then(claimRequests => {
-      console.log('runOnBackground  runGetClaimRequestInBackground success');
+      console.log('runOnBackground  runGetClaimRequestInBackground success', claimRequests);
       queueGetClaimRequests.forEach(queueResolve => queueResolve(claimRequests));
       queueGetClaimRequests = [];
     }).catch(error => {
@@ -471,8 +477,7 @@ const runOnBackground = async () => {
     await doParallel();
 
     let claimRequests = await runGetClaimRequestInBackground();
-    await doCheckClaimRequests(claimRequests, true);
-    await doGenerateTransactionActionRequiredData();
+    await doCheckClaimRequests(claimRequests);
   }
   console.log('runOnBackground done ====================================');
 };
@@ -568,7 +573,7 @@ const doCreateAccount = async () => {
   let signatureData = await CommonModel.doCreateSignatureData();
   await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
   let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
-  await AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]);
+  await runPromiseWithoutError(AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]));
   await CommonModel.doTrackEvent({
     event_name: 'registry_create_new_account',
     account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
@@ -582,7 +587,7 @@ const doLogin = async () => {
   let signatureData = await CommonModel.doCreateSignatureData();
   await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
   let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
-  await AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]);
+  await runPromiseWithoutError(AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]));
   return userInformation;
 };
 
@@ -686,7 +691,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     if (testRecoveryPhaseActionRequired) {
       actionRequired.unshift({
         key: actionRequired.length,
-        type: ActionTypes.test_write_down_recovery_phase,
+        type: ActionRequireTypes.test_write_down_recovery_phase,
         typeTitle: global.i18n.t("DataProcessor_securityAlert"),
         timestamp: moment(new Date(testRecoveryPhaseActionRequired.timestamp)),
       });
@@ -979,10 +984,10 @@ const doTransferBitmark = async (bitmarkId, receiver) => {
   if (asset && asset.filePath) {
     let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
     await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted`);
-    let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/${filename}`;
+    let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/temp.encrypted`;
     let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(receiver);
     let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptionPublicKey, encryptedFilePath);
-    let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, receiver, encryptedFilePath, sessionData);
+    let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, receiver, encryptedFilePath, sessionData, filename);
     console.log('uploadResult :', uploadResult);
   }
 
@@ -1073,13 +1078,13 @@ const doGetIftttInformation = async () => {
 // ======================================================================================================================================================================================
 // ======================================================================================================================================================================================
 // ======================================================================================================================================================================================
-const ActionTypes = {
+const ActionRequireTypes = {
   transfer: 'transfer',
   claim_request: 'claim_request',
   ifttt: 'ifttt',
   test_write_down_recovery_phase: 'test_write_down_recovery_phase',
 };
-const doGenerateTransactionActionRequiredData = async (claimRequests) => {
+const doGenerateTransactionActionRequiredData = async (incomingClaimRequests) => {
   let actionRequired;
   let totalTasks = 0;
   let transferOffers = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSFER_OFFERS)) || {};
@@ -1090,7 +1095,7 @@ const doGenerateTransactionActionRequiredData = async (claimRequests) => {
         actionRequired.push({
           key: actionRequired.length,
           transferOffer: item,
-          type: ActionTypes.transfer,
+          type: ActionRequireTypes.transfer,
           typeTitle: global.i18n.t("DataProcessor_signToReceiveBitmark"),
           timestamp: moment(item.created_at),
         });
@@ -1103,7 +1108,7 @@ const doGenerateTransactionActionRequiredData = async (claimRequests) => {
   if (iftttInformation && iftttInformation.bitmarkFiles) {
     iftttInformation.bitmarkFiles.forEach(item => {
       item.key = actionRequired.length;
-      item.type = ActionTypes.ifttt;
+      item.type = ActionRequireTypes.ifttt;
       item.typeTitle = global.i18n.t("DataProcessor_issuanceRequest");
       item.timestamp = item.assetInfo.timestamp;
       actionRequired.push(item);
@@ -1111,21 +1116,22 @@ const doGenerateTransactionActionRequiredData = async (claimRequests) => {
     });
   }
 
-  claimRequests = claimRequests || (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST)) || [];
-  claimRequests = claimRequests.sort((a, b) => moment(a.created_at).toDate().getTime() - moment(b.created_at).toDate().getTime());
-  console.log('claimRequests :', claimRequests);
-  if (claimRequests && claimRequests.length > 0) {
-    (claimRequests || []).forEach((claimRequest, index) => {
-      claimRequest.index = (claimRequest.asset.issuedBitmarks ? claimRequest.asset.issuedBitmarks.length : 0) + index + 1,
-        actionRequired.push({
-          key: actionRequired.length,
-          claimRequest: claimRequest,
-          type: ActionTypes.claim_request,
-          typeTitle: global.i18n.t("DataProcessor_signToTransferBitmark"),
-          // typeTitle: 'SIGN TO TRANSFER BITMARK', //TODO
-          timestamp: moment(claimRequest.created_at),
-        });
-      totalTasks++;
+  incomingClaimRequests = incomingClaimRequests || (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST).incoming_claim_requests) || [];
+  if (incomingClaimRequests && incomingClaimRequests.length > 0) {
+    let mapCount = {};
+    (incomingClaimRequests || []).forEach((incomingClaimRequest) => {
+      if (incomingClaimRequest.status === 'pending') {
+        mapCount[incomingClaimRequest.asset.id] = mapCount[incomingClaimRequest.asset.id] ? (mapCount[incomingClaimRequest.asset.id] + 1) : 1;
+        incomingClaimRequest.index = (incomingClaimRequest.asset.totalIssuedBitmarks || 1) - 1 + mapCount[incomingClaimRequest.asset.id],
+          actionRequired.push({
+            key: actionRequired.length,
+            incomingClaimRequest: incomingClaimRequest,
+            type: ActionRequireTypes.claim_request,
+            typeTitle: global.i18n.t("DataProcessor_signToTransferBitmark"),
+            timestamp: moment(incomingClaimRequest.created_at),
+          });
+        totalTasks++;
+      }
     });
   }
 
@@ -1144,7 +1150,7 @@ const doGenerateTransactionActionRequiredData = async (claimRequests) => {
   if (testRecoveryPhaseActionRequired) {
     actionRequired.unshift({
       key: actionRequired.length,
-      type: ActionTypes.test_write_down_recovery_phase,
+      type: ActionRequireTypes.test_write_down_recovery_phase,
       typeTitle: global.i18n.t("DataProcessor_securityAlert"),
       timestamp: moment(new Date(testRecoveryPhaseActionRequired.timestamp)),
     });
@@ -1166,25 +1172,39 @@ const doGenerateTransactionActionRequiredData = async (claimRequests) => {
   NotificationService.setApplicationIconBadgeNumber(totalTasks || 0);
 };
 
-const doGenerateTransactionHistoryData = async () => {
+const TransactionHistoryTypes = {
+  issuance: {
+    title: 'ISSUANCE',
+    type: '',
+  },
+  transfer: {
+    title: 'SEND',
+    type: 'P2P TRANSFER'
+  },
+  claim_request: {
+    title: 'CLAIM REQUEST',
+    type: '',
+  }
+};
+const doGenerateTransactionHistoryData = async (outgoingClaimRequest) => {
   let transactions = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS)) || [];
 
   let completed;
   if (transactions) {
     completed = [];
     transactions.forEach((item) => {
-      let title = 'ISSUANCE';
-      let type = '';
+      let title = TransactionHistoryTypes.issuance.title;
+      let type = TransactionHistoryTypes.issuance.title.type;
       let to = item.to;
       let status = item.status;
       let mapIssuance = [];
 
       if (item.to) {
-        title = 'SEND';
-        type = 'P2P TRANSFER';
+        title = TransactionHistoryTypes.transfer.title;
+        type = TransactionHistoryTypes.transfer.type;
       }
 
-      if (title === 'ISSUANCE') {
+      if (title === TransactionHistoryTypes.issuance.title) {
         if (mapIssuance[item.assetId] && mapIssuance[item.assetId][item.blockNumber]) {
           return;
         }
@@ -1210,6 +1230,17 @@ const doGenerateTransactionHistoryData = async () => {
       });
     });
   }
+
+  outgoingClaimRequest = outgoingClaimRequest || ((await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST)).outgoing_claim_requests) || [];
+  outgoingClaimRequest.forEach(item => {
+    completed.push({
+      title: TransactionHistoryTypes.claim_request.title,
+      type: TransactionHistoryTypes.claim_request.type,
+      outgoingClaimRequest: item,
+      timestamp: item.created_at
+    });
+  });
+
   completed = completed ? completed.sort((a, b) => {
     if (!a || !a.timestamp) return -1;
     if (!b || !b.timestamp) return 1;
@@ -1237,7 +1268,7 @@ const doGetAllTransfersOffers = async () => {
   let { actionRequired } = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED)) || [];
   let transferOffers = [];
   for (let item of actionRequired) {
-    if (item.type === ActionTypes.transfer) {
+    if (item.type === ActionRequireTypes.transfer) {
       transferOffers.push(item.transferOffer);
     }
   }
@@ -1356,35 +1387,37 @@ const doDisplayedWhatNewInformation = async () => {
   updateModal(mapModalDisplayKeyIndex.what_new, true);
 };
 
-const doProcessClaimRequest = async (claimRequest, isAccept) => {
+const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => {
   if (isAccept) {
-    let asset = claimRequest.asset;
+    let asset = incomingClaimRequest.asset;
     if (asset && asset.filePath) {
       let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
       await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted`);
-      let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/${filename}`;
-      let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(claimRequest.from);
+      let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);
+      let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/temp.encrypted`;
       let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptionPublicKey, encryptedFilePath);
-      let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, claimRequest.from, encryptedFilePath, sessionData);
+      let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, incomingClaimRequest.from, encryptedFilePath, sessionData, filename);
       console.log('uploadResult:', uploadResult);
     }
-    let result = await BitmarkSDK.giveAwayBitmark(claimRequest.asset.id, claimRequest.from);
+    let result = await BitmarkSDK.giveAwayBitmark(incomingClaimRequest.asset.id, incomingClaimRequest.from);
     let resultPost = await BitmarkModel.doPostAwaitTransfer(CacheData.jwt, result.bitmarkId, result.transferPayload);
     console.log('doPostAwaitTransfer result:', resultPost);
   }
-  await BitmarkModel.doDeleteClaimRequests(CacheData.jwt, claimRequest.id);
+  await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, isAccept ? { accepted: [incomingClaimRequest.id] } : { rejected: [incomingClaimRequest.id] });
   let claimRequests = await runGetClaimRequestInBackground();
   await doCheckClaimRequests(claimRequests);
   return true;
 };
 
-const doSendClaimRequest = async (asset) => {
-  let result = await BitmarkModel.doPostClaimRequest(CacheData.jwt, asset.id, asset.registrant);
-  updateModal(mapModalDisplayKeyIndex.claim_asset);
-  return result;
+const doSendIncomingClaimRequest = async (asset) => {
+  return await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
 };
 
-const doViewSendClaimRequest = async (asset) => {
+const doMarkDoneSendClaimRequest = async () => {
+  updateModal(mapModalDisplayKeyIndex.claim_asset);
+};
+
+const doViewSendIncomingClaimRequest = async (asset) => {
   updateModal(mapModalDisplayKeyIndex.claim_asset, { asset });
 };
 
@@ -1435,9 +1468,10 @@ const DataProcessor = {
   doGetTrackingBitmarkInformation,
   doGetIftttInformation,
 
-  doProcessClaimRequest,
-  doSendClaimRequest,
-  doViewSendClaimRequest,
+  doProcessIncomingClaimRequest,
+  doSendIncomingClaimRequest,
+  doViewSendIncomingClaimRequest,
+  doMarkDoneSendClaimRequest,
   doReloadClaimAssetRequest,
   doGetAssetToClaim,
 
@@ -1457,7 +1491,9 @@ const DataProcessor = {
   setCodePushUpdated,
   doCheckHaveCodePushUpdate,
   doMarkDisplayedWhatNewInformation,
-  doDisplayedWhatNewInformation
+  doDisplayedWhatNewInformation,
+  ActionRequireTypes,
+  TransactionHistoryTypes,
 };
 
 export { DataProcessor };
