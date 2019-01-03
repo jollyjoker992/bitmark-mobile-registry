@@ -16,7 +16,7 @@ import { config, constant } from 'src/configs';
 import { AssetsStore } from 'src/views/stores';
 let currentSize = Dimensions.get('window');
 
-let SubTabs = {
+const SubTabs = {
   local: 'Yours',
   tracking: 'TRACKED',
   global: 'Global',
@@ -27,12 +27,6 @@ let loadingDataWhenScroll = false;
 class PrivateAssetsComponent extends React.Component {
   constructor(props) {
     super(props);
-
-    SubTabs = {
-      local: global.i18n.t("AssetsComponent_yours"),
-      tracking: global.i18n.t("AssetsComponent_tracked"),
-      global: global.i18n.t("AssetsComponent_global"),
-    };
 
     this.switchSubTab = this.switchSubTab.bind(this);
     this.addProperty = this.addProperty.bind(this);
