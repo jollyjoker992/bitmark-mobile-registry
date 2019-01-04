@@ -60,7 +60,6 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Black',
     fontWeight: '900',
     fontSize: 14,
-    lineHeight: 16,
     textAlign: 'center',
     flexDirection: 'row',
     alignItems: 'center',
@@ -90,7 +89,6 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Black',
     fontWeight: '900',
     fontSize: 17,
-    lineHeight: 19,
     color: '#0060F2'
   },
   messageNoAssetContent: {
@@ -99,7 +97,6 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Light',
     fontWeight: '300',
     fontSize: 17,
-    lineHeight: 19,
   },
   addFirstPropertyButton: {
     flexDirection: 'row',
@@ -150,14 +147,12 @@ export default StyleSheet.create({
   assetCreatedAt: {
     fontFamily: 'Andale Mono',
     fontSize: 13,
-    lineHeight: 16,
     width: '100%',
   },
   assetName: {
     fontFamily: 'Avenir Black',
     fontWeight: '900',
     fontSize: 14,
-    lineHeight: 16,
     width: '100%',
     marginTop: 10,
   },
@@ -194,7 +189,6 @@ export default StyleSheet.create({
     fontFamily: 'Andale Mono',
     fontWeight: '500',
     fontSize: 14,
-    lineHeight: 16,
     width: convertWidth(200),
   },
   assetBitmarkTitle: {
@@ -249,14 +243,12 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Black',
     fontWeight: '900',
     fontSize: 14,
-    lineHeight: 16,
     width: '100%',
   },
   trackingRowUpdated: {
     marginTop: 10,
     fontFamily: 'Andale Mono',
     fontSize: 14,
-    lineHeight: 16,
     color: '#0060F2',
     width: '100%',
   },
@@ -271,7 +263,6 @@ export default StyleSheet.create({
   trackingRowCurrentOwnerText: {
     fontFamily: 'Andale Mono',
     fontSize: 14,
-    lineHeight: 16,
     color: '#0060F2',
   },
 

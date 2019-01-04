@@ -39,7 +39,6 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Black',
     fontWeight: '900',
     fontSize: 16,
-    lineHeight: 19,
     color: '#0060F2',
     textAlign: 'right',
   },
@@ -56,7 +55,6 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Black',
     fontWeight: '900',
     fontSize: 16,
-    lineHeight: 19,
     color: '#0060F2',
     textAlign: 'right',
   },
@@ -64,7 +62,6 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Black',
     fontWeight: '600',
     fontSize: 8,
-    lineHeight: 9,
     fontStyle: 'italic',
     color: '#0060F2',
     textAlign: 'right',
@@ -88,7 +85,6 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Black',
     fontWeight: '900',
     fontSize: 18,
-    lineHeight: 21,
     marginLeft: convertWidth(19),
     marginTop: 34,
     width: convertWidth(337),
@@ -105,13 +101,11 @@ export default StyleSheet.create({
     fontFamily: 'Andale Mono',
     fontWeight: '500',
     fontSize: 13,
-    lineHeight: 16,
   },
   assetCreateAt: {
     fontFamily: 'Andale Mono',
     fontWeight: '400',
     fontSize: 13,
-    lineHeight: 16,
     width: convertWidth(240),
   },
   bottomAssetNameBar: {
@@ -146,7 +140,6 @@ export default StyleSheet.create({
   bitmarkLabel: {
     fontFamily: 'Avenir Black',
     fontSize: 14,
-    lineHeight: 16,
     fontWeight: '900',
     marginLeft: convertWidth(19),
     marginTop: 20,
@@ -165,7 +158,6 @@ export default StyleSheet.create({
   bitmarksHeaderLabel: {
     fontFamily: 'Andale Mono',
     fontSize: 13,
-    lineHeight: 15,
     width: convertWidth(117),
     backgroundColor: '#F5F5F5',
     marginLeft: 2,
@@ -219,7 +211,6 @@ export default StyleSheet.create({
   bitmarkTransferButtonText: {
     fontFamily: 'Andale Mono',
     fontSize: 13,
-    lineHeight: 16,
     color: '#0060F2'
   },
 
