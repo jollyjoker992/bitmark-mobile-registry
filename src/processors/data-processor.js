@@ -3,6 +3,7 @@ import moment from 'moment';
 import { merge } from 'lodash';
 import { Actions } from 'react-native-router-flux';
 import { Sentry } from 'react-native-sentry';
+import base58 from 'bs58';
 
 import {
   EventEmitterService,
@@ -14,7 +15,7 @@ import {
 } from './services';
 import {
   CommonModel, AccountModel, UserModel, BitmarkSDK,
-  IftttModel, BitmarkModel, NotificationModel
+  IftttModel, BitmarkModel, NotificationModel, iCloudSyncAdapter
 } from './models';
 
 import {
@@ -184,6 +185,7 @@ const doCheckNewBitmarks = async (localAssets) => {
   if (localAssets) {
     for (let asset of localAssets) {
       asset.filePath = await detectLocalAssetFilePath(asset.id);
+      await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(asset));
       if (asset.metadata && asset.metadata.type === constant.asset.type.music) {
         asset.thumbnailPath = await detectMusicThumbnailPath(asset.id);
         let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(CacheData.userInformation.bitmarkAccountNumber, asset.id);
@@ -649,16 +651,57 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
   }
 
   if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
+    let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     // set the user context
     if (!__DEV__) {
-      Sentry.setUserContext({ userID: CacheData.userInformation.bitmarkAccountNumber, });
+      Sentry.setUserContext({ userID: bitmarkAccountNumber, });
     }
     configNotification();
     await checkAppNeedResetLocalData(appInfo);
     await LocalFileService.moveFilesFromLocalStorageToSharedStorage();
 
+    iCloudSyncAdapter.oniCloudFileChanged((mapFiles) => {
+      if (this.iCloudFileChangedTimeout) {
+        clearTimeout(this.iCloudFileChangedTimeout)
+      }
+
+      this.iCloudFileChangedTimeout = setTimeout(
+        () => {
+          console.log('mapFiles:', Object.keys(mapFiles).length);
+          for (let key in mapFiles) {
+            let keyList = key.split('_');
+            let assetId;
+            if (keyList[0] === bitmarkAccountNumber) {
+              let keyFilePath;
+              if (keyList[1] === 'assets') {
+                assetId = base58.decode(keyList[2]).toString('hex');
+                keyFilePath = key.replace(`${bitmarkAccountNumber}_assets_${keyList[2]}_`, `${bitmarkAccountNumber}/assets/${assetId}/downloaded/`);
+              } else if (keyList[1] === 'thumbnail') {
+                assetId = base58.decode(keyList[2]).toString('hex');
+                keyFilePath = key.replace(`${bitmarkAccountNumber}_thumbnail_${keyList[2]}_`, `${bitmarkAccountNumber}/assets/${assetId}/`);
+              }
+              let doSyncFile = async () => {
+                let filePath = mapFiles[key];
+                let downloadedFile = `${FileUtil.SharedGroupDirectory}/${keyFilePath}`;
+                let existFileICloud = await FileUtil.exists(filePath);
+                let existFileLocal = await FileUtil.exists(downloadedFile);
+                if (existFileICloud && !existFileLocal) {
+                  let downloadedFolder = downloadedFile.substring(0, downloadedFile.lastIndexOf('/'));
+                  await FileUtil.mkdir(downloadedFolder);
+                  await FileUtil.copyFile(filePath, downloadedFile);
+                }
+              };
+              runPromiseWithoutError(doSyncFile());
+            }
+          }
+        },
+        1000 * 15 // 15s
+      );
+    });
+    iCloudSyncAdapter.syncCloud();
+
     let signatureData = await CommonModel.doCreateSignatureData();
-    let result = await AccountModel.doRegisterJWT(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+    let result = await AccountModel.doRegisterJWT(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
     CacheData.jwt = result.jwt_token;
 
     if (justCreatedBitmarkAccount) {
@@ -687,7 +730,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     let totalTasks = 0;
     actionRequired.forEach(item => totalTasks += (item.number ? item.number : 1));
     // Add "Write Down Your Recovery Phrase" action required which was created when creating account if any
-    let testRecoveryPhaseActionRequired = await CommonModel.doGetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${CacheData.userInformation.bitmarkAccountNumber}`);
+    let testRecoveryPhaseActionRequired = await CommonModel.doGetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${bitmarkAccountNumber}`);
     if (testRecoveryPhaseActionRequired) {
       actionRequired.unshift({
         key: actionRequired.length,
