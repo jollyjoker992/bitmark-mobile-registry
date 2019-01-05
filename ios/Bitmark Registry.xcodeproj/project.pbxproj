@@ -110,6 +110,9 @@
 		58ADB52C211A8D3C005BBA73 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58ADB52A211A8CED005BBA73 /* CloudKit.framework */; };
 		58B4A9B720B6C89A000FF769 /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F179A21C20AF9760002D5539 /* libKCKeepAwake.a */; };
 		58C9513920202AF80050A9D4 /* TouchID.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C9510D20202AF70050A9D4 /* TouchID.m */; };
+		58EEDA0E21E09195006C42FD /* iCloudSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 58EED9D521E09195006C42FD /* iCloudSync.m */; };
+		58EEDA0F21E09195006C42FD /* iCloudSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 58EED9D521E09195006C42FD /* iCloudSync.m */; };
+		58EEDA1021E09195006C42FD /* iCloudSync.m in Sources */ = {isa = PBXBuildFile; fileRef = 58EED9D521E09195006C42FD /* iCloudSync.m */; };
 		58FC1E56201B21CC00F60AF9 /* BitmarkSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC1E55201B21CC00F60AF9 /* BitmarkSDK.swift */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		72A0ED28C921482083D1D737 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E68EEEE1542C435DA913552D /* libRNFS.a */; };
@@ -641,6 +644,8 @@
 		58C9510C20202AF70050A9D4 /* TouchID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchID.h; sourceTree = "<group>"; };
 		58C9510D20202AF70050A9D4 /* TouchID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TouchID.m; sourceTree = "<group>"; };
 		58CB488F201EC5670058B364 /* Bitmark.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Bitmark.entitlements; path = Bitmark/Bitmark.entitlements; sourceTree = "<group>"; };
+		58EED9D521E09195006C42FD /* iCloudSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCloudSync.m; sourceTree = "<group>"; };
+		58EED9D621E09195006C42FD /* iCloudSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCloudSync.h; sourceTree = "<group>"; };
 		58FC1E54201B21CC00F60AF9 /* Bitmark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bitmark-Bridging-Header.h"; sourceTree = "<group>"; };
 		58FC1E55201B21CC00F60AF9 /* BitmarkSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitmarkSDK.swift; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -1056,6 +1061,15 @@
 			path = TouchID;
 			sourceTree = "<group>";
 		};
+		58EED9D421E09195006C42FD /* iCloudSync */ = {
+			isa = PBXGroup;
+			children = (
+				58EED9D621E09195006C42FD /* iCloudSync.h */,
+				58EED9D521E09195006C42FD /* iCloudSync.m */,
+			);
+			path = iCloudSync;
+			sourceTree = "<group>";
+		};
 		58FC1DF5201B14CB00F60AF9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1077,6 +1091,7 @@
 		58FC1E27201B21AC00F60AF9 /* RNModules */ = {
 			isa = PBXGroup;
 			children = (
+				58EED9D421E09195006C42FD /* iCloudSync */,
 				58C9510B20202AF70050A9D4 /* TouchID */,
 				58FC1E53201B21B900F60AF9 /* BitmarkSDK */,
 			);
@@ -2188,6 +2203,7 @@
 				5842C2A721B91F930044B5A9 /* Chacha20.swift in Sources */,
 				58C9513920202AF80050A9D4 /* TouchID.m in Sources */,
 				58A59F1921BA5B1300FB4B02 /* AssetEncryption.swift in Sources */,
+				58EEDA0E21E09195006C42FD /* iCloudSync.m in Sources */,
 				58FC1E56201B21CC00F60AF9 /* BitmarkSDK.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				589626E9201B28380026C4A5 /* BitmarkSDKBridge.m in Sources */,
@@ -2203,6 +2219,7 @@
 				5842C2A921B91F930044B5A9 /* Chacha20.swift in Sources */,
 				583BABFC216F51600015E3A0 /* TouchID.m in Sources */,
 				58A59F1B21BA5B1300FB4B02 /* AssetEncryption.swift in Sources */,
+				58EEDA1021E09195006C42FD /* iCloudSync.m in Sources */,
 				583BABFD216F51600015E3A0 /* BitmarkSDK.swift in Sources */,
 				583BABFE216F51600015E3A0 /* AppDelegate.m in Sources */,
 				583BABFF216F51600015E3A0 /* BitmarkSDKBridge.m in Sources */,
@@ -2218,6 +2235,7 @@
 				5842C2A821B91F930044B5A9 /* Chacha20.swift in Sources */,
 				58908A8C20A18A5A00C0064A /* TouchID.m in Sources */,
 				58A59F1A21BA5B1300FB4B02 /* AssetEncryption.swift in Sources */,
+				58EEDA0F21E09195006C42FD /* iCloudSync.m in Sources */,
 				58908A9520A18A5A00C0064A /* BitmarkSDK.swift in Sources */,
 				58908A9720A18A5A00C0064A /* AppDelegate.m in Sources */,
 				58908A9820A18A5A00C0064A /* BitmarkSDKBridge.m in Sources */,
