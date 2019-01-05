@@ -14,7 +14,9 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 #import <React/RCTPushNotificationManager.h>
-#import <React/RNSentry.h> 
+#import <React/RCTLog.h>
+#import <React/RNSentry.h>
+@import iCloudDocumentSync;
 
 
 @implementation AppDelegate
@@ -40,6 +42,15 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  // iCloud sync
+  [[iCloud sharedCloud] setupiCloudDocumentSyncWithUbiquityContainer:nil];
+  if ([[iCloud sharedCloud] checkCloudAvailability]) {
+    RCTLog(@"iCloud is available on this device");
+  }
+  else {
+    RCTLog(@"iCloud is not available on this device");
+  }
   
   return YES;
 }
