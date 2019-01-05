@@ -5,6 +5,7 @@ def pods
     
     pod 'BitmarkSDK'
     pod 'KeychainAccess'
+    pod 'iCloudDocumentSync'
     
 end
 
