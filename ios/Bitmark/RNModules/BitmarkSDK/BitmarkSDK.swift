@@ -125,6 +125,46 @@ class BitmarkSDKWrapper: NSObject {
     }
   }
   
+  @objc(registerNewAsset:::)
+  func registerNewAsset(_ params: [String: Any], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) {
+    do {
+      guard let account = self.account else {
+        reject(nil, BitmarkSDKWrapper.accountNotFound, nil)
+        return
+      }
+      
+      guard let fileURL = params["url"] as? String,
+        let name = params["property_name"] as? String,
+        let metadata = params["metadata"] as? [String: String] else {
+          reject(nil, "Invalid fingerprint", nil)
+          return
+      }
+      
+      // Register asset
+      var assetParams = try Asset.newRegistrationParams(name: name,
+                                                        metadata: metadata)
+      
+      try assetParams.setFingerprint(fromFileURL: fileURL)
+      try assetParams.sign(account)
+      let assetId = try Asset.register(assetParams)
+      
+      // Issue bitmarks
+      
+      var issueParams = try Bitmark.newIssuanceParams(assetID: assetId,
+                                                      owner: account.accountNumber,
+                                                      nonces: [0])
+      try issueParams.sign(account)
+      guard let bitmarkId = try Bitmark.issue(issueParams).first else {
+        throw("Fail to register asset")
+      }
+      
+      resolve([bitmarkId, assetId])
+    }
+    catch let e {
+      reject(nil, nil, e);
+    }
+  }
+  
   @objc(issue:::)
   func issue(_ params: [String: Any], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) {
     do {
