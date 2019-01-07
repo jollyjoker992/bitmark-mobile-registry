@@ -86,8 +86,8 @@ export class ApplicationDetailComponent extends React.Component {
           </View>
 
           <View style={applicationDetailStyle.donorInfo}>
-            <Text style={applicationDetailStyle.version}>{global.i18n.t("ApplicationDetailComponent_version")} {CacheData.userInformation.lastSyncIcloud ? ('\n' + moment(CacheData.userInformation.lastSyncIcloud).format('yyyy/MM/DD, hh:mma')) : ''}</Text>
-            <Text style={applicationDetailStyle.version}>{global.i18n.t("ApplicationDetailComponent_version")} {DataProcessor.getApplicationVersion()} ({DataProcessor.getApplicationBuildNumber() + (config.network !== 'livenet' ? '-' + config.network : '')})</Text>
+            <Text style={applicationDetailStyle.version}>{global.i18n.t("ApplicationDetailComponent_iCloudSync")} {CacheData.userInformation.lastSyncIcloud ? ('\n' + moment(CacheData.userInformation.lastSyncIcloud).format('yyyy/MM/DD, hh:mma')) : ''}</Text>
+            <Text style={[applicationDetailStyle.version, { marginTop: 22, }]}>{global.i18n.t("ApplicationDetailComponent_version")} {DataProcessor.getApplicationVersion()} ({DataProcessor.getApplicationBuildNumber() + (config.network !== 'livenet' ? '-' + config.network : '')})</Text>
           </View>
 
           <View style={applicationDetailStyle.bottomArea}>
