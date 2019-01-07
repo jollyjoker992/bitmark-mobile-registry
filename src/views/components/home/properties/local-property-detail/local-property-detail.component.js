@@ -40,6 +40,9 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
     this.doGetScreenData(this.props.bitmark);
   }
   async doGetScreenData(bitmark) {
+    if (!bitmark || !bitmark.id) {
+      return;
+    }
     let provenance = await DataProcessor.doGetProvenance(bitmark.id);
     let provenanceViewed = {};
     provenance.forEach((history, index) => {

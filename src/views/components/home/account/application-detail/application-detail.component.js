@@ -10,8 +10,9 @@ import { Actions } from 'react-native-router-flux';
 
 import applicationDetailStyle from './application-detail.component.style';
 import { config, constant } from 'src/configs';
-import { DataProcessor } from 'src/processors';
+import { DataProcessor, CacheData } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
+import moment from 'moment';
 
 
 export class ApplicationDetailComponent extends React.Component {
@@ -85,6 +86,7 @@ export class ApplicationDetailComponent extends React.Component {
           </View>
 
           <View style={applicationDetailStyle.donorInfo}>
+            <Text style={applicationDetailStyle.version}>{global.i18n.t("ApplicationDetailComponent_version")} {CacheData.userInformation.lastSyncIcloud ? ('\n' + moment(CacheData.userInformation.lastSyncIcloud).format('yyyy/MM/DD, hh:mma')) : ''}</Text>
             <Text style={applicationDetailStyle.version}>{global.i18n.t("ApplicationDetailComponent_version")} {DataProcessor.getApplicationVersion()} ({DataProcessor.getApplicationBuildNumber() + (config.network !== 'livenet' ? '-' + config.network : '')})</Text>
           </View>
 

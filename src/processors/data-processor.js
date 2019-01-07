@@ -667,7 +667,6 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
 
       this.iCloudFileChangedTimeout = setTimeout(
         () => {
-          console.log('mapFiles:', Object.keys(mapFiles).length);
           for (let key in mapFiles) {
             let keyList = key.split('_');
             let assetId;
@@ -694,8 +693,10 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
               runPromiseWithoutError(doSyncFile());
             }
           }
+          CacheData.userInformation.lastSyncIcloud = moment().toDate().toISOString();
+          UserModel.doUpdateUserInfo(CacheData.userInformation);
         },
-        1000 * 15 // 15s
+        1000 * 5 // 15s
       );
     });
     iCloudSyncAdapter.syncCloud();
