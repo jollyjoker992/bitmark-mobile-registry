@@ -19,9 +19,9 @@ public enum SeedError: Error {
     case wrongNetwork
 }
 
-public enum SeedVersion {
-    case v1
-    case v2
+public enum SeedVersion: Int {
+    case v1 = 1
+    case v2 = 2
 }
 
 public protocol Seedable {

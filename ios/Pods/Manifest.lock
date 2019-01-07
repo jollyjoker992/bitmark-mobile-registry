@@ -1,33 +1,29 @@
 PODS:
-  - BitmarkSDK (2.2.0):
+  - BitmarkSDK (2.3.0):
+    - KeychainAccess
     - TweetNacl
+  - iCloudDocumentSync (7.4.1)
   - KeychainAccess (3.1.2)
   - TweetNacl (1.0.1)
 
 DEPENDENCIES:
-  - BitmarkSDK (from `https://github.com/bitmark-inc/bitmark-sdk-swift.git`, branch `expose-encryption-method`)
+  - BitmarkSDK
+  - iCloudDocumentSync
   - KeychainAccess
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - BitmarkSDK
+    - iCloudDocumentSync
     - KeychainAccess
     - TweetNacl
 
-EXTERNAL SOURCES:
-  BitmarkSDK:
-    :branch: expose-encryption-method
-    :git: https://github.com/bitmark-inc/bitmark-sdk-swift.git
-
-CHECKOUT OPTIONS:
-  BitmarkSDK:
-    :commit: b6d6124ac24cdd36b22c0dbaaa5a8a6db7e10360
-    :git: https://github.com/bitmark-inc/bitmark-sdk-swift.git
-
 SPEC CHECKSUMS:
-  BitmarkSDK: 8d528ebc33eaa1aed09db9f00c110916e127c352
+  BitmarkSDK: 0d5c89730c36cf0eda7d0d1995bc60fdf9972e75
+  iCloudDocumentSync: 961aac30ca09c221de4c236e94dae69912f2c589
   KeychainAccess: b3816fddcf28aa29d94b10ec305cd52be14c472b
   TweetNacl: ea279cd32bffee69c59c73631470d3419db675df
 
-PODFILE CHECKSUM: 1e1028e04fd3c9e0b1942dacbcecaf6740d906a4
+PODFILE CHECKSUM: 0517c5a48dc2f8b6d5ae1f52ef3fb37b5b3e7464
 
 COCOAPODS: 1.5.3
