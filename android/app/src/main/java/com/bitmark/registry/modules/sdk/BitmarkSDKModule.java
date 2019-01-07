@@ -72,8 +72,6 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     private String accountNumber;
 
-    private PublicKeyEncryption encryption;
-
     BitmarkSDKModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
