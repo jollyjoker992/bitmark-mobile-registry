@@ -224,12 +224,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation("com.bitmark.sdk:android-sdk:1.2") {
-        exclude group: 'com.bitmark.sdk', module: 'api-service'
-        exclude group: 'com.bitmark.sdk', module: 'cryptography'
-    }
-    implementation "com.bitmark.sdk:api-service:1.7"
-    implementation "com.bitmark.sdk:cryptography:1.5"
+    implementation "com.bitmark.sdk:android-sdk:1.3"
     compile('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
         transitive = true
     }

@@ -28,6 +28,7 @@ import com.bitmark.apiservice.utils.record.AssetRecord;
 import com.bitmark.apiservice.utils.record.BitmarkRecord;
 import com.bitmark.apiservice.utils.record.OfferRecord;
 import com.bitmark.cryptography.crypto.Ed25519;
+import com.bitmark.cryptography.crypto.key.KeyPair;
 import com.bitmark.cryptography.crypto.key.PrivateKey;
 import com.bitmark.cryptography.error.ValidateException;
 import com.bitmark.registry.BuildConfig;
@@ -171,7 +172,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             @Override
             public void onSuccess(Account account) {
                 promise.resolve(new Object[]{account.getAccountNumber(), account
-                        .getRecoveryPhrase().getMnemonicWords(), 0x01});
+                        .getRecoveryPhrase().getMnemonicWords(), 0x01, HEX.encode(
+                        account.getEncryptionKey().publicKey().toBytes())});
             }
 
             @Override
@@ -187,7 +189,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         getAccount(new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
-                PrivateKey key = account.getKey().privateKey();
+                PrivateKey key = account.getKeyPair().privateKey();
                 String[] messageArray = toStringArray(messages);
                 String[] signatures = new String[messageArray.length];
 
@@ -213,7 +215,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         getAccount(new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
-                PrivateKey key = account.getKey().privateKey();
+                PrivateKey key = account.getKeyPair().privateKey();
                 String[] messageArray = toStringArray(messages);
                 String[] signatures = new String[messageArray.length];
 
@@ -258,13 +260,16 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             public void onSuccess(Account account) {
 
                 Address owner = account.toAddress();
+                KeyPair keyPair = account.getKeyPair();
+
+
                 try {
 
                     // Register asset
                     RegistrationParams registrationParams = new RegistrationParams(assetName,
                             metadata, owner);
                     registrationParams.generateFingerprint(file);
-                    registrationParams.sign(account.getKey());
+                    registrationParams.sign(keyPair);
                     String assetId = await((Callable1<RegistrationResponse>) callback -> Asset
                             .register(registrationParams, callback)).getAssets().get(0).getId();
 
@@ -272,7 +277,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     // Issue bitmark
                     IssuanceParams issuanceParams = new IssuanceParams(assetId, owner,
                             quantity);
-                    issuanceParams.sign(account.getKey());
+                    issuanceParams.sign(keyPair);
                     List<String> bitmarkIds = await(
                             callback -> Bitmark.issue(issuanceParams, callback));
                     promise.resolve(bitmarkIds);
@@ -311,7 +316,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     // Issue bitmark
                     Address owner = account.toAddress();
                     IssuanceParams issuanceParams = new IssuanceParams(assetId, owner);
-                    issuanceParams.sign(account.getKey());
+                    issuanceParams.sign(account.getKeyPair());
                     List<String> bitmarkIds = await(
                             callback -> Bitmark.issue(issuanceParams, callback));
 
@@ -372,7 +377,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                     TransferParams transferParams = new TransferParams(
                             Address.fromAccountNumber(receiver), link);
-                    transferParams.sign(account.getKey());
+                    transferParams.sign(account.getKeyPair());
                     String txId = await(callback -> Bitmark.transfer(transferParams, callback));
                     promise.resolve(txId);
 
@@ -418,7 +423,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                     TransferOfferParams offerParams = new TransferOfferParams(
                             Address.fromAccountNumber(receiver), link);
-                    offerParams.sign(account.getKey());
+                    offerParams.sign(account.getKeyPair());
                     String txId = await(callback -> Bitmark.offer(offerParams, callback));
                     promise.resolve(txId);
 
@@ -482,7 +487,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                             .getValue();
                     if (responseParams == null) return;
 
-                    responseParams.sign(account.getKey());
+                    responseParams.sign(account.getKeyPair());
                     String status = await(
                             callback -> Bitmark.respond(responseParams, callback));
                     promise.resolve(status);
@@ -751,11 +756,13 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             public void onSuccess(Account account) {
 
                 final AssetEncryption assetEncryption = new AssetEncryption();
-                final byte[] receiverPubKey = Address.fromAccountNumber(receiver).getKey()
-                                                     .toBytes();
+                final byte[] receiverPubKey = HEX.decode(receiver);
+                final PublicKeyEncryption keyEncryption = new BoxEncryption(
+                        account.getEncryptionKey().privateKey().toBytes());
+
                 try {
                     Pair<byte[], SessionData> result = assetEncryption
-                            .encrypt(inputFile, receiverPubKey, getEncryption(account));
+                            .encrypt(inputFile, receiverPubKey, keyEncryption);
                     byte[] data = result.first();
                     write(outputFile, data);
                     promise.resolve(result.second());
@@ -792,10 +799,12 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                 try {
                     final byte[] encryptedData = read(inputFile);
-                    final byte[] senderPubKey = Address.fromAccountNumber(sender).getKey()
-                                                       .toBytes();
+                    final byte[] senderPubKey = HEX.decode(sender);
+                    final PublicKeyEncryption keyEncryption = new BoxEncryption(
+                            account.getEncryptionKey().privateKey().toBytes());
+
                     final AssetEncryption assetEncryption = AssetEncryption
-                            .fromSessionData(getEncryption(account), sessionData, senderPubKey);
+                            .fromSessionData(keyEncryption, sessionData, senderPubKey);
                     final byte[] decryptedData = assetEncryption.decrypt(encryptedData);
                     write(outputFile, decryptedData);
                     promise.resolve(true);
@@ -845,11 +854,6 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     private void saveAccountNumber(String accountNumber) {
         new SharedPreferenceApi(getReactApplicationContext(), BuildConfig.APPLICATION_ID)
                 .put(ACTIVE_ACCOUNT_NUMBER, accountNumber);
-    }
-
-    private PublicKeyEncryption getEncryption(Account account) {
-        if (encryption != null) return encryption;
-        else return encryption = new BoxEncryption(account.getKey().privateKey().toBytes());
     }
 
 }
