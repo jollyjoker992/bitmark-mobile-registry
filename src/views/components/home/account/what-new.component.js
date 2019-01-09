@@ -9,7 +9,7 @@ import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
 import { DataProcessor } from 'src/processors';
-import { config, constant } from 'src/configs';
+import { config, } from 'src/configs';
 
 
 export class WhatNewComponent extends Component {
@@ -18,10 +18,10 @@ export class WhatNewComponent extends Component {
   }
   constructor(props) {
     super(props);
-    let releaseDate = moment('21-12-2018', 'DD-MM-YYYY');
+    let releaseDate = moment('03-01-2019', 'DD-MM-YYYY');
     let diffDay = moment().diff(releaseDate, 'days');
     this.state = {
-      step: this.props.showReleaseNote ? 2 : 1,
+      step: 2,
       index: 0,
       diffDay,
     };

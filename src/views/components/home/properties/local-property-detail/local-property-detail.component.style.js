@@ -61,7 +61,6 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Black',
     fontWeight: '900',
     fontSize: 16,
-    lineHeight: 19,
     color: '#0060F2',
     textAlign: 'right',
   },
@@ -78,7 +77,6 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Black',
     fontWeight: '900',
     fontSize: 16,
-    lineHeight: 19,
     color: '#0060F2',
     textAlign: 'right',
   },
@@ -86,7 +84,6 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Black',
     fontWeight: '400',
     fontSize: 8,
-    lineHeight: 9,
     color: '#0060F2',
     marginTop: 5,
     fontStyle: 'italic',
@@ -101,14 +98,12 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Black',
     fontWeight: '900',
     fontSize: 18,
-    lineHeight: 21,
     marginLeft: convertWidth(19),
     marginTop: 34,
   },
   assetCreateAt: {
     fontFamily: 'Andale Mono',
     fontSize: 13,
-    lineHeight: 15,
     marginLeft: convertWidth(19),
     height: 29,
     width: convertWidth(337),
@@ -155,7 +150,6 @@ export default StyleSheet.create({
   provenanceLabel: {
     fontFamily: 'Avenir Black',
     fontSize: 14,
-    lineHeight: 16,
     fontWeight: '900',
     marginLeft: convertWidth(19),
     marginTop: 19,
@@ -174,7 +168,6 @@ export default StyleSheet.create({
   provenancesHeaderLabelTimestamp: {
     fontFamily: 'Andale Mono',
     fontSize: 13,
-    lineHeight: 14,
     marginLeft: convertWidth(4),
     width: convertWidth(170),
   },
@@ -182,7 +175,6 @@ export default StyleSheet.create({
     marginLeft: 10,
     fontFamily: 'Andale Mono',
     fontSize: 13,
-    lineHeight: 14,
     width: convertWidth(161),
   },
   provenanceListArea: {
@@ -206,7 +198,6 @@ export default StyleSheet.create({
   provenancesRowTimestamp: {
     fontFamily: 'Andale Mono',
     fontSize: 13,
-    lineHeight: 14,
     width: convertWidth(170),
   },
   provenancesRowOwnerRow: {
@@ -218,13 +209,11 @@ export default StyleSheet.create({
     fontFamily: 'Andale Mono',
     fontWeight: '500',
     fontSize: 14,
-    lineHeight: 16,
   },
   provenancesRowOwner: {
     fontFamily: 'Andale Mono',
     fontWeight: '500',
     fontSize: 14,
-    lineHeight: 16,
     width: convertWidth(161),
   },
   listingButtonArea: {
@@ -244,7 +233,6 @@ export default StyleSheet.create({
     fontFamily: 'Avenir Light',
     fontWeight: '900',
     fontSize: 14,
-    lineHeight: 16,
     color: 'white',
   },
 });
