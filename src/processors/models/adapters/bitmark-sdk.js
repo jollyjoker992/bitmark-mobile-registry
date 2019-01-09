@@ -131,10 +131,9 @@ const BitmarkSDK = {
     });
   },
 
-  encryptFile: async (filePath, recipient, outputFilePath) => {
+  encryptFile: async (filePath, outputFilePath) => {
     return await SwiftBitmarkSDK.encryptFile({
       file_path: filePath,
-      recipient,
       output_file_path: outputFilePath,
     });
   },
@@ -144,6 +143,12 @@ const BitmarkSDK = {
       session_data: sessionData,
       sender: sender,
       output_file_path: outputFilePath,
+    });
+  },
+  newSessionData: async (sessionData, receiverPublicEncryptionKey) => {
+    return await SwiftBitmarkSDK.newSessionData({
+      session_data: sessionData,
+      output_file_path: receiverPublicEncryptionKey,
     });
   },
   giveAwayBitmark: async (asset_id, recipient) => {

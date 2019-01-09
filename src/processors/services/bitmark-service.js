@@ -3,6 +3,7 @@ import { merge } from 'lodash';
 import { BitmarkModel, CommonModel, BitmarkSDK } from "../models";
 import { FileUtil } from 'src/utils';
 import { config } from 'src/configs';
+import { CacheData } from '../caches';
 
 
 // ================================================================================================
@@ -308,68 +309,10 @@ const doDecentralizedTransfer = async (bitmarkAccountNumber, token, bitmarkId, r
   }
 };
 
-const doCheckFileExistInCourierServer = async (bitmarkAccountNumber, assetId, signature) => {
-  return new Promise((resolve, reject) => {
-    let statusCode;
-    fetch(`${config.file_courier_server}/files/${assetId}/${bitmarkAccountNumber}`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        signature: signature
-      }
-    }).then((response) => {
-      statusCode = response.status;
-      if (statusCode >= 400) {
-        return reject(new Error('checkFileExistInCourierServer error'));
-      }
-      resolve({
-        data_key_alg: response.headers['Data-Key-Alg'],
-        enc_data_key: response.headers['Enc-Data-Key'],
-        orig_content_type: response.headers['Orig-Content-Type'],
-        expiration: response.headers['Expiration'],
-        filename: response.headers['File-Name '],
-        date: response.headers['File-Name '],
-      });
-    }).catch(error => {
-      return reject(new Error('checkFileExistInCourierServer error :' + JSON.stringify(error)));
-    });
-  });
-};
 
-const doUpdateAccessFileInCourierServer = async (bitmarkAccountNumber, assetId, access, signature) => {
-  return new Promise((resolve, reject) => {
-    let statusCode;
-    fetch(`${config.file_courier_server}/v2/access/${assetId}/${bitmarkAccountNumber}`, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        signature: signature
-      },
-      body: JSON.stringify({ access })
-    }).then((response) => {
-      statusCode = response.status;
-      if (statusCode >= 400) {
-        return reject(new Error('checkFileExistInCourierServer error'));
-      }
-      resolve({
-        data_key_alg: response.headers['Data-Key-Alg'],
-        enc_data_key: response.headers['Enc-Data-Key'],
-        orig_content_type: response.headers['Orig-Content-Type'],
-        expiration: response.headers['Expiration'],
-        filename: response.headers['File-Name '],
-        date: response.headers['File-Name '],
-      });
-    }).catch(error => {
-      return reject(new Error('checkFileExistInCourierServer error :' + JSON.stringify(error)));
-    });
-  });
-};
-
-const doUploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver, filePath, sessionData, filename) => {
+const doUploadFileToCourierServer = async (assetId, filePath, sessionData, filename, access) => {
   if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
-    let message = `${sessionData.data_key_alg}|${sessionData.enc_data_key}|*`;
+    let message = `${sessionData.data_key_alg}|${sessionData.enc_data_key}|*|${access}`;
     let signature = (await BitmarkSDK.signMessages([message]))[0];
 
     const formData = new FormData();
@@ -380,19 +323,18 @@ const doUploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiv
     formData.append('data_key_alg', sessionData.data_key_alg);
     formData.append('enc_data_key', sessionData.enc_data_key);
     formData.append('orig_content_type', '*');
-    formData.append('access', receiver);
+    formData.append('access', access);
 
     let headers = {
       'Accept': 'application/json',
       'Content-Type': 'multipart/form-data',
-      requester: bitmarkAccountNumber,
       signature
     };
 
     let uploadFunction = (headers, formData) => {
       return new Promise((resolve, reject) => {
         let statusCode;
-        fetch(`${config.file_courier_server}/v2/files/${assetId}/${bitmarkAccountNumber}`, {
+        fetch(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
           method: 'PUT',
           headers,
           body: formData,
@@ -414,15 +356,101 @@ const doUploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiv
   }
 };
 
-const doDownloadFileToCourierServer = async (bitmarkAccountNumber, assetId, filePath) => {
-  let signature = (await BitmarkSDK.signMessages([assetId]))[0];
+const doCheckFileExistInCourierServer = async (assetId) => {
+  let message = `${assetId}`;
+  let signature = (await BitmarkSDK.signMessages([message]))[0];
+  return await (new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.file_courier_server}/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
+      method: 'HEAD',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        signature: signature
+      }
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode >= 400) {
+        return reject(new Error('checkFileExistInCourierServer error'));
+      }
+      resolve({
+        data_key_alg: response.headers['Data-Key-Alg'],
+        enc_data_key: response.headers['Enc-Data-Key'],
+        orig_content_type: response.headers['Orig-Content-Type'],
+        expiration: response.headers['Expiration'],
+        filename: response.headers['File-Name '],
+        date: response.headers['File-Name '],
+      });
+    }).catch(error => {
+      return reject(new Error('checkFileExistInCourierServer error :' + JSON.stringify(error)));
+    });
+  }));
+};
+
+const doUpdateAccessFileInCourierServer = async (assetId, access) => {
+  let message = `${assetId}|${access}`;
+  let signature = (await BitmarkSDK.signMessages([message]))[0];
+  return await (new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.file_courier_server}/v2/access/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        signature: signature
+      },
+      body: JSON.stringify({ access })
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode >= 500) {
+        return response.text();
+      }
+      return response.json();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error('doUpdateAccessFileInCourierServer error :' + JSON.stringify(data)));
+      }
+      resolve(data);
+    }).catch(reject);
+  }));
+};
+
+const doGetDownloadableAssets = async () => {
+  let { timestamp, signature } = await CommonModel.doCreateSignatureData();
+  return await (new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.file_courier_server}/v2/files?receiver=${CacheData.userInformation.bitmarkAccountNumber}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        signature,
+        timestamp
+      }
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode >= 500) {
+        return response.text();
+      }
+      return response.json();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error('doGetDownloadableAssets error :' + JSON.stringify(data)));
+      }
+      resolve(data ? (data.file_ids || []) : []);
+    }).catch(reject);
+  }));
+};
+
+const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
+  let signature = (await BitmarkSDK.signMessages([`${assetId}|${sender}`]))[0];
   let response;
   let result = await FileUtil.downloadFile({
-    fromUrl: `${config.file_courier_server}/files/${assetId}/${bitmarkAccountNumber}`,
+    fromUrl: `${config.file_courier_server}/files/${assetId}/${sender}?receiver=${CacheData.userInformation.bitmarkAccountNumber}`,
     toFile: filePath,
     method: 'GET',
     headers: {
-      requester: bitmarkAccountNumber,
+      requester: CacheData.userInformation.bitmarkAccountNumber,
       signature
     },
     begin: (res) => response = res
@@ -456,6 +484,7 @@ let BitmarkService = {
   doUploadFileToCourierServer,
   doUpdateAccessFileInCourierServer,
   doDownloadFileToCourierServer,
+  doGetDownloadableAssets,
 
 };
 

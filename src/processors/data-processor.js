@@ -32,6 +32,7 @@ import {
 } from 'src/views/stores';
 import { config, constant } from 'src/configs';
 import { CacheData } from './caches';
+import { access } from 'fs';
 
 let mapModalDisplayData = {};
 const mapModalDisplayKeyIndex = {
@@ -819,9 +820,14 @@ const doDownloadBitmark = async (bitmark) => {
 
   await FileUtil.mkdir(assetFolderPath);
   await FileUtil.mkdir(`${assetFolderPath}/downloading`);
-  let downloadResult = await BitmarkService.downloadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id,
-    `${assetFolderPath}/downloading/temp.encrypt`);
-
+  // let downloadResult = await BitmarkService.downloadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, `${assetFolderPath}/downloading/temp.encrypt`);
+  let downloadableAssets = await BitmarkService.doGetDownloadableAssets();
+  let canDownloadFrom = (downloadableAssets || []).find(item => item.indexOf(asset.id) >= 0);
+  let sender = canDownloadFrom ? canDownloadFrom.substring(canDownloadFrom.lastIndexOf('/') + 1, canDownloadFrom.length) : null;
+  if (!sender) {
+    throw new Error('Cannot detect sender to download!');
+  }
+  let downloadResult = await BitmarkService.doDownloadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, sender, `${assetFolderPath}/downloading/temp.encrypt`);
   let filename = decodeURIComponent(downloadResult.filename);
   let downloadResultFilePath = `${assetFolderPath}/decrypting_session_data/data.text`;
   await FileUtil.mkdir(`${assetFolderPath}/decrypting_session_data`);
@@ -1026,13 +1032,28 @@ const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, li
 const doTransferBitmark = async (bitmarkId, receiver) => {
   let { asset } = await doGetLocalBitmarkInformation(bitmarkId);
   if (asset && asset.filePath) {
-    let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
-    await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted`);
-    let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/temp.encrypted`;
-    let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(receiver);
-    let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptionPublicKey, encryptedFilePath);
-    let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, receiver, encryptedFilePath, sessionData, filename);
-    console.log('uploadResult :', uploadResult);
+    let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(asset.id);
+    if (resultCheck && resultCheck.data_key_alg && resultCheck.enc_data_key && resultCheck.orig_content_type) {
+      let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(receiver);
+      let receiverSessionData = await BitmarkSDK.newSessionData({
+        enc_data_key: resultCheck.enc_data_key,
+        data_key_alg: resultCheck.data_key_alg
+      }, encryptionPublicKey);
+      let access = `${receiver}:${receiverSessionData.enc_data_key}`;
+      let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(asset.id, access);
+      console.log('grantAccessResult :', grantAccessResult);
+    } else {
+      let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
+      await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted`);
+      let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/temp.encrypted`;
+      let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptedFilePath);
+
+      let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(receiver);
+      let receiverSessionData = await BitmarkSDK.newSessionData(sessionData, encryptionPublicKey);
+      let access = `${receiver}:${receiverSessionData.enc_data_key}`;
+      let uploadResult = await BitmarkService.doUploadFileToCourierServer(asset.id, encryptedFilePath, sessionData, filename, access);
+      console.log('uploadResult :', uploadResult);
+    }
   }
 
   let result = await BitmarkService.doTransferBitmark(bitmarkId, receiver);
@@ -1435,13 +1456,29 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
   if (isAccept) {
     let asset = incomingClaimRequest.asset;
     if (asset && asset.filePath) {
-      let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
-      await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted`);
-      let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);
-      let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/temp.encrypted`;
-      let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptionPublicKey, encryptedFilePath);
-      let uploadResult = await BitmarkService.uploadFileToCourierServer(CacheData.userInformation.bitmarkAccountNumber, asset.id, incomingClaimRequest.from, encryptedFilePath, sessionData, filename);
-      console.log('uploadResult:', uploadResult);
+      let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(asset.id);
+      if (resultCheck && resultCheck.data_key_alg && resultCheck.enc_data_key && resultCheck.orig_content_type) {
+        let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);
+        let receiverSessionData = await BitmarkSDK.newSessionData({
+          enc_data_key: resultCheck.enc_data_key,
+          data_key_alg: resultCheck.data_key_alg
+        }, encryptionPublicKey);
+        let access = `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
+        let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(asset.id, access);
+        console.log('grantAccessResult :', grantAccessResult);
+      } else {
+        let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
+        await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted`);
+        let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/temp.encrypted`;
+        let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptedFilePath);
+
+        let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);
+        let receiverSessionData = await BitmarkSDK.newSessionData(sessionData, encryptionPublicKey);
+        let access = `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
+
+        let uploadResult = await BitmarkService.doUploadFileToCourierServer(asset.id, encryptedFilePath, sessionData, filename, access);
+        console.log('uploadResult :', uploadResult);
+      }
     }
     let result = await BitmarkSDK.giveAwayBitmark(incomingClaimRequest.asset.id, incomingClaimRequest.from);
     let resultPost = await BitmarkModel.doPostAwaitTransfer(CacheData.jwt, result.bitmarkId, result.transferPayload);
