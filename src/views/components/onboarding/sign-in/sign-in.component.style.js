@@ -45,7 +45,7 @@ export default StyleSheet.create({
     marginTop: 66,
   },
   recoveryPhraseSet: {
-    flexDirection: 'row',
+    flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
     marginTop: 4,
     marginBottom: 4,
   },
