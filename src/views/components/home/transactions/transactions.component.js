@@ -17,7 +17,7 @@ import { defaultStyles } from 'src/views/commons';
 import { convertWidth } from 'src/utils';
 import { TransactionsStore } from 'src/views/stores';
 
-let SubTabs = {
+const SubTabs = {
   required: 'ACTIONS REQUIRED',
   completed: 'HISTORY',
 };
@@ -31,11 +31,6 @@ class PrivateTransactionsComponent extends React.Component {
   static SubTabs = SubTabs;
   constructor(props) {
     super(props);
-
-    SubTabs = {
-      required: global.i18n.t("TransactionsComponent_actionsRequired"),
-      completed: global.i18n.t("TransactionsComponent_history"),
-    };
 
     this.switchSubTab = this.switchSubTab.bind(this);
     this.acceptAllTransfers = this.acceptAllTransfers.bind(this);

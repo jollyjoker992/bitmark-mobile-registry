@@ -229,7 +229,7 @@ export class MusicBasicInfoComponent extends React.Component {
     let limited = parseInt(this.state.limited);
     let limitedError = '';
     if (isNaN(limited) || limited <= 0) {
-      limitedError = 'The limited number should be greater than 0.';
+      limitedError = global.i18n.t('MusicBasicInfoComponent_limitedError1');
     }
     let descriptionError = '';
     if (this.state.description) {

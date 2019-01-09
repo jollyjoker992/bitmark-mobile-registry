@@ -136,7 +136,7 @@ class BitmarkSDKWrapper: NSObject {
       guard let fileURL = params["url"] as? String,
         let name = params["property_name"] as? String,
         let metadata = params["metadata"] as? [String: String] else {
-          reject(nil, "Invalid fingerprint", nil)
+          reject(nil, "Invalid parameters", nil)
           return
       }
       
@@ -178,7 +178,7 @@ class BitmarkSDKWrapper: NSObject {
         let name = params["property_name"] as? String,
         let metadata = params["metadata"] as? [String: String],
         let quantity = params["quantity"] as? Int else {
-          reject(nil, "Invalid fingerprint", nil)
+          reject(nil, "Invalid paramsters", nil)
           return
       }
       

@@ -152,7 +152,23 @@ const BitmarkSDK = {
       bitmarkId: list[0],
       transferPayload: list[1],
     }
-  }
+  },
+  registerNewAsset: async (filePath, propertyName, metadata) => {
+    console.log({
+      url: filePath,
+      property_name: propertyName,
+      metadata,
+    });
+    let list = await SwiftBitmarkSDK.registerNewAsset({
+      url: filePath,
+      property_name: propertyName,
+      metadata,
+    });
+    return {
+      bitmarkId: list[0],
+      assetId: list[1],
+    };
+  },
 
 };
 export { BitmarkSDK };

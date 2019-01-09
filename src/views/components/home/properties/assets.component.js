@@ -16,7 +16,7 @@ import { config, constant } from 'src/configs';
 import { AssetsStore } from 'src/views/stores';
 let currentSize = Dimensions.get('window');
 
-let SubTabs = {
+const SubTabs = {
   local: 'Yours',
   tracking: 'TRACKED',
   global: 'Global',
@@ -27,12 +27,6 @@ let loadingDataWhenScroll = false;
 class PrivateAssetsComponent extends React.Component {
   constructor(props) {
     super(props);
-
-    SubTabs = {
-      local: global.i18n.t("AssetsComponent_yours"),
-      tracking: global.i18n.t("AssetsComponent_tracked"),
-      global: global.i18n.t("AssetsComponent_global"),
-    };
 
     this.switchSubTab = this.switchSubTab.bind(this);
     this.addProperty = this.addProperty.bind(this);
@@ -71,7 +65,7 @@ class PrivateAssetsComponent extends React.Component {
             <View style={assetsStyle.subTabButtonArea}>
               <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={assetsStyle.subTabButtonTextArea}>
-                {this.props.existNewAsset && <View style={assetsStyle.newItem}></View>}
+                {/* {this.props.existNewAsset && <View style={assetsStyle.newItem}></View>} */}
                 <Text style={[assetsStyle.subTabButtonText, { marginLeft: this.props.totalBitmarks > 9 ? 8 : 0 }]}>
                   {global.i18n.t("AssetsComponent_yours")}
                   <Text style={{ fontSize: this.props.totalBitmarks > 9 ? 10 : 14 }}>{(this.props.totalBitmarks > 0 ? ` (${this.props.totalBitmarks > 99 ? '99+' : this.props.totalBitmarks})` : '')}</Text>
@@ -86,7 +80,7 @@ class PrivateAssetsComponent extends React.Component {
             <View style={assetsStyle.subTabButtonArea}>
               <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={assetsStyle.subTabButtonTextArea}>
-                {this.props.existNewAsset && <View style={assetsStyle.newItem}></View>}
+                {/* {this.props.existNewAsset && <View style={assetsStyle.newItem}></View>} */}
                 <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1', marginLeft: this.props.totalBitmarks > 9 ? 10 : 0 }]}>{global.i18n.t("AssetsComponent_yours")}<Text style={{ fontSize: this.props.totalBitmarks > 9 ? 8 : 14 }}>{(this.props.totalBitmarks > 0 ? ` (${this.props.totalBitmarks > 99 ? '99+' : this.props.totalBitmarks})` : '')}</Text></Text>
               </View>
             </View>
@@ -166,7 +160,7 @@ class PrivateAssetsComponent extends React.Component {
             </View>}
             {this.props.assets && this.props.assets.length > 0 && this.state.subTab === SubTabs.local && this.props.assets.map(item => (
               <TouchableOpacity key={item.id} style={[assetsStyle.assetRowArea]} onPress={() => Actions.localAssetDetail({ asset: item })} >
-                {!item.isViewed && <View style={[assetsStyle.newItem, { top: 22 }]}></View>}
+                {/* {!item.isViewed && <View style={[assetsStyle.newItem, { top: 22 }]}></View>} */}
 
                 <View style={assetsStyle.assetInfoArea}>
                   <Text style={[assetsStyle.assetCreatedAt, {
@@ -216,7 +210,7 @@ class PrivateAssetsComponent extends React.Component {
                 return (<TouchableOpacity style={[assetsStyle.trackingRow]} onPress={() => {
                   Actions.localPropertyDetail({ asset: item.asset, bitmark: item });
                 }} >
-                  {!item.isViewed && <View style={[assetsStyle.newItem, { top: 22 }]}></View>}
+                  {/* {!item.isViewed && <View style={[assetsStyle.newItem, { top: 22 }]}></View>} */}
                   <Text style={assetsStyle.trackingRowAssetName}>{item.asset.name}</Text>
                   <Text style={[assetsStyle.trackingRowUpdated, {
                     color: item.status === 'pending' ? '#999999' : '#0060F2'

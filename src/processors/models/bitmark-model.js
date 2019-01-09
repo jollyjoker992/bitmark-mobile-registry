@@ -244,6 +244,11 @@ const doIssueFile = async (filePath, assetName, metadata, quantity) => {
   return result;
 };
 
+const registerNewAsset = async (filePath, assetName, metadata) => {
+  let result = await BitmarkSDK.registerNewAsset(filePath, assetName, metadata);
+  return result;
+};
+
 
 const doGet100Transactions = (accountNumber, offsetNumber) => {
   return new Promise((resolve, reject) => {
@@ -846,6 +851,7 @@ let BitmarkModel = {
   doGetProvenance,
   doPrepareAssetInfo,
   doIssueFile,
+  registerNewAsset,
   doCheckMetadata,
   doGetBitmarkInformation,
   doGetTransactionDetail,
