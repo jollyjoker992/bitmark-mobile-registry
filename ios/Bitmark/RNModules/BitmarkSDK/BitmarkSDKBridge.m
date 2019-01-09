@@ -45,5 +45,8 @@ RCT_EXTERN_METHOD(getAssets:(NSDictionary *)params:(RCTPromiseResolveBlock)resol
 RCT_EXTERN_METHOD(encryptFile:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(decryptFile:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
 
+// Session data
+RCT_EXTERN_METHOD(encryptSessionData:(NSDictionary *)params:(RCTPromiseResolveBlock)resolve:(RCTPromiseRejectBlock)reject)
+
 
 @end
