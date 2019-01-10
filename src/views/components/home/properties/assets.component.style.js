@@ -225,7 +225,7 @@ export default StyleSheet.create({
     width: 73, height: 73, resizeMode: 'contain',
   },
   editionInfo: {
-    marginTop: 5,
+    marginTop: 7,
     fontFamily: 'Avenir-Medium', fontSize: 14, fontWeight: '900', color: '#0060F2',
   },
 

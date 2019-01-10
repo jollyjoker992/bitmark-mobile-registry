@@ -142,12 +142,12 @@ const cStyles = StyleSheet.create({
   },
   description: {
     fontFamily: 'Avenir-Light', fontSize: 17, fontWeight: '300', color: 'white', lineHeight: 23,
-    paddingLeft: convertWidth(35), paddingRight: convertWidth(35), marginTop: 30,
+    paddingLeft: convertWidth(39), paddingRight: convertWidth(35), marginTop: 30,
     width: '100%',
   },
   claimIframe: {
     width: '100%', minHeight: 180,
-    paddingLeft: convertWidth(30), paddingRight: convertWidth(30),
+    paddingLeft: convertWidth(35), paddingRight: convertWidth(35),
     marginTop: 25,
   },
   issueResult: {
@@ -161,13 +161,15 @@ const cStyles = StyleSheet.create({
   },
   resultHeader: {
     flexDirection: 'row',
+    paddingLeft: convertWidth(4),
   },
   resultHeaderTitle: {
     fontFamily: 'Avenir-Light', fontSize: 17, fontWeight: '300', color: 'white',
     flex: 1,
   },
   resultHeaderCopy: {
-    fontFamily: 'Avenir-Black', fontSize: 14, fontWeight: '600', color: 'white',
+    fontFamily: 'Avenir-Black', fontSize: 14, fontWeight: '900', color: 'white', textAlign: 'center',
+    minWidth: convertWidth(66),
   },
   resultContent: {
     marginTop: 5,
@@ -175,6 +177,7 @@ const cStyles = StyleSheet.create({
     backgroundColor: '#E6FF00',
     alignItems: 'center', justifyContent: 'center',
     padding: 10,
+    borderWidth: 0.1, borderColor: '#E6FF00', borderRadius: 3,
   },
   resultContentText: {
     fontFamily: 'Avenir-Roman', fontSize: 14, fontWeight: '600',
