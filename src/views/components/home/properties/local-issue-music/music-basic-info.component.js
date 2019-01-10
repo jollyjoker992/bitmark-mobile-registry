@@ -320,6 +320,7 @@ export class MusicBasicInfoComponent extends React.Component {
                   <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelLimited')}</Text>
                   <TextInput style={[cStyles.fieldInput]}
                     keyboardType='number-pad'
+                    placeholder="e.g. 300"
                     onChangeText={(limitedNumber) => this.onInputLimited.bind(this)(limitedNumber)}
                   />
                   <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.limitedError ? '#FF003C' : '#0060F2', width: '100%' }} />
