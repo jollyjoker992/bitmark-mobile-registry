@@ -1484,13 +1484,14 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
     console.log('doPostAwaitTransfer result:', resultPost);
   }
   await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, isAccept ? { accepted: [incomingClaimRequest.id] } : { rejected: [incomingClaimRequest.id] });
-  let claimRequests = await runGetClaimRequestInBackground();
-  await doCheckClaimRequests(claimRequests);
+  await doReloadClaimAssetRequest();
   return true;
 };
 
 const doSendIncomingClaimRequest = async (asset) => {
-  return await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
+  let result = await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
+  await doReloadClaimAssetRequest();
+  return result;
 };
 
 const doMarkDoneSendClaimRequest = async () => {
