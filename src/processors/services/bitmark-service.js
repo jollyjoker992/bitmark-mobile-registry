@@ -361,12 +361,13 @@ const doCheckFileExistInCourierServer = async (assetId) => {
   let signature = (await BitmarkSDK.signMessages([message]))[0];
   return await (new Promise((resolve, reject) => {
     let statusCode;
-    fetch(`${config.file_courier_server}/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
+    fetch(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
       method: 'HEAD',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        signature: signature
+        signature: signature,
+        requester: CacheData.userInformation.bitmarkAccountNumber,
       }
     }).then((response) => {
       statusCode = response.status;
@@ -377,12 +378,12 @@ const doCheckFileExistInCourierServer = async (assetId) => {
         return resolve();
       }
       resolve({
-        data_key_alg: response.headers['Data-Key-Alg'],
-        enc_data_key: response.headers['Enc-Data-Key'],
-        orig_content_type: response.headers['Orig-Content-Type'],
-        expiration: response.headers['Expiration'],
-        filename: response.headers['File-Name '],
-        date: response.headers['File-Name '],
+        data_key_alg: response.headers.map['data-key-alg'],
+        enc_data_key: response.headers.map['enc-data-key'],
+        orig_content_type: response.headers.map['orig-content-type'],
+        expiration: response.headers.map['expiration'],
+        filename: response.headers.map['file-name'],
+        date: response.headers.map['date'],
       });
     }).catch(error => {
       return reject(new Error('checkFileExistInCourierServer error :' + JSON.stringify(error)));
@@ -393,27 +394,25 @@ const doCheckFileExistInCourierServer = async (assetId) => {
 const doUpdateAccessFileInCourierServer = async (assetId, access) => {
   let message = `${assetId}|${access}`;
   let signature = (await BitmarkSDK.signMessages([message]))[0];
+
+  const formData = new FormData();
+  formData.append('access', access);
   return await (new Promise((resolve, reject) => {
     let statusCode;
     fetch(`${config.file_courier_server}/v2/access/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
       method: 'PUT',
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        signature: signature
+        'Content-Type': 'multipart/form-data',
+        signature: signature,
+        requester: CacheData.userInformation.bitmarkAccountNumber,
       },
-      body: JSON.stringify({ access })
+      body: formData,
     }).then((response) => {
       statusCode = response.status;
-      if (statusCode >= 500) {
-        return response.text();
-      }
-      return response.json();
-    }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error('doUpdateAccessFileInCourierServer error :' + JSON.stringify(data)));
+        return reject(new Error(`doUpdateAccessFileInCourierServer error ${statusCode}`));
       }
-      resolve(data);
+      resolve(true);
     }).catch(reject);
   }));
 };

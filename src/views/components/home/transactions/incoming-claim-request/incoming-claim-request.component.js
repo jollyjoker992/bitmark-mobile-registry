@@ -12,7 +12,7 @@ import { Actions } from 'react-native-router-flux';
 import { AppProcessor, EventEmitterService } from 'src/processors';
 
 export class IncomingClaimRequestComponent extends React.Component {
-  propTypes = {
+  static propTypes = {
     incomingClaimRequest: PropTypes.any,
   }
   constructor(props) {

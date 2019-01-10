@@ -9,7 +9,7 @@ import { NotificationService, EventEmitterService, DataProcessor } from 'src/pro
 import { constant } from 'src/configs';
 
 export class NotificationComponent extends React.Component {
-  propTypes = {
+  static propTypes = {
     justCreatedBitmarkAccount: PropTypes.bool,
   }
   constructor(props) {

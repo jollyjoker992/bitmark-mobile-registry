@@ -12,7 +12,7 @@ import { defaultStyles } from 'src/views/commons';
 import { Actions } from 'react-native-router-flux';
 
 export class TransferOfferComponent extends React.Component {
-  propTypes = {
+  static propTypes = {
     transferOffer: PropTypes.any,
   }
   constructor(props) {
