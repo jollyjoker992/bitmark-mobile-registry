@@ -25,7 +25,7 @@ export class MusicBasicInfoComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filePath: this.props.filePath || 'abc/test.mp4',
+      filePath: this.props.filePath,
       thumbnailPath: null,
       canContinue: false,
       assetName: '',

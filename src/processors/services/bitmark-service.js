@@ -3,6 +3,7 @@ import { merge } from 'lodash';
 import { BitmarkModel, CommonModel, BitmarkSDK } from "../models";
 import { FileUtil } from 'src/utils';
 import { config } from 'src/configs';
+import { CacheData } from '../caches';
 
 
 // ================================================================================================
@@ -308,11 +309,11 @@ const doDecentralizedTransfer = async (bitmarkAccountNumber, token, bitmarkId, r
   }
 };
 
-const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver, filePath, sessionData, filename) => {
-  if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
-    let message = `${sessionData.data_key_alg}|${sessionData.enc_data_key}|*`;
-    let signature = (await BitmarkSDK.signMessages([message]))[0];
 
+const doUploadFileToCourierServer = async (assetId, filePath, sessionData, filename, access) => {
+  if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
+    let message = `${assetId}|${sessionData.data_key_alg}|${sessionData.enc_data_key}|*|${access}`;
+    let signature = (await BitmarkSDK.signMessages([message]))[0];
     const formData = new FormData();
     formData.append('file', {
       uri: filePath,
@@ -321,19 +322,20 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
     formData.append('data_key_alg', sessionData.data_key_alg);
     formData.append('enc_data_key', sessionData.enc_data_key);
     formData.append('orig_content_type', '*');
+    formData.append('access', access);
 
     let headers = {
       'Accept': 'application/json',
       'Content-Type': 'multipart/form-data',
-      requester: bitmarkAccountNumber,
+      requester: CacheData.userInformation.bitmarkAccountNumber,
       signature
     };
 
     let uploadFunction = (headers, formData) => {
       return new Promise((resolve, reject) => {
         let statusCode;
-        fetch(`${config.file_courier_server}/files/${assetId}/${receiver}`, {
-          method: 'PUT',
+        fetch(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
+          method: 'POST',
           headers,
           body: formData,
         }).then((response) => {
@@ -344,7 +346,7 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
           return response.text();
         }).then((data) => {
           if (statusCode >= 400) {
-            return reject(new Error(`uploadFunction error :` + JSON.stringify(data)));
+            return reject(new Error(`uploadFunction error : ${statusCode}` + JSON.stringify(data)));
           }
           resolve(data);
         }).catch(reject);
@@ -354,26 +356,118 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
   }
 };
 
-const downloadFileToCourierServer = async (bitmarkAccountNumber, assetId, filePath) => {
-  let signature = (await BitmarkSDK.signMessages([assetId]))[0];
+const doCheckFileExistInCourierServer = async (assetId) => {
+  let message = `${assetId}`;
+  let signature = (await BitmarkSDK.signMessages([message]))[0];
+  return await (new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.file_courier_server}/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
+      method: 'HEAD',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        signature: signature
+      }
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode >= 500) {
+        return reject(new Error('checkFileExistInCourierServer error!'));
+      }
+      if (statusCode >= 400) {
+        return resolve();
+      }
+      resolve({
+        data_key_alg: response.headers['Data-Key-Alg'],
+        enc_data_key: response.headers['Enc-Data-Key'],
+        orig_content_type: response.headers['Orig-Content-Type'],
+        expiration: response.headers['Expiration'],
+        filename: response.headers['File-Name '],
+        date: response.headers['File-Name '],
+      });
+    }).catch(error => {
+      return reject(new Error('checkFileExistInCourierServer error :' + JSON.stringify(error)));
+    });
+  }));
+};
+
+const doUpdateAccessFileInCourierServer = async (assetId, access) => {
+  let message = `${assetId}|${access}`;
+  let signature = (await BitmarkSDK.signMessages([message]))[0];
+  return await (new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.file_courier_server}/v2/access/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        signature: signature
+      },
+      body: JSON.stringify({ access })
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode >= 500) {
+        return response.text();
+      }
+      return response.json();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error('doUpdateAccessFileInCourierServer error :' + JSON.stringify(data)));
+      }
+      resolve(data);
+    }).catch(reject);
+  }));
+};
+
+const doGetDownloadableAssets = async () => {
+  let { timestamp, signature } = await CommonModel.doCreateSignatureData();
+  return await (new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.file_courier_server}/v2/files?receiver=${CacheData.userInformation.bitmarkAccountNumber}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        requester: CacheData.userInformation.bitmarkAccountNumber,
+        signature,
+        timestamp
+      }
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode >= 500) {
+        return response.text();
+      }
+      return response.json();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doGetDownloadableAssets error : ${statusCode}` + JSON.stringify(data)));
+      }
+      resolve(data ? (data.file_ids || []) : []);
+    }).catch(reject);
+  }));
+};
+
+const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
+  let signature = (await BitmarkSDK.signMessages([`${assetId}|${sender}`]))[0];
   let response;
   let result = await FileUtil.downloadFile({
-    fromUrl: `${config.file_courier_server}/files/${assetId}/${bitmarkAccountNumber}`,
+    fromUrl: `${config.file_courier_server}/v2/files/${assetId}/${sender}?receiver=${CacheData.userInformation.bitmarkAccountNumber}`,
     toFile: filePath,
     method: 'GET',
     headers: {
-      requester: bitmarkAccountNumber,
+      requester: CacheData.userInformation.bitmarkAccountNumber,
       signature
     },
     begin: (res) => response = res
   });
   console.log('response :', response, result);
+  if (response.statusCode >= 400) {
+    throw new Error(`doDownloadFileToCourierServer error ${response.statusCode}`);
+  }
   return {
     data_key_alg: response.headers['Data-Key-Alg'],
     enc_data_key: response.headers['Enc-Data-Key'],
     filename: response.headers['File-Name'],
-    sender: response.headers['Sender'],
-  }
+  };
 };
 
 // ================================================================================================
@@ -392,8 +486,11 @@ let BitmarkService = {
   doDecentralizedIssuance,
   doDecentralizedTransfer,
 
-  uploadFileToCourierServer,
-  downloadFileToCourierServer,
+  doCheckFileExistInCourierServer,
+  doUploadFileToCourierServer,
+  doUpdateAccessFileInCourierServer,
+  doDownloadFileToCourierServer,
+  doGetDownloadableAssets,
 
 };
 
