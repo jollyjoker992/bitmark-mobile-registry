@@ -312,9 +312,8 @@ const doDecentralizedTransfer = async (bitmarkAccountNumber, token, bitmarkId, r
 
 const doUploadFileToCourierServer = async (assetId, filePath, sessionData, filename, access) => {
   if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
-    let message = `${sessionData.data_key_alg}|${sessionData.enc_data_key}|*|${access}`;
+    let message = `${assetId}|${sessionData.data_key_alg}|${sessionData.enc_data_key}|*|${access}`;
     let signature = (await BitmarkSDK.signMessages([message]))[0];
-
     const formData = new FormData();
     formData.append('file', {
       uri: filePath,
@@ -328,6 +327,7 @@ const doUploadFileToCourierServer = async (assetId, filePath, sessionData, filen
     let headers = {
       'Accept': 'application/json',
       'Content-Type': 'multipart/form-data',
+      requester: CacheData.userInformation.bitmarkAccountNumber,
       signature
     };
 
@@ -335,7 +335,7 @@ const doUploadFileToCourierServer = async (assetId, filePath, sessionData, filen
       return new Promise((resolve, reject) => {
         let statusCode;
         fetch(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
-          method: 'PUT',
+          method: 'POST',
           headers,
           body: formData,
         }).then((response) => {
@@ -346,7 +346,7 @@ const doUploadFileToCourierServer = async (assetId, filePath, sessionData, filen
           return response.text();
         }).then((data) => {
           if (statusCode >= 400) {
-            return reject(new Error(`uploadFunction error :` + JSON.stringify(data)));
+            return reject(new Error(`uploadFunction error : ${statusCode}` + JSON.stringify(data)));
           }
           resolve(data);
         }).catch(reject);
@@ -370,8 +370,11 @@ const doCheckFileExistInCourierServer = async (assetId) => {
       }
     }).then((response) => {
       statusCode = response.status;
+      if (statusCode >= 500) {
+        return reject(new Error('checkFileExistInCourierServer error!'));
+      }
       if (statusCode >= 400) {
-        return reject(new Error('checkFileExistInCourierServer error'));
+        return resolve();
       }
       resolve({
         data_key_alg: response.headers['Data-Key-Alg'],
@@ -424,6 +427,7 @@ const doGetDownloadableAssets = async () => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        requester: CacheData.userInformation.bitmarkAccountNumber,
         signature,
         timestamp
       }
@@ -435,7 +439,7 @@ const doGetDownloadableAssets = async () => {
       return response.json();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error('doGetDownloadableAssets error :' + JSON.stringify(data)));
+        return reject(new Error(`doGetDownloadableAssets error : ${statusCode}` + JSON.stringify(data)));
       }
       resolve(data ? (data.file_ids || []) : []);
     }).catch(reject);
@@ -446,7 +450,7 @@ const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
   let signature = (await BitmarkSDK.signMessages([`${assetId}|${sender}`]))[0];
   let response;
   let result = await FileUtil.downloadFile({
-    fromUrl: `${config.file_courier_server}/files/${assetId}/${sender}?receiver=${CacheData.userInformation.bitmarkAccountNumber}`,
+    fromUrl: `${config.file_courier_server}/v2/files/${assetId}/${sender}?receiver=${CacheData.userInformation.bitmarkAccountNumber}`,
     toFile: filePath,
     method: 'GET',
     headers: {
@@ -456,11 +460,13 @@ const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
     begin: (res) => response = res
   });
   console.log('response :', response, result);
+  if (response.statusCode >= 400) {
+    throw new Error(`doDownloadFileToCourierServer error ${response.statusCode}`);
+  }
   return {
     data_key_alg: response.headers['Data-Key-Alg'],
     enc_data_key: response.headers['Enc-Data-Key'],
     filename: response.headers['File-Name'],
-    sender: response.headers['Sender'],
   };
 };
 
