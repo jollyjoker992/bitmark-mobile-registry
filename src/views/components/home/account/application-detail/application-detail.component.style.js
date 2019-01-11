@@ -63,7 +63,7 @@ export default StyleSheet.create({
   donorInfo: {
     flexDirection: 'column', justifyContent: 'flex-start',
     paddingBottom: 10,
-    marginTop: 17,
+    marginTop: 22,
     flex: 1,
   },
 
