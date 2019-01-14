@@ -98,6 +98,7 @@ const detectMusicThumbnailPath = async (assetId) => {
   }
   if (!thumbnailPath) {
     thumbnailPath = `${assetFolderPath}/thumbnail.png`;
+    await FileUtil.mkdir(assetFolderPath);
     await FileUtil.downloadFile({
       fromUrl: config.bitmark_profile_server + `/s/asset/thumbnail?asset_id=${assetId}`,
       toFile: thumbnailPath,
