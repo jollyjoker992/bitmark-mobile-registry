@@ -34,7 +34,6 @@ const moveFilesFromLocalStorageToSharedStorage = async (bitmarkAccountNumber) =>
 
 const doCheckAndSyncDataWithICloud = async (asset) => {
   // upload to iCloud
-  console.log('doCheckAndSyncDataWithICloud :', asset);
   if (!asset) {
     return;
   }

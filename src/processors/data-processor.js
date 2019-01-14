@@ -189,9 +189,11 @@ const doCheckNewBitmarks = async (localAssets) => {
       await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(asset));
       if (asset.metadata && asset.metadata.type === constant.asset.type.music) {
         asset.thumbnailPath = await detectMusicThumbnailPath(asset.id);
-        let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(CacheData.userInformation.bitmarkAccountNumber, asset.id);
-        if (resultGetLimitedEdition) {
-          asset.limitedEdition = resultGetLimitedEdition.limited;
+        if (!asset.limitedEdition) {
+          let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(CacheData.userInformation.bitmarkAccountNumber, asset.id);
+          if (resultGetLimitedEdition) {
+            asset.limitedEdition = resultGetLimitedEdition.limited;
+          }
         }
         let bitmarks = asset.bitmarks;
         let allIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(CacheData.userInformation.bitmarkAccountNumber, asset.id);
