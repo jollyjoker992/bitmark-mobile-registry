@@ -222,7 +222,7 @@ export default StyleSheet.create({
     padding: 5,
   },
   thumbnailImage: {
-    width: 73, height: 73, resizeMode: 'contain',
+    width: 73, height: 73, resizeMode: 'cover',
   },
   editionInfo: {
     marginTop: 7,

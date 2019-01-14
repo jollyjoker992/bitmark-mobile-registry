@@ -32,8 +32,8 @@ export default StyleSheet.create({
     marginTop: 17,
   },
   thumbnailImage: {
-    width: 73, height: 73, resizeMode: 'contain',
-    marginLeft: convertWidth(9),
+    width: 73, height: 73, resizeMode: 'cover',
+    marginLeft: convertWidth(19),
     marginTop: 29,
   },
   topButtonsArea: {

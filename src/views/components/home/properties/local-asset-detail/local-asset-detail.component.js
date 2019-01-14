@@ -146,7 +146,7 @@ class PrivateLocalAssetDetailComponent extends React.Component {
             <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => this.setState({ displayTopButton: false })}>
               <View style={assetDetailStyle.bottomImageBar}></View>
               {this.props.asset.metadata && this.props.asset.metadata.type === constant.asset.type.music &&
-                <Image style={assetDetailStyle.thumbnailImage} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.asset.id}` }} />}
+                <Image style={assetDetailStyle.thumbnailImage} source={{ uri: this.props.asset.thumbnailPath || `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.asset.id}` }} />}
               <Text style={[assetDetailStyle.assetName, { color: this.props.asset.created_at ? 'black' : '#999999' }]} >{this.props.asset.name}</Text>
               {this.props.asset.issuedBitmarks && this.props.asset.limitedEdition &&
                 <Text style={assetDetailStyle.editionInfo}>{global.i18n.t("LocalAssetDetailComponent_editionInfo",

@@ -216,7 +216,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
             <TouchableOpacity activeOpacity={1} style={{ flex: 1 }} onPress={() => this.setState({ displayTopButton: false })}>
               <View style={propertyDetailStyle.bottomImageBar}></View>
               {this.props.asset.metadata && this.props.asset.metadata.type === constant.asset.type.music &&
-                <Image style={propertyDetailStyle.thumbnailImage} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.asset.id}` }} />}
+                <Image style={propertyDetailStyle.thumbnailImage} source={{ uri: this.props.asset.thumbnailPath || `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.asset.id}` }} />}
               <Text style={[propertyDetailStyle.assetName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{this.props.asset.name}</Text>
 
               {this.props.bitmark.status !== 'pending' && <Hyperlink
