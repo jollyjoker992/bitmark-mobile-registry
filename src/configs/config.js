@@ -35,7 +35,7 @@ let commonConfig = {
   bitmark_web_site: 'https://bitmark.com',
   file_courier_server: 'https://file-courier.test.bitmark.com',
   bitmark_profile_server: 'http://192.168.0.106:1102',
-  needResetLocalData: 1535081368111,
+  needResetLocalData: 1547201856036,
 };
 
 if (commonConfig.network === NETWORKS.testnet) {
