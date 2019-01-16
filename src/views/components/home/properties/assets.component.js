@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Provider, connect } from 'react-redux';
 import {
-  View, Text, TouchableOpacity, ScrollView, FlatList, Image, ActivityIndicator, SafeAreaView,
+  View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator, SafeAreaView,
   Dimensions,
 } from 'react-native';
 
