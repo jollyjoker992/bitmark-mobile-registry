@@ -155,13 +155,6 @@ const doDownloadBitmark = async (bitmark, processingData) => {
   return executeTask('doDownloadBitmark', { bitmark, processingData });
 };
 
-const doTrackingBitmark = async (asset, bitmark) => {
-  return executeTask('doTrackingBitmark', { asset, bitmark });
-};
-
-const doStopTrackingBitmark = async (bitmark) => {
-  return executeTask('doStopTrackingBitmark', { bitmark });
-};
 const doRevokeIftttToken = async () => {
   return executeTask('doRevokeIftttToken');
 };
@@ -230,8 +223,6 @@ let AppProcessor = {
   doAcceptAllTransfers,
   doCancelTransferBitmark,
   doDownloadBitmark,
-  doTrackingBitmark,
-  doStopTrackingBitmark,
   doRevokeIftttToken,
   doIssueIftttData,
   doReloadUserData,

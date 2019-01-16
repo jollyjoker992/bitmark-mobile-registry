@@ -228,44 +228,6 @@ export default StyleSheet.create({
     marginTop: 7,
     fontFamily: 'Avenir-Medium', fontSize: 14, fontWeight: '900', color: '#0060F2',
   },
-
-  trackingRow: {
-    width: '100%',
-    flexDirection: 'column',
-    borderBottomColor: '#EDF0F4',
-    borderBottomWidth: 1,
-    paddingLeft: convertWidth(28),
-    paddingRight: convertWidth(19),
-    paddingTop: 22,
-    paddingBottom: 22,
-  },
-  trackingRowAssetName: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
-    fontSize: 14,
-    width: '100%',
-  },
-  trackingRowUpdated: {
-    marginTop: 10,
-    fontFamily: 'Andale Mono',
-    fontSize: 14,
-    color: '#0060F2',
-    width: '100%',
-  },
-  trackingRowCurrentOwner: {
-    marginTop: 12,
-    width: '100%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignContent: 'center',
-    justifyContent: 'space-between',
-  },
-  trackingRowCurrentOwnerText: {
-    fontFamily: 'Andale Mono',
-    fontSize: 14,
-    color: '#0060F2',
-  },
-
   globalArea: {
     flex: 1,
     flexDirection: 'row',

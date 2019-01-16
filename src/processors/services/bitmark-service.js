@@ -201,48 +201,6 @@ const doGetBitmarkInformation = async (bitmarkId) => {
   return data;
 };
 
-const doGetTrackingBitmarks = async (bitmarkAccountNumber) => {
-  let oldTrackingBitmarks = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS);
-  oldTrackingBitmarks = oldTrackingBitmarks || [];
-  let oldStatuses = {};
-  let allTrackingBitmarksFromServer = await BitmarkModel.doGetAllTrackingBitmark(bitmarkAccountNumber);
-  allTrackingBitmarksFromServer.bitmarks.forEach(tb => {
-    oldStatuses[tb.bitmark_id] = {
-      lastHistory: {
-        status: tb.status,
-        head_id: tb.tx_id,
-      },
-    };
-  });
-  oldTrackingBitmarks.forEach(otb => {
-    if (oldStatuses[otb.id]) {
-      oldStatuses[otb.id].lastHistory = otb.lastHistory;
-      oldStatuses[otb.id].asset = otb.asset;
-      oldStatuses[otb.id].isViewed = otb.isViewed;
-    }
-  });
-  let bitmarkIds = Object.keys(oldStatuses);
-  let allData = await BitmarkModel.doGetListBitmarks(bitmarkIds, { includeAsset: true });
-  let bitmarks = allData ? (allData.bitmarks || []) : [];
-  let assets = allData ? (allData.assets || []) : [];
-  let trackingBitmarks = [];
-  for (let bitmark of bitmarks) {
-    let oldStatus = oldStatuses[bitmark.id];
-    bitmark.asset = assets.find(asset => asset.id === bitmark.asset_id);
-
-    if (oldStatus.lastHistory.head_id !== bitmark.head_id ||
-      (oldStatus.lastHistory.head_id === bitmark.head_id && oldStatus.lastHistory.status !== bitmark.status)) {
-      bitmark.isViewed = false;
-    } else {
-      bitmark.isViewed = !!oldStatus.isViewed;
-    }
-    bitmark.lastHistory = oldStatus.lastHistory;
-
-    trackingBitmarks.push(bitmark);
-  }
-  return trackingBitmarks;
-};
-
 const doGetProvenance = async (bitmarkId, headId, status) => {
   let { provenance } = await BitmarkModel.doGetProvenance(bitmarkId);
   if (headId && status) {
@@ -479,7 +437,6 @@ let BitmarkService = {
   doIssueMusic,
   doTransferBitmark,
   doGetBitmarkInformation,
-  doGetTrackingBitmarks,
   doGetProvenance,
   doConfirmWebAccount,
   doDecentralizedIssuance,

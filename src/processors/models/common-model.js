@@ -11,7 +11,6 @@ const KEYS = {
 
   //original data
   USER_DATA_LOCAL_BITMARKS: 'user-data:local-bitmarks',
-  USER_DATA_TRACKING_BITMARKS: 'user-data:tracking-bitmarks',
   USER_DATA_IFTTT_INFORMATION: 'user-data:ifttt-information',
   USER_DATA_CLAIM_REQUEST: 'user-data:claim-request',
   USER_DATA_TRANSACTIONS: 'user-data:transactions',

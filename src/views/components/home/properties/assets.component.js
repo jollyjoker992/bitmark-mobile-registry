@@ -18,13 +18,20 @@ let currentSize = Dimensions.get('window');
 
 const SubTabs = {
   local: 'Yours',
-  tracking: 'TRACKED',
   global: 'Global',
 };
 
 let loadingDataWhenScroll = false;
 
 class PrivateAssetsComponent extends React.Component {
+  static propTypes = {
+    totalAssets: PropTypes.number,
+    totalBitmarks: PropTypes.number,
+    assets: PropTypes.array,
+    existNewAsset: PropTypes.bool,
+    appLoadingData: PropTypes.bool,
+  }
+
   constructor(props) {
     super(props);
 
@@ -82,31 +89,6 @@ class PrivateAssetsComponent extends React.Component {
               <View style={assetsStyle.subTabButtonTextArea}>
                 {/* {this.props.existNewAsset && <View style={assetsStyle.newItem}></View>} */}
                 <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1', marginLeft: this.props.totalBitmarks > 9 ? 10 : 0 }]}>{global.i18n.t("AssetsComponent_yours")}<Text style={{ fontSize: this.props.totalBitmarks > 9 ? 8 : 14 }}>{(this.props.totalBitmarks > 0 ? ` (${this.props.totalBitmarks > 99 ? '99+' : this.props.totalBitmarks})` : '')}</Text></Text>
-              </View>
-            </View>
-          </TouchableOpacity>}
-
-          {this.state.subTab === SubTabs.tracking && <TouchableOpacity style={[assetsStyle.subTabButton, {
-            shadowOffset: { width: -2 },
-            shadowOpacity: 0.15,
-          }]}>
-            <View style={assetsStyle.subTabButtonArea}>
-              <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
-              <View style={assetsStyle.subTabButtonTextArea}>
-                {this.existNewTracking && <View style={assetsStyle.newItem}></View>}
-                <Text style={[assetsStyle.subTabButtonText, { marginLeft: this.props.totalTrackingBitmarks > 9 ? 10 : 0 }]}>{global.i18n.t("AssetsComponent_tracked")}<Text style={{ fontSize: this.props.totalTrackingBitmarks > 9 ? 8 : 14 }}>{(this.props.totalTrackingBitmarks > 0 ? ` (${this.props.totalTrackingBitmarks > 99 ? '99+' : this.props.totalTrackingBitmarks})` : '')}</Text></Text>
-              </View>
-            </View>
-          </TouchableOpacity>}
-          {this.state.subTab !== SubTabs.tracking && <TouchableOpacity style={[assetsStyle.subTabButton, {
-            backgroundColor: '#F5F5F5',
-            zIndex: 0,
-          }]} onPress={() => this.switchSubTab(SubTabs.tracking)}>
-            <View style={assetsStyle.subTabButtonArea}>
-              <View style={[assetsStyle.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
-              <View style={assetsStyle.subTabButtonTextArea}>
-                {this.existNewTracking && <View style={assetsStyle.newItem}></View>}
-                <Text style={[assetsStyle.subTabButtonText, { color: '#C1C1C1', marginLeft: this.props.totalTrackingBitmarks > 9 ? 10 : 0 }]}>{global.i18n.t("AssetsComponent_tracked")}<Text style={{ fontSize: this.props.totalTrackingBitmarks > 9 ? 8 : 14 }}>{(this.props.totalTrackingBitmarks > 0 ? ` (${this.props.totalTrackingBitmarks > 99 ? '99+' : this.props.totalTrackingBitmarks})` : '')}</Text></Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -193,48 +175,6 @@ class PrivateAssetsComponent extends React.Component {
           </TouchableOpacity>
         </ScrollView>}
 
-        {this.state.subTab === SubTabs.tracking && <ScrollView style={[assetsStyle.scrollSubTabArea]}>
-          <TouchableOpacity activeOpacity={1} style={assetsStyle.contentSubTab}>
-            {(this.props.trackingBitmarks && this.props.trackingBitmarks.length === 0) && <View style={assetsStyle.messageNoAssetArea}>
-              <Text style={assetsStyle.messageNoAssetLabel}>
-                {global.i18n.t("AssetsComponent_messageNoAssetLabel")}
-              </Text>
-              <Text style={assetsStyle.messageNoAssetContent}>
-                {global.i18n.t("AssetsComponent_messageNoAssetContent")}
-              </Text>
-            </View>}
-            {(this.props.trackingBitmarks && this.props.trackingBitmarks.length > 0 && this.state.subTab === SubTabs.tracking) && <FlatList
-              extraData={this.props}
-              data={this.props.trackingBitmarks || []}
-              renderItem={({ item }) => {
-                return (<TouchableOpacity style={[assetsStyle.trackingRow]} onPress={() => {
-                  Actions.localPropertyDetail({ asset: item.asset, bitmark: item });
-                }} >
-                  {/* {!item.isViewed && <View style={[assetsStyle.newItem, { top: 22 }]}></View>} */}
-                  <Text style={assetsStyle.trackingRowAssetName}>{item.asset.name}</Text>
-                  <Text style={[assetsStyle.trackingRowUpdated, {
-                    color: item.status === 'pending' ? '#999999' : '#0060F2'
-                  }]}>
-                    {item.status === 'pending' ? global.i18n.t("AssetsComponent_pending") : (global.i18n.t("AssetsComponent_updated") + ': ' + moment(item.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase())}
-                  </Text>
-                  <View style={assetsStyle.trackingRowCurrentOwner}>
-                    <Text style={[assetsStyle.trackingRowCurrentOwnerText, {
-                      color: item.status === 'pending' ? '#999999' : '#0060F2'
-                    }]}>{global.i18n.t("AssetsComponent_currentOwner")}: {item.owner === CacheData.userInformation.bitmarkAccountNumber ? global.i18n.t("AssetsComponent_you") : (
-                      '[' + item.owner.substring(0, 4) + '...' + item.owner.substring(item.owner.length - 4, item.owner.length) + ']'
-                    )}
-                    </Text>
-                    {item.status === 'pending' && <Image style={assetsStyle.assetQuantityPendingIcon} source={require('assets/imgs/pending-status.png')} />}
-                  </View>
-                </TouchableOpacity>)
-              }}
-            />}
-            {this.props.appLoadingData && <View style={assetsStyle.messageNoAssetArea}>
-              <ActivityIndicator size="large" style={{ marginTop: 46, }} />
-            </View>}
-          </TouchableOpacity>
-        </ScrollView>}
-
         {this.state.subTab === SubTabs.global && <View style={assetsStyle.globalArea}>
           <BitmarkWebViewComponent sourceUrl={config.registry_server_url + '?env=app'} heightButtonController={38} />
         </View>}
@@ -247,17 +187,6 @@ class PrivateAssetsComponent extends React.Component {
       </View>
     );
   }
-}
-
-PrivateAssetsComponent.propTypes = {
-  totalAssets: PropTypes.number,
-  totalBitmarks: PropTypes.number,
-  assets: PropTypes.array,
-  existNewAsset: PropTypes.bool,
-  totalTrackingBitmarks: PropTypes.number,
-  existNewTracking: PropTypes.bool,
-  trackingBitmarks: PropTypes.array,
-  appLoadingData: PropTypes.bool,
 }
 
 const StoreAssetsComponent = connect(

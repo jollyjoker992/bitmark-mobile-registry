@@ -95,13 +95,6 @@ export class UserRouterComponent extends Component {
       DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id).then(bitmarkInformation => {
         Actions.localPropertyDetail(bitmarkInformation);
       }).catch(console.log);
-
-    } else if (data.event === 'tracking_transfer_confirmed') {
-      DataProcessor.doReloadTrackingBitmark().then(() => {
-        return DataProcessor.doGetTrackingBitmarkInformation(data.bitmark_id);
-      }).then(trackingBitmark => {
-        Actions.localPropertyDetail({ asset: trackingBitmark.asset, bitmark: trackingBitmark });
-      }).catch(console.log);
     } else if (data.event === 'claim_request') {
       DataProcessor.doReloadClaimAssetRequest().then((claimRequests) => {
         let incomingClaimRequest = (claimRequests.incoming_claim_requests || []).find(cr => cr.id === data.claim_id);

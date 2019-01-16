@@ -6,12 +6,8 @@ import { Sentry } from 'react-native-sentry';
 import base58 from 'bs58';
 
 import {
-  EventEmitterService,
-  NotificationService,
-  TransactionService,
-  BitmarkService,
-  AccountService,
-  LocalFileService,
+  EventEmitterService, NotificationService, TransactionService,
+  BitmarkService, AccountService, LocalFileService,
 } from './services';
 import {
   CommonModel, AccountModel, UserModel, BitmarkSDK,
@@ -23,12 +19,9 @@ import {
   compareVersion,
 } from 'src/utils';
 import {
-  AssetsStore, AssetsActions,
-  BottomTabStore, BottomTabActions,
-  AssetStore, AssetActions,
-  PropertyStore, PropertyActions,
-  AccountStore, AccountActions,
-  TransactionsStore, TransactionsActions,
+  AssetsStore, AssetsActions, BottomTabStore, BottomTabActions,
+  AssetStore, AssetActions, PropertyStore, PropertyActions,
+  AccountStore, AccountActions, TransactionsStore, TransactionsActions,
 } from 'src/views/stores';
 import { config, constant } from 'src/configs';
 import { CacheData } from './caches';
@@ -154,28 +147,6 @@ const doCheckClaimRequests = async (claimRequests) => {
   }
 }
 
-const doCheckNewTrackingBitmarks = async (trackingBitmarks) => {
-  if (trackingBitmarks) {
-    await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS, trackingBitmarks);
-
-    let assetsStoreState = merge({}, AssetsStore.getState().data);
-    assetsStoreState.trackingBitmarks = trackingBitmarks;
-    assetsStoreState.totalTrackingBitmarks = trackingBitmarks.length;
-    assetsStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
-    AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
-
-    let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
-    bottomTabStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
-    BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
-
-    let propertyStoreState = merge({}, PropertyStore.getState().data);
-    if (propertyStoreState.bitmark) {
-      propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
-      PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
-    }
-  }
-};
-
 const doCheckNewTransactions = async (transactions) => {
   if (transactions) {
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS, transactions);
@@ -250,7 +221,6 @@ const doCheckNewBitmarks = async (localAssets) => {
       let asset = localAssets.find(asset => asset.id === propertyStoreState.bitmark.asset_id);
       propertyStoreState.asset = asset;
       propertyStoreState.bitmark = asset ? asset.bitmarks.find(bitmark => bitmark.id === propertyStoreState.bitmark.id) : null;
-      propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
       PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
     }
   }
@@ -317,26 +287,6 @@ const runGetClaimRequestInBackground = () => {
       queueGetClaimRequests.forEach(queueResolve => queueResolve());
       queueGetClaimRequests = [];
       console.log('runOnBackground  runGetClaimRequestInBackground error :', error);
-    });
-  });
-};
-
-
-let queueGetTrackingBitmarks = [];
-const runGetTrackingBitmarksInBackground = () => {
-  return new Promise((resolve) => {
-    queueGetTrackingBitmarks.push(resolve);
-    if (queueGetTrackingBitmarks.length > 1) {
-      return;
-    }
-    BitmarkService.doGetTrackingBitmarks(CacheData.userInformation.bitmarkAccountNumber).then(trackingBitmarks => {
-      console.log('runOnBackground  runGetTrackingBitmarksInBackground success');
-      queueGetTrackingBitmarks.forEach(queueResolve => queueResolve(trackingBitmarks));
-      queueGetTrackingBitmarks = [];
-    }).catch(error => {
-      queueGetTrackingBitmarks.forEach(queueResolve => queueResolve());
-      queueGetTrackingBitmarks = [];
-      console.log('runOnBackground  runGetTrackingBitmarksInBackground error :', error);
     });
   });
 };
@@ -460,16 +410,14 @@ const runOnBackground = async () => {
     let runParallel = () => {
       return new Promise((resolve) => {
         Promise.all([
-          runGetTrackingBitmarksInBackground(),
           runGetTransferOfferInBackground(),
           runGetIFTTTInformationInBackground(),
         ]).then(resolve);
       });
     };
     let parallelResults = await runParallel();
-    await doCheckNewTrackingBitmarks(parallelResults[0]);
-    await doCheckTransferOffers(parallelResults[1], true);
-    await doCheckNewIftttInformation(parallelResults[2], true);
+    await doCheckTransferOffers(parallelResults[0], true);
+    await doCheckNewIftttInformation(parallelResults[1], true);
 
     let doParallel = () => {
       return new Promise((resolve) => {
@@ -495,11 +443,6 @@ const doReloadUserData = async () => {
 
   CacheData.isLoadingData = false;
   setAppLoadingStatus();
-};
-const doReloadTrackingBitmark = async () => {
-  let trackingBitmarks = await runGetTrackingBitmarksInBackground();
-  await doCheckNewTrackingBitmarks(trackingBitmarks);
-  return trackingBitmarks;
 };
 
 const doReloadClaimAssetRequest = async () => {
@@ -718,15 +661,9 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     }
 
     let localAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS)) || [];
-    let trackingBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS)) || [];
 
     let totalBitmarks = 0;
     localAssets.forEach(asset => totalBitmarks += asset.bitmarks.length);
-
-    if (!Array.isArray(trackingBitmarks)) {
-      await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS, []);
-      trackingBitmarks = [];
-    }
 
     let actionRequired = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED)) || [];
     let completed = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY)) || [];
@@ -750,7 +687,6 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     BottomTabStore.dispatch(BottomTabActions.init({
       totalTasks,
       existNewAsset: localAssets.findIndex(asset => !asset.isViewed) >= 0,
-      existNewTracking: (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0,
     }));
 
     AssetsStore.dispatch(AssetsActions.init({
@@ -758,10 +694,6 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       totalAssets: localAssets.length,
       existNewAsset: localAssets.findIndex(asset => !asset.isViewed) >= 0,
       totalBitmarks,
-
-      totalTrackingBitmarks: trackingBitmarks.length,
-      existNewTrackingBitmark: (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0,
-      trackingBitmarks: trackingBitmarks.slice(0, 20),
     }));
 
     TransactionsStore.dispatch(TransactionsActions.init({
@@ -783,7 +715,6 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       let asset = localAssets.find(asset => asset.id === propertyStoreState.bitmark.asset_id);
       propertyStoreState.asset = asset;
       propertyStoreState.bitmark = asset ? asset.bitmarks.find(bitmark => bitmark.id === propertyStoreState.bitmark.id) : null;
-      propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
       PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
     }
 
@@ -884,58 +815,10 @@ const doUpdateViewStatus = async (assetId, bitmarkId) => {
       if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id === assetId) {
         propertyStoreState.asset = asset;
         propertyStoreState.bitmark = asset ? asset.bitmarks.find(bitmark => bitmark.id === propertyStoreState.bitmark.id) : null;
-        propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
         PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
       }
     }
   }
-  if (bitmarkId) {
-    let trackingBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS)) || [];
-    let trackingBitmark = (trackingBitmarks || []).find(tb => tb.id === bitmarkId);
-    if (trackingBitmark) {
-      let hasChanging = !trackingBitmark.isViewed;
-      trackingBitmark.isViewed = true;
-      trackingBitmark.lastHistory = {
-        status: trackingBitmark.status,
-        head_id: trackingBitmark.head_id,
-      };
-      await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS, trackingBitmarks);
-      if (hasChanging) {
-
-        let assetsStoreState = merge({}, AssetsStore.getState().data);
-        assetsStoreState.trackingBitmarks = trackingBitmarks;
-        assetsStoreState.totalTrackingBitmarks = trackingBitmarks.length;
-        assetsStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
-        AssetsStore.dispatch(AssetsActions.init(assetsStoreState));
-
-        let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
-        bottomTabStoreState.existNewTracking = (trackingBitmarks || []).findIndex(bm => !bm.isViewed) >= 0;
-        BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
-
-        let propertyStoreState = merge({}, PropertyStore.getState().data);
-        if (propertyStoreState.bitmark) {
-          propertyStoreState.isTracking = !!(await DataProcessor.doGetTrackingBitmarkInformation(propertyStoreState.bitmark.id));
-          PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
-        }
-      }
-    }
-  }
-};
-
-const doTrackingBitmark = async (asset, bitmark) => {
-  let signatureData = await CommonModel.doCreateSignatureData();
-  await BitmarkModel.doAddTrackingBitmark(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature,
-    bitmark.id, bitmark.head_id, bitmark.status);
-  let trackingBitmarks = await runGetTrackingBitmarksInBackground();
-  await doCheckNewTrackingBitmarks(trackingBitmarks);
-  return true;
-};
-const doStopTrackingBitmark = async (bitmark) => {
-  let signatureData = await CommonModel.doCreateSignatureData();
-  await BitmarkModel.doStopTrackingBitmark(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, bitmark.id);
-  let trackingBitmarks = await runGetTrackingBitmarksInBackground();
-  await doCheckNewTrackingBitmarks(trackingBitmarks);
-  return true;
 };
 
 const doReloadIFTTTInformation = async () => {
@@ -1083,14 +966,7 @@ const doSignInOnWebApp = async (token) => {
 
 const doGetProvenance = (bitmarkId) => {
   return new Promise((resolve) => {
-    CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS).then(trackingBitmarks => {
-      let trackingBitmark = (trackingBitmarks || []).find(tb => tb.id === bitmarkId);
-      if (trackingBitmark) {
-        return BitmarkService.doGetProvenance(bitmarkId, trackingBitmark.lastHistory.head_id, trackingBitmark.lastHistory.status)
-      } else {
-        return BitmarkService.doGetProvenance(bitmarkId);
-      }
-    }).then(resolve).catch(error => {
+    BitmarkService.doGetProvenance(bitmarkId).then(resolve).catch(error => {
       console.log('doGetProvenance error:', error);
       resolve([]);
     });
@@ -1130,11 +1006,6 @@ const doGetLocalBitmarkInformation = async (bitmarkId, assetId) => {
     });
   }
   return { bitmark, asset };
-}
-
-const doGetTrackingBitmarkInformation = async (bitmarkId) => {
-  let trackingBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS)) || [];
-  return (trackingBitmarks || []).find(bitmark => bitmark.id === bitmarkId);
 }
 
 const doGetIftttInformation = async () => {
@@ -1525,13 +1396,10 @@ const DataProcessor = {
   doStartBackgroundProcess,
   doReloadUserData,
   doReloadLocalBitmarks,
-  doReloadTrackingBitmark,
 
   doDeactiveApplication,
   doDownloadBitmark,
   doUpdateViewStatus,
-  doTrackingBitmark,
-  doStopTrackingBitmark,
   doGetProvenance,
   doReloadIFTTTInformation,
   doRevokeIftttToken,
@@ -1549,7 +1417,6 @@ const DataProcessor = {
   doDecentralizedTransfer,
 
   doGetLocalBitmarkInformation,
-  doGetTrackingBitmarkInformation,
   doGetIftttInformation,
 
   doProcessIncomingClaimRequest,

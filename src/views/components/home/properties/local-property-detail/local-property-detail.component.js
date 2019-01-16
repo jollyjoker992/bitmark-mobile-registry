@@ -26,7 +26,6 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
   constructor(props) {
     super(props);
     this.clickOnProvenance = this.clickOnProvenance.bind(this);
-    this.changeTrackingBitmark = this.changeTrackingBitmark.bind(this);
     this.doGetScreenData = this.doGetScreenData.bind(this);
 
     let provenanceViewed = {};
@@ -94,34 +93,6 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
   clickOnProvenance(item) {
     let sourceUrl = config.registry_server_url + `/account/${item.owner}?env=app`;
     Actions.bitmarkWebViewFull({ title: 'Registry', sourceUrl, });
-  }
-
-  changeTrackingBitmark() {
-    if (!this.props.isTracking) {
-      Alert.alert(global.i18n.t("LocalPropertyDetailComponent_trackBitmarkTitle"), global.i18n.t("LocalPropertyDetailComponent_trackBitmarkMessage"), [{
-        text: global.i18n.t("LocalPropertyDetailComponent_cancel"), style: 'cancel',
-      }, {
-        text: global.i18n.t("LocalPropertyDetailComponent_yes"),
-        onPress: () => {
-          AppProcessor.doTrackingBitmark(this.props.asset, this.props.bitmark).catch(error => {
-            EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-            console.log('doTrackingBitmark error :', error);
-          });
-        }
-      }]);
-    } else {
-      Alert.alert(global.i18n.t("LocalPropertyDetailComponent_stopTrackingTitle"), global.i18n.t("LocalPropertyDetailComponent_stopTrackingMessage"), [{
-        text: global.i18n.t("LocalPropertyDetailComponent_cancel"), style: 'cancel',
-      }, {
-        text: global.i18n.t("LocalPropertyDetailComponent_yes"),
-        onPress: () => {
-          AppProcessor.doStopTrackingBitmark(this.props.bitmark).catch(error => {
-            EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-            console.log('doTrackingBitmark error :', error);
-          });
-        }
-      }]);
-    }
   }
 
   deleteBitmark() {
@@ -201,9 +172,6 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
                 }]}>{global.i18n.t("LocalPropertyDetailComponent_sendBitmark")}</Text>
               </TouchableOpacity>
             }
-            <TouchableOpacity style={propertyDetailStyle.topButton} onPress={this.changeTrackingBitmark}>
-              <Text style={[propertyDetailStyle.topButtonText]}>{this.props.isTracking ? global.i18n.t("LocalPropertyDetailComponent_stopTracking") : global.i18n.t("LocalPropertyDetailComponent_trackBitmark")}</Text>
-            </TouchableOpacity>
             {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <TouchableOpacity style={propertyDetailStyle.topButton}
               disabled={this.props.bitmark.status !== 'confirmed'}
               onPress={this.deleteBitmark.bind(this)}>
@@ -289,7 +257,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
                     data={this.state.provenance || []}
                     renderItem={({ item }) => {
                       return (<TouchableOpacity style={propertyDetailStyle.provenancesRow} onPress={() => this.clickOnProvenance(item)} disabled={item.status === 'pending'}>
-                        {this.props.isTracking && !this.state.provenanceViewed[item.tx_id] && !item.isViewed && <View style={propertyDetailStyle.provenancesNotView}></View>}
+                        {!this.state.provenanceViewed[item.tx_id] && !item.isViewed && <View style={propertyDetailStyle.provenancesNotView}></View>}
                         <Text style={[propertyDetailStyle.provenancesRowTimestamp, { color: item.status === 'pending' ? '#999999' : '#0060F2' }]} numberOfLines={1}>
                           {item.status === 'pending' ? global.i18n.t("LocalPropertyDetailComponent_pending") : item.created_at.toUpperCase()}
                         </Text>
@@ -316,7 +284,6 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
 PrivateLocalPropertyDetailComponent.propTypes = {
   bitmark: PropTypes.object,
   asset: PropTypes.object,
-  isTracking: PropTypes.bool,
 };
 
 const StoreLocalPropertyDetailComponent = connect(
@@ -334,14 +301,6 @@ export class LocalPropertyDetailComponent extends React.Component {
     super(props);
     let tempState = { asset: this.props.asset, bitmark: this.props.bitmark };
     PropertyStore.dispatch(PropertyActions.init(tempState));
-    if (this.props.bitmark && this.props.bitmark.id) {
-      DataProcessor.doGetTrackingBitmarkInformation(this.props.bitmark.id).then(data => {
-        tempState.isTracking = !!data;
-        PropertyStore.dispatch(PropertyActions.init(tempState));
-      }).catch(error => {
-        console.log('doGetTrackingBitmarkInformation error', error);
-      })
-    }
   }
   render() {
     return (

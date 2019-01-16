@@ -12,8 +12,8 @@ const AssetsActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
   },
-  init: ({ totalAssets, totalBitmarks, assets, existNewAsset, totalTrackingBitmarks, existNewTracking, trackingBitmarks, appLoadingData }) => {
-    return { type: ACTION_TYPES.INIT, totalAssets, totalBitmarks, assets, existNewAsset, totalTrackingBitmarks, existNewTracking, trackingBitmarks, appLoadingData };
+  init: ({ totalAssets, totalBitmarks, assets, existNewAsset, appLoadingData }) => {
+    return { type: ACTION_TYPES.INIT, totalAssets, totalBitmarks, assets, existNewAsset, appLoadingData };
   },
 };
 
@@ -22,9 +22,6 @@ const initialState = {
   totalBitmarks: 0,
   assets: [],
   existNewAsset: false,
-  totalTrackingBitmarks: 0,
-  existNewTracking: false,
-  trackingBitmarks: [],
   appLoadingData: false,
 };
 
@@ -38,9 +35,6 @@ const data = (state = initialState, action) => {
       tempState.totalBitmarks = action.totalBitmarks;
       tempState.assets = action.assets || tempState.assets;
       tempState.existNewAsset = action.existNewAsset;
-      tempState.trackingBitmarks = action.trackingBitmarks || tempState.trackingBitmarks;
-      tempState.totalTrackingBitmarks = action.totalTrackingBitmarks;
-      tempState.existNewTracking = action.existNewTracking;
       tempState.appLoadingData = action.appLoadingData;
       return tempState;
     }

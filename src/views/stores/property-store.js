@@ -12,13 +12,12 @@ const PropertyActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
   },
-  init: ({ isTracking, asset, bitmark }) => {
-    return { type: ACTION_TYPES.INIT, isTracking, asset, bitmark };
+  init: ({ asset, bitmark }) => {
+    return { type: ACTION_TYPES.INIT, asset, bitmark };
   },
 };
 
 const initialState = {
-  isTracking: false,
   asset: null,
   bitmark: null,
 };
@@ -29,7 +28,6 @@ const data = (state = initialState, action) => {
       return merge({}, initialState);
     case ACTION_TYPES.INIT: {
       let tempState = merge({}, state);
-      tempState.isTracking = action.isTracking;
       tempState.asset = action.asset;
       tempState.bitmark = action.bitmark;
       return tempState;
