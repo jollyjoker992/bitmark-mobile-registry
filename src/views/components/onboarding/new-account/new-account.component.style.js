@@ -16,13 +16,16 @@ export default StyleSheet.create({
     flex: 1,
   },
   swipeArea: {
-    flex: 1,
+    flex: 1, alignItems: 'center', justifyContent: 'center',
   },
   swipePage: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
     paddingBottom: 50,
+  },
+  swipePageContent: {
+    alignItems: 'center', justifyContent: 'center',
   },
   swipeDotButton: {
     backgroundColor: '#C4C4C4',
@@ -39,62 +42,29 @@ export default StyleSheet.create({
     bottom: 50 + (config.isIPhoneX ? (constant.blankFooter / 2) : 0),
   },
 
-  introductionArea: {
-    flexDirection: 'column',
-    height: 145,
-  },
   introductionTitle: {
-    marginTop: 25,
-    left: convertWidth(50),
-    fontFamily: 'Avenir black',
-    color: '#0060F2',
-    fontSize: 17,
-    fontWeight: '900',
+    width: convertWidth(275), minHeight: 62,
+    fontFamily: 'AvenirNextW1G-Bold', color: '#0060F2', fontSize: 17,
   },
   introductionDescription: {
-    marginTop: 30,
-    left: convertWidth(50),
     width: convertWidth(275),
-    fontFamily: 'Avenir light',
-    fontWeight: '300',
-    fontSize: 17,
+    fontFamily: 'AvenirNextW1G-Regular', fontSize: 17,
+    minHeight: 117,
   },
   introductionLinkButton: {
     marginTop: 20,
     left: convertWidth(50),
   },
   introductionLink: {
-    fontFamily: 'Avenir light',
-    fontWeight: '900',
-    color: '#0060F2',
-    fontSize: 14,
+    fontFamily: 'AvenirNextW1G-Bold', color: '#0060F2', fontSize: 14,
   },
-  introductionImageArea: {
-    width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  onBoardingImage: {
+  introductionImage: {
     resizeMode: 'contain',
-    width: convertWidth(230),
-    height: 370 * convertWidth(230) / 230
-  },
-  actionAndHistoryOnBoardingImage: {
-    marginTop: 24,
-    resizeMode: 'contain',
-    width: convertWidth(196),
-    height: 343 * convertWidth(196) / 196
-  },
-  publicAccountNumberOnBoardingImage: {
-    marginTop: 20,
-    resizeMode: 'contain',
-    width: convertWidth(219),
-    height: 298 * convertWidth(219) / 219
+    width: convertWidth(202), height: 358 * convertWidth(202) / 202,
   },
   introductionTermPrivacy: {
     marginTop: calculateAdditionalHeight(667, 30, true),
-    left: convertWidth(50),
-    width: convertWidth(272),
+    width: convertWidth(275),
   },
   termPrivacySecondLine: {
     flexDirection: 'row',
@@ -102,17 +72,10 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   bitmarkTermsPrivacyText: {
-    fontFamily: 'Avenir light',
-    fontSize: 17,
-    fontWeight: '300',
-    lineHeight: 19,
+    fontFamily: 'AvenirNextW1G-Light', fontSize: 14,
   },
   bitmarkTermsPrivacyButtonText: {
-    fontFamily: 'Avenir light',
-    color: '#0060F2',
-    fontSize: 17,
-    fontWeight: '300',
-    lineHeight: 19,
+    fontFamily: 'AvenirNextW1G-Light', color: '#0060F2', fontSize: 14,
   },
 
   skipButtonArea: {
@@ -131,11 +94,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   skipButtonText: {
-    fontFamily: 'Avenir black',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '900',
-    color: 'white'
+    fontFamily: 'AvenirNextW1G-Bold', textAlign: 'center', fontSize: 14, color: '#0060F2'
   },
 
   letDoItButtonArea: {
@@ -157,10 +116,6 @@ export default StyleSheet.create({
   },
   letDoItButtonText: {
     paddingBottom: constant.blankFooter / 2,
-    fontFamily: 'Avenir Black',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '900',
-    color: 'white'
+    fontFamily: 'AvenirNextW1G-Bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
 });
