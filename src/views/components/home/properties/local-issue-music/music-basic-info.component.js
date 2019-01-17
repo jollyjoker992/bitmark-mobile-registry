@@ -96,12 +96,10 @@ export class MusicBasicInfoComponent extends React.Component {
                 Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
                 return;
               }
-              console.log('response uri:', response.uri);
               let thumbnailPath = response.uri.replace('file://', '');
               thumbnailPath = decodeURIComponent(thumbnailPath);
               let destPath = FileUtil.CacheDirectory + '/' + (response.fileName || (response.uri.substring(response.uri.lastIndexOf('/') + 1, response.uri.length)));
               await FileUtil.copyFileSafe(thumbnailPath, destPath);
-              console.log('destPath :', destPath);
               thumbnailPath = destPath;
               this.setState({
                 thumbnailPath, thumbnailPathError: '',
@@ -119,12 +117,10 @@ export class MusicBasicInfoComponent extends React.Component {
                 Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
                 return;
               }
-              console.log('response.uri :', response.uri);
               let thumbnailPath = response.uri.replace('file://', '');
               thumbnailPath = decodeURIComponent(thumbnailPath);
               let destPath = FileUtil.CacheDirectory + '/' + (response.fileName || (response.uri.substring(response.uri.lastIndexOf('/') + 1, response.uri.length)));
               await FileUtil.copyFileSafe(thumbnailPath, destPath);
-              console.log('destPath :', destPath);
               thumbnailPath = destPath;
               this.setState({
                 thumbnailPath, thumbnailPathError: '',
@@ -194,7 +190,6 @@ export class MusicBasicInfoComponent extends React.Component {
     if (isNaN(limited) || limited <= 0) {
       limitedError = global.i18n.t('MusicBasicInfoComponent_limitedError1');
     }
-    console.log({ limited, limitedError });
     this.setState({
       limited, limitedError,
       canContinue: this.state.assetName && limited && this.state.description && !!this.state.thumbnailPath && !limitedError && !this.state.descriptionError && !this.state.assetNameError,

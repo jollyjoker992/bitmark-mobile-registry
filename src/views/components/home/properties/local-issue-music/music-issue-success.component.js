@@ -35,7 +35,6 @@ export class MusicIssueSuccessComponent extends React.Component {
   }
 
   render() {
-    console.log('this.props :', this.props);
     return (
       <View style={{ flex: 1, backgroundColor: '#0060F2' }}>
         <View style={cStyles.header}>

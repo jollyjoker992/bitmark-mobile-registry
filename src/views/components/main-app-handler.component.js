@@ -173,7 +173,6 @@ export class MainAppHandlerComponent extends Component {
   }
 
   handleAppStateChange = (nextAppState) => {
-    console.log('nextAppState :', nextAppState);
     if (this.appState.match(/background/) && nextAppState === 'active') {
       runPromiseWithoutError(CommonProcessor.doMetricOnScreen(true));
       this.doTryConnectInternet();

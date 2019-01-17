@@ -3,6 +3,7 @@ import moment from 'moment';
 import { FaceTouchId, BitmarkSDK } from './adapters'
 import { AsyncStorage } from 'react-native';
 import { config } from 'src/configs';
+import { CacheData } from '../caches';
 
 const KEYS = {
   APP_INFORMATION: 'app-information',

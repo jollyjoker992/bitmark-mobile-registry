@@ -95,7 +95,6 @@ class PrivateTransactionsComponent extends React.Component {
 
   async acceptAllTransfers() {
     TransactionProcessor.doGetAllTransfersOffers().then(transferOffers => {
-      console.log(transferOffers);
       Alert.alert(global.i18n.t("TransactionsComponent_signForAcceptanceOfAllBitmarksSentToYou"), global.i18n.t("TransactionsComponent_acceptTransfer", { length: transferOffers.length }), [{
         text: global.i18n.t("TransactionsComponent_cancel"), style: 'cancel',
       }, {

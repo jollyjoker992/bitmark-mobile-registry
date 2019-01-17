@@ -54,7 +54,6 @@ const doGetNewReleasedAssetsBitmarks = async (bitmarkAccountNumber, releasedBitm
       lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
     }
     data = await BitmarkModel.getBitmarksOfAssetOfIssuer(bitmarkAccountNumber, lastOffset);
-    console.log({ lastOffset, data });
   }
   return releasedBitmarksAssets;
 };

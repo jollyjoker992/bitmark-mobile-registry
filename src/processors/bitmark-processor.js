@@ -85,7 +85,6 @@ const runGetReleasedAssetsBitmarksInBackground = () => {
     let doGetAllBitmarks = async () => {
       let { releasedBitmarksAssets, lastOffset } = await _doGetAllAssetsBitmarks();
       releasedBitmarksAssets = await BitmarkService.doGetNewReleasedAssetsBitmarks(CacheData.userInformation.bitmarkAccountNumber, releasedBitmarksAssets, lastOffset);
-      console.log('releasedBitmarksAssets:', releasedBitmarksAssets);
       await _doCheckNewReleasedAssetsBitmarks(releasedBitmarksAssets);
     };
     doGetAllBitmarks().then(() => {
@@ -234,6 +233,7 @@ const doUpdateViewStatus = async (bitmarkId) => {
 
     PropertiesStore.dispatch(PropertiesActions.updateBitmarks({
       bitmarks: Object.values(assetsBitmarks.bitmarks || {}),
+      assets: assetsBitmarks.assets,
     }));
   }
 };

@@ -36,7 +36,6 @@ export class TransferOfferComponent extends React.Component {
       transactionData: null
     };
     BitmarkModel.doGetTransactionDetail(transferOffer.record.link).then(transactionData => {
-      console.log('transactionData :', transactionData);
       this.setState({ transactionData })
     }).catch(error => {
       console.log('TransferOfferComponent doGetTransactionDetail error :', error);

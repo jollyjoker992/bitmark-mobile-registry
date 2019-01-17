@@ -120,6 +120,15 @@ const doViewSendIncomingClaimRequest = async (asset) => {
   updateModal(ModalDisplayKeyIndex.claim_asset, { asset });
 };
 
+const getDisplayedAccount = (accountNumber) => {
+  if (accountNumber === CacheData.userInformation.bitmarkAccountNumber) {
+    return global.i18n.t("PropertiesComponent_you");
+  } else if (CacheData.identities && CacheData.identities[accountNumber]) {
+    return CacheData.identities[accountNumber].name;
+  }
+  return `[${accountNumber.substring(0, 4)}...${accountNumber.substring(accountNumber.length - 4, accountNumber.length)}]`;
+};
+
 let CommonProcessor = {
   doGetAppInformation,
   doMarkRequestedNotification,
@@ -135,5 +144,7 @@ let CommonProcessor = {
   doDisplayedWhatNewInformation,
   doMarkDoneSendClaimRequest,
   doViewSendIncomingClaimRequest,
+
+  getDisplayedAccount,
 };
 export { CommonProcessor };

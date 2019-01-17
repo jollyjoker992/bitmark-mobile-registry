@@ -13,8 +13,8 @@ const PropertiesActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
   },
-  updateBitmarks: ({ bitmarks }) => {
-    return { type: ACTION_TYPES.UPDATE_BITMARKS, data: { bitmarks } };
+  updateBitmarks: ({ bitmarks, assets }) => {
+    return { type: ACTION_TYPES.UPDATE_BITMARKS, data: { bitmarks, assets } };
   },
   updateLoadingStatus: ({ appLoadingData }) => {
     return { type: ACTION_TYPES.UPDATE_LOADING_STATUS, data: { appLoadingData } };
@@ -45,7 +45,7 @@ const sortBitmarks = (bitmarks) => {
 
 const updateDisplayedBitmarks = (state) => {
   let bitmarks = sortBitmarks(state.bitmarks);
-  let totalDisplayedBitmark = Math.min(bitmarks.length || 20);
+  let totalDisplayedBitmark = Math.min(bitmarks.length, 20);
   let displayedBitmarks = [];
   for (let index = 0; index < totalDisplayedBitmark; index++) {
     displayedBitmarks.push(bitmarks[index]);
@@ -58,14 +58,14 @@ const updateDisplayedBitmarks = (state) => {
 
 const updateBitmarks = (state, bitmarks) => {
   let currentBitmarks = state.bitmarks;
-  bitmarks.forEach(bitmark => {
-    let currentIndex = currentBitmarks.findIndex(bm => bm.id === bitmark.id);
-    if (currentIndex) {
+  for (let bitmark of bitmarks) {
+    let currentIndex = currentBitmarks.findIndex(cb => cb.id === bitmark.id);
+    if (currentIndex >= 0) {
       currentBitmarks[currentIndex] === bitmark;
     } else {
       currentBitmarks.push(bitmark);
     }
-  });
+  }
   return updateDisplayedBitmarks(merge({}, state, { bitmarks: currentBitmarks }));
 };
 
@@ -91,9 +91,10 @@ const data = (state = initialState, action) => {
     }
     case ACTION_TYPES.UPDATE_BITMARKS: {
       let tempState = merge({}, state, updateBitmarks(state, action.data.bitmarks));
+      tempState.assets = action.data.assets;
       return tempState;
     }
-    case ACTION_TYPES.viewMoreBitmarks: {
+    case ACTION_TYPES.VIEW_MORE: {
       let tempState = merge({}, state, viewMoreDisplayedBitmarks(state));
       return tempState;
     }

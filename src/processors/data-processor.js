@@ -311,6 +311,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
 
     PropertiesStore.dispatch(PropertiesActions.updateBitmarks({
       bitmarks: Object.values(assetsBitmarks.bitmarks || {}),
+      assets: assetsBitmarks.assets,
     }));
 
     TransactionsStore.dispatch(TransactionsActions.init({

@@ -569,7 +569,6 @@ const getBitmarksOfAssetOfIssuer = (accountNumber, assetId, lastOffset) => {
       (lastOffset ? `&at=${lastOffset}` : '');
     let statusCode;
 
-    console.log('bitmarkUrl :', bitmarkUrl);
     fetch(bitmarkUrl, {
       method: 'GET',
       headers: {
