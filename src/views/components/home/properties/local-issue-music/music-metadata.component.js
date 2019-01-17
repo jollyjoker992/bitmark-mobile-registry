@@ -130,7 +130,7 @@ export class MusicMetadataComponent extends React.Component {
 
   doCancel() {
     Alert.alert(global.i18n.t('MusicMetadataComponent_cancelTitle'), global.i18n.t('MusicMetadataComponent_cancelMessage'), [{
-      text: global.i18n.t('MusicMetadataComponent_cancelYes'), onPress: () => Actions.jump('assets'),
+      text: global.i18n.t('MusicMetadataComponent_cancelYes'), onPress: () => Actions.jump('properties'),
     }, {
       text: global.i18n.t('MusicMetadataComponent_cancelNo'), style: 'cancel',
     }]);

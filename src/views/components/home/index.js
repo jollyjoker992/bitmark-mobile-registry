@@ -9,6 +9,7 @@ import {
   LocalIssueFileEditLabelComponent,
   IftttActiveComponent,
   AssetTypeHelpComponent,
+  PropertiesComponent,
 } from './properties';
 
 import {
@@ -16,7 +17,6 @@ import {
   TransferOfferComponent,
   IncomingClaimRequestComponent
 } from './transactions';
-import { AssetsComponent } from './properties/assets.component';
 import { BottomTabsComponent } from './bottom-tabs/bottom-tabs.component';
 import { AccountDetailComponent } from './account/account.component';
 import { ScanQRCodeComponent } from './account/scan-qr-code/scan-qr-code.component';
@@ -38,10 +38,12 @@ import {
 } from './properties/local-issue-music';
 
 import { BitmarkWebViewComponent } from 'src/views/commons';
-import { EventEmitterService, DataProcessor, AppProcessor } from 'src/processors';
+import { EventEmitterService, AppProcessor, CommonProcessor } from 'src/processors';
 
 // import PushNotification from 'react-native-push-notification';
 import { MusicReleaseToPublicComponent } from './properties/local-issue-music/music-release-to-public.component';
+import { doReloadClaimRequests } from 'src/processors/transaction-processor';
+import { BitmarkProcessor } from 'src/processors/bitmark-processor';
 
 let ComponentName = 'UserRouterComponent';
 export class UserRouterComponent extends Component {
@@ -54,7 +56,7 @@ export class UserRouterComponent extends Component {
 
   componentDidMount() {
     EventEmitterService.on(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, this.handerReceivedNotification, ComponentName);
-    DataProcessor.setMountedRouter(true);
+    CommonProcessor.setMountedRouter(true);
     // setTimeout(() => {
     //   PushNotification.localNotification({
     //     message: 'test message',
@@ -78,25 +80,25 @@ export class UserRouterComponent extends Component {
       }).catch(console.log);
 
     } else if (data.name === 'transfer_rejected') {
-      DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id).then(bitmarkInformation => {
+      BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
         Actions.localPropertyDetail(bitmarkInformation);
       }).catch(console.log);
 
     } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
       Actions.transactions({ subTab: 'HISTORY' });
     } else if (data.name === 'transfer_confirmed_receiver' && data.bitmark_id) {
-      DataProcessor.doReloadLocalBitmarks().then(() => {
-        return DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id);
+      BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
+        return BitmarkProcessor.doGetAssetBitmark(data.bitmark_id);
       }).then(bitmarkInformation => {
         Actions.localPropertyDetail(bitmarkInformation);
       }).catch(console.log);
 
     } else if (data.name === 'transfer_failed') {
-      DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id).then(bitmarkInformation => {
+      BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
         Actions.localPropertyDetail(bitmarkInformation);
       }).catch(console.log);
     } else if (data.event === 'claim_request') {
-      DataProcessor.doReloadClaimAssetRequest().then((claimRequests) => {
+      doReloadClaimRequests().then((claimRequests) => {
         let incomingClaimRequest = (claimRequests.incoming_claim_requests || []).find(cr => cr.id === data.claim_id);
         if (incomingClaimRequest) {
           Actions.incomingClaimRequest({ incomingClaimRequest });
@@ -135,7 +137,7 @@ export class UserRouterComponent extends Component {
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >
-                <Scene key="assets" initial={true} panHandlers={null} component={AssetsComponent} />
+                <Scene key="properties" initial={true} panHandlers={null} component={PropertiesComponent} />
                 <Scene key="issuanceOptions" panHandlers={null} component={IssuanceOptionsComponent} />
                 <Scene key="iftttActive" panHandlers={null} component={IftttActiveComponent} />
               </Stack>

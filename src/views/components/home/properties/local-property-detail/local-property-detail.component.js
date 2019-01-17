@@ -14,7 +14,7 @@ import Hyperlink from 'react-native-hyperlink';
 import { Actions } from 'react-native-router-flux';
 
 import propertyDetailStyle from './local-property-detail.component.style';
-import { DataProcessor, BitmarkModel, AppProcessor, EventEmitterService, CacheData } from 'src/processors';
+import { DataProcessor, BitmarkModel, AppProcessor, EventEmitterService, CacheData, TransactionProcessor, BitmarkProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { convertWidth } from 'src/utils';
 import { config, constant } from 'src/configs';
@@ -42,7 +42,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
     if (!bitmark || !bitmark.id) {
       return;
     }
-    let provenance = await DataProcessor.doGetProvenance(bitmark.id);
+    let provenance = await TransactionProcessor.doGetProvenance(bitmark.id);
     let provenanceViewed = {};
     provenance.forEach((history, index) => {
       history.key = index;
@@ -50,9 +50,9 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
     });
 
     if (CacheData.userInformation.bitmarkAccountNumber === this.props.bitmark.owner) {
-      DataProcessor.doUpdateViewStatus(this.props.asset.id, this.props.bitmark.id);
+      BitmarkProcessor.doUpdateViewStatus(this.props.asset.id, this.props.bitmark.id);
     } else {
-      DataProcessor.doUpdateViewStatus(null, this.props.bitmark.id);
+      BitmarkProcessor.doUpdateViewStatus(null, this.props.bitmark.id);
     }
 
     // Augment info for asset preview
@@ -106,7 +106,7 @@ class PrivateLocalPropertyDetailComponent extends React.Component {
         if (buttonIndex === 1) {
           AppProcessor.doTransferBitmark(this.props.bitmark, config.zeroAddress, true).then((result) => {
             if (result) {
-              Actions.jump('assets');
+              Actions.jump('properties');
             }
           }).catch(error => {
             console.log('error:', error);

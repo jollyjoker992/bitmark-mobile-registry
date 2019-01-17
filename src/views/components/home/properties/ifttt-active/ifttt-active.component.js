@@ -11,6 +11,7 @@ import { EventEmitterService, AppProcessor, DataProcessor, CacheData } from 'src
 import { defaultStyles } from 'src/views/commons';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
 import { AccountStore } from 'src/views/stores';
+import { TransactionProcessor } from 'src/processors/transaction-processor';
 
 class PrivateIftttActiveComponent extends React.Component {
   constructor(props) {
@@ -55,7 +56,7 @@ class PrivateIftttActiveComponent extends React.Component {
 
     if (!this.props.stage) {
       if ((currentUrl === config.ifttt_bitmark_service_url || currentUrl === (config.ifttt_bitmark_service_settings_url)) && this.signed) {
-        DataProcessor.doReloadIFTTTInformation().then((iftttInformation) => {
+        TransactionProcessor.doReloadIFTTTInformation().then((iftttInformation) => {
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESSING, false);
           this.setState({ processing: false });
           if (iftttInformation.connectIFTTT && currentUrl === (config.ifttt_bitmark_service_settings_url)) {

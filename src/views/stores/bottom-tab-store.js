@@ -13,13 +13,13 @@ const BottomTabActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
   },
-  init: ({ existNewAsset, totalTasks, mainTab }) => {
-    return { type: ACTION_TYPES.INIT, existNewAsset, totalTasks, mainTab };
+  init: ({ totalNewBitmarks, totalTasks, mainTab }) => {
+    return { type: ACTION_TYPES.INIT, totalNewBitmarks, totalTasks, mainTab };
   },
 };
 
 const initialState = {
-  existNewAsset: false,
+  totalNewBitmarks: false,
   totalTasks: 0,
   mainTab: null,
 };

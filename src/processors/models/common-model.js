@@ -10,7 +10,8 @@ const KEYS = {
   USER_INFORMATION: 'bitmark-app',
 
   //original data
-  USER_DATA_LOCAL_BITMARKS: 'user-data:local-bitmarks',
+  USER_DATA_ASSETS_BITMARKS: 'user-data:assets-bitmarks',
+  USER_DATA_RELEASED_ASSETS_BITMARKS: 'user-data:released-assets-bitmarks',
   USER_DATA_IFTTT_INFORMATION: 'user-data:ifttt-information',
   USER_DATA_CLAIM_REQUEST: 'user-data:claim-request',
   USER_DATA_TRANSACTIONS: 'user-data:transactions',

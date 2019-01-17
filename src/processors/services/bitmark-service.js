@@ -9,87 +9,54 @@ import { CacheData } from '../caches';
 // ================================================================================================
 // ================================================================================================
 
-const doGet100Bitmarks = async (bitmarkAccountNumber, oldLocalAssets, lastOffset) => {
-  let hasChanging = false;
-  if (!oldLocalAssets) {
-    hasChanging = true;
-    oldLocalAssets = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS);
-  }
-  oldLocalAssets = oldLocalAssets || [];
-  if (!lastOffset) {
-    oldLocalAssets.forEach(asset => {
-      asset.bitmarks.forEach(bitmark => {
-        lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
-      });
-    });
+const doGetNewAssetsBitmarks = async (bitmarkAccountNumber, bitmarkAssets, lastOffset) => {
+  bitmarkAssets = bitmarkAssets || {};
+  bitmarkAssets.bitmarks = bitmarkAssets.bitmarks || {};
+  bitmarkAssets.assets = bitmarkAssets.assets || {};
+
+  for (let bitmarkId in bitmarkAssets.bitmarks) {
+    lastOffset = lastOffset ? Math.max(lastOffset, bitmarkAssets.bitmarks[bitmarkId].offset) : bitmarkAssets.bitmarks[bitmarkId].offset;
   }
   let data = await BitmarkModel.doGet100Bitmarks(bitmarkAccountNumber, lastOffset);
-  let localAssets = merge([], oldLocalAssets || []);
-
-  if (data && data.bitmarks && data.assets) {
-    hasChanging = data.bitmarks.length >= 100;
+  while (data && data.bitmarks && data.bitmarks.length > 0) {
+    for (let asset of data.assets) {
+      bitmarkAssets.assets[asset.id] = merge({}, bitmarkAssets.assets[asset.id] || {}, asset);
+    }
     for (let bitmark of data.bitmarks) {
+      bitmarkAssets.bitmarks[bitmark.id] = bitmark;
       lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
-      bitmark.bitmark_id = bitmark.id;
-      bitmark.isViewed = false;
-      let oldAsset = (localAssets).find(asset => asset.id === bitmark.asset_id);
-      let newAsset = data.assets.find(asset => asset.id === bitmark.asset_id);
-      if (oldAsset && newAsset && !oldAsset.created_at) {
-        oldAsset.created_at = newAsset.created_at;
-      }
-      if (bitmark.owner === bitmarkAccountNumber) {
-        hasChanging = true;
-        if (oldAsset) {
-          let oldBitmarkIndex = oldAsset.bitmarks.findIndex(ob => ob.id === bitmark.id);
-          if (oldBitmarkIndex >= 0) {
-            oldAsset.bitmarks[oldBitmarkIndex] = bitmark;
-          } else {
-            oldAsset.bitmarks.push(bitmark);
-          }
-          oldAsset.isViewed = false;
-        } else {
-          newAsset.bitmarks = [bitmark];
-          newAsset.isViewed = false;
-          localAssets.push(newAsset);
-        }
-      } else {
-        let oldAssetIndex = (localAssets).findIndex(asset => asset.id === bitmark.asset_id);
-        if (oldAssetIndex >= 0) {
-          let oldAsset = localAssets[oldAssetIndex];
-          let oldBitmarkIndex = oldAsset.bitmarks.findIndex(ob => bitmark.id === ob.id);
-          if (oldBitmarkIndex >= 0) {
-            hasChanging = true;
-            oldAsset.bitmarks.splice(oldBitmarkIndex, 1);
-            if (oldAsset.bitmarks.length === 0) {
-              localAssets.splice(oldAssetIndex, 1);
-            }
-          }
-        }
-      }
     }
+    data = await BitmarkModel.doGet100Bitmarks(bitmarkAccountNumber, lastOffset);
   }
-  for (let asset of localAssets) {
-    let oldTotalPending = asset.totalPending;
-    asset.totalPending = 0;
-    asset.bitmarks = asset.bitmarks.sort((a, b) => b.offset - a.offset);
-    for (let bitmark of asset.bitmarks) {
-      let oldData = asset.maxBitmarkOffset;
-      asset.maxBitmarkOffset = asset.maxBitmarkOffset ? Math.max(asset.maxBitmarkOffset, bitmark.offset) : bitmark.offset;
-      hasChanging = hasChanging || (oldData !== asset.maxBitmarkOffset);
+  return bitmarkAssets;
+};
 
-      asset.totalPending += (bitmark.status === 'pending') ? 1 : 0;
-    }
-    hasChanging = hasChanging || (oldTotalPending !== asset.totalPending);
+const doGetNewReleasedAssetsBitmarks = async (bitmarkAccountNumber, releasedBitmarksAssets, lastOffset) => {
+  releasedBitmarksAssets = releasedBitmarksAssets || {}
+  releasedBitmarksAssets.bitmarks = releasedBitmarksAssets.bitmarks || {};
+  releasedBitmarksAssets.assets = releasedBitmarksAssets.assets || {};
+
+  for (let bitmarkId in releasedBitmarksAssets.bitmarks) {
+    lastOffset = lastOffset ? Math.max(lastOffset, releasedBitmarksAssets.bitmarks[bitmarkId].offset) : releasedBitmarksAssets.bitmarks[bitmarkId].offset;
   }
 
-  if (hasChanging) {
-    localAssets = localAssets.sort((a, b) => b.maxBitmarkOffset - a.maxBitmarkOffset);
+  let data = await BitmarkModel.getBitmarksOfAssetOfIssuer(bitmarkAccountNumber, null, lastOffset);
+  while (data && data.bitmarks && data.bitmarks.length > 0) {
+    for (let asset of data.assets) {
+      if (asset.metadata && asset.metadata['type'] === 'music') {
+        releasedBitmarksAssets.assets[asset.id] = merge({}, releasedBitmarksAssets.assets[asset.id] || {}, asset);
+      }
+    }
+    for (let bitmark of data.bitmarks) {
+      if (releasedBitmarksAssets.assets[bitmark.asset_id]) {
+        releasedBitmarksAssets.bitmarks[bitmark.id] = bitmark;
+      }
+      lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
+    }
+    data = await BitmarkModel.getBitmarksOfAssetOfIssuer(bitmarkAccountNumber, lastOffset);
+    console.log({ lastOffset, data });
   }
-  return {
-    hasChanging,
-    localAssets,
-    lastOffset,
-  };
+  return releasedBitmarksAssets;
 };
 
 const doCheckFileToIssue = async (filePath) => {
@@ -430,7 +397,8 @@ const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
 // ================================================================================================
 // ================================================================================================
 let BitmarkService = {
-  doGet100Bitmarks,
+  doGetNewAssetsBitmarks,
+  doGetNewReleasedAssetsBitmarks,
   doCheckFileToIssue,
   doCheckMetadata,
   doIssueFile,

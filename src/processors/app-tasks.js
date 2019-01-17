@@ -6,6 +6,8 @@ import { EventEmitterService, } from './services'
 import { DataProcessor } from './data-processor';
 import { config } from 'src/configs';
 import { runPromiseWithoutError } from 'src/utils';
+import { TransactionProcessor } from './transaction-processor';
+import { BitmarkProcessor } from './bitmark-processor';
 
 // ================================================================================================
 // ================================================================================================
@@ -77,10 +79,10 @@ const doLogout = async () => {
 };
 
 const doIssueFile = async ({ filePath, assetName, metadataList, quantity, processingInfo }) => {
-  return await submitting(DataProcessor.doIssueFile(filePath, assetName, metadataList, quantity), processingInfo);
+  return await submitting(BitmarkProcessor.doIssueFile(filePath, assetName, metadataList, quantity), processingInfo);
 };
 const doIssueMusic = async ({ filePath, assetName, metadataList, thumbnailPath, limitedEdition, processingInfo }) => {
-  return await submitting(DataProcessor.doIssueMusic(filePath, assetName, metadataList, thumbnailPath, limitedEdition), processingInfo);
+  return await submitting(BitmarkProcessor.doIssueMusic(filePath, assetName, metadataList, thumbnailPath, limitedEdition), processingInfo);
 };
 
 
@@ -106,14 +108,14 @@ const doRejectTransferBitmark = async ({ transferOffer, processingInfo }) => {
 };
 
 const doDownloadBitmark = async ({ bitmark, processingData }) => {
-  return await submitting(DataProcessor.doDownloadBitmark(bitmark), processingData);
+  return await submitting(BitmarkProcessor.doDownloadBitmark(bitmark), processingData);
 };
 
 const doRevokeIftttToken = async () => {
-  return await processing(DataProcessor.doRevokeIftttToken());
+  return await processing(TransactionProcessor.doRevokeIftttToken());
 };
 const doIssueIftttData = async ({ iftttBitmarkFile, processingInfo }) => {
-  return await submitting(DataProcessor.doIssueIftttData(iftttBitmarkFile), processingInfo);
+  return await submitting(TransactionProcessor.doIssueIftttData(iftttBitmarkFile), processingInfo);
 };
 
 const doMigrateWebAccount = async ({ token }) => {
@@ -138,13 +140,13 @@ const doDecentralizedTransfer = async ({ token, expiredTime }) => {
   return await processing(DataProcessor.doDecentralizedTransfer(token));
 };
 const doProcessIncomingClaimRequest = async ({ incomingClaimRequest, isAccept }) => {
-  return await processing(DataProcessor.doProcessIncomingClaimRequest(incomingClaimRequest, isAccept));
+  return await processing(TransactionProcessor.doProcessIncomingClaimRequest(incomingClaimRequest, isAccept));
 };
 const doSendIncomingClaimRequest = async ({ asset }) => {
-  return await processing(DataProcessor.doSendIncomingClaimRequest(asset));
+  return await processing(TransactionProcessor.doSendIncomingClaimRequest(asset));
 };
 const doGetAssetToClaim = async ({ assetId }) => {
-  return await processing(DataProcessor.doGetAssetToClaim(assetId));
+  return await processing(TransactionProcessor.doGetAssetToClaim(assetId));
 };
 
 

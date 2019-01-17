@@ -31,7 +31,7 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           if (label === 'properties') {
             return (<TouchableOpacity key={index} style={componentStyles.bottomTabButton} onPress={() => {
               this.props.onTabPress({ route });
-              Actions.reset('assets');
+              Actions.reset('properties');
             }}>
               {this.props.existNewAsset && <View style={componentStyles.haveNewBitmark} />}
               <Image style={componentStyles.bottomTabButtonIcon} source={active

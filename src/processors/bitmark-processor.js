@@ -1,0 +1,257 @@
+import moment from 'moment';
+import { merge } from 'lodash';
+
+import { FileUtil } from "src/utils";
+import { BitmarkService } from "./services";
+import { CommonModel, AccountModel, BitmarkSDK } from "./models";
+import { CacheData } from "./caches";
+import { CommonProcessor } from "./common-processor";
+import { BottomTabStore, BottomTabActions, PropertiesActions, PropertiesStore } from 'src/views/stores';
+
+
+const _doGetAllAssetsBitmarks = async () => {
+  let releasedBitmarksAssets = await doGetLocalReleasedAssetsBitmarks();
+  let assetsBitmarks = await doGetLocalAssetsBitmarks();
+
+  let lastOffset;
+  for (let bitmarkId in (releasedBitmarksAssets.bitmarks || {})) {
+    lastOffset = lastOffset ? Math.max(lastOffset, releasedBitmarksAssets.bitmarks[bitmarkId].offset) : releasedBitmarksAssets.bitmarks[bitmarkId].offset;
+  }
+  for (let bitmarkId in (assetsBitmarks.bitmarks || {})) {
+    lastOffset = lastOffset ? Math.max(lastOffset, assetsBitmarks.bitmarks[bitmarkId].offset) : assetsBitmarks.bitmarks[bitmarkId].offset;
+  }
+  return { lastOffset, releasedBitmarksAssets, assetsBitmarks };
+};
+
+const _doCheckTransferringBitmarks = (assetsBitmarks, outgoingTransferOffers) => {
+  assetsBitmarks = assetsBitmarks || {};
+  assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
+  for (let bitmarkId in assetsBitmarks.bitmarks) {
+    let transferOffer = (outgoingTransferOffers || []).find(item => (item.status === 'open' && item.bitmark_id === bitmarkId));
+    assetsBitmarks.bitmarks[bitmarkId].transferOfferId = transferOffer ? transferOffer.id : null;
+  }
+  return assetsBitmarks;
+};
+
+const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
+  if (assetsBitmarks) {
+    await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS, assetsBitmarks);
+    //TODO
+  }
+};
+
+let queueGetAssetsBitmarks = [];
+const runGetAssetsBitmarksInBackground = () => {
+  return new Promise((resolve) => {
+    queueGetAssetsBitmarks.push(resolve);
+    if (queueGetAssetsBitmarks.length > 1) {
+      return;
+    }
+    let doGetAllBitmarks = async () => {
+      let { assetsBitmarks, lastOffset } = await _doGetAllAssetsBitmarks();
+      assetsBitmarks = await BitmarkService.doGetNewAssetsBitmarks(CacheData.userInformation.bitmarkAccountNumber, assetsBitmarks, lastOffset);
+      let transferOffers = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSFER_OFFERS)) || {};
+      let outgoingTransferOffers = transferOffers.outgoingTransferOffers || [];
+      assetsBitmarks = _doCheckTransferringBitmarks(assetsBitmarks, outgoingTransferOffers);
+      await _doCheckNewAssetsBitmarks(assetsBitmarks);
+    };
+    doGetAllBitmarks().then(() => {
+      queueGetAssetsBitmarks.forEach(queueResolve => queueResolve());
+      queueGetAssetsBitmarks = [];
+      console.log('runOnBackground  runGetAssetsBitmarksInBackground success');
+    }).catch(error => {
+      console.log('runOnBackground  runGetAssetsBitmarksInBackground error :', error);
+      queueGetAssetsBitmarks.forEach(queueResolve => queueResolve());
+      queueGetAssetsBitmarks = [];
+    });
+  });
+};
+
+const _doCheckNewReleasedAssetsBitmarks = async (releasedBitmarksAssets) => {
+  if (releasedBitmarksAssets) {
+    await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_RELEASED_ASSETS_BITMARKS, releasedBitmarksAssets);
+    //TODO
+  }
+};
+
+
+let queueGetReleasedAssetsBitmarks = [];
+const runGetReleasedAssetsBitmarksInBackground = () => {
+  return new Promise((resolve) => {
+    queueGetReleasedAssetsBitmarks.push(resolve);
+    if (queueGetReleasedAssetsBitmarks.length > 1) {
+      return;
+    }
+    let doGetAllBitmarks = async () => {
+      let { releasedBitmarksAssets, lastOffset } = await _doGetAllAssetsBitmarks();
+      releasedBitmarksAssets = await BitmarkService.doGetNewReleasedAssetsBitmarks(CacheData.userInformation.bitmarkAccountNumber, releasedBitmarksAssets, lastOffset);
+      console.log('releasedBitmarksAssets:', releasedBitmarksAssets);
+      await _doCheckNewReleasedAssetsBitmarks(releasedBitmarksAssets);
+    };
+    doGetAllBitmarks().then(() => {
+      queueGetReleasedAssetsBitmarks.forEach(queueResolve => queueResolve());
+      queueGetReleasedAssetsBitmarks = [];
+      console.log('runOnBackground  runGetReleasedAssetsBitmarksInBackground success');
+    }).catch(error => {
+      console.log('runOnBackground  runGetReleasedAssetsBitmarksInBackground error :', error);
+      queueGetReleasedAssetsBitmarks.forEach(queueResolve => queueResolve());
+      queueGetReleasedAssetsBitmarks = [];
+    });
+  });
+};
+
+const runGetUserBitmarks = async () => {
+  let runParallel = () => {
+    return new Promise((resolve) => {
+      Promise.all([
+        runGetAssetsBitmarksInBackground(),
+        runGetReleasedAssetsBitmarksInBackground(),
+      ]).then(resolve);
+    });
+  };
+  return await runParallel();
+};
+
+const doReloadUserAssetsBitmarks = async () => {
+  return await runGetAssetsBitmarksInBackground();
+};
+
+const doReloadUserReleasedAssetsBitmarks = async () => {
+  return await runGetReleasedAssetsBitmarksInBackground();
+};
+
+const doDownloadBitmark = async (bitmark) => {
+  let assetsBitmarks = await doGetLocalAssetsBitmarks();
+  let asset = (assetsBitmarks.assets || {})[bitmark.asset_id];
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${bitmark.asset_id}`;
+
+  if ((await FileUtil.exists(`${assetFolderPath}/decrypting`)) &&
+    (await FileUtil.readDir(`${assetFolderPath}/decrypting`)).length > 0 &&
+    (await FileUtil.readDir(`${assetFolderPath}/decrypting_session_data`)).length > 0) {
+
+    let downloadResult = JSON.parse(await FileUtil.readFile(`${assetFolderPath}/decrypting_session_data/data.text`));
+    let filename = decodeURIComponent(downloadResult.filename);
+    await FileUtil.mkdir(`${assetFolderPath}/downloaded`);
+    let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(downloadResult.sender);
+    await BitmarkSDK.decryptFile(`${assetFolderPath}/decrypting/${filename}`, downloadResult, encryptionPublicKey, `${assetFolderPath}/downloaded/${filename}`);
+    await FileUtil.removeSafe(`${assetFolderPath}/decrypting`);
+    await FileUtil.removeSafe(`${assetFolderPath}/decrypting_session_data`);
+    asset.filePath = `${assetFolderPath}/downloaded/${filename}`;
+    await _doCheckNewAssetsBitmarks(assetsBitmarks);
+    return `${assetFolderPath}/downloaded/${filename}`;
+  }
+
+  await FileUtil.mkdir(assetFolderPath);
+  await FileUtil.mkdir(`${assetFolderPath}/downloading`);
+  let downloadableAssets = await BitmarkService.doGetDownloadableAssets();
+  let canDownloadFrom = (downloadableAssets || []).find(item => item.indexOf(asset.id) >= 0);
+  let sender = canDownloadFrom ? canDownloadFrom.substring(canDownloadFrom.lastIndexOf('/') + 1, canDownloadFrom.length) : null;
+  if (!sender) {
+    throw new Error('Cannot detect sender to download!');
+  }
+  let downloadResult = await BitmarkService.doDownloadFileToCourierServer(asset.id, sender, `${assetFolderPath}/downloading/temp.encrypt`);
+  let filename = decodeURIComponent(downloadResult.filename);
+  let downloadResultFilePath = `${assetFolderPath}/decrypting_session_data/data.text`;
+  await FileUtil.mkdir(`${assetFolderPath}/decrypting_session_data`);
+  await FileUtil.writeFile(downloadResultFilePath, JSON.stringify(downloadResult));
+  await FileUtil.mkdir(`${assetFolderPath}/decrypting`);
+  await FileUtil.moveFileSafe(`${assetFolderPath}/downloading/temp.encrypt`, `${assetFolderPath}/decrypting/${filename}`);
+  await FileUtil.removeSafe(`${assetFolderPath}/downloading`);
+
+
+  await FileUtil.mkdir(`${assetFolderPath}/downloaded`);
+  let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(sender);
+  await BitmarkSDK.decryptFile(`${assetFolderPath}/decrypting/${filename}`, downloadResult, encryptionPublicKey, `${assetFolderPath}/downloaded/${filename}`);
+  await FileUtil.removeSafe(`${assetFolderPath}/decrypting`);
+  await FileUtil.removeSafe(`${assetFolderPath}/decrypting_session_data`);
+  asset.filePath = `${assetFolderPath}/downloaded/${filename}`;
+  await _doCheckNewAssetsBitmarks(assetsBitmarks);
+  return `${assetFolderPath}/downloaded/${filename}`;
+};
+
+const doGetLocalAssetsBitmarks = async () => {
+  return (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
+};
+
+const doGetLocalReleasedAssetsBitmarks = async () => {
+  return (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_RELEASED_ASSETS_BITMARKS)) || {};
+};
+
+const doIssueFile = async (filePath, assetName, metadataList, quantity) => {
+  let result = await BitmarkService.doIssueFile(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, quantity);
+
+  let appInfo = await CommonProcessor.doGetAppInformation();
+  appInfo = appInfo || {};
+  if (appInfo && (!appInfo.lastTimeIssued ||
+    (appInfo.lastTimeIssued && (appInfo.lastTimeIssued - moment().toDate().getTime()) > 7 * 24 * 60 * 60 * 1000))) {
+    await CommonModel.doTrackEvent({
+      event_name: 'registry_weekly_active_user',
+      account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
+    });
+    appInfo.lastTimeIssued = moment().toDate().getTime();
+    await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
+  }
+
+  await doReloadUserAssetsBitmarks();
+  return result;
+};
+
+const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, limitedEdition) => {
+  let result = await BitmarkService.doIssueMusic(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, thumbnailPath, limitedEdition);
+
+  let appInfo = await CommonProcessor.doGetAppInformation();
+  appInfo = appInfo || {};
+  if (appInfo && (!appInfo.lastTimeIssued ||
+    (appInfo.lastTimeIssued && (appInfo.lastTimeIssued - moment().toDate().getTime()) > 7 * 24 * 60 * 60 * 1000))) {
+    await CommonModel.doTrackEvent({
+      event_name: 'registry_weekly_active_user',
+      account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
+    });
+    appInfo.lastTimeIssued = moment().toDate().getTime();
+    await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
+  }
+
+  await doReloadUserAssetsBitmarks();
+  return result;
+};
+
+const doGetAssetBitmark = async (bitmarkId, assetId) => {
+  let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
+  let bitmark = (assetsBitmarks.bitmarks || {})[bitmarkId];
+  assetId = assetId || (bitmark ? bitmark.asset_id : null);
+  let asset = (assetsBitmarks.assets || {})[assetId];
+  return { bitmark, asset };
+};
+
+const doUpdateViewStatus = async (bitmarkId) => {
+  if (bitmarkId) {
+    let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || [];
+    assetsBitmarks.bitmarks[bitmarkId].isViewed = true;
+    await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS, assetsBitmarks);
+    let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
+    bottomTabStoreState.totalNewBitmarks = Object.values(assetsBitmarks.bitmarks || {}).find(bitmark => !bitmark.isViewed).length;
+    BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
+
+    PropertiesStore.dispatch(PropertiesActions.updateBitmarks({
+      bitmarks: Object.values(assetsBitmarks.bitmarks || {}),
+    }));
+  }
+};
+
+let BitmarkProcessor = {
+  runGetUserBitmarks,
+  doReloadUserAssetsBitmarks,
+  doReloadUserReleasedAssetsBitmarks,
+
+  doGetLocalAssetsBitmarks,
+  doGetLocalReleasedAssetsBitmarks,
+  doGetAssetBitmark,
+
+  doDownloadBitmark,
+  doIssueFile,
+  doIssueMusic,
+
+  doUpdateViewStatus,
+};
+
+export { BitmarkProcessor };

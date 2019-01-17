@@ -34,7 +34,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   subTabButton: {
-    width: '33.3%',
+    flex: 1,
     height: '100%',
     flexDirection: 'row',
     alignItems: 'center',
@@ -78,12 +78,12 @@ export default StyleSheet.create({
     width: '100%',
     flexDirection: 'column',
   },
-  messageNoAssetArea: {
+  messageNoBitmarkArea: {
     width: '100%',
     flexDirection: 'column',
     alignItems: 'center',
   },
-  messageNoAssetLabel: {
+  messageNoBitmarkLabel: {
     marginTop: 46,
     width: convertWidth(337),
     fontFamily: 'Avenir Black',
@@ -91,7 +91,7 @@ export default StyleSheet.create({
     fontSize: 17,
     color: '#0060F2'
   },
-  messageNoAssetContent: {
+  messageNoBitmarkContent: {
     marginTop: 46,
     width: convertWidth(337),
     fontFamily: 'Avenir Light',
@@ -124,7 +124,7 @@ export default StyleSheet.create({
     borderWidth: 1, borderRadius: 5, borderColor: '#0060F2'
   },
 
-  assetRowArea: {
+  bitmarkRowArea: {
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',

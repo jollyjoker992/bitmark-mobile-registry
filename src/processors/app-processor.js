@@ -102,13 +102,6 @@ const doReloadUserData = async () => {
   return await DataProcessor.doReloadUserData();
 };
 
-const doGetProvenance = async (bitmark) => {
-  return await processing(DataProcessor.doGetProvenance(bitmark.id));
-};
-
-const doGetAllTransfersOffers = async () => {
-  return await processing(DataProcessor.doGetAllTransfersOffers());
-};
 const doStartBackgroundProcess = async (justCreatedBitmarkAccount) => {
   return DataProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount);
   // return await processing(DataProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount));
@@ -192,8 +185,7 @@ const doCheckNoLongerSupportVersion = async () => {
   let data = await NotificationModel.doTryGetAppVersion();
   if (data && data.version && data.version.minimum_supported_version) {
     let minimumSupportedVersion = data.version.minimum_supported_version;
-    let currentVersion = DataProcessor.getApplicationVersion();
-    if (compareVersion(minimumSupportedVersion, currentVersion) > 0) {
+    if (compareVersion(minimumSupportedVersion, config.version) > 0) {
       return false;
     }
     return true;
@@ -215,7 +207,6 @@ let AppProcessor = {
   doCheckFileToIssue,
   doIssueFile,
   doIssueMusic,
-  doGetProvenance,
   doGetTransferOfferDetail,
   doTransferBitmark,
   doAcceptTransferBitmark,
@@ -228,7 +219,6 @@ let AppProcessor = {
   doReloadUserData,
   doMigrateWebAccount,
   doSignInOnWebApp,
-  doGetAllTransfersOffers,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
   doProcessIncomingClaimRequest,

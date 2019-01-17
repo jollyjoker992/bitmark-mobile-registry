@@ -6,7 +6,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 
 import accountRecoveryStyle from './account-recovery.component.style';
-import { AppProcessor, DataProcessor } from 'src/processors';
+import { AppProcessor, DataProcessor, TransactionProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { convertWidth } from 'src/utils';
 import { UserModel } from 'src/processors/models';
@@ -128,7 +128,7 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
           if (isSignOut) {
             Actions.tryRecoveryPhrase({ isSignOut, currentUser: this.props.currentUser, logout: this.props.logout });
           } else {
-            DataProcessor.doRemoveTestRecoveryPhaseActionRequiredIfAny();
+            TransactionProcessor.doRemoveTestRecoveryPhaseActionRequiredIfAny();
             Actions.reset('accountDetail');
           }
         }}>
@@ -316,7 +316,7 @@ export class TryRecoveryPhraseComponent extends React.Component {
       } else {
         Actions.reset('accountDetail')
       }
-      DataProcessor.doRemoveTestRecoveryPhaseActionRequiredIfAny();
+      TransactionProcessor.doRemoveTestRecoveryPhaseActionRequiredIfAny();
     } else {
       let smallerList = this.state.smallerList;
       smallerList.forEach(item => {

@@ -56,7 +56,7 @@ export class TransferOfferComponent extends React.Component {
           if (data) {
             Alert.alert(global.i18n.t("TransferOfferComponent_receiptRejectedTitle"), global.i18n.t("TransferOfferComponent_receiptRejectedMessage"), [{
               text: global.i18n.t("TransferOfferComponent_ok"),
-              onPress: () => Actions.jump('assets')
+              onPress: () => Actions.jump('properties')
             }]);
           }
         }).catch(error => {
@@ -71,7 +71,7 @@ export class TransferOfferComponent extends React.Component {
       if (data) {
         Alert.alert(global.i18n.t("TransferOfferComponent_signatureSubmittedTitle"), global.i18n.t("TransferOfferComponent_signatureSubmittedMessage"), [{
           text: global.i18n.t("TransferOfferComponent_ok"),
-          onPress: () => Actions.jump('assets')
+          onPress: () => Actions.jump('properties')
         }]);
       }
     }).catch(error => {

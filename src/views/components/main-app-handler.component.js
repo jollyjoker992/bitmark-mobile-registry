@@ -17,7 +17,7 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, DataProcessor, CacheData, BitmarkSDK, AppProcessor } from 'src/processors';
+import { UserModel, EventEmitterService, DataProcessor, CacheData, BitmarkSDK, AppProcessor, CommonProcessor } from 'src/processors';
 import { convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
 
@@ -158,7 +158,7 @@ export class MainAppHandlerComponent extends Component {
             }
           });
           AppProcessor.doGetAssetToClaim(assetId).then(asset => {
-            DataProcessor.doViewSendIncomingClaimRequest(asset);
+            CommonProcessor.doViewSendIncomingClaimRequest(asset);
           }).catch(error => {
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
           })
@@ -175,11 +175,11 @@ export class MainAppHandlerComponent extends Component {
   handleAppStateChange = (nextAppState) => {
     console.log('nextAppState :', nextAppState);
     if (this.appState.match(/background/) && nextAppState === 'active') {
-      runPromiseWithoutError(DataProcessor.doMetricOnScreen(true));
+      runPromiseWithoutError(CommonProcessor.doMetricOnScreen(true));
       this.doTryConnectInternet();
     }
     if (nextAppState && nextAppState.match(/background/)) {
-      runPromiseWithoutError(DataProcessor.doMetricOnScreen(false));
+      runPromiseWithoutError(CommonProcessor.doMetricOnScreen(false));
     }
     this.appState = nextAppState;
   }

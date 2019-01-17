@@ -75,7 +75,7 @@ export class LocalIssueFileComponent extends React.Component {
         FileUtil.removeSafe(this.state.filePath);
         Alert.alert(global.i18n.t("LocalIssueFileComponent_success"), global.i18n.t("LocalIssueFileComponent_successMessage"), [{
           text: global.i18n.t("LocalIssueFileComponent_ok"),
-          onPress: () => Actions.jump('assets')
+          onPress: () => Actions.jump('properties')
         }]);
       }
     }).catch(error => {
@@ -220,6 +220,7 @@ export class LocalIssueFileComponent extends React.Component {
               <Text style={localAddPropertyStyle.metadataDescription}>{global.i18n.t("LocalIssueFileComponent_metadataDescription")}</Text>
               <View style={localAddPropertyStyle.metadataArea}>
                 <FlatList style={localAddPropertyStyle.metadataList}
+                  keyExtractor={(item) => item.key}
                   scrollEnabled={false}
                   data={this.state.metadataList}
                   extraData={this.state}

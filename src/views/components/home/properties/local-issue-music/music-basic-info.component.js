@@ -45,7 +45,7 @@ export class MusicBasicInfoComponent extends React.Component {
       filetype: [DocumentPickerUtil.allFiles(), "public.data"],
     }, async (error, response) => {
       if (error) {
-        Actions.jump('assets');
+        Actions.jump('properties');
         return;
       }
       if (response.fileSize > 100 * 1024 * 1024) {
@@ -267,7 +267,7 @@ export class MusicBasicInfoComponent extends React.Component {
 
   doCancel() {
     Alert.alert(global.i18n.t('MusicBasicInfoComponent_cancelTitle'), global.i18n.t('MusicBasicInfoComponent_cancelMessage'), [{
-      text: global.i18n.t('MusicBasicInfoComponent_cancelYes'), onPress: () => Actions.jump('assets'),
+      text: global.i18n.t('MusicBasicInfoComponent_cancelYes'), onPress: () => Actions.jump('properties'),
     }, {
       text: global.i18n.t('MusicBasicInfoComponent_cancelNo'), style: 'cancel',
     }]);

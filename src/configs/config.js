@@ -12,12 +12,18 @@ const NETWORKS = {
 };
 
 let network = NETWORKS.livenet;
-network = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? NETWORKS.testnet : network;
+let bundleId = DeviceInfo.getBundleId();
+network = bundleId === 'com.bitmark.registry.inhouse' ? NETWORKS.testnet : network;
 
 let commonConfig = {
   network,
   NETWORKS,
+
+  bundleId,
+  version: DeviceInfo.getVersion(),
+  buildNumber: DeviceInfo.getBuildNumber(),
   localization: DeviceInfo.getDeviceLocale(),
+
   zeroAddress: 'dw9MQXcC5rJZb3QE1nz86PiQAheMP1dx9M3dr52tT8NNs14m33',
   bitmark_network: NETWORKS.testnet,
   appLink: 'https://itunes.apple.com/us/app/bitmark-registry/id1429427796?ls=1&mt=8',

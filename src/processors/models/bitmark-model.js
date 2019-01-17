@@ -564,8 +564,12 @@ const doUploadMusicThumbnail = async (bitmarkAccountNumber, assetId, thumbnailPa
 
 const getBitmarksOfAssetOfIssuer = (accountNumber, assetId, lastOffset) => {
   return new Promise((resolve, reject) => {
-    let bitmarkUrl = `${config.api_server_url}/v1/bitmarks?issuer=${accountNumber}&asset_id=${assetId}&pending=true&to=later` + (lastOffset ? `&at=${lastOffset}` : '');
+    let bitmarkUrl = `${config.api_server_url}/v1/bitmarks?issuer=${accountNumber}&asset=true&pending=true&to=later` +
+      (assetId ? `&asset_id=${assetId}` : '') +
+      (lastOffset ? `&at=${lastOffset}` : '');
     let statusCode;
+
+    console.log('bitmarkUrl :', bitmarkUrl);
     fetch(bitmarkUrl, {
       method: 'GET',
       headers: {
@@ -587,14 +591,20 @@ const getBitmarksOfAssetOfIssuer = (accountNumber, assetId, lastOffset) => {
   });
 };
 
-const doGetTotalBitmarksOfAssetOfIssuer = async (issuer, assetId) => {
+const getAllBitmarksOfAssetFromIssuer = async (issuer, assetId) => {
   let returnedBitmarks = [];
-
-  let results = await getBitmarksOfAssetOfIssuer(issuer, assetId);
-  returnedBitmarks = returnedBitmarks.concat(results.bitmarks || []);
-  while (results && results.bitmarks && results.bitmarks.length === 100) {
-    results = await getBitmarksOfAssetOfIssuer(issuer, assetId);
-    returnedBitmarks = returnedBitmarks.concat(results.bitmarks || []);
+  let data = await getBitmarksOfAssetOfIssuer(issuer, assetId);
+  let lastOffset = -1;
+  for (let bitmark of data.bitmarks) {
+    lastOffset = Math.max(lastOffset, bitmark.offset);
+    returnedBitmarks.push(bitmark);
+  }
+  while (data && data.bitmarks && data.bitmarks.length >= 100) {
+    data = await getBitmarksOfAssetOfIssuer(issuer, assetId, lastOffset);
+    for (let bitmark of data.bitmarks) {
+      lastOffset = Math.max(lastOffset, bitmark.offset);
+      returnedBitmarks.push(bitmark);
+    }
   }
   return returnedBitmarks;
 };
@@ -788,7 +798,8 @@ let BitmarkModel = {
   doUpdateStatusForDecentralizedTransfer,
 
   doUploadMusicThumbnail,
-  doGetTotalBitmarksOfAssetOfIssuer,
+  getBitmarksOfAssetOfIssuer,
+  getAllBitmarksOfAssetFromIssuer,
   doGetLimitedEdition,
   doPostIncomingClaimRequest,
   doGetClaimRequest,
