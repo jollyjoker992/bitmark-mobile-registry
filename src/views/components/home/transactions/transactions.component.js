@@ -22,8 +22,8 @@ const SubTabs = {
   completed: 'HISTORY',
 };
 
-const ActionRequireTypes = DataProcessor.ActionRequireTypes;
-const TransactionHistoryTypes = DataProcessor.TransactionHistoryTypes;
+const ActionRequireTypes = TransactionProcessor.TransactionActionRequireTypes;
+const TransactionHistoryTypes = TransactionProcessor.TransactionHistoryTypes;
 
 let currentSize = Dimensions.get('window');
 

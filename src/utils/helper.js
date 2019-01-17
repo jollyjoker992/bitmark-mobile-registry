@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native';
+import { constant } from 'src/configs';
 let currentSize = Dimensions.get('window');
 let widthDesign = 375;
 
@@ -53,7 +54,32 @@ const isImageFile = (filePath) => {
   return imageExtensions.includes(fileExtension.toUpperCase());
 };
 
+const isMusicAsset = (asset) => {
+  return (asset && asset.metadata && asset.metadata[constant.asset.metadata.labels.type] === constant.asset.metadata.values.music);
+};
+
+const isReleasedAsset = (asset) => {
+  return isMusicAsset(asset);
+};
+
+const sortAssetsBitmarks = (bitmarks) => {
+  bitmarks = bitmarks || [];
+  bitmarks.sort((a, b) => {
+    if (a.status === 'pending') {
+      return -1;
+    } else if (b.status === 'pending') {
+      return 1;
+    }
+    return b.offset - a.offset;
+  });
+  return bitmarks;
+};
+
+
 export {
   convertWidth, calculateAdditionalHeight, runPromiseWithoutError, compareVersion,
   isImageFile,
+  isMusicAsset,
+  isReleasedAsset,
+  sortAssetsBitmarks,
 };

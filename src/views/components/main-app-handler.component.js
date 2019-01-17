@@ -17,7 +17,7 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, DataProcessor, CacheData, BitmarkSDK, AppProcessor, CommonProcessor } from 'src/processors';
+import { UserModel, EventEmitterService, CacheData, BitmarkSDK, AppProcessor, CommonProcessor } from 'src/processors';
 import { convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
 

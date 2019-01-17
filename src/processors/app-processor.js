@@ -124,8 +124,8 @@ const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, li
   return executeTask('doIssueMusic', { filePath, assetName, metadataList, thumbnailPath, limitedEdition, processingInfo });
 };
 
-const doTransferBitmark = async (bitmark, receiver, isDeleting = false) => {
-  return executeTask('doTransferBitmark', { bitmark, receiver, isDeleting });
+const doTransferBitmark = async (bitmark, receiver) => {
+  return executeTask('doTransferBitmark', { bitmark, receiver });
 };
 
 const doAcceptTransferBitmark = async (transferOffer, processingInfo) => {

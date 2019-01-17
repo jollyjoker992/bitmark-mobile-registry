@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import {
   View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator, SafeAreaView,
-  Dimensions,
   StyleSheet,
 } from 'react-native';
 
@@ -14,8 +13,7 @@ import { config, constant } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 import { PropertiesStore, PropertiesActions } from 'src/views/stores';
-import { CacheData, CommonProcessor } from 'src/processors';
-let currentSize = Dimensions.get('window');
+import { CommonProcessor, EventEmitterService } from 'src/processors';
 
 const SubTabs = {
   local: 'Yours',
@@ -27,9 +25,14 @@ let loadingDataWhenScroll = false;
 
 class PrivatePropertiesComponent extends React.Component {
   static propTypes = {
+    assets: PropTypes.any,
     displayedBitmarks: PropTypes.array,
     bitmarks: PropTypes.array,
-    assets: PropTypes.any,
+
+    displayedReleasedAssets: PropTypes.array,
+    releasedAssets: PropTypes.array,
+    releasedBitmarks: PropTypes.any,
+
     appLoadingData: PropTypes.bool,
   }
 
@@ -40,7 +43,7 @@ class PrivatePropertiesComponent extends React.Component {
     this.addProperty = this.addProperty.bind(this);
 
     this.state = {
-      subTab: SubTabs.local
+      subTab: SubTabs.local,
     };
   }
 
@@ -143,7 +146,7 @@ class PrivatePropertiesComponent extends React.Component {
             if (loadingDataWhenScroll) {
               return;
             }
-            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) &&
+            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - config.deviceSize.height) &&
               (this.props.displayedBitmarks.length < this.props.bitmarks.length)) {
               loadingDataWhenScroll = true;
               PropertiesStore.dispatch(PropertiesActions.viewMoreBitmarks());
@@ -163,7 +166,7 @@ class PrivatePropertiesComponent extends React.Component {
             </View>}
             {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.state.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => (
               <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
-                // TODO
+                EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER, { bitmark, asset: this.props.assets[bitmark.asset_id] });
               }}>
                 <View style={cStyles.thumbnailArea}>
 
@@ -181,6 +184,43 @@ class PrivatePropertiesComponent extends React.Component {
           </TouchableOpacity>
         </ScrollView>}
 
+        {this.state.subTab === SubTabs.release && <ScrollView style={[cStyles.scrollSubTabArea]}
+          onScroll={async (scrollEvent) => {
+            if (loadingDataWhenScroll) {
+              return;
+            }
+            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - config.deviceSize.height) &&
+              (this.props.displayedReleasedAssets.length < this.props.releasedAssets.length)) {
+              loadingDataWhenScroll = true;
+              PropertiesStore.dispatch(PropertiesActions.viewMoreReleasedAssets());
+            }
+            loadingDataWhenScroll = false;
+          }}
+          scrollEventThrottle={1}
+        >
+          <TouchableOpacity activeOpacity={1} style={cStyles.contentSubTab}>
+            {(!this.props.appLoadingData && this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length === 0) && <View style={cStyles.messageNoBitmarkArea}>
+              {/* // TODO */}
+            </View>}
+            {this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length > 0 && this.state.subTab === SubTabs.local && this.props.displayedReleasedAssets.map(asset => (
+              <TouchableOpacity key={asset.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
+                {/* // TODO */ }
+              }}>
+                <View style={cStyles.thumbnailArea}>
+
+                </View>
+                <View style={cStyles.bitmarkContent}>
+                  <Text style={cStyles.releasedAssetName} numberOfLines={1}>{asset.name}</Text>
+                  <Text style={cStyles.releasedAssetEditionLeft} numberOfLines={1}>{`Editions left - ${asset.totalEditionsLeft}/${asset.limitedEdition}`}</Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+            {(this.props.appLoadingData || (this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length < this.props.bitmarks)) && <View style={cStyles.messageNoBitmarkArea}>
+              <ActivityIndicator size="large" style={{ marginTop: 46, }} />
+            </View>}
+          </TouchableOpacity>
+        </ScrollView>}
+
         {this.state.subTab === SubTabs.global && <View style={cStyles.globalArea}>
           <BitmarkWebViewComponent sourceUrl={config.registry_server_url + '?env=app'} heightButtonController={38} />
         </View>}
@@ -188,6 +228,12 @@ class PrivatePropertiesComponent extends React.Component {
         {(!this.props.appLoadingData && this.props.displayedBitmarks && this.props.displayedBitmarks.length === 0 && this.state.subTab === SubTabs.local) &&
           <TouchableOpacity style={cStyles.addFirstPropertyButton} onPress={this.addProperty}>
             <Text style={cStyles.addFirstPropertyButtonText}>{global.i18n.t("PropertiesComponent_addFirstPropertyButtonText")}</Text>
+          </TouchableOpacity>
+        }
+
+        {(!this.props.appLoadingData && this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length === 0 && this.state.subTab === SubTabs.release) &&
+          <TouchableOpacity style={cStyles.addFirstPropertyButton} onPress={this.addProperty}>
+            <Text style={cStyles.addFirstPropertyButtonText}>{'Release Your Music'.toUpperCase()}</Text>
           </TouchableOpacity>
         }
       </View>
@@ -329,6 +375,15 @@ const cStyles = StyleSheet.create({
   },
   bitmarkPendingIcon: {
     width: 13, height: 17, resizeMode: 'contain',
+  },
+  releasedAssetName: {
+    width: '100%',
+    fontFamily: 'AvenirNextW1G-Demi', fontSize: 13,
+  },
+  releasedAssetEditionLeft: {
+    marginTop: 8,
+    width: '100%',
+    fontFamily: 'AvenirNextW1G-Demi', fontSize: 13, color: '#0060F2',
   },
   globalArea: {
     flex: 1,

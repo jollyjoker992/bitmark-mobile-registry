@@ -139,7 +139,7 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
   } else {
     metadata = metadataList;
   }
-  let issueResult = await BitmarkModel.registerNewAsset(filePath, assetName, metadata);
+  let issueResult = await BitmarkModel.doIssueFile(filePath, assetName, metadata, limitedEdition);
   let signatures = await BitmarkSDK.signMessages([issueResult.assetId + '|' + limitedEdition]);
   await BitmarkModel.doUploadMusicThumbnail(bitmarkAccountNumber, issueResult.assetId, thumbnailPath, limitedEdition, signatures[0]);
   let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber)}/${issueResult.assetId}`;
@@ -152,11 +152,14 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
   await FileUtil.copyFileSafe(thumbnailPath, `${assetFolderPath}/thumbnail.png`);
 
   let listFile = await FileUtil.readDir(downloadedFolder);
-  let results = [{
-    id: issueResult.bitmarkId,
-    assetId: issueResult.assetId,
-    filePath: `${downloadedFolder}/${listFile[0]}`
-  }];
+  let results = [];
+  issueResult.bitmarkIds.forEach(id => {
+    results.push({
+      id,
+      assetId: issueResult.assetId,
+      filePath: `${downloadedFolder}/${listFile[0]}`
+    });
+  });
   return results;
 };
 

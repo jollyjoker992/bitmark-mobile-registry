@@ -1,12 +1,12 @@
 import moment from 'moment';
 import { merge } from 'lodash';
 
-import { FileUtil } from "src/utils";
-import { BitmarkService } from "./services";
-import { CommonModel, AccountModel, BitmarkSDK } from "./models";
+import { FileUtil, runPromiseWithoutError, isMusicAsset, sortAssetsBitmarks } from "src/utils";
+import { BitmarkService, LocalFileService } from "./services";
+import { CommonModel, AccountModel, BitmarkSDK, BitmarkModel } from "./models";
 import { CacheData } from "./caches";
 import { CommonProcessor } from "./common-processor";
-import { BottomTabStore, BottomTabActions, PropertiesActions, PropertiesStore } from 'src/views/stores';
+import { BottomTabStore, BottomTabActions, PropertiesActions, PropertiesStore, PropertyStore, PropertyActions } from 'src/views/stores';
 
 
 const _doGetAllAssetsBitmarks = async () => {
@@ -35,8 +35,38 @@ const _doCheckTransferringBitmarks = (assetsBitmarks, outgoingTransferOffers) =>
 
 const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
   if (assetsBitmarks) {
+    for (let assetId in assetsBitmarks.assets) {
+      assetsBitmarks.assets[assetId].filePath = await LocalFileService.detectLocalAssetFilePath(assetId);
+      await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(assetsBitmarks.assets[assetId]));
+    }
+
+    for (let bitmarkId in assetsBitmarks.bitmarks) {
+      if (assetsBitmarks.bitmarks[bitmarkId].issuer === CacheData.userInformation.bitmarkAccountNumber) {
+        let assetId = assetsBitmarks.bitmarks[bitmarkId].asset_id;
+        if (isMusicAsset(assetsBitmarks.assets[assetId])) {
+          if (!assetsBitmarks.assets[assetId].limitedEdition) {
+            let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(CacheData.userInformation.bitmarkAccountNumber, assetId);
+            if (resultGetLimitedEdition) {
+              assetsBitmarks.assets[assetId].limitedEdition = resultGetLimitedEdition.limited;
+            }
+          }
+          // TODO get total editions left or check edition number
+        }
+      }
+    }
+
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS, assetsBitmarks);
-    //TODO
+    PropertiesStore.dispatch(PropertiesActions.updateBitmarks({
+      bitmarks: Object.values(assetsBitmarks.bitmarks || {}),
+      assets: assetsBitmarks.assets || {},
+    }));
+
+    let propertyStoreState = merge({}, PropertyStore.getState().data);
+    if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id) {
+      propertyStoreState.asset = assetsBitmarks.assets[propertyStoreState.bitmark.asset_id];
+      propertyStoreState.bitmark = assetsBitmarks.bitmarks[propertyStoreState.bitmark.id];
+      PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
+    }
   }
 };
 
@@ -69,8 +99,31 @@ const runGetAssetsBitmarksInBackground = () => {
 
 const _doCheckNewReleasedAssetsBitmarks = async (releasedBitmarksAssets) => {
   if (releasedBitmarksAssets) {
+    for (let assetId in releasedBitmarksAssets.assets) {
+      releasedBitmarksAssets.assets[assetId].filePath = await LocalFileService.detectLocalAssetFilePath(assetId);
+      await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(releasedBitmarksAssets.assets[assetId]));
+
+      if (isMusicAsset(releasedBitmarksAssets.assets[assetId])) {
+        if (!releasedBitmarksAssets.assets[assetId].limitedEdition) {
+          let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(CacheData.userInformation.bitmarkAccountNumber, assetId);
+          if (resultGetLimitedEdition) {
+            releasedBitmarksAssets.assets[assetId].limitedEdition = resultGetLimitedEdition.limited;
+          }
+        }
+        let bitmarksOfAsset = Object.values(releasedBitmarksAssets.bitmarks).filter(bitmark => bitmark.asset_id === assetId);
+        sortAssetsBitmarks(bitmarksOfAsset);
+        for (let index = 0; index < bitmarksOfAsset.length; index++) {
+          bitmarksOfAsset[index].editionNumber = index;
+        }
+        releasedBitmarksAssets.assets[assetId].totalEditionsLeft = bitmarksOfAsset.filter(bitmark => (bitmark.owner !== CacheData.userInformation.bitmarkAccountNumber)).length;
+      }
+    }
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_RELEASED_ASSETS_BITMARKS, releasedBitmarksAssets);
-    //TODO
+
+    PropertiesStore.dispatch(PropertiesActions.updateReleasedAssets({
+      releasedAssets: Object.values(releasedBitmarksAssets.assets || {}),
+      releasedBitmarks: releasedBitmarksAssets.bitmarks || {},
+    }));
   }
 };
 

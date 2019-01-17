@@ -16,6 +16,7 @@ import {
 import {
   FileUtil, runPromiseWithoutError,
   compareVersion,
+  isReleasedAsset,
 } from 'src/utils';
 import {
   BottomTabStore, BottomTabActions,
@@ -314,6 +315,13 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       assets: assetsBitmarks.assets,
     }));
 
+    let propertyStoreState = merge({}, PropertyStore.getState().data);
+    if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id) {
+      propertyStoreState.asset = assetsBitmarks.assets[propertyStoreState.bitmark.asset_id];
+      propertyStoreState.bitmark = assetsBitmarks.bitmarks[propertyStoreState.bitmark.id];
+      PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
+    }
+
     TransactionsStore.dispatch(TransactionsActions.init({
       totalActionRequired: actionRequired.length,
       actionRequired: actionRequired.slice(0, 20),
@@ -393,15 +401,18 @@ const doTransferBitmark = async (bitmarkId, receiver) => {
   let result = await BitmarkService.doTransferBitmark(bitmarkId, receiver);
   await TransactionProcessor.doReloadTransfers();
   await BitmarkProcessor.doReloadUserAssetsBitmarks();
-
-
-  if (asset) {
-    let assetsBitmarks = BitmarkProcessor.doGetLocalAssetsBitmarks();
-    let releasedAssetsBitmarks = BitmarkProcessor.doGetLocalReleasedAssetsBitmarks();
-    if (!(assetsBitmarks.assets || {})[asset.id] && !(releasedAssetsBitmarks.assets || {})[asset.id]) {
-      await FileUtil.removeSafe(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}`);
-    }
+  if (isReleasedAsset(asset)) {
+    await BitmarkProcessor.doReloadUserReleasedAssetsBitmarks();
   }
+
+  // TODO remove file after transfer
+  // if (asset) {
+  //   let assetsBitmarks = BitmarkProcessor.doGetLocalAssetsBitmarks();
+  //   let releasedAssetsBitmarks = BitmarkProcessor.doGetLocalReleasedAssetsBitmarks();
+  //   if (!(assetsBitmarks.assets || {})[asset.id] && !(releasedAssetsBitmarks.assets || {})[asset.id]) {
+  //     await FileUtil.removeSafe(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}`);
+  //   }
+  // }
   return result;
 };
 

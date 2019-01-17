@@ -17,6 +17,7 @@ import CodePush from 'react-native-code-push';
 import { EventEmitterService, AppProcessor, DataProcessor, CommonModel, CacheData, CommonProcessor } from 'src/processors';
 import { config } from 'src/configs';
 import { LoadingComponent } from '../commons';
+import { MainCoverComponent } from './main-app-cover.component';
 
 export class BitmarkAppComponent extends Component {
   static propTypes = {
@@ -108,6 +109,7 @@ export class BitmarkAppComponent extends Component {
       <View style={{ flex: 1 }}>
         <DisplayComponent />
         <MainAppHandlerComponent />
+        <MainCoverComponent />
       </View>
     );
   }

@@ -1,12 +1,15 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { merge } from 'lodash';
+import { sortAssetsBitmarks } from 'src/utils';
 
 const ACTION_TYPES = {
   RESET: 'RESET',
   UPDATE_BITMARKS: 'UPDATE_BITMARKS',
   UPDATE_LOADING_STATUS: 'UPDATE_LOADING_STATUS',
-  VIEW_MORE: 'VIEW_MORE'
+  VIEW_MORE: 'VIEW_MORE',
+  UPDATE_RELEASE_ASSET: 'UPDATE_RELEASE_ASSET',
+  VIEW_MORE_RELEASED_ASSETS: 'VIEW_MORE_RELEASED_ASSETS',
 };
 
 const PropertiesActions = {
@@ -22,29 +25,29 @@ const PropertiesActions = {
   viewMoreBitmarks: () => {
     return { type: ACTION_TYPES.VIEW_MORE };
   },
+
+  updateReleasedAssets: ({ releasedBitmarks, releasedAssets }) => {
+    return { type: ACTION_TYPES.UPDATE_RELEASE_ASSET, data: { releasedBitmarks, releasedAssets } };
+  },
+  viewMoreReleasedAssets: () => {
+    return { type: ACTION_TYPES.VIEW_MORE_RELEASED_ASSETS };
+  },
 };
 
 const initialState = {
+  assets: {},
   bitmarks: [],
   displayedBitmarks: [],
+
+  releasedAssets: [],
+  displayedReleasedAssets: [],
+  releasedBitmarks: [],
+
   appLoadingData: false,
 };
 
-const sortBitmarks = (bitmarks) => {
-  bitmarks = bitmarks || [];
-  bitmarks.sort((a, b) => {
-    if (a.status === 'pending') {
-      return -1;
-    } else if (b.status === 'pending') {
-      return 1;
-    }
-    return b.offset - a.offset;
-  });
-  return bitmarks;
-};
-
 const updateDisplayedBitmarks = (state) => {
-  let bitmarks = sortBitmarks(state.bitmarks);
+  let bitmarks = sortAssetsBitmarks(state.bitmarks);
   let totalDisplayedBitmark = Math.min(bitmarks.length, 20);
   let displayedBitmarks = [];
   for (let index = 0; index < totalDisplayedBitmark; index++) {
@@ -81,6 +84,43 @@ const viewMoreDisplayedBitmarks = (state) => {
   };
 };
 
+const updateDisplayedReleasedAssets = (state) => {
+  let totalDisplayedReleasedAssets = state.displayedReleasedAssets.length + 20;
+  totalDisplayedReleasedAssets = totalDisplayedReleasedAssets > state.releasedAssets.length ? state.releasedAssets.length : totalDisplayedReleasedAssets;
+  let displayedReleasedAssets = [];
+  for (let index = 0; index < totalDisplayedReleasedAssets; index++) {
+    displayedReleasedAssets.push(state.releasedAssets[index]);
+  }
+  return {
+    displayedReleasedAssets,
+  };
+};
+
+const updateReleasedAssets = (state, releasedAssets) => {
+  let currentAssets = state.releasedAssets;
+  for (let asset of releasedAssets) {
+    let currentIndex = currentAssets.findIndex(a => a.id === asset.id);
+    if (currentIndex >= 0) {
+      currentAssets[currentIndex] === asset;
+    } else {
+      currentAssets.push(asset);
+    }
+  }
+  return updateDisplayedReleasedAssets(merge({}, state, { releasedAssets: currentAssets }));
+};
+
+const viewMoreDisplayedReleasedAssets = (state) => {
+  let totalDisplayedReleasedAssets = state.displayedReleasedAssets.length + 20;
+  totalDisplayedReleasedAssets = totalDisplayedReleasedAssets > state.releasedAssets.length ? state.releasedAssets.length : totalDisplayedReleasedAssets;
+  let displayedReleasedAssets = [];
+  for (let index = 0; index < totalDisplayedReleasedAssets; index++) {
+    displayedReleasedAssets.push(state.releasedAssets[index]);
+  }
+  return {
+    displayedReleasedAssets,
+  };
+};
+
 const data = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.RESET:
@@ -96,6 +136,16 @@ const data = (state = initialState, action) => {
     }
     case ACTION_TYPES.VIEW_MORE: {
       let tempState = merge({}, state, viewMoreDisplayedBitmarks(state));
+      return tempState;
+    }
+
+    case ACTION_TYPES.UPDATE_RELEASE_ASSET: {
+      let tempState = merge({}, state, updateReleasedAssets(state, action.data.releasedAssets));
+      tempState.releasedBitmarks = action.data.releasedBitmarks;
+      return tempState;
+    }
+    case ACTION_TYPES.VIEW_MORE_RELEASED_ASSETS: {
+      let tempState = merge({}, state, viewMoreDisplayedReleasedAssets(state));
       return tempState;
     }
     default:

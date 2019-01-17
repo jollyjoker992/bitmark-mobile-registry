@@ -6,6 +6,15 @@ import { androidConstant } from './android-constant';
 
 let commonConstant = {
   asset: {
+    metadata: {
+      labels: {
+        type: 'type',
+        description: 'description',
+      },
+      values: {
+        music: 'music'
+      }
+    },
     type: {
       music: 'music',
     }

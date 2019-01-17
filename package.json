@@ -25,6 +25,7 @@
     "react-native-device-info": "^0.13.0",
     "react-native-document-picker": "^2.1.0",
     "react-native-fs": "^2.9.7",
+    "react-native-highlight-words": "^1.0.1",
     "react-native-hyperlink": "0.0.14",
     "react-native-image-picker": "^0.26.7",
     "react-native-keep-awake": "^3.0.1",
