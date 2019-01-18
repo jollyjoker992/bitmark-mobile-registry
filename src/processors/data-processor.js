@@ -184,6 +184,7 @@ const doCheckNewTransactions = async (transactions) => {
 };
 const doCheckNewBitmarks = async (localAssets) => {
   if (localAssets) {
+    localAssets = localAssets.sort((a, b) => b.maxBitmarkOffset - a.maxBitmarkOffset);
     for (let asset of localAssets) {
       asset.filePath = await detectLocalAssetFilePath(asset.id);
       await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(asset));
