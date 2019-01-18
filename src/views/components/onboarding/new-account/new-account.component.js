@@ -95,7 +95,7 @@ export class NewAccountComponent extends React.Component {
                   <Text style={[newAccountStyle.introductionDescription]}>
                     {global.i18n.t("NewAccountComponent_introductionDescription1")}
                   </Text>
-                  <Image style={[newAccountStyle.introductionImage, { width: convertWidth(261), height: 385 * convertWidth(261) / 261 }]} source={require('assets/imgs/introduction1.png')} />
+                  <Image style={newAccountStyle.introductionImage} source={require('assets/imgs/introduction1.png')} />
                 </View>
               </View>
             </View>
@@ -134,7 +134,7 @@ export class NewAccountComponent extends React.Component {
                   <Text style={[newAccountStyle.introductionDescription]}>
                     {global.i18n.t("PublicAccountNumberComponent_introductionDescription")}
                   </Text>
-                  <Image style={[newAccountStyle.introductionImage, { width: convertWidth(216), height: 368 * convertWidth(216) / 216 }]} source={require('assets/imgs/introduction4.png')} />
+                  <Image style={newAccountStyle.introductionImage} source={require('assets/imgs/introduction4.png')} />
 
                   <View style={newAccountStyle.introductionTermPrivacy}>
                     <Hyperlink

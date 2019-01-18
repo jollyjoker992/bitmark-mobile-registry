@@ -48,11 +48,19 @@ const initialState = {
 
 const updateDisplayedBitmarks = (state) => {
   let bitmarks = sortAssetsBitmarks(state.bitmarks);
-  let totalDisplayedBitmark = Math.min(bitmarks.length, 20);
+  let totalDisplayedBitmark = state.displayedBitmarks.length
+  if (totalDisplayedBitmark === 0) {
+    totalDisplayedBitmark = Math.min(bitmarks.length, 20);
+  }
   let displayedBitmarks = [];
   for (let index = 0; index < totalDisplayedBitmark; index++) {
     displayedBitmarks.push(bitmarks[index]);
   }
+  console.log({
+    totalDisplayedBitmark,
+    bitmarks,
+    displayedBitmarks,
+  });
   return {
     bitmarks,
     displayedBitmarks,

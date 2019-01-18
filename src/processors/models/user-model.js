@@ -31,12 +31,14 @@ const resetUserLocalData = async () => {
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS, {});
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_RELEASED_ASSETS_BITMARKS, {});
 
+  await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_IFTTT_INFORMATION, {});
+  await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST, {});
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS, []);
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSFER_OFFERS, []);
 
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED, []);
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY, []);
-  await CommonModel.doSetLocalData(CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED, []);
+  await CommonModel.doSetLocalData(CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED, {});
 }
 
 const doRemoveUserInfo = async () => {

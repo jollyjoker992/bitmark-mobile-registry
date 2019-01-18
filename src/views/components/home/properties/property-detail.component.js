@@ -28,7 +28,10 @@ class PrivatePropertyDetailComponent extends React.Component {
   }
 
   viewBitmarkOnBlockChain() {
-    Linking.openURL(`${config.registry_server_url}/bitmark/${this.props.bitmark.id}`);
+    EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER);
+    Actions.bitmarkWebViewFull({
+      title: 'REGISTRY', sourceUrl: `${config.registry_server_url}/bitmark/${this.props.bitmark.id}?env=app`,
+    });
   }
 
   downloadBitmark() {

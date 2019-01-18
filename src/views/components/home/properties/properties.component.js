@@ -10,7 +10,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { defaultStyles, BitmarkWebViewComponent } from 'src/views/commons';
 import { config, constant } from 'src/configs';
-import { convertWidth, isReleasedAsset, isHealthRecord, isMedicalRecord, isMusicAsset, isImageFile, isVideoFile, isZipFile, isDocFile } from 'src/utils';
+import { convertWidth, isReleasedAsset, isHealthRecord, isMedicalRecord, isImageFile, isVideoFile, isZipFile, isDocFile } from 'src/utils';
 
 import { PropertiesStore, PropertiesActions } from 'src/views/stores';
 import { CommonProcessor, EventEmitterService, CacheData, BitmarkProcessor } from 'src/processors';
@@ -87,9 +87,9 @@ class PrivatePropertiesComponent extends React.Component {
             <View style={cStyles.subTabButtonArea}>
               <View style={[cStyles.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={cStyles.subTabButtonTextArea}>
-                <Text style={[cStyles.subTabButtonText, { marginLeft: this.props.bitmarks.length > 9 ? 8 : 0 }]}>
+                <Text style={[cStyles.subTabButtonText, { marginLeft: 0 }]}>
                   {global.i18n.t("PropertiesComponent_yours")}
-                  <Text style={{ fontSize: this.props.bitmarks.length > 9 ? 10 : 14 }}>{(this.props.bitmarks.length > 0 ? ` (${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})` : '')}</Text>
+                  <Text style={{ fontSize: 10 }}>{` (${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})`}</Text>
                 </Text>
               </View>
             </View>
@@ -101,7 +101,7 @@ class PrivatePropertiesComponent extends React.Component {
             <View style={cStyles.subTabButtonArea}>
               <View style={[cStyles.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={cStyles.subTabButtonTextArea}>
-                <Text style={[cStyles.subTabButtonText, { color: '#C1C1C1', marginLeft: this.props.bitmarks.length > 9 ? 10 : 0 }]}>{global.i18n.t("PropertiesComponent_yours")}<Text style={{ fontSize: this.props.bitmarks.length > 9 ? 8 : 14 }}>{(this.props.bitmarks.length > 0 ? ` (${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})` : '')}</Text></Text>
+                <Text style={[cStyles.subTabButtonText, { color: '#C1C1C1', marginLeft: 0 }]}>{global.i18n.t("PropertiesComponent_yours")}<Text style={{ fontSize: 10 }}>{` (${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})`}</Text></Text>
               </View>
             </View>
           </TouchableOpacity>}
@@ -170,12 +170,17 @@ class PrivatePropertiesComponent extends React.Component {
         >
           <TouchableOpacity activeOpacity={1} style={cStyles.contentSubTab}>
             {(!this.props.appLoadingData && this.props.displayedBitmarks && this.props.displayedBitmarks.length === 0) && <View style={cStyles.messageNoBitmarkArea}>
-              {(this.state.subTab === SubTabs.local) && <Text style={cStyles.messageNoBitmarkLabel}>
-                {global.i18n.t("PropertiesComponent_messageNoBitmarkLabel")}
-              </Text>}
-              {(this.state.subTab === SubTabs.local) && <Text style={cStyles.messageNoBitmarkContent}>
-                {global.i18n.t("PropertiesComponent_messageNoBitmarkContent")}
-              </Text>}
+              <View>
+                <Text style={cStyles.messageNoBitmarkLabel}>
+                  {global.i18n.t("PropertiesComponent_messageNoBitmarkLabel")}
+                </Text>
+                <Text style={cStyles.messageNoContent}>
+                  {global.i18n.t("PropertiesComponent_messageNoContent")}
+                </Text>
+              </View>
+              <TouchableOpacity style={cStyles.addFirstPropertyButton} onPress={this.addProperty}>
+                <Text style={cStyles.addFirstPropertyButtonText}>{global.i18n.t("PropertiesComponent_addFirstPropertyButtonText")}</Text>
+              </TouchableOpacity>
             </View>}
             {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.state.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => (
               <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => this.viewPropertyDetail.bind(this)(bitmark)}>
@@ -237,7 +242,20 @@ class PrivatePropertiesComponent extends React.Component {
         >
           <TouchableOpacity activeOpacity={1} style={cStyles.contentSubTab}>
             {(!this.props.appLoadingData && this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length === 0) && <View style={cStyles.messageNoBitmarkArea}>
-              {/* // TODO */}
+              <View>
+                <Text style={cStyles.messageNoBitmarkLabel}>
+                  {global.i18n.t("PropertiesComponent_messageNoReleaseLabel")}
+                </Text>
+                <Text style={cStyles.messageNoContent}>
+                  {global.i18n.t("PropertiesComponent_messageNoReleaseContent")}
+                </Text>
+              </View>
+              <View style={{ flex: 1, justifyContent: 'center', width: '100%', paddingTop: 10, paddingBottom: 10, }}>
+                <Image style={cStyles.noReleaseIcon} source={require('assets/imgs/No_release_icon.png')} />
+              </View>
+              <TouchableOpacity style={cStyles.addFirstPropertyButton} onPress={this.addProperty}>
+                <Text style={cStyles.addFirstPropertyButtonText}>{'Release Your Music'.toUpperCase()}</Text>
+              </TouchableOpacity>
             </View>}
             {this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length > 0 && this.state.subTab === SubTabs.release && this.props.displayedReleasedAssets.map(asset => (
               <TouchableOpacity key={asset.id} style={[cStyles.bitmarkRowArea]} onPress={() => this.viewReleaseDetail.bind(this)(asset)}>
@@ -259,18 +277,6 @@ class PrivatePropertiesComponent extends React.Component {
         {this.state.subTab === SubTabs.global && <View style={cStyles.globalArea}>
           <BitmarkWebViewComponent sourceUrl={config.registry_server_url + '?env=app'} heightButtonController={38} />
         </View>}
-
-        {(!this.props.appLoadingData && this.props.displayedBitmarks && this.props.displayedBitmarks.length === 0 && this.state.subTab === SubTabs.local) &&
-          <TouchableOpacity style={cStyles.addFirstPropertyButton} onPress={this.addProperty}>
-            <Text style={cStyles.addFirstPropertyButtonText}>{global.i18n.t("PropertiesComponent_addFirstPropertyButtonText")}</Text>
-          </TouchableOpacity>
-        }
-
-        {(!this.props.appLoadingData && this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length === 0 && this.state.subTab === SubTabs.release) &&
-          <TouchableOpacity style={cStyles.addFirstPropertyButton} onPress={this.addProperty}>
-            <Text style={cStyles.addFirstPropertyButtonText}>{'Release Your Music'.toUpperCase()}</Text>
-          </TouchableOpacity>
-        }
       </View>
     );
   }
@@ -351,22 +357,29 @@ const cStyles = StyleSheet.create({
     flex: 1, flexDirection: 'column',
   },
   messageNoBitmarkArea: {
+    flex: 1,
     width: '100%',
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: 'column', justifyContent: 'space-between',
   },
   messageNoBitmarkLabel: {
     marginTop: 46,
-    width: convertWidth(337),
+    width: '100%',
+    paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
     fontFamily: 'AvenirNextW1G-Bold',
     fontSize: 17,
     color: '#0060F2'
   },
-  messageNoBitmarkContent: {
+  messageNoContent: {
     marginTop: 46,
-    width: convertWidth(337),
+    width: '100%',
+    paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
     fontFamily: 'AvenirNextW1G-Light',
     fontSize: 17,
+  },
+  noReleaseIcon: {
+    resizeMode: 'stretch', height: '100%',
+    maxHeight: 248,
+    maxWidth: convertWidth(303)
   },
   addFirstPropertyButton: {
     flexDirection: 'row',
@@ -374,11 +387,7 @@ const cStyles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
     backgroundColor: '#0060F2',
-    marginTop: 30,
-    width: convertWidth(375),
     minHeight: 45,
-    position: 'absolute',
-    bottom: 0,
   },
   addFirstPropertyButtonText: {
     fontFamily: 'AvenirNextW1G-Bold', textAlign: 'center', fontSize: 16, color: 'white'

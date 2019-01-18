@@ -22,7 +22,7 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    paddingBottom: 50,
+    paddingBottom: 75,
   },
   swipePageContent: {
     alignItems: 'center', justifyContent: 'center',
@@ -43,7 +43,7 @@ export default StyleSheet.create({
   },
 
   introductionTitle: {
-    width: convertWidth(275), minHeight: 62,
+    width: convertWidth(275), minHeight: 47,
     fontFamily: 'AvenirNextW1G-Bold', color: '#0060F2', fontSize: 17,
   },
   introductionDescription: {
@@ -59,8 +59,8 @@ export default StyleSheet.create({
     fontFamily: 'AvenirNextW1G-Bold', color: '#0060F2', fontSize: 14,
   },
   introductionImage: {
-    resizeMode: 'contain',
-    width: convertWidth(202), height: 358 * convertWidth(202) / 202,
+    flex: 1,
+    resizeMode: 'contain', width: '100%', height: '100%',
   },
   introductionTermPrivacy: {
     marginTop: calculateAdditionalHeight(667, 30, true),
