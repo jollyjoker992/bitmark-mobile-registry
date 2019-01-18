@@ -23,7 +23,7 @@ let commonConfig = {
   version: DeviceInfo.getVersion(),
   buildNumber: DeviceInfo.getBuildNumber(),
   localization: DeviceInfo.getDeviceLocale(),
-  deviceSize : Dimensions.get('window'),
+  deviceSize: Dimensions.get('window'),
 
   zeroAddress: 'dw9MQXcC5rJZb3QE1nz86PiQAheMP1dx9M3dr52tT8NNs14m33',
   bitmark_network: NETWORKS.testnet,
@@ -42,7 +42,7 @@ let commonConfig = {
   bitmark_web_site: 'https://bitmark.com',
   file_courier_server: 'https://file-courier.test.bitmark.com',
   bitmark_profile_server: 'http://192.168.0.106:1102',
-  needResetLocalData: 1547201856036,
+  needResetLocalData: 1547775222834
 };
 
 if (commonConfig.network === NETWORKS.testnet) {

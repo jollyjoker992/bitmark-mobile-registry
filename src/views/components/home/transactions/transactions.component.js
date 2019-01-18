@@ -117,6 +117,7 @@ class PrivateTransactionsComponent extends React.Component {
   }
 
   render() {
+    let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     return (
       <SafeAreaView style={transactionsStyle.body}>
         <View style={[transactionsStyle.header, { height: constant.headerSize.height }]}>
@@ -221,7 +222,7 @@ class PrivateTransactionsComponent extends React.Component {
                     </View>}
 
                     {item.type === ActionRequireTypes.claim_request && <View style={transactionsStyle.iftttTask}>
-                      <Text style={transactionsStyle.iftttTitle}>{item.incomingClaimRequest.asset.name} {item.incomingClaimRequest.index}/{item.incomingClaimRequest.asset.limitedEdition}</Text>
+                      <Text style={transactionsStyle.iftttTitle}>{item.incomingClaimRequest.asset.name} {item.incomingClaimRequest.index}/{item.incomingClaimRequest.asset.editions[bitmarkAccountNumber].limited}</Text>
                       <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_claimRequestMessage", { accountNumber: item.incomingClaimRequest.from })}</Text>
                     </View>}
                   </TouchableOpacity>)

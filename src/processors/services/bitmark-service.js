@@ -135,6 +135,8 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
       if (item.label && item.value) {
         metadata[item.label] = item.value;
       }
+
+
     });
   } else {
     metadata = metadataList;

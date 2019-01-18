@@ -176,8 +176,8 @@ const doProcessIncomingClaimRequest = (incomingClaimRequest, isAccept) => {
 const doSendIncomingClaimRequest = async (asset) => {
   return executeTask('doSendIncomingClaimRequest', { asset });
 };
-const doGetAssetToClaim = async (assetId) => {
-  return executeTask('doGetAssetToClaim', { assetId });
+const doGetAssetToClaim = async (assetId, issuer) => {
+  return executeTask('doGetAssetToClaim', { assetId, issuer });
 };
 
 

@@ -158,7 +158,6 @@ const _doGenerateTransactionActionRequiredData = async (incomingClaimRequests) =
   }) : actionRequired;
 
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED, actionRequired);
-
   // Add "Write Down Your Recovery Phrase" action required which was created when creating account if any
   let testRecoveryPhaseActionRequired = await CommonModel.doGetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${CacheData.userInformation.bitmarkAccountNumber}`);
   if (testRecoveryPhaseActionRequired) {
@@ -316,9 +315,10 @@ const runGetTransfersInBackground = () => {
 
 const _doCheckClaimRequests = async (claimRequests) => {
   if (claimRequests) {
-    let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
+    let releasedBitmarksAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_RELEASED_ASSETS_BITMARKS)) || {};
+    releasedBitmarksAssets.assets = releasedBitmarksAssets.assets || {};
     for (let incomingClaimRequest of claimRequests.incoming_claim_requests) {
-      incomingClaimRequest.asset = (assetsBitmarks.assets || {})[claimRequests.asset_id];
+      incomingClaimRequest.asset = releasedBitmarksAssets.assets[incomingClaimRequest.asset_id];
     }
     for (let outgoingClaimRequest of claimRequests.outgoing_claim_requests) {
       outgoingClaimRequest.asset = await BitmarkModel.doGetAssetInformation(outgoingClaimRequest.asset_id);
@@ -486,13 +486,17 @@ const doRemoveTestRecoveryPhaseActionRequiredIfAny = async () => {
   }
 };
 
-const doGetAssetToClaim = async (assetId) => {
+const doGetAssetToClaim = async (assetId, issuer) => {
   let asset = await BitmarkModel.doGetAssetInformation(assetId);
-  let allIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(asset.registrant, asset.id);
-  asset.totalIssuedBitmarks = allIssuedBitmarks.length;
+  issuer = issuer || asset.registrant;
+  let allIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(issuer, asset.id);
+
+  asset.editions = asset.editions || {};
+  asset.editions[issuer] = asset.editions[issuer] || {};
+  asset.editions[issuer].totalEditionLeft = allIssuedBitmarks.filter(bitmark => bitmark.owner === issuer).length - 1;
   let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(asset.registrant, asset.id);
   if (resultGetLimitedEdition) {
-    asset.limitedEdition = resultGetLimitedEdition.limited;
+    asset.editions[issuer].limited = resultGetLimitedEdition.limited;
   }
   asset.registrantName = CacheData.identities[asset.registrant] ? CacheData.identities[asset.registrant].name : '';
   return asset;

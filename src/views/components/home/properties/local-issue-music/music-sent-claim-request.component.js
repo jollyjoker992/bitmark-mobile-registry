@@ -15,6 +15,7 @@ import { AppProcessor, EventEmitterService, CommonProcessor } from 'src/processo
 export class MusicSentIncomingClaimRequestComponent extends React.Component {
   static propTypes = {
     asset: PropTypes.any,
+    issuer: PropTypes.any,
   }
   constructor(props) {
     super(props);
@@ -38,6 +39,7 @@ export class MusicSentIncomingClaimRequestComponent extends React.Component {
   }
 
   render() {
+    let issuer = this.props.issuer || this.props.asset.registrant;
     return (
       <ImageBackground source={require('assets/imgs/claim_background.png')} style={{ flex: 1, resizeMode: 'contain' }}>
         <View style={cStyles.header}>
@@ -52,9 +54,9 @@ export class MusicSentIncomingClaimRequestComponent extends React.Component {
             <Image style={cStyles.thumbnailImage} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.asset.id}` }} />
             <View style={cStyles.assetInfo}>
               <Text style={cStyles.assetName}>{this.props.asset.name}</Text>
-              <Text style={cStyles.editionInfo}>Ed. {this.props.asset.limitedEdition - this.props.asset.totalIssuedBitmarks + 1}/{this.props.asset.limitedEdition}</Text>
+              <Text style={cStyles.editionInfo}>Ed. {this.props.asset.editions[issuer].totalEditionLeft}/{this.props.asset.editions[issuer].limited}</Text>
             </View>
-            <Text style={cStyles.registrant}>{this.props.asset.registrantName || this.props.asset.registrant}</Text>
+            <Text style={cStyles.registrant}>{CommonProcessor.getDisplayedAccount(issuer)}</Text>
             <Text style={cStyles.informationTitle}>{global.i18n.t("MusicSentClaimRequestComponent_informationTitle")}</Text>
             <Text style={cStyles.informationDescription}>{global.i18n.t("MusicSentClaimRequestComponent_informationDescription")}</Text>
           </View>

@@ -9,7 +9,7 @@ import incomingClaimRequestStyle from './incoming-claim-request.component.style'
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { Actions } from 'react-native-router-flux';
-import { AppProcessor, EventEmitterService } from 'src/processors';
+import { AppProcessor, EventEmitterService, CacheData } from 'src/processors';
 
 export class IncomingClaimRequestComponent extends React.Component {
   static propTypes = {
@@ -56,6 +56,7 @@ export class IncomingClaimRequestComponent extends React.Component {
   }
 
   render() {
+    let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
         <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
@@ -70,7 +71,7 @@ export class IncomingClaimRequestComponent extends React.Component {
           <ScrollView style={[incomingClaimRequestStyle.contentScroll]} contentContainerStyle={{ flexGrow: 1, }}>
             <TouchableOpacity activeOpacity={1} style={incomingClaimRequestStyle.content}>
               <Image style={incomingClaimRequestStyle.assetThumbnail} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.incomingClaimRequest.asset.id}` }} />
-              <Text style={incomingClaimRequestStyle.assetInfo}>{this.props.incomingClaimRequest.asset.name} [{this.props.incomingClaimRequest.index}/{this.props.incomingClaimRequest.asset.limitedEdition}]</Text>
+              <Text style={incomingClaimRequestStyle.assetInfo}>{this.props.incomingClaimRequest.asset.name} [{this.props.incomingClaimRequest.index}/{this.props.incomingClaimRequest.asset.editions[bitmarkAccountNumber].limited}]</Text>
               <Text style={incomingClaimRequestStyle.claimMessage}>
                 {global.i18n.t("IncomingClaimRequestComponent_claimMessage0")} <Text style={{ fontFamily: 'Andale Mono' }}>[{this.props.incomingClaimRequest.from}]</Text>{global.i18n.t("IncomingClaimRequestComponent_claimMessage1")} <Text style={{ fontWeight: 'bold' }}>{this.props.incomingClaimRequest.asset.name}</Text>. {global.i18n.t("IncomingClaimRequestComponent_claimMessage2")}
               </Text>

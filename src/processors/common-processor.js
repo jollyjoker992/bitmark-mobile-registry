@@ -116,8 +116,8 @@ const doMarkDoneSendClaimRequest = async () => {
   updateModal(ModalDisplayKeyIndex.claim_asset);
 };
 
-const doViewSendIncomingClaimRequest = async (asset) => {
-  updateModal(ModalDisplayKeyIndex.claim_asset, { asset });
+const doViewSendIncomingClaimRequest = async (asset, issuer) => {
+  updateModal(ModalDisplayKeyIndex.claim_asset, { asset, issuer });
 };
 
 const getDisplayedAccount = (accountNumber) => {

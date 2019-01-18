@@ -65,15 +65,8 @@ const runOnBackground = async () => {
   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 
   if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
-    let runParallel = () => {
-      return new Promise((resolve) => {
-        Promise.all([
-          BitmarkProcessor.runGetUserBitmarks(),
-          TransactionProcessor.runGetTransactionsInBackground(),
-        ]).then(resolve);
-      });
-    };
-    await runParallel();
+    await BitmarkProcessor.runGetUserBitmarks();
+    await TransactionProcessor.runGetTransactionsInBackground();
   }
   console.log('runOnBackground done ====================================');
 };

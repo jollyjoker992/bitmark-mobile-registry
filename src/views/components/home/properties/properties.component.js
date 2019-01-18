@@ -13,7 +13,7 @@ import { config, constant } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 import { PropertiesStore, PropertiesActions } from 'src/views/stores';
-import { CommonProcessor, EventEmitterService } from 'src/processors';
+import { CommonProcessor, EventEmitterService, CacheData } from 'src/processors';
 
 const SubTabs = {
   local: 'Yours',
@@ -56,6 +56,7 @@ class PrivatePropertiesComponent extends React.Component {
   }
 
   render() {
+    let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     loadingDataWhenScroll = false;
     return (
       <View style={cStyles.body}>
@@ -142,6 +143,7 @@ class PrivatePropertiesComponent extends React.Component {
         </View>
 
         {this.state.subTab === SubTabs.local && <ScrollView style={[cStyles.scrollSubTabArea]}
+          contentContainerStyle={{ flexGrow: 1 }}
           onScroll={async (scrollEvent) => {
             if (loadingDataWhenScroll) {
               return;
@@ -185,6 +187,7 @@ class PrivatePropertiesComponent extends React.Component {
         </ScrollView>}
 
         {this.state.subTab === SubTabs.release && <ScrollView style={[cStyles.scrollSubTabArea]}
+          contentContainerStyle={{ flexGrow: 1 }}
           onScroll={async (scrollEvent) => {
             if (loadingDataWhenScroll) {
               return;
@@ -202,7 +205,7 @@ class PrivatePropertiesComponent extends React.Component {
             {(!this.props.appLoadingData && this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length === 0) && <View style={cStyles.messageNoBitmarkArea}>
               {/* // TODO */}
             </View>}
-            {this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length > 0 && this.state.subTab === SubTabs.local && this.props.displayedReleasedAssets.map(asset => (
+            {this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length > 0 && this.state.subTab === SubTabs.release && this.props.displayedReleasedAssets.map(asset => (
               <TouchableOpacity key={asset.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
                 {/* // TODO */ }
               }}>
@@ -211,7 +214,7 @@ class PrivatePropertiesComponent extends React.Component {
                 </View>
                 <View style={cStyles.bitmarkContent}>
                   <Text style={cStyles.releasedAssetName} numberOfLines={1}>{asset.name}</Text>
-                  <Text style={cStyles.releasedAssetEditionLeft} numberOfLines={1}>{`Editions left - ${asset.totalEditionsLeft}/${asset.limitedEdition}`}</Text>
+                  <Text style={cStyles.releasedAssetEditionLeft} numberOfLines={1}>{`Editions left - ${asset.editions[bitmarkAccountNumber].totalEditionLeft}/${asset.editions[bitmarkAccountNumber].limited}`}</Text>
                 </View>
               </TouchableOpacity>
             ))}
@@ -313,7 +316,7 @@ const cStyles = StyleSheet.create({
   },
   contentSubTab: {
     width: '100%',
-    flexDirection: 'column',
+    flex: 1, flexDirection: 'column',
   },
   messageNoBitmarkArea: {
     width: '100%',
@@ -381,7 +384,7 @@ const cStyles = StyleSheet.create({
     fontFamily: 'AvenirNextW1G-Demi', fontSize: 13,
   },
   releasedAssetEditionLeft: {
-    marginTop: 8,
+    marginTop: 3,
     width: '100%',
     fontFamily: 'AvenirNextW1G-Demi', fontSize: 13, color: '#0060F2',
   },

@@ -3,7 +3,7 @@ import { merge } from 'lodash';
 import { TransferOfferModel, BitmarkSDK, BitmarkModel, CommonModel } from '../models';
 
 const doGetAllTransactions = async (accountNumber) => {
-  let oldTransactions = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS)) || {};
+  let oldTransactions = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS)) || [];
   oldTransactions = oldTransactions || [];
   let lastOffset = null;
   if (oldTransactions) {
@@ -77,7 +77,7 @@ const doGet100Transactions = async (accountNumber, oldTransactions, lastOffset) 
   let hasChanging = false;
   if (!oldTransactions) {
     hasChanging = true;
-    oldTransactions = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS)) || {};
+    oldTransactions = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS);
   }
   oldTransactions = oldTransactions || [];
   if (!lastOffset) {
