@@ -34,6 +34,7 @@ class PrivatePropertiesComponent extends React.Component {
     releasedBitmarks: PropTypes.any,
 
     appLoadingData: PropTypes.bool,
+    subTab: PropTypes.string,
   }
 
   constructor(props) {
@@ -42,13 +43,10 @@ class PrivatePropertiesComponent extends React.Component {
     this.switchSubTab = this.switchSubTab.bind(this);
     this.addProperty = this.addProperty.bind(this);
 
-    this.state = {
-      subTab: SubTabs.local,
-    };
   }
 
   switchSubTab(subTab) {
-    this.setState({ subTab, });
+    PropertiesStore.dispatch(PropertiesActions.update({ subTab }));
   }
 
   addProperty() {
@@ -61,12 +59,15 @@ class PrivatePropertiesComponent extends React.Component {
   }
 
   viewReleaseDetail(releasedAsset) {
-    //TODO
+    let releasedBitmarksOfAsset = Object.values(this.props.releasedBitmarks).filter(bitmark =>
+      (bitmark.asset_id === releasedAsset.id &&
+        bitmark.issuer === CacheData.userInformation.bitmarkAccountNumber &&
+        bitmark.owner !== CacheData.userInformation.bitmarkAccountNumber));
+    Actions.releasedProperties({ releasedAsset, releasedBitmarks: releasedBitmarksOfAsset });
   }
 
-
   render() {
-    console.log('PrivatePropertiesComponent this.props :', JSON.stringify(this.props.assets, null, 2));
+
     let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     loadingDataWhenScroll = false;
     return (
@@ -80,7 +81,7 @@ class PrivatePropertiesComponent extends React.Component {
         </View>
 
         <View style={cStyles.subTabArea}>
-          {this.state.subTab === SubTabs.local && <TouchableOpacity style={[cStyles.subTabButton, {
+          {this.props.subTab === SubTabs.local && <TouchableOpacity style={[cStyles.subTabButton, {
             shadowOffset: { width: 2 },
             shadowOpacity: 0.15,
           }]}>
@@ -94,7 +95,7 @@ class PrivatePropertiesComponent extends React.Component {
               </View>
             </View>
           </TouchableOpacity>}
-          {this.state.subTab !== SubTabs.local && <TouchableOpacity style={[cStyles.subTabButton, {
+          {this.props.subTab !== SubTabs.local && <TouchableOpacity style={[cStyles.subTabButton, {
             backgroundColor: '#F5F5F5',
             zIndex: 0,
           }]} onPress={() => this.switchSubTab(SubTabs.local)}>
@@ -106,7 +107,7 @@ class PrivatePropertiesComponent extends React.Component {
             </View>
           </TouchableOpacity>}
 
-          {this.state.subTab === SubTabs.release && <TouchableOpacity style={[cStyles.subTabButton, {
+          {this.props.subTab === SubTabs.release && <TouchableOpacity style={[cStyles.subTabButton, {
             shadowOffset: { width: 2 },
             shadowOpacity: 0.15,
           }]}>
@@ -117,7 +118,7 @@ class PrivatePropertiesComponent extends React.Component {
               </View>
             </View>
           </TouchableOpacity>}
-          {this.state.subTab !== SubTabs.release && <TouchableOpacity style={[cStyles.subTabButton, {
+          {this.props.subTab !== SubTabs.release && <TouchableOpacity style={[cStyles.subTabButton, {
             backgroundColor: '#F5F5F5',
             zIndex: 0,
           }]} onPress={() => this.switchSubTab(SubTabs.release)}>
@@ -129,7 +130,7 @@ class PrivatePropertiesComponent extends React.Component {
             </View>
           </TouchableOpacity>}
 
-          {this.state.subTab === SubTabs.global && <TouchableOpacity style={[cStyles.subTabButton, {
+          {this.props.subTab === SubTabs.global && <TouchableOpacity style={[cStyles.subTabButton, {
             shadowOffset: { width: -2 },
             shadowOpacity: 0.15,
           }]}>
@@ -140,7 +141,7 @@ class PrivatePropertiesComponent extends React.Component {
               </View>
             </View>
           </TouchableOpacity>}
-          {this.state.subTab !== SubTabs.global && <TouchableOpacity style={[cStyles.subTabButton, {
+          {this.props.subTab !== SubTabs.global && <TouchableOpacity style={[cStyles.subTabButton, {
             backgroundColor: '#F5F5F5',
             zIndex: 0,
           }]} onPress={() => this.switchSubTab(SubTabs.global)}>
@@ -153,7 +154,7 @@ class PrivatePropertiesComponent extends React.Component {
           </TouchableOpacity>}
         </View>
 
-        {this.state.subTab === SubTabs.local && <ScrollView style={[cStyles.scrollSubTabArea]}
+        {this.props.subTab === SubTabs.local && <ScrollView style={[cStyles.scrollSubTabArea]}
           contentContainerStyle={{ flexGrow: 1 }}
           onScroll={async (scrollEvent) => {
             if (loadingDataWhenScroll) {
@@ -182,7 +183,7 @@ class PrivatePropertiesComponent extends React.Component {
                 <Text style={cStyles.addFirstPropertyButtonText}>{global.i18n.t("PropertiesComponent_addFirstPropertyButtonText")}</Text>
               </TouchableOpacity>
             </View>}
-            {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.state.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => (
+            {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.props.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => (
               <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => this.viewPropertyDetail.bind(this)(bitmark)}>
                 <View style={cStyles.thumbnailArea}>
                   {(() => {
@@ -225,7 +226,7 @@ class PrivatePropertiesComponent extends React.Component {
           </TouchableOpacity>
         </ScrollView>}
 
-        {this.state.subTab === SubTabs.release && <ScrollView style={[cStyles.scrollSubTabArea]}
+        {this.props.subTab === SubTabs.release && <ScrollView style={[cStyles.scrollSubTabArea]}
           contentContainerStyle={{ flexGrow: 1 }}
           onScroll={async (scrollEvent) => {
             if (loadingDataWhenScroll) {
@@ -253,11 +254,11 @@ class PrivatePropertiesComponent extends React.Component {
               <View style={{ flex: 1, justifyContent: 'center', width: '100%', paddingTop: 10, paddingBottom: 10, }}>
                 <Image style={cStyles.noReleaseIcon} source={require('assets/imgs/No_release_icon.png')} />
               </View>
-              <TouchableOpacity style={cStyles.addFirstPropertyButton} onPress={this.addProperty}>
+              <TouchableOpacity style={cStyles.addFirstPropertyButton} onPress={Actions.musicFileChosen}>
                 <Text style={cStyles.addFirstPropertyButtonText}>{'Release Your Music'.toUpperCase()}</Text>
               </TouchableOpacity>
             </View>}
-            {this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length > 0 && this.state.subTab === SubTabs.release && this.props.displayedReleasedAssets.map(asset => (
+            {this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length > 0 && this.props.subTab === SubTabs.release && this.props.displayedReleasedAssets.map(asset => (
               <TouchableOpacity key={asset.id} style={[cStyles.bitmarkRowArea]} onPress={() => this.viewReleaseDetail.bind(this)(asset)}>
                 <View style={cStyles.thumbnailArea}>
                   <Image style={cStyles.thumbnailImage} source={{ uri: asset.thumbnailPath }} />
@@ -274,7 +275,7 @@ class PrivatePropertiesComponent extends React.Component {
           </TouchableOpacity>
         </ScrollView>}
 
-        {this.state.subTab === SubTabs.global && <View style={cStyles.globalArea}>
+        {this.props.subTab === SubTabs.global && <View style={cStyles.globalArea}>
           <BitmarkWebViewComponent sourceUrl={config.registry_server_url + '?env=app'} heightButtonController={38} />
         </View>}
       </View>
@@ -447,12 +448,13 @@ const StorePropertiesComponent = connect(
 
 export class PropertiesComponent extends Component {
   static propTypes = {
-
+    subTab: PropTypes.string,
   }
   constructor(props) {
     super(props);
   }
   render() {
+    PropertiesStore.dispatch(PropertiesActions.update({ subTab: this.props.subTab || SubTabs.local }));
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
         <Provider store={PropertiesStore}>

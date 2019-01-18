@@ -5,6 +5,7 @@ import { sortAssetsBitmarks } from 'src/utils';
 
 const ACTION_TYPES = {
   RESET: 'RESET',
+  UPDATE: 'UPDATE',
   UPDATE_BITMARKS: 'UPDATE_BITMARKS',
   UPDATE_LOADING_STATUS: 'UPDATE_LOADING_STATUS',
   VIEW_MORE: 'VIEW_MORE',
@@ -15,6 +16,9 @@ const ACTION_TYPES = {
 const PropertiesActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
+  },
+  update: (data) => {
+    return { type: ACTION_TYPES.UPDATE, data };
   },
   updateBitmarks: ({ bitmarks, assets }) => {
     return { type: ACTION_TYPES.UPDATE_BITMARKS, data: { bitmarks, assets } };
@@ -133,6 +137,10 @@ const data = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.RESET:
       return merge({}, initialState);
+    case ACTION_TYPES.UPDATE: {
+      let tempState = merge({}, state, action.data);
+      return tempState;
+    }
     case ACTION_TYPES.UPDATE_LOADING_STATUS: {
       let tempState = merge({}, state, action.data);
       return tempState;

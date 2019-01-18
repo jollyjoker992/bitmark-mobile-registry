@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   View, TouchableOpacity, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
   StyleSheet,
+  Keyboard,
   Alert,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -24,6 +25,10 @@ export class MusicMetadataComponent extends React.Component {
   }
   constructor(props) {
     super(props);
+    this.onKeyboardDidShow = this.onKeyboardDidShow.bind(this);
+    this.onKeyboardDidHide = this.onKeyboardDidHide.bind(this);
+    this.onKeyboardWillShow = this.onKeyboardWillShow.bind(this);
+
     this.state = {
       canAddNewMetadata: false,
       isEditingMetadata: false,
@@ -32,7 +37,30 @@ export class MusicMetadataComponent extends React.Component {
       }],
       isDisplayingKeyboard: false,
       metadataError: '',
+      keyboardHeight: 0,
     };
+  }
+
+  componentDidMount() {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.onKeyboardWillShow);
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardDidHide);
+  }
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  onKeyboardWillShow() {
+    this.setState({ keyboardHeight: 1 });
+  }
+  onKeyboardDidShow(keyboardEvent) {
+    let keyboardHeight = keyboardEvent.endCoordinates.height;
+    this.setState({ keyboardHeight, });
+  }
+
+  onKeyboardDidHide() {
+    this.setState({ keyboardHeight: 0 });
   }
 
   addMetadata() {
@@ -197,19 +225,19 @@ export class MusicMetadataComponent extends React.Component {
               </View>
             </View>
           </ScrollView>
-        </KeyboardAvoidingView>
-        <View style={cStyles.ownershipArea}>
-          <Text style={cStyles.ownershipTitle}>{global.i18n.t('MusicMetadataComponent_ownershipTitle')}</Text>
-          <Text style={cStyles.ownershipDescription}>{global.i18n.t('MusicMetadataComponent_ownershipDescription')}</Text>
-        </View>
+          {this.state.keyboardHeight === 0 && <View style={cStyles.ownershipArea}>
+            <Text style={cStyles.ownershipTitle}>{global.i18n.t('MusicMetadataComponent_ownershipTitle')}</Text>
+            <Text style={cStyles.ownershipDescription}>{global.i18n.t('MusicMetadataComponent_ownershipDescription')}</Text>
+          </View>}
 
-        <TouchableOpacity
-          style={[cStyles.continueButton, (!this.state.metadataError) ? { backgroundColor: '#0060F2' } : {}]}
-          disabled={!!this.state.metadataError}
-          onPress={this.onSubmit.bind(this)}
-        >
-          <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicMetadataComponent_continueButtonText')}</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[cStyles.continueButton, (!this.state.metadataError) ? { backgroundColor: '#0060F2' } : {}]}
+            disabled={!!this.state.metadataError}
+            onPress={this.onSubmit.bind(this)}
+          >
+            <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicMetadataComponent_continueButtonText')}</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
       </View>
     );
   }

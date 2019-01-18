@@ -8,6 +8,7 @@ import {
   IftttActiveComponent,
   AssetTypeHelpComponent,
   PropertiesComponent,
+  ReleasedPropertiesComponent,
 } from './properties';
 
 import {
@@ -139,6 +140,7 @@ export class UserRouterComponent extends Component {
                 <Scene key="properties" initial={true} panHandlers={null} component={PropertiesComponent} />
                 <Scene key="issuanceOptions" panHandlers={null} component={IssuanceOptionsComponent} />
                 <Scene key="iftttActive" panHandlers={null} component={IftttActiveComponent} />
+                <Scene key="releasedProperties" panHandlers={null} component={ReleasedPropertiesComponent} />
               </Stack>
               <Scene key="transactions" panHandlers={null} component={TransactionsComponent} />
               <Stack key="account" headerMode='none'>

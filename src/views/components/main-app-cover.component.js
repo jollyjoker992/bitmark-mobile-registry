@@ -34,30 +34,30 @@ export class MainCoverComponent extends Component {
       let listAnimations = [];
       listAnimations.push(Animated.spring(this.state.opacityCoverArea, {
         toValue: 1,
-        duration: 200,
+        duration: 100,
       }));
       listAnimations.push(Animated.spring(this.state.heightCoverArea, {
         toValue: config.deviceSize.height,
-        duration: 200,
+        duration: 100,
       }));
       listAnimations.push(Animated.spring(this.state.topCoverArea, {
         toValue: 0,
-        duration: 200,
+        duration: 100,
       }));
       Animated.parallel(listAnimations).start();
     } else {
       let listAnimations = [];
       listAnimations.push(Animated.spring(this.state.opacityCoverArea, {
         toValue: 0,
-        duration: 200,
+        duration: 100,
       }));
       listAnimations.push(Animated.spring(this.state.heightCoverArea, {
         toValue: 0,
-        duration: 200,
+        duration: 100,
       }));
       listAnimations.push(Animated.spring(this.state.topCoverArea, {
         toValue: config.deviceSize.height,
-        duration: 200,
+        duration: 100,
       }));
       Animated.parallel(listAnimations).start();
     }

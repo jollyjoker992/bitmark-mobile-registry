@@ -336,10 +336,10 @@ export class MusicBasicInfoComponent extends React.Component {
               </View>
             </View>
           </ScrollView>
+          <TouchableOpacity style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}]} onPress={this.onContinue.bind(this)}>
+            <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicBasicInfoComponent_continueButtonText')}</Text>
+          </TouchableOpacity>
         </KeyboardAvoidingView>
-        <TouchableOpacity style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}]} onPress={this.onContinue.bind(this)}>
-          <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicBasicInfoComponent_continueButtonText')}</Text>
-        </TouchableOpacity>
       </View>
     );
   }

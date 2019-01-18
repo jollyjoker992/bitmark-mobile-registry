@@ -40,7 +40,7 @@ export class MusicReleaseToPublicComponent extends React.Component {
         <View style={cStyles.header}>
           <TouchableOpacity style={defaultStyles.headerLeft} />
           <Text style={defaultStyles.headerTitle}></Text>
-          <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.pop()}>
+          <TouchableOpacity style={defaultStyles.headerRight} onPress={Actions.pop}>
             <Text style={[defaultStyles.headerRightText, { color: '#E6FF00', fontWeight: '900' }]}>{global.i18n.t("MusicReleaseToPublicComponent_headerRightText")}</Text>
           </TouchableOpacity>
         </View>
