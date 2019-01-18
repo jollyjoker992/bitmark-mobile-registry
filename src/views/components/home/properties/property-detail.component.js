@@ -12,7 +12,7 @@ import { Provider, connect } from 'react-redux';
 import moment from 'moment';
 
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
-import { convertWidth } from 'src/utils';
+import { convertWidth, isHealthRecord, isMedicalRecord, isImageFile, isVideoFile, isDocFile, isZipFile } from 'src/utils';
 import { config } from 'src/configs';
 import { CommonProcessor, BitmarkProcessor, EventEmitterService, AppProcessor } from 'src/processors';
 import { Actions } from 'react-native-router-flux';
@@ -79,7 +79,32 @@ class PrivatePropertyDetailComponent extends React.Component {
     return (
       <View style={cStyles.content}>
         <View style={cStyles.assetContent}>
-          <View style={cStyles.thumbnailArea}></View>
+          <View style={cStyles.thumbnailArea}>
+            {(() => {
+              if (this.props.asset.thumbnailPath) {
+                return (<Image style={cStyles.thumbnailImage} source={{ uri: this.props.asset.thumbnailPath }} />);
+              }
+              if (isHealthRecord(this.props.asset)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_health_data_icon.png')} />);
+              }
+              if (isMedicalRecord(this.props.asset)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_medical_record_icon.png')} />);
+              }
+              if (isImageFile(this.props.asset.filePath)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_image_icon.png')} />);
+              }
+              if (isVideoFile(this.props.asset.filePath)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_video_icon.png')} />);
+              }
+              if (isDocFile(this.props.asset.filePath)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_doc_icon.png')} />);
+              }
+              if (isZipFile(this.props.asset.filePath)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_zip_icon.png')} />);
+              }
+              return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_unknow_icon.png')} />);
+            })()}
+          </View>
           {this.props.bitmark.status === 'confirmed' && <View style={cStyles.assetInfo}>
             <View style={cStyles.rowInformation}>
               <Text style={cStyles.rowInfoLabel}>BITMARK ID</Text>
@@ -142,7 +167,7 @@ const cStyles = StyleSheet.create({
     flexDirection: 'column', alignItems: 'center',
     width: '100%',
     backgroundColor: 'white',
-    paddingLeft: convertWidth(15), paddingRight: convertWidth(15), paddingTop: 19, paddingBottom: config.isIPhoneX ? 10 : 0,
+    paddingTop: 19, paddingBottom: config.isIPhoneX ? 10 : 0,
   },
   assetContent: {
     flexDirection: 'row',
@@ -150,12 +175,14 @@ const cStyles = StyleSheet.create({
     borderBottomWidth: 0.5, borderBottomColor: '#C1C1C1',
   },
   thumbnailArea: {
-    width: 30,
-    borderWidth: 1,
+    width: 72,
+    paddingLeft: convertWidth(17),
+  },
+  thumbnailImage: {
+    width: 30, height: 30, resizeMode: 'cover',
   },
   assetInfo: {
     flex: 1, width: '100%',
-    paddingLeft: convertWidth(15),
   },
   rowInformation: {
     width: '100%',
@@ -179,6 +206,7 @@ const cStyles = StyleSheet.create({
   actionRow: {
     marginBottom: 35,
     width: '100%',
+    paddingLeft: 22,
     flexDirection: 'row',
   },
   actionRowIcon: {

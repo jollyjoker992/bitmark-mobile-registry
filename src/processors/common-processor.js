@@ -121,12 +121,13 @@ const doViewSendIncomingClaimRequest = async (asset, issuer) => {
 };
 
 const getDisplayedAccount = (accountNumber) => {
-  if (accountNumber === CacheData.userInformation.bitmarkAccountNumber) {
-    return global.i18n.t("PropertiesComponent_you");
-  } else if (CacheData.identities && CacheData.identities[accountNumber]) {
+  if (CacheData.identities && CacheData.identities[accountNumber]) {
     return CacheData.identities[accountNumber].name;
+  } else if (accountNumber === CacheData.userInformation.bitmarkAccountNumber) {
+    return global.i18n.t("PropertiesComponent_you");
+  } else {
+    return `[${accountNumber.substring(0, 4)}...${accountNumber.substring(accountNumber.length - 4, accountNumber.length)}]`;
   }
-  return `[${accountNumber.substring(0, 4)}...${accountNumber.substring(accountNumber.length - 4, accountNumber.length)}]`;
 };
 
 let CommonProcessor = {

@@ -10,10 +10,10 @@ import { Actions } from 'react-native-router-flux';
 
 import { defaultStyles, BitmarkWebViewComponent } from 'src/views/commons';
 import { config, constant } from 'src/configs';
-import { convertWidth } from 'src/utils';
+import { convertWidth, isReleasedAsset, isHealthRecord, isMedicalRecord, isMusicAsset, isImageFile, isVideoFile, isZipFile, isDocFile } from 'src/utils';
 
 import { PropertiesStore, PropertiesActions } from 'src/views/stores';
-import { CommonProcessor, EventEmitterService, CacheData } from 'src/processors';
+import { CommonProcessor, EventEmitterService, CacheData, BitmarkProcessor } from 'src/processors';
 
 const SubTabs = {
   local: 'Yours',
@@ -55,7 +55,18 @@ class PrivatePropertiesComponent extends React.Component {
     Actions.issuanceOptions();
   }
 
+  viewPropertyDetail(bitmark) {
+    EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER, { bitmark, asset: this.props.assets[bitmark.asset_id] });
+    BitmarkProcessor.doUpdateViewStatus(bitmark.id);
+  }
+
+  viewReleaseDetail(releasedAsset) {
+    //TODO
+  }
+
+
   render() {
+    console.log('PrivatePropertiesComponent this.props :', JSON.stringify(this.props.assets, null, 2));
     let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     loadingDataWhenScroll = false;
     return (
@@ -167,15 +178,38 @@ class PrivatePropertiesComponent extends React.Component {
               </Text>}
             </View>}
             {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.state.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => (
-              <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
-                EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER, { bitmark, asset: this.props.assets[bitmark.asset_id] });
-              }}>
+              <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => this.viewPropertyDetail.bind(this)(bitmark)}>
                 <View style={cStyles.thumbnailArea}>
-
+                  {(() => {
+                    if (this.props.assets[bitmark.asset_id].thumbnailPath) {
+                      return (<Image style={cStyles.thumbnailImage} source={{ uri: this.props.assets[bitmark.asset_id].thumbnailPath }} />);
+                    }
+                    if (isHealthRecord(this.props.assets[bitmark.asset_id])) {
+                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_health_data_icon.png')} />);
+                    }
+                    if (isMedicalRecord(this.props.assets[bitmark.asset_id])) {
+                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_medical_record_icon.png')} />);
+                    }
+                    if (isImageFile(this.props.assets[bitmark.asset_id].filePath)) {
+                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_image_icon.png')} />);
+                    }
+                    if (isVideoFile(this.props.assets[bitmark.asset_id].filePath)) {
+                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_video_icon.png')} />);
+                    }
+                    if (isDocFile(this.props.assets[bitmark.asset_id].filePath)) {
+                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_doc_icon.png')} />);
+                    }
+                    if (isZipFile(this.props.assets[bitmark.asset_id].filePath)) {
+                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_zip_icon.png')} />);
+                    }
+                    return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_unknow_icon.png')} />);
+                  })()}
                 </View>
                 <View style={cStyles.bitmarkContent}>
-                  <Text style={cStyles.bitmarkAssetName} numberOfLines={1}>{this.props.assets[bitmark.asset_id].name}</Text>
-                  <Text style={cStyles.bitmarkissuer} numberOfLines={1}>{CommonProcessor.getDisplayedAccount(bitmark.issuer)}</Text>
+                  <Text style={[cStyles.bitmarkAssetName, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>
+                    {this.props.assets[bitmark.asset_id].name + `${isReleasedAsset(this.props.assets[bitmark.asset_id]) ? `[${bitmark.releaseIndex || ''}/${this.props.assets[bitmark.asset_id].editions[bitmark.issuer].limited}]` : ''}`}
+                  </Text>
+                  <Text style={[cStyles.bitmarkissuer, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>{CommonProcessor.getDisplayedAccount(bitmark.issuer)}</Text>
                 </View>
                 {bitmark.status === 'pending' && <Image style={cStyles.bitmarkPendingIcon} source={require('assets/imgs/pending-status.png')} />}
               </TouchableOpacity>
@@ -206,11 +240,9 @@ class PrivatePropertiesComponent extends React.Component {
               {/* // TODO */}
             </View>}
             {this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length > 0 && this.state.subTab === SubTabs.release && this.props.displayedReleasedAssets.map(asset => (
-              <TouchableOpacity key={asset.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
-                {/* // TODO */ }
-              }}>
+              <TouchableOpacity key={asset.id} style={[cStyles.bitmarkRowArea]} onPress={() => this.viewReleaseDetail.bind(this)(asset)}>
                 <View style={cStyles.thumbnailArea}>
-
+                  <Image style={cStyles.thumbnailImage} source={{ uri: asset.thumbnailPath }} />
                 </View>
                 <View style={cStyles.bitmarkContent}>
                   <Text style={cStyles.releasedAssetName} numberOfLines={1}>{asset.name}</Text>
@@ -360,7 +392,9 @@ const cStyles = StyleSheet.create({
   },
   thumbnailArea: {
     width: 40, height: 40,
-    borderWidth: 1,
+  },
+  thumbnailImage: {
+    width: 40, height: 40, resizeMode: 'cover',
   },
   bitmarkContent: {
     flex: 1, width: '100%',

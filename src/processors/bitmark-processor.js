@@ -46,6 +46,7 @@ const _doCheckNewReleasedAssetsBitmarks = async (releasedBitmarksAssets) => {
       await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(releasedBitmarksAssets.assets[assetId]));
 
       if (isMusicAsset(releasedBitmarksAssets.assets[assetId])) {
+        releasedBitmarksAssets.assets[assetId].thumbnailPath = await LocalFileService.detectMusicThumbnailPath(assetId);
         releasedBitmarksAssets.assets[assetId].editions = releasedBitmarksAssets.assets[assetId].editions || {};
 
         // get all bitmark of asset base on issuer is current account
@@ -55,13 +56,15 @@ const _doCheckNewReleasedAssetsBitmarks = async (releasedBitmarksAssets) => {
         releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber] = releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber] || {};
         // get number editions left
         releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].totalEditionLeft = bitmarksOfAsset.filter(bitmark => bitmark.owner === bitmarkAccountNumber).length - 1;
-        // get limited edition
-        if (!releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].limited) {
-          let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(bitmarkAccountNumber, assetId);
-          if (resultGetLimitedEdition) {
-            releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].limited = resultGetLimitedEdition.limited;
-          }
-        }
+        releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].limited = bitmarksOfAsset.length - 1;
+
+        // // get limited edition via profile server
+        // if (!releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].limited) {
+        //   let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(bitmarkAccountNumber, assetId);
+        //   if (resultGetLimitedEdition) {
+        //     releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].limited = resultGetLimitedEdition.limited;
+        //   }
+        // }
 
         //TODO index edition number
       }
@@ -94,16 +97,20 @@ const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
 
         // detect thumbnail
         assetsBitmarks.assets[assetId].thumbnailPath = await LocalFileService.detectMusicThumbnailPath(assetId);
+        console.log('thumbnailPath :', assetsBitmarks.assets[assetId].thumbnailPath);
+
+        let allIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(issuer, assetId);
+        assetsBitmarks.assets[assetId].editions[issuer].totalEditionLeft = allIssuedBitmarks.filter(bitmark => bitmark.owner === issuer).length - 1;
+        assetsBitmarks.assets[assetId].editions[issuer].limited = allIssuedBitmarks.length - 1;
 
         //TODO index edition number
-
-        // get limited edition
-        if (!assetsBitmarks.assets[assetId].editions[issuer].limited) {
-          let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(issuer, assetId);
-          if (resultGetLimitedEdition) {
-            assetsBitmarks.assets[assetId].editions[issuer].limited = resultGetLimitedEdition.limited;
-          }
-        }
+        // // get limited edition via profile server
+        // if (!assetsBitmarks.assets[assetId].editions[issuer].limited) {
+        //   let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(issuer, assetId);
+        //   if (resultGetLimitedEdition) {
+        //     assetsBitmarks.assets[assetId].editions[issuer].limited = resultGetLimitedEdition.limited;
+        //   }
+        // }
       }
     }
 
@@ -295,6 +302,7 @@ const doUpdateViewStatus = async (bitmarkId) => {
     let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || [];
     assetsBitmarks.bitmarks[bitmarkId].isViewed = true;
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS, assetsBitmarks);
+
     let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
     bottomTabStoreState.totalNewBitmarks = Object.values(assetsBitmarks.bitmarks || {}).find(bitmark => !bitmark.isViewed).length;
     BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));

@@ -64,7 +64,7 @@ const updateBitmarks = (state, bitmarks) => {
   for (let bitmark of bitmarks) {
     let currentIndex = currentBitmarks.findIndex(cb => cb.id === bitmark.id);
     if (currentIndex >= 0) {
-      currentBitmarks[currentIndex] === bitmark;
+      currentBitmarks[currentIndex] = bitmark;
     } else {
       currentBitmarks.push(bitmark);
     }
