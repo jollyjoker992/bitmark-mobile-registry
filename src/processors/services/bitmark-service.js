@@ -82,9 +82,6 @@ const doGet100Bitmarks = async (bitmarkAccountNumber, oldLocalAssets, lastOffset
     hasChanging = hasChanging || (oldTotalPending !== asset.totalPending);
   }
 
-  if (hasChanging) {
-    localAssets = localAssets.sort((a, b) => b.maxBitmarkOffset - a.maxBitmarkOffset);
-  }
   return {
     hasChanging,
     localAssets,
