@@ -152,7 +152,7 @@ class BitmarkSDKWrapper: NSObject {
       
       var issueParams = try Bitmark.newIssuanceParams(assetID: assetId,
                                                       owner: account.accountNumber,
-                                                      nonces: [0])
+                                                      quantity: 1)
       try issueParams.sign(account)
       guard let bitmarkId = try Bitmark.issue(issueParams).first else {
         reject(nil, "Fail to register asset", nil)
