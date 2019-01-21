@@ -31,10 +31,10 @@ export default StyleSheet.create({
     width: convertWidth(230),
   },
   indicatorMessage: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '400',
     textAlign: 'center',
-    width: convertWidth(235),
-    marginTop: 5,
+    width: convertWidth(231),
+    marginTop: 16,
   },
 });

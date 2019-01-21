@@ -6,6 +6,7 @@ import {
 import { EventEmitterService } from 'src/processors';
 import { config } from 'src/configs';
 import { PropertyDetailComponent } from './home/properties';
+import { PropertyMetadataComponent } from './home/properties/property-metadata.component';
 
 let ComponentName = 'MainCoverComponent';
 export class MainCoverComponent extends Component {
@@ -65,6 +66,7 @@ export class MainCoverComponent extends Component {
   }
 
   render() {
+    console.log('MainCoverComponent :', this.state);
     return (
       <Animated.View style={[cStyles.body, {
         top: this.state.topCoverArea, height: this.state.heightCoverArea, opacity: this.state.opacityCoverArea,
@@ -76,6 +78,9 @@ export class MainCoverComponent extends Component {
                 {this.state.dataCover && this.state.dataCover.bitmark && this.state.dataCover.asset && <PropertyDetailComponent
                   bitmark={this.state.dataCover.bitmark}
                   asset={this.state.dataCover.asset}
+                />}
+                {this.state.dataCover && this.state.dataCover.releasedAsset && <PropertyMetadataComponent
+                  releasedAsset={this.state.dataCover.releasedAsset}
                 />}
               </View>
             </TouchableWithoutFeedback>
@@ -95,8 +100,9 @@ const cStyles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   bodyContainer: {
-    flex: 1, justifyContent: 'flex-end',
+    flex: 1, width: '100%', height: '100%', justifyContent: 'flex-end',
   },
   bodyContent: {
+    flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
   },
 });

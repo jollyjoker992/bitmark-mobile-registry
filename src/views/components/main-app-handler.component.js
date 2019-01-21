@@ -248,7 +248,7 @@ export class MainAppHandlerComponent extends Component {
         {this.state.processingCount > 0 && <DefaultIndicatorComponent />}
         {!!this.state.submitting && !this.state.submitting.title && !this.state.submitting.message && <DefaultIndicatorComponent />}
         {!!this.state.submitting && (this.state.submitting.title || this.state.submitting.message) && <BitmarkIndicatorComponent
-          indicator={!!this.state.submitting.indicator} title={this.state.submitting.title} message={this.state.submitting.message} />}
+          indicator={this.state.submitting.indicator} title={this.state.submitting.title} message={this.state.submitting.message} />}
       </View>
     );
   }

@@ -340,13 +340,20 @@ const runGetTransactionsInBackground = async () => {
       ]).then(resolve);
     });
   };
+  console.log('runGetTransferOfferInBackground  runGetIFTTTInformationInBackground:', (Date.now() - global.start) / 1000);
   let parallelResults = await runParallel();
   await _doCheckTransferOffers(parallelResults[0], true);
+  console.log('_doCheckTransferOffers:', (Date.now() - global.start) / 1000);
   await _doCheckNewIftttInformation(parallelResults[1], true);
+  console.log('_doCheckNewIftttInformation:', (Date.now() - global.start) / 1000);
+
 
   await runGetTransfersInBackground();
+  console.log('runGetTransfersInBackground:', (Date.now() - global.start) / 1000);
   let claimRequests = await runGetClaimRequestInBackground();
+  console.log('runGetClaimRequestInBackground:', (Date.now() - global.start) / 1000);
   await _doCheckClaimRequests(claimRequests);
+  console.log('_doCheckClaimRequests:', (Date.now() - global.start) / 1000);
 };
 
 

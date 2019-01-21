@@ -5,7 +5,6 @@ import ReactNative, {
   ViewPropTypes,
   StyleSheet,
   Share,
-  Linking,
 } from 'react-native';
 const { ActionSheetIOS } = ReactNative;
 import { Provider, connect } from 'react-redux';

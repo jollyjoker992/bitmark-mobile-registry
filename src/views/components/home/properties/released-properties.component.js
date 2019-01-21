@@ -10,12 +10,12 @@ import moment from 'moment';
 
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 import { convertWidth, } from 'src/utils';
-import { constant, config } from 'src/configs';
+import { constant } from 'src/configs';
 import { Actions } from 'react-native-router-flux';
 import { ReleasedPropertiesStore, ReleasedPropertiesActions } from 'src/views/stores';
 
 import { defaultStyles } from 'src/views/commons';
-import { CommonProcessor } from 'src/processors';
+import { CommonProcessor, EventEmitterService } from 'src/processors';
 
 class PrivateReleasedPropertiesComponent extends React.Component {
   static propTypes = {
@@ -25,9 +25,7 @@ class PrivateReleasedPropertiesComponent extends React.Component {
 
 
   viewBitmarkOnBlockChain() {
-    Actions.bitmarkWebViewFull({
-      title: 'REGISTRY', sourceUrl: `${config.registry_server_url}/assets/${this.props.releasedAsset.id}?env=app`,
-    });
+    EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER, { releasedAsset: this.props.releasedAsset });
   }
 
   distribute() {

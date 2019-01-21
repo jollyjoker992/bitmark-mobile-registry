@@ -197,6 +197,7 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 };
 
 const doOpenApp = async (justCreatedBitmarkAccount) => {
+  global.start = Date.now();
   CacheData.userInformation = await UserModel.doTryGetCurrentUser();
   console.log('CacheData.userInformation :', CacheData.userInformation, FileUtil.DocumentDirectory);
   await LocalFileService.setShareLocalStoragePath();
@@ -215,6 +216,8 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
     });
   }
+
+  console.log('doOpenApp 1:', (Date.now() - global.start) / 1000);
 
   if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
     let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
@@ -280,7 +283,8 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       }
     }
 
-    let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
+    let assetsBitmarks = await BitmarkProcessor.doGetLocalAssetsBitmarks();
+    let releasedAssetsBitmarks = await BitmarkProcessor.doGetLocalReleasedAssetsBitmarks();
     let actionRequired = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_ACTION_REQUIRED)) || [];
     let completed = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY)) || [];
     let totalTasks = 0;
@@ -307,6 +311,10 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       bitmarks: Object.values(assetsBitmarks.bitmarks || {}),
       assets: assetsBitmarks.assets,
     }));
+    PropertiesStore.dispatch(PropertiesActions.updateReleasedAssets({
+      releasedBitmarks: releasedAssetsBitmarks.bitmarks || {},
+      releasedAssets: Object.values(releasedAssetsBitmarks.assets || {}),
+    }));
 
     let propertyStoreState = merge({}, PropertyStore.getState().data);
     if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id) {
@@ -331,6 +339,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     // ============================
   }
 
+  console.log('doOpenApp 2:', (Date.now() - global.start) / 1000);
   setAppLoadingStatus();
   return CacheData.userInformation;
 };

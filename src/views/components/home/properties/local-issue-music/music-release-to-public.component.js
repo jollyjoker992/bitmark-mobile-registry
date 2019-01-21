@@ -21,7 +21,7 @@ export class MusicReleaseToPublicComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: 'embed',
+      selected: 'link',
       copied: false,
     };
   }
@@ -54,44 +54,35 @@ export class MusicReleaseToPublicComponent extends React.Component {
               <View style={{ position: 'absolute', flex: 1, zIndex: 1, width: '100%', height: '100%' }} />
             </View>
             <View style={cStyles.issueResult}>
-              {this.state.selected === 'embed' && <View style={cStyles.resultArea}>
-                <View style={cStyles.resultHeader}>
-                  <Text style={cStyles.resultHeaderTitle}>{global.i18n.t("MusicReleaseToPublicComponent_resultHeaderTitle1")}</Text>
-                  <TouchableOpacity onPress={this.copySelectedResult.bind(this)}>
-                    <Text style={cStyles.resultHeaderCopy}>{this.state.copied ? global.i18n.t("MusicReleaseToPublicComponent_resultHeaderCopy1") : global.i18n.t("MusicReleaseToPublicComponent_resultHeaderCopy2")}</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>}
+              <View>
+                {this.state.selected === 'embed' && <View style={cStyles.resultArea}>
+                  <View style={cStyles.resultHeader}>
+                    <Text style={cStyles.resultHeaderTitle}>{global.i18n.t("MusicReleaseToPublicComponent_resultHeaderTitle1")}</Text>
+                    <TouchableOpacity onPress={this.copySelectedResult.bind(this)}>
+                      <Text style={cStyles.resultHeaderCopy}>{this.state.copied ? global.i18n.t("MusicReleaseToPublicComponent_resultHeaderCopy1") : global.i18n.t("MusicReleaseToPublicComponent_resultHeaderCopy2")}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>}
 
-              {this.state.selected !== 'embed' && <View style={cStyles.resultArea}>
-                <View style={cStyles.resultHeader}>
-                  <Text style={cStyles.resultHeaderTitle}>{global.i18n.t("MusicReleaseToPublicComponent_resultHeaderTitle2")}</Text>
-                  <TouchableOpacity onPress={this.copySelectedResult.bind(this)}>
-                    <Text style={cStyles.resultHeaderCopy}>{this.state.copied ? global.i18n.t("MusicReleaseToPublicComponent_resultHeaderCopy1") : global.i18n.t("MusicReleaseToPublicComponent_resultHeaderCopy2")}</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>}
-              <TouchableOpacity style={cStyles.resultContent} onPress={this.copySelectedResult.bind(this)}>
-                <Text style={cStyles.resultContentText}>
-                  {this.state.selected === 'embed'
-                    ? `<iframe width="320" height="180" frameborder="0" frameborder="0" src="${config.bitmark_profile_server}/asset/${this.props.assetId}/claim"/>`
-                    : `${config.registry_server_url}/assets/${this.props.assetId}/claim`
-                  }
-                </Text>
-              </TouchableOpacity>
+                {this.state.selected !== 'embed' && <View style={cStyles.resultArea}>
+                  <View style={cStyles.resultHeader}>
+                    <Text style={cStyles.resultHeaderTitle}>{global.i18n.t("MusicReleaseToPublicComponent_resultHeaderTitle2")}</Text>
+                    <TouchableOpacity onPress={this.copySelectedResult.bind(this)}>
+                      <Text style={cStyles.resultHeaderCopy}>{this.state.copied ? global.i18n.t("MusicReleaseToPublicComponent_resultHeaderCopy1") : global.i18n.t("MusicReleaseToPublicComponent_resultHeaderCopy2")}</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>}
+                <TouchableOpacity style={[cStyles.resultContent, { backgroundColor: this.state.selected === 'link' ? '#EBFAFF' : '#E6FF00' }]} onPress={this.copySelectedResult.bind(this)}>
+                  <Text style={cStyles.resultContentText}>
+                    {this.state.selected === 'embed'
+                      ? `<iframe width="320" height="180" frameborder="0" frameborder="0" src="${config.bitmark_profile_server}/asset/${this.props.assetId}/claim"/>`
+                      : `${config.registry_server_url}/assets/${this.props.assetId}/claim`
+                    }
+                  </Text>
+                </TouchableOpacity>
+              </View>
               <View style={cStyles.musicSuccessButtons}>
-                <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                  <TouchableOpacity
-                    onPress={() => this.setState({ selected: 'embed' })}
-                    style={[cStyles.musicSuccessButton, {
-                      backgroundColor: this.state.selected === 'embed' ? '#E6FF00' : 'white',
-                      borderColor: this.state.selected === 'embed' ? '#E6FF00' : 'white'
-                    }]}>
-                    <Image style={cStyles.musicSuccessButtonIcon} source={require('assets/imgs/music_embed_icon.png')} />
-                  </TouchableOpacity>
-                  <Text style={[cStyles.embedLabelText, { color: this.state.selected === 'embed' ? '#E6FF00' : 'white' }]}>{global.i18n.t("MusicReleaseToPublicComponent_embedLabelText")}</Text>
-                </View>
-                <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginLeft: 25, }}>
+                <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', }}>
                   <TouchableOpacity
                     onPress={() => this.setState({ selected: 'link' })}
                     style={[cStyles.musicSuccessButton, {
@@ -101,6 +92,17 @@ export class MusicReleaseToPublicComponent extends React.Component {
                     <Image style={cStyles.musicSuccessButtonIcon} source={require('assets/imgs/music_link_icon.png')} />
                   </TouchableOpacity>
                   <Text style={[cStyles.embedLabelText, { color: this.state.selected === 'embed' ? 'white' : '#E6FF00' }]}>{global.i18n.t("MusicReleaseToPublicComponent_linkLabelText")}</Text>
+                </View>
+                <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginLeft: 25, }}>
+                  <TouchableOpacity
+                    onPress={() => this.setState({ selected: 'embed' })}
+                    style={[cStyles.musicSuccessButton, {
+                      backgroundColor: this.state.selected === 'embed' ? '#E6FF00' : 'white',
+                      borderColor: this.state.selected === 'embed' ? '#E6FF00' : 'white'
+                    }]}>
+                    <Image style={cStyles.musicSuccessButtonIcon} source={require('assets/imgs/music_embed_icon.png')} />
+                  </TouchableOpacity>
+                  <Text style={[cStyles.embedLabelText, { color: this.state.selected === 'embed' ? '#E6FF00' : 'white' }]}>{global.i18n.t("MusicReleaseToPublicComponent_embedLabelText")}</Text>
                 </View>
               </View>
             </View>
@@ -144,7 +146,7 @@ const cStyles = StyleSheet.create({
     marginTop: 25,
   },
   issueResult: {
-    flex: 1,
+    flex: 1, justifyContent: 'space-between',
     width: '100%',
     marginTop: 30,
     paddingLeft: convertWidth(35), paddingRight: convertWidth(35),
@@ -167,10 +169,9 @@ const cStyles = StyleSheet.create({
   resultContent: {
     marginTop: 5,
     minHeight: 40, width: '100%',
-    backgroundColor: '#E6FF00',
     alignItems: 'center', justifyContent: 'center',
     padding: 10,
-    borderWidth: 0.1, borderColor: '#E6FF00', borderRadius: 3,
+    borderWidth: 0.1, borderRadius: 3,
   },
   resultContentText: {
     fontFamily: 'Avenir-Roman', fontSize: 14, fontWeight: '600',

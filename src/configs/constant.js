@@ -18,6 +18,11 @@ let commonConstant = {
     type: {
       music: 'music',
     }
+  },
+  indicators: {
+    processing: 'processing',
+    success: 'success',
+    searching: 'searching',
   }
 };
 

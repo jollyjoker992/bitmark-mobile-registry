@@ -183,7 +183,9 @@ const runGetReleasedAssetsBitmarksInBackground = () => {
 
 const runGetUserBitmarks = async () => {
   await runGetReleasedAssetsBitmarksInBackground();
+  console.log('runGetReleasedAssetsBitmarksInBackground :', (Date.now() - global.start) / 1000);
   await runGetAssetsBitmarksInBackground();
+  console.log('runGetAssetsBitmarksInBackground :', (Date.now() - global.start) / 1000);
 };
 
 const doReloadUserAssetsBitmarks = async () => {
