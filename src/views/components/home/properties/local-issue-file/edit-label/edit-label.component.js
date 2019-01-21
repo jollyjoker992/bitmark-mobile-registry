@@ -11,14 +11,6 @@ import { constant } from 'src/configs';
 
 
 
-const MetadataLabelSamples = [
-  'Created (date)', 'Contributor', 'Coverage', 'Creator',
-  'Description', 'Dimensions', 'Duration', 'Edition',
-  'Format', 'Identifier', 'Language', 'License',
-  'Medium', 'Publisher', 'Relation', 'Rights',
-  'Size', 'Source', 'Subject', 'Keywords',
-  'Type', 'Version'];
-
 export class LocalIssueFileEditLabelComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -27,9 +19,9 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
 
     let suggestions = [];
     let label = this.props.label || ''
-    MetadataLabelSamples.forEach((text, key) => {
-      if (!label || text.toLowerCase().indexOf(label.toLowerCase()) >= 0) {
-        suggestions.push({ key, text });
+    constant.asset.metadata.MetadataLabelSamples.forEach((text, key) => {
+      if (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
+        suggestions.push({ key, text: global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }) });
       }
     });
     this.state = { label: this.props.label || '', suggestions };
@@ -37,9 +29,9 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
 
   onChangeText(label) {
     let suggestions = [];
-    MetadataLabelSamples.forEach((text, key) => {
-      if (!label || text.toLowerCase().indexOf(label.toLowerCase()) >= 0) {
-        suggestions.push({ key, text });
+    constant.asset.metadata.MetadataLabelSamples.forEach((text, key) => {
+      if (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
+        suggestions.push({ key, text: global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }) });
       }
     });
     this.setState({ label, suggestions });

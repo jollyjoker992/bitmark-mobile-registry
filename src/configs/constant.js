@@ -15,9 +15,18 @@ let commonConstant = {
         music: 'music'
       }
     },
-    type: {
-      music: 'music',
-    }
+    MetadataLabelSamples: [
+      'Type',
+      'Description',
+      'Artist',
+      'Version',
+      'Lyrics',
+      'Genre',
+      'ISRC',
+      'Producer',
+      'Composer',
+      'Sound recording copyright',
+    ],
   },
   indicators: {
     processing: 'processing',

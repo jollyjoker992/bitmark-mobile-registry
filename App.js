@@ -28,11 +28,12 @@ if (!__DEV__) {
 }
 
 
+// i18n.locale = 'zh';
 i18n.locale = DeviceInfo.getDeviceLocale();
 i18n.fallbacks = true;
 i18n.translations = require('./assets/localizations.json');
 global.i18n = i18n;
-global.Buffer = global.Buffer ||  Buffer;
+global.Buffer = global.Buffer || Buffer;
 
 BitmarkSDK.sdkInit(config.network);
 

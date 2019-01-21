@@ -37,7 +37,11 @@ export class LocalIssueFileComponent extends React.Component {
     if (existingAsset) {
       let key = 0;
       for (let label in asset.metadata) {
-        metadataList.push({ key, label, value: asset.metadata[label] });
+        metadataList.push({
+          key,
+          label: global.i18n.t(`MetadataLabels_${label}`, { defaultValue: label }),
+          value: global.i18n.t(`MetadataValues_${asset.metadata[label]}`, { defaultValue: asset.metadata[label] }),
+        });
         key++;
       }
     }
