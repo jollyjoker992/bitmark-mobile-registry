@@ -149,7 +149,13 @@ export class MusicMetadataComponent extends React.Component {
     }).then(result => {
       console.log('doIssueMusic result:', result);
       if (result) {
-        Actions.musicIssueSuccess({ assetId: result[0].assetId, assetName: this.props.assetName });
+        Actions.musicIssueSuccess({
+          assetId: result[0].assetId,
+          assetName: this.props.assetName,
+          thumbnailPath: this.props.thumbnailPath,
+          limitedEditions: this.props.limitedEdition,
+          totalEditionLeft: this.props.limitedEdition,
+        });
       }
     }).catch(error => {
       console.log('doIssueMusic error:', error);

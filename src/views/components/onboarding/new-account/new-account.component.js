@@ -11,7 +11,6 @@ import newAccountStyle from './new-account.component.style';
 import { AppProcessor, CommonModel } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
-import { convertWidth } from 'src/utils';
 
 export class NewAccountComponent extends React.Component {
   constructor(props) {

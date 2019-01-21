@@ -121,6 +121,9 @@ const doViewSendIncomingClaimRequest = async (asset, issuer) => {
 };
 
 const getDisplayedAccount = (accountNumber) => {
+  if (!accountNumber) {
+    return '';
+  }
   if (CacheData.identities && CacheData.identities[accountNumber]) {
     return CacheData.identities[accountNumber].name;
   } else if (accountNumber === CacheData.userInformation.bitmarkAccountNumber) {

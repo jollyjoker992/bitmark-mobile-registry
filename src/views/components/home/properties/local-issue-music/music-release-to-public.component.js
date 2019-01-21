@@ -11,12 +11,16 @@ import { Actions } from 'react-native-router-flux';
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
+import { CommonProcessor, CacheData } from 'src/processors';
 
 
 export class MusicReleaseToPublicComponent extends React.Component {
   static propTypes = {
     assetName: PropTypes.string,
     assetId: PropTypes.string,
+    thumbnailPath: PropTypes.string,
+    limitedEditions: PropTypes.number,
+    totalEditionLeft: PropTypes.number,
   }
   constructor(props) {
     super(props);
@@ -46,11 +50,17 @@ export class MusicReleaseToPublicComponent extends React.Component {
         </View>
         <View style={cStyles.content}>
           <ScrollView contentContainerStyle={cStyles.mainContent}>
-            <Text style={cStyles.description}>{global.i18n.t("MusicReleaseToPublicComponent_description")}</Text>
+            <Text style={cStyles.description}>{this.state.selected === 'embed' ? global.i18n.t("MusicReleaseToPublicComponent_description1") : global.i18n.t("MusicReleaseToPublicComponent_description2")}</Text>
             <View style={cStyles.claimIframe}>
-              <WebView style={{ width: '100%', height: 'auto', backgroundColor: 'rgba(0,0,0,0)', }} scalesPageToFit={false}
+              {this.state.selected === 'embed' && <WebView style={{ width: '100%', height: 'auto', backgroundColor: 'rgba(0,0,0,0)', }} scalesPageToFit={false}
                 scrollEnabled={false}
-                source={{ uri: `${config.bitmark_profile_server}/asset/${this.props.assetId}/claim` }} />
+                source={{ uri: `${config.bitmark_profile_server}/asset/${this.props.assetId}/claim` }} />}
+              {this.state.selected !== 'embed' && <View style={cStyles.linkSampleContent}>
+                <Image style={cStyles.linkThumbnailImage} source={{ uri: this.props.thumbnailPath }} />
+                <Text style={cStyles.linkAssetName}>{this.props.assetName}</Text>
+                <Text style={cStyles.linkLimitedEdition}>{global.i18n.t("MusicReleaseToPublicComponent_limitedEdition", { limited: this.props.limitedEditions, left: this.props.totalEditionLeft })}</Text>
+                <Text style={cStyles.linkIssuer}>{CommonProcessor.getDisplayedAccount(CacheData.userInformation.bitmarkAccountNumber)}</Text>
+              </View>}
               <View style={{ position: 'absolute', flex: 1, zIndex: 1, width: '100%', height: '100%' }} />
             </View>
             <View style={cStyles.issueResult}>
@@ -72,8 +82,8 @@ export class MusicReleaseToPublicComponent extends React.Component {
                     </TouchableOpacity>
                   </View>
                 </View>}
-                <TouchableOpacity style={[cStyles.resultContent, { backgroundColor: this.state.selected === 'link' ? '#EBFAFF' : '#E6FF00' }]} onPress={this.copySelectedResult.bind(this)}>
-                  <Text style={cStyles.resultContentText}>
+                <TouchableOpacity style={this.state.selected === 'embed' ? cStyles.resultContentEmbed : cStyles.resultContentLink} onPress={this.copySelectedResult.bind(this)}>
+                  <Text style={this.state.selected === 'embed' ? cStyles.resultContentTextEmbed : cStyles.resultContentTextLink} numberOfLines={this.state.selected !== 'embed' ? 1 : null}>
                     {this.state.selected === 'embed'
                       ? `<iframe width="320" height="180" frameborder="0" frameborder="0" src="${config.bitmark_profile_server}/asset/${this.props.assetId}/claim"/>`
                       : `${config.registry_server_url}/assets/${this.props.assetId}/claim`
@@ -136,7 +146,7 @@ const cStyles = StyleSheet.create({
   },
 
   description: {
-    fontFamily: 'Avenir-Light', fontSize: 17, fontWeight: '300', color: 'white', lineHeight: 23,
+    fontFamily: 'AvenirNextW1G-Light', fontSize: 17, fontWeight: '300', color: 'white', lineHeight: 23,
     paddingLeft: convertWidth(39), paddingRight: convertWidth(34), marginTop: 30,
     width: '100%',
   },
@@ -145,6 +155,33 @@ const cStyles = StyleSheet.create({
     paddingLeft: convertWidth(35), paddingRight: convertWidth(35),
     marginTop: 25,
   },
+  linkSampleContent: {
+    paddingTop: 16, paddingBottom: 16,
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    borderWidth: 0.1, borderRadius: 10,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  linkThumbnailImage: {
+    width: 102, height: 102, resizeMode: 'cover',
+    borderWidth: 1,
+  },
+  linkAssetName: {
+    width: '100%',
+    marginTop: 12,
+    fontFamily: 'AvenirNextW1G-Bold', color: 'white', fontSize: 16, textAlign: 'center',
+  },
+  linkLimitedEdition: {
+    width: '100%',
+    marginTop: 3,
+    fontFamily: 'AvenirNextW1G-Medium', color: 'white', fontSize: 12, textAlign: 'center', fontStyle: 'italic',
+  },
+  linkIssuer: {
+    width: '100%',
+    marginTop: 3,
+    fontFamily: 'AvenirNextW1G-Medium', color: 'white', fontSize: 12, textAlign: 'center',
+  },
+
   issueResult: {
     flex: 1, justifyContent: 'space-between',
     width: '100%',
@@ -166,15 +203,28 @@ const cStyles = StyleSheet.create({
     fontFamily: 'Avenir-Black', fontSize: 14, fontWeight: '900', color: 'white', textAlign: 'center',
     minWidth: convertWidth(66),
   },
-  resultContent: {
+  resultContentEmbed: {
     marginTop: 5,
     minHeight: 40, width: '100%',
     alignItems: 'center', justifyContent: 'center',
     padding: 10,
     borderWidth: 0.1, borderRadius: 3,
+    backgroundColor: '#E6FF00'
   },
-  resultContentText: {
+  resultContentLink: {
+    marginTop: 5,
+    width: '100%',
+    alignItems: 'center', justifyContent: 'center',
+    padding: 10,
+    borderWidth: 0.1, borderRadius: 3,
+    backgroundColor: '#EBFAFF',
+  },
+  resultContentTextEmbed: {
     fontFamily: 'Avenir-Roman', fontSize: 14, fontWeight: '600',
+    width: '100%',
+  },
+  resultContentTextLink: {
+    fontFamily: 'AvenirNextW1G-Light', fontSize: 17,
     width: '100%',
   },
 

@@ -15,7 +15,7 @@ import { Actions } from 'react-native-router-flux';
 import { ReleasedPropertiesStore, ReleasedPropertiesActions } from 'src/views/stores';
 
 import { defaultStyles } from 'src/views/commons';
-import { CommonProcessor, EventEmitterService } from 'src/processors';
+import { CommonProcessor, EventEmitterService, CacheData } from 'src/processors';
 
 class PrivateReleasedPropertiesComponent extends React.Component {
   static propTypes = {
@@ -32,6 +32,9 @@ class PrivateReleasedPropertiesComponent extends React.Component {
     Actions.musicReleaseToPublic({
       assetName: this.props.releasedAsset.name,
       assetId: this.props.releasedAsset.id,
+      thumbnailPath: this.props.releasedAsset.thumbnailPath,
+      limitedEditions: this.props.releasedAsset.editions[CacheData.userInformation.bitmarkAccountNumber].limited,
+      totalEditionLeft: this.props.releasedAsset.editions[CacheData.userInformation.bitmarkAccountNumber].totalEditionLeft
     });
   }
 
