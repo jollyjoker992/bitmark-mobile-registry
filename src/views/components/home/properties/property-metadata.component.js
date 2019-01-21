@@ -35,16 +35,6 @@ class PrivatePropertyMetadataComponent extends React.Component {
 
 
   render() {
-    this.props.releasedAsset.metadata = {
-      Description: 'Nunc a lacus eget orci lacinia suscipit ut nec arcu. Etiam a fringilla nunc. Integer pharetra faucibus nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam fermentum vestibulum turpis quis faucibus. Duis id turpis sit amet ex venenatis vestibulum sed nec nequ.',
-      Lyrics: 'Nunc a lacus eget orci lacinia suscipit ut nec arcu. Etiam a fringilla nunc. Integer pharetra faucibus nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam fermentum vestibulum turpis quis faucibus. Duis id turpis sit amet ex venenatis vestibulum sed nec nequ.',
-      test: 'Nunc a lacus eget orci lacinia suscipit ut nec arcu. Etiam a fringilla nunc. Integer pharetra faucibus nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam fermentum vestibulum turpis quis faucibus. Duis id turpis sit amet ex venenatis vestibulum sed nec nequ.',
-      a: 'Nunc a lacus eget orci lacinia suscipit ut nec arcu. Etiam a fringilla nunc. Integer pharetra faucibus nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam fermentum vestibulum turpis quis faucibus. Duis id turpis sit amet ex venenatis vestibulum sed nec nequ.',
-      // b: 'Nunc a lacus eget orci lacinia suscipit ut nec arcu. Etiam a fringilla nunc. Integer pharetra faucibus nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam fermentum vestibulum turpis quis faucibus. Duis id turpis sit amet ex venenatis vestibulum sed nec nequ.',
-      // c: 'Nunc a lacus eget orci lacinia suscipit ut nec arcu. Etiam a fringilla nunc. Integer pharetra faucibus nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam fermentum vestibulum turpis quis faucibus. Duis id turpis sit amet ex venenatis vestibulum sed nec nequ.',
-      // d: 'Nunc a lacus eget orci lacinia suscipit ut nec arcu. Etiam a fringilla nunc. Integer pharetra faucibus nibh. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam fermentum vestibulum turpis quis faucibus. Duis id turpis sit amet ex venenatis vestibulum sed nec nequ.',
-
-    }
     return (
       <View style={cStyles.content}>
         <View style={cStyles.assetContent}>
