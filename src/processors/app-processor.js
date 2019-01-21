@@ -173,8 +173,8 @@ const doDecentralizedTransfer = async (token, expiredTime) => {
 const doProcessIncomingClaimRequest = (incomingClaimRequest, isAccept) => {
   return executeTask('doProcessIncomingClaimRequest', { incomingClaimRequest, isAccept });
 };
-const doSendIncomingClaimRequest = async (asset) => {
-  return executeTask('doSendIncomingClaimRequest', { asset });
+const doSendIncomingClaimRequest = async (asset, processingInfo, successInfo) => {
+  return executeTask('doSendIncomingClaimRequest', { asset, processingInfo, successInfo });
 };
 const doGetAssetToClaim = async (assetId, issuer) => {
   return executeTask('doGetAssetToClaim', { assetId, issuer });

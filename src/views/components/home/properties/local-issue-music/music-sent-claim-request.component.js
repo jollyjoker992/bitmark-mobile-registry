@@ -22,9 +22,22 @@ export class MusicSentIncomingClaimRequestComponent extends React.Component {
   }
 
   onSubmit() {
-    AppProcessor.doSendIncomingClaimRequest(this.props.asset).then(() => {
+    // TODO
+    AppProcessor.doSendIncomingClaimRequest(this.props.asset, {
+      indicator: constant.indicators.processing,
+      title: 'Pending...',
+      message: 'Sending your transaction to the Bitmark network...',
+    }).then(() => {
       CommonProcessor.doMarkDoneSendClaimRequest();
-      Actions.pop();
+      EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, {
+        indicator: constant.indicators.success,
+        title: 'Success!',
+        message: 'You will receive a notification when the artist confirms your request.',
+      });
+      setTimeout(() => {
+        EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, null);
+        Actions.jump('transactions', { subTab: 'HISTORY' });
+      }, 2000)
     }).catch(error => {
       CommonProcessor.doMarkDoneSendClaimRequest();
       console.log('error:', JSON.stringify(error));

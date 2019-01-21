@@ -142,8 +142,8 @@ const doDecentralizedTransfer = async ({ token, expiredTime }) => {
 const doProcessIncomingClaimRequest = async ({ incomingClaimRequest, isAccept }) => {
   return await processing(TransactionProcessor.doProcessIncomingClaimRequest(incomingClaimRequest, isAccept));
 };
-const doSendIncomingClaimRequest = async ({ asset }) => {
-  return await processing(TransactionProcessor.doSendIncomingClaimRequest(asset));
+const doSendIncomingClaimRequest = async ({ asset, processingInfo }) => {
+  return await submitting(TransactionProcessor.doSendIncomingClaimRequest(asset), processingInfo);
 };
 const doGetAssetToClaim = async ({ assetId, issuer }) => {
   return await processing(TransactionProcessor.doGetAssetToClaim(assetId, issuer));
