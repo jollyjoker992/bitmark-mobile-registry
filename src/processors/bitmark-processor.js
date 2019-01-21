@@ -99,7 +99,7 @@ const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
         assetsBitmarks.assets[assetId].thumbnailPath = await LocalFileService.detectMusicThumbnailPath(assetId);
         console.log('thumbnailPath :', assetsBitmarks.assets[assetId].thumbnailPath);
 
-        let allIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(issuer, assetId);
+        let allIssuedBitmarks = await BitmarkModel.getAllBitmarksOfAssetFromIssuer(issuer, assetId);
         assetsBitmarks.assets[assetId].editions[issuer].totalEditionLeft = allIssuedBitmarks.filter(bitmark => bitmark.owner === issuer).length - 1;
         assetsBitmarks.assets[assetId].editions[issuer].limited = allIssuedBitmarks.length - 1;
 

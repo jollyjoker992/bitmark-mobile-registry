@@ -382,43 +382,6 @@ const doReloadTransfers = async () => {
   await _doCheckNewTransfers(result);
 };
 
-const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => {
-  if (isAccept) {
-    let asset = incomingClaimRequest.asset;
-    if (asset && asset.filePath) {
-      let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(asset.id);
-      if (resultCheck && resultCheck.data_key_alg && resultCheck.enc_data_key && resultCheck.orig_content_type) {
-        let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);
-        let receiverSessionData = await BitmarkSDK.encryptSessionData({
-          enc_data_key: resultCheck.enc_data_key,
-          data_key_alg: resultCheck.data_key_alg
-        }, encryptionPublicKey);
-        let access = `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
-        let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(asset.id, access);
-        console.log('grantAccessResult :', grantAccessResult);
-      } else {
-        let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
-        await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted`);
-        let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/temp.encrypted`;
-        let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptedFilePath);
-
-        let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);
-        let receiverSessionData = await BitmarkSDK.encryptSessionData(sessionData, encryptionPublicKey);
-        let access = `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
-
-        let uploadResult = await BitmarkService.doUploadFileToCourierServer(asset.id, encryptedFilePath, sessionData, filename, access);
-        console.log('uploadResult :', uploadResult);
-      }
-    }
-    let result = await BitmarkSDK.giveAwayBitmark(incomingClaimRequest.asset.id, incomingClaimRequest.from);
-    let resultPost = await BitmarkModel.doPostAwaitTransfer(CacheData.jwt, result.bitmarkId, result.transferPayload);
-    console.log('doPostAwaitTransfer result:', resultPost);
-  }
-  await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, isAccept ? { accepted: [incomingClaimRequest.id] } : { rejected: [incomingClaimRequest.id] });
-  await doReloadClaimRequests();
-  return true;
-};
-
 const doSendIncomingClaimRequest = async (asset) => {
   let result = await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
   await doReloadClaimRequests();
@@ -496,7 +459,7 @@ const doRemoveTestRecoveryPhaseActionRequiredIfAny = async () => {
 const doGetAssetToClaim = async (assetId, issuer) => {
   let asset = await BitmarkModel.doGetAssetInformation(assetId);
   issuer = issuer || asset.registrant;
-  let allIssuedBitmarks = await BitmarkModel.doGetTotalBitmarksOfAssetOfIssuer(issuer, asset.id);
+  let allIssuedBitmarks = await BitmarkModel.getAllBitmarksOfAssetFromIssuer(issuer, asset.id);
 
   asset.editions = asset.editions || {};
   asset.editions[issuer] = asset.editions[issuer] || {};
@@ -529,7 +492,6 @@ let TransactionProcessor = {
   doGetProvenance,
 
   doReloadClaimRequests,
-  doProcessIncomingClaimRequest,
   doSendIncomingClaimRequest,
   doGetAssetToClaim,
 

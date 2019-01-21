@@ -18,16 +18,58 @@ export default StyleSheet.create({
     paddingLeft: convertWidth(19),
     paddingRight: convertWidth(19),
   },
+  assetInfoArea: {
+    flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+    paddingTop: 10,
+    paddingBottom: 30,
+    borderBottomWidth: 0.5,
+    width: convertWidth(337),
+  },
   assetThumbnail: {
     width: 229, height: 229, resizeMode: 'contain',
   },
   assetInfo: {
-    marginTop: 21,
-    fontFamily: 'Avenir-Black', fontSize: 17, fontWeight: '900',
+    marginTop: 11,
+    fontFamily: 'AvenirNextW1G-Bold', fontSize: 20,
   },
-  claimMessage: {
-    marginTop: 75,
-    fontFamily: 'Avenir-Black', fontSize: 16, fontWeight: '300',
+  editionNumber: {
+    marginTop: 3,
+    fontFamily: 'AvenirNextW1G-Medium', fontSize: 16,
+  },
+  issuer: {
+    fontFamily: 'AvenirNextW1G-Medium', fontSize: 16,
+  },
+  requestInfoArea: {
+    alignItems: 'center', justifyContent: 'center',
+    width: '100%',
+    marginTop: 30,
+    paddingBottom: 20,
+  },
+  requestFromAccount: {
+    flexDirection: 'row', justifyContent: 'space-between',
+    width: '100%',
+  },
+  requestFromAccountLabel: {
+    fontFamily: 'AvenirNextW1G-Bold', fontSize: 17,
+  },
+  requestFromAccountCopyButton: {
+
+  },
+  requestFromAccountCopyButtonText: {
+    fontFamily: 'AvenirNextW1G-Bold', fontSize: 14, color: '#0060F2'
+
+  },
+  requestFromAccountNumber: {
+    marginTop: 10, marginBottom: 10,
+    paddingTop: 9, paddingBottom: 9,
+    borderBottomWidth: 0.5, borderTopWidth: 0.5,
+  },
+  requestFromAccountNumberValue: {
+    fontFamily: 'Andale Mono', fontSize: 14,
+  },
+  requestMessage: {
+    width: '100%',
+    fontFamily: 'AvenirNextW1G-Medium', fontSize: 16,
   },
 
   buttonsArea: {

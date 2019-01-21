@@ -418,6 +418,57 @@ const doTransferBitmark = async (bitmarkId, receiver) => {
   return result;
 };
 
+const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => {
+  if (isAccept) {
+    let asset = incomingClaimRequest.asset;
+    if (asset && asset.filePath) {
+      let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(asset.id);
+      if (resultCheck && resultCheck.data_key_alg && resultCheck.enc_data_key && resultCheck.orig_content_type) {
+        let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);
+        let receiverSessionData = await BitmarkSDK.encryptSessionData({
+          enc_data_key: resultCheck.enc_data_key,
+          data_key_alg: resultCheck.data_key_alg
+        }, encryptionPublicKey);
+        let access = `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
+        let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(asset.id, access);
+        console.log('grantAccessResult :', grantAccessResult);
+      } else {
+        let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
+        await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted`);
+        let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/temp.encrypted`;
+        let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptedFilePath);
+
+        let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);
+        let receiverSessionData = await BitmarkSDK.encryptSessionData(sessionData, encryptionPublicKey);
+        let access = `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
+
+        let uploadResult = await BitmarkService.doUploadFileToCourierServer(asset.id, encryptedFilePath, sessionData, filename, access);
+        console.log('uploadResult :', uploadResult);
+      }
+    }
+    let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
+    let bitmark = Object.values(assetsBitmarks.bitmarks || {}).find(bitmark => bitmark.asset_id === asset.id);
+    if (bitmark) {
+      await BitmarkService.doTransferBitmark(bitmark.id, incomingClaimRequest.from);
+      await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, { accepted: [incomingClaimRequest.id] });
+      await TransactionProcessor.doReloadTransfers();
+      await TransactionProcessor.doReloadClaimRequests();
+      if (isReleasedAsset(asset)) {
+        await BitmarkProcessor.doReloadUserReleasedAssetsBitmarks();
+      }
+      await BitmarkProcessor.doReloadUserAssetsBitmarks();
+      return { ok: true };
+    } else {
+      return { ok: false };
+    }
+
+  } else {
+    await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, { rejected: [incomingClaimRequest.id] });
+    await TransactionProcessor.doReloadClaimRequests();
+    return { ok: true };
+  }
+};
+
 const doMigrateWebAccount = async (token) => {
   let result = await BitmarkService.doConfirmWebAccount(CacheData.userInformation.bitmarkAccountNumber, token);
   await BitmarkProcessor.doReloadUserAssetsBitmarks();
@@ -463,6 +514,7 @@ const DataProcessor = {
   doCancelTransferBitmark,
   doRejectTransferBitmark,
   doTransferBitmark,
+  doProcessIncomingClaimRequest,
   doMigrateWebAccount,
   doSignInOnWebApp,
   doDecentralizedIssuance,
