@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { EventEmitterService } from 'src/processors';
 import { config } from 'src/configs';
-import { PropertiesActionSheetComponent } from './home/properties';
+import { PropertyActionSheetComponent } from './home/properties';
 import { PropertyMetadataComponent } from './home/properties/property-metadata.component';
 
 let ComponentName = 'MainCoverComponent';
@@ -75,13 +75,20 @@ export class MainCoverComponent extends Component {
           <View style={cStyles.bodyContainer}>
             <TouchableWithoutFeedback onPress={(event) => event.stopPropagation()}>
               <View style={cStyles.bodyContent}>
-                {this.state.dataCover && this.state.dataCover.bitmark && this.state.dataCover.asset && <PropertiesActionSheetComponent
-                  bitmark={this.state.dataCover.bitmark}
-                  asset={this.state.dataCover.asset}
-                />}
-                {this.state.dataCover && this.state.dataCover.releasedAsset && <PropertyMetadataComponent
-                  releasedAsset={this.state.dataCover.releasedAsset}
-                />}
+                {this.state.dataCover && this.state.dataCover.type === 'PropertyActionSheetComponent' &&
+                  this.state.dataCover.bitmark && this.state.dataCover.asset &&
+                  <PropertyActionSheetComponent
+                    bitmark={this.state.dataCover.bitmark}
+                    asset={this.state.dataCover.asset}
+                    fromPropertyDetail={this.state.dataCover.fromPropertyDetail}
+                  />
+                }
+                {this.state.dataCover && this.state.dataCover.type === 'PropertyMetadataComponent' &&
+                  this.state.dataCover.asset &&
+                  <PropertyMetadataComponent
+                    asset={this.state.dataCover.asset}
+                  />
+                }
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -103,6 +110,7 @@ const cStyles = StyleSheet.create({
     flex: 1, width: '100%', height: '100%', justifyContent: 'flex-end',
   },
   bodyContent: {
-    flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
+    flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
+    backgroundColor: 'red',
   },
 });

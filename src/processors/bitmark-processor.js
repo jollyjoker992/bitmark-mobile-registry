@@ -6,7 +6,7 @@ import { BitmarkService, LocalFileService } from "./services";
 import { CommonModel, AccountModel, BitmarkSDK, BitmarkModel } from "./models";
 import { CacheData } from "./caches";
 import { CommonProcessor } from "./common-processor";
-import { BottomTabStore, BottomTabActions, PropertiesActions, PropertiesStore, PropertyStore, PropertyActions } from 'src/views/stores';
+import { BottomTabStore, BottomTabActions, PropertiesActions, PropertiesStore, PropertyActionSheetStore, PropertyActionSheetActions } from 'src/views/stores';
 
 
 const _doGetAllAssetsBitmarks = async (isReleased) => {
@@ -120,11 +120,11 @@ const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
       assets: assetsBitmarks.assets || {},
     }));
 
-    let propertyStoreState = merge({}, PropertyStore.getState().data);
-    if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id) {
-      propertyStoreState.asset = assetsBitmarks.assets[propertyStoreState.bitmark.asset_id];
-      propertyStoreState.bitmark = assetsBitmarks.bitmarks[propertyStoreState.bitmark.id];
-      PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
+    let propertyActionSheetStoreState = merge({}, PropertyActionSheetStore.getState().data);
+    if (propertyActionSheetStoreState.bitmark && propertyActionSheetStoreState.bitmark.id && propertyActionSheetStoreState.bitmark.asset_id) {
+      propertyActionSheetStoreState.asset = assetsBitmarks.assets[propertyActionSheetStoreState.bitmark.asset_id];
+      propertyActionSheetStoreState.bitmark = assetsBitmarks.bitmarks[propertyActionSheetStoreState.bitmark.id];
+      PropertyActionSheetStore.dispatch(PropertyActionSheetActions.init(propertyActionSheetStoreState));
     }
   }
 };
@@ -301,13 +301,20 @@ const doGetAssetBitmark = async (bitmarkId, assetId) => {
 
 const doUpdateViewStatus = async (bitmarkId) => {
   if (bitmarkId) {
-    let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || [];
+    console.log('run 1');
+    let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
     assetsBitmarks.bitmarks[bitmarkId].isViewed = true;
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS, assetsBitmarks);
+    console.log('run 2');
 
     let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
-    bottomTabStoreState.totalNewBitmarks = Object.values(assetsBitmarks.bitmarks || {}).find(bitmark => !bitmark.isViewed).length;
+    bottomTabStoreState.totalNewBitmarks = Object.values(assetsBitmarks.bitmarks || {}).filter(bitmark => !bitmark.isViewed).length;
     BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
+    console.log('run 3');
+    console.log({
+      bitmarks: Object.values(assetsBitmarks.bitmarks || {}),
+      assets: assetsBitmarks.assets,
+    })
 
     PropertiesStore.dispatch(PropertiesActions.updateBitmarks({
       bitmarks: Object.values(assetsBitmarks.bitmarks || {}),

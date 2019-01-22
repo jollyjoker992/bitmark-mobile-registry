@@ -12,13 +12,13 @@ const PropertyMetadataActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
   },
-  init: ({ releasedAsset }) => {
-    return { type: ACTION_TYPES.INIT, releasedAsset };
+  init: ({ asset }) => {
+    return { type: ACTION_TYPES.INIT, asset };
   },
 };
 
 const initialState = {
-  releasedAsset: null,
+  asset: null,
 };
 
 const data = (state = initialState, action) => {
@@ -27,7 +27,7 @@ const data = (state = initialState, action) => {
       return merge({}, initialState);
     case ACTION_TYPES.INIT: {
       let tempState = merge({}, state);
-      tempState.releasedAsset = action.releasedAsset;
+      tempState.asset = action.asset;
       return tempState;
     }
     default:

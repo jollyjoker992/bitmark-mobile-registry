@@ -9,6 +9,7 @@ import {
   AssetTypeHelpComponent,
   PropertiesComponent,
   ReleasedPropertiesComponent,
+  PropertyDetailComponent,
 } from './properties';
 
 import {
@@ -81,7 +82,7 @@ export class UserRouterComponent extends Component {
     } else if (data.name === 'transfer_rejected') {
       // TODO
       // BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
-      //   Actions.localPropertyDetail(bitmarkInformation);
+      //   Actions.propertyDetail(bitmarkInformation);
       // }).catch(console.log);
 
     } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
@@ -91,13 +92,13 @@ export class UserRouterComponent extends Component {
       // BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
       //   return BitmarkProcessor.doGetAssetBitmark(data.bitmark_id);
       // }).then(bitmarkInformation => {
-      //   Actions.localPropertyDetail(bitmarkInformation);
+      //   Actions.propertyDetail(bitmarkInformation);
       // }).catch(console.log);
 
     } else if (data.name === 'transfer_failed') {
       // TODO
       // BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
-      //   Actions.localPropertyDetail(bitmarkInformation);
+      //   Actions.propertyDetail(bitmarkInformation);
       // }).catch(console.log);
     } else if (data.event === 'claim_request') {
       doReloadClaimRequests().then((claimRequests) => {
@@ -141,6 +142,7 @@ export class UserRouterComponent extends Component {
                 <Scene key="issuanceOptions" panHandlers={null} component={IssuanceOptionsComponent} />
                 <Scene key="iftttActive" panHandlers={null} component={IftttActiveComponent} />
                 <Scene key="releasedProperties" panHandlers={null} component={ReleasedPropertiesComponent} />
+                <Scene key="propertyDetail" panHandlers={null} component={PropertyDetailComponent} />
               </Stack>
               <Scene key="transactions" panHandlers={null} component={TransactionsComponent} />
               <Stack key="account" headerMode='none'>

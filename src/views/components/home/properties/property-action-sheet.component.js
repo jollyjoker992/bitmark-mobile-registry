@@ -15,15 +15,16 @@ import { convertWidth, isHealthRecord, isMedicalRecord, isImageFile, isVideoFile
 import { config } from 'src/configs';
 import { CommonProcessor, BitmarkProcessor, EventEmitterService, AppProcessor } from 'src/processors';
 import { Actions } from 'react-native-router-flux';
-import { PropertyStore, PropertyActions } from 'src/views/stores';
+import { PropertyActionSheetStore, PropertyActionSheetActions } from 'src/views/stores';
 
 
 
-class PrivatePropertiesActionSheetComponent extends React.Component {
+class PrivatePropertyActionSheetComponent extends React.Component {
   static propTypes = {
     asset: PropTypes.any,
     bitmark: PropTypes.any,
     style: ViewPropTypes.style,
+    fromPropertyDetail: PropTypes.bool,
   }
 
   viewBitmarkOnBlockChain() {
@@ -81,7 +82,7 @@ class PrivatePropertiesActionSheetComponent extends React.Component {
   render() {
     return (
       <View style={cStyles.content}>
-        <View style={cStyles.assetContent}>
+        {!this.props.fromPropertyDetail && <View style={cStyles.assetContent}>
           <View style={cStyles.thumbnailArea}>
             {(() => {
               if (this.props.asset.thumbnailPath) {
@@ -141,20 +142,20 @@ class PrivatePropertiesActionSheetComponent extends React.Component {
               </View>
             </View>
           }
-        </View>
+        </View>}
         <View style={cStyles.actionArea}>
-          <OneTabButtonComponent style={cStyles.actionRow} disabled={this.props.bitmark.status === 'pending'} onPress={this.viewBitmarkOnBlockChain.bind(this)}>
-            <Image style={cStyles.actionRowIcon} source={this.props.bitmark.status === 'pending' ? require('assets/imgs/info_icon_grey.png') : require('assets/imgs/info_icon_blue.png')} />
+          {!this.props.fromPropertyDetail && <OneTabButtonComponent style={cStyles.actionRow} disabled={this.props.bitmark.status === 'pending'} onPress={this.viewBitmarkOnBlockChain.bind(this)}>
+            <Image style={cStyles.actionRowIcon} source={require('assets/imgs/asset_open_icon.png')} />
             <Text style={[cStyles.actionRowText, this.props.bitmark.status === 'pending' ? { color: '#C1C1C1' } : {}]}>Open</Text>
-          </OneTabButtonComponent>
+          </OneTabButtonComponent>}
           <OneTabButtonComponent style={cStyles.actionRow} onPress={this.downloadBitmark.bind(this)}>
             <Image style={cStyles.actionRowIcon} source={require('assets/imgs/download_asset_icon.png')} />
             <Text style={[cStyles.actionRowText]}>Download asset</Text>
           </OneTabButtonComponent>
-          <OneTabButtonComponent style={cStyles.actionRow} disabled={this.props.bitmark.status === 'pending'} onPress={this.transferBitmark.bind(this)}>
+          {!this.props.fromPropertyDetail && <OneTabButtonComponent style={cStyles.actionRow} disabled={this.props.bitmark.status === 'pending'} onPress={this.transferBitmark.bind(this)}>
             <Image style={cStyles.actionRowIcon} source={this.props.bitmark.status === 'pending' ? require('assets/imgs/transfer_bitmark_icon_grey.png') : require('assets/imgs/transfer_bitmark_icon_blue.png')} />
             <Text style={[cStyles.actionRowText, this.props.bitmark.status === 'pending' ? { color: '#C1C1C1' } : {}]}>Transfer bitmark</Text>
-          </OneTabButtonComponent>
+          </OneTabButtonComponent>}
           <OneTabButtonComponent style={cStyles.actionRow} disabled={this.props.bitmark.status === 'pending'} onPress={this.shareSocialLink.bind(this)}>
             <Image style={cStyles.actionRowIcon} source={this.props.bitmark.status === 'pending' ? require('assets/imgs/share_icon_grey.png') : require('assets/imgs/share_icon_blue.png')} />
             <Text style={[cStyles.actionRowText, this.props.bitmark.status === 'pending' ? { color: '#C1C1C1' } : {}]}>Share link to social media</Text>
@@ -186,7 +187,7 @@ const cStyles = StyleSheet.create({
     paddingLeft: convertWidth(17),
   },
   thumbnailImage: {
-    width: 30, height: 30, resizeMode: 'cover',
+    width: 30, height: 30, resizeMode: 'contain',
   },
   assetInfo: {
     flex: 1, width: '100%',
@@ -229,26 +230,27 @@ const cStyles = StyleSheet.create({
 
 });
 
-const StorePropertiesActionSheetComponent = connect(
+const StorePropertyActionSheetComponent = connect(
   (state) => {
     return state.data;
   },
-)(PrivatePropertiesActionSheetComponent);
+)(PrivatePropertyActionSheetComponent);
 
-export class PropertiesActionSheetComponent extends React.Component {
+export class PropertyActionSheetComponent extends React.Component {
   static propTypes = {
     asset: PropTypes.object,
     bitmark: PropTypes.object,
+    fromPropertyDetail: PropTypes.bool,
   }
   constructor(props) {
     super(props);
-    let tempState = { asset: this.props.asset, bitmark: this.props.bitmark };
-    PropertyStore.dispatch(PropertyActions.init(tempState));
+    let tempState = { asset: this.props.asset, bitmark: this.props.bitmark, fromPropertyDetail: this.props.fromPropertyDetail };
+    PropertyActionSheetStore.dispatch(PropertyActionSheetActions.init(tempState));
   }
   render() {
     return (
-      <Provider store={PropertyStore}>
-        <StorePropertiesActionSheetComponent />
+      <Provider store={PropertyActionSheetStore}>
+        <StorePropertyActionSheetComponent />
       </Provider>
     );
   }

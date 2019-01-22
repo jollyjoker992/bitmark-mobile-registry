@@ -20,7 +20,7 @@ import {
 } from 'src/utils';
 import {
   BottomTabStore, BottomTabActions,
-  AssetStore, AssetActions, PropertyStore, PropertyActions,
+  AssetStore, AssetActions, PropertyActionSheetStore, PropertyActionSheetActions,
   AccountStore, AccountActions, TransactionsStore, TransactionsActions, PropertiesStore, PropertiesActions,
 } from 'src/views/stores';
 import { config } from 'src/configs';
@@ -170,7 +170,7 @@ const doLogout = async () => {
   PropertiesStore.dispatch(PropertiesActions.reset());
   BottomTabStore.dispatch(BottomTabActions.reset());
   AssetStore.dispatch(AssetActions.reset());
-  PropertyStore.dispatch(PropertyActions.reset());
+  PropertyActionSheetStore.dispatch(PropertyActionSheetActions.reset());
   AccountStore.dispatch(AccountActions.reset());
   TransactionsStore.dispatch(TransactionsActions.reset());
 };
@@ -316,11 +316,11 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       releasedAssets: Object.values(releasedAssetsBitmarks.assets || {}),
     }));
 
-    let propertyStoreState = merge({}, PropertyStore.getState().data);
-    if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id) {
-      propertyStoreState.asset = assetsBitmarks.assets[propertyStoreState.bitmark.asset_id];
-      propertyStoreState.bitmark = assetsBitmarks.bitmarks[propertyStoreState.bitmark.id];
-      PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
+    let propertyActionSheetStoreState = merge({}, PropertyActionSheetStore.getState().data);
+    if (propertyActionSheetStoreState.bitmark && propertyActionSheetStoreState.bitmark.id && propertyActionSheetStoreState.bitmark.asset_id) {
+      propertyActionSheetStoreState.asset = assetsBitmarks.assets[propertyActionSheetStoreState.bitmark.asset_id];
+      propertyActionSheetStoreState.bitmark = assetsBitmarks.bitmarks[propertyActionSheetStoreState.bitmark.id];
+      PropertyActionSheetStore.dispatch(PropertyActionSheetActions.init(propertyActionSheetStoreState));
     }
 
     TransactionsStore.dispatch(TransactionsActions.init({

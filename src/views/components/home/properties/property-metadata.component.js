@@ -8,7 +8,7 @@ import {
 import { Provider, connect } from 'react-redux';
 
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
-import { convertWidth, } from 'src/utils';
+import { convertWidth, isHealthRecord, isMedicalRecord, isImageFile, isVideoFile, isDocFile, isZipFile } from 'src/utils';
 import { config, constant } from 'src/configs';
 import { EventEmitterService, } from 'src/processors';
 import { Actions } from 'react-native-router-flux';
@@ -18,14 +18,14 @@ import { PropertyMetadataStore, PropertyMetadataActions, } from 'src/views/store
 
 class PrivatePropertyMetadataComponent extends React.Component {
   static propTypes = {
-    releasedAsset: PropTypes.any,
+    asset: PropTypes.any,
     style: ViewPropTypes.style,
   }
 
   viewBitmarkOnBlockChain() {
     EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER);
     Actions.bitmarkWebViewFull({
-      title: 'REGISTRY', sourceUrl: `${config.registry_server_url}/assets/${this.props.releasedAsset.id}?env=app`,
+      title: 'REGISTRY', sourceUrl: `${config.registry_server_url}/assets/${this.props.asset.id}?env=app`,
     });
   }
 
@@ -33,15 +33,35 @@ class PrivatePropertyMetadataComponent extends React.Component {
     EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER);
   }
 
-
   render() {
+    console.log('PrivatePropertyMetadataComponent this.props :', this.props);
     return (
       <View style={cStyles.content}>
         <View style={cStyles.assetContent}>
           <View style={cStyles.thumbnailArea}>
+
+
             {(() => {
-              if (this.props.releasedAsset.thumbnailPath) {
-                return (<Image style={cStyles.thumbnailImage} source={{ uri: this.props.releasedAsset.thumbnailPath }} />);
+              if (this.props.asset.thumbnailPath) {
+                return (<Image style={cStyles.thumbnailImage} source={{ uri: this.props.asset.thumbnailPath }} />);
+              }
+              if (isHealthRecord(this.props.asset)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_health_data_icon.png')} />);
+              }
+              if (isMedicalRecord(this.props.asset)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_medical_record_icon.png')} />);
+              }
+              if (isImageFile(this.props.asset.filePath)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_image_icon.png')} />);
+              }
+              if (isVideoFile(this.props.asset.filePath)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_video_icon.png')} />);
+              }
+              if (isDocFile(this.props.asset.filePath)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_doc_icon.png')} />);
+              }
+              if (isZipFile(this.props.asset.filePath)) {
+                return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_zip_icon.png')} />);
               }
               return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_unknow_icon.png')} />);
             })()}
@@ -52,16 +72,16 @@ class PrivatePropertyMetadataComponent extends React.Component {
           </OneTabButtonComponent>
         </View>
         <ScrollView contentContainerStyle={{ flexDirection: 'column', justifyContent: 'flex-end', width: '100%', }}>
-          {Object.keys(this.props.releasedAsset.metadata).map(label => (<View key={label} style={cStyles.metadataRow}>
+          {Object.keys(this.props.asset.metadata).map(label => (<View key={label} style={cStyles.metadataRow}>
             <Text style={cStyles.metadataLabel}>{label.toUpperCase()}</Text>
-            <Text style={cStyles.metadataValue}>{this.props.releasedAsset.metadata[label]}</Text>
+            <Text style={cStyles.metadataValue}>{this.props.asset.metadata[label]}</Text>
           </View>))}
         </ScrollView>
-        <View style={cStyles.actionArea}>
+        {/* <View style={cStyles.actionArea}>
           <OneTabButtonComponent style={cStyles.actionRow} onPress={this.viewBitmarkOnBlockChain.bind(this)}>
             <Text style={cStyles.actionRowText}>{'View asset details on blockchain'.toUpperCase()}</Text>
           </OneTabButtonComponent>
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -85,33 +105,33 @@ const cStyles = StyleSheet.create({
     paddingLeft: convertWidth(19),
   },
   thumbnailImage: {
-    width: 30, height: 30, resizeMode: 'cover',
+    width: 30, height: 30, resizeMode: 'contain',
   },
   label: {
     flex: 1,
     fontFamily: 'AvenirNextW1G-Bold', fontSize: 14,
   },
   closeIcon: {
-    width: 16, height: 16, resizeMode: 'cover',
+    width: 16, height: 16, resizeMode: 'contain',
   },
 
-  actionArea: {
-    width: '100%',
-    flexDirection: 'column',
-    paddingTop: 20,
-    paddingLeft: convertWidth(16), paddingRight: convertWidth(16),
-    borderTopWidth: 0.5, borderTopColor: '#C1C1C1',
-  },
-  actionRow: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    marginBottom: 35,
-    width: '100%', height: constant.buttonHeight,
-    backgroundColor: '#F1F1F1'
-  },
-  actionRowText: {
-    width: '100%',
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 16, color: '#0060F2', textAlign: 'center',
-  },
+  // actionArea: {
+  //   width: '100%',
+  //   flexDirection: 'column',
+  //   paddingTop: 20,
+  //   paddingLeft: convertWidth(16), paddingRight: convertWidth(16),
+  //   borderTopWidth: 0.5, borderTopColor: '#C1C1C1',
+  // },
+  // actionRow: {
+  //   flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+  //   marginBottom: 35,
+  //   width: '100%', height: constant.buttonHeight,
+  //   backgroundColor: '#F1F1F1'
+  // },
+  // actionRowText: {
+  //   width: '100%',
+  //   fontFamily: 'AvenirNextW1G-Bold', fontSize: 16, color: '#0060F2', textAlign: 'center',
+  // },
   metadataRow: {
     flexDirection: 'row',
     justifyContent: 'flex-start', alignItems: 'flex-start',
@@ -138,11 +158,11 @@ const StorePropertyMetadataComponent = connect(
 
 export class PropertyMetadataComponent extends React.Component {
   static propTypes = {
-    releasedAsset: PropTypes.object,
+    asset: PropTypes.object,
   }
   constructor(props) {
     super(props);
-    let tempState = { releasedAsset: this.props.releasedAsset, };
+    let tempState = { asset: this.props.asset, };
     PropertyMetadataStore.dispatch(PropertyMetadataActions.init(tempState));
   }
   render() {

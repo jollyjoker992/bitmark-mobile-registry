@@ -8,18 +8,19 @@ const ACTION_TYPES = {
   ADD_MORE: 'ADD_MORE'
 };
 
-const PropertiesActionSheetActions = {
+const PropertyActionSheetActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
   },
-  init: ({ asset, bitmark }) => {
-    return { type: ACTION_TYPES.INIT, asset, bitmark };
+  init: ({ asset, bitmark, fromPropertyDetail }) => {
+    return { type: ACTION_TYPES.INIT, asset, bitmark, fromPropertyDetail };
   },
 };
 
 const initialState = {
   asset: null,
   bitmark: null,
+  fromPropertyDetail: false,
 };
 
 const data = (state = initialState, action) => {
@@ -30,6 +31,7 @@ const data = (state = initialState, action) => {
       let tempState = merge({}, state);
       tempState.asset = action.asset;
       tempState.bitmark = action.bitmark;
+      tempState.fromPropertyDetail = !!action.fromPropertyDetail;
       return tempState;
     }
     default:
@@ -38,9 +40,9 @@ const data = (state = initialState, action) => {
 };
 const reducer = combineReducers({ data });
 
-const PropertiesActionSheetStore = createStore(reducer, applyMiddleware(thunk));
+const PropertyActionSheetStore = createStore(reducer, applyMiddleware(thunk));
 
 export {
-  PropertiesActionSheetActions,
-  PropertiesActionSheetStore
+  PropertyActionSheetActions,
+  PropertyActionSheetStore
 };

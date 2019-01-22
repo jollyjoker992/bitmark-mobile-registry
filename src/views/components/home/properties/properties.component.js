@@ -14,6 +14,7 @@ import { convertWidth, isReleasedAsset, isHealthRecord, isMedicalRecord, isImage
 
 import { PropertiesStore, PropertiesActions } from 'src/views/stores';
 import { CommonProcessor, EventEmitterService, CacheData, BitmarkProcessor } from 'src/processors';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 const SubTabs = {
   local: 'Yours',
@@ -54,7 +55,10 @@ class PrivatePropertiesComponent extends React.Component {
   }
 
   viewPropertyDetail(bitmark) {
-    EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER, { bitmark, asset: this.props.assets[bitmark.asset_id] });
+    EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER, {
+      type: 'PropertyActionSheetComponent',
+      bitmark, asset: this.props.assets[bitmark.asset_id]
+    });
     BitmarkProcessor.doUpdateViewStatus(bitmark.id);
   }
 
@@ -218,6 +222,9 @@ class PrivatePropertiesComponent extends React.Component {
                   <Text style={[cStyles.bitmarkissuer, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>{CommonProcessor.getDisplayedAccount(bitmark.issuer)}</Text>
                 </View>
                 {bitmark.status === 'pending' && <Image style={cStyles.bitmarkPendingIcon} source={require('assets/imgs/pending-status.png')} />}
+                <OneTabButtonComponent style={{ padding: 20, }} onPress={() => Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] })}>
+                  <Image style={cStyles.propertySettingIcon} source={require('assets/imgs/property_setting_grey.png')} />
+                </OneTabButtonComponent>
               </TouchableOpacity>
             ))}
             {(this.props.appLoadingData || (this.props.displayedBitmarks && this.props.displayedBitmarks.length < this.props.bitmarks)) && <View style={cStyles.messageNoBitmarkArea}>
@@ -398,13 +405,13 @@ const cStyles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center',
     borderBottomColor: '#EDF0F4',
     borderBottomWidth: 1,
-    paddingLeft: convertWidth(27), paddingRight: convertWidth(27), paddingTop: 15, paddingBottom: 20,
+    paddingLeft: convertWidth(27), paddingTop: 15, paddingBottom: 20,
   },
   thumbnailArea: {
     width: 40, height: 40,
   },
   thumbnailImage: {
-    width: 40, height: 40, resizeMode: 'cover',
+    width: 40, height: 40, resizeMode: 'contain',
   },
   bitmarkContent: {
     flex: 1, width: '100%',
@@ -422,6 +429,9 @@ const cStyles = StyleSheet.create({
   },
   bitmarkPendingIcon: {
     width: 13, height: 17, resizeMode: 'contain',
+  },
+  propertySettingIcon: {
+    width: 18, height: 4.5, resizeMode: 'contain',
   },
   releasedAssetName: {
     width: '100%',

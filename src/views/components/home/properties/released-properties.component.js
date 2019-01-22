@@ -25,7 +25,7 @@ class PrivateReleasedPropertiesComponent extends React.Component {
 
 
   viewBitmarkOnBlockChain() {
-    EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER, { releasedAsset: this.props.releasedAsset });
+    EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER, { type: 'PropertyMetadataComponent', asset: this.props.releasedAsset });
   }
 
   distribute() {
@@ -120,7 +120,7 @@ const cStyles = StyleSheet.create({
   },
   thumbnailImage: {
     marginLeft: convertWidth(19),
-    width: 126, height: 126, resizeMode: 'cover'
+    width: 126, height: 126, resizeMode: 'contain'
   },
   assetContent: {
     flex: 1,

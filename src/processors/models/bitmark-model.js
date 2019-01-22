@@ -133,7 +133,6 @@ const doGetProvenance = (bitmarkId) => {
       }
       let bitmark = data.bitmark;
       let provenance = (bitmark && bitmark.provenance) ? bitmark.provenance : [];
-      provenance.forEach(item => item.created_at = moment(item.created_at).format('YYYY MMM DD HH:mm:ss'));
       bitmark.provenance = provenance;
       resolve({ bitmark, provenance });
     }).catch(reject);
