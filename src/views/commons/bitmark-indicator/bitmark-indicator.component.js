@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Text, ActivityIndicator, View, WebView,
+  Text, ActivityIndicator, View,
+  StyleSheet,
 } from 'react-native';
 
+import LottieView from 'lottie-react-native';
+
 import { BitmarkDialogComponent } from '../bitmark-dialog';
-import dialogStyles from './bitmark-indicator.component.style';
 import { constant } from 'src/configs';
+import { convertWidth } from 'src/utils';
 
 export class BitmarkIndicatorComponent extends React.Component {
   constructor(props) {
@@ -19,82 +22,60 @@ export class BitmarkIndicatorComponent extends React.Component {
   }
 
   render() {
-    console.log('this.state :', this.state);
     return (
-
-
-      <BitmarkDialogComponent style={dialogStyles.dialog} dialogStyle={{ backgroundColor: 'white', }}>
-        <View style={dialogStyles.content}>
-          {this.state.indicator === true && <ActivityIndicator size="large" style={dialogStyles.indicatorImage} />}
-
+      <BitmarkDialogComponent style={cStyle.dialog} dialogStyle={{ backgroundColor: 'white', }}>
+        <View style={cStyle.content}>
+          {this.state.indicator === true && <ActivityIndicator size="large" style={cStyle.indicatorImage} />}
           {this.state.indicator === constant.indicators.processing && <View style={{
-            transform: [
-              { scale: 44 / 100, },
-            ],
-            width: 100, height: 100,
-            justifyContent: 'center', alignItems: 'center',
-            backgroundColor: 'red',
-            overflow: 'hidden'
-          }} >
-            <WebView
-              style={{
-                position: 'absolute', top: -250, left: -400,
-                width: 800, height: 800,
+            width: '100%', height: 100, alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+            paddingTop: 40, paddingBottom: 12,
+          }}>
+            <LottieView
+              style={{ width: 800 * 44 / 100, height: 600 * 44 / 100, }}
+              ref={animation => {
+                this.animation = animation;
               }}
-              scrollEnabled={false}
-              source={{ uri: 'https://www.lottiefiles.com/iframe/302-loader-1' }}
+              source={require('assets/processing.json')}
+              autoPlay={true}
             />
           </View>}
 
-
           {this.state.indicator === constant.indicators.success && <View style={{
-            alignItems: 'center', justifyContent: 'center',
-            paddingBottom: 16,
-            paddingTop: 40,
-          }} >
-            <View style={{ width: 60, height: 60, }}>
-              <WebView
-                style={{
-                  transform: [
-                    { scale: 60 / 800, },
-                  ],
-                  position: 'absolute', left: -370, top: -370,
-                  width: 800, height: 800,
-                }}
-                scrollEnabled={false}
-                source={{ uri: 'https://lottiefiles.com/iframe/776-account-success' }}
-              />
-            </View>
+            width: '100%', height: 100, alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+            paddingTop: 40, paddingBottom: 12,
+          }}>
+            <LottieView
+              style={{ width: 60, height: 60, }}
+              ref={animation => {
+                this.animation = animation;
+              }}
+              source={require('assets/success.json')}
+              autoPlay={true}
+            />
           </View>}
 
           {this.state.indicator === constant.indicators.searching && <View style={{
-            alignItems: 'center', justifyContent: 'center',
-            paddingBottom: 16,
-            paddingTop: 40,
-          }} >
-            <View style={{ width: 60, height: 60, overflow: 'hidden' }}>
-              <WebView
-                style={{
-                  transform: [
-                    { scale: 60 / 500, },
-                  ],
-                  position: 'absolute', left: -220, top: -220,
-                  width: 500, height: 500,
-                }}
-                scrollEnabled={false}
-                source={{ uri: 'https://lottiefiles.com/iframe/2642-search' }}
-              />
-            </View>
+            width: '100%', height: 100, alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+            paddingTop: 40, paddingBottom: 12,
+          }}>
+            <LottieView
+              style={{ width: 60, height: 60, }}
+              ref={animation => {
+                this.animation = animation;
+              }}
+              source={require('assets/searching.json')}
+              autoPlay={true}
+            />
           </View>}
 
-          <View style={dialogStyles.textArea}>
-            {!!this.state.title && <Text style={[dialogStyles.indicatorTitle, {
+          <View style={cStyle.textArea}>
+            {!!this.state.title && <Text style={[cStyle.indicatorTitle, {
               marginTop: this.state.indicator ? 0 : 23,
             }]}>{this.state.title}</Text>}
-            {!!this.state.message && <Text style={dialogStyles.indicatorMessage}>{this.state.message}</Text>}
+            {!!this.state.message && <Text style={cStyle.indicatorMessage}>{this.state.message}</Text>}
           </View>
         </View>
-      </BitmarkDialogComponent>
+      </BitmarkDialogComponent >
     );
   }
 }
@@ -107,9 +88,42 @@ BitmarkIndicatorComponent.propTypes = {
 export class DefaultIndicatorComponent extends React.Component {
   render() {
     return (
-      <BitmarkDialogComponent style={dialogStyles.dialog} dialogStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}>
-        <ActivityIndicator size="large" style={dialogStyles.indicatorImage} />
+      <BitmarkDialogComponent style={cStyle.dialog} dialogStyle={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}>
+        <ActivityIndicator size="large" style={cStyle.indicatorImage} />
       </BitmarkDialogComponent>
     );
   }
 }
+
+let cStyle = StyleSheet.create({
+  dialog: {
+    zIndex: constant.zIndex.indicator,
+  },
+  content: {
+    flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+    minHeight: 204,
+  },
+  indicatorImage: {
+    width: 90,
+    height: 90,
+    opacity: 1,
+    marginTop: 5,
+  },
+  textArea: {
+    marginBottom: 17,
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  indicatorTitle: {
+    fontSize: 16, fontWeight: '600', textAlign: 'center',
+    width: '100%',
+    paddingLeft: convertWidth(20), paddingRight: convertWidth(20),
+  },
+  indicatorMessage: {
+    fontSize: 16,
+    fontWeight: '400',
+    textAlign: 'center',
+    paddingLeft: convertWidth(20), paddingRight: convertWidth(20),
+    marginTop: 16,
+  },
+});

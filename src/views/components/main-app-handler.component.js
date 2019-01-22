@@ -58,6 +58,16 @@ export class MainAppHandlerComponent extends Component {
       NetInfo.isConnected.addEventListener('connectionChange', this.handleNetworkChange);
     });
 
+    // EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, {
+    //   indicator: constant.indicators.success, title: 'Success!', message: 'The account will receive the property bitmark and notification very soon.'
+    // });
+
+    // EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, {
+    //   indicator: constant.indicators.processing, title: 'Pending...', message: 'Sending your transaction to the Bitmark network...'
+    // });
+    EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, {
+      indicator: constant.indicators.searching, title: 'Sorry!', message: 'There is no bitmark confirmed, please wait and try again later.'
+    });
   }
   componentWillUnmount() {
     EventEmitterService.remove(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);
