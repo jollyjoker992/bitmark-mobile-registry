@@ -19,7 +19,7 @@ import { PropertyStore, PropertyActions } from 'src/views/stores';
 
 
 
-class PrivatePropertyDetailComponent extends React.Component {
+class PrivatePropertiesActionSheetComponent extends React.Component {
   static propTypes = {
     asset: PropTypes.any,
     bitmark: PropTypes.any,
@@ -229,13 +229,13 @@ const cStyles = StyleSheet.create({
 
 });
 
-const StorePropertyDetailComponent = connect(
+const StorePropertiesActionSheetComponent = connect(
   (state) => {
     return state.data;
   },
-)(PrivatePropertyDetailComponent);
+)(PrivatePropertiesActionSheetComponent);
 
-export class PropertyDetailComponent extends React.Component {
+export class PropertiesActionSheetComponent extends React.Component {
   static propTypes = {
     asset: PropTypes.object,
     bitmark: PropTypes.object,
@@ -248,7 +248,7 @@ export class PropertyDetailComponent extends React.Component {
   render() {
     return (
       <Provider store={PropertyStore}>
-        <StorePropertyDetailComponent />
+        <StorePropertiesActionSheetComponent />
       </Provider>
     );
   }

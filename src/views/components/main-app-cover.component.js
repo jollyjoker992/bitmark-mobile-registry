@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { EventEmitterService } from 'src/processors';
 import { config } from 'src/configs';
-import { PropertyDetailComponent } from './home/properties';
+import { PropertiesActionSheetComponent } from './home/properties';
 import { PropertyMetadataComponent } from './home/properties/property-metadata.component';
 
 let ComponentName = 'MainCoverComponent';
@@ -75,7 +75,7 @@ export class MainCoverComponent extends Component {
           <View style={cStyles.bodyContainer}>
             <TouchableWithoutFeedback onPress={(event) => event.stopPropagation()}>
               <View style={cStyles.bodyContent}>
-                {this.state.dataCover && this.state.dataCover.bitmark && this.state.dataCover.asset && <PropertyDetailComponent
+                {this.state.dataCover && this.state.dataCover.bitmark && this.state.dataCover.asset && <PropertiesActionSheetComponent
                   bitmark={this.state.dataCover.bitmark}
                   asset={this.state.dataCover.asset}
                 />}
