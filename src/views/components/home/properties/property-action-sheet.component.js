@@ -17,6 +17,8 @@ import { CommonProcessor, BitmarkProcessor, EventEmitterService, AppProcessor } 
 import { Actions } from 'react-native-router-flux';
 import { PropertyActionSheetStore, PropertyActionSheetActions } from 'src/views/stores';
 
+import CustomShare from 'react-native-share';
+
 
 
 class PrivatePropertyActionSheetComponent extends React.Component {
@@ -55,6 +57,12 @@ class PrivatePropertyActionSheetComponent extends React.Component {
   }
 
   shareSocialLink() {
+    const shareOptions = {
+      title: 'Test',
+      url: `${config.registry_server_url}/s/embed-pages/claim/${this.props.asset.id}`,
+      social: 'facebook'
+    };
+    CustomShare.shareSingle(shareOptions).catch(console.log);
   }
 
   deleteBitmark() {

@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { chunk } from 'lodash';
 
 import { config } from 'src/configs';
