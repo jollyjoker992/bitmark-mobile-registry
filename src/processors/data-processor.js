@@ -521,12 +521,12 @@ const doSendIncomingClaimRequest = async (asset, issuer) => {
   let result = await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
   let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
 
-  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}`;
-  await FileUtil.mkdir(assetFolderPath);
-  await FileUtil.mkdir(`${assetFolderPath}/downloaded`);
-  let tempFilePath = `${assetFolderPath}/downloaded/temp.tmp`;
-  let downloadResult = await BitmarkModel.doDownloadAssetForClaimRequest(CacheData.jwt, result.claim_id, tempFilePath);
-  await FileUtil.moveFileSafe(tempFilePath, `${assetFolderPath}/downloaded/${downloadResult.filename}`);
+  // let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}`;
+  // await FileUtil.mkdir(assetFolderPath);
+  // await FileUtil.mkdir(`${assetFolderPath}/downloaded`);
+  // let tempFilePath = `${assetFolderPath}/downloaded/temp.tmp`;
+  // let downloadResult = await BitmarkModel.doDownloadAssetForClaimRequest(CacheData.jwt, result.claim_id, tempFilePath);
+  // await FileUtil.moveFileSafe(tempFilePath, `${assetFolderPath}/downloaded/${downloadResult.filename}`);
 
   assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
   let tempBitmarkId = `claim_request_${result.claim_id}`

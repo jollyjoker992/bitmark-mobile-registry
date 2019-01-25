@@ -576,7 +576,7 @@ const doUploadMusicAsset = async (jwt, assetId, filePath) => {
 
   return new Promise((resolve, reject) => {
     let statusCode;
-    fetch(`${config.mobile_server_url}/claim_requests/upload`, {
+    fetch(`${config.mobile_server_url}/api/claim_requests/upload`, {
       method: 'POST',
       headers,
       body: formData,
@@ -587,6 +587,7 @@ const doUploadMusicAsset = async (jwt, assetId, filePath) => {
       }
       return response.text();
     }).then((data) => {
+      console.log('doUploadMusicAsset :', data, statusCode);
       if (statusCode >= 400) {
         return reject(new Error(`doUploadMusicAsset error :` + JSON.stringify(data)));
       }
@@ -598,7 +599,7 @@ const doUploadMusicAsset = async (jwt, assetId, filePath) => {
 const doDownloadAssetForClaimRequest = async (jwt, claimId, filePath) => {
   let response;
   let result = await FileUtil.downloadFile({
-    fromUrl: `${config.mobile_server_url}/claim_requests/download/${claimId}`,
+    fromUrl: `${config.mobile_server_url}/api/claim_requests/download/${claimId}`,
     toFile: filePath,
     method: 'GET',
     headers: {
@@ -606,7 +607,7 @@ const doDownloadAssetForClaimRequest = async (jwt, claimId, filePath) => {
     },
     begin: (res) => response = res
   });
-  console.log('response :', response, result);
+  console.log('doDownloadAssetForClaimRequest :', response, result);
   if (response.statusCode >= 400) {
     throw new Error(`doDownloadAssetForClaimRequest error ${response.statusCode}`);
   }
