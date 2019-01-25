@@ -448,13 +448,13 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
     let bitmark;
     for (let bm of Object.values(assetsBitmarks.bitmarks || {})) {
       if (bm.asset_id === asset.id && bm.editionNumber > 0) {
-        bitmark = (!bitmark || bitmark.editionNumber > bm.editionNumber) ? bm : bitmark;
+        bitmark = (!bitmark || (bitmark.status === 'confirmed' && bitmark.editionNumber > bm.editionNumber)) ? bm : bitmark;
       }
     }
     console.log('doProcessIncomingClaimRequest :', { incomingClaimRequest, assetsBitmarks, bitmark });
     if (bitmark) {
       await BitmarkService.doTransferBitmark(bitmark.id, incomingClaimRequest.from);
-      await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, { accepted: [incomingClaimRequest.id] });
+      await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, { accepted: [{ id: incomingClaimRequest.id, bitmark_id: bitmark.id }] });
       await TransactionProcessor.doReloadTransfers();
       await TransactionProcessor.doReloadClaimRequests();
       if (isReleasedAsset(asset)) {
@@ -465,9 +465,8 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
     } else {
       return { ok: false };
     }
-
   } else {
-    await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, { rejected: [incomingClaimRequest.id] });
+    await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, { rejected: [{ id: incomingClaimRequest.id }] });
     await TransactionProcessor.doReloadClaimRequests();
     return { ok: true };
   }

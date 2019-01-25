@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactNative, {
-  View, Text, Image, SafeAreaView, ActivityIndicator, ScrollView, TouchableWithoutFeedback,
+  View, Text, Image, SafeAreaView, ActivityIndicator, ScrollView, TouchableWithoutFeedback, WebView,
   ViewPropTypes,
   Alert,
   StatusBar,
@@ -149,27 +149,10 @@ class PrivatePropertyDetailComponent extends React.Component {
               <OneTabButtonComponent style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, }} onPress={() => Actions.jump('properties')}>
                 <Text style={{ color: 'black', padding: 20, fontSize: 20 }}>X</Text>
               </OneTabButtonComponent>
-              {/* <OneTabButtonComponent style={{ flex: 1 }} onPress={() => this.setState({ paused: !this.state.paused })}>
-                <Video source={require('assets/my_tam.mp4')}
-                  onBuffer={this.onBuffer}
-                  onError={this.videoError}
-                  repeat={true}
-                  muted={true}
-                  fullscreen={true}
-                  style={{
-                    flex: 1,
-                  }} />
-              </OneTabButtonComponent>
-              <Video source={require('assets/son_tung.mp3')}
-                ref={(ref) => {
-                  this.player = ref
-                }}
-                paused={this.state.paused}
-                onBuffer={this.onBuffer}
-                onError={this.videoError}
-                style={{
-                  display: 'none'
-                }} /> */}
+              <WebView
+                style={{ flex: 1, }}
+                source={{ uri: 'https://s3-ap-northeast-1.amazonaws.com/bitmark-mobile-files/omniscience_p5/index.html' }}
+              />
             </View>
             <View style={cStyles.bottomImageBar}></View>
 
