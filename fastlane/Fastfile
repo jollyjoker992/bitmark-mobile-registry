@@ -87,7 +87,8 @@ platform :ios do
       dsym_path: './Bitmark Registry beta.app.dSYM.zip'
     )
     hockey(
-      api_token: ENV['HOCKEYAPP_KEY']
+      api_token: ENV['HOCKEYAPP_KEY'],
+      release_type: "2"
     )
     reset_git_repo(
       force: true,
