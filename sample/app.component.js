@@ -33,7 +33,7 @@ export class SampleAppComponent extends React.Component {
           justifyContent: 'center',
           borderWidth: 10, borderColor: 'red'
         }}
-        source={{ uri: 'http://localhost:1102/po-change-processing' }} />
+        source={{ uri: 'http://127.0.0.1:8080' }} />
     </View>)
   }
 }
