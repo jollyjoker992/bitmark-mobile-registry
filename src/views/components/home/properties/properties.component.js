@@ -190,53 +190,58 @@ class PrivatePropertiesComponent extends React.Component {
                 <Text style={cStyles.addFirstPropertyButtonText}>{global.i18n.t("PropertiesComponent_addFirstPropertyButtonText")}</Text>
               </TouchableOpacity>
             </View>}
-            {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.props.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => (
-              <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] })}>
+            {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.props.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => {
+              if (!bitmark || !bitmark.id) {
+                return
+              }
+              return (
+                <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] })}>
 
-                <View style={cStyles.bitmarkContent}>
-                  <Text style={[cStyles.bitmarkCreatedAt, bitmark.isViewed ? {} : { color: '#0060F2' }]}>
-                    {bitmark.created_at ? moment(bitmark.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase() : 'Registering...'}
-                  </Text>
-                  <Text style={[cStyles.bitmarkAssetName, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>
-                    {this.props.assets[bitmark.asset_id].name + `${isReleasedAsset(this.props.assets[bitmark.asset_id])
-                      ? ` [${(bitmark.editionNumber === undefined || bitmark.editionNumber < 0) ? '-' : bitmark.editionNumber}/${this.props.assets[bitmark.asset_id].editions[bitmark.issuer].limited}]`
-                      : ''}`}
-                  </Text>
-                  <Text style={[cStyles.bitmarkissuer, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>{CommonProcessor.getDisplayedAccount(bitmark.issuer)}</Text>
-                </View>
-                {bitmark.status === 'pending' && <Image style={cStyles.bitmarkPendingIcon} source={require('assets/imgs/pending-status.png')} />}
+                  <View style={cStyles.bitmarkContent}>
+                    <Text style={[cStyles.bitmarkCreatedAt, bitmark.isViewed ? {} : { color: '#0060F2' }]}>
+                      {bitmark.created_at ? moment(bitmark.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase() : 'Registering...'}
+                    </Text>
+                    <Text style={[cStyles.bitmarkAssetName, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>
+                      {this.props.assets[bitmark.asset_id].name + `${isReleasedAsset(this.props.assets[bitmark.asset_id])
+                        ? ` [${(bitmark.editionNumber === undefined || bitmark.editionNumber < 0) ? '-' : bitmark.editionNumber}/${this.props.assets[bitmark.asset_id].editions[bitmark.issuer].limited}]`
+                        : ''}`}
+                    </Text>
+                    <Text style={[cStyles.bitmarkissuer, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>{CommonProcessor.getDisplayedAccount(bitmark.issuer)}</Text>
+                  </View>
+                  {bitmark.status === 'pending' && <Image style={cStyles.bitmarkPendingIcon} source={require('assets/imgs/pending-status.png')} />}
 
-                <View style={cStyles.thumbnailArea}>
-                  {(() => {
-                    if (this.props.assets[bitmark.asset_id].thumbnailPath) {
-                      return (<Image style={cStyles.thumbnailImage} source={{ uri: this.props.assets[bitmark.asset_id].thumbnailPath }} />);
-                    }
-                    if (isHealthRecord(this.props.assets[bitmark.asset_id])) {
-                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_health_data_icon.png')} />);
-                    }
-                    if (isMedicalRecord(this.props.assets[bitmark.asset_id])) {
-                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_medical_record_icon.png')} />);
-                    }
-                    if (isImageFile(this.props.assets[bitmark.asset_id].filePath)) {
-                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_image_icon.png')} />);
-                    }
-                    if (isVideoFile(this.props.assets[bitmark.asset_id].filePath)) {
-                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_video_icon.png')} />);
-                    }
-                    if (isDocFile(this.props.assets[bitmark.asset_id].filePath)) {
-                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_doc_icon.png')} />);
-                    }
-                    if (isZipFile(this.props.assets[bitmark.asset_id].filePath)) {
-                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_zip_icon.png')} />);
-                    }
-                    return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_unknow_icon.png')} />);
-                  })()}
-                </View>
-                {/* <OneTabButtonComponent style={{ padding: 20, }} onPress={() => this.viewPropertyDetail.bind(this)(bitmark)}>
+                  <View style={cStyles.thumbnailArea}>
+                    {(() => {
+                      if (this.props.assets[bitmark.asset_id].thumbnailPath) {
+                        return (<Image style={cStyles.thumbnailImage} source={{ uri: this.props.assets[bitmark.asset_id].thumbnailPath }} />);
+                      }
+                      if (isHealthRecord(this.props.assets[bitmark.asset_id])) {
+                        return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_health_data_icon.png')} />);
+                      }
+                      if (isMedicalRecord(this.props.assets[bitmark.asset_id])) {
+                        return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_medical_record_icon.png')} />);
+                      }
+                      if (isImageFile(this.props.assets[bitmark.asset_id].filePath)) {
+                        return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_image_icon.png')} />);
+                      }
+                      if (isVideoFile(this.props.assets[bitmark.asset_id].filePath)) {
+                        return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_video_icon.png')} />);
+                      }
+                      if (isDocFile(this.props.assets[bitmark.asset_id].filePath)) {
+                        return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_doc_icon.png')} />);
+                      }
+                      if (isZipFile(this.props.assets[bitmark.asset_id].filePath)) {
+                        return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_zip_icon.png')} />);
+                      }
+                      return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_unknow_icon.png')} />);
+                    })()}
+                  </View>
+                  {/* <OneTabButtonComponent style={{ padding: 20, }} onPress={() => this.viewPropertyDetail.bind(this)(bitmark)}>
                   <Image style={cStyles.propertySettingIcon} source={require('assets/imgs/property_setting_grey.png')} />
                 </OneTabButtonComponent> */}
-              </TouchableOpacity>
-            ))}
+                </TouchableOpacity>
+              )
+            })}
             {(this.props.appLoadingData || (this.props.displayedBitmarks && this.props.displayedBitmarks.length < this.props.bitmarks)) && <View style={cStyles.messageNoBitmarkArea}>
               <ActivityIndicator size="large" style={{ marginTop: 46, }} />
             </View>}

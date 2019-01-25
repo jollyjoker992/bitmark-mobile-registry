@@ -549,7 +549,7 @@ const doRemoveDraftBitmarkOfClaimRequest = async () => {
   let changed = false;
   for (let bitmarkId in (assetsBitmarks.bitmarks || {})) {
     if (bitmarkId.indexOf('claim_request_') === 0) {
-
+      let assetId = assetsBitmarks.bitmarks[bitmarkId].asset_id;
       let claimId = bitmarkId.replace('claim_request_', '');
       if (!outgoingClaimRequests) {
         let claimRequests = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST)) || {};
@@ -558,10 +558,12 @@ const doRemoveDraftBitmarkOfClaimRequest = async () => {
       let claimRequest = outgoingClaimRequests.find(cl => cl.id === claimId);
       if (claimRequest && claimRequest.status !== 'pending') {
         changed = true;
-        let assetId = assetsBitmarks.bitmarks[bitmarkId].asset_id;
-        let existOtherBitmark = Object.values(assetsBitmarks.bitmarks || {}).findIndex(bm => bm.asset_id === assetId) >= 0;
-        delete assetsBitmarks.bitmarks[bitmarkId];
+
+        let existOtherBitmark = Object.values(assetsBitmarks.bitmarks || {}).findIndex(bm => bm && bm.asset_id === assetId) >= 0;
+        assetsBitmarks.bitmarks[bitmarkId] = null;
+        delete assetsBitmarks.bitmarks[bitmarkId]
         if (!existOtherBitmark) {
+          assetsBitmarks.assets[assetId] = null;
           delete assetsBitmarks.assets[assetId];
         }
       }

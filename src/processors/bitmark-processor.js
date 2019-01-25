@@ -95,29 +95,31 @@ const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
 
     let tempMapBitmarksOfAssetOfIssuer = {};
     for (let bitmarkId in assetsBitmarks.bitmarks) {
-      let assetId = assetsBitmarks.bitmarks[bitmarkId].asset_id;
-      let issuer = assetsBitmarks.bitmarks[bitmarkId].issuer;
-      if (isMusicAsset(assetsBitmarks.assets[assetId])) {
-        if (!releasedBitmarksAssets.assets || !releasedBitmarksAssets.assets[assetId]) {
-          assetsBitmarks.assets[assetId].editions = assetsBitmarks.assets[assetId].editions || {};
-          assetsBitmarks.assets[assetId].editions[issuer] = assetsBitmarks.assets[assetId].editions[issuer] || {};
-          // detect thumbnail
-          assetsBitmarks.assets[assetId].thumbnailPath = await LocalFileService.detectMusicThumbnailPath(assetId);
-          let allIssuedBitmarks = await BitmarkModel.getAllBitmarksOfAssetFromIssuer(issuer, assetId);
-          assetsBitmarks.assets[assetId].editions[issuer].totalEditionLeft = allIssuedBitmarks.filter(bitmark => bitmark.owner === issuer).length - 1;
-          assetsBitmarks.assets[assetId].editions[issuer].limited = allIssuedBitmarks.length - 1;
-        }
-        assetsBitmarks.bitmarks[bitmarkId].editionNumber = assetsBitmarks.bitmarks[bitmarkId].edition;
-        if (!assetsBitmarks.bitmarks[bitmarkId].editionNumber) {
-          if (releasedBitmarksAssets.bitmarks && releasedBitmarksAssets.bitmarks[bitmarkId]) {
-            assetsBitmarks.bitmarks[bitmarkId].editionNumber = releasedBitmarksAssets.bitmarks[bitmarkId].editionNumber;
-          } else {
-            if (tempMapBitmarksOfAssetOfIssuer && tempMapBitmarksOfAssetOfIssuer[assetId] && tempMapBitmarksOfAssetOfIssuer[assetId][issuer]) {
-              assetsBitmarks.bitmarks[bitmarkId].editionNumber = tempMapBitmarksOfAssetOfIssuer[assetId][issuer].findIndex(bm => bm.id === bitmarkId);
+      if (assetsBitmarks.bitmarks[bitmarkId] && assetsBitmarks.bitmarks[bitmarkId].id) {
+        let assetId = assetsBitmarks.bitmarks[bitmarkId].asset_id;
+        let issuer = assetsBitmarks.bitmarks[bitmarkId].issuer;
+        if (isMusicAsset(assetsBitmarks.assets[assetId])) {
+          if (!releasedBitmarksAssets.assets || !releasedBitmarksAssets.assets[assetId]) {
+            assetsBitmarks.assets[assetId].editions = assetsBitmarks.assets[assetId].editions || {};
+            assetsBitmarks.assets[assetId].editions[issuer] = assetsBitmarks.assets[assetId].editions[issuer] || {};
+            // detect thumbnail
+            assetsBitmarks.assets[assetId].thumbnailPath = await LocalFileService.detectMusicThumbnailPath(assetId);
+            let allIssuedBitmarks = await BitmarkModel.getAllBitmarksOfAssetFromIssuer(issuer, assetId);
+            assetsBitmarks.assets[assetId].editions[issuer].totalEditionLeft = allIssuedBitmarks.filter(bitmark => bitmark.owner === issuer).length - 1;
+            assetsBitmarks.assets[assetId].editions[issuer].limited = allIssuedBitmarks.length - 1;
+          }
+          assetsBitmarks.bitmarks[bitmarkId].editionNumber = assetsBitmarks.bitmarks[bitmarkId].edition;
+          if (!assetsBitmarks.bitmarks[bitmarkId].editionNumber) {
+            if (releasedBitmarksAssets.bitmarks && releasedBitmarksAssets.bitmarks[bitmarkId]) {
+              assetsBitmarks.bitmarks[bitmarkId].editionNumber = releasedBitmarksAssets.bitmarks[bitmarkId].editionNumber;
             } else {
-              tempMapBitmarksOfAssetOfIssuer[assetId] = tempMapBitmarksOfAssetOfIssuer[assetId] || {};
-              tempMapBitmarksOfAssetOfIssuer[assetId][issuer] = await BitmarkModel.getAllBitmarksOfAssetFromIssuer(issuer, assetId);
-              assetsBitmarks.bitmarks[bitmarkId].editionNumber = tempMapBitmarksOfAssetOfIssuer[assetId][issuer].findIndex(bm => bm.id === bitmarkId);
+              if (tempMapBitmarksOfAssetOfIssuer && tempMapBitmarksOfAssetOfIssuer[assetId] && tempMapBitmarksOfAssetOfIssuer[assetId][issuer]) {
+                assetsBitmarks.bitmarks[bitmarkId].editionNumber = tempMapBitmarksOfAssetOfIssuer[assetId][issuer].findIndex(bm => bm.id === bitmarkId);
+              } else {
+                tempMapBitmarksOfAssetOfIssuer[assetId] = tempMapBitmarksOfAssetOfIssuer[assetId] || {};
+                tempMapBitmarksOfAssetOfIssuer[assetId][issuer] = await BitmarkModel.getAllBitmarksOfAssetFromIssuer(issuer, assetId);
+                assetsBitmarks.bitmarks[bitmarkId].editionNumber = tempMapBitmarksOfAssetOfIssuer[assetId][issuer].findIndex(bm => bm.id === bitmarkId);
+              }
             }
           }
         }
