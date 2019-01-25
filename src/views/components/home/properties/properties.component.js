@@ -14,7 +14,7 @@ import { convertWidth, isReleasedAsset, isHealthRecord, isMedicalRecord, isImage
 
 import { PropertiesStore, PropertiesActions } from 'src/views/stores';
 import { CommonProcessor, EventEmitterService, CacheData, BitmarkProcessor } from 'src/processors';
-import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
+import moment from 'moment';
 
 const SubTabs = {
   local: 'Yours',
@@ -74,6 +74,7 @@ class PrivatePropertiesComponent extends React.Component {
 
     let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     loadingDataWhenScroll = false;
+    console.log('PrivatePropertiesComponent props :', this.props);
     return (
       <View style={cStyles.body}>
         <View style={[cStyles.header, { zIndex: 1 }]}>
@@ -111,28 +112,30 @@ class PrivatePropertiesComponent extends React.Component {
             </View>
           </TouchableOpacity>}
 
-          {this.props.subTab === SubTabs.release && <TouchableOpacity style={[cStyles.subTabButton, {
-            shadowOffset: { width: 2 },
-            shadowOpacity: 0.15,
-          }]}>
-            <View style={cStyles.subTabButtonArea}>
-              <View style={[cStyles.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
-              <View style={cStyles.subTabButtonTextArea}>
-                <Text style={cStyles.subTabButtonText}>RELEASE</Text>
+          {CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] && CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account &&
+            this.props.subTab === SubTabs.release && <TouchableOpacity style={[cStyles.subTabButton, {
+              shadowOffset: { width: 2 },
+              shadowOpacity: 0.15,
+            }]}>
+              <View style={cStyles.subTabButtonArea}>
+                <View style={[cStyles.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
+                <View style={cStyles.subTabButtonTextArea}>
+                  <Text style={cStyles.subTabButtonText}>RELEASE</Text>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>}
-          {this.props.subTab !== SubTabs.release && <TouchableOpacity style={[cStyles.subTabButton, {
-            backgroundColor: '#F5F5F5',
-            zIndex: 0,
-          }]} onPress={() => this.switchSubTab(SubTabs.release)}>
-            <View style={cStyles.subTabButtonArea}>
-              <View style={[cStyles.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
-              <View style={cStyles.subTabButtonTextArea}>
-                <Text style={[cStyles.subTabButtonText, { color: '#C1C1C1' }]}>RELEASE</Text>
+            </TouchableOpacity>}
+          {CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] && CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account &&
+            this.props.subTab !== SubTabs.release && <TouchableOpacity style={[cStyles.subTabButton, {
+              backgroundColor: '#F5F5F5',
+              zIndex: 0,
+            }]} onPress={() => this.switchSubTab(SubTabs.release)}>
+              <View style={cStyles.subTabButtonArea}>
+                <View style={[cStyles.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
+                <View style={cStyles.subTabButtonTextArea}>
+                  <Text style={[cStyles.subTabButtonText, { color: '#C1C1C1' }]}>RELEASE</Text>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>}
+            </TouchableOpacity>}
 
           {this.props.subTab === SubTabs.global && <TouchableOpacity style={[cStyles.subTabButton, {
             shadowOffset: { width: -2 },
@@ -188,7 +191,21 @@ class PrivatePropertiesComponent extends React.Component {
               </TouchableOpacity>
             </View>}
             {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.props.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => (
-              <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => this.viewPropertyDetail.bind(this)(bitmark)}>
+              <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] })}>
+
+                <View style={cStyles.bitmarkContent}>
+                  <Text style={[cStyles.bitmarkCreatedAt, bitmark.isViewed ? {} : { color: '#0060F2' }]}>
+                    {bitmark.created_at ? moment(bitmark.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase() : 'Registering...'}
+                  </Text>
+                  <Text style={[cStyles.bitmarkAssetName, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>
+                    {this.props.assets[bitmark.asset_id].name + `${isReleasedAsset(this.props.assets[bitmark.asset_id])
+                      ? ` [${(bitmark.editionNumber === undefined || bitmark.editionNumber < 0) ? '-' : bitmark.editionNumber}/${this.props.assets[bitmark.asset_id].editions[bitmark.issuer].limited}]`
+                      : ''}`}
+                  </Text>
+                  <Text style={[cStyles.bitmarkissuer, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>{CommonProcessor.getDisplayedAccount(bitmark.issuer)}</Text>
+                </View>
+                {bitmark.status === 'pending' && <Image style={cStyles.bitmarkPendingIcon} source={require('assets/imgs/pending-status.png')} />}
+
                 <View style={cStyles.thumbnailArea}>
                   {(() => {
                     if (this.props.assets[bitmark.asset_id].thumbnailPath) {
@@ -215,16 +232,9 @@ class PrivatePropertiesComponent extends React.Component {
                     return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_unknow_icon.png')} />);
                   })()}
                 </View>
-                <View style={cStyles.bitmarkContent}>
-                  <Text style={[cStyles.bitmarkAssetName, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>
-                    {this.props.assets[bitmark.asset_id].name + `${isReleasedAsset(this.props.assets[bitmark.asset_id]) ? `[${bitmark.releaseIndex || ''}/${this.props.assets[bitmark.asset_id].editions[bitmark.issuer].limited}]` : ''}`}
-                  </Text>
-                  <Text style={[cStyles.bitmarkissuer, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>{CommonProcessor.getDisplayedAccount(bitmark.issuer)}</Text>
-                </View>
-                {bitmark.status === 'pending' && <Image style={cStyles.bitmarkPendingIcon} source={require('assets/imgs/pending-status.png')} />}
-                <OneTabButtonComponent style={{ padding: 20, }} onPress={() => Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] })}>
+                {/* <OneTabButtonComponent style={{ padding: 20, }} onPress={() => this.viewPropertyDetail.bind(this)(bitmark)}>
                   <Image style={cStyles.propertySettingIcon} source={require('assets/imgs/property_setting_grey.png')} />
-                </OneTabButtonComponent>
+                </OneTabButtonComponent> */}
               </TouchableOpacity>
             ))}
             {(this.props.appLoadingData || (this.props.displayedBitmarks && this.props.displayedBitmarks.length < this.props.bitmarks)) && <View style={cStyles.messageNoBitmarkArea}>
@@ -409,6 +419,7 @@ const cStyles = StyleSheet.create({
   },
   thumbnailArea: {
     width: 40, height: 40,
+    marginRight: convertWidth(19),
   },
   thumbnailImage: {
     width: 40, height: 40, resizeMode: 'contain',
@@ -416,22 +427,26 @@ const cStyles = StyleSheet.create({
   bitmarkContent: {
     flex: 1, width: '100%',
     flexDirection: 'column',
-    paddingLeft: convertWidth(26),
+  },
+  bitmarkCreatedAt: {
+    fontFamily: 'Andale Mono',
+    fontSize: 13,
+    width: '100%',
   },
   bitmarkAssetName: {
+    fontFamily: 'AvenirNextW1G-Bold',
+    fontSize: 14,
     width: '100%',
-    fontFamily: 'AvenirNextW1G-Demi', fontSize: 13,
+    marginTop: 10,
   },
   bitmarkissuer: {
-    marginTop: 8,
+    fontFamily: 'Andale Mono',
+    fontSize: 14,
+    marginTop: 10,
     width: '100%',
-    fontFamily: 'Andale Mono', fontSize: 13,
   },
   bitmarkPendingIcon: {
     width: 13, height: 17, resizeMode: 'contain',
-  },
-  propertySettingIcon: {
-    width: 18, height: 4.5, resizeMode: 'contain',
   },
   releasedAssetName: {
     width: '100%',
@@ -463,8 +478,11 @@ export class PropertiesComponent extends Component {
   constructor(props) {
     super(props);
   }
-  render() {
+
+  componentDidMount() {
     PropertiesStore.dispatch(PropertiesActions.update({ subTab: this.props.subTab || SubTabs.local }));
+  }
+  render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
         <Provider store={PropertiesStore}>

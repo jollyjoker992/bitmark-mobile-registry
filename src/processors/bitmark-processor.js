@@ -58,15 +58,20 @@ const _doCheckNewReleasedAssetsBitmarks = async (releasedBitmarksAssets) => {
         releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].totalEditionLeft = bitmarksOfAsset.filter(bitmark => bitmark.owner === bitmarkAccountNumber).length - 1;
         releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].limited = bitmarksOfAsset.length - 1;
 
-        // // get limited edition via profile server
-        // if (!releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].limited) {
-        //   let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(bitmarkAccountNumber, assetId);
-        //   if (resultGetLimitedEdition) {
-        //     releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].limited = resultGetLimitedEdition.limited;
-        //   }
-        // }
-
-        //TODO index edition number
+        bitmarksOfAsset.sort((a, b) => {
+          if (!a.offset) { return -1; }
+          if (!b.offset) { return 1; }
+          if (a.offset < b.offset) {
+            return -1
+          } else if (a.offset > b.offset) {
+            return 1
+          } else {
+            return a.block_offset - b.block_offset;
+          }
+        });
+        for (let index = 0; index < bitmarksOfAsset.length; index++) {
+          releasedBitmarksAssets.bitmarks[bitmarksOfAsset[index].id].editionNumber = index;
+        }
       }
     }
 
@@ -88,29 +93,34 @@ const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
       await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(assetsBitmarks.assets[assetId]));
     }
 
+    let tempMapBitmarksOfAssetOfIssuer = {};
     for (let bitmarkId in assetsBitmarks.bitmarks) {
       let assetId = assetsBitmarks.bitmarks[bitmarkId].asset_id;
       let issuer = assetsBitmarks.bitmarks[bitmarkId].issuer;
-      if (isMusicAsset(assetsBitmarks.assets[assetId]) && !releasedBitmarksAssets.assets[assetId]) {
-        assetsBitmarks.assets[assetId].editions = assetsBitmarks.assets[assetId].editions || {};
-        assetsBitmarks.assets[assetId].editions[issuer] = assetsBitmarks.assets[assetId].editions[issuer] || {};
-
-        // detect thumbnail
-        assetsBitmarks.assets[assetId].thumbnailPath = await LocalFileService.detectMusicThumbnailPath(assetId);
-        console.log('thumbnailPath :', assetsBitmarks.assets[assetId].thumbnailPath);
-
-        let allIssuedBitmarks = await BitmarkModel.getAllBitmarksOfAssetFromIssuer(issuer, assetId);
-        assetsBitmarks.assets[assetId].editions[issuer].totalEditionLeft = allIssuedBitmarks.filter(bitmark => bitmark.owner === issuer).length - 1;
-        assetsBitmarks.assets[assetId].editions[issuer].limited = allIssuedBitmarks.length - 1;
-
-        //TODO index edition number
-        // // get limited edition via profile server
-        // if (!assetsBitmarks.assets[assetId].editions[issuer].limited) {
-        //   let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(issuer, assetId);
-        //   if (resultGetLimitedEdition) {
-        //     assetsBitmarks.assets[assetId].editions[issuer].limited = resultGetLimitedEdition.limited;
-        //   }
-        // }
+      if (isMusicAsset(assetsBitmarks.assets[assetId])) {
+        if (!releasedBitmarksAssets.assets || !releasedBitmarksAssets.assets[assetId]) {
+          assetsBitmarks.assets[assetId].editions = assetsBitmarks.assets[assetId].editions || {};
+          assetsBitmarks.assets[assetId].editions[issuer] = assetsBitmarks.assets[assetId].editions[issuer] || {};
+          // detect thumbnail
+          assetsBitmarks.assets[assetId].thumbnailPath = await LocalFileService.detectMusicThumbnailPath(assetId);
+          let allIssuedBitmarks = await BitmarkModel.getAllBitmarksOfAssetFromIssuer(issuer, assetId);
+          assetsBitmarks.assets[assetId].editions[issuer].totalEditionLeft = allIssuedBitmarks.filter(bitmark => bitmark.owner === issuer).length - 1;
+          assetsBitmarks.assets[assetId].editions[issuer].limited = allIssuedBitmarks.length - 1;
+        }
+        assetsBitmarks.bitmarks[bitmarkId].editionNumber = assetsBitmarks.bitmarks[bitmarkId].edition;
+        if (!assetsBitmarks.bitmarks[bitmarkId].editionNumber) {
+          if (releasedBitmarksAssets.bitmarks && releasedBitmarksAssets.bitmarks[bitmarkId]) {
+            assetsBitmarks.bitmarks[bitmarkId].editionNumber = releasedBitmarksAssets.bitmarks[bitmarkId].editionNumber;
+          } else {
+            if (tempMapBitmarksOfAssetOfIssuer && tempMapBitmarksOfAssetOfIssuer[assetId] && tempMapBitmarksOfAssetOfIssuer[assetId][issuer]) {
+              assetsBitmarks.bitmarks[bitmarkId].editionNumber = tempMapBitmarksOfAssetOfIssuer[assetId][issuer].findIndex(bm => bm.id === bitmarkId);
+            } else {
+              tempMapBitmarksOfAssetOfIssuer[assetId] = tempMapBitmarksOfAssetOfIssuer[assetId] || {};
+              tempMapBitmarksOfAssetOfIssuer[assetId][issuer] = await BitmarkModel.getAllBitmarksOfAssetFromIssuer(issuer, assetId);
+              assetsBitmarks.bitmarks[bitmarkId].editionNumber = tempMapBitmarksOfAssetOfIssuer[assetId][issuer].findIndex(bm => bm.id === bitmarkId);
+            }
+          }
+        }
       }
     }
 
@@ -119,6 +129,7 @@ const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
       bitmarks: Object.values(assetsBitmarks.bitmarks || {}),
       assets: assetsBitmarks.assets || {},
     }));
+    console.log('PropertiesStore update bitmarks ==============', assetsBitmarks);
 
     let propertyActionSheetStoreState = merge({}, PropertyActionSheetStore.getState().data);
     if (propertyActionSheetStoreState.bitmark && propertyActionSheetStoreState.bitmark.id && propertyActionSheetStoreState.bitmark.asset_id) {
@@ -165,8 +176,11 @@ const runGetReleasedAssetsBitmarksInBackground = () => {
       return;
     }
     let doGetAllBitmarks = async () => {
+      console.log(' doGetAllBitmarks 1');
       let { releasedBitmarksAssets, lastOffset } = await _doGetAllAssetsBitmarks(true);
+      console.log(' doGetAllBitmarks 2');
       releasedBitmarksAssets = await BitmarkService.doGetNewReleasedAssetsBitmarks(CacheData.userInformation.bitmarkAccountNumber, releasedBitmarksAssets, lastOffset);
+      console.log(' doGetAllBitmarks 3');
       await _doCheckNewReleasedAssetsBitmarks(releasedBitmarksAssets);
     };
     doGetAllBitmarks().then(() => {
@@ -183,9 +197,7 @@ const runGetReleasedAssetsBitmarksInBackground = () => {
 
 const runGetUserBitmarks = async () => {
   await runGetReleasedAssetsBitmarksInBackground();
-  console.log('runGetReleasedAssetsBitmarksInBackground :', (Date.now() - global.start) / 1000);
   await runGetAssetsBitmarksInBackground();
-  console.log('runGetAssetsBitmarksInBackground :', (Date.now() - global.start) / 1000);
 };
 
 const doReloadUserAssetsBitmarks = async () => {
@@ -254,7 +266,7 @@ const doGetLocalReleasedAssetsBitmarks = async () => {
 };
 
 const doIssueFile = async (filePath, assetName, metadataList, quantity) => {
-  let result = await BitmarkService.doIssueFile(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, quantity);
+  let results = await BitmarkService.doIssueFile(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, quantity);
 
   let appInfo = await CommonProcessor.doGetAppInformation();
   appInfo = appInfo || {};
@@ -268,8 +280,34 @@ const doIssueFile = async (filePath, assetName, metadataList, quantity) => {
     await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
   }
 
-  await doReloadUserAssetsBitmarks();
-  return result;
+  let assetsBitmarks = await doGetLocalAssetsBitmarks();
+  for (let item of results) {
+    assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
+    assetsBitmarks.bitmarks[item.id] = {
+      head_id: item.id,
+      asset_id: item.assetId,
+      id: item.id,
+      issued_at: moment().toDate().toISOString(),
+      head: `head`,
+      status: 'pending',
+      owner: CacheData.userInformation.bitmarkAccountNumber,
+      issuer: CacheData.userInformation.bitmarkAccountNumber,
+    };
+    if (!assetsBitmarks.assets || !assetsBitmarks.assets[item.assetId]) {
+      assetsBitmarks.assets = assetsBitmarks.assets || {};
+      assetsBitmarks[item.assetId] = {
+        id: item.assetId,
+        name: assetName,
+        metadata: item.metadata,
+        registrant: CacheData.userInformation.bitmarkAccountNumber,
+        status: 'pending',
+        created_at: moment().toDate().toISOString(),
+        filePath: item.filePath,
+      }
+    }
+  }
+  await _doCheckNewAssetsBitmarks(assetsBitmarks);
+  return results;
 };
 
 const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, limitedEdition) => {
@@ -301,16 +339,13 @@ const doGetAssetBitmark = async (bitmarkId, assetId) => {
 
 const doUpdateViewStatus = async (bitmarkId) => {
   if (bitmarkId) {
-    console.log('run 1');
     let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
     assetsBitmarks.bitmarks[bitmarkId].isViewed = true;
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS, assetsBitmarks);
-    console.log('run 2');
 
     let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
     bottomTabStoreState.totalNewBitmarks = Object.values(assetsBitmarks.bitmarks || {}).filter(bitmark => !bitmark.isViewed).length;
     BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
-    console.log('run 3');
     console.log({
       bitmarks: Object.values(assetsBitmarks.bitmarks || {}),
       assets: assetsBitmarks.assets,
@@ -324,6 +359,7 @@ const doUpdateViewStatus = async (bitmarkId) => {
 };
 
 let BitmarkProcessor = {
+  doCheckNewAssetsBitmarks: _doCheckNewAssetsBitmarks,
   runGetUserBitmarks,
   doReloadUserAssetsBitmarks,
   doReloadUserReleasedAssetsBitmarks,

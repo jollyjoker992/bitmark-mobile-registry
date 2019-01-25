@@ -17,8 +17,8 @@ export default StyleSheet.create({
     backgroundColor: 'white',
   },
   welcomeLogo: {
-    width: 285,
-    height: 48,
+    width: 316,
+    height: 123,
     resizeMode: 'contain',
   },
   welcomeButtonArea: {

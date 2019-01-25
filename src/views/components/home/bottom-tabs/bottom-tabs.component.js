@@ -46,7 +46,6 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           if (label === 'transactions') {
             return (<TouchableOpacity key={index} style={componentStyles.bottomTabButton} onPress={() => {
               this.props.onTabPress({ route });
-              //TODO
               Actions.reset(label);
             }}>
               {this.props.totalTasks > 0 && <View style={componentStyles.transactionNumber}>

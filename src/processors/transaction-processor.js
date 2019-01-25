@@ -3,10 +3,8 @@ import { merge } from 'lodash';
 
 import { TransactionService, NotificationService, BitmarkService } from './services';
 import { CacheData } from './caches';
-import { BitmarkModel, IftttModel, CommonModel, AccountModel, BitmarkSDK } from './models';
+import { BitmarkModel, IftttModel, CommonModel, } from './models';
 import { TransactionsStore, TransactionsActions, BottomTabStore, BottomTabActions, AccountStore, AccountActions } from 'src/views/stores';
-import { FileUtil } from 'src/utils';
-
 
 const TransactionHistoryTypes = {
   issuance: {
@@ -340,20 +338,13 @@ const runGetTransactionsInBackground = async () => {
       ]).then(resolve);
     });
   };
-  console.log('runGetTransferOfferInBackground  runGetIFTTTInformationInBackground:', (Date.now() - global.start) / 1000);
   let parallelResults = await runParallel();
   await _doCheckTransferOffers(parallelResults[0], true);
-  console.log('_doCheckTransferOffers:', (Date.now() - global.start) / 1000);
   await _doCheckNewIftttInformation(parallelResults[1], true);
-  console.log('_doCheckNewIftttInformation:', (Date.now() - global.start) / 1000);
-
 
   await runGetTransfersInBackground();
-  console.log('runGetTransfersInBackground:', (Date.now() - global.start) / 1000);
   let claimRequests = await runGetClaimRequestInBackground();
-  console.log('runGetClaimRequestInBackground:', (Date.now() - global.start) / 1000);
   await _doCheckClaimRequests(claimRequests);
-  console.log('_doCheckClaimRequests:', (Date.now() - global.start) / 1000);
 };
 
 
@@ -382,32 +373,9 @@ const doReloadTransfers = async () => {
   await _doCheckNewTransfers(result);
 };
 
-const doSendIncomingClaimRequest = async (asset) => {
-  let result = await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
-  await doReloadClaimRequests();
-  return result;
-};
-
 const doRevokeIftttToken = async () => {
   let signatureData = await CommonModel.doCreateSignatureData();
   let iftttInformation = await IftttModel.doRevokeIftttToken(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
-  await _doCheckNewIftttInformation(iftttInformation);
-  return iftttInformation;
-};
-
-const doIssueIftttData = async (iftttBitmarkFile) => {
-  let folderPath = FileUtil.CacheDirectory + '/Bitmark-IFTTT';
-  await FileUtil.mkdir(folderPath);
-  let filename = iftttBitmarkFile.assetInfo.filePath.substring(iftttBitmarkFile.assetInfo.filePath.lastIndexOf("/") + 1, iftttBitmarkFile.assetInfo.filePath.length);
-  let filePath = folderPath + '/' + filename;
-  let signatureData = await CommonModel.doCreateSignatureData();
-  let downloadResult = await IftttModel.downloadBitmarkFile(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id, filePath);
-  if (downloadResult.statusCode >= 400) {
-    throw new Error('Download file error!');
-  }
-  await BitmarkService.doIssueFile(CacheData.userInformation.bitmarkAccountNumber, filePath, iftttBitmarkFile.assetInfo.propertyName, iftttBitmarkFile.assetInfo.metadata, 1);
-
-  let iftttInformation = await IftttModel.doRemoveBitmarkFile(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id);
   await _doCheckNewIftttInformation(iftttInformation);
   return iftttInformation;
 };
@@ -485,6 +453,7 @@ let TransactionProcessor = {
 
   runGetTransactionsInBackground,
 
+  doCheckNewIftttInformation: _doCheckNewIftttInformation,
   doReloadTransferOffers,
   doGetAllTransfersOffers,
 
@@ -492,13 +461,11 @@ let TransactionProcessor = {
   doGetProvenance,
 
   doReloadClaimRequests,
-  doSendIncomingClaimRequest,
   doGetAssetToClaim,
 
   doReloadIftttInformation,
   doGetIftttInformation,
   doRevokeIftttToken,
-  doIssueIftttData,
 
   doAddMoreActionRequired,
   doAddMoreCompleted,

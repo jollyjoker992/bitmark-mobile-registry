@@ -66,7 +66,6 @@ export class MainCoverComponent extends Component {
   }
 
   render() {
-    console.log('MainCoverComponent :', this.state);
     return (
       <Animated.View style={[cStyles.body, {
         top: this.state.topCoverArea, height: this.state.heightCoverArea, opacity: this.state.opacityCoverArea,

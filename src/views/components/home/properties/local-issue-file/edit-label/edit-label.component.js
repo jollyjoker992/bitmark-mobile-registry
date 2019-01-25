@@ -19,7 +19,8 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
 
     let suggestions = [];
     let label = this.props.label || ''
-    constant.asset.metadata.MetadataLabelSamples.forEach((text, key) => {
+    constant.asset.MetadataLabelSamples.forEach((text, key) => {
+      console.log('text :', text);
       if (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
         suggestions.push({ key, text: global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }) });
       }
@@ -29,7 +30,7 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
 
   onChangeText(label) {
     let suggestions = [];
-    constant.asset.metadata.MetadataLabelSamples.forEach((text, key) => {
+    constant.asset.MetadataLabelSamples.forEach((text, key) => {
       if (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
         suggestions.push({ key, text: global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }) });
       }
@@ -76,6 +77,7 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
             <View style={localAddPropertyStyle.inputLabelBar} />
             <View style={localAddPropertyStyle.suggestionsList}>
               <FlatList
+                keyExtractor={(item) => item.key}
                 data={this.state.suggestions}
                 renderItem={({ item }) => {
                   return (<TouchableOpacity style={localAddPropertyStyle.suggestionsButton} onPress={() => this.onChooseLabel(item.text)}>

@@ -23,7 +23,12 @@ const doGetNewAssetsBitmarks = async (bitmarkAccountNumber, bitmarkAssets, lastO
       bitmarkAssets.assets[asset.id] = merge({}, bitmarkAssets.assets[asset.id] || {}, asset);
     }
     for (let bitmark of data.bitmarks) {
-      bitmarkAssets.bitmarks[bitmark.id] = bitmark;
+      if (bitmarkAssets.assets[bitmark.asset_id]) {
+        if (bitmarkAssets.bitmarks[bitmark.id]) {
+          bitmark.editionNumber = bitmarkAssets.bitmarks[bitmark.id].editionNumber;
+        }
+        bitmarkAssets.bitmarks[bitmark.id] = bitmark;
+      }
       lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
     }
     data = await BitmarkModel.doGet100Bitmarks(bitmarkAccountNumber, lastOffset);
@@ -122,6 +127,7 @@ const doIssueFile = async (bitmarkAccountNumber, filePath, assetName, metadataLi
     results.push({
       id,
       assetId: issueResult.assetId,
+      metadata,
       filePath: `${downloadedFolder}/${listFile[0]}`
     });
   });
@@ -143,6 +149,8 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
 
   let signatures = await BitmarkSDK.signMessages([issueResult.assetId + '|' + limitedEdition]);
   await BitmarkModel.doUploadMusicThumbnail(bitmarkAccountNumber, issueResult.assetId, thumbnailPath, limitedEdition, signatures[0]);
+  await BitmarkModel.doUploadMusicAsset(CacheData.jwt, issueResult.assetId, filePath);
+
   let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber)}/${issueResult.assetId}`;
   let downloadedFolder = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(assetFolderPath);
@@ -158,6 +166,7 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
     results.push({
       id,
       assetId: issueResult.assetId,
+      metadata,
       filePath: `${downloadedFolder}/${listFile[0]}`
     });
   });

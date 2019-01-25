@@ -25,8 +25,9 @@ export class MusicMetadataEditComponent extends React.Component {
 
     let suggestions = [];
     let label = this.props.label || ''
-    constant.asset.metadata.MetadataLabelSamples.forEach((text, key) => {
-      if (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
+    constant.asset.MetadataLabelSamples.forEach((text, key) => {
+      if (text.toLowerCase() !== constant.asset.metadata.labels.type && text.toLowerCase() !== constant.asset.metadata.labels.description &&
+        (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0)) {
         suggestions.push({ key, text: global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }) });
       }
     });
@@ -35,8 +36,9 @@ export class MusicMetadataEditComponent extends React.Component {
 
   onChangeText(label) {
     let suggestions = [];
-    constant.asset.metadata.MetadataLabelSamples.forEach((text, key) => {
-      if (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
+    constant.asset.MetadataLabelSamples.forEach((text, key) => {
+      if (text.toLowerCase() !== constant.asset.metadata.labels.type && text.toLowerCase() !== constant.asset.metadata.labels.description &&
+        (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0)) {
         suggestions.push({ key, text: global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }) });
       }
     });
@@ -82,7 +84,7 @@ export class MusicMetadataEditComponent extends React.Component {
             <View style={cStyles.inputLabelBar} />
             <View style={cStyles.suggestionsList}>
               <FlatList
-                keyExtractor={(item, index) => index}
+                keyExtractor={(item) => item.key}
                 data={this.state.suggestions}
                 renderItem={({ item }) => {
                   return (<TouchableOpacity style={cStyles.suggestionsButton} onPress={() => this.onChooseLabel(item.text)}>

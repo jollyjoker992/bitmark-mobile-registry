@@ -10,7 +10,7 @@ import {
 } from './services';
 import {
   CommonModel, AccountModel, UserModel, BitmarkSDK,
-  BitmarkModel, NotificationModel, iCloudSyncAdapter
+  BitmarkModel, NotificationModel, iCloudSyncAdapter, IftttModel
 } from './models';
 
 import {
@@ -67,6 +67,7 @@ const runOnBackground = async () => {
   if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
     await BitmarkProcessor.runGetUserBitmarks();
     await TransactionProcessor.runGetTransactionsInBackground();
+    await doRemoveDraftBitmarkOfClaimRequest();
   }
   console.log('runOnBackground done ====================================');
 };
@@ -197,7 +198,6 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 };
 
 const doOpenApp = async (justCreatedBitmarkAccount) => {
-  global.start = Date.now();
   CacheData.userInformation = await UserModel.doTryGetCurrentUser();
   console.log('CacheData.userInformation :', CacheData.userInformation, FileUtil.DocumentDirectory);
   await LocalFileService.setShareLocalStoragePath();
@@ -217,7 +217,6 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     });
   }
 
-  console.log('doOpenApp 1:', (Date.now() - global.start) / 1000);
 
   if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
     let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
@@ -339,7 +338,6 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     // ============================
   }
 
-  console.log('doOpenApp 2:', (Date.now() - global.start) / 1000);
   setAppLoadingStatus();
   return CacheData.userInformation;
 };
@@ -447,7 +445,13 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
       }
     }
     let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
-    let bitmark = Object.values(assetsBitmarks.bitmarks || {}).find(bitmark => bitmark.asset_id === asset.id);
+    let bitmark;
+    for (let bm of Object.values(assetsBitmarks.bitmarks || {})) {
+      if (bm.asset_id === asset.id && bm.editionNumber > 0) {
+        bitmark = (!bitmark || bitmark.editionNumber > bm.editionNumber) ? bm : bitmark;
+      }
+    }
+    console.log('doProcessIncomingClaimRequest :', { incomingClaimRequest, assetsBitmarks, bitmark });
     if (bitmark) {
       await BitmarkService.doTransferBitmark(bitmark.id, incomingClaimRequest.from);
       await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, { accepted: [incomingClaimRequest.id] });
@@ -466,6 +470,114 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
     await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, { rejected: [incomingClaimRequest.id] });
     await TransactionProcessor.doReloadClaimRequests();
     return { ok: true };
+  }
+};
+
+const doIssueIftttData = async (iftttBitmarkFile) => {
+  let folderPath = FileUtil.CacheDirectory + '/Bitmark-IFTTT';
+  await FileUtil.mkdir(folderPath);
+  let filename = iftttBitmarkFile.assetInfo.filePath.substring(iftttBitmarkFile.assetInfo.filePath.lastIndexOf("/") + 1, iftttBitmarkFile.assetInfo.filePath.length);
+  let filePath = folderPath + '/' + filename;
+  let signatureData = await CommonModel.doCreateSignatureData();
+  let downloadResult = await IftttModel.downloadBitmarkFile(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id, filePath);
+  if (downloadResult.statusCode >= 400) {
+    throw new Error('Download file error!');
+  }
+  let results = await BitmarkService.doIssueFile(CacheData.userInformation.bitmarkAccountNumber, filePath, iftttBitmarkFile.assetInfo.propertyName, iftttBitmarkFile.assetInfo.metadata, 1);
+  let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
+  for (let item of results) {
+    assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
+    assetsBitmarks.bitmarks[item.id] = {
+      head_id: item.id,
+      asset_id: item.assetId,
+      id: item.id,
+      issued_at: moment().toDate().toISOString(),
+      head: `head`,
+      status: 'pending',
+      owner: CacheData.userInformation.bitmarkAccountNumber,
+      issuer: CacheData.userInformation.bitmarkAccountNumber,
+    };
+    if (!assetsBitmarks.assets || !assetsBitmarks.assets[item.assetId]) {
+      assetsBitmarks.assets = assetsBitmarks.assets || {};
+      assetsBitmarks[item.assetId] = {
+        id: item.assetId,
+        name: iftttBitmarkFile.assetInfo.propertyName,
+        metadata: item.metadata,
+        registrant: CacheData.userInformation.bitmarkAccountNumber,
+        status: 'pending',
+        created_at: moment().toDate().toISOString(),
+        filePath: item.filePath,
+      }
+    }
+  }
+  await BitmarkProcessor.doCheckNewAssetsBitmarks(assetsBitmarks);
+
+  let iftttInformation = await IftttModel.doRemoveBitmarkFile(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id);
+  await TransactionProcessor.doCheckNewIftttInformation(iftttInformation);
+  return iftttInformation;
+};
+
+const doSendIncomingClaimRequest = async (asset, issuer) => {
+  let result = await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
+  let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
+
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}`;
+  await FileUtil.mkdir(assetFolderPath);
+  await FileUtil.mkdir(`${assetFolderPath}/downloaded`);
+  let tempFilePath = `${assetFolderPath}/downloaded/temp.tmp`;
+  let downloadResult = await BitmarkModel.doDownloadAssetForClaimRequest(CacheData.jwt, result.claim_id, tempFilePath);
+  await FileUtil.moveFileSafe(tempFilePath, `${assetFolderPath}/downloaded/${downloadResult.filename}`);
+
+  assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
+  let tempBitmarkId = `claim_request_${result.claim_id}`
+  let bitmark = {
+    head_id: tempBitmarkId,
+    asset_id: asset.id,
+    id: tempBitmarkId,
+    issued_at: moment().toDate().toISOString(),
+    head: `head`,
+    status: 'pending',
+    owner: CacheData.userInformation.bitmarkAccountNumber,
+    issuer: issuer || asset.registrant,
+    isDraft: true,
+  };
+  assetsBitmarks.bitmarks[tempBitmarkId] = bitmark;
+  if (!assetsBitmarks.assets || !assetsBitmarks.assets[asset.id]) {
+    assetsBitmarks.assets = assetsBitmarks.assets || {};
+    assetsBitmarks.assets[asset.id] = asset;
+  }
+  await BitmarkProcessor.doCheckNewAssetsBitmarks(assetsBitmarks);
+  await TransactionProcessor.doReloadClaimRequests();
+  return { bitmark, asset };
+};
+
+const doRemoveDraftBitmarkOfClaimRequest = async () => {
+  let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
+  let outgoingClaimRequests;
+  let changed = false;
+  for (let bitmarkId in (assetsBitmarks.bitmarks || {})) {
+    if (bitmarkId.indexOf('claim_request_') === 0) {
+
+      let claimId = bitmarkId.replace('claim_request_', '');
+      if (!outgoingClaimRequests) {
+        let claimRequests = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST)) || {};
+        outgoingClaimRequests = claimRequests.outgoing_claim_requests || [];
+      }
+      let claimRequest = outgoingClaimRequests.find(cl => cl.id === claimId);
+      if (claimRequest && claimRequest.status !== 'pending') {
+        changed = true;
+        let assetId = assetsBitmarks.bitmarks[bitmarkId].asset_id;
+        let existOtherBitmark = Object.values(assetsBitmarks.bitmarks || {}).findIndex(bm => bm.asset_id === assetId) >= 0;
+        delete assetsBitmarks.bitmarks[bitmarkId];
+        if (!existOtherBitmark) {
+          delete assetsBitmarks.assets[assetId];
+        }
+      }
+
+    }
+  }
+  if (changed) {
+    await BitmarkProcessor.doCheckNewAssetsBitmarks(assetsBitmarks);
   }
 };
 
@@ -507,6 +619,10 @@ const DataProcessor = {
   doLogout,
   doStartBackgroundProcess,
   doReloadUserData,
+
+  doIssueIftttData,
+  doSendIncomingClaimRequest,
+  doRemoveDraftBitmarkOfClaimRequest,
 
   doDeactiveApplication,
   doAcceptTransferBitmark,

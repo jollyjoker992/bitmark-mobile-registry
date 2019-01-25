@@ -27,7 +27,6 @@ if (!__DEV__) {
   });
 }
 
-
 // i18n.locale = 'zh';
 i18n.locale = DeviceInfo.getDeviceLocale();
 i18n.fallbacks = true;

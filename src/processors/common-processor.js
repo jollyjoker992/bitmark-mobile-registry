@@ -27,8 +27,10 @@ let checkDisplayModal = () => {
         Actions.whatNew();
         CacheData.keyIndexModalDisplaying = keyIndex;
         break;
-      } else if (keyIndex === ModalDisplayKeyIndex.claim_asset && CacheData.mountedRouter) {
-        Actions.musicSentIncomingClaimRequest(mapModalDisplayData[keyIndex]);
+      } else if (keyIndex === ModalDisplayKeyIndex.claim_asset && CacheData.mountedRouter &&
+        CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
+        let data = mapModalDisplayData[keyIndex];
+        Actions.propertyDetail({ asset: data.asset, claimToAccount: data.issuer || data.asset.registrant });
         CacheData.keyIndexModalDisplaying = keyIndex;
         break;
       }

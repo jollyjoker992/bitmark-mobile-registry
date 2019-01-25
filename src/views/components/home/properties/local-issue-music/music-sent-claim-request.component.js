@@ -19,15 +19,28 @@ export class MusicSentIncomingClaimRequestComponent extends React.Component {
   }
   constructor(props) {
     super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.goToBitmarkDetail = this.goToBitmarkDetail.bind(this);
+  }
+
+  componentDidMount() {
+    this.onSubmit();
   }
 
   onSubmit() {
-    // TODO
-    AppProcessor.doSendIncomingClaimRequest(this.props.asset, {
+    // TODO Chinese
+    this.setState({
+      status: 'PROCESSING...'
+    });
+    AppProcessor.doSendIncomingClaimRequest(this.props.asset, this.props.issuer, {
       indicator: constant.indicators.processing,
       title: 'Pending...',
       message: 'Sending your transaction to the Bitmark network...',
-    }).then(() => {
+    }).then((result) => {
+      this.result = result;
+      this.setState({
+        status: 'OK'
+      });
       CommonProcessor.doMarkDoneSendClaimRequest();
       EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, {
         indicator: constant.indicators.success,
@@ -36,9 +49,11 @@ export class MusicSentIncomingClaimRequestComponent extends React.Component {
       });
       setTimeout(() => {
         EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, null);
-        Actions.jump('transactions', { subTab: 'HISTORY' });
       }, 2000)
     }).catch(error => {
+      this.setState({
+        status: null
+      });
       CommonProcessor.doMarkDoneSendClaimRequest();
       console.log('error:', JSON.stringify(error));
       if (error.statusCode === 429 && error.data.code === 1012) {
@@ -49,6 +64,11 @@ export class MusicSentIncomingClaimRequestComponent extends React.Component {
       }
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
     })
+  }
+
+  goToBitmarkDetail() {
+    Actions.propertyDetail(this.result);
+    // Actions.jump('transactions', { subTab: 'HISTORY' });
   }
 
   render() {
@@ -77,9 +97,9 @@ export class MusicSentIncomingClaimRequestComponent extends React.Component {
 
         <TouchableOpacity
           style={[cStyles.continueButton, { backgroundColor: '#0060F2' }]}
-          onPress={this.onSubmit.bind(this)}
+          onPress={() => this.state.status ? this.goToBitmarkDetail() : this.onSubmit()}
         >
-          <Text style={cStyles.continueButtonText}>SIGN </Text>
+          <Text style={cStyles.continueButtonText}>{(this.state && this.state.status) ? this.state.status : 'RETRY'}</Text>
         </TouchableOpacity>
       </ImageBackground>
     );

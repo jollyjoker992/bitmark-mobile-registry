@@ -12,14 +12,15 @@ const PropertyActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
   },
-  init: ({ asset, bitmark }) => {
-    return { type: ACTION_TYPES.INIT, asset, bitmark };
+  init: ({ asset, bitmark, claimToAccount }) => {
+    return { type: ACTION_TYPES.INIT, asset, bitmark, claimToAccount };
   },
 };
 
 const initialState = {
   asset: null,
   bitmark: null,
+  claimToAccount: false,
 };
 
 const data = (state = initialState, action) => {
@@ -30,6 +31,7 @@ const data = (state = initialState, action) => {
       let tempState = merge({}, state);
       tempState.asset = action.asset;
       tempState.bitmark = action.bitmark;
+      tempState.claimToAccount = action.claimToAccount;
       return tempState;
     }
     default:

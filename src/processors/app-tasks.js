@@ -115,7 +115,7 @@ const doRevokeIftttToken = async () => {
   return await processing(TransactionProcessor.doRevokeIftttToken());
 };
 const doIssueIftttData = async ({ iftttBitmarkFile, processingInfo }) => {
-  return await submitting(TransactionProcessor.doIssueIftttData(iftttBitmarkFile), processingInfo);
+  return await submitting(DataProcessor.doIssueIftttData(iftttBitmarkFile), processingInfo);
 };
 
 const doMigrateWebAccount = async ({ token }) => {
@@ -142,8 +142,8 @@ const doDecentralizedTransfer = async ({ token, expiredTime }) => {
 const doProcessIncomingClaimRequest = async ({ incomingClaimRequest, isAccept, processingInfo }) => {
   return await submitting(DataProcessor.doProcessIncomingClaimRequest(incomingClaimRequest, isAccept), processingInfo);
 };
-const doSendIncomingClaimRequest = async ({ asset, processingInfo }) => {
-  return await submitting(TransactionProcessor.doSendIncomingClaimRequest(asset), processingInfo);
+const doSendIncomingClaimRequest = async ({ asset, issuer, processingInfo }) => {
+  return await submitting(DataProcessor.doSendIncomingClaimRequest(asset, issuer), processingInfo);
 };
 const doGetAssetToClaim = async ({ assetId, issuer }) => {
   return await processing(TransactionProcessor.doGetAssetToClaim(assetId, issuer));

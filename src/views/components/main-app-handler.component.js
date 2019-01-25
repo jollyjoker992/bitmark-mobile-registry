@@ -17,7 +17,7 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, CacheData, BitmarkSDK, AppProcessor, CommonProcessor } from 'src/processors';
+import { UserModel, EventEmitterService, CacheData, BitmarkSDK, CommonProcessor, TransactionProcessor } from 'src/processors';
 import { convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
 
@@ -106,6 +106,7 @@ export class MainAppHandlerComponent extends Component {
   }
 
   handleUnexpectedJSError(processError) {
+    console.log('processError :', processError);
     let title = global.i18n.t("MainComponent_errorReportTitle");
     let message = global.i18n.t("MainComponent_errorReportMessage");
 
@@ -158,16 +159,15 @@ export class MainAppHandlerComponent extends Component {
               Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
             }
           });
-          AppProcessor.doGetAssetToClaim(assetId, issuer).then(asset => {
+          TransactionProcessor.doGetAssetToClaim(assetId, issuer).then((asset) => {
             CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
           }).catch(error => {
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-          })
+          });
         }
         break;
       }
       default: {
-        // TODO
         break;
       }
     }

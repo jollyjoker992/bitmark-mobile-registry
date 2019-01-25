@@ -47,9 +47,9 @@ export class IncomingClaimRequestComponent extends React.Component {
           title: 'Pending...!',
           message: 'Sending your transaction to the Bitmark network...',
         }).then((result => {
-          if (result) {
+          if (result && result.ok) {
             EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, {
-              indicator: constant.indicators.searching,
+              indicator: constant.indicators.success,
               title: 'Success! ',
               message: 'The account will receive the property bitmark and notification very soon.',
             });
@@ -95,7 +95,6 @@ export class IncomingClaimRequestComponent extends React.Component {
               <View style={incomingClaimRequestStyle.assetInfoArea}>
                 <Image style={incomingClaimRequestStyle.assetThumbnail} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.incomingClaimRequest.asset.id}` }} />
                 <Text style={incomingClaimRequestStyle.assetInfo}>{this.props.incomingClaimRequest.asset.name}</Text>
-                {/* TODO */}
                 <Text style={incomingClaimRequestStyle.editionNumber}>Editions [{this.props.incomingClaimRequest.index}/{this.props.incomingClaimRequest.asset.editions[bitmarkAccountNumber].limited}]</Text>
                 <Text style={incomingClaimRequestStyle.issuer}>{CommonProcessor.getDisplayedAccount(CacheData.userInformation.bitmarkAccountNumber)}</Text>
               </View>

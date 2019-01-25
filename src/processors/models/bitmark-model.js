@@ -2,6 +2,7 @@ import { chunk } from 'lodash';
 
 import { config } from 'src/configs';
 import { BitmarkSDK } from './adapters';
+import { FileUtil } from 'src/utils';
 
 // ===================================================================================================================
 // ===================================================================================================================
@@ -9,7 +10,8 @@ const doGet100Bitmarks = (accountNumber, lastOffset) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     let bitmarkUrl = config.api_server_url +
-      `/v1/bitmarks?owner=${accountNumber}&asset=true&pending=true&to=later&sent=true` + (lastOffset ? `&at=${lastOffset}` : '');
+      `/v1/bitmarks?owner=${accountNumber}&asset=true&pending=true&to=later` + (lastOffset ? `&at=${lastOffset}` : '');
+    console.log('bitmarkUrl :', bitmarkUrl);
     fetch(bitmarkUrl, {
       method: 'GET',
       headers: {
@@ -560,13 +562,65 @@ const doUploadMusicThumbnail = async (bitmarkAccountNumber, assetId, thumbnailPa
   });
 };
 
+const doUploadMusicAsset = async (jwt, assetId, filePath) => {
+  const formData = new FormData();
+  formData.append('file', {
+    uri: filePath,
+    name: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length)
+  });
+  formData.append('asset_id', assetId);
+  let headers = {
+    'Content-Type': 'multipart/form-data',
+    Authorization: 'Bearer ' + jwt,
+  };
+
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.mobile_server_url}/claim_requests/upload`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doUploadMusicAsset error :` + JSON.stringify(data)));
+      }
+      resolve(data);
+    }).catch(reject);
+  });
+};
+
+const doDownloadAssetForClaimRequest = async (jwt, claimId, filePath) => {
+  let response;
+  let result = await FileUtil.downloadFile({
+    fromUrl: `${config.mobile_server_url}/claim_requests/download/${claimId}`,
+    toFile: filePath,
+    method: 'GET',
+    headers: {
+      Authorization: 'Bearer ' + jwt,
+    },
+    begin: (res) => response = res
+  });
+  console.log('response :', response, result);
+  if (response.statusCode >= 400) {
+    throw new Error(`doDownloadAssetForClaimRequest error ${response.statusCode}`);
+  }
+  return {
+    filename: response.headers['File-Name'],
+  };
+};
+
 const getBitmarksOfAssetOfIssuer = (accountNumber, assetId, lastOffset) => {
   return new Promise((resolve, reject) => {
     let bitmarkUrl = `${config.api_server_url}/v1/bitmarks?issuer=${accountNumber}&asset=true&pending=true&to=later` +
       (assetId ? `&asset_id=${assetId}` : '') +
       (lastOffset ? `&at=${lastOffset}` : '');
     let statusCode;
-
     fetch(bitmarkUrl, {
       method: 'GET',
       headers: {
@@ -795,6 +849,8 @@ let BitmarkModel = {
   doUpdateStatusForDecentralizedTransfer,
 
   doUploadMusicThumbnail,
+  doUploadMusicAsset,
+  doDownloadAssetForClaimRequest,
   getBitmarksOfAssetOfIssuer,
   getAllBitmarksOfAssetFromIssuer,
   doGetLimitedEdition,

@@ -42,7 +42,7 @@ let commonConfig = {
   bitmark_web_site: 'https://bitmark.com',
   file_courier_server: 'https://file-courier.test.bitmark.com',
   bitmark_profile_server: 'http://192.168.0.106:1102',
-  needResetLocalData: 1548217131865
+  needResetLocalData: 1548326716889
 };
 
 if (commonConfig.network === NETWORKS.testnet) {
@@ -57,6 +57,7 @@ if (commonConfig.network === NETWORKS.testnet) {
   commonConfig.file_courier_server = 'https://file-courier.test.bitmark.com';
   commonConfig.key_account_server_url = 'https://key.test.bitmarkaccountassets.com';
   commonConfig.bitmark_profile_server = 'https://profiles.test.bitmark.com';
+  commonConfig.bitmark_profile_server = 'http://192.168.0.102:1102';
 
 } else if (commonConfig.network === NETWORKS.livenet) {
   commonConfig.bitmark_network = NETWORKS.livenet;

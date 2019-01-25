@@ -38,7 +38,7 @@ import {
 } from './properties/local-issue-music';
 
 import { BitmarkWebViewComponent } from 'src/views/commons';
-import { EventEmitterService, AppProcessor, CommonProcessor } from 'src/processors';
+import { EventEmitterService, AppProcessor, CommonProcessor, BitmarkProcessor } from 'src/processors';
 
 // import PushNotification from 'react-native-push-notification';
 import { MusicReleaseToPublicComponent } from './properties/local-issue-music/music-release-to-public.component';
@@ -80,26 +80,23 @@ export class UserRouterComponent extends Component {
       }).catch(console.log);
 
     } else if (data.name === 'transfer_rejected') {
-      // TODO
-      // BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
-      //   Actions.propertyDetail(bitmarkInformation);
-      // }).catch(console.log);
+      BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
+        Actions.propertyDetail(bitmarkInformation);
+      }).catch(console.log);
 
     } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
       Actions.transactions({ subTab: 'HISTORY' });
     } else if (data.name === 'transfer_confirmed_receiver' && data.bitmark_id) {
-      // TODO
-      // BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
-      //   return BitmarkProcessor.doGetAssetBitmark(data.bitmark_id);
-      // }).then(bitmarkInformation => {
-      //   Actions.propertyDetail(bitmarkInformation);
-      // }).catch(console.log);
+      BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
+        return BitmarkProcessor.doGetAssetBitmark(data.bitmark_id);
+      }).then(bitmarkInformation => {
+        Actions.propertyDetail(bitmarkInformation);
+      }).catch(console.log);
 
     } else if (data.name === 'transfer_failed') {
-      // TODO
-      // BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
-      //   Actions.propertyDetail(bitmarkInformation);
-      // }).catch(console.log);
+      BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
+        Actions.propertyDetail(bitmarkInformation);
+      }).catch(console.log);
     } else if (data.event === 'claim_request') {
       doReloadClaimRequests().then((claimRequests) => {
         let incomingClaimRequest = (claimRequests.incoming_claim_requests || []).find(cr => cr.id === data.claim_id);
@@ -134,6 +131,7 @@ export class UserRouterComponent extends Component {
             <Scene key="musicMetadataEdit" panHandlers={null} component={MusicMetadataEditComponent} />
             <Scene key="musicSentIncomingClaimRequest" panHandlers={null} component={MusicSentIncomingClaimRequestComponent} />
             <Scene key="musicReleaseToPublic" panHandlers={null} component={MusicReleaseToPublicComponent} />
+            <Scene key="propertyDetail" panHandlers={null} component={PropertyDetailComponent} />
 
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
@@ -142,7 +140,6 @@ export class UserRouterComponent extends Component {
                 <Scene key="issuanceOptions" panHandlers={null} component={IssuanceOptionsComponent} />
                 <Scene key="iftttActive" panHandlers={null} component={IftttActiveComponent} />
                 <Scene key="releasedProperties" panHandlers={null} component={ReleasedPropertiesComponent} />
-                <Scene key="propertyDetail" panHandlers={null} component={PropertyDetailComponent} />
               </Stack>
               <Scene key="transactions" panHandlers={null} component={TransactionsComponent} />
               <Stack key="account" headerMode='none'>
