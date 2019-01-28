@@ -23,11 +23,26 @@ const doGetNewAssetsBitmarks = async (bitmarkAccountNumber, bitmarkAssets, lastO
       bitmarkAssets.assets[asset.id] = merge({}, bitmarkAssets.assets[asset.id] || {}, asset);
     }
     for (let bitmark of data.bitmarks) {
-      if (bitmarkAssets.assets[bitmark.asset_id]) {
-        if (bitmarkAssets.bitmarks[bitmark.id]) {
-          bitmark.editionNumber = bitmarkAssets.bitmarks[bitmark.id].editionNumber;
+      if (bitmark.owner === bitmarkAccountNumber) {
+        if (bitmarkAssets.assets[bitmark.asset_id]) {
+          if (bitmarkAssets.bitmarks[bitmark.id]) {
+            bitmark.editionNumber = bitmarkAssets.bitmarks[bitmark.id].editionNumber;
+          }
+          bitmarkAssets.bitmarks[bitmark.id] = bitmark;
         }
-        bitmarkAssets.bitmarks[bitmark.id] = bitmark;
+      } else {
+        if (bitmarkAssets.bitmarks[bitmark.id]) {
+          if (bitmarkAssets.assets[bitmarkAssets.bitmarks[bitmark.id].asset_id]) {
+            let existOtherBitmarks = data.bitmarks.findIndex(bm => bm.asset_id === bitmarkAssets.bitmarks[bitmark.id].asset_id) >= 0;
+            if (!existOtherBitmarks) {
+              existOtherBitmarks = Object.values(bitmarkAssets.bitmarks || {}).findIndex(bm => bm.asset_id === bitmarkAssets.bitmarks[bitmark.id].asset_id) >= 0;
+            }
+            if (!existOtherBitmarks) {
+              delete bitmarkAssets.assets[bitmarkAssets.bitmarks[bitmark.id].asset_id];
+            }
+          }
+          delete bitmarkAssets.bitmarks[bitmark.id];
+        }
       }
       lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
     }

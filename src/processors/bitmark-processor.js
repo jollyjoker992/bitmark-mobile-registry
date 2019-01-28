@@ -131,7 +131,6 @@ const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
       bitmarks: Object.values(assetsBitmarks.bitmarks || {}),
       assets: assetsBitmarks.assets || {},
     }));
-    console.log('PropertiesStore update bitmarks ==============', assetsBitmarks);
 
     let propertyActionSheetStoreState = merge({}, PropertyActionSheetStore.getState().data);
     if (propertyActionSheetStoreState.bitmark && propertyActionSheetStoreState.bitmark.id && propertyActionSheetStoreState.bitmark.asset_id) {
@@ -178,11 +177,8 @@ const runGetReleasedAssetsBitmarksInBackground = () => {
       return;
     }
     let doGetAllBitmarks = async () => {
-      console.log(' doGetAllBitmarks 1');
       let { releasedBitmarksAssets, lastOffset } = await _doGetAllAssetsBitmarks(true);
-      console.log(' doGetAllBitmarks 2');
       releasedBitmarksAssets = await BitmarkService.doGetNewReleasedAssetsBitmarks(CacheData.userInformation.bitmarkAccountNumber, releasedBitmarksAssets, lastOffset);
-      console.log(' doGetAllBitmarks 3');
       await _doCheckNewReleasedAssetsBitmarks(releasedBitmarksAssets);
     };
     doGetAllBitmarks().then(() => {
@@ -348,11 +344,6 @@ const doUpdateViewStatus = async (bitmarkId) => {
     let bottomTabStoreState = merge({}, BottomTabStore.getState().data);
     bottomTabStoreState.totalNewBitmarks = Object.values(assetsBitmarks.bitmarks || {}).filter(bitmark => !bitmark.isViewed).length;
     BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
-    console.log({
-      bitmarks: Object.values(assetsBitmarks.bitmarks || {}),
-      assets: assetsBitmarks.assets,
-    })
-
     PropertiesStore.dispatch(PropertiesActions.updateBitmarks({
       bitmarks: Object.values(assetsBitmarks.bitmarks || {}),
       assets: assetsBitmarks.assets,

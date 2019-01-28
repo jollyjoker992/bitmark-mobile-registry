@@ -94,7 +94,7 @@ export class NewAccountComponent extends React.Component {
                 <View style={newAccountStyle.swipePageContent}>
                   <Text style={[newAccountStyle.introductionTitle]}>BITMARK REGISTRY</Text>
                   <Text style={[newAccountStyle.introductionDescription]}>
-                    The Bitmark Property Registry allows anyone to protect the legal rights to their data and other digital assets.
+                    Protect the legal rights to your data and other digital assets.
                   </Text>
                   <OneTabButtonComponent style={{ flex: 1, width: '100%', }} onPress={() => this.swiper.scrollBy(1)}>
                     <Image style={newAccountStyle.introductionImage} source={require('assets/imgs/introduction1.png')} />

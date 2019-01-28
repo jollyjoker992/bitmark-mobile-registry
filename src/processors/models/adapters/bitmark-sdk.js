@@ -118,11 +118,6 @@ const BitmarkSDK = {
     }
   },
   registerNewAsset: async (filePath, propertyName, metadata) => {
-    console.log({
-      url: filePath,
-      property_name: propertyName,
-      metadata,
-    });
     let list = await SwiftBitmarkSDK.registerNewAsset({
       url: filePath,
       property_name: propertyName,

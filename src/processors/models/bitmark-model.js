@@ -10,8 +10,7 @@ const doGet100Bitmarks = (accountNumber, lastOffset) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     let bitmarkUrl = config.api_server_url +
-      `/v1/bitmarks?owner=${accountNumber}&asset=true&pending=true&to=later` + (lastOffset ? `&at=${lastOffset}` : '');
-    console.log('bitmarkUrl :', bitmarkUrl);
+      `/v1/bitmarks?owner=${accountNumber}&asset=true&pending=true&sent=true&to=later` + (lastOffset ? `&at=${lastOffset}` : '');
     fetch(bitmarkUrl, {
       method: 'GET',
       headers: {
@@ -607,7 +606,6 @@ const doDownloadAssetForClaimRequest = async (jwt, claimId, filePath) => {
     },
     begin: (res) => response = res
   });
-  console.log('doDownloadAssetForClaimRequest :', response, result);
   if (response.statusCode >= 400) {
     throw new Error(`doDownloadAssetForClaimRequest error ${response.statusCode}`);
   }

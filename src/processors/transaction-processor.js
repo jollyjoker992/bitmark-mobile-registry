@@ -134,7 +134,8 @@ const _doGenerateTransactionActionRequiredData = async (incomingClaimRequests) =
     (incomingClaimRequests || []).forEach((incomingClaimRequest) => {
       if (incomingClaimRequest.status === 'pending') {
         mapCount[incomingClaimRequest.asset.id] = mapCount[incomingClaimRequest.asset.id] ? (mapCount[incomingClaimRequest.asset.id] + 1) : 1;
-        incomingClaimRequest.index = (incomingClaimRequest.asset.totalIssuedBitmarks || 1) - 1 + mapCount[incomingClaimRequest.asset.id],
+        incomingClaimRequest.index = incomingClaimRequest.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited -
+          incomingClaimRequest.asset.editions[CacheData.userInformation.bitmarkAccountNumber].totalEditionLeft + mapCount[incomingClaimRequest.asset.id],
           actionRequired.push({
             key: actionRequired.length,
             incomingClaimRequest: incomingClaimRequest,

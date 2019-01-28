@@ -74,7 +74,6 @@ class PrivatePropertiesComponent extends React.Component {
 
     let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     loadingDataWhenScroll = false;
-    console.log('PrivatePropertiesComponent props :', this.props);
     return (
       <View style={cStyles.body}>
         <View style={[cStyles.header, { zIndex: 1 }]}>
