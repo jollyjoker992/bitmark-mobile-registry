@@ -240,7 +240,6 @@ class PrivatePropertyDetailComponent extends React.Component {
                     window.postMessage(JSON.stringify({event: 'scroll-up'}));
                   }
                 };`}
-                useWebKit={true}
                 onMessage={this.onMessage.bind(this)}
                 style={{ flex: 1, }}
                 source={{
