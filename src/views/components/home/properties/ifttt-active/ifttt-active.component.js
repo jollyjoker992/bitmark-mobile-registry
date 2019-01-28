@@ -7,11 +7,10 @@ import {
 import { Actions } from 'react-native-router-flux';
 import styles from './ifttt-active.component.style';
 import { config, constant } from 'src/configs';
-import { EventEmitterService, AppProcessor, DataProcessor, CacheData } from 'src/processors';
+import { EventEmitterService, AppProcessor, CacheData, TransactionProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
 import { AccountStore } from 'src/views/stores';
-import { TransactionProcessor } from 'src/processors/transaction-processor';
 
 class PrivateIftttActiveComponent extends React.Component {
   constructor(props) {
@@ -84,7 +83,7 @@ class PrivateIftttActiveComponent extends React.Component {
           {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT && <TouchableOpacity style={[defaultStyles.headerLeft, { width: 60 }]} />}
 
           {!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT && <TouchableOpacity style={[defaultStyles.headerLeft, { width: 60 }]} onPress={() => {
-            runPromiseWithoutError(DataProcessor.doReloadIFTTTInformation())
+            runPromiseWithoutError(TransactionProcessor.doReloadIftttInformation());
             Actions.pop();
           }}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
