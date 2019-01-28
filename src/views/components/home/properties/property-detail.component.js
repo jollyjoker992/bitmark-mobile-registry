@@ -377,7 +377,7 @@ class PrivatePropertyDetailComponent extends React.Component {
               <View style={cStyles.assetInformation}>
                 <View style={cStyles.assetContent}>
                   <Text style={[cStyles.assetContentName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>
-                    {this.props.asset.name + (this.props.asset.edition ? `${this.props.bitmark.editionNumber || '-'}/${this.props.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited}` : '')}
+                    {this.props.asset.name + (this.props.asset.editions ? `${this.props.bitmark.editionNumber || '-'}/${this.props.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited}` : '')}
                   </Text>
 
                   <Hyperlink
