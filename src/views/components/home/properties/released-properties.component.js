@@ -89,12 +89,12 @@ class PrivateReleasedPropertiesComponent extends React.Component {
               <Text style={cStyles.owner}>OWNER</Text>
             </View>
           </View>
-          <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
+          <ScrollView style={{ flex: 1, width: '100%' }} contentContainerStyle={{ flexGrow: 1, width: '100%' }}>
             {this.props.releasedBitmarks.map(bitmark => (<View key={bitmark.id}>
               <View style={[cStyles.rowClaimedBitmark, { marginTop: 10 }]}>
-                <Text style={cStyles.timestamp}>TIMESTAMP</Text>
-                <Text style={cStyles.bitmarkId}>BITMARK ID</Text>
-                <Text style={cStyles.owner}>OWNER</Text>
+                <Text style={cStyles.timestamp}>{moment(bitmark.created_at).format('YYYY MMM DD').toUpperCase()}</Text>
+                <Text style={cStyles.bitmarkId} numberOfLines={1}>{bitmark.id}</Text>
+                <Text style={cStyles.owner}>{CommonProcessor.getDisplayedAccount(bitmark.owner)}</Text>
               </View>
             </View>))}
           </ScrollView>
