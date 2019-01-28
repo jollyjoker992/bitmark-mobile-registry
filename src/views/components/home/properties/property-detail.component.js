@@ -151,9 +151,9 @@ class PrivatePropertyDetailComponent extends React.Component {
       let webUrl = 'https://s3-ap-northeast-1.amazonaws.com/bitmark-mobile-files/omniscient_p5/index.html';
       if (editionNumber || totalEditionLeft || limited) {
         webUrl += '?'
-        webUrl += `${editionNumber ? `edition_number=${editionNumber}$` : ''}`;
-        webUrl += `${(totalEditionLeft !== null) ? `remaining=${totalEditionLeft}$` : ''}`;
-        webUrl += `${limited ? `total=${limited}$` : ''}`;
+        webUrl += `${editionNumber ? `edition_number=${editionNumber}&` : ''}`;
+        webUrl += `${(totalEditionLeft !== null) ? `remaining=${totalEditionLeft}&` : ''}`;
+        webUrl += `${limited ? `total=${limited}` : ''}`;
       }
       return (<SafeAreaView style={[cStyles.body, { backgroundColor: 'white' }]}>
         <StatusBar hidden={!config.isIPhoneX} />
