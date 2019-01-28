@@ -945,7 +945,7 @@
     "MainComponent_claimMessageWhenUserNotLogin": "Please create or sign in to your account to continue.",
     "CodePushOptions_title": "New Version Available",
     "CodePushOptions_optionalUpdateMessage": "Please update the app to the new version to continue using. This will be quick and will not affect any of your data.",
-    "CodePushOptions_mandatoryUpdateMessage": "Please update the app to the new version to continue using. This will be quick and will not affect any of your data.'",
+    "CodePushOptions_mandatoryUpdateMessage": "Please update the app to the new version to continue using. This will be quick and will not affect any of your data.",
     "CodePushOptions_optionalInstallButtonLabel": "Update",
     "CodePushOptions_mandatoryContinueButtonLabel": "Update",
     "AppTasksRegister_authorizeBitmarkIssuance": "Authorize bitmark issuance.",

@@ -194,7 +194,10 @@ class PrivatePropertiesComponent extends React.Component {
                 return
               }
               return (
-                <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] })}>
+                <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
+                  BitmarkProcessor.doUpdateViewStatus(bitmark.id);
+                  Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] });
+                }}>
 
                   <View style={cStyles.bitmarkContent}>
                     <Text style={[cStyles.bitmarkCreatedAt, bitmark.isViewed ? {} : { color: '#0060F2' }]}>

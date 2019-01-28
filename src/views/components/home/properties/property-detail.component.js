@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactNative, {
-  View, Text, Image, SafeAreaView, ActivityIndicator, ScrollView, TouchableWithoutFeedback, WebView,
+  View, Text, Image, SafeAreaView, ActivityIndicator, ScrollView, TouchableWithoutFeedback, WebView, Animated,
   ViewPropTypes,
   Alert,
   StatusBar,
@@ -37,6 +37,7 @@ class PrivatePropertyDetailComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      animatedBottom: new Animated.Value(-config.deviceSize.height),
       copied: false,
       displayTopButton: false,
       provenance: [],
@@ -54,13 +55,10 @@ class PrivatePropertyDetailComponent extends React.Component {
   }
 
   async doGetScreenData(bitmark) {
-    console.log('doGetScreenData :', this.props);
     if (bitmark) {
       if (!bitmark.isDraft) {
         let provenance = await TransactionProcessor.doGetProvenance(bitmark.id);
-        this.setState({
-          provenance, gettingData: false,
-        });
+        this.setState({ provenance, gettingData: false, });
       }
     } else if (this.props.claimToAccount) {
 
@@ -140,6 +138,68 @@ class PrivatePropertyDetailComponent extends React.Component {
       });
   }
 
+  onMessage(event) {
+    let data = event.nativeEvent.data;
+    if (data) {
+      try {
+        data = JSON.parse(data);
+        if (data.event === 'scroll-to-end') {
+          let listAnimations = [];
+          listAnimations.push(Animated.spring(this.state.animatedBottom, {
+            toValue: 0,
+            duration: 200,
+          }));
+          Animated.parallel(listAnimations).start();
+        } else if (data.event === 'scroll-up') {
+          let listAnimations = [];
+          listAnimations.push(Animated.spring(this.state.animatedBottom, {
+            toValue: - config.deviceSize.height,
+            duration: 200,
+          }));
+          Animated.parallel(listAnimations).start();
+        }
+      } catch (error) {
+        //TODO
+      }
+    }
+  }
+
+  showActionSheets({ playLink }) {
+    console.log({ playLink });
+    let options = ['Cancel'];
+    if (playLink) {
+      options.push('Play on Streaming Platform');
+    }
+    if (this.props.bitmark && !this.props.bitmark.isDraft) {
+      options.push('Download Property');
+      options.push('Transfer Ownership');
+    }
+
+    ActionSheetIOS.showActionSheetWithOptions({
+      title: 'Bitmark Options',
+      options,
+      cancelButtonIndex: 0,
+    },
+      (buttonIndex) => {
+        if (buttonIndex === 1) {
+          if (playLink) {
+            Linking.openURL(playLink);
+          } else {
+            this.shareAssetFile();
+          }
+        } else if (buttonIndex === 2) {
+          if (playLink) {
+            this.shareAssetFile();
+          } else {
+            Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
+          }
+        } else if (buttonIndex === 3) {
+          if (playLink) {
+            Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
+          }
+        }
+      });
+  }
   render() {
     if (isMusicAsset(this.props.asset)) {
       let editionNumber = this.props.bitmark ? this.props.bitmark.editionNumber : null;
@@ -155,11 +215,11 @@ class PrivatePropertyDetailComponent extends React.Component {
         webUrl += `${(totalEditionLeft !== null) ? `remaining=${totalEditionLeft}&` : ''}`;
         webUrl += `${limited ? `total=${limited}` : ''}`;
       }
-      let existSoundscape = false;
+      let playLink;
       let metadata = this.props.asset.metadata;
       for (let key in metadata) {
-        if (key.toLowerCase() === 'playlink') {
-          existSoundscape = true;
+        if (key.toLowerCase() === 'soundscape') {
+          playLink = this.props.asset.metadata[key];
           break;
         }
       }
@@ -173,53 +233,50 @@ class PrivatePropertyDetailComponent extends React.Component {
           <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ flexGrow: 1, }}>
             <View style={{ width: '100%', flex: 1, height: config.deviceSize.height, backgroundColor: 'rgba(0,0,0,0.5)' }}>
               <WebView
+                injectedJavaScript={`window.onscroll = () =>{
+                  if ((window.innerHeight + window.scrollY + 200) >= document.body.offsetHeight) {
+                    window.postMessage(JSON.stringify({event: 'scroll-to-end'}));
+                  } else {
+                    window.postMessage(JSON.stringify({event: 'scroll-up'}));
+                  }
+                };`}
+                useWebKit={true}
+                onMessage={this.onMessage.bind(this)}
                 style={{ flex: 1, }}
                 source={{
                   uri: webUrl,
                 }}
               />
             </View>
-            <View style={cStyles.assetInformation}>
-              <View style={{ width: '100%', flexDirection: 'row', paddingLeft: convertWidth(15), paddingRight: convertWidth(15) }}>
-                <Image style={{ width: 15, height: 15, resizeMode: 'contain' }} source={require('assets/imgs/logo.png')} />
-                <Text style={{ fontFamily: 'Andale Mono', fontSize: 14, color: '#545454', }} > {'secured by bitmark.'.toUpperCase()}</Text>
-              </View>
-
-              <View style={{
-                width: '100%', flexDirection: 'row', paddingLeft: convertWidth(15), paddingRight: convertWidth(6), alignItems: 'center',
-                justifyContent: 'space-between',
-                marginTop: 5,
-              }}>
-                <View style={{ width: convertWidth(319), borderWidth: 2, height: 0, borderColor: 'black', marginTop: 2, }} />
-                <Image style={{ width: 18, height: 18, resizeMode: 'contain', }} source={require('assets/imgs/+_grey.png')} />
-              </View>
-              <View style={cStyles.assetContent}>
-                <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{`ASSET ID: ${this.props.asset.id}`}</Text>
-                <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{`DATE OF ISSUANCE: ${moment(this.props.asset.created_at).format('YYYY MMM DD').toUpperCase()}`}</Text>
-              </View>
-
-
-              <View style={{ paddingLeft: convertWidth(15), paddingRight: convertWidth(15), width: '100%', }}>
-
-                {existSoundscape && <OneTabButtonComponent style={cStyles.actionRow} onPress={() => Linking.openURL(this.props.asset.metadata['soundscape'])}>
-                  <Image style={cStyles.actionRowIcon} source={require('assets/imgs/play_icon.png')} />
-                  <Text style={[cStyles.actionRowText]}>PLAY ON STREAMING PLATFORM</Text>
-                </OneTabButtonComponent>}
-
-                {!this.props.claimToAccount && <OneTabButtonComponent style={cStyles.actionRow} onPress={this.shareAssetFile.bind(this)}>
-                  <Image style={cStyles.actionRowIcon} source={require('assets/imgs/download_asset_icon.png')} />
-                  <Text style={[cStyles.actionRowText]}>DOWNLOAD PROPERTY</Text>
-                </OneTabButtonComponent>}
-
-                {!this.props.claimToAccount && <OneTabButtonComponent style={[cStyles.actionRow, { marginBottom: 10 }]} onPress={() => {
-                  Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
-                }} >
-                  <Image style={cStyles.actionRowIcon} source={require('assets/imgs/transfer_bitmark_icon_blue.png')} />
-                  <Text style={[cStyles.actionRowText]}>TRANSFER OWNERSHIP</Text>
-                </OneTabButtonComponent>}
-              </View>
-            </View>
           </ScrollView>
+          <Animated.View style={[cStyles.assetInformation, {
+            position: 'absolute', bottom: this.state.animatedBottom,
+            backgroundColor: 'white',
+            paddingTop: 20,
+            paddingBottom: 20,
+          }]}>
+            <View style={{ width: '100%', flexDirection: 'row', paddingLeft: convertWidth(15), paddingRight: convertWidth(15) }}>
+              <Image style={{ width: 15, height: 15, resizeMode: 'contain' }} source={require('assets/imgs/logo.png')} />
+              <Text style={{ fontFamily: 'Andale Mono', fontSize: 14, color: '#545454', }} > {'secured by bitmark.'.toUpperCase()}</Text>
+            </View>
+
+            <View style={{ width: '100%', flexDirection: 'row', paddingLeft: convertWidth(15), paddingRight: convertWidth(6), alignItems: 'center', justifyContent: 'space-between', marginTop: 5, }}>
+              <View style={{ width: convertWidth(319), borderWidth: 2, height: 0, borderColor: 'black', marginTop: 2, }} />
+              <Image style={{ width: 18, height: 18, resizeMode: 'contain', }} source={require('assets/imgs/+_grey.png')} />
+            </View>
+            <View style={cStyles.assetContent}>
+              <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{`ASSET ID: ${this.props.asset.id}`}</Text>
+              <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{`DATE OF ISSUANCE: ${moment(this.props.asset.created_at).format('YYYY MMM DD').toUpperCase()}`}</Text>
+            </View>
+
+            <View style={{ paddingLeft: convertWidth(15), paddingRight: convertWidth(15), width: '100%', }}>
+
+              {((this.props.bitmark && !this.props.bitmark.isDraft) || playLink) && <OneTabButtonComponent style={cStyles.actionRow} onPress={() => this.showActionSheets.bind(this)({ playLink })}>
+                <Image style={cStyles.actionRowIcon} source={require('assets/imgs/play_icon.png')} />
+                <Text style={[cStyles.actionRowText]}>VIEW BITMARK OPTIONS</Text>
+              </OneTabButtonComponent>}
+            </View>
+          </Animated.View>
         </View >
       </SafeAreaView >);
     } else {
@@ -289,7 +346,7 @@ class PrivatePropertyDetailComponent extends React.Component {
             <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ flexGrow: 1, }}>
               <View style={cStyles.bottomImageBar}></View>
 
-              <View style={[cStyles.assetThumbnailArea, this.props.bitmark.status === 'confirmed' ? {} : { opacity: 0.2 }]}>
+              <View style={[cStyles.assetThumbnailArea, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>
                 {(() => {
                   if (this.props.asset.thumbnailPath) {
                     return (<Image style={[cStyles.assetThumbnailImage, { width: 126, height: 126, resizeMode: 'contain', marginBottom: 0 }]}
@@ -319,7 +376,7 @@ class PrivatePropertyDetailComponent extends React.Component {
 
               <View style={cStyles.assetInformation}>
                 <View style={cStyles.assetContent}>
-                  <Text style={[cStyles.assetContentName, this.props.bitmark.status === 'confirmed' ? {} : { opacity: 0.2 }]}>
+                  <Text style={[cStyles.assetContentName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>
                     {this.props.asset.name + (this.props.asset.edition ? `${this.props.bitmark.editionNumber || '-'}/${this.props.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited}` : '')}
                   </Text>
 
@@ -357,8 +414,7 @@ class PrivatePropertyDetailComponent extends React.Component {
               <View style={cStyles.provenanceArea}>
                 <Text style={cStyles.provenanceLabel}>PROVENANCE</Text>
                 <View style={[cStyles.provenanceRow, {
-                  borderBottomColor: '#EDF0F4', borderBottomWidth: 0.5,
-                  borderTopColor: '#EDF0F4', borderTopWidth: 0.5,
+                  paddingBottom: 0, paddingTop: 0,
                   backgroundColor: '#F5F5F5'
                 }]}>
                   <Text style={[cStyles.provenanceRowItem, this.props.bitmark.status === 'confirmed' ? {} : {

@@ -28,7 +28,7 @@ const doGetNewAssetsBitmarks = async (bitmarkAccountNumber, bitmarkAssets, lastO
           if (bitmarkAssets.bitmarks[bitmark.id]) {
             bitmark.editionNumber = bitmarkAssets.bitmarks[bitmark.id].editionNumber;
           }
-          bitmarkAssets.bitmarks[bitmark.id] = bitmark;
+          bitmarkAssets.bitmarks[bitmark.id] = merge({}, bitmarkAssets.bitmarks[bitmark.id] || {}, bitmark);
         }
       } else {
         if (bitmarkAssets.bitmarks[bitmark.id]) {
@@ -69,7 +69,7 @@ const doGetNewReleasedAssetsBitmarks = async (bitmarkAccountNumber, releasedBitm
     }
     for (let bitmark of data.bitmarks) {
       if (releasedBitmarksAssets.assets[bitmark.asset_id]) {
-        releasedBitmarksAssets.bitmarks[bitmark.id] = bitmark;
+        releasedBitmarksAssets.bitmarks[bitmark.id] = merge({}, releasedBitmarksAssets.bitmarks[bitmark.id] || {}, bitmark);
       }
       lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
     }
