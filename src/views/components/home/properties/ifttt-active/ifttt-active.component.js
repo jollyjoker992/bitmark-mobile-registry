@@ -55,7 +55,7 @@ class PrivateIftttActiveComponent extends React.Component {
 
     if (!this.props.stage) {
       if ((currentUrl === config.ifttt_bitmark_service_url || currentUrl === (config.ifttt_bitmark_service_settings_url)) && this.signed) {
-        TransactionProcessor.doReloadIFTTTInformation().then((iftttInformation) => {
+        TransactionProcessor.doReloadIftttInformation().then((iftttInformation) => {
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESSING, false);
           this.setState({ processing: false });
           if (iftttInformation.connectIFTTT && currentUrl === (config.ifttt_bitmark_service_settings_url)) {
@@ -65,7 +65,7 @@ class PrivateIftttActiveComponent extends React.Component {
             });
           }
         }).catch(error => {
-          console.log('doReloadIFTTTInformation : ', error);
+          console.log('doReloadIftttInformation : ', error);
         });
       }
     } else {
