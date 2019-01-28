@@ -128,7 +128,7 @@ class PrivatePropertyDetailComponent extends React.Component {
         if (buttonIndex === 1) {
           AppProcessor.doTransferBitmark(this.state.bitmark, config.zeroAddress, true).then((result) => {
             if (result) {
-              Actions.jump('assets');
+              Actions.jump('properties');
             }
           }).catch(error => {
             console.log('error:', error);
