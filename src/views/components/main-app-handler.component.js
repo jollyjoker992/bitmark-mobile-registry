@@ -83,6 +83,7 @@ export class MainAppHandlerComponent extends Component {
   }
 
   handerProcessErrorEvent(processError) {
+    console.log('processError :', processError);
     if (processError && (processError.title || processError.message)) {
       this.handleDefaultJSError(processError);
     } else {

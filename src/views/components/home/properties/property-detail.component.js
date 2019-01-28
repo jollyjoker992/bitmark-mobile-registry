@@ -142,17 +142,32 @@ class PrivatePropertyDetailComponent extends React.Component {
 
   render() {
     if (isMusicAsset(this.props.asset)) {
-      return (<SafeAreaView style={cStyles.body}>
+      let editionNumber = this.props.bitmark ? this.props.bitmark.editionNumber : null;
+      let issuer = this.props.bitmark ? this.props.bitmark.issuer : this.props.claimToAccount;
+
+      let totalEditionLeft = issuer ? this.props.asset.editions[issuer].totalEditionLeft : null;
+      let limited = issuer ? this.props.asset.editions[issuer].limited : null;
+      editionNumber = limited - totalEditionLeft + 1;
+      let webUrl = 'https://s3-ap-northeast-1.amazonaws.com/bitmark-mobile-files/omniscient_p5/index.html';
+      if (editionNumber || totalEditionLeft || limited) {
+        webUrl += '?'
+        webUrl += `${editionNumber ? `edition_number=${editionNumber}$` : ''}`;
+        webUrl += `${(totalEditionLeft !== null) ? `remaining=${totalEditionLeft}$` : ''}`;
+        webUrl += `${limited ? `total=${limited}$` : ''}`;
+      }
+      return (<SafeAreaView style={[cStyles.body, { backgroundColor: 'white' }]}>
         <StatusBar hidden={!config.isIPhoneX} />
         <View style={cStyles.bodyContent}>
           <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ flexGrow: 1, }}>
             <View style={{ width: '100%', flex: 1, height: config.deviceSize.height, backgroundColor: 'rgba(0,0,0,0.5)' }}>
               <OneTabButtonComponent style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, }} onPress={() => Actions.jump('properties')}>
-                <Text style={{ color: 'black', padding: 20, fontSize: 20 }}>X</Text>
+                <Text style={{ color: 'white', padding: 20, fontSize: 20 }}>X</Text>
               </OneTabButtonComponent>
               <WebView
                 style={{ flex: 1, }}
-                source={{ uri: 'https://s3-ap-northeast-1.amazonaws.com/bitmark-mobile-files/omniscient_p5/index.html' }}
+                source={{
+                  uri: webUrl,
+                }}
               />
             </View>
             <View style={cStyles.assetInformation}>
@@ -171,32 +186,32 @@ class PrivatePropertyDetailComponent extends React.Component {
               </View>
               <View style={cStyles.assetContent}>
                 <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{`ASSET ID: ${this.props.asset.id}`}</Text>
-                <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{`DATE OF ISSUANCE: ${moment(this.props.bitmark.issued_at).format('YYYY MMM DD').toUpperCase()}`}</Text>
+                <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{`DATE OF ISSUANCE: ${moment(this.props.asset.created_at).format('YYYY MMM DD').toUpperCase()}`}</Text>
               </View>
 
 
               <View style={{ paddingLeft: convertWidth(15), paddingRight: convertWidth(15), width: '100%', }}>
 
-                {this.props.asset && this.props.asset.metadata && this.props.asset.metadata['soundscape'] && <OneTabButtonComponent style={cStyles.actionRow} onPress={() => Linking.openURL(this.props.asset.metadata['soundscape'])}>
+                {!this.props.claimToAccount && this.props.asset && this.props.asset.metadata && this.props.asset.metadata['soundscape'] && <OneTabButtonComponent style={cStyles.actionRow} onPress={() => Linking.openURL(this.props.asset.metadata['soundscape'])}>
                   <Image style={cStyles.actionRowIcon} source={require('assets/imgs/play_icon.png')} />
                   <Text style={[cStyles.actionRowText]}>PLAY ON STREAMING PLATFORM</Text>
                 </OneTabButtonComponent>}
 
-                <OneTabButtonComponent style={cStyles.actionRow} onPress={this.downloadAsset.bind(this)}>
+                {!this.props.claimToAccount && <OneTabButtonComponent style={cStyles.actionRow} onPress={this.shareAssetFile.bind(this)}>
                   <Image style={cStyles.actionRowIcon} source={require('assets/imgs/download_asset_icon.png')} />
                   <Text style={[cStyles.actionRowText]}>DOWNLOAD PROPERTY</Text>
-                </OneTabButtonComponent>
+                </OneTabButtonComponent>}
 
-                <OneTabButtonComponent style={[cStyles.actionRow, { marginBottom: 10 }]} >
-                  <Image style={cStyles.actionRowIcon} source={require('assets/imgs/transfer_bitmark_icon_blue.png')} onPress={() => {
-                    Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
-                  }} />
+                {!this.props.claimToAccount && <OneTabButtonComponent style={[cStyles.actionRow, { marginBottom: 10 }]} onPress={() => {
+                  Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
+                }} >
+                  <Image style={cStyles.actionRowIcon} source={require('assets/imgs/transfer_bitmark_icon_blue.png')} />
                   <Text style={[cStyles.actionRowText]}>TRANSFER OWNERSHIP</Text>
-                </OneTabButtonComponent>
+                </OneTabButtonComponent>}
               </View>
             </View>
           </ScrollView>
-        </View>
+        </View >
       </SafeAreaView >);
     } else {
       return (<SafeAreaView style={cStyles.body}>
