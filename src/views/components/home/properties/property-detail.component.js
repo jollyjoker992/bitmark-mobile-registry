@@ -158,11 +158,11 @@ class PrivatePropertyDetailComponent extends React.Component {
       return (<SafeAreaView style={[cStyles.body, { backgroundColor: 'white' }]}>
         <StatusBar hidden={!config.isIPhoneX} />
         <View style={cStyles.bodyContent}>
+          <OneTabButtonComponent style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, }} onPress={() => Actions.jump('properties')}>
+            <Text style={{ color: 'white', padding: 20, fontSize: 20 }}>X</Text>
+          </OneTabButtonComponent>
           <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ flexGrow: 1, }}>
             <View style={{ width: '100%', flex: 1, height: config.deviceSize.height, backgroundColor: 'rgba(0,0,0,0.5)' }}>
-              <OneTabButtonComponent style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, }} onPress={() => Actions.jump('properties')}>
-                <Text style={{ color: 'white', padding: 20, fontSize: 20 }}>X</Text>
-              </OneTabButtonComponent>
               <WebView
                 style={{ flex: 1, }}
                 source={{
