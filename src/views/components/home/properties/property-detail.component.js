@@ -208,7 +208,7 @@ class PrivatePropertyDetailComponent extends React.Component {
       let totalEditionLeft = issuer ? this.props.asset.editions[issuer].totalEditionLeft : null;
       let limited = issuer ? this.props.asset.editions[issuer].limited : null;
       editionNumber = editionNumber ? editionNumber : (limited - totalEditionLeft + 1);
-      let webUrl = 'https://s3-ap-northeast-1.amazonaws.com/bitmark-mobile-files/omniscient_p5/index.html';
+      let webUrl = `${config.mobile_server_url}/api/claim_requests_view/${this.props.asset.id}`;
       if (editionNumber || totalEditionLeft || limited) {
         webUrl += '?'
         webUrl += `${editionNumber ? `edition_number=${editionNumber}&` : ''}`;
@@ -429,7 +429,7 @@ class PrivatePropertyDetailComponent extends React.Component {
                   disabled={item.status === 'pending' || item.status === 'queuing'}
                 >
                   <Text style={[cStyles.provenanceRowItem, {
-                    color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : 'black'
+                    color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : '#0060F2'
                   }]} numberOfLines={1}>
                     {(item.status === 'pending' || item.status === 'queuing') ? 'Waiting to be confirmed...' : (moment(item.created_at).format('YYYY MMM DD HH:mm:ss')).toUpperCase()}
                   </Text>
