@@ -7,7 +7,8 @@ import ReactNative, {
   StatusBar,
   StyleSheet,
   Clipboard,
-  Share
+  Share,
+  Linking,
 } from 'react-native';
 import { Provider, connect } from 'react-redux';
 import moment from 'moment';
@@ -151,112 +152,52 @@ class PrivatePropertyDetailComponent extends React.Component {
               </OneTabButtonComponent>
               <WebView
                 style={{ flex: 1, }}
-                source={{ uri: 'https://s3-ap-northeast-1.amazonaws.com/bitmark-mobile-files/omniscience_p5/index.html' }}
+                source={{ uri: 'https://s3-ap-northeast-1.amazonaws.com/bitmark-mobile-files/omniscient_p5/index.html' }}
               />
             </View>
-            <View style={cStyles.bottomImageBar}></View>
-
-            <View style={[cStyles.assetThumbnailArea, this.state.bitmark.status === 'confirmed' ? {} : { opacity: 0.2 }]}>
-              {(() => {
-                if (this.props.asset.thumbnailPath) {
-                  return (<Image style={[cStyles.assetThumbnailImage, { width: 126, height: 126, resizeMode: 'contain', marginBottom: 0 }]}
-                    source={{ uri: this.props.asset.thumbnailPath }} />);
-                }
-                if (isHealthRecord(this.props.asset)) {
-                  return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_health_data_icon.png')} />);
-                }
-                if (isMedicalRecord(this.props.asset)) {
-                  return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_medical_record_icon.png')} />);
-                }
-                if (isImageFile(this.props.asset.filePath)) {
-                  return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_image_icon.png')} />);
-                }
-                if (isVideoFile(this.props.asset.filePath)) {
-                  return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_video_icon.png')} />);
-                }
-                if (isDocFile(this.props.asset.filePath)) {
-                  return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_doc_icon.png')} />);
-                }
-                if (isZipFile(this.props.asset.filePath)) {
-                  return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_zip_icon.png')} />);
-                }
-                return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_unknow_icon.png')} />);
-              })()}
-            </View>
-
             <View style={cStyles.assetInformation}>
+              <View style={{ width: '100%', flexDirection: 'row', paddingLeft: convertWidth(15), paddingRight: convertWidth(15) }}>
+                <Image style={{ width: 15, height: 15, resizeMode: 'contain' }} source={require('assets/imgs/logo.png')} />
+                <Text style={{ fontFamily: 'Andale Mono', fontSize: 14, color: '#545454', }} > {'secured by bitmark.'.toUpperCase()}</Text>
+              </View>
+
+              <View style={{
+                width: '100%', flexDirection: 'row', paddingLeft: convertWidth(15), paddingRight: convertWidth(6), alignItems: 'center',
+                justifyContent: 'space-between',
+                marginTop: 5,
+              }}>
+                <View style={{ width: convertWidth(319), borderWidth: 2, height: 0, borderColor: 'black', marginTop: 2, }} />
+                <Image style={{ width: 18, height: 18, resizeMode: 'contain', }} source={require('assets/imgs/+_grey.png')} />
+              </View>
               <View style={cStyles.assetContent}>
-                <Text style={[cStyles.assetContentName, this.state.bitmark.status === 'confirmed' ? {} : { opacity: 0.2 }]}>
-                  {this.props.asset.name + (this.props.asset.edition ? `${this.state.bitmark.editionNumber || '-'}/${this.props.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited}` : '')}
-                </Text>
-
-                <Hyperlink
-                  onPress={(url) => {
-                    if (this.state.bitmark.status === 'confirmed') {
-                      Actions.bitmarkWebViewFull({ title: 'REGISTRY', sourceUrl: url });
-                    }
-                  }}
-                  linkStyle={{ color: this.state.bitmark.status === 'pending' ? '#999999' : '#0060F2' }}
-                  linkText={url => {
-                    if (url === `${config.registry_server_url}/account/${this.state.bitmark.issuer}`) {
-                      return CommonProcessor.getDisplayedAccount(this.state.bitmark.issuer);
-                    }
-                    return '';
-                  }}>
-                  <Text style={[cStyles.assetRegister, this.state.bitmark.status === 'confirmed' ? {} : { fontFamily: 'AvenirNextW1G-Demi' }]}>
-                    {this.state.bitmark.status === 'confirmed'
-                      ? `ISSUED ON ${moment(this.state.bitmark.issued_at).format('YYYY MMM DD').toUpperCase()} by ${config.registry_server_url}/account/${this.state.bitmark.issuer}`
-                      : this.state.bitmark.status}
-                  </Text>
-                </Hyperlink>
+                <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{`ASSET ID: ${this.props.asset.id}`}</Text>
+                <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{`DATE OF ISSUANCE: ${moment(this.props.bitmark.issued_at).format('YYYY MMM DD').toUpperCase()}`}</Text>
               </View>
-            </View>
 
-            {this.props.asset && Object.keys(this.props.asset.metadata).length > 0 && <View style={cStyles.metadataArea}>
-              {Object.keys(this.props.asset.metadata).map((label, index) => (
-                <View key={index} style={[cStyles.metadataItem, { marginBottom: index === Object.keys(this.props.asset.metadata).length ? 0 : 15 }]}>
-                  <Text style={[cStyles.metadataItemLabel, { color: this.state.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{label.toUpperCase()}:</Text>
-                  <Text style={[cStyles.metadataItemValue, { color: this.state.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{this.props.asset.metadata[label]}</Text>
-                </View>
-              ))}
-            </View>}
 
-            <View style={cStyles.provenanceArea}>
-              <Text style={cStyles.provenanceLabel}>PROVENANCE</Text>
-              <View style={[cStyles.provenanceRow, {
-                borderBottomColor: '#EDF0F4', borderBottomWidth: 0.5,
-                borderTopColor: '#EDF0F4', borderTopWidth: 0.5,
-                backgroundColor: '#F5F5F5'
-              }]}>
-                <Text style={[cStyles.provenanceRowItem, this.state.bitmark.status === 'confirmed' ? {} : {
-                  color: '#545454', fontFamily: 'AvenirNextW1G-Regular'
-                }]}>TIMESTAMP</Text>
-                <Text style={[cStyles.provenanceRowItem, { marginLeft: convertWidth(19), }, this.state.bitmark.status === 'confirmed' ? {} : {
-                  color: '#545454', fontFamily: 'AvenirNextW1G-Regular'
-                }]}>OWNER</Text>
+              <View style={{ paddingLeft: convertWidth(15), paddingRight: convertWidth(15), width: '100%', }}>
+
+                {this.props.asset && this.props.asset.metadata && this.props.asset.metadata['soundscape'] && <OneTabButtonComponent style={cStyles.actionRow} onPress={() => Linking.openURL(this.props.asset.metadata['soundscape'])}>
+                  <Image style={cStyles.actionRowIcon} source={require('assets/imgs/play_icon.png')} />
+                  <Text style={[cStyles.actionRowText]}>PLAY ON STREAMING PLATFORM</Text>
+                </OneTabButtonComponent>}
+
+                <OneTabButtonComponent style={cStyles.actionRow} onPress={this.downloadAsset.bind(this)}>
+                  <Image style={cStyles.actionRowIcon} source={require('assets/imgs/download_asset_icon.png')} />
+                  <Text style={[cStyles.actionRowText]}>DOWNLOAD PROPERTY</Text>
+                </OneTabButtonComponent>
+
+                <OneTabButtonComponent style={[cStyles.actionRow, { marginBottom: 10 }]} >
+                  <Image style={cStyles.actionRowIcon} source={require('assets/imgs/transfer_bitmark_icon_blue.png')} onPress={() => {
+                    Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
+                  }} />
+                  <Text style={[cStyles.actionRowText]}>TRANSFER OWNERSHIP</Text>
+                </OneTabButtonComponent>
               </View>
-              {this.state.gettingData && <ActivityIndicator style={{ marginTop: 42 }} size="large" />}
-              {(this.state.provenance || []).map((item, index) => (<OneTabButtonComponent key={index} style={cStyles.provenanceRow}
-                onPress={() => this.clickOnProvenance.bind(this)(item)}
-                disabled={item.status === 'pending' || item.status === 'queuing'}
-              >
-                <Text style={[cStyles.provenanceRowItem, {
-                  color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : 'black'
-                }]} numberOfLines={1}>
-                  {(item.status === 'pending' || item.status === 'queuing') ? 'Waiting to be confirmed...' : (moment(item.created_at).format('YYYY MMM DD HH:mm:ss')).toUpperCase()}
-                </Text>
-
-                <Text style={[cStyles.provenanceRowItem, {
-                  marginLeft: convertWidth(19),
-                  color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : 'black'
-                }]} numberOfLines={1}>
-                  {CommonProcessor.getDisplayedAccount(item.owner)}
-                </Text>
-              </OneTabButtonComponent>))}
             </View>
           </ScrollView>
         </View>
-      </SafeAreaView>);
+      </SafeAreaView >);
     } else {
       return (<SafeAreaView style={cStyles.body}>
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}>
@@ -515,12 +456,14 @@ const cStyles = StyleSheet.create({
     marginTop: 29,
   },
   assetInformation: {
-    flexDirection: 'row',
+    marginTop: 30,
+    flexDirection: 'column',
     width: '100%',
   },
   assetContent: {
+    marginTop: 20,
     flex: 1, flexDirection: 'column', justifyContent: 'space-between',
-    marginLeft: convertWidth(19), marginRight: convertWidth(19),
+    paddingLeft: convertWidth(15), paddingRight: convertWidth(19),
   },
   assetContentName: {
     marginTop: 34,
@@ -574,6 +517,22 @@ const cStyles = StyleSheet.create({
   provenanceRowItem: {
     fontFamily: 'Andale Mono', fontSize: 13,
     flex: 1,
+  },
+
+  actionRow: {
+    marginTop: 15,
+    height: 45,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    backgroundColor: '#F1F1F1',
+  },
+  actionRowIcon: {
+    width: 18, height: '100%', resizeMode: 'contain',
+    position: 'absolute', left: 17,
+  },
+  actionRowText: {
+    width: '100%',
+    textAlign: 'center',
+    fontFamily: 'AvenirNextW1G-Bold', color: '#0060F2',
   },
 
 });
