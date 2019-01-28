@@ -38,11 +38,10 @@ import {
 } from './properties/local-issue-music';
 
 import { BitmarkWebViewComponent } from 'src/views/commons';
-import { EventEmitterService, AppProcessor, CommonProcessor, BitmarkProcessor } from 'src/processors';
+import { EventEmitterService, AppProcessor, CommonProcessor, BitmarkProcessor, TransactionProcessor } from 'src/processors';
 
 // import PushNotification from 'react-native-push-notification';
 import { MusicReleaseToPublicComponent } from './properties/local-issue-music/music-release-to-public.component';
-import { doReloadClaimRequests } from 'src/processors/transaction-processor';
 // import { BitmarkProcessor } from 'src/processors/bitmark-processor';
 
 let ComponentName = 'UserRouterComponent';
@@ -61,8 +60,8 @@ export class UserRouterComponent extends Component {
     //   PushNotification.localNotification({
     //     message: 'test message',
     //     userInfo: {
-    //       name: 'claim_request',
-    //       claim_id: '7afea9e5-6ea0-4af8-b56e-79218a57eaf3',
+    //       event: 'claim_request',
+    //       claim_id: 'ae965fff-fe33-46c7-9aae-70a1bc2ad539',
     //     }
     //   });
     // }, 3000);
@@ -98,7 +97,7 @@ export class UserRouterComponent extends Component {
         Actions.propertyDetail(bitmarkInformation);
       }).catch(console.log);
     } else if (data.event === 'claim_request') {
-      doReloadClaimRequests().then((claimRequests) => {
+      TransactionProcessor.doReloadClaimRequests().then((claimRequests) => {
         let incomingClaimRequest = (claimRequests.incoming_claim_requests || []).find(cr => cr.id === data.claim_id);
         if (incomingClaimRequest) {
           Actions.incomingClaimRequest({ incomingClaimRequest });

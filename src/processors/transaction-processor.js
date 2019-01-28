@@ -367,6 +367,7 @@ const doReloadTransferOffers = async () => {
 const doReloadClaimRequests = async () => {
   let result = await runGetClaimRequestInBackground();
   await _doCheckClaimRequests(result);
+  return result;
 };
 
 const doReloadTransfers = async () => {
