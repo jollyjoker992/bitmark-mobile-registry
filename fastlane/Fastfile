@@ -37,7 +37,8 @@ platform :ios do
       export_options: {iCloudContainerEnvironment: 'Production'},
       workspace: "ios/Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry",
-      include_bitcode: true
+      include_bitcode: true,
+      clean: true
     )
     sentry_upload_dsym(
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
@@ -76,7 +77,8 @@ platform :ios do
       export_options: {iCloudContainerEnvironment: 'Production'},
       workspace: "ios/Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry beta",
-      include_bitcode: false
+      include_bitcode: false,
+      clean: true
     )
     sentry_upload_dsym(
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
@@ -85,7 +87,8 @@ platform :ios do
       dsym_path: './Bitmark Registry beta.app.dSYM.zip'
     )
     hockey(
-      api_token: ENV['HOCKEYAPP_KEY']
+      api_token: ENV['HOCKEYAPP_KEY'],
+      release_type: "2"
     )
     reset_git_repo(
       force: true,
@@ -110,7 +113,8 @@ platform :ios do
       export_options: {iCloudContainerEnvironment: 'Production'},
       workspace: "ios/Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry dev",
-      include_bitcode: false
+      include_bitcode: false,
+      clean: true
     )
     sentry_upload_dsym(
       auth_token: ENV['SENTRY_AUTH_TOKEN'],

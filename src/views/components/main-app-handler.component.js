@@ -17,7 +17,7 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, DataProcessor, CacheData, BitmarkSDK, AppProcessor } from 'src/processors';
+import { UserModel, EventEmitterService, CacheData, BitmarkSDK, CommonProcessor, TransactionProcessor } from 'src/processors';
 import { convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
 
@@ -83,6 +83,7 @@ export class MainAppHandlerComponent extends Component {
   }
 
   handerProcessErrorEvent(processError) {
+    console.log('processError :', processError);
     if (processError && (processError.title || processError.message)) {
       this.handleDefaultJSError(processError);
     } else {
@@ -106,6 +107,7 @@ export class MainAppHandlerComponent extends Component {
   }
 
   handleUnexpectedJSError(processError) {
+    console.log('processError :', processError);
     let title = global.i18n.t("MainComponent_errorReportTitle");
     let message = global.i18n.t("MainComponent_errorReportMessage");
 
@@ -151,35 +153,34 @@ export class MainAppHandlerComponent extends Component {
     switch (params[0]) {
       case 'claim': {
         let assetId = params[1];
+        let issuer = params[2];
         if (assetId) {
           UserModel.doTryGetCurrentUser().then(userInformation => {
             if (!userInformation || !userInformation.bitmarkAccountNumber) {
               Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
             }
           });
-          AppProcessor.doGetAssetToClaim(assetId).then(asset => {
-            DataProcessor.doViewSendIncomingClaimRequest(asset);
+          TransactionProcessor.doGetAssetToClaim(assetId, issuer).then((asset) => {
+            CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
           }).catch(error => {
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-          })
+          });
         }
         break;
       }
       default: {
-        // TODO
         break;
       }
     }
   }
 
   handleAppStateChange = (nextAppState) => {
-    console.log('nextAppState :', nextAppState);
     if (this.appState.match(/background/) && nextAppState === 'active') {
-      runPromiseWithoutError(DataProcessor.doMetricOnScreen(true));
+      runPromiseWithoutError(CommonProcessor.doMetricOnScreen(true));
       this.doTryConnectInternet();
     }
     if (nextAppState && nextAppState.match(/background/)) {
-      runPromiseWithoutError(DataProcessor.doMetricOnScreen(false));
+      runPromiseWithoutError(CommonProcessor.doMetricOnScreen(false));
     }
     this.appState = nextAppState;
   }
@@ -248,7 +249,7 @@ export class MainAppHandlerComponent extends Component {
         {this.state.processingCount > 0 && <DefaultIndicatorComponent />}
         {!!this.state.submitting && !this.state.submitting.title && !this.state.submitting.message && <DefaultIndicatorComponent />}
         {!!this.state.submitting && (this.state.submitting.title || this.state.submitting.message) && <BitmarkIndicatorComponent
-          indicator={!!this.state.submitting.indicator} title={this.state.submitting.title} message={this.state.submitting.message} />}
+          indicator={this.state.submitting.indicator} title={this.state.submitting.title} message={this.state.submitting.message} />}
       </View>
     );
   }

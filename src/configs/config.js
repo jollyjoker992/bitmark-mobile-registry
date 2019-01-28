@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { merge } from 'lodash';
 
@@ -12,12 +12,19 @@ const NETWORKS = {
 };
 
 let network = NETWORKS.livenet;
-network = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? NETWORKS.testnet : network;
+let bundleId = DeviceInfo.getBundleId();
+network = bundleId === 'com.bitmark.registry.inhouse' ? NETWORKS.testnet : network;
 
 let commonConfig = {
   network,
   NETWORKS,
+
+  bundleId,
+  version: DeviceInfo.getVersion(),
+  buildNumber: DeviceInfo.getBuildNumber(),
   localization: DeviceInfo.getDeviceLocale(),
+  deviceSize: Dimensions.get('window'),
+
   zeroAddress: 'dw9MQXcC5rJZb3QE1nz86PiQAheMP1dx9M3dr52tT8NNs14m33',
   bitmark_network: NETWORKS.testnet,
   appLink: 'https://itunes.apple.com/us/app/bitmark-registry/id1429427796?ls=1&mt=8',
@@ -35,7 +42,7 @@ let commonConfig = {
   bitmark_web_site: 'https://bitmark.com',
   file_courier_server: 'https://file-courier.test.bitmark.com',
   bitmark_profile_server: 'http://192.168.0.106:1102',
-  needResetLocalData: 1547201856036,
+  needResetLocalData: 1548648040529,
 };
 
 if (commonConfig.network === NETWORKS.testnet) {
@@ -50,6 +57,7 @@ if (commonConfig.network === NETWORKS.testnet) {
   commonConfig.file_courier_server = 'https://file-courier.test.bitmark.com';
   commonConfig.key_account_server_url = 'https://key.test.bitmarkaccountassets.com';
   commonConfig.bitmark_profile_server = 'https://profiles.test.bitmark.com';
+  // commonConfig.bitmark_profile_server = 'http://192.168.0.102:1102';
 
 } else if (commonConfig.network === NETWORKS.livenet) {
   commonConfig.bitmark_network = NETWORKS.livenet;

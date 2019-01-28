@@ -11,7 +11,7 @@ import { Actions } from 'react-native-router-flux';
 
 
 import transactionsStyle from './transactions.component.style';
-import { DataProcessor, AppProcessor, EventEmitterService, CacheData } from 'src/processors';
+import { DataProcessor, AppProcessor, EventEmitterService, CacheData, TransactionProcessor } from 'src/processors';
 import { config, constant } from 'src/configs';
 import { defaultStyles } from 'src/views/commons';
 import { convertWidth } from 'src/utils';
@@ -22,8 +22,8 @@ const SubTabs = {
   completed: 'HISTORY',
 };
 
-const ActionRequireTypes = DataProcessor.ActionRequireTypes;
-const TransactionHistoryTypes = DataProcessor.TransactionHistoryTypes;
+const ActionRequireTypes = TransactionProcessor.TransactionActionRequireTypes;
+const TransactionHistoryTypes = TransactionProcessor.TransactionHistoryTypes;
 
 let currentSize = Dimensions.get('window');
 
@@ -69,7 +69,7 @@ class PrivateTransactionsComponent extends React.Component {
           DataProcessor.doReloadUserData();
           Alert.alert(global.i18n.t("TransactionsComponent_success"), global.i18n.t("TransactionsComponent_yourPropertyRightsHaveBeenRegistered"), [{
             text: global.i18n.t("TransactionsComponent_ok"),
-            onPress: () => Actions.jump('assets')
+            onPress: () => Actions.jump('properties')
           }]);
         }
       }).catch(error => {
@@ -94,8 +94,7 @@ class PrivateTransactionsComponent extends React.Component {
   }
 
   async acceptAllTransfers() {
-    AppProcessor.doGetAllTransfersOffers().then(transferOffers => {
-      console.log(transferOffers);
+    TransactionProcessor.doGetAllTransfersOffers().then(transferOffers => {
       Alert.alert(global.i18n.t("TransactionsComponent_signForAcceptanceOfAllBitmarksSentToYou"), global.i18n.t("TransactionsComponent_acceptTransfer", { length: transferOffers.length }), [{
         text: global.i18n.t("TransactionsComponent_cancel"), style: 'cancel',
       }, {
@@ -118,6 +117,7 @@ class PrivateTransactionsComponent extends React.Component {
   }
 
   render() {
+    let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     return (
       <SafeAreaView style={transactionsStyle.body}>
         <View style={[transactionsStyle.header, { height: constant.headerSize.height }]}>
@@ -180,7 +180,7 @@ class PrivateTransactionsComponent extends React.Component {
             }
             if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.props.actionRequired.length < this.props.totalActionRequired)) {
               this.loadingActionRequiredWhenScroll = true;
-              await DataProcessor.doAddMoreActionRequired(this.props.actionRequired.length);
+              await TransactionProcessor.doAddMoreActionRequired(this.props.actionRequired.length);
             }
             this.loadingActionRequiredWhenScroll = false;
           }}
@@ -222,7 +222,7 @@ class PrivateTransactionsComponent extends React.Component {
                     </View>}
 
                     {item.type === ActionRequireTypes.claim_request && <View style={transactionsStyle.iftttTask}>
-                      <Text style={transactionsStyle.iftttTitle}>{item.incomingClaimRequest.asset.name} {item.incomingClaimRequest.index}/{item.incomingClaimRequest.asset.limitedEdition}</Text>
+                      <Text style={transactionsStyle.iftttTitle}>{item.incomingClaimRequest.asset.name} {item.incomingClaimRequest.index}/{item.incomingClaimRequest.asset.editions[bitmarkAccountNumber].limited}</Text>
                       <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_claimRequestMessage", { accountNumber: item.incomingClaimRequest.from })}</Text>
                     </View>}
                   </TouchableOpacity>)
@@ -249,7 +249,7 @@ class PrivateTransactionsComponent extends React.Component {
             }
             if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.props.completed.length < this.props.totalCompleted)) {
               this.loadingCompletedWhenScroll = true;
-              await DataProcessor.doAddMoreCompleted(this.props.completed.length);
+              await TransactionProcessor.doAddMoreCompleted(this.props.completed.length);
             }
             this.loadingCompletedWhenScroll = false;
           }}

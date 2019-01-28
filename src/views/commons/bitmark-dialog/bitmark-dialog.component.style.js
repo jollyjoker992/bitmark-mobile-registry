@@ -28,7 +28,7 @@ export default StyleSheet.create({
     height: '100%',
   },
   dialogContent: {
-    width: convertWidth(245),
+    width: convertWidth(271),
     minHeight: 125,
     borderRadius: 12,
     backgroundColor: 'rgba(255, 255, 255, 0.95)',

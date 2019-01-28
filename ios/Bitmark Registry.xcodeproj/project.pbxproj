@@ -123,14 +123,80 @@
 		CFBBBFF1C6905C6AC271A896 /* Pods_Bitmark_Registry_beta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD21E6F81C2089EF0AA72A6B /* Pods_Bitmark_Registry_beta.framework */; };
 		F11FB9A721C0E6730092FB45 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB9A321C0E63A0092FB45 /* libRNSentry.a */; };
 		F11FB9A821C0E67C0092FB45 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F11FB9A321C0E63A0092FB45 /* libRNSentry.a */; };
+		F12F328421F81363002D918E /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F327D21F812C0002D918E /* libLottie.a */; };
+		F12F328521F81363002D918E /* libLottieReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F328321F8134E002D918E /* libLottieReactNative.a */; };
+		F12F328621F8136B002D918E /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F327D21F812C0002D918E /* libLottie.a */; };
+		F12F328721F8136B002D918E /* libLottieReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F328321F8134E002D918E /* libLottieReactNative.a */; };
+		F12F328821F81370002D918E /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F327D21F812C0002D918E /* libLottie.a */; };
+		F12F328921F81370002D918E /* libLottieReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F328321F8134E002D918E /* libLottieReactNative.a */; };
+		F12F329021F8153B002D918E /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F328F21F8152F002D918E /* libRNShare.a */; };
+		F12F329121F81540002D918E /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F328F21F8152F002D918E /* libRNShare.a */; };
+		F12F329221F81545002D918E /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F328F21F8152F002D918E /* libRNShare.a */; };
+		F12F329421F817B4002D918E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F329321F817B4002D918E /* Social.framework */; };
+		F12F329621F817BD002D918E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F329521F817BD002D918E /* MessageUI.framework */; };
+		F12F329721F817C4002D918E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F329321F817B4002D918E /* Social.framework */; };
+		F12F329821F817CB002D918E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F329521F817BD002D918E /* MessageUI.framework */; };
+		F12F329921F817D1002D918E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F329321F817B4002D918E /* Social.framework */; };
+		F12F329A21F817D6002D918E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F329521F817BD002D918E /* MessageUI.framework */; };
 		F150CA412023230B00C8FC17 /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F150CA152023230B00C8FC17 /* AndaleMono.ttf */; };
 		F15C1D112063B9D4002DDF98 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15C1D102063B9B6002DDF98 /* libRNZipArchive.a */; };
 		F15F68E1203D70EC00A5A582 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15F68DE203D70DE00A5A582 /* libRNImagePicker.a */; };
 		F179A25020AF9775002D5539 /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F179A21C20AF9760002D5539 /* libKCKeepAwake.a */; };
+		F188819C21F95DA00017C2E5 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F188817821F95D7D0017C2E5 /* libRCTVideo.a */; };
+		F188819D21F95DA90017C2E5 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F188817821F95D7D0017C2E5 /* libRCTVideo.a */; };
+		F188819E21F95DAF0017C2E5 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F188817821F95D7D0017C2E5 /* libRCTVideo.a */; };
 		F18C03B62049096100FA36E4 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F18C03932049095000FA36E4 /* libRCTPushNotification.a */; };
 		F18C03C3204929FB00FA36E4 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F18C03BE204929BC00FA36E4 /* libRNDeviceInfo.a */; };
 		F1D09CF520770768008B16EE /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D09CC020770726008B16EE /* libCodePush.a */; };
 		F1D09CF8207707BF008B16EE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D09CF7207707BF008B16EE /* libz.tbd */; };
+		F1EE2A1F21F02A2C00A65824 /* AvenirNextW1G-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE29D821F02A2700A65824 /* AvenirNextW1G-UltraLight.ttf */; };
+		F1EE2A2021F02A2C00A65824 /* AvenirNextW1G-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1021F02A2700A65824 /* AvenirNextW1G-Light.ttf */; };
+		F1EE2A2121F02A2C00A65824 /* AvenirNextW1G-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1121F02A2800A65824 /* AvenirNextW1G-UltraLightIt.ttf */; };
+		F1EE2A2221F02A2C00A65824 /* AvenirNextW1G-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1221F02A2800A65824 /* AvenirNextW1G-Demi.ttf */; };
+		F1EE2A2321F02A2C00A65824 /* AvenirNextW1G-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1321F02A2800A65824 /* AvenirNextW1G-Medium.ttf */; };
+		F1EE2A2421F02A2C00A65824 /* AvenirNextW1G-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1421F02A2900A65824 /* AvenirNextW1G-Heavy.ttf */; };
+		F1EE2A2521F02A2C00A65824 /* AvenirNextW1G-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1521F02A2900A65824 /* AvenirNextW1G-ThinItalic.ttf */; };
+		F1EE2A2621F02A2C00A65824 /* AvenirNextW1G-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1621F02A2900A65824 /* AvenirNextW1G-LightItalic.ttf */; };
+		F1EE2A2721F02A2C00A65824 /* AvenirNextW1G-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1721F02A2900A65824 /* AvenirNextW1G-Bold.ttf */; };
+		F1EE2A2821F02A2C00A65824 /* AvenirNextW1G-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1821F02A2A00A65824 /* AvenirNextW1G-MediumItalic.ttf */; };
+		F1EE2A2921F02A2C00A65824 /* AvenirNextW1G-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1921F02A2A00A65824 /* AvenirNextW1G-Thin.ttf */; };
+		F1EE2A2A21F02A2C00A65824 /* AvenirNextW1G-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1A21F02A2A00A65824 /* AvenirNextW1G-Italic.ttf */; };
+		F1EE2A2B21F02A2C00A65824 /* AvenirNextW1G-DemiItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1B21F02A2B00A65824 /* AvenirNextW1G-DemiItalic.ttf */; };
+		F1EE2A2C21F02A2C00A65824 /* AvenirNextW1G-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1C21F02A2B00A65824 /* AvenirNextW1G-Regular.ttf */; };
+		F1EE2A2D21F02A2C00A65824 /* AvenirNextW1G-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1D21F02A2B00A65824 /* AvenirNextW1G-BoldItalic.ttf */; };
+		F1EE2A2E21F02A2C00A65824 /* AvenirNextW1G-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1E21F02A2C00A65824 /* AvenirNextW1G-HeavyItalic.ttf */; };
+		F1EE2A2F21F02A3B00A65824 /* AvenirNextW1G-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1721F02A2900A65824 /* AvenirNextW1G-Bold.ttf */; };
+		F1EE2A3021F02A3B00A65824 /* AvenirNextW1G-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1721F02A2900A65824 /* AvenirNextW1G-Bold.ttf */; };
+		F1EE2A3221F02A4300A65824 /* AvenirNextW1G-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1D21F02A2B00A65824 /* AvenirNextW1G-BoldItalic.ttf */; };
+		F1EE2A3321F02A4300A65824 /* AvenirNextW1G-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1221F02A2800A65824 /* AvenirNextW1G-Demi.ttf */; };
+		F1EE2A3421F02A4300A65824 /* AvenirNextW1G-DemiItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1B21F02A2B00A65824 /* AvenirNextW1G-DemiItalic.ttf */; };
+		F1EE2A3521F02A4300A65824 /* AvenirNextW1G-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1421F02A2900A65824 /* AvenirNextW1G-Heavy.ttf */; };
+		F1EE2A3621F02A4300A65824 /* AvenirNextW1G-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1E21F02A2C00A65824 /* AvenirNextW1G-HeavyItalic.ttf */; };
+		F1EE2A3721F02A4300A65824 /* AvenirNextW1G-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1A21F02A2A00A65824 /* AvenirNextW1G-Italic.ttf */; };
+		F1EE2A3821F02A4300A65824 /* AvenirNextW1G-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1021F02A2700A65824 /* AvenirNextW1G-Light.ttf */; };
+		F1EE2A3921F02A4300A65824 /* AvenirNextW1G-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1621F02A2900A65824 /* AvenirNextW1G-LightItalic.ttf */; };
+		F1EE2A3A21F02A4300A65824 /* AvenirNextW1G-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1321F02A2800A65824 /* AvenirNextW1G-Medium.ttf */; };
+		F1EE2A3B21F02A4300A65824 /* AvenirNextW1G-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1821F02A2A00A65824 /* AvenirNextW1G-MediumItalic.ttf */; };
+		F1EE2A3C21F02A4300A65824 /* AvenirNextW1G-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1C21F02A2B00A65824 /* AvenirNextW1G-Regular.ttf */; };
+		F1EE2A3D21F02A4300A65824 /* AvenirNextW1G-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1921F02A2A00A65824 /* AvenirNextW1G-Thin.ttf */; };
+		F1EE2A3E21F02A4300A65824 /* AvenirNextW1G-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1521F02A2900A65824 /* AvenirNextW1G-ThinItalic.ttf */; };
+		F1EE2A3F21F02A4300A65824 /* AvenirNextW1G-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE29D821F02A2700A65824 /* AvenirNextW1G-UltraLight.ttf */; };
+		F1EE2A4021F02A4300A65824 /* AvenirNextW1G-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1121F02A2800A65824 /* AvenirNextW1G-UltraLightIt.ttf */; };
+		F1EE2A4121F02A4400A65824 /* AvenirNextW1G-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1D21F02A2B00A65824 /* AvenirNextW1G-BoldItalic.ttf */; };
+		F1EE2A4221F02A4400A65824 /* AvenirNextW1G-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1221F02A2800A65824 /* AvenirNextW1G-Demi.ttf */; };
+		F1EE2A4321F02A4400A65824 /* AvenirNextW1G-DemiItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1B21F02A2B00A65824 /* AvenirNextW1G-DemiItalic.ttf */; };
+		F1EE2A4421F02A4400A65824 /* AvenirNextW1G-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1421F02A2900A65824 /* AvenirNextW1G-Heavy.ttf */; };
+		F1EE2A4521F02A4400A65824 /* AvenirNextW1G-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1E21F02A2C00A65824 /* AvenirNextW1G-HeavyItalic.ttf */; };
+		F1EE2A4621F02A4400A65824 /* AvenirNextW1G-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1A21F02A2A00A65824 /* AvenirNextW1G-Italic.ttf */; };
+		F1EE2A4721F02A4400A65824 /* AvenirNextW1G-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1021F02A2700A65824 /* AvenirNextW1G-Light.ttf */; };
+		F1EE2A4821F02A4400A65824 /* AvenirNextW1G-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1621F02A2900A65824 /* AvenirNextW1G-LightItalic.ttf */; };
+		F1EE2A4921F02A4400A65824 /* AvenirNextW1G-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1321F02A2800A65824 /* AvenirNextW1G-Medium.ttf */; };
+		F1EE2A4A21F02A4400A65824 /* AvenirNextW1G-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1821F02A2A00A65824 /* AvenirNextW1G-MediumItalic.ttf */; };
+		F1EE2A4B21F02A4400A65824 /* AvenirNextW1G-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1C21F02A2B00A65824 /* AvenirNextW1G-Regular.ttf */; };
+		F1EE2A4C21F02A4400A65824 /* AvenirNextW1G-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1921F02A2A00A65824 /* AvenirNextW1G-Thin.ttf */; };
+		F1EE2A4D21F02A4400A65824 /* AvenirNextW1G-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1521F02A2900A65824 /* AvenirNextW1G-ThinItalic.ttf */; };
+		F1EE2A4E21F02A4400A65824 /* AvenirNextW1G-UltraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE29D821F02A2700A65824 /* AvenirNextW1G-UltraLight.ttf */; };
+		F1EE2A4F21F02A4400A65824 /* AvenirNextW1G-UltraLightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1121F02A2800A65824 /* AvenirNextW1G-UltraLightIt.ttf */; };
 		F1F6E2E120B6BF5200CECD53 /* libRNCookieManagerIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F6E2D720B6BF4000CECD53 /* libRNCookieManagerIOS.a */; };
 		F1F6E2E320B6BF6800CECD53 /* libRNCookieManagerIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F6E2D720B6BF4000CECD53 /* libRNCookieManagerIOS.a */; };
 /* End PBXBuildFile section */
@@ -458,6 +524,48 @@
 			remoteGlobalIDString = 274692C321B4414400BF91A8;
 			remoteInfo = "RNSentry-tvOS";
 		};
+		F12F327621F812C0002D918E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F12F326F21F812BF002D918E /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 62CA59B81E3C173B002D7188;
+			remoteInfo = Lottie_iOS;
+		};
+		F12F327821F812C0002D918E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F12F326F21F812BF002D918E /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FAE1F7E61E428CBE002E0974;
+			remoteInfo = Lottie_macOS;
+		};
+		F12F327A21F812C0002D918E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F12F326F21F812BF002D918E /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8C5379761FB471D100C1BC65;
+			remoteInfo = Lottie_tvOS;
+		};
+		F12F327C21F812C0002D918E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F12F326F21F812BF002D918E /* Lottie.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 84FE12EF1E4C1485009B157C;
+			remoteInfo = LottieLibraryIOS;
+		};
+		F12F328221F8134E002D918E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F12F327E21F8134E002D918E /* LottieReactNative.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 11FA5C511C4A1296003AC2EE;
+			remoteInfo = LottieReactNative;
+		};
+		F12F328E21F8152F002D918E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F12F328A21F8152F002D918E /* RNShare.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNShare;
+		};
 		F15C1D0F2063B9B6002DDF98 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F15C1CDA2063B9B6002DDF98 /* RNZipArchive.xcodeproj */;
@@ -478,6 +586,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = KCKeepAwake;
+		};
+		F188817721F95D7D0017C2E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F188815621F95D7D0017C2E5 /* RCTVideo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTVideo;
+		};
+		F188817921F95D7D0017C2E5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F188815621F95D7D0017C2E5 /* RCTVideo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 641E28441F0EEC8500443AF6;
+			remoteInfo = "RCTVideo-tvOS";
 		};
 		F18C03922049095000FA36E4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -670,14 +792,36 @@
 		E3045E478EDA4BB795BE1653 /* RNMail.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMail.xcodeproj; path = "../node_modules/react-native-mail/RNMail.xcodeproj"; sourceTree = "<group>"; };
 		E68EEEE1542C435DA913552D /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		F11FB96621C0E63A0092FB45 /* RNSentry.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
+		F12F326F21F812BF002D918E /* Lottie.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lottie.xcodeproj; path = "../node_modules/lottie-ios/Lottie.xcodeproj"; sourceTree = "<group>"; };
+		F12F327E21F8134E002D918E /* LottieReactNative.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LottieReactNative.xcodeproj; path = "../node_modules/lottie-react-native/src/ios/LottieReactNative.xcodeproj"; sourceTree = "<group>"; };
+		F12F328A21F8152F002D918E /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
+		F12F329321F817B4002D918E /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		F12F329521F817BD002D918E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F150CA152023230B00C8FC17 /* AndaleMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AndaleMono.ttf; path = ../assets/fonts/AndaleMono.ttf; sourceTree = "<group>"; };
 		F15C1CDA2063B9B6002DDF98 /* RNZipArchive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNZipArchive.xcodeproj; path = "../node_modules/react-native-zip-archive/ios/RNZipArchive.xcodeproj"; sourceTree = "<group>"; };
 		F15F68AF203D70DE00A5A582 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		F179A21520AF9760002D5539 /* KCKeepAwake.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KCKeepAwake.xcodeproj; path = "../node_modules/react-native-keep-awake/ios/KCKeepAwake.xcodeproj"; sourceTree = "<group>"; };
+		F188815621F95D7D0017C2E5 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVideo.xcodeproj; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; };
 		F18C03802049095000FA36E4 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		F18C03B8204929BC00FA36E4 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		F1D09CBA20770725008B16EE /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		F1D09CF7207707BF008B16EE /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		F1EE29D821F02A2700A65824 /* AvenirNextW1G-UltraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-UltraLight.ttf"; path = "../assets/fonts/AvenirNextW1G-UltraLight.ttf"; sourceTree = "<group>"; };
+		F1EE2A1021F02A2700A65824 /* AvenirNextW1G-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-Light.ttf"; path = "../assets/fonts/AvenirNextW1G-Light.ttf"; sourceTree = "<group>"; };
+		F1EE2A1121F02A2800A65824 /* AvenirNextW1G-UltraLightIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-UltraLightIt.ttf"; path = "../assets/fonts/AvenirNextW1G-UltraLightIt.ttf"; sourceTree = "<group>"; };
+		F1EE2A1221F02A2800A65824 /* AvenirNextW1G-Demi.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-Demi.ttf"; path = "../assets/fonts/AvenirNextW1G-Demi.ttf"; sourceTree = "<group>"; };
+		F1EE2A1321F02A2800A65824 /* AvenirNextW1G-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-Medium.ttf"; path = "../assets/fonts/AvenirNextW1G-Medium.ttf"; sourceTree = "<group>"; };
+		F1EE2A1421F02A2900A65824 /* AvenirNextW1G-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-Heavy.ttf"; path = "../assets/fonts/AvenirNextW1G-Heavy.ttf"; sourceTree = "<group>"; };
+		F1EE2A1521F02A2900A65824 /* AvenirNextW1G-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-ThinItalic.ttf"; path = "../assets/fonts/AvenirNextW1G-ThinItalic.ttf"; sourceTree = "<group>"; };
+		F1EE2A1621F02A2900A65824 /* AvenirNextW1G-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-LightItalic.ttf"; path = "../assets/fonts/AvenirNextW1G-LightItalic.ttf"; sourceTree = "<group>"; };
+		F1EE2A1721F02A2900A65824 /* AvenirNextW1G-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-Bold.ttf"; path = "../assets/fonts/AvenirNextW1G-Bold.ttf"; sourceTree = "<group>"; };
+		F1EE2A1821F02A2A00A65824 /* AvenirNextW1G-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-MediumItalic.ttf"; path = "../assets/fonts/AvenirNextW1G-MediumItalic.ttf"; sourceTree = "<group>"; };
+		F1EE2A1921F02A2A00A65824 /* AvenirNextW1G-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-Thin.ttf"; path = "../assets/fonts/AvenirNextW1G-Thin.ttf"; sourceTree = "<group>"; };
+		F1EE2A1A21F02A2A00A65824 /* AvenirNextW1G-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-Italic.ttf"; path = "../assets/fonts/AvenirNextW1G-Italic.ttf"; sourceTree = "<group>"; };
+		F1EE2A1B21F02A2B00A65824 /* AvenirNextW1G-DemiItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-DemiItalic.ttf"; path = "../assets/fonts/AvenirNextW1G-DemiItalic.ttf"; sourceTree = "<group>"; };
+		F1EE2A1C21F02A2B00A65824 /* AvenirNextW1G-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-Regular.ttf"; path = "../assets/fonts/AvenirNextW1G-Regular.ttf"; sourceTree = "<group>"; };
+		F1EE2A1D21F02A2B00A65824 /* AvenirNextW1G-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-BoldItalic.ttf"; path = "../assets/fonts/AvenirNextW1G-BoldItalic.ttf"; sourceTree = "<group>"; };
+		F1EE2A1E21F02A2C00A65824 /* AvenirNextW1G-HeavyItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AvenirNextW1G-HeavyItalic.ttf"; path = "../assets/fonts/AvenirNextW1G-HeavyItalic.ttf"; sourceTree = "<group>"; };
 		F1F6E2A520B6BF4000CECD53 /* RNCookieManagerIOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCookieManagerIOS.xcodeproj; path = "../node_modules/react-native-cookies/ios/RNCookieManagerIOS.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -695,6 +839,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F188819D21F95DA90017C2E5 /* libRCTVideo.a in Frameworks */,
+				F12F329821F817CB002D918E /* MessageUI.framework in Frameworks */,
+				F12F329721F817C4002D918E /* Social.framework in Frameworks */,
+				F12F329221F81545002D918E /* libRNShare.a in Frameworks */,
+				F12F328821F81370002D918E /* libLottie.a in Frameworks */,
+				F12F328921F81370002D918E /* libLottieReactNative.a in Frameworks */,
 				F11FB9A721C0E6730092FB45 /* libRNSentry.a in Frameworks */,
 				58ADB52C211A8D3C005BBA73 /* CloudKit.framework in Frameworks */,
 				F1F6E2E120B6BF5200CECD53 /* libRNCookieManagerIOS.a in Frameworks */,
@@ -730,6 +880,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F188819E21F95DAF0017C2E5 /* libRCTVideo.a in Frameworks */,
+				F12F329A21F817D6002D918E /* MessageUI.framework in Frameworks */,
+				F12F329921F817D1002D918E /* Social.framework in Frameworks */,
+				F12F329121F81540002D918E /* libRNShare.a in Frameworks */,
+				F12F328621F8136B002D918E /* libLottie.a in Frameworks */,
+				F12F328721F8136B002D918E /* libLottieReactNative.a in Frameworks */,
 				58AA9D3821C0F9DB00634F03 /* libRNSentry.a in Frameworks */,
 				583BAC04216F51600015E3A0 /* CloudKit.framework in Frameworks */,
 				583BAC07216F51600015E3A0 /* libRNCookieManagerIOS.a in Frameworks */,
@@ -765,6 +921,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F188819C21F95DA00017C2E5 /* libRCTVideo.a in Frameworks */,
+				F12F329621F817BD002D918E /* MessageUI.framework in Frameworks */,
+				F12F329421F817B4002D918E /* Social.framework in Frameworks */,
+				F12F329021F8153B002D918E /* libRNShare.a in Frameworks */,
+				F12F328421F81363002D918E /* libLottie.a in Frameworks */,
+				F12F328521F81363002D918E /* libLottieReactNative.a in Frameworks */,
 				F11FB9A821C0E67C0092FB45 /* libRNSentry.a in Frameworks */,
 				58ADB52B211A8CED005BBA73 /* CloudKit.framework in Frameworks */,
 				F1F6E2E320B6BF6800CECD53 /* libRNCookieManagerIOS.a in Frameworks */,
@@ -937,6 +1099,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F12F329521F817BD002D918E /* MessageUI.framework */,
+				F12F329321F817B4002D918E /* Social.framework */,
 				58ADB52A211A8CED005BBA73 /* CloudKit.framework */,
 				F1D09CF7207707BF008B16EE /* libz.tbd */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
@@ -1129,6 +1293,10 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F188815621F95D7D0017C2E5 /* RCTVideo.xcodeproj */,
+				F12F328A21F8152F002D918E /* RNShare.xcodeproj */,
+				F12F327E21F8134E002D918E /* LottieReactNative.xcodeproj */,
+				F12F326F21F812BF002D918E /* Lottie.xcodeproj */,
 				F11FB96621C0E63A0092FB45 /* RNSentry.xcodeproj */,
 				F1F6E2A520B6BF4000CECD53 /* RNCookieManagerIOS.xcodeproj */,
 				F179A21520AF9760002D5539 /* KCKeepAwake.xcodeproj */,
@@ -1169,6 +1337,22 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				F1EE2A1721F02A2900A65824 /* AvenirNextW1G-Bold.ttf */,
+				F1EE2A1D21F02A2B00A65824 /* AvenirNextW1G-BoldItalic.ttf */,
+				F1EE2A1221F02A2800A65824 /* AvenirNextW1G-Demi.ttf */,
+				F1EE2A1B21F02A2B00A65824 /* AvenirNextW1G-DemiItalic.ttf */,
+				F1EE2A1421F02A2900A65824 /* AvenirNextW1G-Heavy.ttf */,
+				F1EE2A1E21F02A2C00A65824 /* AvenirNextW1G-HeavyItalic.ttf */,
+				F1EE2A1A21F02A2A00A65824 /* AvenirNextW1G-Italic.ttf */,
+				F1EE2A1021F02A2700A65824 /* AvenirNextW1G-Light.ttf */,
+				F1EE2A1621F02A2900A65824 /* AvenirNextW1G-LightItalic.ttf */,
+				F1EE2A1321F02A2800A65824 /* AvenirNextW1G-Medium.ttf */,
+				F1EE2A1821F02A2A00A65824 /* AvenirNextW1G-MediumItalic.ttf */,
+				F1EE2A1C21F02A2B00A65824 /* AvenirNextW1G-Regular.ttf */,
+				F1EE2A1921F02A2A00A65824 /* AvenirNextW1G-Thin.ttf */,
+				F1EE2A1521F02A2900A65824 /* AvenirNextW1G-ThinItalic.ttf */,
+				F1EE29D821F02A2700A65824 /* AvenirNextW1G-UltraLight.ttf */,
+				F1EE2A1121F02A2800A65824 /* AvenirNextW1G-UltraLightIt.ttf */,
 				F150CA152023230B00C8FC17 /* AndaleMono.ttf */,
 				13B07FAE1A68108700A75B9A /* Bitmark */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -1233,6 +1417,33 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F12F327021F812BF002D918E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F12F327721F812C0002D918E /* Lottie.framework */,
+				F12F327921F812C0002D918E /* Lottie.framework */,
+				F12F327B21F812C0002D918E /* Lottie.framework */,
+				F12F327D21F812C0002D918E /* libLottie.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F12F327F21F8134E002D918E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F12F328321F8134E002D918E /* libLottieReactNative.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F12F328B21F8152F002D918E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F12F328F21F8152F002D918E /* libRNShare.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		F15C1CDB2063B9B6002DDF98 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1253,6 +1464,15 @@
 			isa = PBXGroup;
 			children = (
 				F179A21C20AF9760002D5539 /* libKCKeepAwake.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F188815721F95D7D0017C2E5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F188817821F95D7D0017C2E5 /* libRCTVideo.a */,
+				F188817A21F95D7D0017C2E5 /* libRCTVideo.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1457,6 +1677,14 @@
 					ProjectRef = F179A21520AF9760002D5539 /* KCKeepAwake.xcodeproj */;
 				},
 				{
+					ProductGroup = F12F327021F812BF002D918E /* Products */;
+					ProjectRef = F12F326F21F812BF002D918E /* Lottie.xcodeproj */;
+				},
+				{
+					ProductGroup = F12F327F21F8134E002D918E /* Products */;
+					ProjectRef = F12F327E21F8134E002D918E /* LottieReactNative.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
 				},
@@ -1505,6 +1733,10 @@
 					ProjectRef = 00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */;
 				},
 				{
+					ProductGroup = F188815721F95D7D0017C2E5 /* Products */;
+					ProjectRef = F188815621F95D7D0017C2E5 /* RCTVideo.xcodeproj */;
+				},
+				{
 					ProductGroup = 139FDEE71B06529A00C62182 /* Products */;
 					ProjectRef = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
 				},
@@ -1539,6 +1771,10 @@
 				{
 					ProductGroup = F11FB96721C0E63A0092FB45 /* Products */;
 					ProjectRef = F11FB96621C0E63A0092FB45 /* RNSentry.xcodeproj */;
+				},
+				{
+					ProductGroup = F12F328B21F8152F002D918E /* Products */;
+					ProjectRef = F12F328A21F8152F002D918E /* RNShare.xcodeproj */;
 				},
 				{
 					ProductGroup = F15C1CDB2063B9B6002DDF98 /* Products */;
@@ -1871,6 +2107,48 @@
 			remoteRef = F11FB9A421C0E63A0092FB45 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		F12F327721F812C0002D918E /* Lottie.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Lottie.framework;
+			remoteRef = F12F327621F812C0002D918E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F12F327921F812C0002D918E /* Lottie.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Lottie.framework;
+			remoteRef = F12F327821F812C0002D918E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F12F327B21F812C0002D918E /* Lottie.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Lottie.framework;
+			remoteRef = F12F327A21F812C0002D918E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F12F327D21F812C0002D918E /* libLottie.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLottie.a;
+			remoteRef = F12F327C21F812C0002D918E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F12F328321F8134E002D918E /* libLottieReactNative.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libLottieReactNative.a;
+			remoteRef = F12F328221F8134E002D918E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F12F328F21F8152F002D918E /* libRNShare.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNShare.a;
+			remoteRef = F12F328E21F8152F002D918E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		F15C1D102063B9B6002DDF98 /* libRNZipArchive.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1890,6 +2168,20 @@
 			fileType = archive.ar;
 			path = libKCKeepAwake.a;
 			remoteRef = F179A21B20AF9760002D5539 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F188817821F95D7D0017C2E5 /* libRCTVideo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTVideo.a;
+			remoteRef = F188817721F95D7D0017C2E5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F188817A21F95D7D0017C2E5 /* libRCTVideo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTVideo.a;
+			remoteRef = F188817921F95D7D0017C2E5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F18C03932049095000FA36E4 /* libRCTPushNotification.a */ = {
@@ -1955,11 +2247,27 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1EE2A2C21F02A2C00A65824 /* AvenirNextW1G-Regular.ttf in Resources */,
+				F1EE2A2021F02A2C00A65824 /* AvenirNextW1G-Light.ttf in Resources */,
+				F1EE2A2B21F02A2C00A65824 /* AvenirNextW1G-DemiItalic.ttf in Resources */,
+				F1EE2A2621F02A2C00A65824 /* AvenirNextW1G-LightItalic.ttf in Resources */,
+				F1EE2A2A21F02A2C00A65824 /* AvenirNextW1G-Italic.ttf in Resources */,
 				F150CA412023230B00C8FC17 /* AndaleMono.ttf in Resources */,
 				586D2E7E2167219C002A84B5 /* Localizable.strings in Resources */,
+				F1EE2A1F21F02A2C00A65824 /* AvenirNextW1G-UltraLight.ttf in Resources */,
+				F1EE2A2921F02A2C00A65824 /* AvenirNextW1G-Thin.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				F1EE2A2D21F02A2C00A65824 /* AvenirNextW1G-BoldItalic.ttf in Resources */,
+				F1EE2A2E21F02A2C00A65824 /* AvenirNextW1G-HeavyItalic.ttf in Resources */,
 				588E9D2F216C609100F0E5D9 /* InfoPlist.strings in Resources */,
+				F1EE2A2121F02A2C00A65824 /* AvenirNextW1G-UltraLightIt.ttf in Resources */,
+				F1EE2A2421F02A2C00A65824 /* AvenirNextW1G-Heavy.ttf in Resources */,
+				F1EE2A2821F02A2C00A65824 /* AvenirNextW1G-MediumItalic.ttf in Resources */,
+				F1EE2A2521F02A2C00A65824 /* AvenirNextW1G-ThinItalic.ttf in Resources */,
+				F1EE2A2721F02A2C00A65824 /* AvenirNextW1G-Bold.ttf in Resources */,
+				F1EE2A2221F02A2C00A65824 /* AvenirNextW1G-Demi.ttf in Resources */,
+				F1EE2A2321F02A2C00A65824 /* AvenirNextW1G-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1968,10 +2276,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				583BAC21216F51600015E3A0 /* AndaleMono.ttf in Resources */,
+				F1EE2A4A21F02A4400A65824 /* AvenirNextW1G-MediumItalic.ttf in Resources */,
+				F1EE2A4321F02A4400A65824 /* AvenirNextW1G-DemiItalic.ttf in Resources */,
+				F1EE2A4F21F02A4400A65824 /* AvenirNextW1G-UltraLightIt.ttf in Resources */,
+				F1EE2A4221F02A4400A65824 /* AvenirNextW1G-Demi.ttf in Resources */,
+				F1EE2A3021F02A3B00A65824 /* AvenirNextW1G-Bold.ttf in Resources */,
+				F1EE2A4921F02A4400A65824 /* AvenirNextW1G-Medium.ttf in Resources */,
+				F1EE2A4521F02A4400A65824 /* AvenirNextW1G-HeavyItalic.ttf in Resources */,
 				583BAC22216F51600015E3A0 /* Localizable.strings in Resources */,
+				F1EE2A4121F02A4400A65824 /* AvenirNextW1G-BoldItalic.ttf in Resources */,
+				F1EE2A4721F02A4400A65824 /* AvenirNextW1G-Light.ttf in Resources */,
 				583BAC23216F51600015E3A0 /* Images.xcassets in Resources */,
+				F1EE2A4D21F02A4400A65824 /* AvenirNextW1G-ThinItalic.ttf in Resources */,
+				F1EE2A4E21F02A4400A65824 /* AvenirNextW1G-UltraLight.ttf in Resources */,
 				583BAC24216F51600015E3A0 /* LaunchScreen.xib in Resources */,
+				F1EE2A4421F02A4400A65824 /* AvenirNextW1G-Heavy.ttf in Resources */,
+				F1EE2A4C21F02A4400A65824 /* AvenirNextW1G-Thin.ttf in Resources */,
+				F1EE2A4B21F02A4400A65824 /* AvenirNextW1G-Regular.ttf in Resources */,
+				F1EE2A4621F02A4400A65824 /* AvenirNextW1G-Italic.ttf in Resources */,
 				583BAC25216F51600015E3A0 /* InfoPlist.strings in Resources */,
+				F1EE2A4821F02A4400A65824 /* AvenirNextW1G-LightItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1980,10 +2304,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				58908AC020A18A5A00C0064A /* AndaleMono.ttf in Resources */,
+				F1EE2A3B21F02A4300A65824 /* AvenirNextW1G-MediumItalic.ttf in Resources */,
+				F1EE2A3421F02A4300A65824 /* AvenirNextW1G-DemiItalic.ttf in Resources */,
+				F1EE2A4021F02A4300A65824 /* AvenirNextW1G-UltraLightIt.ttf in Resources */,
+				F1EE2A3321F02A4300A65824 /* AvenirNextW1G-Demi.ttf in Resources */,
+				F1EE2A2F21F02A3B00A65824 /* AvenirNextW1G-Bold.ttf in Resources */,
+				F1EE2A3A21F02A4300A65824 /* AvenirNextW1G-Medium.ttf in Resources */,
+				F1EE2A3621F02A4300A65824 /* AvenirNextW1G-HeavyItalic.ttf in Resources */,
 				586D2E7F2167219C002A84B5 /* Localizable.strings in Resources */,
+				F1EE2A3221F02A4300A65824 /* AvenirNextW1G-BoldItalic.ttf in Resources */,
+				F1EE2A3821F02A4300A65824 /* AvenirNextW1G-Light.ttf in Resources */,
 				58908AC820A18A5A00C0064A /* Images.xcassets in Resources */,
+				F1EE2A3E21F02A4300A65824 /* AvenirNextW1G-ThinItalic.ttf in Resources */,
+				F1EE2A3F21F02A4300A65824 /* AvenirNextW1G-UltraLight.ttf in Resources */,
 				58908AC920A18A5A00C0064A /* LaunchScreen.xib in Resources */,
+				F1EE2A3521F02A4300A65824 /* AvenirNextW1G-Heavy.ttf in Resources */,
+				F1EE2A3D21F02A4300A65824 /* AvenirNextW1G-Thin.ttf in Resources */,
+				F1EE2A3C21F02A4300A65824 /* AvenirNextW1G-Regular.ttf in Resources */,
+				F1EE2A3721F02A4300A65824 /* AvenirNextW1G-Italic.ttf in Resources */,
 				588E9D30216C609100F0E5D9 /* InfoPlist.strings in Resources */,
+				F1EE2A3921F02A4300A65824 /* AvenirNextW1G-LightItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,9 +14,10 @@ import { UserRouterComponent } from './home';
 import { MainAppHandlerComponent } from './main-app-handler.component';
 import { CodePushUpdateComponent } from './code-push/code-push.component';
 import CodePush from 'react-native-code-push';
-import { EventEmitterService, AppProcessor, DataProcessor, CommonModel } from 'src/processors';
+import { EventEmitterService, AppProcessor, DataProcessor, CommonModel, CacheData, CommonProcessor } from 'src/processors';
 import { config } from 'src/configs';
 import { LoadingComponent } from '../commons';
+import { MainCoverComponent } from './main-app-cover.component';
 
 export class BitmarkAppComponent extends Component {
   static propTypes = {
@@ -67,7 +68,7 @@ export class BitmarkAppComponent extends Component {
     });
   }
   doAppRefresh(justCreatedBitmarkAccount) {
-    DataProcessor.doCheckHaveCodePushUpdate().then(updated => {
+    CommonProcessor.doCheckHaveCodePushUpdate().then(updated => {
       if (updated) {
         return DataProcessor.doOpenApp(justCreatedBitmarkAccount).then(user => {
           user = user || {};
@@ -108,6 +109,7 @@ export class BitmarkAppComponent extends Component {
       <View style={{ flex: 1 }}>
         <DisplayComponent />
         <MainAppHandlerComponent />
+        <MainCoverComponent />
       </View>
     );
   }
@@ -123,9 +125,9 @@ export class MainAppComponent extends React.Component {
 
     CodePush.checkForUpdate().then((needUpdate) => {
       console.log('checkForUpdate  :', needUpdate);
-      DataProcessor.setCodePushUpdated(!needUpdate);
+      CacheData.codePushUpdated = !needUpdate
     }).catch(error => {
-      DataProcessor.setCodePushUpdated(true);
+      CacheData.codePushUpdated = true
       console.log('checkForUpdate error :', error);
     });
     CodePush.getCurrentPackage().then(updateInfo => {

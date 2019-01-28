@@ -11,6 +11,7 @@ let EventEmitterService = {
     APP_TASK: 'app-task:',
     APP_NETWORK_CHANGED: 'app-network-changed',
     APP_NEED_REFRESH: 'app-need-refresh',
+    APP_SHOW_COVER: 'app-show-cover',
 
     NEED_RELOAD_USER_DATA: 'need-reload-user-data',
 

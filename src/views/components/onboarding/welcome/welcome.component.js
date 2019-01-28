@@ -6,7 +6,7 @@ import {
 
 import welcomeComponentStyle from './welcome.component.style';
 import { Actions } from 'react-native-router-flux';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 
 export class WelcomeComponent extends React.Component {
   constructor(props) {
@@ -15,9 +15,9 @@ export class WelcomeComponent extends React.Component {
   render() {
     return (
       <View style={welcomeComponentStyle.body}>
-        <StatusBar hidden={true} />
+        <StatusBar hidden={!config.isIPhoneX} />
         <View style={welcomeComponentStyle.welcomeBackground}>
-          <Image style={welcomeComponentStyle.welcomeLogo} source={require('assets/imgs/loading-logo.png')} />
+          <Image style={welcomeComponentStyle.welcomeLogo} source={require('assets/imgs/slogan.png')} />
           <View style={[welcomeComponentStyle.welcomeButtonArea]}>
             <TouchableOpacity style={[welcomeComponentStyle.welcomeButton,]} onPress={Actions.newAccount}>
               <Text style={[welcomeComponentStyle.welcomeButtonText,]}>{global.i18n.t("WelcomeComponent_createNewAccount")}</Text>

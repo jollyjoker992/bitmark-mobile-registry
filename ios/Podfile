@@ -3,7 +3,7 @@ platform :ios, '11.0'
 def pods
     # Pods for Bitmark
     
-    pod 'BitmarkSDK'
+    pod 'BitmarkSDK', :git => 'https://github.com/bitmark-inc/bitmark-sdk-swift.git', :branch => 'master'
     pod 'KeychainAccess'
     pod 'iCloudDocumentSync'
     
