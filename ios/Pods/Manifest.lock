@@ -24,7 +24,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   BitmarkSDK:
-    :commit: 37e5736519c42e4d87e68c97e0215d462533fd96
+    :commit: 2cea1b6633b45cd1156db879c0b6816db06c39b2
     :git: https://github.com/bitmark-inc/bitmark-sdk-swift.git
 
 SPEC CHECKSUMS:
