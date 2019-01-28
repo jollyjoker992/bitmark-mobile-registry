@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactNative, {
   View, TouchableOpacity, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
   StyleSheet,
+  Keyboard,
   Alert,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
@@ -212,6 +213,7 @@ export class MusicBasicInfoComponent extends React.Component {
     });
   }
   onContinue() {
+    Keyboard.dismiss();
     let assetNameError = '';
     if (this.state.assetName) {
       let temp = new Buffer(this.state.assetName);

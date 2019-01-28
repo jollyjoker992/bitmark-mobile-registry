@@ -139,6 +139,7 @@ export class MusicMetadataComponent extends React.Component {
   }
 
   onSubmit() {
+    Keyboard.dismiss();
     let tempMetadata = merge([], this.state.metadata);
     tempMetadata.push({ label: constant.asset.metadata.labels.type, value: constant.asset.metadata.values.music });
 

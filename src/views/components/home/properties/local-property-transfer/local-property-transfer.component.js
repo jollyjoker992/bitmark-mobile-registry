@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, Image, TextInput, ScrollView, SafeAreaView,
+  View, Text, TouchableOpacity, Image, TextInput, ScrollView, SafeAreaView, Keyboard,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -36,6 +36,7 @@ export class LocalPropertyTransferComponent extends React.Component {
   }
 
   onSendProperty() {
+    Keyboard.dismiss();
     AccountService.doValidateBitmarkAccountNumber(this.state.bitmarkAccount).then(() => {
       this.setState({
         bitmarkAccountError: '',

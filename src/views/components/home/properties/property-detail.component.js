@@ -301,6 +301,7 @@ class PrivatePropertyDetailComponent extends React.Component {
               {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent
                 style={cStyles.downloadAssetButton}
                 disabled={!this.props.asset.filePath && this.props.bitmark.status !== 'confirmed'}
+                onPress={() => this.props.asset.filePath ? this.shareAssetFile.bind(this)() : this.downloadAsset.bind(this)()}
               >
                 {!this.props.asset.filePath && <Text style={[cStyles.downloadAssetButtonText, this.props.bitmark.status !== 'confirmed' ? { color: '#A4B5CD', } : {}]}>
                   DOWNLOAD
