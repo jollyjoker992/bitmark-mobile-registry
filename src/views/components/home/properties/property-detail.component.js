@@ -155,6 +155,15 @@ class PrivatePropertyDetailComponent extends React.Component {
         webUrl += `${(totalEditionLeft !== null) ? `remaining=${totalEditionLeft}&` : ''}`;
         webUrl += `${limited ? `total=${limited}` : ''}`;
       }
+      let existSoundscape = false;
+      let metadata = this.props.asset.metadata;
+      for (let key in metadata) {
+        if (key.toLowerCase() === 'playlink') {
+          existSoundscape = true;
+          break;
+        }
+      }
+
       return (<SafeAreaView style={[cStyles.body, { backgroundColor: 'white' }]}>
         <StatusBar hidden={!config.isIPhoneX} />
         <View style={cStyles.bodyContent}>
@@ -192,7 +201,7 @@ class PrivatePropertyDetailComponent extends React.Component {
 
               <View style={{ paddingLeft: convertWidth(15), paddingRight: convertWidth(15), width: '100%', }}>
 
-                {!this.props.claimToAccount && this.props.asset && this.props.asset.metadata && this.props.asset.metadata['soundscape'] && <OneTabButtonComponent style={cStyles.actionRow} onPress={() => Linking.openURL(this.props.asset.metadata['soundscape'])}>
+                {existSoundscape && <OneTabButtonComponent style={cStyles.actionRow} onPress={() => Linking.openURL(this.props.asset.metadata['soundscape'])}>
                   <Image style={cStyles.actionRowIcon} source={require('assets/imgs/play_icon.png')} />
                   <Text style={[cStyles.actionRowText]}>PLAY ON STREAMING PLATFORM</Text>
                 </OneTabButtonComponent>}
@@ -438,7 +447,6 @@ const cStyles = StyleSheet.create({
     paddingRight: convertWidth(19),
     paddingTop: 12,
     paddingBottom: 12,
-    borderWidth: 1,
   },
   topButtonText: {
     fontFamily: 'Avenir Black',

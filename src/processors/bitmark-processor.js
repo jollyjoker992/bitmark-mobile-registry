@@ -293,7 +293,7 @@ const doIssueFile = async (filePath, assetName, metadataList, quantity) => {
     };
     if (!assetsBitmarks.assets || !assetsBitmarks.assets[item.assetId]) {
       assetsBitmarks.assets = assetsBitmarks.assets || {};
-      assetsBitmarks[item.assetId] = {
+      assetsBitmarks.assets[item.assetId] = {
         id: item.assetId,
         name: assetName,
         metadata: item.metadata,

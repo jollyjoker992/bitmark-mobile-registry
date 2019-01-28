@@ -513,7 +513,7 @@ const doIssueIftttData = async (iftttBitmarkFile) => {
     };
     if (!assetsBitmarks.assets || !assetsBitmarks.assets[item.assetId]) {
       assetsBitmarks.assets = assetsBitmarks.assets || {};
-      assetsBitmarks[item.assetId] = {
+      assetsBitmarks.assets[item.assetId] = {
         id: item.assetId,
         name: iftttBitmarkFile.assetInfo.propertyName,
         metadata: item.metadata,
