@@ -142,12 +142,10 @@ export class MusicMetadataComponent extends React.Component {
     let tempMetadata = merge([], this.state.metadata);
     tempMetadata.push({ label: constant.asset.metadata.labels.type, value: constant.asset.metadata.values.music });
 
-    //TODO Chinese
     tempMetadata.push({ label: constant.asset.metadata.labels.description, value: this.props.description });
     AppProcessor.doIssueMusic(this.props.filePath, this.props.assetName, tempMetadata, this.props.thumbnailPath, this.props.limitedEdition, {
       indicator: true, title: '', message: global.i18n.t('MusicMetadataComponent_processMessage'),
     }).then(result => {
-      console.log('doIssueMusic result:', result);
       if (result) {
         Actions.musicIssueSuccess({
           assetId: result[0].assetId,
@@ -196,7 +194,9 @@ export class MusicMetadataComponent extends React.Component {
                       disabled={this.state.isEditingMetadata}
                       onPress={() => Actions.musicMetadataEdit({ index: index, label: item.label, onChangeMetadataLabel: this.onChangeMetadataLabel.bind(this) })}
                     >
-                      <Text style={[cStyles.fieldLabelButtonText, item.label ? {} : { color: '#C1C1C1' }]}>{item.label ? item.label : global.i18n.t('MusicMetadataComponent_fieldLabelButtonText', { index: index + 1 })}</Text>
+                      <Text style={[cStyles.fieldLabelButtonText, item.label ? {} : { color: '#C1C1C1' }]}>
+                        {item.label ? global.i18n.t(`MetadataLabels_${item.label}`, { defaultValue: item.label }) : global.i18n.t('MusicMetadataComponent_fieldLabelButtonText', { index: index + 1 })}
+                      </Text>
                       <Image style={cStyles.fieldLabelButtonIcon} source={require('assets/imgs/next-icon-blue.png')} />
                     </TouchableOpacity>
                     <View style={[cStyles.fieldLabelButton, item.valueError ? { borderBottomColor: '#FF003C' } : {}]}>

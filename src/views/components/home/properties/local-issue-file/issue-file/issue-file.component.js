@@ -251,7 +251,7 @@ export class LocalIssueFileComponent extends React.Component {
                             <Text style={[localAddPropertyStyle.metadataFieldKeyText, {
                               color: (item.label && !this.state.existingAsset) ? 'black' : '#C1C1C1',
                               width: convertWidth(this.state.isEditingMetadata ? 286 : 302),
-                            }]}>{item.label || global.i18n.t("LocalIssueFileComponent_label")}</Text>
+                            }]}>{item.label ? global.i18n.t(`MetadataLabels_${item.label}`, { defaultValue: item.label }) : global.i18n.t("LocalIssueFileComponent_label")}</Text>
                             {!this.state.existingAsset && <Image style={localAddPropertyStyle.metadataFieldKeyEditIcon}
                               source={require('assets/imgs/next-icon-blue.png')} />}
                           </TouchableOpacity>
