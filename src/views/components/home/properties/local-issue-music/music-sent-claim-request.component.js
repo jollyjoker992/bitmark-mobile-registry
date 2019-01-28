@@ -10,22 +10,51 @@ import { Actions } from 'react-native-router-flux';
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
-import { AppProcessor, EventEmitterService, DataProcessor } from 'src/processors';
+import { AppProcessor, EventEmitterService, CommonProcessor } from 'src/processors';
 
 export class MusicSentIncomingClaimRequestComponent extends React.Component {
   static propTypes = {
     asset: PropTypes.any,
+    issuer: PropTypes.any,
   }
   constructor(props) {
     super(props);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.goToBitmarkDetail = this.goToBitmarkDetail.bind(this);
+  }
+
+  componentDidMount() {
+    this.onSubmit();
   }
 
   onSubmit() {
-    AppProcessor.doSendIncomingClaimRequest(this.props.asset).then(() => {
-      DataProcessor.doMarkDoneSendClaimRequest();
-      Actions.pop();
+    // TODO Chinese
+    this.setState({
+      status: 'PROCESSING...'
+    });
+    AppProcessor.doSendIncomingClaimRequest(this.props.asset, this.props.issuer, {
+      indicator: constant.indicators.processing,
+      title: 'Pending...',
+      message: 'Sending your transaction to the Bitmark network...',
+    }).then((result) => {
+      this.result = result;
+      this.setState({
+        status: 'OK'
+      });
+      CommonProcessor.doMarkDoneSendClaimRequest();
+      EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, {
+        indicator: constant.indicators.success,
+        title: 'Success!',
+        message: 'You will receive a notification when the artist confirms your request.',
+      });
+      setTimeout(() => {
+        EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, null);
+      }, 2000)
     }).catch(error => {
-      DataProcessor.doMarkDoneSendClaimRequest();
+      this.setState({
+        status: null
+      });
+      CommonProcessor.doMarkDoneSendClaimRequest();
       console.log('error:', JSON.stringify(error));
       if (error.statusCode === 429 && error.data.code === 1012) {
         Alert.alert('', global.i18n.t("MusicSentClaimRequestComponent_limitRequestErrorMessage"), [{
@@ -37,7 +66,13 @@ export class MusicSentIncomingClaimRequestComponent extends React.Component {
     })
   }
 
+  goToBitmarkDetail() {
+    Actions.propertyDetail(this.result);
+    // Actions.jump('transactions', { subTab: 'HISTORY' });
+  }
+
   render() {
+    let issuer = this.props.issuer || this.props.asset.registrant;
     return (
       <ImageBackground source={require('assets/imgs/claim_background.png')} style={{ flex: 1, resizeMode: 'contain' }}>
         <View style={cStyles.header}>
@@ -52,9 +87,9 @@ export class MusicSentIncomingClaimRequestComponent extends React.Component {
             <Image style={cStyles.thumbnailImage} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.asset.id}` }} />
             <View style={cStyles.assetInfo}>
               <Text style={cStyles.assetName}>{this.props.asset.name}</Text>
-              <Text style={cStyles.editionInfo}>Ed. {this.props.asset.limitedEdition - this.props.asset.totalIssuedBitmarks + 1}/{this.props.asset.limitedEdition}</Text>
+              <Text style={cStyles.editionInfo}>Ed. {this.props.asset.editions[issuer].totalEditionLeft}/{this.props.asset.editions[issuer].limited}</Text>
             </View>
-            <Text style={cStyles.registrant}>{this.props.asset.registrantName || this.props.asset.registrant}</Text>
+            <Text style={cStyles.registrant}>{CommonProcessor.getDisplayedAccount(issuer)}</Text>
             <Text style={cStyles.informationTitle}>{global.i18n.t("MusicSentClaimRequestComponent_informationTitle")}</Text>
             <Text style={cStyles.informationDescription}>{global.i18n.t("MusicSentClaimRequestComponent_informationDescription")}</Text>
           </View>
@@ -62,9 +97,9 @@ export class MusicSentIncomingClaimRequestComponent extends React.Component {
 
         <TouchableOpacity
           style={[cStyles.continueButton, { backgroundColor: '#0060F2' }]}
-          onPress={this.onSubmit.bind(this)}
+          onPress={() => this.state.status ? this.goToBitmarkDetail() : this.onSubmit()}
         >
-          <Text style={cStyles.continueButtonText}>SIGN </Text>
+          <Text style={cStyles.continueButtonText}>{(this.state && this.state.status) ? this.state.status : 'RETRY'}</Text>
         </TouchableOpacity>
       </ImageBackground>
     );

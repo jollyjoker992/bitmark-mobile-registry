@@ -17,8 +17,8 @@ export default StyleSheet.create({
     backgroundColor: 'white',
   },
   welcomeLogo: {
-    width: 285,
-    height: 48,
+    width: 316,
+    height: 123,
     resizeMode: 'contain',
   },
   welcomeButtonArea: {
@@ -39,10 +39,6 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2',
   },
   welcomeButtonText: {
-    fontFamily: 'Avenir black',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '900',
-    color: 'white'
+    fontFamily: 'AvenirNextW1G-Bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
 });

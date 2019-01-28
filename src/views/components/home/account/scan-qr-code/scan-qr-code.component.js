@@ -8,7 +8,7 @@ import Camera from 'react-native-camera';
 import componentStyle from './scan-qr-code.component.style';
 import { Actions } from 'react-native-router-flux';
 import { EventEmitterService } from 'src/processors/services';
-import { AppProcessor, DataProcessor } from 'src/processors';
+import { AppProcessor, BitmarkProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 
 export class ScanQRCodeComponent extends React.Component {
@@ -19,7 +19,7 @@ export class ScanQRCodeComponent extends React.Component {
   }
 
   backToPropertiesScreen = () => {
-    Actions.jump('assets');
+    Actions.jump('properties');
   };
 
   onBarCodeRead(scanData) {
@@ -60,7 +60,7 @@ export class ScanQRCodeComponent extends React.Component {
             });
             return;
           }
-          DataProcessor.doReloadLocalBitmarks();
+          BitmarkProcessor.doReloadUserAssetsBitmarks();
           Alert.alert(global.i18n.t("ScanQRCodeComponent_successTitle"), global.i18n.t("ScanQRCodeComponent_successMessage"), [{
             text: global.i18n.t("ScanQRCodeComponent_ok"),
             onPress: this.backToPropertiesScreen
@@ -98,7 +98,7 @@ export class ScanQRCodeComponent extends React.Component {
             });
             return;
           }
-          DataProcessor.doReloadLocalBitmarks();
+          BitmarkProcessor.doReloadUserAssetsBitmarks();
           Alert.alert(global.i18n.t("ScanQRCodeComponent_successTitle"), global.i18n.t("ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred"), [{
             text: global.i18n.t("ScanQRCodeComponent_ok"),
             onPress: this.backToPropertiesScreen

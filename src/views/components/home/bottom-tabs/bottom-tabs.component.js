@@ -31,9 +31,9 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           if (label === 'properties') {
             return (<TouchableOpacity key={index} style={componentStyles.bottomTabButton} onPress={() => {
               this.props.onTabPress({ route });
-              Actions.reset('assets');
+              Actions.reset('properties');
             }}>
-              {(this.props.existNewAsset || this.props.existNewTracking) && <View style={componentStyles.haveNewBitmark} />}
+              {this.props.existNewAsset && <View style={componentStyles.haveNewBitmark} />}
               <Image style={componentStyles.bottomTabButtonIcon} source={active
                 ? require('assets/imgs/properties-icon-enable.png')
                 : require('assets/imgs/properties-icon-disable.png')} />
@@ -46,7 +46,6 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           if (label === 'transactions') {
             return (<TouchableOpacity key={index} style={componentStyles.bottomTabButton} onPress={() => {
               this.props.onTabPress({ route });
-              //TODO
               Actions.reset(label);
             }}>
               {this.props.totalTasks > 0 && <View style={componentStyles.transactionNumber}>
@@ -88,7 +87,6 @@ PrivateBottomTabsComponent.propTypes = {
     dispatch: PropTypes.func,
   }),
   existNewAsset: PropTypes.bool,
-  existNewTracking: PropTypes.bool,
 };
 
 const StoreBottomTabsComponent = connect(

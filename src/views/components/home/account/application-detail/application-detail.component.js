@@ -10,7 +10,7 @@ import { Actions } from 'react-native-router-flux';
 
 import applicationDetailStyle from './application-detail.component.style';
 import { config, constant } from 'src/configs';
-import { DataProcessor, CacheData } from 'src/processors';
+import { DataProcessor, CacheData, CommonProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import moment from 'moment';
 
@@ -46,7 +46,7 @@ export class ApplicationDetailComponent extends React.Component {
       Mailer.mail({
         subject: global.i18n.t("ApplicationDetailComponent_suggestionForBitmarkIos"),
         recipients: ['support@bitmark.com'],
-        body: global.i18n.t("ApplicationDetailComponent_appVersion") + ' ' + DataProcessor.getApplicationVersion() + ' (' + DataProcessor.getApplicationBuildNumber() + ')',
+        body: global.i18n.t("ApplicationDetailComponent_appVersion") + ' ' + config.version + ' (' + DataProcessor.getApplicationBuildNumber() + ')',
       }, (error) => {
         if (error) {
           Alert.alert(global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorTitle"), global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorMessage"));
@@ -87,12 +87,12 @@ export class ApplicationDetailComponent extends React.Component {
 
           <View style={applicationDetailStyle.donorInfo}>
             <Text style={[applicationDetailStyle.version, { lineHeight: 20 }]}>{global.i18n.t("ApplicationDetailComponent_iCloudSync")} {CacheData.userInformation.lastSyncIcloud ? ('\n' + moment(CacheData.userInformation.lastSyncIcloud).format('YYYY/MM/DD, h:mma')) : ''}</Text>
-            <Text style={[applicationDetailStyle.version, { marginTop: 22, }]}>{global.i18n.t("ApplicationDetailComponent_version")} {DataProcessor.getApplicationVersion()} ({DataProcessor.getApplicationBuildNumber() + (config.network !== 'livenet' ? '-' + config.network : '')})</Text>
+            <Text style={[applicationDetailStyle.version, { marginTop: 22, }]}>{global.i18n.t("ApplicationDetailComponent_version")} {config.version} ({config.buildNumber + (config.network !== 'livenet' ? '-' + config.network : '')})</Text>
           </View>
 
           <View style={applicationDetailStyle.bottomArea}>
             <View style={applicationDetailStyle.lineSetting}></View>
-            <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => Actions.whatNew()}>
+            <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => CommonProcessor.doDisplayedWhatNewInformation()}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_whatNew")}</Text>
             </TouchableOpacity>
             <View style={applicationDetailStyle.lineSetting}></View>

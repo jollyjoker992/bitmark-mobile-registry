@@ -8,7 +8,7 @@ import Swiper from 'react-native-swiper';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
-import { DataProcessor } from 'src/processors';
+import { DataProcessor, CommonProcessor } from 'src/processors';
 import { config, } from 'src/configs';
 
 
@@ -28,7 +28,7 @@ export class WhatNewComponent extends Component {
   }
 
   viewAllWhatNew() {
-    runPromiseWithoutError(DataProcessor.doMarkDisplayedWhatNewInformation());
+    runPromiseWithoutError(CommonProcessor.doMarkDisplayedWhatNewInformation());
     Actions.pop();
   }
 
@@ -79,7 +79,7 @@ export class WhatNewComponent extends Component {
             <View style={styles.newContent}>
               <ScrollView style={{ width: '100%', }} contentContainerStyle={{ flexGrow: 1, flexDirection: 'column', width: '100%', }}>
                 <View style={styles.versionInformation}>
-                  <Text style={styles.versionInformationText} >{i18n.t('WhatNewComponent_versionInformationText', { version: DataProcessor.getApplicationVersion() })}</Text>
+                  <Text style={styles.versionInformationText} >{i18n.t('WhatNewComponent_versionInformationText', { version: config.version })}</Text>
                   <Text style={styles.versionInformationReleaseDiff}>
                     {this.state.diffDay === 0 ? i18n.t('WhatNewComponent_versionInformationReleaseDiff1') : i18n.t('WhatNewComponent_versionInformationReleaseDiff2', { day: this.state.diffDay })}
                   </Text>

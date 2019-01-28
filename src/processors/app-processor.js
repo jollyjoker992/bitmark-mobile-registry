@@ -102,13 +102,6 @@ const doReloadUserData = async () => {
   return await DataProcessor.doReloadUserData();
 };
 
-const doGetProvenance = async (bitmark) => {
-  return await processing(DataProcessor.doGetProvenance(bitmark.id));
-};
-
-const doGetAllTransfersOffers = async () => {
-  return await processing(DataProcessor.doGetAllTransfersOffers());
-};
 const doStartBackgroundProcess = async (justCreatedBitmarkAccount) => {
   return DataProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount);
   // return await processing(DataProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount));
@@ -131,8 +124,8 @@ const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, li
   return executeTask('doIssueMusic', { filePath, assetName, metadataList, thumbnailPath, limitedEdition, processingInfo });
 };
 
-const doTransferBitmark = async (bitmark, receiver, isDeleting = false) => {
-  return executeTask('doTransferBitmark', { bitmark, receiver, isDeleting });
+const doTransferBitmark = async (bitmark, receiver) => {
+  return executeTask('doTransferBitmark', { bitmark, receiver });
 };
 
 const doAcceptTransferBitmark = async (transferOffer, processingInfo) => {
@@ -155,13 +148,6 @@ const doDownloadBitmark = async (bitmark, processingData) => {
   return executeTask('doDownloadBitmark', { bitmark, processingData });
 };
 
-const doTrackingBitmark = async (asset, bitmark) => {
-  return executeTask('doTrackingBitmark', { asset, bitmark });
-};
-
-const doStopTrackingBitmark = async (bitmark) => {
-  return executeTask('doStopTrackingBitmark', { bitmark });
-};
 const doRevokeIftttToken = async () => {
   return executeTask('doRevokeIftttToken');
 };
@@ -184,14 +170,14 @@ const doDecentralizedIssuance = async (token, encryptionKey, expiredTime) => {
 const doDecentralizedTransfer = async (token, expiredTime) => {
   return executeTask('doDecentralizedTransfer', { token, expiredTime });
 };
-const doProcessIncomingClaimRequest = (incomingClaimRequest, isAccept) => {
-  return executeTask('doProcessIncomingClaimRequest', { incomingClaimRequest, isAccept });
+const doProcessIncomingClaimRequest = (incomingClaimRequest, isAccept, processingInfo) => {
+  return executeTask('doProcessIncomingClaimRequest', { incomingClaimRequest, isAccept, processingInfo });
 };
-const doSendIncomingClaimRequest = async (asset) => {
-  return executeTask('doSendIncomingClaimRequest', { asset });
+const doSendIncomingClaimRequest = async (asset, issuer, processingInfo) => {
+  return executeTask('doSendIncomingClaimRequest', { asset, issuer, processingInfo });
 };
-const doGetAssetToClaim = async (assetId) => {
-  return executeTask('doGetAssetToClaim', { assetId });
+const doGetAssetToClaim = async (assetId, issuer) => {
+  return executeTask('doGetAssetToClaim', { assetId, issuer });
 };
 
 
@@ -199,8 +185,7 @@ const doCheckNoLongerSupportVersion = async () => {
   let data = await NotificationModel.doTryGetAppVersion();
   if (data && data.version && data.version.minimum_supported_version) {
     let minimumSupportedVersion = data.version.minimum_supported_version;
-    let currentVersion = DataProcessor.getApplicationVersion();
-    if (compareVersion(minimumSupportedVersion, currentVersion) > 0) {
+    if (compareVersion(minimumSupportedVersion, config.version) > 0) {
       return false;
     }
     return true;
@@ -222,7 +207,6 @@ let AppProcessor = {
   doCheckFileToIssue,
   doIssueFile,
   doIssueMusic,
-  doGetProvenance,
   doGetTransferOfferDetail,
   doTransferBitmark,
   doAcceptTransferBitmark,
@@ -230,14 +214,11 @@ let AppProcessor = {
   doAcceptAllTransfers,
   doCancelTransferBitmark,
   doDownloadBitmark,
-  doTrackingBitmark,
-  doStopTrackingBitmark,
   doRevokeIftttToken,
   doIssueIftttData,
   doReloadUserData,
   doMigrateWebAccount,
   doSignInOnWebApp,
-  doGetAllTransfersOffers,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
   doProcessIncomingClaimRequest,

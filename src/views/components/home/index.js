@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Router, Stack, Scene, Modal, Tabs, Actions } from 'react-native-router-flux';
 
 import {
-  LocalPropertyDetailComponent,
-  LocalAssetDetailComponent,
   LocalPropertyTransferComponent,
   LocalIssueFileComponent,
   LocalIssueFileEditLabelComponent,
   IftttActiveComponent,
   AssetTypeHelpComponent,
+  PropertiesComponent,
+  ReleasedPropertiesComponent,
+  PropertyDetailComponent,
 } from './properties';
 
 import {
@@ -16,7 +17,6 @@ import {
   TransferOfferComponent,
   IncomingClaimRequestComponent
 } from './transactions';
-import { AssetsComponent } from './properties/assets.component';
 import { BottomTabsComponent } from './bottom-tabs/bottom-tabs.component';
 import { AccountDetailComponent } from './account/account.component';
 import { ScanQRCodeComponent } from './account/scan-qr-code/scan-qr-code.component';
@@ -38,10 +38,11 @@ import {
 } from './properties/local-issue-music';
 
 import { BitmarkWebViewComponent } from 'src/views/commons';
-import { EventEmitterService, DataProcessor, AppProcessor } from 'src/processors';
+import { EventEmitterService, AppProcessor, CommonProcessor, BitmarkProcessor, TransactionProcessor } from 'src/processors';
 
 // import PushNotification from 'react-native-push-notification';
 import { MusicReleaseToPublicComponent } from './properties/local-issue-music/music-release-to-public.component';
+// import { BitmarkProcessor } from 'src/processors/bitmark-processor';
 
 let ComponentName = 'UserRouterComponent';
 export class UserRouterComponent extends Component {
@@ -54,13 +55,13 @@ export class UserRouterComponent extends Component {
 
   componentDidMount() {
     EventEmitterService.on(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, this.handerReceivedNotification, ComponentName);
-    DataProcessor.setMountedRouter(true);
+    CommonProcessor.setMountedRouter(true);
     // setTimeout(() => {
     //   PushNotification.localNotification({
     //     message: 'test message',
     //     userInfo: {
-    //       name: 'claim_request',
-    //       claim_id: '7afea9e5-6ea0-4af8-b56e-79218a57eaf3',
+    //       event: 'claim_request',
+    //       claim_id: 'ae965fff-fe33-46c7-9aae-70a1bc2ad539',
     //     }
     //   });
     // }, 3000);
@@ -78,32 +79,25 @@ export class UserRouterComponent extends Component {
       }).catch(console.log);
 
     } else if (data.name === 'transfer_rejected') {
-      DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id).then(bitmarkInformation => {
-        Actions.localPropertyDetail(bitmarkInformation);
+      BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
+        Actions.propertyDetail(bitmarkInformation);
       }).catch(console.log);
 
     } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
       Actions.transactions({ subTab: 'HISTORY' });
     } else if (data.name === 'transfer_confirmed_receiver' && data.bitmark_id) {
-      DataProcessor.doReloadLocalBitmarks().then(() => {
-        return DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id);
+      BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
+        return BitmarkProcessor.doGetAssetBitmark(data.bitmark_id);
       }).then(bitmarkInformation => {
-        Actions.localPropertyDetail(bitmarkInformation);
+        Actions.propertyDetail(bitmarkInformation);
       }).catch(console.log);
 
     } else if (data.name === 'transfer_failed') {
-      DataProcessor.doGetLocalBitmarkInformation(data.bitmark_id).then(bitmarkInformation => {
-        Actions.localPropertyDetail(bitmarkInformation);
-      }).catch(console.log);
-
-    } else if (data.event === 'tracking_transfer_confirmed') {
-      DataProcessor.doReloadTrackingBitmark().then(() => {
-        return DataProcessor.doGetTrackingBitmarkInformation(data.bitmark_id);
-      }).then(trackingBitmark => {
-        Actions.localPropertyDetail({ asset: trackingBitmark.asset, bitmark: trackingBitmark });
+      BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
+        Actions.propertyDetail(bitmarkInformation);
       }).catch(console.log);
     } else if (data.event === 'claim_request') {
-      DataProcessor.doReloadClaimAssetRequest().then((claimRequests) => {
+      TransactionProcessor.doReloadClaimRequests().then((claimRequests) => {
         let incomingClaimRequest = (claimRequests.incoming_claim_requests || []).find(cr => cr.id === data.claim_id);
         if (incomingClaimRequest) {
           Actions.incomingClaimRequest({ incomingClaimRequest });
@@ -125,8 +119,6 @@ export class UserRouterComponent extends Component {
             <Scene key="localIssueFile" panHandlers={null} component={LocalIssueFileComponent} />
             <Scene key="localIssueFileEditLabel" panHandlers={null} component={LocalIssueFileEditLabelComponent} />
             <Scene key="assetTypeHelp" panHandlers={null} component={AssetTypeHelpComponent} />
-            <Scene key="localAssetDetail" panHandlers={null} component={LocalAssetDetailComponent} />
-            <Scene key="localPropertyDetail" panHandlers={null} component={LocalPropertyDetailComponent} />
             <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
             <Scene key="whatNew" panHandlers={null} component={WhatNewComponent} />
 
@@ -138,13 +130,15 @@ export class UserRouterComponent extends Component {
             <Scene key="musicMetadataEdit" panHandlers={null} component={MusicMetadataEditComponent} />
             <Scene key="musicSentIncomingClaimRequest" panHandlers={null} component={MusicSentIncomingClaimRequestComponent} />
             <Scene key="musicReleaseToPublic" panHandlers={null} component={MusicReleaseToPublicComponent} />
+            <Scene key="propertyDetail" panHandlers={null} component={PropertyDetailComponent} />
 
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >
-                <Scene key="assets" initial={true} panHandlers={null} component={AssetsComponent} />
+                <Scene key="properties" initial={true} panHandlers={null} component={PropertiesComponent} />
                 <Scene key="issuanceOptions" panHandlers={null} component={IssuanceOptionsComponent} />
                 <Scene key="iftttActive" panHandlers={null} component={IftttActiveComponent} />
+                <Scene key="releasedProperties" panHandlers={null} component={ReleasedPropertiesComponent} />
               </Stack>
               <Scene key="transactions" panHandlers={null} component={TransactionsComponent} />
               <Stack key="account" headerMode='none'>

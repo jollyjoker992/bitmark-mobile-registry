@@ -2,91 +2,80 @@ import moment from 'moment';
 import { merge } from 'lodash';
 import { BitmarkModel, CommonModel, BitmarkSDK } from "../models";
 import { FileUtil } from 'src/utils';
-import { config } from 'src/configs';
+import { config, constant } from 'src/configs';
 import { CacheData } from '../caches';
 
 
 // ================================================================================================
 // ================================================================================================
 
-const doGet100Bitmarks = async (bitmarkAccountNumber, oldLocalAssets, lastOffset) => {
-  let hasChanging = false;
-  if (!oldLocalAssets) {
-    hasChanging = true;
-    oldLocalAssets = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS);
-  }
-  oldLocalAssets = oldLocalAssets || [];
-  if (!lastOffset) {
-    oldLocalAssets.forEach(asset => {
-      asset.bitmarks.forEach(bitmark => {
-        lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
-      });
-    });
+const doGetNewAssetsBitmarks = async (bitmarkAccountNumber, bitmarkAssets, lastOffset) => {
+  bitmarkAssets = bitmarkAssets || {};
+  bitmarkAssets.bitmarks = bitmarkAssets.bitmarks || {};
+  bitmarkAssets.assets = bitmarkAssets.assets || {};
+
+  for (let bitmarkId in bitmarkAssets.bitmarks) {
+    lastOffset = lastOffset ? Math.max(lastOffset, bitmarkAssets.bitmarks[bitmarkId].offset) : bitmarkAssets.bitmarks[bitmarkId].offset;
   }
   let data = await BitmarkModel.doGet100Bitmarks(bitmarkAccountNumber, lastOffset);
-  let localAssets = merge([], oldLocalAssets || []);
-
-  if (data && data.bitmarks && data.assets) {
-    hasChanging = data.bitmarks.length >= 100;
+  while (data && data.bitmarks && data.bitmarks.length > 0) {
+    for (let asset of data.assets) {
+      bitmarkAssets.assets[asset.id] = merge({}, bitmarkAssets.assets[asset.id] || {}, asset);
+    }
     for (let bitmark of data.bitmarks) {
-      lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
-      bitmark.bitmark_id = bitmark.id;
-      bitmark.isViewed = false;
-      let oldAsset = (localAssets).find(asset => asset.id === bitmark.asset_id);
-      let newAsset = data.assets.find(asset => asset.id === bitmark.asset_id);
-      if (oldAsset && newAsset && !oldAsset.created_at) {
-        oldAsset.created_at = newAsset.created_at;
-      }
       if (bitmark.owner === bitmarkAccountNumber) {
-        hasChanging = true;
-        if (oldAsset) {
-          let oldBitmarkIndex = oldAsset.bitmarks.findIndex(ob => ob.id === bitmark.id);
-          if (oldBitmarkIndex >= 0) {
-            oldAsset.bitmarks[oldBitmarkIndex] = bitmark;
-          } else {
-            oldAsset.bitmarks.push(bitmark);
+        if (bitmarkAssets.assets[bitmark.asset_id]) {
+          if (bitmarkAssets.bitmarks[bitmark.id]) {
+            bitmark.editionNumber = bitmarkAssets.bitmarks[bitmark.id].editionNumber;
           }
-          oldAsset.isViewed = false;
-        } else {
-          newAsset.bitmarks = [bitmark];
-          newAsset.isViewed = false;
-          localAssets.push(newAsset);
+          bitmarkAssets.bitmarks[bitmark.id] = bitmark;
         }
       } else {
-        let oldAssetIndex = (localAssets).findIndex(asset => asset.id === bitmark.asset_id);
-        if (oldAssetIndex >= 0) {
-          let oldAsset = localAssets[oldAssetIndex];
-          let oldBitmarkIndex = oldAsset.bitmarks.findIndex(ob => bitmark.id === ob.id);
-          if (oldBitmarkIndex >= 0) {
-            hasChanging = true;
-            oldAsset.bitmarks.splice(oldBitmarkIndex, 1);
-            if (oldAsset.bitmarks.length === 0) {
-              localAssets.splice(oldAssetIndex, 1);
+        if (bitmarkAssets.bitmarks[bitmark.id]) {
+          if (bitmarkAssets.assets[bitmarkAssets.bitmarks[bitmark.id].asset_id]) {
+            let existOtherBitmarks = data.bitmarks.findIndex(bm => bm.asset_id === bitmarkAssets.bitmarks[bitmark.id].asset_id) >= 0;
+            if (!existOtherBitmarks) {
+              existOtherBitmarks = Object.values(bitmarkAssets.bitmarks || {}).findIndex(bm => bm.asset_id === bitmarkAssets.bitmarks[bitmark.id].asset_id) >= 0;
+            }
+            if (!existOtherBitmarks) {
+              delete bitmarkAssets.assets[bitmarkAssets.bitmarks[bitmark.id].asset_id];
             }
           }
+          delete bitmarkAssets.bitmarks[bitmark.id];
         }
       }
+      lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
     }
+    data = await BitmarkModel.doGet100Bitmarks(bitmarkAccountNumber, lastOffset);
   }
-  for (let asset of localAssets) {
-    let oldTotalPending = asset.totalPending;
-    asset.totalPending = 0;
-    asset.bitmarks = asset.bitmarks.sort((a, b) => b.offset - a.offset);
-    for (let bitmark of asset.bitmarks) {
-      let oldData = asset.maxBitmarkOffset;
-      asset.maxBitmarkOffset = asset.maxBitmarkOffset ? Math.max(asset.maxBitmarkOffset, bitmark.offset) : bitmark.offset;
-      hasChanging = hasChanging || (oldData !== asset.maxBitmarkOffset);
+  return bitmarkAssets;
+};
 
-      asset.totalPending += (bitmark.status === 'pending') ? 1 : 0;
+const doGetNewReleasedAssetsBitmarks = async (bitmarkAccountNumber, releasedBitmarksAssets, lastOffset) => {
+  releasedBitmarksAssets = releasedBitmarksAssets || {}
+  releasedBitmarksAssets.bitmarks = releasedBitmarksAssets.bitmarks || {};
+  releasedBitmarksAssets.assets = releasedBitmarksAssets.assets || {};
+
+  for (let bitmarkId in releasedBitmarksAssets.bitmarks) {
+    lastOffset = lastOffset ? Math.max(lastOffset, releasedBitmarksAssets.bitmarks[bitmarkId].offset) : releasedBitmarksAssets.bitmarks[bitmarkId].offset;
+  }
+
+  let data = await BitmarkModel.getBitmarksOfAssetOfIssuer(bitmarkAccountNumber, null, lastOffset);
+  while (data && data.bitmarks && data.bitmarks.length > 0) {
+    for (let asset of data.assets) {
+      if (asset.metadata && asset.metadata[constant.asset.metadata.labels.type] === constant.asset.metadata.values.music) {
+        releasedBitmarksAssets.assets[asset.id] = merge({}, releasedBitmarksAssets.assets[asset.id] || {}, asset);
+      }
     }
-    hasChanging = hasChanging || (oldTotalPending !== asset.totalPending);
+    for (let bitmark of data.bitmarks) {
+      if (releasedBitmarksAssets.assets[bitmark.asset_id]) {
+        releasedBitmarksAssets.bitmarks[bitmark.id] = bitmark;
+      }
+      lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
+    }
+    data = await BitmarkModel.getBitmarksOfAssetOfIssuer(bitmarkAccountNumber, null, lastOffset);
   }
-
-  return {
-    hasChanging,
-    localAssets,
-    lastOffset,
-  };
+  return releasedBitmarksAssets;
 };
 
 const doCheckFileToIssue = async (filePath) => {
@@ -153,6 +142,7 @@ const doIssueFile = async (bitmarkAccountNumber, filePath, assetName, metadataLi
     results.push({
       id,
       assetId: issueResult.assetId,
+      metadata,
       filePath: `${downloadedFolder}/${listFile[0]}`
     });
   });
@@ -170,9 +160,12 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
   } else {
     metadata = metadataList;
   }
-  let issueResult = await BitmarkModel.registerNewAsset(filePath, assetName, metadata);
+  let issueResult = await BitmarkModel.doIssueFile(filePath, assetName, metadata, limitedEdition + 1);
+
   let signatures = await BitmarkSDK.signMessages([issueResult.assetId + '|' + limitedEdition]);
   await BitmarkModel.doUploadMusicThumbnail(bitmarkAccountNumber, issueResult.assetId, thumbnailPath, limitedEdition, signatures[0]);
+  await BitmarkModel.doUploadMusicAsset(CacheData.jwt, issueResult.assetId, filePath);
+
   let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber)}/${issueResult.assetId}`;
   let downloadedFolder = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(assetFolderPath);
@@ -183,11 +176,15 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
   await FileUtil.copyFileSafe(thumbnailPath, `${assetFolderPath}/thumbnail.png`);
 
   let listFile = await FileUtil.readDir(downloadedFolder);
-  let results = [{
-    id: issueResult.bitmarkId,
-    assetId: issueResult.assetId,
-    filePath: `${downloadedFolder}/${listFile[0]}`
-  }];
+  let results = [];
+  issueResult.bitmarkIds.forEach(id => {
+    results.push({
+      id,
+      assetId: issueResult.assetId,
+      metadata,
+      filePath: `${downloadedFolder}/${listFile[0]}`
+    });
+  });
   return results;
 };
 
@@ -196,48 +193,6 @@ const doGetBitmarkInformation = async (bitmarkId) => {
   data.bitmark.created_at = moment(data.bitmark.created_at).format('YYYY MMM DD HH:mm:ss');
   data.bitmark.bitmark_id = data.bitmark.id;
   return data;
-};
-
-const doGetTrackingBitmarks = async (bitmarkAccountNumber) => {
-  let oldTrackingBitmarks = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS);
-  oldTrackingBitmarks = oldTrackingBitmarks || [];
-  let oldStatuses = {};
-  let allTrackingBitmarksFromServer = await BitmarkModel.doGetAllTrackingBitmark(bitmarkAccountNumber);
-  allTrackingBitmarksFromServer.bitmarks.forEach(tb => {
-    oldStatuses[tb.bitmark_id] = {
-      lastHistory: {
-        status: tb.status,
-        head_id: tb.tx_id,
-      },
-    };
-  });
-  oldTrackingBitmarks.forEach(otb => {
-    if (oldStatuses[otb.id]) {
-      oldStatuses[otb.id].lastHistory = otb.lastHistory;
-      oldStatuses[otb.id].asset = otb.asset;
-      oldStatuses[otb.id].isViewed = otb.isViewed;
-    }
-  });
-  let bitmarkIds = Object.keys(oldStatuses);
-  let allData = await BitmarkModel.doGetListBitmarks(bitmarkIds, { includeAsset: true });
-  let bitmarks = allData ? (allData.bitmarks || []) : [];
-  let assets = allData ? (allData.assets || []) : [];
-  let trackingBitmarks = [];
-  for (let bitmark of bitmarks) {
-    let oldStatus = oldStatuses[bitmark.id];
-    bitmark.asset = assets.find(asset => asset.id === bitmark.asset_id);
-
-    if (oldStatus.lastHistory.head_id !== bitmark.head_id ||
-      (oldStatus.lastHistory.head_id === bitmark.head_id && oldStatus.lastHistory.status !== bitmark.status)) {
-      bitmark.isViewed = false;
-    } else {
-      bitmark.isViewed = !!oldStatus.isViewed;
-    }
-    bitmark.lastHistory = oldStatus.lastHistory;
-
-    trackingBitmarks.push(bitmark);
-  }
-  return trackingBitmarks;
 };
 
 const doGetProvenance = async (bitmarkId, headId, status) => {
@@ -469,14 +424,14 @@ const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
 // ================================================================================================
 // ================================================================================================
 let BitmarkService = {
-  doGet100Bitmarks,
+  doGetNewAssetsBitmarks,
+  doGetNewReleasedAssetsBitmarks,
   doCheckFileToIssue,
   doCheckMetadata,
   doIssueFile,
   doIssueMusic,
   doTransferBitmark,
   doGetBitmarkInformation,
-  doGetTrackingBitmarks,
   doGetProvenance,
   doConfirmWebAccount,
   doDecentralizedIssuance,
