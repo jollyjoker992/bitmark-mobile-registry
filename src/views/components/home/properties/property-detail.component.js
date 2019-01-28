@@ -145,14 +145,14 @@ class PrivatePropertyDetailComponent extends React.Component {
         data = JSON.parse(data);
         if (data.event === 'scroll-to-end') {
           let listAnimations = [];
-          listAnimations.push(Animated.spring(this.state.animatedBottom, {
+          listAnimations.push(Animated.timing(this.state.animatedBottom, {
             toValue: 0,
             duration: 200,
           }));
           Animated.parallel(listAnimations).start();
         } else if (data.event === 'scroll-up') {
           let listAnimations = [];
-          listAnimations.push(Animated.spring(this.state.animatedBottom, {
+          listAnimations.push(Animated.timing(this.state.animatedBottom, {
             toValue: - config.deviceSize.height,
             duration: 200,
           }));
