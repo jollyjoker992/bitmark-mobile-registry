@@ -16,12 +16,16 @@ const _doGetAllAssetsBitmarks = async (isReleased) => {
   if (isReleased) {
     releasedBitmarksAssets = await doGetLocalReleasedAssetsBitmarks();
     for (let bitmarkId in (releasedBitmarksAssets.bitmarks || {})) {
-      lastOffset = lastOffset ? Math.max(lastOffset, releasedBitmarksAssets.bitmarks[bitmarkId].offset) : releasedBitmarksAssets.bitmarks[bitmarkId].offset;
+      if (releasedBitmarksAssets.bitmarks[bitmarkId].edition) {
+        lastOffset = lastOffset ? Math.max(lastOffset, releasedBitmarksAssets.bitmarks[bitmarkId].offset) : releasedBitmarksAssets.bitmarks[bitmarkId].offset;
+      }
     }
   } else {
     assetsBitmarks = await doGetLocalAssetsBitmarks();
     for (let bitmarkId in (assetsBitmarks.bitmarks || {})) {
-      lastOffset = lastOffset ? Math.max(lastOffset, assetsBitmarks.bitmarks[bitmarkId].offset) : assetsBitmarks.bitmarks[bitmarkId].offset;
+      if (assetsBitmarks.bitmarks[bitmarkId].edition) {
+        lastOffset = lastOffset ? Math.max(lastOffset, assetsBitmarks.bitmarks[bitmarkId].offset) : assetsBitmarks.bitmarks[bitmarkId].offset;
+      }
     }
   }
   return { lastOffset, releasedBitmarksAssets, assetsBitmarks };

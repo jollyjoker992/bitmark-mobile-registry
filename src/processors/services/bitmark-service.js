@@ -15,7 +15,9 @@ const doGetNewAssetsBitmarks = async (bitmarkAccountNumber, bitmarkAssets, lastO
   bitmarkAssets.assets = bitmarkAssets.assets || {};
 
   for (let bitmarkId in bitmarkAssets.bitmarks) {
-    lastOffset = lastOffset ? Math.max(lastOffset, bitmarkAssets.bitmarks[bitmarkId].offset) : bitmarkAssets.bitmarks[bitmarkId].offset;
+    if (bitmarkAssets.bitmarks[bitmarkId].edition) {
+      lastOffset = lastOffset ? Math.max(lastOffset, bitmarkAssets.bitmarks[bitmarkId].offset) : bitmarkAssets.bitmarks[bitmarkId].offset;
+    }
   }
   let data = await BitmarkModel.doGet100Bitmarks(bitmarkAccountNumber, lastOffset);
   while (data && data.bitmarks && data.bitmarks.length > 0) {
@@ -54,7 +56,9 @@ const doGetNewReleasedAssetsBitmarks = async (bitmarkAccountNumber, releasedBitm
   releasedBitmarksAssets.assets = releasedBitmarksAssets.assets || {};
 
   for (let bitmarkId in releasedBitmarksAssets.bitmarks) {
-    lastOffset = lastOffset ? Math.max(lastOffset, releasedBitmarksAssets.bitmarks[bitmarkId].offset) : releasedBitmarksAssets.bitmarks[bitmarkId].offset;
+    if (releasedBitmarksAssets.bitmarks[bitmarkId].edition) {
+      lastOffset = lastOffset ? Math.max(lastOffset, releasedBitmarksAssets.bitmarks[bitmarkId].offset) : releasedBitmarksAssets.bitmarks[bitmarkId].offset;
+    }
   }
 
   let data = await BitmarkModel.getBitmarksOfAssetOfIssuer(bitmarkAccountNumber, null, lastOffset);
