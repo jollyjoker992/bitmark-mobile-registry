@@ -239,39 +239,39 @@ const doCheckMetadata = async (metadata) => {
 };
 
 
-const doTryIssueFile = async ({ filePath, assetName, metadata, numberIssue }, limited, index) => {
-  index = index || 0;
-  let result = await runPromiseWithoutError(BitmarkSDK.issue(filePath, assetName, metadata, numberIssue));
-  console.log('doTryIssueFile ', { filePath, assetName, metadata, numberIssue }, index, result);
-  index++;
-  if (result && result.error) {
-    if (index < limited) {
-      if (index === 1) {
-        await delay(5000);
-      }
-      return doTryIssueFile({ filePath, assetName, metadata, numberIssue }, limited, index);
-    } else {
-      throw result.error;
-    }
-  } else {
-    return result;
-  }
-};
+// const doTryIssueFile = async ({ filePath, assetName, metadata, numberIssue }, limited, index) => {
+//   index = index || 0;
+//   let result = await runPromiseWithoutError(BitmarkSDK.issue(filePath, assetName, metadata, numberIssue));
+//   console.log('doTryIssueFile ', { filePath, assetName, metadata, numberIssue }, index, result);
+//   index++;
+//   if (result && result.error) {
+//     if (index < limited) {
+//       if (index === 1) {
+//         await delay(101 * 1000);
+//       }
+//       return doTryIssueFile({ filePath, assetName, metadata, numberIssue }, limited, index);
+//     } else {
+//       throw result.error;
+//     }
+//   } else {
+//     return result;
+//   }
+// };
 
 const doIssueFile = async (filePath, assetName, metadata, quantity) => {
-  let results;
-  let total = 0;
-  while (total < quantity) {
-    let numberIssue = quantity - total;
-    numberIssue = numberIssue > 100 ? 100 : numberIssue;
-    let result = await doTryIssueFile({ filePath, assetName, metadata, numberIssue }, 3);
-    results = results || { bitmarkIds: [], assetId: result.assetId };
-    results.bitmarkIds = results.bitmarkIds.concat(result.bitmarkIds);
-    total += numberIssue;
-  }
-  return results;
-  // let result = await BitmarkSDK.issue(filePath, assetName, metadata, quantity);
-  // return result;
+  // let results;
+  // let total = 0;
+  // while (total < quantity) {
+  //   let numberIssue = quantity - total;
+  //   numberIssue = numberIssue > 100 ? 100 : numberIssue;
+  //   let result = await doTryIssueFile({ filePath, assetName, metadata, numberIssue }, 3);
+  //   results = results || { bitmarkIds: [], assetId: result.assetId };
+  //   results.bitmarkIds = results.bitmarkIds.concat(result.bitmarkIds);
+  //   total += numberIssue;
+  // }
+  // return results;
+  let result = await BitmarkSDK.issue(filePath, assetName, metadata, quantity);
+  return result;
 };
 
 const registerNewAsset = async (filePath, assetName, metadata) => {
