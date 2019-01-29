@@ -55,10 +55,8 @@ export default StyleSheet.create({
     height: 35,
   },
   subTabButtonText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
+    fontFamily: 'AvenirNextW1G-Bold',
     fontSize: 14,
-    lineHeight: 16,
     textAlign: 'center',
   },
   activeSubTabBar: {

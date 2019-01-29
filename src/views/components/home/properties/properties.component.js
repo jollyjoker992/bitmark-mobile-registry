@@ -364,8 +364,6 @@ const cStyles = StyleSheet.create({
     fontFamily: 'AvenirNextW1G-Bold',
     fontSize: 14,
     textAlign: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   activeSubTabBar: {
     height: 4,

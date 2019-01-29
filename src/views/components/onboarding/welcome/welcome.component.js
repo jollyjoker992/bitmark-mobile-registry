@@ -1,28 +1,74 @@
 import React from 'react';
 import {
-  View, Text, TouchableOpacity, Image,
+  View, Text, Image,
   StatusBar,
 } from 'react-native';
+import Hyperlink from 'react-native-hyperlink';
 
 import welcomeComponentStyle from './welcome.component.style';
 import { Actions } from 'react-native-router-flux';
 import { constant, config } from 'src/configs';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
+import { AppProcessor, CommonModel } from 'src/processors';
 
 export class WelcomeComponent extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  async createNewAccount(enableTouchId) {
+    let user = await AppProcessor.doCreateNewAccount(enableTouchId);
+    if (!user) {
+      return;
+    }
+    await CommonModel.doSetLocalData(`${CommonModel.KEYS.TEST_RECOVERY_PHASE_ACTION_REQUIRED}-${user.bitmarkAccountNumber}`, {
+      timestamp: (new Date()).toISOString()
+    });
+    return { user, justCreatedBitmarkAccount: true };
+  }
+
   render() {
     return (
       <View style={welcomeComponentStyle.body}>
         <StatusBar hidden={!config.isIPhoneX} />
         <View style={welcomeComponentStyle.welcomeBackground}>
-          <Image style={welcomeComponentStyle.welcomeLogo} source={require('assets/imgs/slogan.png')} />
+          <View style={welcomeComponentStyle.swipePage}>
+            <View style={welcomeComponentStyle.swipePageContent}>
+              <Text style={[welcomeComponentStyle.introductionTitle]}>BITMARK REGISTRY</Text>
+              <Text style={[welcomeComponentStyle.introductionDescription]}>
+                Protect the legal rights to your data and other digital assets.
+                  </Text>
+              <Image style={welcomeComponentStyle.introductionImage} source={require('assets/imgs/introduction1.png')} />
+
+              <View style={welcomeComponentStyle.introductionTermPrivacy}>
+                <Hyperlink
+                  onPress={(url) => {
+                    if (url === (config.bitmark_web_site + '/privacy')) {
+                      Actions.bitmarkWebViewFull({ title: global.i18n.t("PublicAccountNumberComponent_privacyPolicy"), sourceUrl: config.bitmark_web_site + '/privacy?env=app', });
+                    } else if (url === (config.bitmark_web_site + '/terms')) {
+                      Actions.bitmarkWebViewFull({ title: global.i18n.t("PublicAccountNumberComponent_termsOfService"), sourceUrl: config.bitmark_web_site + '/terms?env=app', });
+                    }
+                  }}
+                  linkStyle={welcomeComponentStyle.bitmarkTermsPrivacyButtonText}
+                  linkText={url => {
+                    if (url === (config.bitmark_web_site + '/terms')) {
+                      return global.i18n.t("PublicAccountNumberComponent_termsOfService");
+                    } else if (url === (config.bitmark_web_site + '/privacy')) {
+                      return global.i18n.t("PublicAccountNumberComponent_privacyPolicy");
+                    }
+                    return '';
+                  }}>
+                  <Text style={welcomeComponentStyle.bitmarkTermsPrivacyText}>{global.i18n.t("PublicAccountNumberComponent_bitmarkTermsPrivacyText", { 0: config.bitmark_web_site + '/terms', 1: config.bitmark_web_site + '/privacy' })}</Text>
+                </Hyperlink>
+              </View>
+
+            </View>
+          </View>
           <View style={[welcomeComponentStyle.welcomeButtonArea]}>
-            <TouchableOpacity style={[welcomeComponentStyle.welcomeButton,]} onPress={Actions.newAccount}>
+            <OneTabButtonComponent style={[welcomeComponentStyle.welcomeButton,]} onPress={() => Actions.faceTouchId({ doContinue: this.createNewAccount })}>
               <Text style={[welcomeComponentStyle.welcomeButtonText,]}>{global.i18n.t("WelcomeComponent_createNewAccount")}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[welcomeComponentStyle.welcomeButton, {
+            </OneTabButtonComponent>
+            <OneTabButtonComponent style={[welcomeComponentStyle.welcomeButton, {
               backgroundColor: '#F2FAFF',
               height: 45 + (constant.blankFooter / 2),
             }]} onPress={Actions.signIn}>
@@ -30,7 +76,7 @@ export class WelcomeComponent extends React.Component {
                 color: '#0060F2',
                 paddingBottom: (constant.blankFooter / 2),
               }]}>{global.i18n.t("WelcomeComponent_accessExistingAccount")}</Text>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
           </View>
         </View>
       </View>
