@@ -47,14 +47,14 @@ export class IncomingClaimRequestComponent extends React.Component {
       text: global.i18n.t('IncomingClaimRequestComponent_signAlertAgree'), onPress: () => {
         AppProcessor.doProcessIncomingClaimRequest(this.props.incomingClaimRequest, true, {
           indicator: constant.indicators.processing,
-          title: 'Pending...!',
-          message: 'Sending your transaction to the Bitmark network...',
+          title: global.i18n.t('IncomingClaimRequestComponent_processingTitle'),
+          message: global.i18n.t('IncomingClaimRequestComponent_processingMessage'),
         }).then((result => {
           if (result && result.ok) {
             EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, {
               indicator: constant.indicators.success,
-              title: 'Success! ',
-              message: 'The account will receive the property bitmark and notification very soon.',
+              title: global.i18n.t('IncomingClaimRequestComponent_successTitle'),
+              message: global.i18n.t('IncomingClaimRequestComponent_successMessage'),
             });
             setTimeout(() => {
               EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, null);
@@ -63,8 +63,8 @@ export class IncomingClaimRequestComponent extends React.Component {
           } else if (result && !result.ok) {
             EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, {
               indicator: constant.indicators.searching,
-              title: 'Sorry!',
-              message: 'There is no bitmark confirmed, please wait and try again later.',
+              title: global.i18n.t('IncomingClaimRequestComponent_noBitmarkTitle'),
+              message: global.i18n.t('IncomingClaimRequestComponent_noBitmarkMessage'),
             });
             setTimeout(() => {
               EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, null);

@@ -920,7 +920,7 @@
     "IncomingClaimRequestComponent_rejectAlertTitle": "Do you want to reject this request?",
     "IncomingClaimRequestComponent_rejectAlertOK": "OK",
     "IncomingClaimRequestComponent_rejectAlertCancel": "Cancel",
-    "IncomingClaimRequestComponent_signAlertTitle": "Agree to issue bitmark and transfer to other account.",
+    "IncomingClaimRequestComponent_signAlertTitle": "Agree to transfer the asset.",
     "IncomingClaimRequestComponent_signAlertAgree": "Confirm",
     "IncomingClaimRequestComponent_signAlertDisagree": "Cancel",
     "IncomingClaimRequestComponent_processingTitle": "Pending...!",
