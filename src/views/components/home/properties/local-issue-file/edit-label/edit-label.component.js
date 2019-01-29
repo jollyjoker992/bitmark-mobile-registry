@@ -8,8 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import localAddPropertyStyle from './edit-label.component.style';
 import { defaultStyles } from 'src/views/commons';
 import { constant } from 'src/configs';
-
-
+import { getMetadataLabel } from 'src/utils';
 
 export class LocalIssueFileEditLabelComponent extends React.Component {
   constructor(props) {
@@ -20,9 +19,8 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
     let suggestions = [];
     let label = this.props.label || ''
     constant.asset.MetadataLabelSamples.forEach((text, key) => {
-      console.log('text :', text);
-      if (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
-        suggestions.push({ key, originalText: text, text: global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }) });
+      if (!label || getMetadataLabel(text).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
+        suggestions.push({ key, originalText: text, text: getMetadataLabel(text).toUpperCase() });
       }
     });
     this.state = { label: this.props.label || '', suggestions };
@@ -31,8 +29,8 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
   onChangeText(label) {
     let suggestions = [];
     constant.asset.MetadataLabelSamples.forEach((text, key) => {
-      if (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
-        suggestions.push({ key, originalText: text, text: global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }) });
+      if (!label || getMetadataLabel(text).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
+        suggestions.push({ key, originalText: text, text: getMetadataLabel(text).toUpperCase() });
       }
     });
     this.setState({ label, suggestions });

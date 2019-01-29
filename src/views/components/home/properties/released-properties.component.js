@@ -51,7 +51,7 @@ class PrivateReleasedPropertiesComponent extends React.Component {
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </OneTabButtonComponent>
           <View style={defaultStyles.headerCenter}>
-            <Text style={defaultStyles.headerTitle} numberOfLines={1}>RELEASED PROPERTIES</Text>
+            <Text style={defaultStyles.headerTitle} numberOfLines={1}>{global.i18n.t("ReleasedPropertiesComponent_headerTitle")}</Text>
           </View>
           <OneTabButtonComponent style={[defaultStyles.headerRight]} />
         </View>
@@ -63,30 +63,35 @@ class PrivateReleasedPropertiesComponent extends React.Component {
               <View style={cStyles.assetContent}>
                 <View style={{ width: '100%', }}>
                   <Text style={cStyles.assetContentName}>{this.props.releasedAsset.name}</Text>
-                  <Text style={cStyles.register}>REGISTER ON {moment(this.props.releasedAsset.created_at).format('YYYY MMM DD').toUpperCase()} BY {CommonProcessor.getDisplayedAccount(this.props.releasedAsset.registrant)}</Text>
+                  <Text style={cStyles.register}>
+                    {global.i18n.t("ReleasedPropertiesComponent_register", {
+                      createdAt: moment(this.props.releasedAsset.created_at).format('YYYY MMM DD').toUpperCase(),
+                      registrant: CommonProcessor.getDisplayedAccount(this.props.releasedAsset.registrant),
+                    })}
+                  </Text>
                 </View>
                 <OneTabButtonComponent style={{ padding: 4 }} onPress={this.viewBitmarkOnBlockChain.bind(this)}>
-                  <Text style={cStyles.viewAssetInfoButtonText}>{'View Asset Info'.toUpperCase()}</Text>
+                  <Text style={cStyles.viewAssetInfoButtonText}>{global.i18n.t("ReleasedPropertiesComponent_viewAssetInfoButtonText")}</Text>
                 </OneTabButtonComponent>
               </View>
             </View>
             <View style={cStyles.assetButtonsArea}>
               <OneTabButtonComponent style={cStyles.assetButton} onPress={this.distribute.bind(this)}>
                 <Image style={cStyles.assetButtonIcon} source={require('assets/imgs/distribute_icon.png')} />
-                <Text style={cStyles.assetButtonText}>DISTRIBUTE</Text>
+                <Text style={cStyles.assetButtonText}>{global.i18n.t("ReleasedPropertiesComponent_assetButtonText1")}</Text>
               </OneTabButtonComponent>
               <OneTabButtonComponent style={[cStyles.assetButton, { marginLeft: 19 }]} onPress={this.openAsset.bind(this)}>
                 <Image style={cStyles.assetButtonIcon} source={require('assets/imgs/open_asset_icon.png')} />
-                <Text style={cStyles.assetButtonText}>OPEN ASSET</Text>
+                <Text style={cStyles.assetButtonText}>{global.i18n.t("ReleasedPropertiesComponent_assetButtonText2")}</Text>
               </OneTabButtonComponent>
             </View>
           </View>
-          <Text style={cStyles.totalClaimedBitmarks}>TOTAL CLAIMED BITMARKS ({this.props.releasedBitmarks.length})</Text>
+          <Text style={cStyles.totalClaimedBitmarks}>{global.i18n.t("ReleasedPropertiesComponent_totalClaimedBitmarks", { total: this.props.releasedBitmarks.length })}</Text>
           <View style={[cStyles.rowClaimedBitmark, { marginTop: 10 }]}>
             <View style={cStyles.headerClaimedBitmark}>
-              <Text style={cStyles.timestamp}>TIMESTAMP</Text>
-              <Text style={cStyles.bitmarkId}>BITMARK ID</Text>
-              <Text style={cStyles.owner}>OWNER</Text>
+              <Text style={cStyles.timestamp}>{global.i18n.t("ReleasedPropertiesComponent_timestamp")}</Text>
+              <Text style={cStyles.bitmarkId}>{global.i18n.t("ReleasedPropertiesComponent_bitmarkId")}</Text>
+              <Text style={cStyles.owner}>{global.i18n.t("ReleasedPropertiesComponent_owner")}</Text>
             </View>
           </View>
           <ScrollView style={{ flex: 1, width: '100%' }} contentContainerStyle={{ flexGrow: 1, width: '100%' }}>

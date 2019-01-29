@@ -79,13 +79,15 @@ const viewMoreDisplayedBitmarks = (state) => {
 };
 
 const updateDisplayedReleasedAssets = (state) => {
+  let releasedAssets = sortAssetsBitmarks(state.releasedAssets);
   let totalDisplayedReleasedAssets = state.displayedReleasedAssets.length + 20;
-  totalDisplayedReleasedAssets = totalDisplayedReleasedAssets > state.releasedAssets.length ? state.releasedAssets.length : totalDisplayedReleasedAssets;
+  totalDisplayedReleasedAssets = totalDisplayedReleasedAssets > releasedAssets.length ? releasedAssets.length : totalDisplayedReleasedAssets;
   let displayedReleasedAssets = [];
   for (let index = 0; index < totalDisplayedReleasedAssets; index++) {
-    displayedReleasedAssets.push(state.releasedAssets[index]);
+    displayedReleasedAssets.push(releasedAssets[index]);
   }
   return {
+    releasedAssets,
     displayedReleasedAssets,
   };
 };

@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { defaultStyles } from 'src/views/commons';
 import { constant } from 'src/configs';
-import { convertWidth } from 'src/utils';
+import { convertWidth, getMetadataLabel } from 'src/utils';
 
 
 export class MusicMetadataEditComponent extends React.Component {
@@ -27,8 +27,8 @@ export class MusicMetadataEditComponent extends React.Component {
     let label = this.props.label || ''
     constant.asset.MetadataLabelSamples.forEach((text, key) => {
       if (text.toLowerCase() !== constant.asset.metadata.labels.type && text.toLowerCase() !== constant.asset.metadata.labels.description &&
-        (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0)) {
-        suggestions.push({ key, originalText: text, text: global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }) });
+        (!label || getMetadataLabel(text).toLowerCase().indexOf(label.toLowerCase()) >= 0)) {
+        suggestions.push({ key, originalText: text, text: getMetadataLabel(text).toUpperCase() });
       }
     });
     this.state = { label: this.props.label || '', suggestions };
@@ -38,8 +38,8 @@ export class MusicMetadataEditComponent extends React.Component {
     let suggestions = [];
     constant.asset.MetadataLabelSamples.forEach((text, key) => {
       if (text.toLowerCase() !== constant.asset.metadata.labels.type && text.toLowerCase() !== constant.asset.metadata.labels.description &&
-        (!label || global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }).toLowerCase().indexOf(label.toLowerCase()) >= 0)) {
-        suggestions.push({ key, originalText: text, text: global.i18n.t(`MetadataLabels_${text}`, { defaultValue: text }) });
+        (!label || getMetadataLabel(text).toLowerCase().indexOf(label.toLowerCase()) >= 0)) {
+        suggestions.push({ key, originalText: text, text: getMetadataLabel(text).toUpperCase() });
       }
     });
     this.setState({ label, suggestions });

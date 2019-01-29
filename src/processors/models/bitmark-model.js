@@ -239,8 +239,18 @@ const doCheckMetadata = async (metadata) => {
 };
 
 const doIssueFile = async (filePath, assetName, metadata, quantity) => {
-  let result = await BitmarkSDK.issue(filePath, assetName, metadata, quantity);
-  return result;
+  let results;
+  let total =0;
+  while (total < quantity) {
+    let numberIssue = quantity - total;
+    numberIssue = numberIssue > 100 ? 100: numberIssue;
+    let result = await BitmarkSDK.issue(filePath, assetName, metadata, numberIssue);
+    results = results || { bitmarkIds:[], assetId:result.assetId};
+    results.bitmarkIds = results.bitmarkIds.concat(result.bitmarkIds);
+  }
+  return results;
+  // let result = await BitmarkSDK.issue(filePath, assetName, metadata, quantity);
+  // return result;
 };
 
 const registerNewAsset = async (filePath, assetName, metadata) => {

@@ -34,10 +34,8 @@ export class WelcomeComponent extends React.Component {
         <View style={welcomeComponentStyle.welcomeBackground}>
           <View style={welcomeComponentStyle.swipePage}>
             <View style={welcomeComponentStyle.swipePageContent}>
-              <Text style={[welcomeComponentStyle.introductionTitle]}>BITMARK REGISTRY</Text>
-              <Text style={[welcomeComponentStyle.introductionDescription]}>
-                Protect the legal rights to your data and other digital assets.
-                  </Text>
+              <Text style={[welcomeComponentStyle.introductionTitle]}>{global.i18n.t("WelcomeComponent_introductionTitle")}</Text>
+              <Text style={[welcomeComponentStyle.introductionDescription]}>{global.i18n.t("WelcomeComponent_introductionDescription")}</Text>
               <Image style={welcomeComponentStyle.introductionImage} source={require('assets/imgs/introduction1.png')} />
 
               <View style={welcomeComponentStyle.introductionTermPrivacy}>

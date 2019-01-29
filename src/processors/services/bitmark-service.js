@@ -25,9 +25,6 @@ const doGetNewAssetsBitmarks = async (bitmarkAccountNumber, bitmarkAssets, lastO
     for (let bitmark of data.bitmarks) {
       if (bitmark.owner === bitmarkAccountNumber) {
         if (bitmarkAssets.assets[bitmark.asset_id]) {
-          if (bitmarkAssets.bitmarks[bitmark.id]) {
-            bitmark.editionNumber = bitmarkAssets.bitmarks[bitmark.id].editionNumber;
-          }
           bitmarkAssets.bitmarks[bitmark.id] = merge({}, bitmarkAssets.bitmarks[bitmark.id] || {}, bitmark);
         }
       } else {

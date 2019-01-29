@@ -119,7 +119,7 @@ class PrivatePropertiesComponent extends React.Component {
               <View style={cStyles.subTabButtonArea}>
                 <View style={[cStyles.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
                 <View style={cStyles.subTabButtonTextArea}>
-                  <Text style={cStyles.subTabButtonText}>RELEASE</Text>
+                  <Text style={cStyles.subTabButtonText}>{global.i18n.t("PropertiesComponent_release")}</Text>
                 </View>
               </View>
             </TouchableOpacity>}
@@ -131,7 +131,7 @@ class PrivatePropertiesComponent extends React.Component {
               <View style={cStyles.subTabButtonArea}>
                 <View style={[cStyles.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
                 <View style={cStyles.subTabButtonTextArea}>
-                  <Text style={[cStyles.subTabButtonText, { color: '#C1C1C1' }]}>RELEASE</Text>
+                  <Text style={[cStyles.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("PropertiesComponent_release")}</Text>
                 </View>
               </View>
             </TouchableOpacity>}
@@ -279,7 +279,7 @@ class PrivatePropertiesComponent extends React.Component {
                 <Image style={cStyles.noReleaseIcon} source={require('assets/imgs/No_release_icon.png')} />
               </View>
               <TouchableOpacity style={cStyles.addFirstPropertyButton} onPress={Actions.musicFileChosen}>
-                <Text style={cStyles.addFirstPropertyButtonText}>{'Release Your Music'.toUpperCase()}</Text>
+                <Text style={cStyles.addFirstPropertyButtonText}> {global.i18n.t("PropertiesComponent_releaseYourMusic")}</Text>
               </TouchableOpacity>
             </View>}
             {this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length > 0 && this.props.subTab === SubTabs.release && this.props.displayedReleasedAssets.map(asset => (
@@ -289,7 +289,12 @@ class PrivatePropertiesComponent extends React.Component {
                 </View>
                 <View style={cStyles.bitmarkContent}>
                   <Text style={cStyles.releasedAssetName} numberOfLines={1}>{asset.name}</Text>
-                  <Text style={cStyles.releasedAssetEditionLeft} numberOfLines={1}>{`Editions left - ${asset.editions[bitmarkAccountNumber].totalEditionLeft}/${asset.editions[bitmarkAccountNumber].limited}`}</Text>
+                  <Text style={cStyles.releasedAssetEditionLeft} numberOfLines={1}>
+                    {global.i18n.t("PropertiesComponent_releasedAssetEditionLeft", {
+                      number: asset.editions[bitmarkAccountNumber].totalEditionLeft,
+                      total: asset.editions[bitmarkAccountNumber].limited
+                    })}
+                  </Text>
                 </View>
               </TouchableOpacity>
             ))}

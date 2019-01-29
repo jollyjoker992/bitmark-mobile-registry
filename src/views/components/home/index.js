@@ -6,7 +6,6 @@ import {
   LocalIssueFileComponent,
   LocalIssueFileEditLabelComponent,
   IftttActiveComponent,
-  AssetTypeHelpComponent,
   PropertiesComponent,
   ReleasedPropertiesComponent,
   PropertyDetailComponent,
@@ -34,7 +33,6 @@ import {
   MusicIssueSuccessComponent,
   MusicMetadataComponent,
   MusicMetadataEditComponent,
-  MusicSentIncomingClaimRequestComponent,
 } from './properties/local-issue-music';
 
 import { BitmarkWebViewComponent } from 'src/views/commons';
@@ -118,7 +116,6 @@ export class UserRouterComponent extends Component {
             <Scene key="transferOffer" panHandlers={null} component={TransferOfferComponent} />
             <Scene key="localIssueFile" panHandlers={null} component={LocalIssueFileComponent} />
             <Scene key="localIssueFileEditLabel" panHandlers={null} component={LocalIssueFileEditLabelComponent} />
-            <Scene key="assetTypeHelp" panHandlers={null} component={AssetTypeHelpComponent} />
             <Scene key="localPropertyTransfer" panHandlers={null} component={LocalPropertyTransferComponent} />
             <Scene key="whatNew" panHandlers={null} component={WhatNewComponent} />
 
@@ -128,7 +125,6 @@ export class UserRouterComponent extends Component {
             <Scene key="musicIssueSuccess" panHandlers={null} component={MusicIssueSuccessComponent} />
             <Scene key="musicMetadata" panHandlers={null} component={MusicMetadataComponent} />
             <Scene key="musicMetadataEdit" panHandlers={null} component={MusicMetadataEditComponent} />
-            <Scene key="musicSentIncomingClaimRequest" panHandlers={null} component={MusicSentIncomingClaimRequestComponent} />
             <Scene key="musicReleaseToPublic" panHandlers={null} component={MusicReleaseToPublicComponent} />
             <Scene key="propertyDetail" panHandlers={null} component={PropertyDetailComponent} />
 

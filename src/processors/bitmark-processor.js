@@ -55,22 +55,25 @@ const _doCheckNewReleasedAssetsBitmarks = async (releasedBitmarksAssets) => {
         // get limited edition of asset base on issuer
         releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber] = releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber] || {};
         // get number editions left
-        releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].totalEditionLeft = bitmarksOfAsset.filter(bitmark => bitmark.owner === bitmarkAccountNumber).length - 1;
+        let totalEditionLeft = bitmarksOfAsset.filter(bitmark => bitmark.owner === bitmarkAccountNumber).length - 1;
+        totalEditionLeft = totalEditionLeft < 0 ? 0 : totalEditionLeft;
+        releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].totalEditionLeft = totalEditionLeft;
         releasedBitmarksAssets.assets[assetId].editions[bitmarkAccountNumber].limited = bitmarksOfAsset.length - 1;
 
         bitmarksOfAsset.sort((a, b) => {
-          if (!a.offset) { return -1; }
-          if (!b.offset) { return 1; }
-          if (a.offset < b.offset) {
+          if (!a.issue_block_number) { return -1; }
+          if (!b.issue_block_number) { return 1; }
+          if (a.issue_block_number < b.issue_block_number) {
             return -1
-          } else if (a.offset > b.offset) {
+          } else if (a.issue_block_number > b.issue_block_number) {
             return 1
           } else {
-            return a.block_offset - b.block_offset;
+            return a.issue_block_offset - b.issue_block_offset;
           }
         });
         for (let index = 0; index < bitmarksOfAsset.length; index++) {
-          releasedBitmarksAssets.bitmarks[bitmarksOfAsset[index].id].editionNumber = index;
+          releasedBitmarksAssets.bitmarks[bitmarksOfAsset[index].id].editionNumber = releasedBitmarksAssets.bitmarks[bitmarksOfAsset[index].id].edition ||
+            (releasedBitmarksAssets.bitmarks[bitmarksOfAsset[index].id].issue_block_number ? index : undefined);
         }
       }
     }
@@ -117,8 +120,23 @@ const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
                 assetsBitmarks.bitmarks[bitmarkId].editionNumber = tempMapBitmarksOfAssetOfIssuer[assetId][issuer].findIndex(bm => bm.id === bitmarkId);
               } else {
                 tempMapBitmarksOfAssetOfIssuer[assetId] = tempMapBitmarksOfAssetOfIssuer[assetId] || {};
-                tempMapBitmarksOfAssetOfIssuer[assetId][issuer] = await BitmarkModel.getAllBitmarksOfAssetFromIssuer(issuer, assetId);
-                assetsBitmarks.bitmarks[bitmarkId].editionNumber = tempMapBitmarksOfAssetOfIssuer[assetId][issuer].findIndex(bm => bm.id === bitmarkId);
+                let bitmarksOfAsset = await BitmarkModel.getAllBitmarksOfAssetFromIssuer(issuer, assetId);
+                bitmarksOfAsset.sort((a, b) => {
+                  if (!a.issue_block_number) { return -1; }
+                  if (!b.issue_block_number) { return 1; }
+                  if (a.issue_block_number < b.issue_block_number) {
+                    return -1
+                  } else if (a.issue_block_number > b.issue_block_number) {
+                    return 1
+                  } else {
+                    return a.issue_block_offset - b.issue_block_offset;
+                  }
+                });
+
+                tempMapBitmarksOfAssetOfIssuer[assetId][issuer] = bitmarksOfAsset;
+                assetsBitmarks.bitmarks[bitmarkId].editionNumber = assetsBitmarks.bitmarks[bitmarkId].issue_block_number
+                  ? tempMapBitmarksOfAssetOfIssuer[assetId][issuer].findIndex(bm => bm.id === bitmarkId)
+                  : undefined;
               }
             }
           }

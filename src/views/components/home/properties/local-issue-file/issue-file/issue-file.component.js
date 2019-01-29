@@ -7,7 +7,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import localAddPropertyStyle from './issue-file.component.style';
 import { AppProcessor, BitmarkService } from 'src/processors';
-import { FileUtil, convertWidth } from 'src/utils';
+import { FileUtil, convertWidth, getMetadataLabel,getMetadataValue } from 'src/utils';
 import { defaultStyles } from 'src/views/commons';
 import { constant } from 'src/configs';
 
@@ -39,8 +39,8 @@ export class LocalIssueFileComponent extends React.Component {
       for (let label in asset.metadata) {
         metadataList.push({
           key,
-          label: global.i18n.t(`MetadataLabels_${label}`, { defaultValue: label }),
-          value: global.i18n.t(`MetadataValues_${asset.metadata[label]}`, { defaultValue: asset.metadata[label] }),
+          label: getMetadataLabel(label, true),
+          value: getMetadataValue(asset.metadata[label]),
         });
         key++;
       }
@@ -251,7 +251,7 @@ export class LocalIssueFileComponent extends React.Component {
                             <Text style={[localAddPropertyStyle.metadataFieldKeyText, {
                               color: (item.label && !this.state.existingAsset) ? 'black' : '#C1C1C1',
                               width: convertWidth(this.state.isEditingMetadata ? 286 : 302),
-                            }]}>{item.label ? global.i18n.t(`MetadataLabels_${item.label}`, { defaultValue: item.label }) : global.i18n.t("LocalIssueFileComponent_label")}</Text>
+                            }]}>{item.label ? getMetadataLabel(item.label) : global.i18n.t("LocalIssueFileComponent_label")}</Text>
                             {!this.state.existingAsset && <Image style={localAddPropertyStyle.metadataFieldKeyEditIcon}
                               source={require('assets/imgs/next-icon-blue.png')} />}
                           </TouchableOpacity>

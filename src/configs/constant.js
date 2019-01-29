@@ -10,22 +10,24 @@ let commonConstant = {
       labels: {
         type: 'type',
         description: 'description',
+        playlink: 'playlink',
       },
       values: {
         music: 'music'
       }
     },
     MetadataLabelSamples: [
-      'Type',
-      'Description',
-      'Artist',
-      'Version',
-      'Lyrics',
-      'Genre',
-      'ISRC',
-      'Producer',
-      'Composer',
-      'Sound recording copyright',
+      'playlink',
+      'type',
+      'description',
+      'artist',
+      'version',
+      'lyrics',
+      'genre',
+      'isrc',
+      'producer',
+      'composer',
+      'sound recording copyright',
     ],
   },
   indicators: {

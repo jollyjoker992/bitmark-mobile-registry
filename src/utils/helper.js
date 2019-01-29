@@ -115,6 +115,23 @@ const isReleasedAsset = (asset) => {
   return isMusicAsset(asset);
 };
 
+const getMetadataLabel = (label, needCheckUpperCase?) => {
+  if (!needCheckUpperCase) {
+    return global.i18n.t(`MetadataLabels_${label.toLowerCase()}`, { defaultValue: label }).toUpperCase();
+  } else {
+    let text = global.i18n.t(`MetadataLabels_${label.toLowerCase()}`, { defaultValue: label });
+    if (text === label) {
+      return text;
+    } else {
+      return text.toUpperCase();
+    }
+  }
+};
+
+const getMetadataValue = (value) => {
+  return global.i18n.t(`MetadataValues_${value.toLowerCase()}`, { defaultValue: value }).toUpperCase();
+};
+
 const sortAssetsBitmarks = (bitmarks) => {
   bitmarks = bitmarks || [];
   bitmarks.sort((a, b) => {
@@ -135,4 +152,6 @@ export {
   isMedicalRecord, isHealthRecord, isMusicAsset,
   isReleasedAsset,
   sortAssetsBitmarks,
+  getMetadataLabel,
+  getMetadataValue,
 };

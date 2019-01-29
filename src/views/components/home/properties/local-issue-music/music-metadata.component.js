@@ -11,7 +11,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
-import { convertWidth } from 'src/utils';
+import { convertWidth, getMetadataLabel } from 'src/utils';
 import { BitmarkService, AppProcessor } from 'src/processors';
 
 
@@ -196,7 +196,7 @@ export class MusicMetadataComponent extends React.Component {
                       onPress={() => Actions.musicMetadataEdit({ index: index, label: item.label, onChangeMetadataLabel: this.onChangeMetadataLabel.bind(this) })}
                     >
                       <Text style={[cStyles.fieldLabelButtonText, item.label ? {} : { color: '#C1C1C1' }]}>
-                        {item.label ? global.i18n.t(`MetadataLabels_${item.label}`, { defaultValue: item.label }) : global.i18n.t('MusicMetadataComponent_fieldLabelButtonText', { index: index + 1 })}
+                        {item.label ? getMetadataLabel(item.label, true) : global.i18n.t('MusicMetadataComponent_fieldLabelButtonText', { index: index + 1 })}
                       </Text>
                       <Image style={cStyles.fieldLabelButtonIcon} source={require('assets/imgs/next-icon-blue.png')} />
                     </TouchableOpacity>

@@ -8,12 +8,11 @@ import {
 import { Provider, connect } from 'react-redux';
 
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
-import { convertWidth, isHealthRecord, isMedicalRecord, isImageFile, isVideoFile, isDocFile, isZipFile } from 'src/utils';
-import { config, constant } from 'src/configs';
+import { convertWidth, isHealthRecord, isMedicalRecord, isImageFile, isVideoFile, isDocFile, isZipFile, getMetadataLabel, getMetadataValue } from 'src/utils';
+import { config } from 'src/configs';
 import { EventEmitterService, } from 'src/processors';
 import { Actions } from 'react-native-router-flux';
 import { PropertyMetadataStore, PropertyMetadataActions, } from 'src/views/stores';
-
 
 
 class PrivatePropertyMetadataComponent extends React.Component {
@@ -25,7 +24,7 @@ class PrivatePropertyMetadataComponent extends React.Component {
   viewBitmarkOnBlockChain() {
     EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER);
     Actions.bitmarkWebViewFull({
-      title: 'REGISTRY', sourceUrl: `${config.registry_server_url}/assets/${this.props.asset.id}?env=app`,
+      title: global.i18n.t("PropertyMetadataComponent_registry"), sourceUrl: `${config.registry_server_url}/assets/${this.props.asset.id}?env=app`,
     });
   }
 
@@ -34,7 +33,6 @@ class PrivatePropertyMetadataComponent extends React.Component {
   }
 
   render() {
-    console.log('PrivatePropertyMetadataComponent this.props :', this.props);
     return (
       <View style={cStyles.content}>
         <View style={cStyles.assetContent}>
@@ -66,22 +64,17 @@ class PrivatePropertyMetadataComponent extends React.Component {
               return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_unknow_icon.png')} />);
             })()}
           </View>
-          <Text style={cStyles.label}>{'Property metadata'.toUpperCase()}</Text>
+          <Text style={cStyles.label}>{global.i18n.t("PropertyMetadataComponent_title")}</Text>
           <OneTabButtonComponent style={{ padding: 4, paddingRight: convertWidth(19), }} onPress={this.close.bind(this)}>
             <Image style={cStyles.closeIcon} source={require('assets/imgs/close_icon_blue.png')} />
           </OneTabButtonComponent>
         </View>
         <ScrollView contentContainerStyle={{ flexDirection: 'column', justifyContent: 'flex-end', width: '100%', }}>
           {Object.keys(this.props.asset.metadata).map(label => (<View key={label} style={cStyles.metadataRow}>
-            <Text style={cStyles.metadataLabel}>{label.toUpperCase()}</Text>
-            <Text style={cStyles.metadataValue}>{this.props.asset.metadata[label]}</Text>
+            <Text style={cStyles.metadataLabel}>{ getMetadataLabel(label)}</Text>
+            <Text style={cStyles.metadataValue}>{ getMetadataValue(this.props.asset.metadata[label])}</Text>
           </View>))}
         </ScrollView>
-        {/* <View style={cStyles.actionArea}>
-          <OneTabButtonComponent style={cStyles.actionRow} onPress={this.viewBitmarkOnBlockChain.bind(this)}>
-            <Text style={cStyles.actionRowText}>{'View asset details on blockchain'.toUpperCase()}</Text>
-          </OneTabButtonComponent>
-        </View> */}
       </View>
     );
   }
@@ -115,23 +108,6 @@ const cStyles = StyleSheet.create({
     width: 16, height: 16, resizeMode: 'contain',
   },
 
-  // actionArea: {
-  //   width: '100%',
-  //   flexDirection: 'column',
-  //   paddingTop: 20,
-  //   paddingLeft: convertWidth(16), paddingRight: convertWidth(16),
-  //   borderTopWidth: 0.5, borderTopColor: '#C1C1C1',
-  // },
-  // actionRow: {
-  //   flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-  //   marginBottom: 35,
-  //   width: '100%', height: constant.buttonHeight,
-  //   backgroundColor: '#F1F1F1'
-  // },
-  // actionRowText: {
-  //   width: '100%',
-  //   fontFamily: 'AvenirNextW1G-Bold', fontSize: 16, color: '#0060F2', textAlign: 'center',
-  // },
   metadataRow: {
     flexDirection: 'row',
     justifyContent: 'flex-start', alignItems: 'flex-start',

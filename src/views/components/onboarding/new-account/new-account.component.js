@@ -92,41 +92,13 @@ export class NewAccountComponent extends React.Component {
 
               <View style={newAccountStyle.swipePage}>
                 <View style={newAccountStyle.swipePageContent}>
-                  <Text style={[newAccountStyle.introductionTitle]}>BITMARK REGISTRY</Text>
+                  <Text style={[newAccountStyle.introductionTitle]}>{global.i18n.t("NewAccountComponent_introductionTitle1")}</Text>
                   <Text style={[newAccountStyle.introductionDescription]}>
-                    Protect the legal rights to your data and other digital assets.
+                    {global.i18n.t("NewAccountComponent_introductionDescription1")}
                   </Text>
-                  <OneTabButtonComponent style={{ flex: 1, width: '100%', }} onPress={() => this.swiper.scrollBy(1)}>
-                    <Image style={newAccountStyle.introductionImage} source={require('assets/imgs/introduction1.png')} />
-                  </OneTabButtonComponent>
-
-                  <View style={newAccountStyle.introductionTermPrivacy}>
-                    <Hyperlink
-                      onPress={(url) => {
-                        if (url === (config.bitmark_web_site + '/privacy')) {
-                          Actions.bitmarkWebViewFull({ title: global.i18n.t("PublicAccountNumberComponent_privacyPolicy"), sourceUrl: config.bitmark_web_site + '/privacy?env=app', });
-                        } else if (url === (config.bitmark_web_site + '/terms')) {
-                          Actions.bitmarkWebViewFull({ title: global.i18n.t("PublicAccountNumberComponent_termsOfService"), sourceUrl: config.bitmark_web_site + '/terms?env=app', });
-                        }
-                      }}
-                      linkStyle={newAccountStyle.bitmarkTermsPrivacyButtonText}
-                      linkText={url => {
-                        if (url === (config.bitmark_web_site + '/terms')) {
-                          return global.i18n.t("PublicAccountNumberComponent_termsOfService");
-                        } else if (url === (config.bitmark_web_site + '/privacy')) {
-                          return global.i18n.t("PublicAccountNumberComponent_privacyPolicy");
-                        }
-                        return '';
-                      }}>
-                      <Text style={newAccountStyle.bitmarkTermsPrivacyText}>{global.i18n.t("PublicAccountNumberComponent_bitmarkTermsPrivacyText", { 0: config.bitmark_web_site + '/terms', 1: config.bitmark_web_site + '/privacy' })}</Text>
-                    </Hyperlink>
-                  </View>
-
+                  <Image style={newAccountStyle.introductionImage} source={require('assets/imgs/introduction1.png')} />
                 </View>
               </View>
-              <OneTabButtonComponent style={[newAccountStyle.letDoItButton]} onPress={() => Actions.faceTouchId({ doContinue: this.createNewAccount })}>
-                <Text style={[newAccountStyle.letDoItButtonText]}>CONTINUE</Text>
-              </OneTabButtonComponent>
             </View>
 
             {/* <View style={newAccountStyle.swipeArea} >

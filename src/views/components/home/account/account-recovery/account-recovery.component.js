@@ -6,9 +6,8 @@ import {
 import { Actions } from 'react-native-router-flux';
 
 import accountRecoveryStyle from './account-recovery.component.style';
-import { AppProcessor, DataProcessor, TransactionProcessor } from 'src/processors';
+import { AppProcessor, TransactionProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
-import { convertWidth } from 'src/utils';
 import { UserModel } from 'src/processors/models';
 
 

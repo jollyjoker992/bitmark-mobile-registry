@@ -148,7 +148,7 @@ export class MusicBasicInfoComponent extends React.Component {
               thumbnailPath = destPath;
 
               let thumbnailPathError = '';
-              if (!isImageFile(this.thumbnailPath)) {
+              if (!isImageFile(thumbnailPath)) {
                 thumbnailPath = '';
                 thumbnailPathError = global.i18n.t('MusicBasicInfoComponent_chooseThumbnailFileWrong');
               }

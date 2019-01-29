@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   View, Text, TouchableOpacity, ScrollView, Image, SafeAreaView,
   Alert,
+  Clipboard,
 } from 'react-native';
 
 import incomingClaimRequestStyle from './incoming-claim-request.component.style';
@@ -20,7 +21,9 @@ export class IncomingClaimRequestComponent extends React.Component {
     super(props);
     this.doReject = this.doReject.bind(this);
     this.doAccept = this.doAccept.bind(this);
-
+    this.state = {
+      copyText: 'copy',
+    };
   }
 
   doReject() {
@@ -95,20 +98,28 @@ export class IncomingClaimRequestComponent extends React.Component {
               <View style={incomingClaimRequestStyle.assetInfoArea}>
                 <Image style={incomingClaimRequestStyle.assetThumbnail} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.incomingClaimRequest.asset.id}` }} />
                 <Text style={incomingClaimRequestStyle.assetInfo}>{this.props.incomingClaimRequest.asset.name}</Text>
-                <Text style={incomingClaimRequestStyle.editionNumber}>Editions [{this.props.incomingClaimRequest.index}/{this.props.incomingClaimRequest.asset.editions[bitmarkAccountNumber].limited}]</Text>
+                <Text style={incomingClaimRequestStyle.editionNumber}>
+                  {global.i18n.t("IncomingClaimRequestComponent_editionNumber", {
+                    number: this.props.incomingClaimRequest.index + '/' + this.props.incomingClaimRequest.asset.editions[bitmarkAccountNumber].limited
+                  })}
+                </Text>
                 <Text style={incomingClaimRequestStyle.issuer}>{CommonProcessor.getDisplayedAccount(CacheData.userInformation.bitmarkAccountNumber)}</Text>
               </View>
               <View style={incomingClaimRequestStyle.requestInfoArea}>
                 <View style={incomingClaimRequestStyle.requestFromAccount}>
-                  <Text style={incomingClaimRequestStyle.requestFromAccountLabel}>REQUEST FROM ACCOUNT</Text>
-                  <OneTabButtonComponent style={incomingClaimRequestStyle.requestFromAccountCopyButton}>
-                    <Text style={incomingClaimRequestStyle.requestFromAccountCopyButtonText}>COPY</Text>
+                  <Text style={incomingClaimRequestStyle.requestFromAccountLabel}>{global.i18n.t("IncomingClaimRequestComponent_requestFromAccountLabel")}</Text>
+                  <OneTabButtonComponent style={incomingClaimRequestStyle.requestFromAccountCopyButton} onPress={() => {
+                    Clipboard.setString(this.props.incomingClaimRequest.from);
+                    this.setState({ copyText: 'copied' });
+                    setTimeout(() => { this.setState({ copyText: 'copy' }) }, 1000);
+                  }}>
+                    <Text style={incomingClaimRequestStyle.requestFromAccountCopyButtonText}>{global.i18n.t(`IncomingClaimRequestComponent_${this.state.copyText}`)}</Text>
                   </OneTabButtonComponent>
                 </View>
                 <View style={incomingClaimRequestStyle.requestFromAccountNumber}>
                   <Text style={incomingClaimRequestStyle.requestFromAccountNumberValue}>{this.props.incomingClaimRequest.from}</Text>
                 </View>
-                <Text style={incomingClaimRequestStyle.requestMessage}>The account above has requested the property {this.props.incomingClaimRequest.asset.name}. Please sign to transfer the bitmark. </Text>
+                <Text style={incomingClaimRequestStyle.requestMessage}>{global.i18n.t("IncomingClaimRequestComponent_requestMessage", { assetName: this.props.incomingClaimRequest.asset.name })}</Text>
               </View>
             </TouchableOpacity>
           </ScrollView>
