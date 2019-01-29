@@ -121,7 +121,7 @@ const isReleasedAsset = (asset) => {
   return isMusicAsset(asset);
 };
 
-const getMetadataLabel = (label, needCheckUpperCase?) => {
+const getMetadataLabel = (label, needCheckUpperCase) => {
   if (!needCheckUpperCase) {
     return global.i18n.t(`MetadataLabels_${label.toLowerCase()}`, { defaultValue: label }).toUpperCase();
   } else {

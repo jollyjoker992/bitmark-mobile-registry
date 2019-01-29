@@ -6,6 +6,7 @@ let CacheData = {
   keyIndexModalDisplaying: 0,
   codePushUpdated: null,
   mountedRouter: null,
+  passTouchFaceId: false,
 
   identities: {},
 };

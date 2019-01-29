@@ -161,6 +161,7 @@ export class MainAppHandlerComponent extends Component {
             }
           });
           TransactionProcessor.doGetAssetToClaim(assetId, issuer).then((asset) => {
+            CacheData.passTouchFaceId = false;
             CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
           }).catch(error => {
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
@@ -176,6 +177,7 @@ export class MainAppHandlerComponent extends Component {
 
   handleAppStateChange = (nextAppState) => {
     if (this.appState.match(/background/) && nextAppState === 'active') {
+      CacheData.passTouchFaceId = false;
       runPromiseWithoutError(CommonProcessor.doMetricOnScreen(true));
       this.doTryConnectInternet();
     }
@@ -192,8 +194,10 @@ export class MainAppHandlerComponent extends Component {
         if (userInformation && userInformation.bitmarkAccountNumber) {
           let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
           let passTouchFaceId = result && !result.error;
+          CacheData.passTouchFaceId = passTouchFaceId;
           this.setState({ passTouchFaceId });
           if (passTouchFaceId) {
+            CommonProcessor.checkDisplayModal();
             EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
           }
         } else {
@@ -215,7 +219,9 @@ export class MainAppHandlerComponent extends Component {
       let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
       let passTouchFaceId = result && !result.error;
       this.setState({ passTouchFaceId });
+      CacheData.passTouchFaceId = passTouchFaceId;
       if (passTouchFaceId && this.state.networkStatus) {
+        CommonProcessor.checkDisplayModal();
         EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus: this.state.networkStatus, justCreatedBitmarkAccount });
       }
     } else if (this.state.networkStatus) {

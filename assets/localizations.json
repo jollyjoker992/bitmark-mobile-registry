@@ -510,8 +510,8 @@
     "MusicReleaseToPublicComponent_limitedEdition": "MusicReleaseToPublicComponent_limitedEdition"
   },
   "en": {
-    "MetadataLabels_type": "type",
-    "MetadataLabels_description": "description",
+    "MetadataLabels_type": "Type",
+    "MetadataLabels_description": "Description",
     "MetadataLabels_artist": "Artist",
     "MetadataLabels_version": "Version",
     "MetadataLabels_lyrics": "Lyrics",
@@ -520,7 +520,7 @@
     "MetadataLabels_producer": "Producer",
     "MetadataLabels_composer": "Composer",
     "MetadataLabels_sound recording copyright": "Sound recording copyright",
-    "MetadataLabels_playlink": "playlink",
+    "MetadataLabels_playlink": "Playlink",
     "MetadataValues_music": "music",
     "BitmarkInternetOffComponent_networkError": "Network Error",
     "BitmarkInternetOffComponent_errorMessage": "Failed to connect to Bitmark. Please check your device’s network connection.",
@@ -1091,7 +1091,7 @@
     "PropertiesComponent_currentOwner": "目前所有人",
     "PropertiesComponent_messageNoReleaseLabel": "發行限量數位音樂",
     "PropertiesComponent_messageNoReleaseContent": "公開發行歌曲讓粉絲下載",
-    "PropertiesComponent_releasedAssetEditionLeft": "限量版剩餘 - {{number}}/{{total}",
+    "PropertiesComponent_releasedAssetEditionLeft": "限量版剩餘數量 - {{number}}/{{total}",
     "IftttActiveComponent_pleaseSignToConnectYourIftttAccount": "請簽名確認連結你的 IFTTT 帳戶。",
     "IftttActiveComponent_registerYourIftttData": "登記你的 IFTTT 數據",
     "IftttActiveComponent_done": "完成",
