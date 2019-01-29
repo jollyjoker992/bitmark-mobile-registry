@@ -37,6 +37,12 @@ const calculateAdditionalHeight = (minHeight, additionalValue, forceApply) => {
   return result;
 };
 
+const delay = (tms) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, tms);
+  });
+};
+
 const runPromiseWithoutError = (promise) => {
   return new Promise((resolve) => {
     promise.then(resolve).catch(error => resolve({ error }));
@@ -154,4 +160,5 @@ export {
   sortAssetsBitmarks,
   getMetadataLabel,
   getMetadataValue,
+  delay,
 };

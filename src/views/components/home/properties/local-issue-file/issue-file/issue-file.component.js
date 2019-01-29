@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import {
   View, Text, TouchableOpacity, Image, TextInput, FlatList, KeyboardAvoidingView, SafeAreaView, ScrollView,
   Alert,
+  Keyboard,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import localAddPropertyStyle from './issue-file.component.style';
 import { AppProcessor, BitmarkService } from 'src/processors';
-import { FileUtil, convertWidth, getMetadataLabel,getMetadataValue } from 'src/utils';
+import { FileUtil, convertWidth, getMetadataLabel, getMetadataValue } from 'src/utils';
 import { defaultStyles } from 'src/views/commons';
 import { constant } from 'src/configs';
 
@@ -71,6 +72,7 @@ export class LocalIssueFileComponent extends React.Component {
   // ==========================================================================================
   // ==========================================================================================
   onIssueFile() {
+    Keyboard.dismiss();
     AppProcessor.doIssueFile(this.state.filePath, this.state.assetName, this.state.metadataList, parseInt(this.state.quantity), {
       indicator: true, title: '', message: global.i18n.t("LocalIssueFileComponent_issueMessage")
     }).then((data) => {

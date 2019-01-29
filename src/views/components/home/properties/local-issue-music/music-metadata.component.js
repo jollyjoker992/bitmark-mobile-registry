@@ -12,7 +12,7 @@ import { Actions } from 'react-native-router-flux';
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth, getMetadataLabel } from 'src/utils';
-import { BitmarkService, AppProcessor } from 'src/processors';
+import { BitmarkService, AppProcessor, EventEmitterService } from 'src/processors';
 
 
 export class MusicMetadataComponent extends React.Component {
@@ -47,6 +47,7 @@ export class MusicMetadataComponent extends React.Component {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardDidHide);
   }
   componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
   }
@@ -58,7 +59,6 @@ export class MusicMetadataComponent extends React.Component {
     let keyboardHeight = keyboardEvent.endCoordinates.height;
     this.setState({ keyboardHeight, });
   }
-
   onKeyboardDidHide() {
     this.setState({ keyboardHeight: 0 });
   }
@@ -157,6 +157,7 @@ export class MusicMetadataComponent extends React.Component {
         });
       }
     }).catch(error => {
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
       console.log('doIssueMusic error:', error);
     })
   }
@@ -238,7 +239,7 @@ export class MusicMetadataComponent extends React.Component {
           </View>}
 
           <TouchableOpacity
-            style={[cStyles.continueButton, (!this.state.metadataError) ? { backgroundColor: '#0060F2' } : {}]}
+            style={[cStyles.continueButton, (!this.state.metadataError) ? { backgroundColor: '#0060F2' } : {}, this.state.keyboardHeight ? { height: constant.buttonHeight } : {}]}
             disabled={!!this.state.metadataError}
             onPress={this.onSubmit.bind(this)}
           >

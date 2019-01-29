@@ -25,6 +25,10 @@ export class MusicBasicInfoComponent extends React.Component {
 
   constructor(props) {
     super(props);
+    this.onKeyboardDidShow = this.onKeyboardDidShow.bind(this);
+    this.onKeyboardDidHide = this.onKeyboardDidHide.bind(this);
+    this.onKeyboardWillShow = this.onKeyboardWillShow.bind(this);
+
     this.state = {
       filePath: this.props.filePath,
       thumbnailPath: null,
@@ -38,7 +42,28 @@ export class MusicBasicInfoComponent extends React.Component {
       // description: this.props.asset.metadata.description || '',
       descriptionError: '',
       thumbnailPathError: '',
-    }
+    };
+  }
+  componentDidMount() {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.onKeyboardWillShow);
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardDidHide);
+  }
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  onKeyboardWillShow() {
+    this.setState({ keyboardHeight: 1 });
+  }
+  onKeyboardDidShow(keyboardEvent) {
+    let keyboardHeight = keyboardEvent.endCoordinates.height;
+    this.setState({ keyboardHeight, });
+  }
+  onKeyboardDidHide() {
+    this.setState({ keyboardHeight: 0 });
   }
 
   changeFile() {
@@ -338,7 +363,9 @@ export class MusicBasicInfoComponent extends React.Component {
               </View>
             </View>
           </ScrollView>
-          <TouchableOpacity style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}]} onPress={this.onContinue.bind(this)}>
+          <TouchableOpacity
+            style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}, this.state.keyboardHeight ? { height: constant.buttonHeight } : {}]}
+            onPress={this.onContinue.bind(this)}>
             <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicBasicInfoComponent_continueButtonText')}</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
