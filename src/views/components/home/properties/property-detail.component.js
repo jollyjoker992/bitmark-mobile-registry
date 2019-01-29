@@ -359,7 +359,7 @@ class PrivatePropertyDetailComponent extends React.Component {
                 })()}
               </View>
 
-              <View style={cStyles.assetInformation}>
+              <View style={[cStyles.assetInformation, { marginTop: 0 }]}>
                 <View style={cStyles.assetContent}>
                   <Text style={[cStyles.assetContentName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>
                     {this.props.asset.name + (this.props.asset.editions ? `${this.props.bitmark.editionNumber || '-'}/${this.props.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited}` : '')}
@@ -525,7 +525,6 @@ const cStyles = StyleSheet.create({
     width: '100%',
   },
   assetContent: {
-    marginTop: 20,
     flex: 1, flexDirection: 'column', justifyContent: 'space-between',
     paddingLeft: convertWidth(15), paddingRight: convertWidth(19),
   },
