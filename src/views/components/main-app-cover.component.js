@@ -110,6 +110,5 @@ const cStyles = StyleSheet.create({
   },
   bodyContent: {
     flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-    backgroundColor: 'red',
   },
 });
