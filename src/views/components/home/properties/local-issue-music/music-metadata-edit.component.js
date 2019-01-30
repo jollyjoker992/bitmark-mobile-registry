@@ -31,7 +31,7 @@ export class MusicMetadataEditComponent extends React.Component {
         suggestions.push({ key, originalText: text, text: getMetadataLabel(text).toUpperCase() });
       }
     });
-    this.state = { label: this.props.label || '', suggestions };
+    this.state = { label: getMetadataLabel(label), suggestions };
   }
 
   onChangeText(label) {

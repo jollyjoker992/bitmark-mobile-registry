@@ -6,7 +6,11 @@ import { BitmarkService, LocalFileService } from "./services";
 import { CommonModel, AccountModel, BitmarkSDK, BitmarkModel } from "./models";
 import { CacheData } from "./caches";
 import { CommonProcessor } from "./common-processor";
-import { BottomTabStore, BottomTabActions, PropertiesActions, PropertiesStore, PropertyActionSheetStore, PropertyActionSheetActions } from 'src/views/stores';
+import {
+  BottomTabStore, BottomTabActions,
+  PropertiesActions, PropertiesStore,
+  PropertyStore, PropertyActions
+} from 'src/views/stores';
 
 
 const _doGetAllAssetsBitmarks = async (isReleased) => {
@@ -154,11 +158,12 @@ const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
       assets: assetsBitmarks.assets || {},
     }));
 
-    let propertyActionSheetStoreState = merge({}, PropertyActionSheetStore.getState().data);
-    if (propertyActionSheetStoreState.bitmark && propertyActionSheetStoreState.bitmark.id && propertyActionSheetStoreState.bitmark.asset_id) {
-      propertyActionSheetStoreState.asset = assetsBitmarks.assets[propertyActionSheetStoreState.bitmark.asset_id];
-      propertyActionSheetStoreState.bitmark = assetsBitmarks.bitmarks[propertyActionSheetStoreState.bitmark.id];
-      PropertyActionSheetStore.dispatch(PropertyActionSheetActions.init(propertyActionSheetStoreState));
+    let propertyStoreState = merge({}, PropertyStore.getState().data);
+    console.log('propertyStoreState :', propertyStoreState);
+    if (propertyStoreState.bitmark && propertyStoreState.bitmark.id && propertyStoreState.bitmark.asset_id) {
+      propertyStoreState.asset = assetsBitmarks.assets[propertyStoreState.bitmark.asset_id];
+      propertyStoreState.bitmark = assetsBitmarks.bitmarks[propertyStoreState.bitmark.id];
+      PropertyStore.dispatch(PropertyActions.init(propertyStoreState));
     }
   }
 };
