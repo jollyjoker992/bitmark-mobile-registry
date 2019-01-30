@@ -49,14 +49,17 @@ export class WelcomeComponent extends React.Component {
                   }}
                   linkStyle={welcomeComponentStyle.bitmarkTermsPrivacyButtonText}
                   linkText={url => {
-                    if (url === (config.bitmark_web_site + '/terms')) {
-                      return global.i18n.t("PublicAccountNumberComponent_termsOfService");
-                    } else if (url === (config.bitmark_web_site + '/privacy')) {
-                      return global.i18n.t("PublicAccountNumberComponent_privacyPolicy");
+                    console.log({ url })
+                    if (url.indexOf(config.bitmark_web_site + '/terms') === 0) {
+                      return url.replace(config.bitmark_web_site + '/terms', global.i18n.t("PublicAccountNumberComponent_termsOfService"));
+                    } else if (url.indexOf(config.bitmark_web_site + '/privacy') === 0) {
+                      return url.replace(config.bitmark_web_site + '/privacy', global.i18n.t("PublicAccountNumberComponent_privacyPolicy"));
                     }
                     return '';
                   }}>
-                  <Text style={welcomeComponentStyle.bitmarkTermsPrivacyText}>{global.i18n.t("PublicAccountNumberComponent_bitmarkTermsPrivacyText", { 0: config.bitmark_web_site + '/terms', 1: config.bitmark_web_site + '/privacy' })}</Text>
+                  <Text style={welcomeComponentStyle.bitmarkTermsPrivacyText}>
+                    {global.i18n.t("PublicAccountNumberComponent_bitmarkTermsPrivacyText", { 0: config.bitmark_web_site + '/terms', 1: config.bitmark_web_site + '/privacy' })}
+                  </Text>
                 </Hyperlink>
               </View>
 
