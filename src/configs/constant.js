@@ -17,17 +17,15 @@ let commonConstant = {
       }
     },
     MetadataLabelSamples: [
-      'playlink',
       'type',
       'description',
-      'artist',
-      'version',
-      'lyrics',
+      'performer',
       'genre',
       'isrc',
       'producer',
       'composer',
-      'sound recording copyright',
+      'copyright',
+      'playlink',
     ],
   },
   indicators: {
