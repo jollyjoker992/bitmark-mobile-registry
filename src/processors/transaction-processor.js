@@ -182,10 +182,12 @@ const _doGenerateTransactionActionRequiredData = async (incomingClaimRequests) =
   NotificationService.setApplicationIconBadgeNumber(totalTasks || 0);
 };
 
-const _doCheckNewTransfers = async (transactions) => {
+const _doCheckNewTransfers = async (transactions, isLoadingOtherData) => {
   if (transactions) {
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS, transactions);
-    await _doGenerateTransactionHistoryData();
+    if (!isLoadingOtherData) {
+      await _doGenerateTransactionHistoryData();
+    }
   }
 };
 
@@ -310,7 +312,7 @@ const runGetTransfersInBackground = () => {
   });
 };
 
-const _doCheckClaimRequests = async (claimRequests) => {
+const _doCheckClaimRequests = async (claimRequests, isLoadingOtherData) => {
   if (claimRequests) {
     let releasedBitmarksAssets = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_RELEASED_ASSETS_BITMARKS)) || {};
     releasedBitmarksAssets.assets = releasedBitmarksAssets.assets || {};
@@ -323,8 +325,10 @@ const _doCheckClaimRequests = async (claimRequests) => {
     claimRequests.incoming_claim_requests = (claimRequests.incoming_claim_requests || []).sort((a, b) => moment(a.created_at).toDate().getTime() - moment(b.created_at).toDate().getTime());
     claimRequests.outgoing_claim_requests = (claimRequests.outgoing_claim_requests || []).sort((a, b) => moment(a.created_at).toDate().getTime() - moment(b.created_at).toDate().getTime());
     await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_CLAIM_REQUEST, claimRequests);
-    await _doGenerateTransactionActionRequiredData(claimRequests.incoming_claim_requests);
-    await _doGenerateTransactionHistoryData(claimRequests.outgoing_claim_requests);
+    if (!isLoadingOtherData) {
+      await _doGenerateTransactionActionRequiredData(claimRequests.incoming_claim_requests);
+      await _doGenerateTransactionHistoryData(claimRequests.outgoing_claim_requests);
+    }
   }
 }
 
@@ -352,25 +356,25 @@ const doGetIftttInformation = async () => {
   return (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_IFTTT_INFORMATION)) || {};
 };
 
-const doReloadIftttInformation = async () => {
+const doReloadIftttInformation = async (noNeedCheckNewData) => {
   let result = await runGetIFTTTInformationInBackground();
-  await _doCheckNewIftttInformation(result);
+  await _doCheckNewIftttInformation(result, noNeedCheckNewData);
 };
 
-const doReloadTransferOffers = async () => {
+const doReloadTransferOffers = async (noNeedCheckNewData) => {
   let result = await runGetTransferOfferInBackground();
-  await _doCheckTransferOffers(result);
+  await _doCheckTransferOffers(result, noNeedCheckNewData);
 };
 
-const doReloadClaimRequests = async () => {
+const doReloadClaimRequests = async (noNeedCheckNewData) => {
   let result = await runGetClaimRequestInBackground();
-  await _doCheckClaimRequests(result);
+  await _doCheckClaimRequests(result, noNeedCheckNewData);
   return result;
 };
 
-const doReloadTransfers = async () => {
+const doReloadTransfers = async (noNeedCheckNewData) => {
   let result = await runGetTransfersInBackground();
-  await _doCheckNewTransfers(result);
+  await _doCheckNewTransfers(result, noNeedCheckNewData);
 };
 
 const doRevokeIftttToken = async () => {
@@ -454,6 +458,8 @@ let TransactionProcessor = {
   runGetTransactionsInBackground,
 
   doCheckNewIftttInformation: _doCheckNewIftttInformation,
+  doGenerateTransactionActionRequiredData: _doGenerateTransactionActionRequiredData,
+  doGenerateTransactionHistoryData: _doGenerateTransactionHistoryData,
   doReloadTransferOffers,
   doGetAllTransfersOffers,
 
