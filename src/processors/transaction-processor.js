@@ -23,9 +23,8 @@ const TransactionHistoryTypes = {
 const _doGenerateTransactionHistoryData = async (outgoingClaimRequest) => {
   let transactions = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS)) || [];
 
-  let completed;
+  let completed = [];
   if (transactions) {
-    completed = [];
     transactions.forEach((item) => {
       let title = TransactionHistoryTypes.issuance.title;
       let type = TransactionHistoryTypes.issuance.title.type;
@@ -79,7 +78,7 @@ const _doGenerateTransactionHistoryData = async (outgoingClaimRequest) => {
     if (!a || !a.timestamp) return -1;
     if (!b || !b.timestamp) return 1;
     return moment(b.timestamp).toDate().getTime() - moment(a.timestamp).toDate().getTime();
-  }) : completed;
+  }) : [];
   await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_TRANSACTIONS_HISTORY, completed);
 
   let transactionStoreState = merge({}, TransactionsStore.getState().data);
@@ -97,11 +96,10 @@ const TransactionActionRequireTypes = {
   test_write_down_recovery_phase: 'test_write_down_recovery_phase',
 };
 const _doGenerateTransactionActionRequiredData = async (incomingClaimRequests) => {
-  let actionRequired;
+  let actionRequired = [];
   let totalTasks = 0;
   let transferOffers = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRANSFER_OFFERS)) || {};
   if (transferOffers.incomingTransferOffers) {
-    actionRequired = actionRequired || [];
     (transferOffers.incomingTransferOffers || []).forEach((item) => {
       if (item.status === 'open') {
         actionRequired.push({
