@@ -588,10 +588,6 @@ const cStyles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     backgroundColor: '#F1F1F1',
   },
-  actionRowIcon: {
-    width: 18, height: '100%', resizeMode: 'contain',
-    position: 'absolute', left: 17,
-  },
   actionRowText: {
     width: '100%',
     textAlign: 'center',

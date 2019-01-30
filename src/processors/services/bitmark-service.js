@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { merge } from 'lodash';
 import { BitmarkModel, CommonModel, BitmarkSDK } from "../models";
-import { FileUtil } from 'src/utils';
+import { FileUtil, isReleasedAsset } from 'src/utils';
 import { config, constant } from 'src/configs';
 import { CacheData } from '../caches';
 
@@ -64,7 +64,7 @@ const doGetNewReleasedAssetsBitmarks = async (bitmarkAccountNumber, releasedBitm
   let data = await BitmarkModel.getBitmarksOfAssetOfIssuer(bitmarkAccountNumber, null, lastOffset);
   while (data && data.bitmarks && data.bitmarks.length > 0) {
     for (let asset of data.assets) {
-      if (asset.metadata && asset.metadata[constant.asset.metadata.labels.type] === constant.asset.metadata.values.music) {
+      if (isReleasedAsset(asset)) {
         releasedBitmarksAssets.assets[asset.id] = merge({}, releasedBitmarksAssets.assets[asset.id] || {}, asset);
       }
     }

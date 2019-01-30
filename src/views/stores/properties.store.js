@@ -92,18 +92,6 @@ const updateDisplayedReleasedAssets = (state) => {
   };
 };
 
-const updateReleasedAssets = (state, releasedAssets) => {
-  let currentAssets = state.releasedAssets;
-  for (let asset of releasedAssets) {
-    let currentIndex = currentAssets.findIndex(a => a.id === asset.id);
-    if (currentIndex >= 0) {
-      currentAssets[currentIndex] === asset;
-    } else {
-      currentAssets.push(asset);
-    }
-  }
-  return updateDisplayedReleasedAssets(merge({}, state, { releasedAssets: currentAssets }));
-};
 
 const viewMoreDisplayedReleasedAssets = (state) => {
   let totalDisplayedReleasedAssets = state.displayedReleasedAssets.length + 20;
@@ -144,7 +132,11 @@ const data = (state = initialState, action) => {
     }
 
     case ACTION_TYPES.UPDATE_RELEASE_ASSET: {
-      let tempState = merge({}, state, updateReleasedAssets(state, action.data.releasedAssets));
+      let tempState = merge({}, state);
+      tempState.releasedAssets = action.data.releasedAssets;
+      let result = updateDisplayedReleasedAssets(merge({}, tempState));
+      tempState.releasedAssets = result.releasedAssets;
+      tempState.displayedReleasedAssets = result.displayedReleasedAssets;
       tempState.releasedBitmarks = action.data.releasedBitmarks;
       return tempState;
     }

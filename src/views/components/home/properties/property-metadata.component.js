@@ -71,8 +71,8 @@ class PrivatePropertyMetadataComponent extends React.Component {
         </View>
         <ScrollView contentContainerStyle={{ flexDirection: 'column', justifyContent: 'flex-end', width: '100%', }}>
           {Object.keys(this.props.asset.metadata).map(label => (<View key={label} style={cStyles.metadataRow}>
-            <Text style={cStyles.metadataLabel}>{ getMetadataLabel(label)}</Text>
-            <Text style={cStyles.metadataValue}>{ getMetadataValue(this.props.asset.metadata[label])}</Text>
+            <Text style={cStyles.metadataLabel}>{getMetadataLabel(label)}</Text>
+            <Text style={cStyles.metadataValue}>{getMetadataValue(this.props.asset.metadata[label])}</Text>
           </View>))}
         </ScrollView>
       </View>

@@ -331,7 +331,7 @@ const doIssueFile = async (filePath, assetName, metadataList, quantity) => {
 };
 
 const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, limitedEdition) => {
-  let result = await BitmarkService.doIssueMusic(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, thumbnailPath, limitedEdition);
+  let results = await BitmarkService.doIssueMusic(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, thumbnailPath, limitedEdition);
 
   let appInfo = await CommonProcessor.doGetAppInformation();
   appInfo = appInfo || {};
@@ -345,8 +345,34 @@ const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, li
     await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
   }
 
-  await doReloadUserAssetsBitmarks();
-  return result;
+  let assetsBitmarks = await doGetLocalAssetsBitmarks();
+  for (let item of results) {
+    assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
+    assetsBitmarks.bitmarks[item.id] = {
+      head_id: item.id,
+      asset_id: item.assetId,
+      id: item.id,
+      issued_at: moment().toDate().toISOString(),
+      head: `head`,
+      status: 'pending',
+      owner: CacheData.userInformation.bitmarkAccountNumber,
+      issuer: CacheData.userInformation.bitmarkAccountNumber,
+    };
+    if (!assetsBitmarks.assets || !assetsBitmarks.assets[item.assetId]) {
+      assetsBitmarks.assets = assetsBitmarks.assets || {};
+      assetsBitmarks.assets[item.assetId] = {
+        id: item.assetId,
+        name: assetName,
+        metadata: item.metadata,
+        registrant: CacheData.userInformation.bitmarkAccountNumber,
+        status: 'pending',
+        created_at: moment().toDate().toISOString(),
+        filePath: item.filePath,
+      }
+    }
+  }
+  await _doCheckNewAssetsBitmarks(assetsBitmarks);
+  return results;
 };
 
 const doGetAssetBitmark = async (bitmarkId, assetId) => {

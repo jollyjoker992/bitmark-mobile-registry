@@ -39,9 +39,10 @@ class PrivateReleasedPropertiesComponent extends React.Component {
   }
 
   openAsset() {
-    Share.share({ title: this.props.releasedAsset.name, url: this.props.releasedAsset.filePath });
+    Share.share({ title: this.props.releasedAsset.name, url: this.props.releasedAsset.filePath }).catch(error => {
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+    });
   }
-
 
   render() {
     return (
