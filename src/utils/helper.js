@@ -135,7 +135,7 @@ const getMetadataLabel = (label, needCheckUpperCase) => {
 };
 
 const getMetadataValue = (value) => {
-  return global.i18n.t(`MetadataValues_${value.toLowerCase()}`, { defaultValue: value }).toUpperCase();
+  return global.i18n.t(`MetadataValues_${value.toLowerCase()}`, { defaultValue: value });
 };
 
 const sortAssetsBitmarks = (bitmarks) => {
