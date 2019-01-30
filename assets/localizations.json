@@ -1100,7 +1100,7 @@
     "IssuanceOptionsComponent_cancelButtonTitle": "取消",
     "LocalIssueFileEditLabelComponent_headerTitle": "類別標籤",
     "LocalIssueFileEditLabelComponent_placeholder": "選擇或者創造新類別標籤",
-    "LocalIssueFileEditLabelComponent_done": "確認完成",
+    "LocalIssueFileEditLabelComponent_done": "確認",
     "LocalIssueFileComponent_issueMessage": "正在發送你的交易記錄至 Bitmark 系統....",
     "LocalIssueFileComponent_success": "完成！",
     "LocalIssueFileComponent_successMessage": "資產所有權登記完成。",
