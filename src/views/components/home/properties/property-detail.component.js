@@ -240,8 +240,8 @@ class PrivatePropertyDetailComponent extends React.Component {
             paddingTop: 20,
             paddingBottom: 20,
           }]}>
-            <View style={{ width: '100%', flexDirection: 'row', paddingLeft: convertWidth(15), paddingRight: convertWidth(15) }}>
-              <Image style={{ width: 15, height: 15, resizeMode: 'contain' }} source={require('assets/imgs/logo.png')} />
+            <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', paddingLeft: convertWidth(15), paddingRight: convertWidth(15) }}>
+              <Image style={{ width: 15, height: 15, resizeMode: 'contain', marginRight: 5, }} source={require('assets/imgs/logo.png')} />
               <Text style={{ fontFamily: 'Andale Mono', fontSize: 14, color: '#545454', }} >{global.i18n.t("PropertyDetailComponent_releaseLabel")}</Text>
             </View>
 

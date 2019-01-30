@@ -457,6 +457,7 @@ const cStyles = StyleSheet.create({
   },
   bitmarkPendingIcon: {
     width: 13, height: 17, resizeMode: 'contain',
+    marginRight: 3,
   },
   releasedAssetName: {
     width: '100%',
