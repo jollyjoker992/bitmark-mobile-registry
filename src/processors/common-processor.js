@@ -29,7 +29,7 @@ let checkDisplayModal = () => {
         CacheData.keyIndexModalDisplaying = keyIndex;
         break;
       } else if (keyIndex === ModalDisplayKeyIndex.claim_asset && CacheData.mountedRouter && CacheData.passTouchFaceId &&
-        CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber && data.asset) {
+        CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber && data && data.asset) {
         Actions.propertyDetail({ asset: data.asset, claimToAccount: data.issuer || data.asset.registrant });
         CacheData.keyIndexModalDisplaying = keyIndex;
         break;

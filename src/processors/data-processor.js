@@ -65,16 +65,14 @@ const runOnBackground = async () => {
   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 
   if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
-    if (!CommonProcessor.isDisplayingModal(CommonProcessor.ModalDisplayKeyIndex.claim_asset)) {
-      if (CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] &&
-        CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account != CacheData.userInformation.is_released_account) {
-        CacheData.userInformation.is_released_account = CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account;
-        await UserModel.doUpdateUserInfo(CacheData.userInformation);
-      }
-      await BitmarkProcessor.runGetUserBitmarks();
-      await TransactionProcessor.runGetTransactionsInBackground();
-      await doRemoveDraftBitmarkOfClaimRequest();
+    if (CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] &&
+      CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account != CacheData.userInformation.is_released_account) {
+      CacheData.userInformation.is_released_account = CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account;
+      await UserModel.doUpdateUserInfo(CacheData.userInformation);
     }
+    await BitmarkProcessor.runGetUserBitmarks();
+    await TransactionProcessor.runGetTransactionsInBackground();
+    await doRemoveDraftBitmarkOfClaimRequest();
   }
   console.log('runOnBackground done ====================================');
 };

@@ -156,20 +156,15 @@ export class MainAppHandlerComponent extends Component {
         let assetId = params[1];
         let issuer = params[2];
         if (assetId) {
-          if (currentAppState && currentAppState.match(/background/)) {
-            CacheData.passTouchFaceId = false;
-          }
           UserModel.doTryGetCurrentUser().then(userInformation => {
             if (!userInformation || !userInformation.bitmarkAccountNumber) {
               Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
             }
           });
-          CommonProcessor.doViewSendIncomingClaimRequest(null, issuer);
           TransactionProcessor.doGetAssetToClaim(assetId, issuer).then((asset) => {
             CacheData.passTouchFaceId = false;
             CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
           }).catch(error => {
-            CommonProcessor.doMarkDoneSendClaimRequest();
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
           });
         }
