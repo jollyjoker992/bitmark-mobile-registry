@@ -17,6 +17,7 @@ let commonConstant = {
       }
     },
     MetadataLabelForMusic: [
+      'description',
       'performer',
       'genre',
       'isrc',
