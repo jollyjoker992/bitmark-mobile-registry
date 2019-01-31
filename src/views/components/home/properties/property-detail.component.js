@@ -212,7 +212,7 @@ class PrivatePropertyDetailComponent extends React.Component {
 
       return (<View style={[cStyles.body]}>
         <StatusBar hidden={!config.isIPhoneX} />
-        <View style={[cStyles.bodyContent, { paddingTop: config.isIPhoneX ? 44 : 0, paddingBottom: config.isIPhoneX ? 22 : 0 }]}>
+        <View style={[cStyles.bodyContent, { backgroundColor: 'white', paddingTop: config.isIPhoneX ? 44 : 0, paddingBottom: config.isIPhoneX ? 22 : 0 }]}>
           <OneTabButtonComponent style={{ position: 'absolute', top: config.isIPhoneX ? 44 : 0, left: 0, zIndex: 1, }} onPress={() => Actions.jump('properties')}>
             <Text style={{ color: 'white', padding: 20, fontSize: 20 }}>X</Text>
           </OneTabButtonComponent>
@@ -450,7 +450,7 @@ const cStyles = StyleSheet.create({
   bodyContent: {
     flex: 1, flexDirection: 'column', alignItems: 'center',
     width: '100%',
-    backgroundColor: 'black',
+    backgroundColor: 'white',
   },
   topButtonsArea: {
     position: 'absolute',
