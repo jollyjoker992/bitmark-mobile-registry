@@ -37,7 +37,7 @@ class PrivatePropertyDetailComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      animatedBottom: new Animated.Value(0),
+      animatedBottom: new Animated.Value(-config.deviceSize.height),
       copied: false,
       displayTopButton: false,
       provenance: [],
