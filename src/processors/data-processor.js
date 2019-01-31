@@ -471,14 +471,12 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
 
       await BitmarkService.doTransferBitmark(bitmark.id, incomingClaimRequest.from);
       await BitmarkModel.doSubmitIncomingClaimRequests(CacheData.jwt, { accepted: [{ id: incomingClaimRequest.id, bitmark_id: bitmark.id }] });
-      await TransactionProcessor.doReloadTransfers(true);
-      await TransactionProcessor.doReloadClaimRequests(true);
+      await TransactionProcessor.doReloadTransfers();
+      await TransactionProcessor.doReloadClaimRequests();
       if (isReleasedAsset(asset)) {
         await BitmarkProcessor.doReloadUserReleasedAssetsBitmarks();
       }
       await BitmarkProcessor.doReloadUserAssetsBitmarks();
-      await TransactionProcessor.doGenerateTransactionActionRequiredData();
-      await TransactionProcessor.doGenerateTransactionHistoryData();
       return { ok: true };
     } else {
       return { ok: false };
