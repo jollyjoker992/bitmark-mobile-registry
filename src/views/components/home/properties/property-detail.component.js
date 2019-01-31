@@ -219,13 +219,13 @@ class PrivatePropertyDetailComponent extends React.Component {
           <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ flexGrow: 1, }}>
             <View style={{ width: '100%', flex: 1, height: config.deviceSize.height, backgroundColor: 'rgba(0,0,0,0.5)' }}>
               <WebView
-                injectedJavaScript={`window.onscroll = () =>{
-                  if ((window.innerHeight + window.scrollY + 200) >= document.body.offsetHeight) {
+                injectedJavaScript={`document.addEventListener('scroll', () =>{
+                  if (( window.pageYOffset + window.screen.height + 200) >= document.body.scrollHeight) {
                     window.postMessage(JSON.stringify({event: 'scroll-to-end'}));
                   } else {
                     window.postMessage(JSON.stringify({event: 'scroll-up'}));
                   }
-                };`}
+                });`}
                 onMessage={this.onMessage.bind(this)}
                 style={{ flex: 1, }}
                 source={{
