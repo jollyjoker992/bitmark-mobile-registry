@@ -16,11 +16,10 @@ export class NotificationComponent extends React.Component {
     super(props);
   }
   render() {
-
+    CacheData.passTouchFaceId = true;
     let requestNotification = () => {
       NotificationService.doRequestNotificationPermissions().then((result) => {
         EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, this.props.justCreatedBitmarkAccount);
-        CacheData.passTouchFaceId = true;
         return CommonProcessor.doMarkRequestedNotification(result);
       }).catch(error => {
         console.log('NotificationComponent requestNotification error:', error);
@@ -45,7 +44,6 @@ export class NotificationComponent extends React.Component {
             height: 45 + (constant.blankFooter / 2)
           }]} onPress={() => {
             EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, this.props.justCreatedBitmarkAccount);
-            CacheData.passTouchFaceId = true;
           }}>
             <Text style={[notificationStyle.enableButtonText, {
               color: '#0060F2',

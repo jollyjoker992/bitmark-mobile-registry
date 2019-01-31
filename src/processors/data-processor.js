@@ -64,7 +64,7 @@ const runOnBackground = async () => {
   appInfo.offScreenAt = moment().toDate().getTime();
   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 
-  if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
+  if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber && !CacheData.processingDeepLink) {
     if (CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] &&
       CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account != CacheData.userInformation.is_released_account) {
       CacheData.userInformation.is_released_account = CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account;
@@ -556,6 +556,7 @@ const doSendIncomingClaimRequest = async (asset, issuer) => {
   }
   await BitmarkProcessor.doCheckNewAssetsBitmarks(assetsBitmarks);
   await TransactionProcessor.doReloadClaimRequests();
+  CacheData.processingDeepLink = false;
   return { bitmark, asset };
 };
 

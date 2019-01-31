@@ -1,9 +1,10 @@
 import moment from 'moment';
 
-import { CommonModel, UserModel } from "./models";
+import { CommonModel, UserModel, BitmarkSDK } from "./models";
 import { CacheData } from "./caches";
 import { config } from 'src/configs';
 import { Actions } from 'react-native-router-flux';
+import { runPromiseWithoutError } from 'src/utils';
 
 let mapModalDisplayData = {};
 const ModalDisplayKeyIndex = {
@@ -23,13 +24,13 @@ let checkDisplayModal = () => {
   for (let index = 0; index < keyIndexArray.length; index++) {
     let keyIndex = parseInt(keyIndexArray[index]);
     let data = mapModalDisplayData[keyIndex];
-    if (mapModalDisplayData[keyIndex] && (CacheData.keyIndexModalDisplaying <= 0 || CacheData.keyIndexModalDisplaying > keyIndex)) {
+    if (data && (CacheData.keyIndexModalDisplaying <= 0 || CacheData.keyIndexModalDisplaying > keyIndex)) {
       if (keyIndex === ModalDisplayKeyIndex.what_new && CacheData.mountedRouter) {
         Actions.whatNew();
         CacheData.keyIndexModalDisplaying = keyIndex;
         break;
       } else if (keyIndex === ModalDisplayKeyIndex.claim_asset && CacheData.mountedRouter && CacheData.passTouchFaceId &&
-        CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber && data && data.asset) {
+        CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber && data.asset) {
         Actions.propertyDetail({ asset: data.asset, claimToAccount: data.issuer || data.asset.registrant });
         CacheData.keyIndexModalDisplaying = keyIndex;
         break;
@@ -135,6 +136,24 @@ const getDisplayedAccount = (accountNumber) => {
   }
 };
 
+let queueCheckPassTouchFaceId = [];
+const doCheckPassTouchFaceId = () => {
+  return new Promise((resolve) => {
+    if (CacheData.passTouchFaceId) {
+      return resolve(CacheData.passTouchFaceId);
+    }
+    queueCheckPassTouchFaceId.push(resolve);
+    runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp'))).then(result => {
+      CacheData.passTouchFaceId = result && !result.error;
+      let tempQueue = queueCheckPassTouchFaceId;
+      queueCheckPassTouchFaceId = [];
+      for (let resolveItem of tempQueue) {
+        resolveItem(CacheData.passTouchFaceId);
+      }
+    });
+  });
+};
+
 let CommonProcessor = {
   doGetAppInformation,
   doMarkRequestedNotification,
@@ -150,6 +169,8 @@ let CommonProcessor = {
   doDisplayedWhatNewInformation,
   doMarkDoneSendClaimRequest,
   doViewSendIncomingClaimRequest,
+
+  doCheckPassTouchFaceId,
 
   getDisplayedAccount,
 };

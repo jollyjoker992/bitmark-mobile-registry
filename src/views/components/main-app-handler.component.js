@@ -145,10 +145,10 @@ export class MainAppHandlerComponent extends Component {
   }
 
   handleDeepLink(event) {
-    let currentAppState = this.appState;
     if (!event.url) {
       return;
     }
+    CacheData.processingDeepLink = true;
     const route = event.url.replace(/.*?:\/\//g, '');
     const params = route.split('/');
     switch (params[0]) {
@@ -161,10 +161,15 @@ export class MainAppHandlerComponent extends Component {
               Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
             }
           });
-          TransactionProcessor.doGetAssetToClaim(assetId, issuer).then((asset) => {
-            CacheData.passTouchFaceId = false;
-            CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
+          console.log('run1 :', CacheData.processingDeepLink);
+          TransactionProcessor.doGetAssetToClaim(assetId, issuer).then(async (asset) => {
+            let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
+            console.log('run2 :', passTouchFaceId);
+            if (passTouchFaceId) {
+              CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
+            }
           }).catch(error => {
+            CacheData.processingDeepLink = false;
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
           });
         }
@@ -178,11 +183,11 @@ export class MainAppHandlerComponent extends Component {
 
   handleAppStateChange = (nextAppState) => {
     if (this.appState.match(/background/) && nextAppState === 'active') {
-      CacheData.passTouchFaceId = false;
       runPromiseWithoutError(CommonProcessor.doMetricOnScreen(true));
       this.doTryConnectInternet();
     }
     if (nextAppState && nextAppState.match(/background/)) {
+      CacheData.passTouchFaceId = false;
       runPromiseWithoutError(CommonProcessor.doMetricOnScreen(false));
     }
     this.appState = nextAppState;
@@ -193,9 +198,7 @@ export class MainAppHandlerComponent extends Component {
     if (networkStatus) {
       UserModel.doTryGetCurrentUser().then(async (userInformation) => {
         if (userInformation && userInformation.bitmarkAccountNumber) {
-          let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
-          let passTouchFaceId = result && !result.error;
-          CacheData.passTouchFaceId = passTouchFaceId;
+          let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
           this.setState({ passTouchFaceId });
           if (passTouchFaceId) {
             CommonProcessor.checkDisplayModal();
@@ -217,10 +220,8 @@ export class MainAppHandlerComponent extends Component {
 
   async doRefresh(justCreatedBitmarkAccount) {
     if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
-      let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
-      let passTouchFaceId = result && !result.error;
+      let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
       this.setState({ passTouchFaceId });
-      CacheData.passTouchFaceId = passTouchFaceId;
       if (passTouchFaceId && this.state.networkStatus) {
         CommonProcessor.checkDisplayModal();
         EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus: this.state.networkStatus, justCreatedBitmarkAccount });

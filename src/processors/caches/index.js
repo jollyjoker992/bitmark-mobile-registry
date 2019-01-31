@@ -7,6 +7,7 @@ let CacheData = {
   codePushUpdated: null,
   mountedRouter: null,
   passTouchFaceId: false,
+  processingDeepLink: false,
 
   identities: {},
 };
