@@ -96,7 +96,7 @@ export class IncomingClaimRequestComponent extends React.Component {
           <ScrollView style={[incomingClaimRequestStyle.contentScroll]} contentContainerStyle={{ flexGrow: 1, }}>
             <TouchableOpacity activeOpacity={1} style={incomingClaimRequestStyle.content}>
               <View style={incomingClaimRequestStyle.assetInfoArea}>
-                <Image style={incomingClaimRequestStyle.assetThumbnail} source={{ uri: `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.incomingClaimRequest.asset.id}` }} />
+                <Image style={incomingClaimRequestStyle.assetThumbnail} source={{ uri: this.props.incomingClaimRequest.asset.thumbnailPath || `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.incomingClaimRequest.asset.id}` }} />
                 <Text style={incomingClaimRequestStyle.assetInfo}>{this.props.incomingClaimRequest.asset.name}</Text>
                 <Text style={incomingClaimRequestStyle.editionNumber}>
                   {global.i18n.t("IncomingClaimRequestComponent_editionNumber", {

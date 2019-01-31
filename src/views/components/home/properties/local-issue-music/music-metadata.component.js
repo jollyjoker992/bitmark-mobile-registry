@@ -21,7 +21,6 @@ export class MusicMetadataComponent extends React.Component {
     thumbnailPath: PropTypes.string,
     assetName: PropTypes.string,
     limitedEdition: PropTypes.number,
-    description: PropTypes.string,
   }
   constructor(props) {
     super(props);
@@ -97,9 +96,6 @@ export class MusicMetadataComponent extends React.Component {
     if (!metadataError) {
       let tempMetadata = merge([], metadata);
       tempMetadata.push({ label: constant.asset.metadata.labels.type, value: constant.asset.metadata.values.music });
-
-      //TODO Chinese
-      tempMetadata.push({ label: constant.asset.metadata.labels.description, value: this.props.description });
       metadataError = await BitmarkService.doCheckMetadata(tempMetadata);
     }
 
@@ -143,7 +139,6 @@ export class MusicMetadataComponent extends React.Component {
     let tempMetadata = merge([], this.state.metadata);
     tempMetadata.push({ label: constant.asset.metadata.labels.type, value: constant.asset.metadata.values.music });
 
-    tempMetadata.push({ label: constant.asset.metadata.labels.description, value: this.props.description });
     AppProcessor.doIssueMusic(this.props.filePath, this.props.assetName, tempMetadata, this.props.thumbnailPath, this.props.limitedEdition, {
       indicator: true, title: '', message: global.i18n.t('MusicMetadataComponent_processMessage'),
     }).then(result => {

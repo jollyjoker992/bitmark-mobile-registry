@@ -38,9 +38,6 @@ export class MusicBasicInfoComponent extends React.Component {
       assetNameError: '',
       limited: '',
       limitedError: '',
-      description: '',
-      // description: this.props.asset.metadata.description || '',
-      descriptionError: '',
       thumbnailPathError: '',
     };
   }
@@ -129,7 +126,7 @@ export class MusicBasicInfoComponent extends React.Component {
               thumbnailPath = destPath;
               this.setState({
                 thumbnailPath, thumbnailPathError: '',
-                canContinue: this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
+                canContinue: this.state.assetName && this.state.limited && !this.state.assetNameError && !this.state.limitedError,
               });
             });
             break;
@@ -150,7 +147,7 @@ export class MusicBasicInfoComponent extends React.Component {
               thumbnailPath = destPath;
               this.setState({
                 thumbnailPath, thumbnailPathError: '',
-                canContinue: this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
+                canContinue: this.state.assetName && this.state.limited && !this.state.assetNameError && !this.state.limitedError,
               });
             });
             break;
@@ -182,7 +179,7 @@ export class MusicBasicInfoComponent extends React.Component {
               }
               this.setState({
                 thumbnailPath, thumbnailPathError,
-                canContinue: !!thumbnailPath && this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
+                canContinue: !!thumbnailPath && this.state.assetName && this.state.limited && !this.state.assetNameError && !this.state.limitedError,
               });
             });
             break;
@@ -207,7 +204,7 @@ export class MusicBasicInfoComponent extends React.Component {
 
     this.setState({
       assetName, assetNameError,
-      canContinue: assetName && this.state.limited && this.state.description && !!this.state.thumbnailPath && !assetNameError && !this.state.descriptionError && !this.state.limitedError,
+      canContinue: assetName && this.state.limited && !!this.state.thumbnailPath && !assetNameError && !this.state.limitedError,
     });
   }
   onInputLimited(limited) {
@@ -218,25 +215,10 @@ export class MusicBasicInfoComponent extends React.Component {
     }
     this.setState({
       limited, limitedError,
-      canContinue: this.state.assetName && limited && this.state.description && !!this.state.thumbnailPath && !limitedError && !this.state.descriptionError && !this.state.assetNameError,
+      canContinue: this.state.assetName && limited && !!this.state.thumbnailPath && !limitedError && !this.state.assetNameError,
     });
   }
 
-  onInputDescription(description) {
-    let descriptionError = '';
-    if (description) {
-      let temp = new Buffer(description);
-      if (temp.length > 1024) {
-        global.i18n.t('MusicBasicInfoComponent_descriptionError1');
-      }
-    } else {
-      global.i18n.t('MusicBasicInfoComponent_descriptionError2');
-    }
-    this.setState({
-      description, descriptionError,
-      canContinue: this.state.assetName && this.state.limited && description && !!this.state.thumbnailPath && !descriptionError && !this.state.limitedError && !this.state.assetNameError,
-    });
-  }
   onContinue() {
     Keyboard.dismiss();
     let assetNameError = '';
@@ -253,20 +235,11 @@ export class MusicBasicInfoComponent extends React.Component {
     if (isNaN(limited) || limited <= 0) {
       limitedError = global.i18n.t('MusicBasicInfoComponent_limitedError1');
     }
-    let descriptionError = '';
-    if (this.state.description) {
-      let temp = new Buffer(this.state.description);
-      if (temp.length > 1024) {
-        descriptionError = global.i18n.t('MusicBasicInfoComponent_descriptionError1');
-      }
-    } else {
-      descriptionError = global.i18n.t('MusicBasicInfoComponent_descriptionError2');
-    }
     let thumbnailPathError = '';
     if (!this.state.thumbnailPath) {
       thumbnailPathError = global.i18n.t('MusicBasicInfoComponent_thumbnailError');
     }
-    let canContinue = this.state.assetName && this.state.limited && this.state.description && !!this.state.thumbnailPath && !descriptionError && !limitedError && !assetNameError;
+    let canContinue = this.state.assetName && this.state.limited && !!this.state.thumbnailPath && !limitedError && !assetNameError;
 
     if (canContinue) {
       Actions.musicMetadata({
@@ -274,7 +247,6 @@ export class MusicBasicInfoComponent extends React.Component {
         thumbnailPath: this.state.thumbnailPath,
         assetName: this.state.assetName,
         limitedEdition: this.state.limited,
-        description: this.state.description,
       });
     } else {
       this.setState({
@@ -282,7 +254,6 @@ export class MusicBasicInfoComponent extends React.Component {
         thumbnailPathError,
         assetNameError,
         limitedError,
-        descriptionError,
       });
     }
   }
@@ -311,54 +282,49 @@ export class MusicBasicInfoComponent extends React.Component {
           <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
             <View style={cStyles.content}>
               <View style={cStyles.mainContent}>
-                {!!this.state.thumbnailPath && <TouchableOpacity style={cStyles.thumbnailArea} onPress={this.onChooseThumbnail.bind(this)}>
-                  <Image style={cStyles.thumbnailImage} source={{ uri: this.state.thumbnailPath }} />
-                </TouchableOpacity>}
-                {!this.state.thumbnailPath && <TouchableOpacity style={[cStyles.thumbnailArea, { backgroundColor: '#E6FF00' }]} onPress={this.onChooseThumbnail.bind(this)}>
-                  <Image style={cStyles.thumbnailImageIcon} source={require('assets/imgs/music_thumbnail.png')} />
-                  <Text style={cStyles.thumbnailImageText}>{global.i18n.t('MusicBasicInfoComponent_thumbnailImageText')}</Text>
-                  <Text style={[cStyles.fieldInputError, { width: 'auto' }]}>{this.state.thumbnailPathError}</Text>
-                </TouchableOpacity>}
-
-                <View style={cStyles.fileInfo}>
-                  <Text style={cStyles.fileName}>{this.state.filePath.substring(this.state.filePath.lastIndexOf('/') + 1, this.state.filePath.length)}</Text>
-                  <TouchableOpacity style={cStyles.fileRemoveButton} onPress={this.changeFile.bind(this)}>
-                    <Image style={cStyles.fileRemoveButtonIcon} source={require('assets/imgs/change_file_icon.png')} />
-                  </TouchableOpacity>
+                <View style={cStyles.thumbnailArea}>
+                  {!!this.state.thumbnailPath && <TouchableOpacity style={cStyles.thumbnailImageArea} onPress={this.onChooseThumbnail.bind(this)}>
+                    <Image style={cStyles.thumbnailImage} source={{ uri: this.state.thumbnailPath }} />
+                  </TouchableOpacity>}
+                  {!this.state.thumbnailPath && <TouchableOpacity style={[cStyles.thumbnailImageArea, { backgroundColor: '#E6FF00' }]} onPress={this.onChooseThumbnail.bind(this)}>
+                    <Image style={cStyles.thumbnailImageIcon} source={require('assets/imgs/music_thumbnail.png')} />
+                    <Text style={cStyles.thumbnailImageText}>{global.i18n.t('MusicBasicInfoComponent_thumbnailImageText')}</Text>
+                    <Text style={[cStyles.fieldInputError, { width: 'auto' }]}>{this.state.thumbnailPathError}</Text>
+                  </TouchableOpacity>}
                 </View>
 
-                <View style={[cStyles.fieldArea, { marginTop: 30 }]}>
-                  <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyName')}</Text>
-                  <TextInput style={[cStyles.fieldInput]}
-                    placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyNamePlaceholder')}
-                    defaultValue={this.state.assetName}
-                    onChangeText={(assetName) => this.onInputAsset.bind(this)(assetName)}
-                  />
-                  <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.assetNameError ? '#FF003C' : '#0060F2', width: '100%' }} />
-                  <Text style={cStyles.fieldInputError}>{this.state.assetNameError}</Text>
-                </View>
+                <View style={cStyles.inputArea}>
+                  <View style={[cStyles.fieldArea, { marginTop: 33, }]}>
+                    <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelFile')}</Text>
+                    <View style={cStyles.fileInfo}>
+                      <Text style={cStyles.fileName}>{this.state.filePath.substring(this.state.filePath.lastIndexOf('/') + 1, this.state.filePath.length)}</Text>
+                      <TouchableOpacity style={cStyles.fileRemoveButton} onPress={this.changeFile.bind(this)}>
+                        <Image style={cStyles.fileRemoveButtonIcon} source={require('assets/imgs/change_file_icon.png')} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
 
-                <View style={cStyles.fieldArea}>
-                  <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelLimited')}</Text>
-                  <TextInput style={[cStyles.fieldInput]}
-                    keyboardType='number-pad'
-                    placeholder="e.g. 300"
-                    onChangeText={(limitedNumber) => this.onInputLimited.bind(this)(limitedNumber)}
-                  />
-                  <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.limitedError ? '#FF003C' : '#0060F2', width: '100%' }} />
-                  <Text style={cStyles.fieldInputError}>{this.state.limitedError}</Text>
-                </View>
+                  <View style={[cStyles.fieldArea,]}>
+                    <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyName')}</Text>
+                    <TextInput style={[cStyles.fieldInput]}
+                      placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyNamePlaceholder')}
+                      defaultValue={this.state.assetName}
+                      onChangeText={(assetName) => this.onInputAsset.bind(this)(assetName)}
+                    />
+                    <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.assetNameError ? '#FF003C' : '#0060F2', width: '100%' }} />
+                    <Text style={cStyles.fieldInputError}>{this.state.assetNameError}</Text>
+                  </View>
 
-                <View style={cStyles.fieldArea}>
-                  <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelDescription')}</Text>
-                  <TextInput style={[cStyles.fieldInput]}
-                    placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelDescriptionPlaceholder')}
-                    defaultValue={this.state.description}
-                    multiline={true}
-                    onChangeText={(description) => this.onInputDescription.bind(this)(description)}
-                  />
-                  <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.descriptionError ? '#FF003C' : '#0060F2', width: '100%' }} />
-                  <Text style={cStyles.fieldInputError}>{this.state.descriptionError}</Text>
+                  <View style={cStyles.fieldArea}>
+                    <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelLimited')}</Text>
+                    <TextInput style={[cStyles.fieldInput]}
+                      keyboardType='number-pad'
+                      placeholder="e.g. 300"
+                      onChangeText={(limitedNumber) => this.onInputLimited.bind(this)(limitedNumber)}
+                    />
+                    <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.limitedError ? '#FF003C' : '#0060F2', width: '100%' }} />
+                    <Text style={cStyles.fieldInputError}>{this.state.limitedError}</Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -398,8 +364,11 @@ const cStyles = StyleSheet.create({
     width: '100%',
   },
   thumbnailArea: {
-    flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-    width: '100%', height: 206,
+    flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center',
+  },
+  thumbnailImageArea: {
+    flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+    width: '100%',
   },
   thumbnailImage: {
     width: '100%', height: '100%', resizeMode: 'contain',
@@ -408,16 +377,15 @@ const cStyles = StyleSheet.create({
     width: 78, height: 55, resizeMode: 'contain',
   },
   thumbnailImageText: {
-    fontFamily: 'Avenir-Black', fontSize: 16, fontWeight: '800', textAlign: 'center', color: '#0060F2',
+    fontFamily: 'AvenirNextW1G-Bold', fontSize: 16, textAlign: 'center', color: '#0060F2',
     marginTop: 17,
   },
   fileInfo: {
-    flexDirection: 'row',
-    marginTop: 33,
+    flexDirection: 'row', alignItems: 'center',
   },
   fileName: {
     flex: 1,
-    fontFamily: 'Avenir-Black', fontSize: 16, fontWeight: '800',
+    fontFamily: 'AvenirNextW1G-Regular', fontSize: 16,
   },
   fileRemoveButton: {
     paddingLeft: 8,
@@ -425,14 +393,19 @@ const cStyles = StyleSheet.create({
   fileRemoveButtonIcon: {
     width: 22, height: 22, resizeMode: 'contain'
   },
+  inputArea: {
+    width: '100%',
+    flexDirection: 'column',
+    paddingBottom: 20,
+  },
   fieldArea: {
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 25,
     width: '100%',
   },
   fieldLabel: {
     width: '100%',
-    fontFamily: 'Avenir-Black', fontSize: 16, fontWeight: '800',
+    fontFamily: 'AvenirNextW1G-Bold', fontSize: 16,
   },
   fieldInput: {
     width: '100%',

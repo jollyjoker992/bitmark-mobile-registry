@@ -25,8 +25,8 @@ export class MusicMetadataEditComponent extends React.Component {
 
     let suggestions = [];
     let label = this.props.label || ''
-    constant.asset.MetadataLabelSamples.forEach((text, key) => {
-      if (text.toLowerCase() !== constant.asset.metadata.labels.type && text.toLowerCase() !== constant.asset.metadata.labels.description &&
+    constant.asset.MetadataLabelForMusic.forEach((text, key) => {
+      if (text.toLowerCase() !== constant.asset.metadata.labels.type &&
         (!label || getMetadataLabel(text).toLowerCase().indexOf(label.toLowerCase()) >= 0)) {
         suggestions.push({ key, originalText: text, text: getMetadataLabel(text).toUpperCase() });
       }
@@ -36,8 +36,8 @@ export class MusicMetadataEditComponent extends React.Component {
 
   onChangeText(label) {
     let suggestions = [];
-    constant.asset.MetadataLabelSamples.forEach((text, key) => {
-      if (text.toLowerCase() !== constant.asset.metadata.labels.type && text.toLowerCase() !== constant.asset.metadata.labels.description &&
+    constant.asset.MetadataLabelForMusic.forEach((text, key) => {
+      if (text.toLowerCase() !== constant.asset.metadata.labels.type &&
         (!label || getMetadataLabel(text).toLowerCase().indexOf(label.toLowerCase()) >= 0)) {
         suggestions.push({ key, originalText: text, text: getMetadataLabel(text).toUpperCase() });
       }

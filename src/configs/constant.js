@@ -16,8 +16,7 @@ let commonConstant = {
         music: 'music'
       }
     },
-    MetadataLabelSamples: [
-      'type',
+    MetadataLabelForMusic: [
       'description',
       'performer',
       'genre',
@@ -27,6 +26,13 @@ let commonConstant = {
       'copyright',
       'playlink',
     ],
+    NormalMetadataLabel: [
+      'created (date)', 'contributor', 'coverage', 'creator',
+      'description', 'dimensions', 'duration', 'edition',
+      'format', 'identifier', 'language', 'license',
+      'medium', 'publisher', 'relation', 'rights',
+      'size', 'source', 'subject', 'keywords',
+      'type', 'version'],
   },
   indicators: {
     processing: 'processing',

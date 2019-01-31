@@ -210,10 +210,10 @@ class PrivatePropertyDetailComponent extends React.Component {
         }
       }
 
-      return (<SafeAreaView style={[cStyles.body, { backgroundColor: 'white' }]}>
+      return (<View style={[cStyles.body]}>
         <StatusBar hidden={!config.isIPhoneX} />
-        <View style={cStyles.bodyContent}>
-          <OneTabButtonComponent style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, }} onPress={() => Actions.jump('properties')}>
+        <View style={[cStyles.bodyContent, { paddingTop: config.isIPhoneX ? 44 : 0, paddingBottom: config.isIPhoneX ? 22 : 0 }]}>
+          <OneTabButtonComponent style={{ position: 'absolute', top: config.isIPhoneX ? 44 : 0, left: 0, zIndex: 1, }} onPress={() => Actions.jump('properties')}>
             <Text style={{ color: 'white', padding: 20, fontSize: 20 }}>X</Text>
           </OneTabButtonComponent>
           <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ flexGrow: 1, }}>
@@ -238,7 +238,7 @@ class PrivatePropertyDetailComponent extends React.Component {
             position: 'absolute', bottom: this.state.animatedBottom,
             backgroundColor: 'white',
             paddingTop: 20,
-            paddingBottom: 20,
+            paddingBottom: config.isIPhoneX ? 44 : 20,
           }]}>
             <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', paddingLeft: convertWidth(15), paddingRight: convertWidth(15) }}>
               <Image style={{ width: 15, height: 15, resizeMode: 'contain', marginRight: 5, }} source={require('assets/imgs/logo.png')} />
@@ -262,7 +262,7 @@ class PrivatePropertyDetailComponent extends React.Component {
             </View>
           </Animated.View>
         </View >
-      </SafeAreaView >);
+      </View >);
     } else {
       return (<SafeAreaView style={cStyles.body}>
         <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}>
@@ -450,7 +450,7 @@ const cStyles = StyleSheet.create({
   bodyContent: {
     flex: 1, flexDirection: 'column', alignItems: 'center',
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: 'black',
   },
   topButtonsArea: {
     position: 'absolute',

@@ -18,17 +18,17 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
 
     let suggestions = [];
     let label = this.props.label || ''
-    constant.asset.MetadataLabelSamples.forEach((text, key) => {
+    constant.asset.NormalMetadataLabel.forEach((text, key) => {
       if (!label || getMetadataLabel(text).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
         suggestions.push({ key, originalText: text, text: getMetadataLabel(text).toUpperCase() });
       }
     });
-    this.state = { label: this.props.label || '', suggestions };
+    this.state = { label: getMetadataLabel(label), suggestions };
   }
 
   onChangeText(label) {
     let suggestions = [];
-    constant.asset.MetadataLabelSamples.forEach((text, key) => {
+    constant.asset.NormalMetadataLabel.forEach((text, key) => {
       if (!label || getMetadataLabel(text).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
         suggestions.push({ key, originalText: text, text: getMetadataLabel(text).toUpperCase() });
       }
