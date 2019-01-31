@@ -37,7 +37,7 @@ class PrivatePropertyDetailComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      animatedBottom: new Animated.Value(-config.deviceSize.height),
+      animatedBottom: new Animated.Value(0),
       copied: false,
       displayTopButton: false,
       provenance: [],
@@ -245,13 +245,13 @@ class PrivatePropertyDetailComponent extends React.Component {
               <Text style={{ fontFamily: 'Andale Mono', fontSize: 14, color: '#545454', }} >{global.i18n.t("PropertyDetailComponent_releaseLabel")}</Text>
             </View>
 
-            <View style={{ width: '100%', flexDirection: 'row', paddingLeft: convertWidth(15), paddingRight: convertWidth(6), alignItems: 'center', justifyContent: 'space-between', marginTop: 5, }}>
+            <View style={{ width: '100%', flexDirection: 'row', paddingLeft: convertWidth(15), paddingRight: convertWidth(15), alignItems: 'center', justifyContent: 'space-between', marginTop: 5, }}>
               <View style={{ width: convertWidth(319), borderWidth: 2, height: 0, borderColor: 'black', marginTop: 2, }} />
               <Image style={{ width: 18, height: 18, resizeMode: 'contain', }} source={require('assets/imgs/+_grey.png')} />
             </View>
             <View style={cStyles.assetContent}>
               <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{global.i18n.t("PropertyDetailComponent_releaseAssetId", { assetId: this.props.asset.id })}</Text>
-              <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{global.i18n.t("PropertyDetailComponent_releaseIssuedAt", { issuedAt: moment(this.props.asset.created_at).format('YYYY MMM DD').toUpperCase() })}</Text>
+              <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, marginTop: 5 }}>{global.i18n.t("PropertyDetailComponent_releaseIssuedAt", { issuedAt: moment(this.props.asset.created_at).format('YYYY MMM DD').toUpperCase() })}</Text>
             </View>
 
             <View style={{ paddingLeft: convertWidth(15), paddingRight: convertWidth(15), width: '100%', }}>
@@ -527,6 +527,7 @@ const cStyles = StyleSheet.create({
   assetContent: {
     flex: 1, flexDirection: 'column', justifyContent: 'space-between',
     paddingLeft: convertWidth(15), paddingRight: convertWidth(19),
+    marginTop: 10,
   },
   assetContentName: {
     marginTop: 34,

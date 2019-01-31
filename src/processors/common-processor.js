@@ -111,7 +111,7 @@ let doMarkDisplayedWhatNewInformation = async () => {
   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
 };
 const doDisplayedWhatNewInformation = async () => {
-  // updateModal(ModalDisplayKeyIndex.what_new, true);
+  updateModal(ModalDisplayKeyIndex.what_new, true);
 };
 
 const doMarkDoneSendClaimRequest = async () => {

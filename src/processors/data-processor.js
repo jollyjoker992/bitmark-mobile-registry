@@ -293,7 +293,8 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
     } else {
       if (!appInfo.displayedWhatNewInformation || compareVersion(appInfo.displayedWhatNewInformation, DeviceInfo.getVersion(), 2) < 0) {
-        CommonProcessor.updateModal(CommonProcessor.ModalDisplayKeyIndex.what_new, true);
+        // TODO
+        // CommonProcessor.updateModal(CommonProcessor.ModalDisplayKeyIndex.what_new, true);
       }
     }
 
