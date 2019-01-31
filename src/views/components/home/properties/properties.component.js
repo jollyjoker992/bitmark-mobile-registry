@@ -210,7 +210,6 @@ class PrivatePropertiesComponent extends React.Component {
                     </Text>
                     <Text style={[cStyles.bitmarkissuer, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>{CommonProcessor.getDisplayedAccount(bitmark.issuer)}</Text>
                   </View>
-                  {bitmark.status === 'pending' && <Image style={cStyles.bitmarkPendingIcon} source={require('assets/imgs/pending-status.png')} />}
 
                   <View style={cStyles.thumbnailArea}>
                     {(() => {
