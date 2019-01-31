@@ -201,7 +201,8 @@ class PrivatePropertiesComponent extends React.Component {
 
                   <View style={cStyles.bitmarkContent}>
                     <Text style={[cStyles.bitmarkCreatedAt, bitmark.isViewed ? {} : { color: '#0060F2' }]}>
-                      {bitmark.created_at ? moment(bitmark.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase() : 'Registering...'}
+                      {bitmark.created_at ? moment(bitmark.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase()
+                        : (bitmark.issuer === CacheData.userInformation.bitmarkAccountNumber ? global.i18n.t("PropertiesComponent_registering") : global.i18n.t("PropertiesComponent_transferring"))}
                     </Text>
                     <Text style={[cStyles.bitmarkAssetName, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>
                       {this.props.assets[bitmark.asset_id].name + `${isReleasedAsset(this.props.assets[bitmark.asset_id])
@@ -453,10 +454,6 @@ const cStyles = StyleSheet.create({
     fontSize: 14,
     marginTop: 10,
     width: '100%',
-  },
-  bitmarkPendingIcon: {
-    width: 13, height: 17, resizeMode: 'contain',
-    marginRight: 3,
   },
   releasedAssetName: {
     width: '100%',
