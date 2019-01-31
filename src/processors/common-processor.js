@@ -143,6 +143,9 @@ const doCheckPassTouchFaceId = () => {
       return resolve(CacheData.passTouchFaceId);
     }
     queueCheckPassTouchFaceId.push(resolve);
+    if (queueCheckPassTouchFaceId.length > 1) {
+      return;
+    }
     runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp'))).then(result => {
       CacheData.passTouchFaceId = result && !result.error;
       let tempQueue = queueCheckPassTouchFaceId;
