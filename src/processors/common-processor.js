@@ -22,14 +22,14 @@ let checkDisplayModal = () => {
   let keyIndexArray = Object.keys(mapModalDisplayData).sort();
   for (let index = 0; index < keyIndexArray.length; index++) {
     let keyIndex = parseInt(keyIndexArray[index]);
+    let data = mapModalDisplayData[keyIndex];
     if (mapModalDisplayData[keyIndex] && (CacheData.keyIndexModalDisplaying <= 0 || CacheData.keyIndexModalDisplaying > keyIndex)) {
       if (keyIndex === ModalDisplayKeyIndex.what_new && CacheData.mountedRouter) {
         Actions.whatNew();
         CacheData.keyIndexModalDisplaying = keyIndex;
         break;
       } else if (keyIndex === ModalDisplayKeyIndex.claim_asset && CacheData.mountedRouter && CacheData.passTouchFaceId &&
-        CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
-        let data = mapModalDisplayData[keyIndex];
+        CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber && data.asset) {
         Actions.propertyDetail({ asset: data.asset, claimToAccount: data.issuer || data.asset.registrant });
         CacheData.keyIndexModalDisplaying = keyIndex;
         break;

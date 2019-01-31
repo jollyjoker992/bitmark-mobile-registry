@@ -160,10 +160,12 @@ export class MainAppHandlerComponent extends Component {
               Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
             }
           });
+          CommonProcessor.doViewSendIncomingClaimRequest(null, issuer);
           TransactionProcessor.doGetAssetToClaim(assetId, issuer).then((asset) => {
             CacheData.passTouchFaceId = false;
             CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
           }).catch(error => {
+            CommonProcessor.doMarkDoneSendClaimRequest();
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
           });
         }
