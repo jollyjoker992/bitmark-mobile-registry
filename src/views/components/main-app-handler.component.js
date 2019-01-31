@@ -145,6 +145,7 @@ export class MainAppHandlerComponent extends Component {
   }
 
   handleDeepLink(event) {
+    let currentAppState = this.appState;
     if (!event.url) {
       return;
     }
@@ -155,6 +156,9 @@ export class MainAppHandlerComponent extends Component {
         let assetId = params[1];
         let issuer = params[2];
         if (assetId) {
+          if (currentAppState && currentAppState.match(/background/)) {
+            CacheData.passTouchFaceId = false;
+          }
           UserModel.doTryGetCurrentUser().then(userInformation => {
             if (!userInformation || !userInformation.bitmarkAccountNumber) {
               Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
