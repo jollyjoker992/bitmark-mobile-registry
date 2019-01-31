@@ -216,24 +216,23 @@ class PrivatePropertyDetailComponent extends React.Component {
           <OneTabButtonComponent style={{ position: 'absolute', top: config.isIPhoneX ? 44 : 0, left: 0, zIndex: 1, }} onPress={() => Actions.jump('properties')}>
             <Text style={{ color: 'white', padding: 20, fontSize: 20 }}>X</Text>
           </OneTabButtonComponent>
-          <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ flexGrow: 1, }}>
-            <View style={{ width: '100%', flex: 1, height: config.deviceSize.height, backgroundColor: 'rgba(0,0,0,0.5)' }}>
-              <WebView
-                injectedJavaScript={`document.addEventListener('scroll', () =>{
+          <View style={{ width: '100%', flex: 1, height: '100%', backgroundColor: 'black' }} >
+            <WebView
+              style={{ flex: 1, }}
+              bounces={false}
+              injectedJavaScript={`document.addEventListener('scroll', () =>{
                   if (( window.pageYOffset + window.screen.height + 200) >= document.body.scrollHeight) {
                     window.postMessage(JSON.stringify({event: 'scroll-to-end'}));
                   } else {
                     window.postMessage(JSON.stringify({event: 'scroll-up'}));
                   }
                 });`}
-                onMessage={this.onMessage.bind(this)}
-                style={{ flex: 1, }}
-                source={{
-                  uri: webUrl,
-                }}
-              />
-            </View>
-          </ScrollView>
+              onMessage={this.onMessage.bind(this)}
+              source={{
+                uri: webUrl,
+              }}
+            />
+          </View>
           <Animated.View style={[cStyles.assetInformation, {
             position: 'absolute', bottom: this.state.animatedBottom,
             backgroundColor: 'white',
