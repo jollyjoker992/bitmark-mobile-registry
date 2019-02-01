@@ -116,6 +116,35 @@ class PrivateTransactionsComponent extends React.Component {
     });
   }
 
+  signAllClaimRequests() {
+    Alert.alert(global.i18n.t('TransactionsComponent_signAllAlertTitle'), '', [{
+      text: global.i18n.t('TransactionsComponent_signAllAlertAgree'), onPress: () => {
+        AppProcessor.doProcessAllIncomingClaimRequest({
+          indicator: constant.indicators.processing,
+          title: global.i18n.t('TransactionsComponent_signAllProcessingTitle'),
+          message: global.i18n.t('TransactionsComponent_signAllProcessingMessage'),
+        }).then((result => {
+          if (result) {
+            EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, {
+              indicator: constant.indicators.success,
+              title: global.i18n.t('TransactionsComponent_signAllSuccessTitle'),
+              message: global.i18n.t('TransactionsComponent_signAllSuccessMessage'),
+            });
+            setTimeout(() => {
+              EventEmitterService.emit(EventEmitterService.events.APP_SUBMITTING, null);
+              Actions.jump('transactions');
+            }, 2000);
+          }
+        })).catch(error => {
+          console.log({ error });
+          EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+        });
+      }
+    }, {
+      text: global.i18n.t('TransactionsComponent_signAllAlertDisagree'), style: 'cancel'
+    }]);
+  }
+
   render() {
     let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     return (
@@ -173,78 +202,85 @@ class PrivateTransactionsComponent extends React.Component {
           </TouchableOpacity>}
         </View>
 
-        {this.state.subTab === SubTabs.required && <ScrollView style={[transactionsStyle.scrollSubTabArea]}
-          onScroll={async (scrollEvent) => {
-            if (this.loadingActionRequiredWhenScroll) {
-              return;
-            }
-            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.props.actionRequired.length < this.props.totalActionRequired)) {
-              this.loadingActionRequiredWhenScroll = true;
-              await TransactionProcessor.doAddMoreActionRequired(this.props.actionRequired.length);
-            }
-            this.loadingActionRequiredWhenScroll = false;
-          }}
-          scrollEventThrottle={1}>
-          <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
-            {this.props.actionRequired && this.props.actionRequired.length === 0 && !this.props.appLoadingData && <View style={transactionsStyle.contentSubTab}>
-              <Text style={transactionsStyle.titleNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noActionsRequired")}</Text>
-              <Text style={transactionsStyle.messageNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_messageNoRequiredTransferOffer")}</Text>
-            </View>}
+        {this.state.subTab === SubTabs.required && <View style={{ width: '100%', flex: 1, flexDirection: 'column', alignContent: 'center', backgroundColor: 'white', }}>
+          <ScrollView style={[transactionsStyle.scrollSubTabArea]} contentContainerStyle={{ flexGrow: 1, }}
+            onScroll={async (scrollEvent) => {
+              if (this.loadingActionRequiredWhenScroll) {
+                return;
+              }
+              if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - currentSize.height) && (this.props.actionRequired.length < this.props.totalActionRequired)) {
+                this.loadingActionRequiredWhenScroll = true;
+                await TransactionProcessor.doAddMoreActionRequired(this.props.actionRequired.length);
+              }
+              this.loadingActionRequiredWhenScroll = false;
+            }}
+            scrollEventThrottle={1}>
+            <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
+              {this.props.actionRequired && this.props.actionRequired.length === 0 && !this.props.appLoadingData && <View style={transactionsStyle.contentSubTab}>
+                <Text style={transactionsStyle.titleNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noActionsRequired")}</Text>
+                <Text style={transactionsStyle.messageNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_messageNoRequiredTransferOffer")}</Text>
+              </View>}
 
-            {this.props.actionRequired && this.props.actionRequired.length > 0 && <View style={transactionsStyle.contentSubTab}>
-              <FlatList data={this.props.actionRequired}
-                keyExtractor={(item, index) => (index + '')}
-                extraData={this.state}
-                renderItem={({ item }) => {
-                  return (<TouchableOpacity style={transactionsStyle.transferOfferRow} onPress={() => this.clickToActionRequired(item)}>
-                    <View style={transactionsStyle.transferOfferTitle}>
-                      <Text style={transactionsStyle.transferOfferTitleType}>{item.typeTitle.toUpperCase()}</Text>
-                      <Text style={transactionsStyle.transferOfferTitleTime} >{moment(item.timestamp).format('YYYY MMM DD').toUpperCase()}</Text>
-                      <Image style={transactionsStyle.transferOfferTitleIcon} source={require('assets/imgs/sign-request-icon.png')} />
-                    </View>
-
-                    {item.type === ActionRequireTypes.transfer && <View style={transactionsStyle.iftttTask}>
-                      <Text style={transactionsStyle.iftttTitle}>{item.transferOffer.asset.name}</Text>
-                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signToReceiveTheBitmarkFrom", {
-                        accountNumber: CommonProcessor.getDisplayedAccount(item.transferOffer.bitmark.owner)
-                      })}</Text>
-                    </View>}
-
-                    {item.type === ActionRequireTypes.ifttt && <View style={transactionsStyle.iftttTask}>
-                      <Text style={transactionsStyle.iftttTitle}>{item.assetInfo.propertyName}</Text>
-                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signYourBitmarkIssuanceForYourIftttData")}</Text>
-                    </View>}
-
-                    {item.type === ActionRequireTypes.test_write_down_recovery_phase && <View style={transactionsStyle.recoveryPhaseActionRequired}>
-                      <Text style={transactionsStyle.recoveryPhaseActionRequiredTitle}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredTitle")}</Text>
-                      <View style={transactionsStyle.recoveryPhaseActionRequiredDescriptionArea}>
-                        <Text style={transactionsStyle.recoveryPhaseActionRequiredDescription}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredDescription")}</Text>
-                        <Image style={transactionsStyle.recoveryPhaseActionRequiredImportantIcon} source={require('assets/imgs/alert.png')} />
+              {this.props.actionRequired && this.props.actionRequired.length > 0 && <View style={transactionsStyle.contentSubTab}>
+                <FlatList data={this.props.actionRequired}
+                  keyExtractor={(item, index) => (index + '')}
+                  extraData={this.state}
+                  renderItem={({ item }) => {
+                    return (<TouchableOpacity style={transactionsStyle.transferOfferRow} onPress={() => this.clickToActionRequired(item)}>
+                      <View style={transactionsStyle.transferOfferTitle}>
+                        <Text style={transactionsStyle.transferOfferTitleType}>{item.typeTitle.toUpperCase()}</Text>
+                        <Text style={transactionsStyle.transferOfferTitleTime} >{moment(item.timestamp).format('YYYY MMM DD').toUpperCase()}</Text>
+                        <Image style={transactionsStyle.transferOfferTitleIcon} source={require('assets/imgs/sign-request-icon.png')} />
                       </View>
-                    </View>}
 
-                    {item.type === ActionRequireTypes.claim_request && <View style={transactionsStyle.iftttTask}>
-                      <Text style={transactionsStyle.iftttTitle}>{item.incomingClaimRequest.asset.name} {item.incomingClaimRequest.index}/{item.incomingClaimRequest.asset.editions[bitmarkAccountNumber].limited}</Text>
-                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_claimRequestMessage", {
-                        accountNumber: CommonProcessor.getDisplayedAccount(item.incomingClaimRequest.from, true)
-                      })}</Text>
-                    </View>}
-                  </TouchableOpacity>)
-                }} />
-            </View>}
-            {(this.props.appLoadingData || (this.props.actionRequired.length < this.props.totalActionRequired)) &&
-              <View style={transactionsStyle.contentSubTab}>
-                <ActivityIndicator size="large" style={{ marginTop: 46, }} />
-              </View>
-            }
-          </TouchableOpacity>
-        </ScrollView>}
+                      {item.type === ActionRequireTypes.transfer && <View style={transactionsStyle.iftttTask}>
+                        <Text style={transactionsStyle.iftttTitle}>{item.transferOffer.asset.name}</Text>
+                        <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signToReceiveTheBitmarkFrom", {
+                          accountNumber: CommonProcessor.getDisplayedAccount(item.transferOffer.bitmark.owner)
+                        })}</Text>
+                      </View>}
 
-        {this.state.subTab === SubTabs.required && this.props.actionRequired && this.props.actionRequired.length > 0
-          && (this.props.actionRequired.findIndex(item => item.type === ActionRequireTypes.transfer) >= 0) && <TouchableOpacity style={transactionsStyle.acceptAllTransfersButton} onPress={this.acceptAllTransfers} >
-            <Text style={transactionsStyle.acceptAllTransfersButtonText}>{global.i18n.t("TransactionsComponent_acceptAllTransfersButtonText")}</Text>
-          </TouchableOpacity>
-        }
+                      {item.type === ActionRequireTypes.ifttt && <View style={transactionsStyle.iftttTask}>
+                        <Text style={transactionsStyle.iftttTitle}>{item.assetInfo.propertyName}</Text>
+                        <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signYourBitmarkIssuanceForYourIftttData")}</Text>
+                      </View>}
+
+                      {item.type === ActionRequireTypes.test_write_down_recovery_phase && <View style={transactionsStyle.recoveryPhaseActionRequired}>
+                        <Text style={transactionsStyle.recoveryPhaseActionRequiredTitle}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredTitle")}</Text>
+                        <View style={transactionsStyle.recoveryPhaseActionRequiredDescriptionArea}>
+                          <Text style={transactionsStyle.recoveryPhaseActionRequiredDescription}>{global.i18n.t("TransactionsComponent_recoveryPhaseActionRequiredDescription")}</Text>
+                          <Image style={transactionsStyle.recoveryPhaseActionRequiredImportantIcon} source={require('assets/imgs/alert.png')} />
+                        </View>
+                      </View>}
+
+                      {item.type === ActionRequireTypes.claim_request && <View style={transactionsStyle.iftttTask}>
+                        <Text style={transactionsStyle.iftttTitle}>{item.incomingClaimRequest.asset.name} {item.incomingClaimRequest.index}/{item.incomingClaimRequest.asset.editions[bitmarkAccountNumber].limited}</Text>
+                        <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_claimRequestMessage", {
+                          accountNumber: CommonProcessor.getDisplayedAccount(item.incomingClaimRequest.from, true)
+                        })}</Text>
+                      </View>}
+                    </TouchableOpacity>)
+                  }} />
+              </View>}
+              {(this.props.appLoadingData || (this.props.actionRequired.length < this.props.totalActionRequired)) &&
+                <View style={transactionsStyle.contentSubTab}>
+                  <ActivityIndicator size="large" style={{ marginTop: 46, }} />
+                </View>
+              }
+            </TouchableOpacity>
+          </ScrollView>
+
+          {this.props.actionRequired && this.props.actionRequired.length > 0 &&
+            (this.props.actionRequired.findIndex(item => item.type === ActionRequireTypes.transfer) >= 0) &&
+            <TouchableOpacity style={transactionsStyle.acceptAllTransfersButton} onPress={this.acceptAllTransfers} >
+              <Text style={transactionsStyle.acceptAllTransfersButtonText}>{global.i18n.t("TransactionsComponent_acceptAllTransfersButtonText")}</Text>
+            </TouchableOpacity>}
+          {this.props.actionRequired && this.props.actionRequired.length > 0 &&
+            (this.props.actionRequired.findIndex(item => item.type === ActionRequireTypes.claim_request) >= 0) &&
+            <TouchableOpacity style={transactionsStyle.signAllClaimRequestsButton} onPress={this.signAllClaimRequests} >
+              <Text style={transactionsStyle.signAllClaimRequestsButtonText}>{global.i18n.t("TransactionsComponent_signAllClaimRequests")}</Text>
+            </TouchableOpacity>}
+        </View>}
 
         {this.state.subTab === SubTabs.completed && <ScrollView style={[transactionsStyle.scrollSubTabArea]}
           onScroll={async (scrollEvent) => {

@@ -65,9 +65,7 @@ export default StyleSheet.create({
   },
   scrollSubTabArea: {
     width: '100%',
-    flexDirection: 'column',
-    alignContent: 'center',
-    backgroundColor: 'white',
+    flex: 1, flexDirection: 'column', alignContent: 'center', backgroundColor: 'white',
   },
   contentSubTab: {
     width: '100%',
@@ -233,14 +231,10 @@ export default StyleSheet.create({
   },
 
   acceptAllTransfersButton: {
-    width: '100%',
-    height: 45,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%', height: 45,
     backgroundColor: '#F5F5F5',
-    borderTopColor: '#0060F2',
-    borderTopWidth: 3,
+    flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+    borderTopColor: '#0060F2', borderTopWidth: 3,
     marginBottom: 1,
   },
   acceptAllTransfersButtonText: {
@@ -248,5 +242,13 @@ export default StyleSheet.create({
     fontWeight: '900',
     fontSize: 14,
     color: '#0060F2'
+  },
+  signAllClaimRequestsButton: {
+    width: '100%', height: 45,
+    backgroundColor: '#0060F2',
+    flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+  },
+  signAllClaimRequestsButtonText: {
+    fontFamily: 'Avenir Black', fontWeight: '900', fontSize: 14, color: 'white'
   },
 });
