@@ -535,7 +535,7 @@ const doProcessAllIncomingClaimRequest = async () => {
     mapAssetClaimRequest[assetId] = incomingClaimRequestsOfAsset;
   }
 
-  doSignAllIncomingClaimRequest(mapAssetClaimRequest);
+  await doSignAllIncomingClaimRequest(mapAssetClaimRequest);
 
   await TransactionProcessor.doReloadTransfers();
   await TransactionProcessor.doReloadClaimRequests();
