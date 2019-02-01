@@ -285,7 +285,11 @@ class PrivateTransactionsComponent extends React.Component {
                           </Text>}
                           <Text style={[transactionsStyle.completedTransferHeaderValue, {
                             color: item.outgoingClaimRequest.status === 'pending' ? '#999999' : (item.outgoingClaimRequest.status === 'rejected' ? '#FF003C' : '#0060F2')
-                          }]}>{moment(item.timestamp).format('YYYY MMM DD HH:mm:ss').toUpperCase()}</Text>
+                          }]}>
+                            {item.outgoingClaimRequest.status === 'pending'
+                              ? global.i18n.t("TransactionsComponent_claimRequestHistoryPendingMessage")
+                              : moment(item.timestamp).format('YYYY MMM DD HH:mm:ss').toUpperCase()}
+                          </Text>
                         </View>
                         <View style={transactionsStyle.completedTransferContent}>
                           <View style={transactionsStyle.completedTransferContentRow}>
