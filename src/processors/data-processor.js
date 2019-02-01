@@ -533,10 +533,11 @@ const doIssueIftttData = async (iftttBitmarkFile) => {
 };
 
 const doSendIncomingClaimRequest = async (asset, issuer) => {
+  issuer = issuer || asset.registrant;
   let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
   let bitmark = Object.values(assetsBitmarks.bitmarks || {}).find(b => b.asset_id === asset.id);
   if (!bitmark) {
-    let result = await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
+    let result = await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, issuer);
     assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
     let tempBitmarkId = `claim_request_${result.claim_id}`
     let bitmark = {
@@ -547,7 +548,7 @@ const doSendIncomingClaimRequest = async (asset, issuer) => {
       head: `head`,
       status: 'pending',
       owner: CacheData.userInformation.bitmarkAccountNumber,
-      issuer: issuer || asset.registrant,
+      issuer: issuer,
       isDraft: true,
     };
     assetsBitmarks.bitmarks[tempBitmarkId] = bitmark;

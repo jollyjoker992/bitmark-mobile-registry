@@ -46,7 +46,7 @@ export class ApplicationDetailComponent extends React.Component {
       Mailer.mail({
         subject: global.i18n.t("ApplicationDetailComponent_suggestionForBitmarkIos"),
         recipients: ['support@bitmark.com'],
-        body: global.i18n.t("ApplicationDetailComponent_appVersion") + ' ' + config.version + ' (' + DataProcessor.getApplicationBuildNumber() + ')',
+        body: global.i18n.t("ApplicationDetailComponent_appVersion") + ' ' + config.version + ' (' + config.buildNumber + ')',
       }, (error) => {
         if (error) {
           Alert.alert(global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorTitle"), global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorMessage"));

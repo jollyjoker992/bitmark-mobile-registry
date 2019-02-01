@@ -437,13 +437,6 @@ const doGetAssetToClaim = async (assetId, issuer) => {
   asset.editions[issuer] = asset.editions[issuer] || {};
   asset.editions[issuer].totalEditionLeft = allIssuedBitmarks.filter(bitmark => bitmark.owner === issuer).length - 1;
   asset.editions[issuer].limited = allIssuedBitmarks.length - 1;
-
-  // get limited edition via profile server
-  // let resultGetLimitedEdition = await BitmarkModel.doGetLimitedEdition(asset.registrant, asset.id);
-  // if (resultGetLimitedEdition) {
-  //   asset.editions[issuer].limited = resultGetLimitedEdition.limited;
-  // }
-  asset.registrantName = CacheData.identities[asset.registrant] ? CacheData.identities[asset.registrant].name : '';
   return asset;
 };
 

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import transferOfferStyle from './transfer-offer.component.style';
-import { BitmarkModel, EventEmitterService, AppProcessor } from 'src/processors';
+import { BitmarkModel, EventEmitterService, AppProcessor, CommonProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { Actions } from 'react-native-router-flux';
 
@@ -111,7 +111,7 @@ export class TransferOfferComponent extends React.Component {
                   <Text style={transferOfferStyle.externalAreaRowLabel}>{global.i18n.t("TransferOfferComponent_issuer")}:</Text>
                   <View style={transferOfferStyle.externalAreaRowValueIssuerView}>
                     <Text style={transferOfferStyle.externalAreaRowValueIssuer_}>[</Text>
-                    <Text style={transferOfferStyle.externalAreaRowValueIssuer} numberOfLines={1}>{this.state.transferOffer.asset.registrantName || this.state.transferOffer.asset.registrant}</Text>
+                    <Text style={transferOfferStyle.externalAreaRowValueIssuer} numberOfLines={1}>{CommonProcessor.getDisplayedAccount(this.state.transferOffer.asset.registrant)}</Text>
                     <Text style={transferOfferStyle.externalAreaRowValueIssuer_}>]</Text>
                   </View>
                 </View>
