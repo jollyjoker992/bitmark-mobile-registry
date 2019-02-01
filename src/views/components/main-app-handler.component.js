@@ -160,15 +160,16 @@ export class MainAppHandlerComponent extends Component {
             if (!userInformation || !userInformation.bitmarkAccountNumber) {
               Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
             }
-          });
-          TransactionProcessor.doGetAssetToClaim(assetId, issuer).then(async (asset) => {
-            let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
-            if (passTouchFaceId) {
-              CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
-            }
-          }).catch(error => {
-            CacheData.processingDeepLink = false;
-            EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+            TransactionProcessor.doGetAssetToClaim(assetId, issuer).then(async (asset) => {
+              let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
+              if ((userInformation && userInformation.bitmarkAccountNumber && passTouchFaceId) ||
+                (!userInformation || !userInformation.bitmarkAccountNumber)) {
+                CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
+              }
+            }).catch(error => {
+              CacheData.processingDeepLink = false;
+              EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+            });
           });
         }
         break;

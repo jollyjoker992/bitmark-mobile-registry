@@ -505,8 +505,8 @@ const doProcessAllIncomingClaimRequest = async () => {
 
   let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
   for (let assetId in mapAssetClaimRequest) {
-    let bitmarkOfAsset = merge([], Object.values(assetsBitmarks.bitmarks || {}).filter(bm => bm.asset_id === assetId));
-    bitmarkOfAsset.sort((a, b) => {
+    let bitmarksOfAsset = merge([], Object.values(assetsBitmarks.bitmarks || {}).filter(bm => bm.asset_id === assetId));
+    bitmarksOfAsset.sort((a, b) => {
       if (a.editionNumber && b.editionNumber) {
         return a.editionNumber - b.editionNumber;
       }
@@ -522,9 +522,14 @@ const doProcessAllIncomingClaimRequest = async () => {
     });
     let incomingClaimRequestsOfAsset = mapAssetClaimRequest[assetId];
     incomingClaimRequestsOfAsset.sort((a, b) => moment(a.created_at).toDate().getTime() - moment(b.created_at).toDate().getTime());
+    let bitmarkIndex = 0;
+    if (bitmarksOfAsset.length > 0 && bitmarksOfAsset[bitmarkIndex].editionNumber === 0) {
+      bitmarkIndex++;
+    }
     for (let index = 0; index < incomingClaimRequestsOfAsset.length; index++) {
-      if (index < bitmarkOfAsset.length) {
-        incomingClaimRequestsOfAsset[index].bitmark = bitmarkOfAsset[index];
+      if (bitmarkIndex < bitmarksOfAsset.length) {
+        incomingClaimRequestsOfAsset[index].bitmark = bitmarksOfAsset[bitmarkIndex];
+        bitmarkIndex++;
       }
     }
     mapAssetClaimRequest[assetId] = incomingClaimRequestsOfAsset;

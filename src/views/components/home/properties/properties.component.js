@@ -71,7 +71,6 @@ class PrivatePropertiesComponent extends React.Component {
   }
 
   render() {
-
     let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     loadingDataWhenScroll = false;
     return (
