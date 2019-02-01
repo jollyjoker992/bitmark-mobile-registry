@@ -781,7 +781,7 @@
     "TransactionsComponent_signAllProcessingTitle": "Pending...!",
     "TransactionsComponent_signAllProcessingMessage": "Sending your transactions to the Bitmark network...",
     "TransactionsComponent_signAllSuccessTitle": "Success!",
-    "TransactionsComponent_signAllSuccessMessage": "The accounts will receive the property bitmark and notification very soon.",
+    "TransactionsComponent_signAllSuccessMessage": "The accounts will receive the edition bitmarks and the notifications very soon.",
     "TransferOfferComponent_areYouSureYouWantToRejectReceiptOfThisProperty": "Are you sure you want to reject receipt of this property?",
     "TransferOfferComponent_cancel": "Cancel",
     "TransferOfferComponent_yes": "Yes",
