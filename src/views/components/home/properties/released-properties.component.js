@@ -46,7 +46,7 @@ class PrivateReleasedPropertiesComponent extends React.Component {
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', }}>
         <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
           <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
