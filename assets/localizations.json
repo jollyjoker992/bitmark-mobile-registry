@@ -1290,7 +1290,7 @@
     "TransactionsComponent_noTransactionHistoryTitle": "無任何交易歷史紀錄。",
     "TransactionsComponent_noTransactionHistoryMessage": "你的交易歷史紀錄將顯示於此。",
     "TransactionsComponent_claimRequestMessage": "[{{accountNumber}}] 要求索取此數位資產。",
-    "TransactionsComponent_claimRequestHistoryTitle": "索取請求",
+    "TransactionsComponent_claimRequestHistoryTitle": "索取",
     "TransactionsComponent_claimRequestHistoryPending": "等待中",
     "TransactionsComponent_claimRequestHistoryAccepted": "已接受",
     "TransactionsComponent_claimRequestHistoryRejected": "已拒絕",

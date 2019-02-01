@@ -284,7 +284,7 @@ class PrivateTransactionsComponent extends React.Component {
                             {global.i18n.t("TransactionsComponent_claimRequestHistoryPending")}
                           </Text>}
                           <Text style={[transactionsStyle.completedTransferHeaderValue, {
-                            color: item.status === 'pending' ? '#999999' : '#0060F2'
+                            color: item.outgoingClaimRequest.status === 'pending' ? '#999999' : (item.outgoingClaimRequest.status === 'rejected' ? '#FF003C' : '#0060F2')
                           }]}>{moment(item.timestamp).format('YYYY MMM DD HH:mm:ss').toUpperCase()}</Text>
                         </View>
                         <View style={transactionsStyle.completedTransferContent}>
@@ -340,7 +340,7 @@ class PrivateTransactionsComponent extends React.Component {
                         </View>
                         {!!item.type && <View style={transactionsStyle.completedTransferContentRow}>
                           <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_type")}</Text>
-                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}> {global.i18n.t(`TransactionsComponent_type_${item.type}`, { defaultValue: item.type })}</Text>
+                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{global.i18n.t(`TransactionsComponent_type_${item.type}`, { defaultValue: item.type })}</Text>
                         </View>}
                         <View style={[transactionsStyle.completedTransferContentRow, { marginTop: 1, }]}>
                           <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_from")}</Text>

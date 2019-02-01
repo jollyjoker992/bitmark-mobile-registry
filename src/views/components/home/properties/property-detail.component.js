@@ -187,7 +187,6 @@ class PrivatePropertyDetailComponent extends React.Component {
       });
   }
   render() {
-    console.log(this.props);
     if (isMusicAsset(this.props.asset)) {
       let editionNumber = this.props.bitmark ? this.props.bitmark.editionNumber : 0;
       let issuer = this.props.bitmark ? this.props.bitmark.issuer : this.props.claimToAccount;
