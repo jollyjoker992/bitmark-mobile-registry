@@ -732,7 +732,7 @@
     "LocalPropertyTransferComponent_sendBitmark": "TRANSFER BITMARK",
     "LocalPropertyTransferComponent_recipientBitmarkAccountNumber": "RECIPIENT BITMARK ACCOUNT NUMBER",
     "LocalPropertyTransferComponent_transferMessage": "Enter the Bitmark account number to which you would like to send ownership of this property.",
-    "LocalPropertyTransferComponent_send": "SEND",
+    "LocalPropertyTransferComponent_send": "TRANSFER",
     "TransactionsComponent_actionsRequired": "ACTIONS REQUIRED",
     "TransactionsComponent_history": "HISTORY",
     "TransactionsComponent_sendingYourTransactionToTheBitmarkNetwork": "Sending your transaction to the Bitmark network...",
