@@ -261,174 +261,179 @@ class PrivatePropertyDetailComponent extends React.Component {
         </View >
       </View >);
     } else {
-      return (<SafeAreaView style={cStyles.body}>
-        <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}>
-          <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
-            <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={() => Actions.jump('properties')}>
-              <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-            </OneTabButtonComponent>
-            <View style={defaultStyles.headerCenter}>
-              <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(180) }]} numberOfLines={1}>{global.i18n.t("PropertyDetailComponent_releaseTitle")}</Text>
-            </View>
-            <OneTabButtonComponent style={[defaultStyles.headerRight, { padding: 4, paddingRight: convertWidth(19) }]} onPress={() => this.setState({ displayTopButton: !this.state.displayTopButton })}>
-              <Image style={cStyles.threeDotIcon} source={this.state.displayTopButton
-                ? require('assets/imgs/three-dot-active.png')
-                : require('assets/imgs/three-dot-deactive.png')} />
-            </OneTabButtonComponent>
-          </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}>
-          <View style={cStyles.bodyContent}>
-            {this.state.displayTopButton && <View style={cStyles.topButtonsArea}>
-              {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent
-                style={cStyles.downloadAssetButton}
-                disabled={!this.props.asset.filePath && this.props.bitmark.status !== 'confirmed'}
-                onPress={() => this.props.asset.filePath ? this.shareAssetFile.bind(this)() : this.downloadAsset.bind(this)()}
-              >
-                {!this.props.asset.filePath && <Text style={[cStyles.downloadAssetButtonText, this.props.bitmark.status !== 'confirmed' ? { color: '#A4B5CD', } : {}]}>
-                  {global.i18n.t("PropertyDetailComponent_downloadAsset")}
-                </Text>}
-                {this.props.asset.filePath && <Text style={cStyles.downloadAssetButtonText}>{global.i18n.t("PropertyDetailComponent_shareAsset")}</Text>}
-              </OneTabButtonComponent>}
-              <OneTabButtonComponent style={cStyles.topButton} onPress={() => {
-                Clipboard.setString(this.props.bitmark.id);
-                this.setState({ copied: true });
-                setTimeout(() => { this.setState({ copied: false }) }, 1000);
-              }}>
-                <Text style={cStyles.topButtonText}>{global.i18n.t("PropertyDetailComponent_copyBitmarkId")}</Text>
-                <Text style={cStyles.copiedAssetIddButtonText}>{this.state.copied ? global.i18n.t("PropertyDetailComponent_copiedToClipboard") : ''}</Text>
+      if (this.props.bitmark && this.props.asset) {
+        return (<SafeAreaView style={cStyles.body}>
+          <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}>
+            <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
+              <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={() => Actions.jump('properties')}>
+                <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
               </OneTabButtonComponent>
-              {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && !this.props.bitmark.transferOfferId &&
-                <OneTabButtonComponent style={cStyles.topButton}
+              <View style={defaultStyles.headerCenter}>
+                <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(180) }]} numberOfLines={1}>{global.i18n.t("PropertyDetailComponent_releaseTitle")}</Text>
+              </View>
+              <OneTabButtonComponent style={[defaultStyles.headerRight, { padding: 4, paddingRight: convertWidth(19) }]} onPress={() => this.setState({ displayTopButton: !this.state.displayTopButton })}>
+                <Image style={cStyles.threeDotIcon} source={this.state.displayTopButton
+                  ? require('assets/imgs/three-dot-active.png')
+                  : require('assets/imgs/three-dot-deactive.png')} />
+              </OneTabButtonComponent>
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}>
+            <View style={cStyles.bodyContent}>
+              {this.state.displayTopButton && <View style={cStyles.topButtonsArea}>
+                {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent
+                  style={cStyles.downloadAssetButton}
+                  disabled={!this.props.asset.filePath && this.props.bitmark.status !== 'confirmed'}
+                  onPress={() => this.props.asset.filePath ? this.shareAssetFile.bind(this)() : this.downloadAsset.bind(this)()}
+                >
+                  {!this.props.asset.filePath && <Text style={[cStyles.downloadAssetButtonText, this.props.bitmark.status !== 'confirmed' ? { color: '#A4B5CD', } : {}]}>
+                    {global.i18n.t("PropertyDetailComponent_downloadAsset")}
+                  </Text>}
+                  {this.props.asset.filePath && <Text style={cStyles.downloadAssetButtonText}>{global.i18n.t("PropertyDetailComponent_shareAsset")}</Text>}
+                </OneTabButtonComponent>}
+                <OneTabButtonComponent style={cStyles.topButton} onPress={() => {
+                  Clipboard.setString(this.props.bitmark.id);
+                  this.setState({ copied: true });
+                  setTimeout(() => { this.setState({ copied: false }) }, 1000);
+                }}>
+                  <Text style={cStyles.topButtonText}>{global.i18n.t("PropertyDetailComponent_copyBitmarkId")}</Text>
+                  <Text style={cStyles.copiedAssetIddButtonText}>{this.state.copied ? global.i18n.t("PropertyDetailComponent_copiedToClipboard") : ''}</Text>
+                </OneTabButtonComponent>
+                {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && !this.props.bitmark.transferOfferId &&
+                  <OneTabButtonComponent style={cStyles.topButton}
+                    disabled={this.props.bitmark.status !== 'confirmed'}
+                    onPress={() => {
+                      if (this.props.asset.filePath) {
+                        Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
+                      } else {
+                        Alert.alert(global.i18n.t("PropertyDetailComponent_transferRequiredTitle"), global.i18n.t("PropertyDetailComponent_transferRequiredMessage"), [{
+                          text: global.i18n.t("PropertyDetailComponent_downloadAsset"),
+                          onPress: this.downloadAsset.bind(this),
+                        }]);
+                      }
+                    }}>
+                    <Text style={[cStyles.topButtonText, {
+                      color: this.props.bitmark.status === 'confirmed' ? '#0060F2' : '#C2C2C2'
+                    }]}>{global.i18n.t("PropertyDetailComponent_sendBitmark")}</Text>
+                  </OneTabButtonComponent>
+                }
+                {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent style={cStyles.topButton}
                   disabled={this.props.bitmark.status !== 'confirmed'}
-                  onPress={() => {
-                    if (this.props.asset.filePath) {
-                      Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
-                    } else {
-                      Alert.alert(global.i18n.t("PropertyDetailComponent_transferRequiredTitle"), global.i18n.t("PropertyDetailComponent_transferRequiredMessage"), [{
-                        text: global.i18n.t("PropertyDetailComponent_downloadAsset"),
-                        onPress: this.downloadAsset.bind(this),
-                      }]);
-                    }
-                  }}>
+                  onPress={this.deleteBitmark.bind(this)}>
                   <Text style={[cStyles.topButtonText, {
                     color: this.props.bitmark.status === 'confirmed' ? '#0060F2' : '#C2C2C2'
-                  }]}>{global.i18n.t("PropertyDetailComponent_sendBitmark")}</Text>
-                </OneTabButtonComponent>
-              }
-              {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent style={cStyles.topButton}
-                disabled={this.props.bitmark.status !== 'confirmed'}
-                onPress={this.deleteBitmark.bind(this)}>
-                <Text style={[cStyles.topButtonText, {
-                  color: this.props.bitmark.status === 'confirmed' ? '#0060F2' : '#C2C2C2'
-                }]}>{global.i18n.t("PropertyDetailComponent_deleteBitmark")}</Text>
-              </OneTabButtonComponent>}
-            </View>}
-
-            <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ flexGrow: 1, }}>
-              <View style={cStyles.bottomImageBar}></View>
-
-              <View style={[cStyles.assetThumbnailArea, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>
-                {(() => {
-                  if (this.props.asset.thumbnailPath) {
-                    return (<Image style={[cStyles.assetThumbnailImage, { width: 126, height: 126, resizeMode: 'contain', marginBottom: 0 }]}
-                      source={{ uri: this.props.asset.thumbnailPath }} />);
-                  }
-                  if (isHealthRecord(this.props.asset)) {
-                    return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_health_data_icon.png')} />);
-                  }
-                  if (isMedicalRecord(this.props.asset)) {
-                    return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_medical_record_icon.png')} />);
-                  }
-                  if (isImageFile(this.props.asset.filePath)) {
-                    return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_image_icon.png')} />);
-                  }
-                  if (isVideoFile(this.props.asset.filePath)) {
-                    return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_video_icon.png')} />);
-                  }
-                  if (isDocFile(this.props.asset.filePath)) {
-                    return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_doc_icon.png')} />);
-                  }
-                  if (isZipFile(this.props.asset.filePath)) {
-                    return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_zip_icon.png')} />);
-                  }
-                  return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_unknow_icon.png')} />);
-                })()}
-              </View>
-
-              <View style={[cStyles.assetInformation, { marginTop: 0 }]}>
-                <View style={cStyles.assetContent}>
-                  <Text style={[cStyles.assetContentName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>
-                    {this.props.asset.name + (this.props.asset.editions ? `${this.props.bitmark.editionNumber || '?'}/${this.props.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited}` : '')}
-                  </Text>
-
-                  <Hyperlink
-                    onPress={(url) => {
-                      if (this.props.bitmark.status === 'confirmed') {
-                        Actions.bitmarkWebViewFull({ title: global.i18n.t("PropertyDetailComponent_registry"), sourceUrl: url });
-                      }
-                    }}
-                    linkStyle={{ color: this.props.bitmark.status === 'pending' ? '#999999' : '#0060F2' }}
-                    linkText={url => {
-                      if (url === `${config.registry_server_url}/account/${this.props.bitmark.issuer}`) {
-                        return CommonProcessor.getDisplayedAccount(this.props.bitmark.issuer);
-                      }
-                      return '';
-                    }}>
-                    <Text style={[cStyles.assetRegister, this.props.bitmark.status === 'confirmed' ? {} : { fontFamily: 'AvenirNextW1G-Demi' }]}>
-                      {this.props.bitmark.status === 'confirmed'
-                        ? `ISSUED ON ${moment(this.props.bitmark.issued_at).format('YYYY MMM DD').toUpperCase()} by ${config.registry_server_url}/account/${this.props.bitmark.issuer}`
-                        : `Pending...`}
-                    </Text>
-                  </Hyperlink>
-                </View>
-              </View>
-
-              {this.props.asset && Object.keys(this.props.asset.metadata).length > 0 && <View style={cStyles.metadataArea}>
-                {Object.keys(this.props.asset.metadata).map((label, index) => (
-                  <View key={index} style={[cStyles.metadataItem, { marginBottom: index === Object.keys(this.props.asset.metadata).length ? 0 : 15 }]}>
-                    <Text style={[cStyles.metadataItemLabel, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{label.toUpperCase()}:</Text>
-                    <Text style={[cStyles.metadataItemValue, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{this.props.asset.metadata[label]}</Text>
-                  </View>
-                ))}
+                  }]}>{global.i18n.t("PropertyDetailComponent_deleteBitmark")}</Text>
+                </OneTabButtonComponent>}
               </View>}
 
-              <View style={cStyles.provenanceArea}>
-                <Text style={cStyles.provenanceLabel}>{global.i18n.t("PropertyDetailComponent_provenance")}</Text>
-                <View style={[cStyles.provenanceRow, {
-                  paddingBottom: 0, paddingTop: 0,
-                  backgroundColor: '#F5F5F5'
-                }]}>
-                  <Text style={[cStyles.provenanceRowItem, this.props.bitmark.status === 'confirmed' ? {} : {
-                    color: '#545454', fontFamily: 'AvenirNextW1G-Regular'
-                  }]}>{global.i18n.t("PropertyDetailComponent_timestamp")}</Text>
-                  <Text style={[cStyles.provenanceRowItem, { marginLeft: convertWidth(19), }, this.props.bitmark.status === 'confirmed' ? {} : {
-                    color: '#545454', fontFamily: 'AvenirNextW1G-Regular'
-                  }]}>{global.i18n.t("PropertyDetailComponent_owner")}</Text>
-                </View>
-                {this.state.gettingData && <ActivityIndicator style={{ marginTop: 42 }} size="large" />}
-                {(this.state.provenance || []).map((item, index) => (<OneTabButtonComponent key={index} style={cStyles.provenanceRow}
-                  onPress={() => this.clickOnProvenance.bind(this)(item)}
-                  disabled={item.status === 'pending' || item.status === 'queuing'}
-                >
-                  <Text style={[cStyles.provenanceRowItem, {
-                    color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : '#0060F2'
-                  }]} numberOfLines={1}>
-                    {(item.status === 'pending' || item.status === 'queuing') ? 'Waiting to be confirmed...' : (moment(item.created_at).format('YYYY MMM DD HH:mm:ss')).toUpperCase()}
-                  </Text>
+              <ScrollView style={{ width: '100%', flex: 1 }} contentContainerStyle={{ flexGrow: 1, }}>
+                <View style={cStyles.bottomImageBar}></View>
 
-                  <Text style={[cStyles.provenanceRowItem, {
-                    marginLeft: convertWidth(19),
-                    color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : 'black'
-                  }]} numberOfLines={1}>
-                    {CommonProcessor.getDisplayedAccount(item.owner)}
-                  </Text>
-                </OneTabButtonComponent>))}
-              </View>
-            </ScrollView>
-          </View>
-        </TouchableWithoutFeedback>
-      </SafeAreaView>)
+                <View style={[cStyles.assetThumbnailArea, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>
+                  {(() => {
+                    if (this.props.asset.thumbnailPath) {
+                      return (<Image style={[cStyles.assetThumbnailImage, { width: 126, height: 126, resizeMode: 'contain', marginBottom: 0 }]}
+                        source={{ uri: this.props.asset.thumbnailPath }} />);
+                    }
+                    if (isHealthRecord(this.props.asset)) {
+                      return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_health_data_icon.png')} />);
+                    }
+                    if (isMedicalRecord(this.props.asset)) {
+                      return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_medical_record_icon.png')} />);
+                    }
+                    if (isImageFile(this.props.asset.filePath)) {
+                      return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_image_icon.png')} />);
+                    }
+                    if (isVideoFile(this.props.asset.filePath)) {
+                      return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_video_icon.png')} />);
+                    }
+                    if (isDocFile(this.props.asset.filePath)) {
+                      return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_doc_icon.png')} />);
+                    }
+                    if (isZipFile(this.props.asset.filePath)) {
+                      return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_zip_icon.png')} />);
+                    }
+                    return (<Image style={cStyles.assetThumbnailImage} source={require('assets/imgs/asset_unknow_icon.png')} />);
+                  })()}
+                </View>
+
+                <View style={[cStyles.assetInformation, { marginTop: 0 }]}>
+                  <View style={cStyles.assetContent}>
+                    <Text style={[cStyles.assetContentName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>
+                      {this.props.asset.name + (this.props.asset.editions ? `${this.props.bitmark.editionNumber || '?'}/${this.props.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited}` : '')}
+                    </Text>
+
+                    <Hyperlink
+                      onPress={(url) => {
+                        if (this.props.bitmark.status === 'confirmed') {
+                          Actions.bitmarkWebViewFull({ title: global.i18n.t("PropertyDetailComponent_registry"), sourceUrl: url });
+                        }
+                      }}
+                      linkStyle={{ color: this.props.bitmark.status === 'pending' ? '#999999' : '#0060F2' }}
+                      linkText={url => {
+                        if (url === `${config.registry_server_url}/account/${this.props.bitmark.issuer}`) {
+                          return CommonProcessor.getDisplayedAccount(this.props.bitmark.issuer);
+                        }
+                        return '';
+                      }}>
+                      <Text style={[cStyles.assetRegister, this.props.bitmark.status === 'confirmed' ? {} : { fontFamily: 'AvenirNextW1G-Demi' }]}>
+                        {this.props.bitmark.status === 'confirmed'
+                          ? `ISSUED ON ${moment(this.props.bitmark.issued_at).format('YYYY MMM DD').toUpperCase()} by ${config.registry_server_url}/account/${this.props.bitmark.issuer}`
+                          : `Pending...`}
+                      </Text>
+                    </Hyperlink>
+                  </View>
+                </View>
+
+                {this.props.asset && Object.keys(this.props.asset.metadata).length > 0 && <View style={cStyles.metadataArea}>
+                  {Object.keys(this.props.asset.metadata).map((label, index) => (
+                    <View key={index} style={[cStyles.metadataItem, { marginBottom: index === Object.keys(this.props.asset.metadata).length ? 0 : 15 }]}>
+                      <Text style={[cStyles.metadataItemLabel, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{label.toUpperCase()}:</Text>
+                      <Text style={[cStyles.metadataItemValue, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>{this.props.asset.metadata[label]}</Text>
+                    </View>
+                  ))}
+                </View>}
+
+                <View style={cStyles.provenanceArea}>
+                  <Text style={cStyles.provenanceLabel}>{global.i18n.t("PropertyDetailComponent_provenance")}</Text>
+                  <View style={[cStyles.provenanceRow, {
+                    paddingBottom: 0, paddingTop: 0,
+                    backgroundColor: '#F5F5F5'
+                  }]}>
+                    <Text style={[cStyles.provenanceRowItem, this.props.bitmark.status === 'confirmed' ? {} : {
+                      color: '#545454', fontFamily: 'AvenirNextW1G-Regular'
+                    }]}>{global.i18n.t("PropertyDetailComponent_timestamp")}</Text>
+                    <Text style={[cStyles.provenanceRowItem, { marginLeft: convertWidth(19), }, this.props.bitmark.status === 'confirmed' ? {} : {
+                      color: '#545454', fontFamily: 'AvenirNextW1G-Regular'
+                    }]}>{global.i18n.t("PropertyDetailComponent_owner")}</Text>
+                  </View>
+                  {this.state.gettingData && <ActivityIndicator style={{ marginTop: 42 }} size="large" />}
+                  {(this.state.provenance || []).map((item, index) => (<OneTabButtonComponent key={index} style={cStyles.provenanceRow}
+                    onPress={() => this.clickOnProvenance.bind(this)(item)}
+                    disabled={item.status === 'pending' || item.status === 'queuing'}
+                  >
+                    <Text style={[cStyles.provenanceRowItem, {
+                      color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : '#0060F2'
+                    }]} numberOfLines={1}>
+                      {(item.status === 'pending' || item.status === 'queuing') ? 'Waiting to be confirmed...' : (moment(item.created_at).format('YYYY MMM DD HH:mm:ss')).toUpperCase()}
+                    </Text>
+
+                    <Text style={[cStyles.provenanceRowItem, {
+                      marginLeft: convertWidth(19),
+                      color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : 'black'
+                    }]} numberOfLines={1}>
+                      {CommonProcessor.getDisplayedAccount(item.owner)}
+                    </Text>
+                  </OneTabButtonComponent>))}
+                </View>
+              </ScrollView>
+            </View>
+          </TouchableWithoutFeedback>
+        </SafeAreaView>)
+      } else {
+        Actions.jump('properties');
+        return <View style={cStyles.body} />
+      }
     }
   }
 }

@@ -86,8 +86,8 @@ const doIssueMusic = async ({ filePath, assetName, metadataList, thumbnailPath, 
 };
 
 
-const doTransferBitmark = async ({ bitmark, receiver }) => {
-  return await processing(DataProcessor.doTransferBitmark(bitmark.id, receiver));
+const doTransferBitmark = async ({ bitmark, receiver, isDelete }) => {
+  return await processing(DataProcessor.doTransferBitmark(bitmark.id, receiver, isDelete));
 };
 
 const doAcceptTransferBitmark = async ({ transferOffer, processingInfo }) => {
