@@ -161,10 +161,8 @@ export class MainAppHandlerComponent extends Component {
               Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
             }
           });
-          console.log('run1 :', CacheData.processingDeepLink);
           TransactionProcessor.doGetAssetToClaim(assetId, issuer).then(async (asset) => {
             let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
-            console.log('run2 :', passTouchFaceId);
             if (passTouchFaceId) {
               CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
             }

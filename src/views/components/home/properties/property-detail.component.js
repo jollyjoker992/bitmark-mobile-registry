@@ -187,20 +187,16 @@ class PrivatePropertyDetailComponent extends React.Component {
       });
   }
   render() {
+    console.log(this.props);
     if (isMusicAsset(this.props.asset)) {
-      let editionNumber = this.props.bitmark ? this.props.bitmark.editionNumber : null;
+      let editionNumber = this.props.bitmark ? this.props.bitmark.editionNumber : 0;
       let issuer = this.props.bitmark ? this.props.bitmark.issuer : this.props.claimToAccount;
 
       let totalEditionLeft = issuer ? this.props.asset.editions[issuer].totalEditionLeft : null;
       let limited = issuer ? this.props.asset.editions[issuer].limited : null;
-      editionNumber = editionNumber ? editionNumber : (limited - totalEditionLeft + 1);
-      let webUrl = `${config.mobile_server_url}/api/claim_requests_view/${this.props.asset.id}`;
-      if (editionNumber || totalEditionLeft || limited) {
-        webUrl += '?'
-        webUrl += `${editionNumber ? `edition_number=${editionNumber}&` : ''}`;
-        webUrl += `${(totalEditionLeft !== null) ? `remaining=${totalEditionLeft}&` : ''}`;
-        webUrl += `${limited ? `total=${limited}` : ''}`;
-      }
+      let webUrl = `${config.mobile_server_url}/api/claim_requests_view/${this.props.asset.id}?edition_number=${editionNumber || '?'}`;
+      webUrl += (totalEditionLeft !== null) ? `&remaining=${totalEditionLeft}` : '';
+      webUrl += limited ? `&total=${limited}` : '';
       let playLink;
       let metadata = this.props.asset.metadata;
       for (let key in metadata) {
@@ -364,7 +360,7 @@ class PrivatePropertyDetailComponent extends React.Component {
               <View style={[cStyles.assetInformation, { marginTop: 0 }]}>
                 <View style={cStyles.assetContent}>
                   <Text style={[cStyles.assetContentName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>
-                    {this.props.asset.name + (this.props.asset.editions ? `${this.props.bitmark.editionNumber || '-'}/${this.props.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited}` : '')}
+                    {this.props.asset.name + (this.props.asset.editions ? `${this.props.bitmark.editionNumber || '?'}/${this.props.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited}` : '')}
                   </Text>
 
                   <Hyperlink

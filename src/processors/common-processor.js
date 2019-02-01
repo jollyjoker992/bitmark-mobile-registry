@@ -123,7 +123,7 @@ const doViewSendIncomingClaimRequest = async (asset, issuer) => {
   updateModal(ModalDisplayKeyIndex.claim_asset, { asset, issuer });
 };
 
-const getDisplayedAccount = (accountNumber) => {
+const getDisplayedAccount = (accountNumber, fullAccountNumber) => {
   if (!accountNumber) {
     return '';
   }
@@ -131,8 +131,10 @@ const getDisplayedAccount = (accountNumber) => {
     return CacheData.identities[accountNumber].name;
   } else if (accountNumber === CacheData.userInformation.bitmarkAccountNumber) {
     return global.i18n.t("PropertiesComponent_you");
-  } else {
+  } else if (!fullAccountNumber) {
     return `[${accountNumber.substring(0, 4)}...${accountNumber.substring(accountNumber.length - 4, accountNumber.length)}]`;
+  } else {
+    return accountNumber;
   }
 };
 

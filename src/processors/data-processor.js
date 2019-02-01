@@ -533,29 +533,31 @@ const doIssueIftttData = async (iftttBitmarkFile) => {
 };
 
 const doSendIncomingClaimRequest = async (asset, issuer) => {
-  let result = await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
   let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
-
-  assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
-  let tempBitmarkId = `claim_request_${result.claim_id}`
-  let bitmark = {
-    head_id: tempBitmarkId,
-    asset_id: asset.id,
-    id: tempBitmarkId,
-    issued_at: moment().toDate().toISOString(),
-    head: `head`,
-    status: 'pending',
-    owner: CacheData.userInformation.bitmarkAccountNumber,
-    issuer: issuer || asset.registrant,
-    isDraft: true,
-  };
-  assetsBitmarks.bitmarks[tempBitmarkId] = bitmark;
-  if (!assetsBitmarks.assets || !assetsBitmarks.assets[asset.id]) {
-    assetsBitmarks.assets = assetsBitmarks.assets || {};
-    assetsBitmarks.assets[asset.id] = asset;
+  let bitmark = Object.values(assetsBitmarks.bitmarks || {}).find(b => b.asset_id === asset.id);
+  if (!bitmark) {
+    let result = await BitmarkModel.doPostIncomingClaimRequest(CacheData.jwt, asset.id, asset.registrant);
+    assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
+    let tempBitmarkId = `claim_request_${result.claim_id}`
+    let bitmark = {
+      head_id: tempBitmarkId,
+      asset_id: asset.id,
+      id: tempBitmarkId,
+      issued_at: moment().toDate().toISOString(),
+      head: `head`,
+      status: 'pending',
+      owner: CacheData.userInformation.bitmarkAccountNumber,
+      issuer: issuer || asset.registrant,
+      isDraft: true,
+    };
+    assetsBitmarks.bitmarks[tempBitmarkId] = bitmark;
+    if (!assetsBitmarks.assets || !assetsBitmarks.assets[asset.id]) {
+      assetsBitmarks.assets = assetsBitmarks.assets || {};
+      assetsBitmarks.assets[asset.id] = asset;
+    }
+    await BitmarkProcessor.doCheckNewAssetsBitmarks(assetsBitmarks);
+    await TransactionProcessor.doReloadClaimRequests();
   }
-  await BitmarkProcessor.doCheckNewAssetsBitmarks(assetsBitmarks);
-  await TransactionProcessor.doReloadClaimRequests();
   CacheData.processingDeepLink = false;
   return { bitmark, asset };
 };

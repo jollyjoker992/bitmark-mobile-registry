@@ -11,7 +11,7 @@ import { Actions } from 'react-native-router-flux';
 
 
 import transactionsStyle from './transactions.component.style';
-import { DataProcessor, AppProcessor, EventEmitterService, CacheData, TransactionProcessor } from 'src/processors';
+import { DataProcessor, AppProcessor, EventEmitterService, CacheData, TransactionProcessor, CommonProcessor } from 'src/processors';
 import { config, constant } from 'src/configs';
 import { defaultStyles } from 'src/views/commons';
 import { convertWidth } from 'src/utils';
@@ -205,7 +205,9 @@ class PrivateTransactionsComponent extends React.Component {
 
                     {item.type === ActionRequireTypes.transfer && <View style={transactionsStyle.iftttTask}>
                       <Text style={transactionsStyle.iftttTitle}>{item.transferOffer.asset.name}</Text>
-                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signToReceiveTheBitmarkFrom", { accountNumber: item.transferOffer.bitmark.owner.substring(0, 4) + '...' + item.transferOffer.bitmark.owner.substring(item.transferOffer.bitmark.owner.length - 4, item.transferOffer.bitmark.owner.length) })}</Text>
+                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signToReceiveTheBitmarkFrom", {
+                        accountNumber: CommonProcessor.getDisplayedAccount(item.transferOffer.bitmark.owner)
+                      })}</Text>
                     </View>}
 
                     {item.type === ActionRequireTypes.ifttt && <View style={transactionsStyle.iftttTask}>
@@ -223,7 +225,9 @@ class PrivateTransactionsComponent extends React.Component {
 
                     {item.type === ActionRequireTypes.claim_request && <View style={transactionsStyle.iftttTask}>
                       <Text style={transactionsStyle.iftttTitle}>{item.incomingClaimRequest.asset.name} {item.incomingClaimRequest.index}/{item.incomingClaimRequest.asset.editions[bitmarkAccountNumber].limited}</Text>
-                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_claimRequestMessage", { accountNumber: item.incomingClaimRequest.from })}</Text>
+                      <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_claimRequestMessage", {
+                        accountNumber: CommonProcessor.getDisplayedAccount(item.incomingClaimRequest.from, true)
+                      })}</Text>
                     </View>}
                   </TouchableOpacity>)
                 }} />
@@ -294,14 +298,15 @@ class PrivateTransactionsComponent extends React.Component {
                           </View>
                           <View style={[transactionsStyle.completedTransferContentRow, { marginTop: 1, }]}>
                             <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_from")}</Text>
-                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.outgoingClaimRequest.from === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
-                              ('[' + item.outgoingClaimRequest.from.substring(0, 4) + '...' + item.outgoingClaimRequest.from.substring(item.outgoingClaimRequest.from.length - 4, item.outgoingClaimRequest.from.length) + ']')}</Text>
+                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>
+                              {CommonProcessor.getDisplayedAccount(item.outgoingClaimRequest.from)}
+                            </Text>
                           </View>
                           <View style={transactionsStyle.completedTransferContentRow}>
                             <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_to")}</Text>
-                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{(item.outgoingClaimRequest.asset.registrant === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
-                              (CacheData.identities[item.outgoingClaimRequest.asset.registrant] ? CacheData.identities[item.outgoingClaimRequest.asset.registrant].name :
-                                ('[' + item.outgoingClaimRequest.asset.registrant.substring(0, 4) + '...' + item.outgoingClaimRequest.asset.registrant.substring(item.outgoingClaimRequest.asset.registrant.length - 4, item.outgoingClaimRequest.asset.registrant.length) + ']')))}</Text>
+                            <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>
+                              {CommonProcessor.getDisplayedAccount(item.outgoingClaimRequest.asset.registrant)}
+                            </Text>
                           </View>
                         </View>
                       </TouchableOpacity>
@@ -339,13 +344,14 @@ class PrivateTransactionsComponent extends React.Component {
                         </View>}
                         <View style={[transactionsStyle.completedTransferContentRow, { marginTop: 1, }]}>
                           <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_from")}</Text>
-                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.from === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
-                            ('[' + item.from.substring(0, 4) + '...' + item.from.substring(item.from.length - 4, item.from.length) + ']')}</Text>
+                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>
+                            {CommonProcessor.getDisplayedAccount(item.from)}
+                          </Text>
                         </View>
                         {!!item.to && <View style={transactionsStyle.completedTransferContentRow}>
                           <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_to")}</Text>
-                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.researcherName ? item.researcherName : (item.to === this.state.currentUser.bitmarkAccountNumber ? global.i18n.t("TransactionsComponent_you") :
-                            ('[' + item.to.substring(0, 4) + '...' + item.to.substring(item.to.length - 4, item.to.length) + ']'))}</Text>
+                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>
+                            {item.researcherName ? item.researcherName : CommonProcessor.getDisplayedAccount(item.to)}</Text>
                         </View>}
                       </View>
                     </TouchableOpacity>

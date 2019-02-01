@@ -206,7 +206,7 @@ class PrivatePropertiesComponent extends React.Component {
                     </Text>
                     <Text style={[cStyles.bitmarkAssetName, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>
                       {this.props.assets[bitmark.asset_id].name + `${isReleasedAsset(this.props.assets[bitmark.asset_id])
-                        ? ` [${(bitmark.editionNumber === undefined || bitmark.editionNumber < 0) ? '-' : bitmark.editionNumber}/${this.props.assets[bitmark.asset_id].editions[bitmark.issuer].limited}]`
+                        ? ` [${(bitmark.editionNumber === undefined || bitmark.editionNumber < 0) ? '?' : bitmark.editionNumber}/${this.props.assets[bitmark.asset_id].editions[bitmark.issuer].limited}]`
                         : ''}`}
                     </Text>
                     <Text style={[cStyles.bitmarkissuer, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>{CommonProcessor.getDisplayedAccount(bitmark.issuer)}</Text>
