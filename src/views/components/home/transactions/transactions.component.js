@@ -269,12 +269,16 @@ class PrivateTransactionsComponent extends React.Component {
                     return (
                       <TouchableOpacity style={transactionsStyle.completedTransfer}>
                         <View style={transactionsStyle.completedTransferHeader}>
-                          <Text style={[transactionsStyle.completedTransferHeaderTitle, {
-                            color: item.outgoingClaimRequest.status === 'pending' ? '#999999' : (item.outgoingClaimRequest.status === 'rejected') ? '#FF003C' : '#0060F2',
-                          }]}>
-                            {item.outgoingClaimRequest.status === 'accepted' ? global.i18n.t("TransactionsComponent_claimRequestHistoryAccepted") :
-                              item.outgoingClaimRequest.status === 'rejected' ? global.i18n.t("TransactionsComponent_claimRequestHistoryRejected") : global.i18n.t("TransactionsComponent_claimRequestHistoryPending")}
-                          </Text>
+                          {item.outgoingClaimRequest.status === 'accepted' && <View style={transactionsStyle.completedTransferHeaderIconArea}>
+                            <Image style={transactionsStyle.completedTransferHeaderIconImage} source={require('assets/imgs/accepted_icon.png')} />
+                          </View>}
+                          {item.outgoingClaimRequest.status === 'rejected' && <View style={transactionsStyle.completedTransferHeaderIconArea}>
+                            <Image style={transactionsStyle.completedTransferHeaderIconImage} source={require('assets/imgs/rejected_icon.png')} />
+                          </View>}
+
+                          {item.outgoingClaimRequest.status === 'pending' && <Text style={[transactionsStyle.completedTransferHeaderTitle, { color: '#999999', }]}>
+                            {global.i18n.t("TransactionsComponent_claimRequestHistoryPending")}
+                          </Text>}
                           <Text style={[transactionsStyle.completedTransferHeaderValue, {
                             color: item.status === 'pending' ? '#999999' : '#0060F2'
                           }]}>{moment(item.timestamp).format('YYYY MMM DD HH:mm:ss').toUpperCase()}</Text>
@@ -306,14 +310,18 @@ class PrivateTransactionsComponent extends React.Component {
                   return (
                     <TouchableOpacity style={transactionsStyle.completedTransfer} onPress={() => this.clickToCompleted(item)} disabled={(item.status === 'pending' || item.status === 'waiting')}>
                       <View style={transactionsStyle.completedTransferHeader}>
-                        <Text style={[transactionsStyle.completedTransferHeaderTitle, {
+                        {(item.status === 'confirmed' || item.status === 'accepted') && <View style={transactionsStyle.completedTransferHeaderIconArea}>
+                          <Image style={transactionsStyle.completedTransferHeaderIconImage} source={require('assets/imgs/accepted_icon.png')} />
+                        </View>}
+                        {(item.status !== 'confirmed' && item.status !== 'accepted') && <Text style={[transactionsStyle.completedTransferHeaderTitle, {
                           color: (item.status === 'pending' || item.status === 'waiting')
                             ? '#999999' : (
                               (item.status === 'canceled' || item.status === 'rejected') ? '#FF003C' : '#0060F2'
                             ),
                           width: (item.status === 'waiting' || item.status === 'canceled' || item.status === 'rejected')
                             ? 'auto' : convertWidth(102)
-                        }]}>{item.title}</Text>
+                        }]}>{global.i18n.t(`TransactionsComponent_title_${item.title}`, { defaultValue: item.title })}</Text>}
+
                         {(item.status !== 'waiting' && item.status !== 'rejected' && item.status !== 'canceled') &&
                           <Text style={[transactionsStyle.completedTransferHeaderValue, {
                             color: (item.status === 'pending' || item.status === 'waiting') ? '#999999' : '#0060F2'
@@ -327,7 +335,7 @@ class PrivateTransactionsComponent extends React.Component {
                         </View>
                         {!!item.type && <View style={transactionsStyle.completedTransferContentRow}>
                           <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_type")}</Text>
-                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{item.type.toUpperCase()}</Text>
+                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}> {global.i18n.t(`TransactionsComponent_type_${item.type}`, { defaultValue: item.type })}</Text>
                         </View>}
                         <View style={[transactionsStyle.completedTransferContentRow, { marginTop: 1, }]}>
                           <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_from")}</Text>

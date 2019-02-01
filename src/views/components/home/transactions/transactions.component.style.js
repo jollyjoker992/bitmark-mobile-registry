@@ -177,13 +177,18 @@ export default StyleSheet.create({
     paddingLeft: convertWidth(19),
     paddingRight: convertWidth(19),
     paddingTop: 18,
-    paddingBottom: 10,
     flexDirection: 'column',
     width: '100%',
   },
   completedTransferHeader: {
     flexDirection: 'row',
     height: 20,
+  },
+  completedTransferHeaderIconArea: {
+    width: convertWidth(102),
+  },
+  completedTransferHeaderIconImage: {
+    width: 16, height: 16, resizeMode: 'contain',
   },
   completedTransferHeaderTitle: {
     fontFamily: 'Andale Mono',
@@ -201,6 +206,8 @@ export default StyleSheet.create({
   completedTransferContent: {
     marginTop: 9,
     flexDirection: 'column',
+    borderBottomColor: '#A4B5CD', borderBottomWidth: 0.5,
+    paddingBottom: 15,
   },
   completedTransferContentRow: {
     flexDirection: 'row',
