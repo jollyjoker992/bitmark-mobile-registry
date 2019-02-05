@@ -78,21 +78,27 @@ export class UserRouterComponent extends Component {
 
     } else if (data.name === 'transfer_rejected') {
       BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
-        Actions.propertyDetail(bitmarkInformation);
+        if (bitmarkInformation.asset && bitmarkInformation.bitmark) {
+          Actions.propertyDetail(bitmarkInformation);
+        }
       }).catch(console.log);
-
     } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
       Actions.transactions({ subTab: 'HISTORY' });
     } else if (data.name === 'transfer_confirmed_receiver' && data.bitmark_id) {
       BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
         return BitmarkProcessor.doGetAssetBitmark(data.bitmark_id);
       }).then(bitmarkInformation => {
-        Actions.propertyDetail(bitmarkInformation);
+        if (bitmarkInformation.asset && bitmarkInformation.bitmark) {
+          Actions.propertyDetail(bitmarkInformation);
+        }
       }).catch(console.log);
-
     } else if (data.name === 'transfer_failed') {
-      BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
-        Actions.propertyDetail(bitmarkInformation);
+      BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
+        return BitmarkProcessor.doGetAssetBitmark(data.bitmark_id);
+      }).then(bitmarkInformation => {
+        if (bitmarkInformation.asset && bitmarkInformation.bitmark) {
+          Actions.propertyDetail(bitmarkInformation);
+        }
       }).catch(console.log);
     } else if (data.event === 'claim_request') {
       TransactionProcessor.doReloadClaimRequests().then((claimRequests) => {
