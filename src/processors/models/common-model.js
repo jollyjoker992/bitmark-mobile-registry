@@ -3,6 +3,7 @@ import moment from 'moment';
 import { FaceTouchId, BitmarkSDK } from './adapters'
 import { AsyncStorage } from 'react-native';
 import { config } from 'src/configs';
+import { CacheData } from '../caches';
 
 const KEYS = {
   APP_INFORMATION: 'app-information',
@@ -10,8 +11,8 @@ const KEYS = {
   USER_INFORMATION: 'bitmark-app',
 
   //original data
-  USER_DATA_LOCAL_BITMARKS: 'user-data:local-bitmarks',
-  USER_DATA_TRACKING_BITMARKS: 'user-data:tracking-bitmarks',
+  USER_DATA_ASSETS_BITMARKS: 'user-data:assets-bitmarks',
+  USER_DATA_RELEASED_ASSETS_BITMARKS: 'user-data:released-assets-bitmarks',
   USER_DATA_IFTTT_INFORMATION: 'user-data:ifttt-information',
   USER_DATA_CLAIM_REQUEST: 'user-data:claim-request',
   USER_DATA_TRANSACTIONS: 'user-data:transactions',
@@ -107,6 +108,7 @@ const doTrackEvent = (tags, fields) => {
       }
       resolve(data);
     }).catch((error) => {
+      resolve();
       console.log('doTrackEvent error :', error);
     });
   });

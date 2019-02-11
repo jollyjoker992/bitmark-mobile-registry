@@ -19,9 +19,9 @@ public enum SeedError: Error {
     case wrongNetwork
 }
 
-public enum SeedVersion {
-    case v1
-    case v2
+public enum SeedVersion: Int {
+    case v1 = 1
+    case v2 = 2
 }
 
 public protocol Seedable {
@@ -233,11 +233,13 @@ public struct SeedV2: Seedable {
         
         // Checksum
         let checksumStart = seed.count - Config.SeedConfigV2.checksumLength
-        let core = seed.subdata(in: 0..<checksumStart)
-        let checksum = core.sha3(length: 256).slice(start: 0, end: Config.SeedConfigV2.checksumLength)
+        let exportedSeed = seed.subdata(in: 0..<checksumStart)
+        let checksum = exportedSeed.sha3(length: 256).slice(start: 0, end: Config.SeedConfigV2.checksumLength)
         if checksum != seed.slice(start: checksumStart, end: seed.count) {
             throw SeedError.checksumFailed
         }
+        
+        let core = exportedSeed.subdata(in: Config.SeedConfigV2.magicNumber.count..<exportedSeed.count)
         
         // Network
         var parsedNetwork: Network

@@ -5,22 +5,22 @@ import {
 } from 'react-native'
 
 import notificationStyle from './notification.component.style';
-import { NotificationService, EventEmitterService, DataProcessor } from 'src/processors';
+import { NotificationService, EventEmitterService, CommonProcessor, CacheData } from 'src/processors';
 import { constant } from 'src/configs';
 
 export class NotificationComponent extends React.Component {
-  propTypes = {
+  static propTypes = {
     justCreatedBitmarkAccount: PropTypes.bool,
   }
   constructor(props) {
     super(props);
   }
   render() {
-
+    CacheData.passTouchFaceId = true;
     let requestNotification = () => {
       NotificationService.doRequestNotificationPermissions().then((result) => {
         EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, this.props.justCreatedBitmarkAccount);
-        return DataProcessor.doMarkRequestedNotification(result);
+        return CommonProcessor.doMarkRequestedNotification(result);
       }).catch(error => {
         console.log('NotificationComponent requestNotification error:', error);
       });

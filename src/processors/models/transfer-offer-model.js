@@ -37,7 +37,7 @@ const doGetAllTransferOffers = (accountNumber) => {
       return response.json();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error('doGetIncomingTransferOffers error :' + JSON.stringify(data)));
+        return reject(new Error(`doGetAllTransferOffers error ${statusCode}:` + JSON.stringify(data)));
       }
       resolve(data.offers);
     }).catch(reject);
@@ -59,7 +59,7 @@ const doGetIncomingTransferOffers = (accountNumber) => {
       return response.json();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error('doGetIncomingTransferOffers error :' + JSON.stringify(data)));
+        return reject(new Error(`doGetIncomingTransferOffers error ${statusCode}:` + JSON.stringify(data)));
       }
       resolve(data.offers.to);
     }).catch(reject);

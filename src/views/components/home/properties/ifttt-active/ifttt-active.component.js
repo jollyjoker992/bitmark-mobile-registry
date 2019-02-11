@@ -7,7 +7,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 import styles from './ifttt-active.component.style';
 import { config, constant } from 'src/configs';
-import { EventEmitterService, AppProcessor, DataProcessor, CacheData } from 'src/processors';
+import { EventEmitterService, AppProcessor, CacheData, TransactionProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
 import { AccountStore } from 'src/views/stores';
@@ -55,7 +55,7 @@ class PrivateIftttActiveComponent extends React.Component {
 
     if (!this.props.stage) {
       if ((currentUrl === config.ifttt_bitmark_service_url || currentUrl === (config.ifttt_bitmark_service_settings_url)) && this.signed) {
-        DataProcessor.doReloadIFTTTInformation().then((iftttInformation) => {
+        TransactionProcessor.doReloadIftttInformation().then((iftttInformation) => {
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESSING, false);
           this.setState({ processing: false });
           if (iftttInformation.connectIFTTT && currentUrl === (config.ifttt_bitmark_service_settings_url)) {
@@ -65,7 +65,7 @@ class PrivateIftttActiveComponent extends React.Component {
             });
           }
         }).catch(error => {
-          console.log('doReloadIFTTTInformation : ', error);
+          console.log('doReloadIftttInformation : ', error);
         });
       }
     } else {
@@ -83,7 +83,7 @@ class PrivateIftttActiveComponent extends React.Component {
           {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT && <TouchableOpacity style={[defaultStyles.headerLeft, { width: 60 }]} />}
 
           {!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT && <TouchableOpacity style={[defaultStyles.headerLeft, { width: 60 }]} onPress={() => {
-            runPromiseWithoutError(DataProcessor.doReloadIFTTTInformation())
+            runPromiseWithoutError(TransactionProcessor.doReloadIftttInformation());
             Actions.pop();
           }}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />

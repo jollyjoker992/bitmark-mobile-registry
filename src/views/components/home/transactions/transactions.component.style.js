@@ -55,10 +55,8 @@ export default StyleSheet.create({
     height: 35,
   },
   subTabButtonText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
+    fontFamily: 'AvenirNextW1G-Bold',
     fontSize: 14,
-    lineHeight: 16,
     textAlign: 'center',
   },
   activeSubTabBar: {
@@ -67,9 +65,7 @@ export default StyleSheet.create({
   },
   scrollSubTabArea: {
     width: '100%',
-    flexDirection: 'column',
-    alignContent: 'center',
-    backgroundColor: 'white',
+    flex: 1, flexDirection: 'column', alignContent: 'center', backgroundColor: 'white',
   },
   contentSubTab: {
     width: '100%',
@@ -179,13 +175,18 @@ export default StyleSheet.create({
     paddingLeft: convertWidth(19),
     paddingRight: convertWidth(19),
     paddingTop: 18,
-    paddingBottom: 10,
     flexDirection: 'column',
     width: '100%',
   },
   completedTransferHeader: {
     flexDirection: 'row',
     height: 20,
+  },
+  completedTransferHeaderIconArea: {
+    width: convertWidth(102),
+  },
+  completedTransferHeaderIconImage: {
+    width: 16, height: 16, resizeMode: 'contain',
   },
   completedTransferHeaderTitle: {
     fontFamily: 'Andale Mono',
@@ -203,6 +204,8 @@ export default StyleSheet.create({
   completedTransferContent: {
     marginTop: 9,
     flexDirection: 'column',
+    borderBottomColor: '#A4B5CD', borderBottomWidth: 0.5,
+    paddingBottom: 15,
   },
   completedTransferContentRow: {
     flexDirection: 'row',
@@ -228,14 +231,10 @@ export default StyleSheet.create({
   },
 
   acceptAllTransfersButton: {
-    width: '100%',
-    height: 45,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '100%', height: 45,
     backgroundColor: '#F5F5F5',
-    borderTopColor: '#0060F2',
-    borderTopWidth: 3,
+    flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+    borderTopColor: '#0060F2', borderTopWidth: 3,
     marginBottom: 1,
   },
   acceptAllTransfersButtonText: {
@@ -243,5 +242,13 @@ export default StyleSheet.create({
     fontWeight: '900',
     fontSize: 14,
     color: '#0060F2'
+  },
+  signAllClaimRequestsButton: {
+    width: '100%', height: 45,
+    backgroundColor: '#0060F2',
+    flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+  },
+  signAllClaimRequestsButtonText: {
+    fontFamily: 'Avenir Black', fontWeight: '900', fontSize: 14, color: 'white'
   },
 });

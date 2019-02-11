@@ -8,17 +8,16 @@
  */
 
 #import "AppDelegate.h"
+#import <AVFoundation/AVFoundation.h>
 #import <CodePush/CodePush.h>
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 #import <React/RCTPushNotificationManager.h>
-#import <React/RNSentry.h> 
-
-#ifdef HOCKEYAPP
-  @import HockeySDK;
-#endif
+#import <React/RCTLog.h>
+#import <React/RNSentry.h>
+@import iCloudDocumentSync;
 
 
 @implementation AppDelegate
@@ -38,23 +37,23 @@
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-  
-#ifdef HOCKEYAPP
-  NSString *hockeyAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"HockeyAppID"];
-  [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:hockeyAppID];
-#ifdef HOCKEYAPP_UPDATE
-  [[BITHockeyManager sharedHockeyManager].updateManager setUpdateSetting:BITUpdateCheckStartup];
-#endif
-  [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus: BITCrashManagerStatusAutoSend];
-  [[BITHockeyManager sharedHockeyManager] startManager];
-  [[BITHockeyManager sharedHockeyManager].authenticator authenticateInstallation];
-#endif
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  // iCloud sync
+  [[iCloud sharedCloud] setupiCloudDocumentSyncWithUbiquityContainer:nil];
+  if ([[iCloud sharedCloud] checkCloudAvailability]) {
+    RCTLog(@"iCloud is available on this device");
+  }
+  else {
+    RCTLog(@"iCloud is not available on this device");
+  }
+
+  [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
   
   return YES;
 }

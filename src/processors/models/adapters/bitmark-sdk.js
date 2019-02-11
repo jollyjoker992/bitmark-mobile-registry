@@ -1,42 +1,3 @@
-// import { NativeModules } from 'react-native'
-// let SwiftBitmarkSDK = NativeModules.BitmarkSDK;
-
-// const newError = (reason, defaultMessage) => {
-//   let message = (reason && typeof (reason) === 'string') ? reason : defaultMessage;
-//   message = message || 'Internal application error!'
-//   return new Error(message);
-// }
-
-// const BitmarkSDK = {
-
-// TODO 
-//   createSessionData: (sessionId, encryptionKey) => {
-//     return new Promise((resolve, reject) => {
-//       SwiftBitmarkSDK.createSessionData(sessionId, encryptionKey, (ok, result) => {
-//         if (ok && result) {
-//           resolve(result);
-//         } else {
-//           reject(newError(result, global.i18n.t("BitmarkSDK_canNotCreateSessionData")));
-//         }
-//       });
-//     });
-//   },
-// TODO 
-//   issueRecord: (sessionId, fingerprint, property_name, metadata, quantity) => {
-//     return new Promise((resolve, reject) => {
-//       SwiftBitmarkSDK.issueRecord(sessionId, { fingerprint, property_name, metadata, quantity }, (ok, result) => {
-//         if (ok && result) {
-//           resolve(result);
-//         } else {
-//           reject(newError(result, global.i18n.t("BitmarkSDK_canNotIssueBitmark")));
-//         } 
-//       });
-//     });
-//   },
-
-// };
-// export { BitmarkSDK };
-
 
 import { NativeModules, Platform } from 'react-native'
 
@@ -140,7 +101,6 @@ const BitmarkSDK = {
   encryptFile: async (filePath, recipient, outputFilePath) => {
     return await NativeBitmarkSDK.encryptFile({
       file_path: filePath,
-      recipient,
       output_file_path: outputFilePath,
     });
   },
@@ -152,13 +112,30 @@ const BitmarkSDK = {
       output_file_path: outputFilePath,
     });
   },
+  encryptSessionData: async (sessionData, receiverPublicEncryptionKey) => {
+    return await NativeBitmarkSDK.encryptSessionData({
+      session_data: sessionData,
+      receiver_pub_key: receiverPublicEncryptionKey,
+    });
+  },
   giveAwayBitmark: async (asset_id, recipient) => {
     let list = await NativeBitmarkSDK.giveAwayBitmark({ asset_id, recipient, });
     return {
       bitmarkId: list[0],
       transferPayload: list[1],
     }
-  }
+  },
+  registerNewAsset: async (filePath, propertyName, metadata) => {
+    let list = await NativeBitmarkSDK.registerNewAsset({
+      url: filePath,
+      property_name: propertyName,
+      metadata,
+    });
+    return {
+      bitmarkId: list[0],
+      assetId: list[1],
+    };
+  },
 
 };
 export { BitmarkSDK };

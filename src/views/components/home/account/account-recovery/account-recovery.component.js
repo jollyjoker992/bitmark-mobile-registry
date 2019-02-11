@@ -6,9 +6,8 @@ import {
 import { Actions } from 'react-native-router-flux';
 
 import accountRecoveryStyle from './account-recovery.component.style';
-import { AppProcessor, DataProcessor } from 'src/processors';
+import { AppProcessor, TransactionProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
-import { convertWidth } from 'src/utils';
 import { UserModel } from 'src/processors/models';
 
 
@@ -77,11 +76,13 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
     return (
       <SafeAreaView style={accountRecoveryStyle.body}>
         <View style={[accountRecoveryStyle.header]}>
-          <TouchableOpacity style={[defaultStyles.headerLeft, { width: 40 }]} onPress={Actions.pop}>
+          <TouchableOpacity style={[defaultStyles.headerLeft, { width: 30 }]} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
           </TouchableOpacity>
-          <Text style={[defaultStyles.headerTitle, { maxHeight: convertWidth(375) - 80 }]}>{isSignOut ? global.i18n.t("WriteDownRecoveryPhraseComponent_writeDownRecoveryPhrase") : global.i18n.t("WriteDownRecoveryPhraseComponent_recoveryPhrase")}</Text>
-          <TouchableOpacity style={[defaultStyles.headerRight, { width: 40 }]} />
+          <Text style={[defaultStyles.headerTitle,]}>
+            {isSignOut ? global.i18n.t("WriteDownRecoveryPhraseComponent_writeDownRecoveryPhrase") : global.i18n.t("WriteDownRecoveryPhraseComponent_recoveryPhrase")}
+          </Text>
+          <TouchableOpacity style={[defaultStyles.headerRight, { width: 30 }]} />
         </View>
         <ScrollView style={accountRecoveryStyle.recoveryPhraseContent}>
           {!isSignOut && <Text style={accountRecoveryStyle.writeRecoveryPhraseContentMessage}>{global.i18n.t("WriteDownRecoveryPhraseComponent_writeRecoveryPhraseContentMessage1")}</Text>}
@@ -126,7 +127,7 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
           if (isSignOut) {
             Actions.tryRecoveryPhrase({ isSignOut, currentUser: this.props.currentUser, logout: this.props.logout });
           } else {
-            DataProcessor.doRemoveTestRecoveryPhaseActionRequiredIfAny();
+            TransactionProcessor.doRemoveTestRecoveryPhaseActionRequiredIfAny();
             Actions.reset('accountDetail');
           }
         }}>
@@ -246,8 +247,8 @@ export class TryRecoveryPhraseComponent extends React.Component {
     for (let i = 0; i < temp.length; i++) {
       inputtedWords.push(temp[i].word);
     }
-    AppProcessor.doCheckPhraseWords(inputtedWords).then((user) => {
-      if (this.state.user.bitmarkAccountNumber === user.bitmarkAccountNumber) {
+    AppProcessor.doCheckPhraseWords(inputtedWords).then((bitmarkAccountNumber) => {
+      if (this.state.user.bitmarkAccountNumber === bitmarkAccountNumber) {
         this.setState({ testResult: 'done' });
       } else {
         this.setState({ testResult: 'retry' });
@@ -314,7 +315,7 @@ export class TryRecoveryPhraseComponent extends React.Component {
       } else {
         Actions.reset('accountDetail')
       }
-      DataProcessor.doRemoveTestRecoveryPhaseActionRequiredIfAny();
+      TransactionProcessor.doRemoveTestRecoveryPhaseActionRequiredIfAny();
     } else {
       let smallerList = this.state.smallerList;
       smallerList.forEach(item => {

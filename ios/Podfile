@@ -3,8 +3,9 @@ platform :ios, '11.0'
 def pods
     # Pods for Bitmark
     
-    pod 'BitmarkSDK', :git => 'https://github.com/bitmark-inc/bitmark-sdk-swift.git', :branch => 'expose-encryption-method'
+    pod 'BitmarkSDK', :git => 'https://github.com/bitmark-inc/bitmark-sdk-swift.git', :branch => 'master'
     pod 'KeychainAccess'
+    pod 'iCloudDocumentSync'
     
 end
 
@@ -24,7 +25,6 @@ target 'Bitmark Registry beta' do
     use_frameworks!
     
     pods
-    pod 'HockeySDK'
     
 end
 
@@ -32,7 +32,6 @@ target 'Bitmark Registry dev' do
     use_frameworks!
     
     pods
-    pod 'HockeySDK'
     
 end
 

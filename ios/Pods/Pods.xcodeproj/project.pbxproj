@@ -7,432 +7,371 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02E668C269C103A951D1E05C73CFA186 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CB9563ACCEF60DE809D511529950EB7 /* Base58.swift */; };
-		05B2A27272B2CE67127CD9DD9E729606 /* buttonRoundedRegularHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = EBECD0D530CE1785AA39B63E4BF4DC37 /* buttonRoundedRegularHighlighted.png */; };
-		0BE0EB2E46F8813032EC45640B8B595B /* hu.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 8706A9CC27D27C72F5225BE355B22E21 /* hu.lproj */; };
-		0EB4EA6580DAE04E7C6E70ECF6434B32 /* buttonRoundedRegular@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27F7F6B4E0420144E76EA22230ACF31A /* buttonRoundedRegular@2x.png */; };
-		10102D2E1E4FCF01E4839F71170EF4FA /* hr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 2980667EE765A143B615D57CE4A9C0BD /* hr.lproj */; };
-		10E71ECB9306E5534B085AEA0BCD8A52 /* buttonRoundedDeleteHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A1D61BA3A87D012F3480755A4E34EA5 /* buttonRoundedDeleteHighlighted@2x.png */; };
+		0BFED81A104851996993F6D0DC23928D /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0337384A0DB1848FAB4C7E9F43091E3 /* Common.swift */; };
+		0E1BEA7BD87577C8E7E7CD91FA26E8EC /* API+Issuing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D3D78C03C48F1B3B97C82158D674C0C /* API+Issuing.swift */; };
 		1207512EE9F91FCC0EF3A90290E1A28F /* Pods-BitmarkTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 092685644DF65CBB7ABAAD05B546621F /* Pods-BitmarkTests-dummy.m */; };
-		1344E160ED2ECEF270CEB7836B191772 /* Pods-Bitmark Registry dev-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 607EB922D57A0BC5F22EFCF0151DC752 /* Pods-Bitmark Registry dev-dummy.m */; };
-		13F28D53E529C4E9F5AAF4D6C2E70A55 /* Bitmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBBBCAF6B729032993D18C89B8AE87F /* Bitmark.swift */; };
-		14489A1DEC3BB7D354206CC7F15E881F /* Pods-Bitmark Registry dev-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1337EEE6A6FADC4325370A7380351E8B /* Pods-Bitmark Registry dev-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1741C39F86DB6FEA459F2B549CD326FB /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 556B3491A4816C5D03828D96654A6CC1 /* Arrow.png */; };
-		1B9228F487DF7B494E7E8E93DF2D2371 /* buttonRoundedDeleteHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = ABBDCCA8B1779C974402768FC76F7D6D /* buttonRoundedDeleteHighlighted.png */; };
-		1BD453782B7F29EE3DE319AC43F1FEE6 /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35F05BEEB09C52B643BBE824C9C48AD /* Asset.swift */; };
-		211848600C7182B0051E73DE82B20421 /* Rectangle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EF94FA89D652A49631B300182609E93 /* Rectangle@3x.png */; };
-		229C0D036E9312F5CD53592917E6CE46 /* BinaryPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD52DEEB9C0DD0AB8728690B8297CF9 /* BinaryPacking.swift */; };
-		2744196B80834C8C64B2B22220285201 /* nl.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 245104882C75573B12A8F446863FDF63 /* nl.lproj */; };
-		2FB8C4D3042DF4A50C1FF99BD5D6A38F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3402C991214D346DCF6162F8C046F98 /* Foundation.framework */; };
-		31494726FFF8906CD763814874468698 /* sha3.h in Headers */ = {isa = PBXBuildFile; fileRef = 616D6CE5296DF6D8151528C035BB796E /* sha3.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		34F1B4DCE098F105AAE2C9CA9A58EF85 /* Blur@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F27D2AF3E3B2D7C5A5A1B04A101AFD4B /* Blur@2x.png */; };
-		35720EF83CF77037C3DF93CCA5394BF6 /* nb.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 46F0236A1ED32CC401D2C081D6B0AA10 /* nb.lproj */; };
-		364899C8E91D275625D04D6E64AF3914 /* Pods-Bitmark Registry beta-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 985979128707951133525908BBBA752B /* Pods-Bitmark Registry beta-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		36858112121128A158CA56086A6F7CE1 /* Pods-Bitmark Registry-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50187A0D2D6FA516870C39FE2C6CD4 /* Pods-Bitmark Registry-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3B13A83F0B416416FE3AE60DD68D00B4 /* buttonRoundedDelete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FF4CBCBFFA62BAF9C211CD05F586205C /* buttonRoundedDelete@2x.png */; };
-		3B384DAC10D2E537452641C609CF9006 /* TweetNacl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E16FBD772B576A160E0728279E76809 /* TweetNacl-dummy.m */; };
-		3D5540F3A0FDD1C883EF85C0ED2EC0FB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF48A178478C356AE01930F4E079C68 /* Config.swift */; };
-		3D99AEFD65C4B18FF4D751CC43DEAF0D /* IconGradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 8626B11DEEDC1C42280DC754D3F11D63 /* IconGradient.png */; };
-		3E08E40938C162E223543E74CC97374E /* Cancel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C91C4CACBF751B7728839B9E32BB9123 /* Cancel@3x.png */; };
-		40902EEE245159F48FE2048E0DAE9168 /* feedbackActivity@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F40288E966086467DAF9C2E733150E6 /* feedbackActivity@2x~ipad.png */; };
-		44EBD347AD83468E612B3B99C738909E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3402C991214D346DCF6162F8C046F98 /* Foundation.framework */; };
-		4548C1011A02C777B4B263AD821A2DD3 /* pt-PT.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 0E0788C611862D08ADE47BAE8A72DE70 /* pt-PT.lproj */; };
-		4565031E0304574C7A466B62E73E7478 /* KeychainAccess-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 87421E25EAFD9E5CC2CEC0287B7AA18E /* KeychainAccess-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4764A0CCB17FC1663236EB10E6F895E3 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDB130AB5847DADE709AA46B76B2516 /* Data+Extension.swift */; };
-		4BD0CD3F98A9DECD717A405B6F5B7D85 /* Arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2486DEAA1D6858D001AFE7BD6588C9EE /* Arrow@2x.png */; };
-		4E528CC3282ED867146F11A945E98113 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8633D96C8B7E30C090CE797EE23131F1 /* Constant.swift */; };
-		4EC2B357CD04FCBA1A75CC7A477153CC /* it.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 90B38AB5F042255FFABEB018251789CB /* it.lproj */; };
-		4F01E11E5BC96B92C255589CF5BBCC49 /* de.lproj in Resources */ = {isa = PBXBuildFile; fileRef = F7202EF450111EB7587126EF90B44A94 /* de.lproj */; };
-		4F5AF44ADE8CE63E292079A838E78F96 /* BitmarkSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 993B07AB3F543B2AD6040F2D8A1E277A /* BitmarkSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5038880C6BD67558AD40895186FBAC15 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3402C991214D346DCF6162F8C046F98 /* Foundation.framework */; };
-		504FDC57948E1EC58AD587C23CB49396 /* sha3.c in Sources */ = {isa = PBXBuildFile; fileRef = 9E41DCD25194127BDF96E5722A70B299 /* sha3.c */; };
-		582A4FFEC67A1EA7283416CCF7DE3DC9 /* AccountNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC1A9975892B5AAED591519E0496F4C0 /* AccountNumber.swift */; };
-		59CA5F7719005184AB71884C81DFA971 /* feedbackActivity~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 759DB75FFF1911769C832BD8623797BD /* feedbackActivity~ipad.png */; };
-		5D3F6EA40089DBB3DA67D28A747275BA /* RecoverPhrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6CA227A552757028186B026DE911BD /* RecoverPhrase.swift */; };
+		17A25293B8C3152B8C69F9988B6AEAA9 /* Signable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EC93D59F1553E4C4D783DC4FB9F5DE8 /* Signable.swift */; };
+		184FCFCA0F1E2860C645AB3581FAD33F /* TweetNacl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA344FD4A15B96C20E19F911FECE2C05 /* TweetNacl.framework */; };
+		1D4E521918BF27A43CB3DE9A0B55346E /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C9D9312AA01607CE0DF04EAC19FD45 /* Constant.swift */; };
+		204A021720387352C832EAF09E7801AB /* FileUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF655D50EEF497283D0F0794B5968A89 /* FileUtil.swift */; };
+		2050456DFB0445C75FD06726362FAD5B /* RecoverPhrase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2166E95EFBC7CC6197F92290F32CCF57 /* RecoverPhrase.swift */; };
+		213BFEB8060AA45633D5F3D050B8C177 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E283C5DFE84FCC5D195D30388C417E /* Account.swift */; };
+		231D81BE704151025803C5432A2F59D3 /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5526793646CB716410A1FD078CEB5880 /* Queryable.swift */; };
+		25122FEDAA1214FC9F7136149EEED81D /* sha3.h in Headers */ = {isa = PBXBuildFile; fileRef = 24BDCADB097D088BD10E5EA983F3FF47 /* sha3.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		2783D4B5BE0191D75DBF98FF920C0A31 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FF4A075048A29D296090B5FE7E64C9 /* Transaction.swift */; };
+		286AD832B49EC97EB155BCFE0ABA5BC8 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9C0B2EDEA0535EC918EBDC25362E8D /* Migration.swift */; };
+		2A21A574700594C575A5A09D59C0610C /* Varint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505187A04FAD0EF77A0257DA2D84337A /* Varint.swift */; };
+		2BF952503FC2284FA91EB22ED72C0EAE /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E33529F99643C77FA8FBC20EA4B8B24D /* KeychainAccess.framework */; };
+		318B12A57136067A57E755AE32F1D335 /* RecoverPhrase+Dic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725E55B137B59D327BDE06D3A429B250 /* RecoverPhrase+Dic.swift */; };
+		33768EC3F283F1AEDDF029A68AD4FD45 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8F5356A3EC458C2D907D8EADCDA57B /* Foundation.framework */; };
+		3603E21389EC0C1E3FD26CF342E086C9 /* ctweetnacl.c in Sources */ = {isa = PBXBuildFile; fileRef = 1270CBD48FADDC4725A835F7402177A1 /* ctweetnacl.c */; };
+		41578EEACFB57E010B6E8DE327689E05 /* Pods-Bitmark Registry-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D2EA65ADCFF22EAAD6C8EDAA26D23D /* Pods-Bitmark Registry-dummy.m */; };
+		41CA6DDA3D3AAF79D30F5B24BBFD8AA3 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C11C5799C6B7F6DF3BA02D933FD3259 /* API.swift */; };
+		42D18C0BFB445BCC2B50BF81019AA0CC /* BitmarkSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DDD81EE50A78269DC2ED3AFB90B67DB /* BitmarkSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		45FED8ED482D23DACE954C8611CACCDE /* Seed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4EE623330D7BF90008A36EB52F8274A /* Seed.swift */; };
+		4611B8DF04197A7534FA9932032512E7 /* KeychainAccess-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF6CEBF83B951F02062F4EC076914DA4 /* KeychainAccess-dummy.m */; };
+		4C5DFD733441E942FC18E13BAF59D5FD /* sha3.c in Sources */ = {isa = PBXBuildFile; fileRef = C520F996D969748F3087510EF87137A1 /* sha3.c */; };
+		4EE962BF621EEC74F9A54F268DE39D17 /* API+Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221888249E2235D96C53592B936BCD1C /* API+Transfer.swift */; };
+		5038880C6BD67558AD40895186FBAC15 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8F5356A3EC458C2D907D8EADCDA57B /* Foundation.framework */; };
+		521FCC4C569847C9F62ABE2D001A1B91 /* ModelEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FBA0D243304C3768935D2E065987C3 /* ModelEquatable.swift */; };
+		553EDA26811E269F86D605DFA6059421 /* iCloud.h in Headers */ = {isa = PBXBuildFile; fileRef = 99FCBB9CE0601ACBA7F1ED6B9684A216 /* iCloud.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		57639E8BEDBC25C3AA328899CA7D6CFF /* Account+Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE1712A0F821E6B7F2245B1EFE91831 /* Account+Keychain.swift */; };
+		5CE10AAC49BC5F7EB491F128A5D91828 /* iCloudDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 4961364BE2984D590CED0F7FFDBB6F42 /* iCloudDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5F721432F1CEB041C45655D3D5F85B7B /* Pods-BitmarkTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D84516B87C52088C7F76F457DF375FE /* Pods-BitmarkTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6158FA3F19FA47E4477906F3CE3CAC79 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9559D52EFB065ADAF19125EEBBB6DA76 /* Transaction.swift */; };
-		64315A995D7D5B487D2CC42A9C9D4C38 /* TransactionQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7AE523E28B35F0E276ED178A91FE39 /* TransactionQuery.swift */; };
-		6648D2C2740A1BA5611347DEB7201E17 /* SHA3.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2BF48BF3AB621FB859783B3EC7C9A2F /* SHA3.swift */; };
-		6716AE3BF2076B797200E0CD079B44EE /* API+Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFCA33FB72C072E17C7A733E6D1BBE5 /* API+Asset.swift */; };
-		682F3F35A8D7954EAD87213CF6D92CA6 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 1819D90E60BEE0074531C37696B0ED6F /* en.lproj */; };
-		6C0E710FA822BBAAE16DE5011BB653C9 /* Signable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637881BA46D6D5436798B610B0E82080 /* Signable.swift */; };
-		6EC8E3228BB60E487E156467919BA83A /* fr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 34C63638D6DF1E8B2C6484C33EAFA350 /* fr.lproj */; };
-		70BC9C2195FDF2D42B55E0C3097D0899 /* Seed.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C9C496BDC47416C8A730DD9453C13D /* Seed.swift */; };
-		717A3E0BA053ABCDB3A34C68D48DED20 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 52854E59CDF4570AAC9E51E191700BB8 /* main.c */; };
-		728A8D695148322532797F2881FA0CC6 /* TweetNacl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7AB504DC3715B5A248D017A8B60F486 /* TweetNacl.framework */; };
-		728B9051546EA3999FE0E17688AB2707 /* FileUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A897A752E7C7F26B70FF0A55B8B773 /* FileUtil.swift */; };
-		73C4327C8376E69FB8AA2136B8D7CE58 /* Pods-Bitmark Registry beta-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F9A3CED6EDA3F548B9E9EEAD3F1688A2 /* Pods-Bitmark Registry beta-dummy.m */; };
-		7AC37665783490E831ADDDB2F4E4E542 /* OfferParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1517EC20137E2BE9750CADB6EBD551 /* OfferParams.swift */; };
-		7BF1BC9703683E3CDD159A6264CFB58B /* Rectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2816E59B8D599EF658076ECC705E879D /* Rectangle.png */; };
-		7C4D1F326A2B12AE370997778531801A /* iconCamera.png in Resources */ = {isa = PBXBuildFile; fileRef = C3C6518B46C8385A5B51C34ACB1FE89A /* iconCamera.png */; };
-		7CAC1795A174343E8B68D073C8CD82DA /* BItmarkSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = C608308B3D88B90D196FD96AE6BCC48E /* BItmarkSDK.swift */; };
-		7D498B858EFD7F9E012A78B81781175B /* Cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1BEA89CE93A71D2719AA858F2C5FD921 /* Cancel@2x.png */; };
-		7D99EDF1A4767CCDB9B5E29DA6D6B8D6 /* Ok@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AFD32C6AA3163AE89C7378480EC6BFE4 /* Ok@2x.png */; };
-		7DDD41B9276BFE828CD85F7E049F9A7A /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 02417CB0338DE29F0503ABE8D136608B /* ru.lproj */; };
-		7FC1A2AC6EE5A2A9FED69B5D8C39ECA9 /* tr.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 662C5A069392066706054909DC454629 /* tr.lproj */; };
-		7FD1C9171DE80CDCBE2C974D9EE0991A /* KeychainAccess-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C2F39CB76676BFBF510857004A4AA /* KeychainAccess-dummy.m */; };
-		8081AD9B625A552B803F3796DCD207A2 /* BitmarkSDK-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 03844A9555EC02B89DB57FD0ECD583FF /* BitmarkSDK-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		85D126F98E588C703E15F192B538BBB0 /* Ed25519.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5098EB384D237CC566F65062DCE5808 /* Ed25519.swift */; };
-		86080098A45FE4FFAA0BB22AFFBCACCF /* AuthKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6FAEC8A02116094C0D362E6FDDCC1A /* AuthKey.swift */; };
-		88D07AFE1BB3891A0B0CEA4F97426C2D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3402C991214D346DCF6162F8C046F98 /* Foundation.framework */; };
-		891A9595F2143798530744349E3D1D9F /* BitmarkQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C788F729C2423C4D1BDA0446C58BF5 /* BitmarkQuery.swift */; };
-		8D401BC540B6CF254C8C5E2B2E41636D /* Rectangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6ACCBA42298F4CACF900AA564A31F5E /* Rectangle@2x.png */; };
-		8F7E5E1D1B7D7B814864BFCAEBCAF00F /* zh-Hans.lproj in Resources */ = {isa = PBXBuildFile; fileRef = AB2E5CB873EE34E9328B6FEF63C3FEA3 /* zh-Hans.lproj */; };
-		91BC54F739A468F50D09AB5E6B67360F /* TransferParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD26618E4B4035F007B54E571D03A358 /* TransferParams.swift */; };
-		9369C7444953229DAAFC0D616CCAC0FF /* ja.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 22CEF1F2633AF4F06F22A55C9FD078FA /* ja.lproj */; };
-		945181D2B7E30D3C0B07EDEC26E1FC2B /* authorize_denied@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 64726C9327A9228A7398B21E20379C54 /* authorize_denied@3x.png */; };
-		94673DF28CFD10AF179F7D04CDA8BAC5 /* Blur@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2EEE4A7752A915AA96A5CA8A54D711C /* Blur@3x.png */; };
-		94B7C8911B2A9A08A71606D9581A1148 /* buttonRoundedDelete.png in Resources */ = {isa = PBXBuildFile; fileRef = EEFA50C6399012DCAC78DD1BFC7123A3 /* buttonRoundedDelete.png */; };
-		95B86A37516E4159141D192C653EC815 /* buttonRoundedRegularHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AD79B40FDBC91D3E82FC74AECE2FAE10 /* buttonRoundedRegularHighlighted@2x.png */; };
-		970466C82DB88ECDDD27BF3E9DF4FC46 /* AppIconPlaceHolder.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B90899498365E518CE90321E3B9C3B /* AppIconPlaceHolder.png */; };
-		976AD64750AB5AD440EF784DF464B84B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3402C991214D346DCF6162F8C046F98 /* Foundation.framework */; };
-		9836CA5C10A6CAB5D7365A71B4943CF1 /* ctweetnacl.c in Sources */ = {isa = PBXBuildFile; fileRef = 9124C46E265F016535C020148E9E96D6 /* ctweetnacl.c */; };
-		A416F348274132328F2F7889EE0070B0 /* buttonRoundedRegular.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AF25740E32DDBC6BC4F0D382A3834D0 /* buttonRoundedRegular.png */; };
-		A5F8767258CC31F16AC9AB2CA0A723EF /* ModelEquatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CD296FCDECDBC899230D910B1FDD94 /* ModelEquatable.swift */; };
-		A8D32AA73678855CF6E93D4FFEA2F7AF /* pt.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 76151AD14CDFC8E1906EC4829163F4C0 /* pt.lproj */; };
-		A8FC628BC39A85B021B33CD0EDF94E06 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50BD2877A7C6B36D4F0935327B11331 /* Keychain.swift */; };
-		A9DDA23615CC07AA99D48471BF75C2C1 /* es.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D43634A113C831689669AFE51ECA0E6B /* es.lproj */; };
-		AB8CC1D553EA759444663CE60E1DD12A /* Pods-Bitmark Registry-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D2EA65ADCFF22EAAD6C8EDAA26D23D /* Pods-Bitmark Registry-dummy.m */; };
-		AD12DCF1C2174A7E2FA68AF2D7D59DAF /* feedbackActivity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 745EBBDC7FB799CA2B7268636B7B666B /* feedbackActivity@2x.png */; };
-		B31E1A951071DAA01CA7843C3CF2C2CD /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82398B7FEF4ADE0CA3B432E160596708 /* Common.swift */; };
-		B3E0E9322808BD8E24295B17CD05BB18 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3402C991214D346DCF6162F8C046F98 /* Foundation.framework */; };
-		B83E79A322A7C5250E051A71106E4867 /* API+Bitmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40BF31E1DF025BF43A69B37731D367A1 /* API+Bitmark.swift */; };
-		B8AE7225CEF20209E6A50211950C5DAA /* EncryptionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E66B72AD62A268AE1039783AC600C7B /* EncryptionKey.swift */; };
-		B8D849B69A2177B7C31381E54D1A0712 /* fa.lproj in Resources */ = {isa = PBXBuildFile; fileRef = AB00701A70EF9D59EE351BB917680AC9 /* fa.lproj */; };
-		BA2233A98BC53B7D3A80D66A15750525 /* Blur.png in Resources */ = {isa = PBXBuildFile; fileRef = C1CAD4A03E2E9B368B285CD2CFBB4967 /* Blur.png */; };
-		BC874915FD7ED4CE0EA30076BFCEF099 /* Migration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6956190CC8F604153EA0616E4B1586C4 /* Migration.swift */; };
-		BF9BA87EFEB1661385681C47E3F5AF1F /* iconCamera@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2D14BA84F781750A7148814E4C1049B5 /* iconCamera@2x.png */; };
-		C55B22B5563005DBE84409659356E8F3 /* Cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A4A0B94B0122DE86957392AFD369644 /* Cancel.png */; };
-		C936B09D61C39335C2A35BD7A7C4C20C /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA675EE53645B9E24465BD211C942C9F /* Account.swift */; };
-		CA8BF5345E764D249B03B1A6778AED0F /* Ok.png in Resources */ = {isa = PBXBuildFile; fileRef = 63D05F2CEC1353FE744E04B901D1637F /* Ok.png */; };
-		CB56A193E4A5163236E4AA04AD0FE7CB /* AssetQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8949922E739D55C3C153DC5C2B4254F2 /* AssetQuery.swift */; };
-		CCFF4CE602C8186E2465ADE936E75F08 /* IconGradient@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD89345783ABE9B8D2C2AC16E75B71E6 /* IconGradient@2x.png */; };
-		CF06D2A6538A5E191A84AAD84742D4B2 /* FeedbackPlaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 80CD50BE33A74B2CE269B4FEED78C500 /* FeedbackPlaceholder.png */; };
-		D07FABF52BC4DA8B8D3C35DCAD6BC2BD /* authorize_denied@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F684D4FC34F3C49DD49A6B2F3828002A /* authorize_denied@2x.png */; };
-		D407BB5E0D3BBB3E9481B6D4C41B959C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3402C991214D346DCF6162F8C046F98 /* Foundation.framework */; };
-		D84A0585A2A6B72CD4940DE92EC36967 /* Parameterizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA8406A17DEE3824DD674BCCD9EB607 /* Parameterizable.swift */; };
-		D9DEFA783A3190B4261843DCF2D07E6E /* feedbackActivity@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE1592D569BD6FEAD8A296257D5A3422 /* feedbackActivity@3x.png */; };
-		DBB00B9A4A1B3C4933AD2DA7E4E23C69 /* BitmarkSDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5AD1733641B1581CC3FB7708CAEA8229 /* BitmarkSDK-dummy.m */; };
-		DDC7B4901BAFE62B6B02777D1FA029F4 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1919BF69C703344E2F29FB6BB912ED06 /* bg.png */; };
-		DDDB2E55D48030593C5DBFA794601F57 /* API+Issuing.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85565BBF34F12BBD5BDCCDC993E9F10 /* API+Issuing.swift */; };
-		E081DED6B068CCD1698020967CFA72A3 /* RecoverPhrase+Dic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C11CD7DD379FEA278CAC6938AC5842E /* RecoverPhrase+Dic.swift */; };
-		E244908082C989A96CA733AD2B3C78AB /* Arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 165EC854D662D121E626B79E109501B1 /* Arrow@3x.png */; };
-		E2A6F85F24BE0871E91D31ECAD64CF53 /* API+Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F89509C27FF8B60BB8263762FBDBD8C1 /* API+Transfer.swift */; };
-		E450928BB9FD3A9B6A34691F12C447ED /* TweetNacl-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F15BA54CDFEDF650C0C730BE08F80411 /* TweetNacl-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E564C9B9AE4DA2CB53E056D5CE930999 /* RegistrationParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88ABF3D5399FD99E44E4E9669F58B7A7 /* RegistrationParams.swift */; };
-		EAA6391E1FFC02C8C35CDC8DB5E81C4E /* Varint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DA1F30F3FC93D2F0B42C9964F86082 /* Varint.swift */; };
-		EC9861BCD34B71E38B20097084D58FF0 /* module.map in Sources */ = {isa = PBXBuildFile; fileRef = D63E3FD9F05C1F0C93449E23EC7A8110 /* module.map */; };
-		ECAE78B15FAE7AF144F6EA0A1F03AF16 /* Ok@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CCDD3D9931EC986C0683CC517EBBD1A /* Ok@3x.png */; };
-		EEBE916DB2F225C07EF64E2D05060418 /* authorize_denied.png in Resources */ = {isa = PBXBuildFile; fileRef = 63718E96B3854F4331BECF6ABCD57FAE /* authorize_denied.png */; };
-		F30DA8A1A205D8A310348D48E9C15C7C /* TweetNacl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602037F263B9A62C8F1368AF56FA0EB8 /* TweetNacl.swift */; };
-		F7DBF447F0D19C414CC5B796FBAAB435 /* IssuanceParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5F675BBDF5A61D4182B52E2B53C01F /* IssuanceParams.swift */; };
-		F9DB93F751270C11803813D5F11A2575 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA976389C6A08CD65FA831D694BA760 /* API.swift */; };
-		FA38A143B8B8EC23339FDE37345DDBD9 /* TweetNacl.h in Headers */ = {isa = PBXBuildFile; fileRef = CC9C070ADE8782FDB07D3C540645992F /* TweetNacl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FB6511402D6A0DC16A819AAAE87CFE4D /* ctweetnacl.h in Headers */ = {isa = PBXBuildFile; fileRef = EE773198658F39DC88DFC468F61EC3C8 /* ctweetnacl.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FC3045CA8195C0BF3460910978BEE9B2 /* feedbackActivity.png in Resources */ = {isa = PBXBuildFile; fileRef = 66AF35D85D7504C66440B733F926654E /* feedbackActivity.png */; };
-		FD9D4AEB1C57DF9D1C882BB3AD5E2F6E /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D01B95F1C75E7F5CDE4DFA2AE8371CE /* Queryable.swift */; };
+		6056E6F1AE9DE36C2240E8FE69FB08C3 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A92C93E0641352641AA8315B9228A4 /* Config.swift */; };
+		614377FA331079F85F6ACC88ABDFEF84 /* TweetNacl.h in Headers */ = {isa = PBXBuildFile; fileRef = 062F58710FF9AD4319B82E0023A4F01E /* TweetNacl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		61640350A6E2F47CFA3A85103999A067 /* RegistrationParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = C69CA20E3D54D6F831372F5273A284AF /* RegistrationParams.swift */; };
+		6715BA14B24F46C07B9EFD8F48B3562E /* iCloudDocumentSync-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 079D9E906C4A7D9E87B137288BE2DE89 /* iCloudDocumentSync-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		67DD32EDAB9864AAE21428AF94A117E4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8F5356A3EC458C2D907D8EADCDA57B /* Foundation.framework */; };
+		68E538D3CA7F36154194A24E47D2E874 /* TransactionQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DA3946C41797FFBB795CFE0BBFB87C /* TransactionQuery.swift */; };
+		6F530896C0BD1087607AF45617904627 /* AssetQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB88B5998FD539569FEA63BF4529ADEE /* AssetQuery.swift */; };
+		719E03CA263165616350799AA19346D2 /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93AFE003B1563263DCC7EFB6B5DDEB8 /* Keychain.swift */; };
+		798770212201518508E072BA0C350D95 /* OfferParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC4501A9DB605EB56B78DD6534D6E56 /* OfferParams.swift */; };
+		7E6649810EFE7370A5FE6015BC57EDDE /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = A049BCF1F73A74C050400CDFBA5C9B9E /* Base58.swift */; };
+		810712624D233B00147370D145CDF97F /* AccountNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5FF7A19633115DD55B977C521D224B /* AccountNumber.swift */; };
+		85E61FBE99D6DD930AB7DFC5713F6612 /* iCloud-Prefix.pch in Sources */ = {isa = PBXBuildFile; fileRef = DCE37A06107F938B605812C8516DCBBB /* iCloud-Prefix.pch */; };
+		8738CC2A3B3ACCF1F698DE95E759A63E /* Ed25519.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215437B37819065F846D6FABB0B40443 /* Ed25519.swift */; };
+		8811CEED0825D90B2076E62170F09705 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2933155A795142C8B59A12B06259258B /* UIKit.framework */; };
+		8893CF347E3661014CB45F7B7D65B385 /* ctweetnacl.h in Headers */ = {isa = PBXBuildFile; fileRef = B9BD902F9385377360779FFADA174013 /* ctweetnacl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8A051E9706DCB2F912E161708803ADF9 /* TweetNacl-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D971DA705778D3742E0018D369AC4702 /* TweetNacl-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8C2B2AF27609B88D87301C192EEF255D /* TransferParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792EA19F95E0BD405CA87551573FDAEB /* TransferParams.swift */; };
+		8C7F1974888A81C9E7B7C07C8012310A /* BItmarkSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B634AB35C34A6A57445F4C4A6B9B09 /* BItmarkSDK.swift */; };
+		8EEF276DAA907E0B388957D4F2A63754 /* Pods-Bitmark Registry dev-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1337EEE6A6FADC4325370A7380351E8B /* Pods-Bitmark Registry dev-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		973B5BDD48D42A656C9C24234B732808 /* TweetNacl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E35EDE1081DCD1C6047C57D4E955F4 /* TweetNacl.swift */; };
+		976D6D053FF14D1E40C1763AAFA9E644 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8F5356A3EC458C2D907D8EADCDA57B /* Foundation.framework */; };
+		9869D7AB50CA9DB2DEE2D2BAD2B9DF54 /* Bitmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3DE23B2F5663CF17E0FC2EFD4B2900 /* Bitmark.swift */; };
+		9BF578E1129E514830D68DB1B903FBF5 /* Pods-Bitmark Registry-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AE50187A0D2D6FA516870C39FE2C6CD4 /* Pods-Bitmark Registry-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9F1AB061BF64DCC0E453414F270A705F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8F5356A3EC458C2D907D8EADCDA57B /* Foundation.framework */; };
+		A1C2C9509F5AC7404731F529385A099E /* BinaryPacking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0DF6F785CF2477864C00A4A6A59222 /* BinaryPacking.swift */; };
+		A4B3C7C4B6C275D781918476D099C5E4 /* API+Bitmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 278D69DC616FACE2A8B9BA807FFF7600 /* API+Bitmark.swift */; };
+		A583F60357E475E87936824073D37F47 /* BitmarkSDK-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CEDE5A4063C932F3DD780772495CFB1 /* BitmarkSDK-dummy.m */; };
+		ABA27BD6C85801F6AD88640F06655ED0 /* IssuanceParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59025DEC81F66B83ED83B305DB6ACB8E /* IssuanceParams.swift */; };
+		ADFB83F3929F33356EF0F127795F52DD /* Pods-Bitmark Registry beta-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F9A3CED6EDA3F548B9E9EEAD3F1688A2 /* Pods-Bitmark Registry beta-dummy.m */; };
+		AF043ED501EEEC06E4E4DA7DC42966A4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8F5356A3EC458C2D907D8EADCDA57B /* Foundation.framework */; };
+		B6C83404F214A6FCA23ECFAA0A5A290D /* SHA3.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8AD89E143C6D32411DBA94A77E6753 /* SHA3.swift */; };
+		B798E25B8F3BA75FDD4CBD055742C9E3 /* Parameterizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7721B2D88B9DE39C13869CC9AA5AFB /* Parameterizable.swift */; };
+		B93292821A72904DE5143B61DAC0BE95 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8F5356A3EC458C2D907D8EADCDA57B /* Foundation.framework */; };
+		BC6AE0BDECE80A8E2D35472CEF3283DC /* BitmarkSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = AD009AE17D2A753B876B6C458FAD5AF1 /* BitmarkSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BCED8FBFF5E6597CBD0A323DCA988635 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = C4B52E458ACE98B44258F1F001F1F9A0 /* main.c */; };
+		C6243487550BBFC4A6205C3C935A99F0 /* iCloudDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = A875088704656CCA84E10D666F799C16 /* iCloudDocument.m */; };
+		C636409726BCE5CAB5C63B920F16ACA8 /* API+Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 696349D130926335BDFB55C0E11B2413 /* API+Asset.swift */; };
+		C6B0C8EECEB2ECB3D11710269255132D /* Pods-Bitmark Registry beta-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 985979128707951133525908BBBA752B /* Pods-Bitmark Registry beta-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CB8024BBE4C67F00E1ECA85301A554BD /* AuthKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553E1E20AAA078E9AA51E26768E16D10 /* AuthKey.swift */; };
+		CBC6F641DCE88609E3E552CFB0CED937 /* EncryptionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88C881A6125C9088B295B6CA73F0A8F /* EncryptionKey.swift */; };
+		CC5D3D98ADFE06C019C13EAF996FEF50 /* iCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = 349BC595F05B82FEB4D42E088F4CD757 /* iCloud.m */; };
+		CE9E93EB143342F70718E91A742AEB29 /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA6D42E216CC6EBABF25B81D5FEB394 /* Data+Extension.swift */; };
+		D1CA3391C90B47E275517C25D6C31490 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E8F5356A3EC458C2D907D8EADCDA57B /* Foundation.framework */; };
+		D459F1F5C29EF381C8AAABD8548C6A04 /* module.map in Sources */ = {isa = PBXBuildFile; fileRef = 459D7DE25E4E588DC76BFA9F30E6A36A /* module.map */; };
+		DA80D230322630E7FB58EE5A4F09CFA3 /* Pods-Bitmark Registry dev-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 607EB922D57A0BC5F22EFCF0151DC752 /* Pods-Bitmark Registry dev-dummy.m */; };
+		E95B97C75EC7106EA98DFF182ABD1F2A /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE67AC35DBE774F36C9984BDA187A34 /* Asset.swift */; };
+		ED7C02B8F71C8B11C3608190F4BC83B5 /* BitmarkQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2527FC1EF58DAA657C5AB712B37D7BD /* BitmarkQuery.swift */; };
+		F45F60B810AFB5AD5A5FA31C7960AAC3 /* TweetNacl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1ACC2A2C64257A4939135FCD635C2769 /* TweetNacl-dummy.m */; };
+		F6090EF05A7AEFC1A27E5E8D6AEF67DC /* iCloudDocumentSync-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D5999BCF86443E78E06A7254C14794F1 /* iCloudDocumentSync-dummy.m */; };
+		FE38928DFD1AEC8A9732BE9287E865D1 /* KeychainAccess-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = EBF1BD1DDE4260D70951BC195F67155C /* KeychainAccess-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1216E7FBC76E93CAF94A73BA23A43962 /* PBXContainerItemProxy */ = {
+		100BC6712221F891B083965B2FC3ADFE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9A7D03B11EFCF7AB036D170ED5FD506F;
+			remoteGlobalIDString = 995D8491B782A74606C5AC2E85162706;
+			remoteInfo = KeychainAccess;
+		};
+		1C9BF108E3A8BF19604D59EDBD6C7D88 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 47A9C1DC0BC4116EDFE563E5E6FEF7F3;
+			remoteInfo = TweetNacl;
+		};
+		29C59569C645DEF78C460388BBADE289 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 47A9C1DC0BC4116EDFE563E5E6FEF7F3;
+			remoteInfo = TweetNacl;
+		};
+		3B08295A6FCF7EACD77428A5A29BE537 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3E07F7AC8C727650538B6AD0B2C0B0D;
 			remoteInfo = BitmarkSDK;
 		};
-		18AD114AF54905C01B85E07723ED1144 /* PBXContainerItemProxy */ = {
+		6C298435DB5EB446C43A92EBF98C9979 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C2AE887ED5B0FE5BC099FBE4A5504306;
+			remoteGlobalIDString = 47A9C1DC0BC4116EDFE563E5E6FEF7F3;
 			remoteInfo = TweetNacl;
 		};
-		63809A4FBDDBC97659E6DC3B9F7CA248 /* PBXContainerItemProxy */ = {
+		8884262FD9C436C73E50C48C544FCCE7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C2AE887ED5B0FE5BC099FBE4A5504306;
-			remoteInfo = TweetNacl;
-		};
-		7CFE57398EA887E3BF5FF36B2C37EE19 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1630C0AC0CCE2704C3F517D1DFD56586;
+			remoteGlobalIDString = 995D8491B782A74606C5AC2E85162706;
 			remoteInfo = KeychainAccess;
 		};
-		85FC82FD58EF3671FE3FFB2DD1813D75 /* PBXContainerItemProxy */ = {
+		98D9FCBC3F926A3DF57CAC7B7E31C7AC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C2AE887ED5B0FE5BC099FBE4A5504306;
+			remoteGlobalIDString = 47A9C1DC0BC4116EDFE563E5E6FEF7F3;
 			remoteInfo = TweetNacl;
-		};
-		894548F7ECBB6C4F7C1BCBEAE8A5A785 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1630C0AC0CCE2704C3F517D1DFD56586;
-			remoteInfo = KeychainAccess;
 		};
 		9A68C293110229BA1B5654AE7521FD9F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F347ABA86F9EE731898211163CB5580B;
+			remoteGlobalIDString = 3E367D9CBC05A13C451632B2278FCA83;
 			remoteInfo = "Pods-Bitmark Registry";
 		};
-		D5025A26FAC38833F3B6D3AD668AAA4F /* PBXContainerItemProxy */ = {
+		AE010EB80E0D1ADD2AE841E36C7C3F1D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9A7D03B11EFCF7AB036D170ED5FD506F;
-			remoteInfo = BitmarkSDK;
+			remoteGlobalIDString = FDD592D83B8B1BC50022B09CB33217C0;
+			remoteInfo = iCloudDocumentSync;
 		};
-		DBA68A67F225C1557A76A4A6AF599C11 /* PBXContainerItemProxy */ = {
+		B32232C2CA2E90F1209F1CB65BDFD27B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 1630C0AC0CCE2704C3F517D1DFD56586;
+			remoteGlobalIDString = 995D8491B782A74606C5AC2E85162706;
 			remoteInfo = KeychainAccess;
 		};
-		E9B7305E603F9FFA68103DF836D407C4 /* PBXContainerItemProxy */ = {
+		BD25A3126FB2555466038AEC453879C3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C587F1B2FA2CB38A29F84936DEFD569D;
-			remoteInfo = "HockeySDK-HockeySDKResources";
+			remoteGlobalIDString = FDD592D83B8B1BC50022B09CB33217C0;
+			remoteInfo = iCloudDocumentSync;
 		};
-		F19C1A78FD690E03E6AC89A8CF7ACF86 /* PBXContainerItemProxy */ = {
+		C155115C63116A45EC99635628C31709 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = C587F1B2FA2CB38A29F84936DEFD569D;
-			remoteInfo = "HockeySDK-HockeySDKResources";
-		};
-		F9A7C389D8479C2EBD37B0B5F6EDC6D0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C2AE887ED5B0FE5BC099FBE4A5504306;
-			remoteInfo = TweetNacl;
-		};
-		FEBA45FEA8CBDEBC6AC86F7BFBBFC78F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9A7D03B11EFCF7AB036D170ED5FD506F;
+			remoteGlobalIDString = A3E07F7AC8C727650538B6AD0B2C0B0D;
 			remoteInfo = BitmarkSDK;
+		};
+		C9F8A29D3E55B9898866D90D7F325A90 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FDD592D83B8B1BC50022B09CB33217C0;
+			remoteInfo = iCloudDocumentSync;
+		};
+		E49D9A64070FCCA4FCEEF6A7B9E940B7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A3E07F7AC8C727650538B6AD0B2C0B0D;
+			remoteInfo = BitmarkSDK;
+		};
+		F3FC1457B041F2411C75A72B1938B772 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 995D8491B782A74606C5AC2E85162706;
+			remoteInfo = KeychainAccess;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		01684943C983E1C5D614DC671D8E0318 /* TweetNacl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TweetNacl-prefix.pch"; sourceTree = "<group>"; };
-		02417CB0338DE29F0503ABE8D136608B /* ru.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ru.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/ru.lproj"; sourceTree = "<group>"; };
-		03844A9555EC02B89DB57FD0ECD583FF /* BitmarkSDK-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BitmarkSDK-umbrella.h"; sourceTree = "<group>"; };
+		00DA3946C41797FFBB795CFE0BBFB87C /* TransactionQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransactionQuery.swift; path = BitmarkSDK/Transaction/TransactionQuery.swift; sourceTree = "<group>"; };
+		062F58710FF9AD4319B82E0023A4F01E /* TweetNacl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TweetNacl.h; path = Sources/TweetNacl/TweetNacl.h; sourceTree = "<group>"; };
+		079D9E906C4A7D9E87B137288BE2DE89 /* iCloudDocumentSync-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "iCloudDocumentSync-umbrella.h"; sourceTree = "<group>"; };
 		092685644DF65CBB7ABAAD05B546621F /* Pods-BitmarkTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BitmarkTests-dummy.m"; sourceTree = "<group>"; };
-		0A1D61BA3A87D012F3480755A4E34EA5 /* buttonRoundedDeleteHighlighted@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedDeleteHighlighted@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDeleteHighlighted@2x.png"; sourceTree = "<group>"; };
 		0BE5D3DADADCD90A7A1983E1E4272676 /* Pods-BitmarkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BitmarkTests.release.xcconfig"; sourceTree = "<group>"; };
-		0E0788C611862D08ADE47BAE8A72DE70 /* pt-PT.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "pt-PT.lproj"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/pt-PT.lproj"; sourceTree = "<group>"; };
+		102AB07DC3B089B4418314D249EFF4DB /* BitmarkSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = BitmarkSDK.framework; path = BitmarkSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1221A54B0D7AAD562F8021E00E4DA0A6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1270CBD48FADDC4725A835F7402177A1 /* ctweetnacl.c */ = {isa = PBXFileReference; includeInIndex = 1; name = ctweetnacl.c; path = Sources/CTweetNacl/ctweetnacl.c; sourceTree = "<group>"; };
+		131100E5C5A16508B400B5B0DB5F68F2 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1337EEE6A6FADC4325370A7380351E8B /* Pods-Bitmark Registry dev-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bitmark Registry dev-umbrella.h"; sourceTree = "<group>"; };
-		13DA1F30F3FC93D2F0B42C9964F86082 /* Varint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Varint.swift; path = BitmarkSDK/Utils/Varint.swift; sourceTree = "<group>"; };
-		165EC854D662D121E626B79E109501B1 /* Arrow@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Arrow@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Arrow@3x.png"; sourceTree = "<group>"; };
+		141E4341BC79057A254197EE2A1701C0 /* iCloudDocumentSync-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "iCloudDocumentSync-prefix.pch"; sourceTree = "<group>"; };
 		17D8E77C4D6511D0FDB01C3ABFF593C7 /* Pods-Bitmark Registry beta-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Bitmark Registry beta-acknowledgements.plist"; sourceTree = "<group>"; };
-		1819D90E60BEE0074531C37696B0ED6F /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/en.lproj"; sourceTree = "<group>"; };
-		1919BF69C703344E2F29FB6BB912ED06 /* bg.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = bg.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/bg.png"; sourceTree = "<group>"; };
-		1AF25740E32DDBC6BC4F0D382A3834D0 /* buttonRoundedRegular.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedRegular.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegular.png"; sourceTree = "<group>"; };
-		1BEA89CE93A71D2719AA858F2C5FD921 /* Cancel@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Cancel@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Cancel@2x.png"; sourceTree = "<group>"; };
-		1C11CD7DD379FEA278CAC6938AC5842E /* RecoverPhrase+Dic.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "RecoverPhrase+Dic.swift"; path = "BitmarkSDK/Utils/RecoverPhrase+Dic.swift"; sourceTree = "<group>"; };
+		19FBA0D243304C3768935D2E065987C3 /* ModelEquatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ModelEquatable.swift; path = BitmarkSDK/Extensions/ModelEquatable.swift; sourceTree = "<group>"; };
+		1ACC2A2C64257A4939135FCD635C2769 /* TweetNacl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TweetNacl-dummy.m"; sourceTree = "<group>"; };
 		2085DF33E8040DCF777E15BBE6180CA8 /* Pods-Bitmark Registry.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Bitmark Registry.modulemap"; sourceTree = "<group>"; };
-		22CEF1F2633AF4F06F22A55C9FD078FA /* ja.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = ja.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/ja.lproj"; sourceTree = "<group>"; };
-		245104882C75573B12A8F446863FDF63 /* nl.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = nl.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/nl.lproj"; sourceTree = "<group>"; };
-		2486DEAA1D6858D001AFE7BD6588C9EE /* Arrow@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Arrow@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Arrow@2x.png"; sourceTree = "<group>"; };
-		27F7F6B4E0420144E76EA22230ACF31A /* buttonRoundedRegular@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedRegular@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegular@2x.png"; sourceTree = "<group>"; };
-		2816E59B8D599EF658076ECC705E879D /* Rectangle.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Rectangle.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Rectangle.png"; sourceTree = "<group>"; };
-		2980667EE765A143B615D57CE4A9C0BD /* hr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = hr.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/hr.lproj"; sourceTree = "<group>"; };
-		2A6CA227A552757028186B026DE911BD /* RecoverPhrase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecoverPhrase.swift; path = BitmarkSDK/Utils/RecoverPhrase.swift; sourceTree = "<group>"; };
-		2BF48A178478C356AE01930F4E079C68 /* Config.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Config.swift; path = BitmarkSDK/Config.swift; sourceTree = "<group>"; };
-		2D14BA84F781750A7148814E4C1049B5 /* iconCamera@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "iconCamera@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/iconCamera@2x.png"; sourceTree = "<group>"; };
+		215437B37819065F846D6FABB0B40443 /* Ed25519.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Ed25519.swift; path = BitmarkSDK/Utils/Ed25519.swift; sourceTree = "<group>"; };
+		2166E95EFBC7CC6197F92290F32CCF57 /* RecoverPhrase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecoverPhrase.swift; path = BitmarkSDK/Utils/RecoverPhrase.swift; sourceTree = "<group>"; };
+		219EDEC11A016710AB1B398D7DB36504 /* TweetNacl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TweetNacl-prefix.pch"; sourceTree = "<group>"; };
+		221888249E2235D96C53592B936BCD1C /* API+Transfer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Transfer.swift"; path = "BitmarkSDK/Services/API+Transfer.swift"; sourceTree = "<group>"; };
+		221F93D0B714E3A54C9B45AA3748284C /* Pods_BitmarkTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_BitmarkTests.framework; path = "Pods-BitmarkTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		24BDCADB097D088BD10E5EA983F3FF47 /* sha3.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = sha3.h; path = BitmarkSDK/tiny_sha3/sha3.h; sourceTree = "<group>"; };
+		26B634AB35C34A6A57445F4C4A6B9B09 /* BItmarkSDK.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BItmarkSDK.swift; path = BitmarkSDK/BItmarkSDK.swift; sourceTree = "<group>"; };
+		278D69DC616FACE2A8B9BA807FFF7600 /* API+Bitmark.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Bitmark.swift"; path = "BitmarkSDK/Services/API+Bitmark.swift"; sourceTree = "<group>"; };
+		28E283C5DFE84FCC5D195D30388C417E /* Account.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Account.swift; path = BitmarkSDK/Account.swift; sourceTree = "<group>"; };
+		2933155A795142C8B59A12B06259258B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		2E4362D1D3AFD3FFF0CE18D0B883192D /* Pods-Bitmark Registry beta-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Bitmark Registry beta-acknowledgements.markdown"; sourceTree = "<group>"; };
-		2EF94FA89D652A49631B300182609E93 /* Rectangle@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Rectangle@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Rectangle@3x.png"; sourceTree = "<group>"; };
+		2E7721B2D88B9DE39C13869CC9AA5AFB /* Parameterizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Parameterizable.swift; path = BitmarkSDK/Records/Parameterizable.swift; sourceTree = "<group>"; };
 		30186FBE818B74344B62510B15FF7399 /* Pods-BitmarkTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BitmarkTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		30B6F5F09CE00EC3D4511373E9DCE8DF /* KeychainAccess.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KeychainAccess.xcconfig; sourceTree = "<group>"; };
+		30C9D9312AA01607CE0DF04EAC19FD45 /* Constant.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = Sources/TweetNacl/Constant.swift; sourceTree = "<group>"; };
 		31006E812DE79A009524FF5549FD1DF5 /* Pods-Bitmark Registry dev-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry dev-frameworks.sh"; sourceTree = "<group>"; };
-		34C63638D6DF1E8B2C6484C33EAFA350 /* fr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = fr.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/fr.lproj"; sourceTree = "<group>"; };
-		40BF31E1DF025BF43A69B37731D367A1 /* API+Bitmark.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Bitmark.swift"; path = "BitmarkSDK/Services/API+Bitmark.swift"; sourceTree = "<group>"; };
-		40CD296FCDECDBC899230D910B1FDD94 /* ModelEquatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ModelEquatable.swift; path = BitmarkSDK/Extensions/ModelEquatable.swift; sourceTree = "<group>"; };
+		349BC595F05B82FEB4D42E088F4CD757 /* iCloud.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = iCloud.m; path = iCloud/iCloud.m; sourceTree = "<group>"; };
 		41F5498EFF0BCE4EF82B1E77A9F4F433 /* Pods-BitmarkTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BitmarkTests-frameworks.sh"; sourceTree = "<group>"; };
-		46F0236A1ED32CC401D2C081D6B0AA10 /* nb.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = nb.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/nb.lproj"; sourceTree = "<group>"; };
+		459D7DE25E4E588DC76BFA9F30E6A36A /* module.map */ = {isa = PBXFileReference; includeInIndex = 1; name = module.map; path = Sources/module.map; sourceTree = "<group>"; };
+		4961364BE2984D590CED0F7FFDBB6F42 /* iCloudDocument.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = iCloudDocument.h; path = iCloud/iCloudDocument.h; sourceTree = "<group>"; };
 		4A1449FDF39D3741FC985546DD1D718B /* Pods-Bitmark Registry-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry-frameworks.sh"; sourceTree = "<group>"; };
-		4B5F675BBDF5A61D4182B52E2B53C01F /* IssuanceParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IssuanceParams.swift; path = BitmarkSDK/Bitmark/IssuanceParams.swift; sourceTree = "<group>"; };
-		4B7AE523E28B35F0E276ED178A91FE39 /* TransactionQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransactionQuery.swift; path = BitmarkSDK/Transaction/TransactionQuery.swift; sourceTree = "<group>"; };
+		4A5FF7A19633115DD55B977C521D224B /* AccountNumber.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AccountNumber.swift; path = BitmarkSDK/AccountNumber.swift; sourceTree = "<group>"; };
 		4BAD1B2C82C557268DD70794C85630B3 /* Pods-Bitmark Registry-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Bitmark Registry-acknowledgements.plist"; sourceTree = "<group>"; };
-		4F6C2F39CB76676BFBF510857004A4AA /* KeychainAccess-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KeychainAccess-dummy.m"; sourceTree = "<group>"; };
+		4CE67AC35DBE774F36C9984BDA187A34 /* Asset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Asset.swift; path = BitmarkSDK/Asset/Asset.swift; sourceTree = "<group>"; };
 		4FC4EC3463DDFF2CC758C7848E7B07F0 /* Pods-Bitmark Registry dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry dev.debug.xcconfig"; sourceTree = "<group>"; };
-		52854E59CDF4570AAC9E51E191700BB8 /* main.c */ = {isa = PBXFileReference; includeInIndex = 1; name = main.c; path = BitmarkSDK/tiny_sha3/main.c; sourceTree = "<group>"; };
+		505187A04FAD0EF77A0257DA2D84337A /* Varint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Varint.swift; path = BitmarkSDK/Utils/Varint.swift; sourceTree = "<group>"; };
+		506FB58D763EC7FA7DCAB5A25B7888EE /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		528690B235587E680CFFAFE7EBA0C829 /* Pods-Bitmark Registry-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Bitmark Registry-acknowledgements.markdown"; sourceTree = "<group>"; };
-		556B3491A4816C5D03828D96654A6CC1 /* Arrow.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Arrow.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Arrow.png"; sourceTree = "<group>"; };
+		5526793646CB716410A1FD078CEB5880 /* Queryable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Queryable.swift; path = BitmarkSDK/Records/Queryable.swift; sourceTree = "<group>"; };
+		553E1E20AAA078E9AA51E26768E16D10 /* AuthKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AuthKey.swift; path = BitmarkSDK/AuthKey.swift; sourceTree = "<group>"; };
 		566E7D368634E0903AB8ED1333BE6578 /* Pods-Bitmark Registry beta.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry beta.debug.xcconfig"; sourceTree = "<group>"; };
-		57C2191D31B391668BE390CC3609CA54 /* BitmarkSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = BitmarkSDK.modulemap; sourceTree = "<group>"; };
 		58C419A7E85284110885815296105113 /* Pods-Bitmark Registry beta-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry beta-resources.sh"; sourceTree = "<group>"; };
-		5AD1733641B1581CC3FB7708CAEA8229 /* BitmarkSDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "BitmarkSDK-dummy.m"; sourceTree = "<group>"; };
-		5D01B95F1C75E7F5CDE4DFA2AE8371CE /* Queryable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Queryable.swift; path = BitmarkSDK/Records/Queryable.swift; sourceTree = "<group>"; };
+		59025DEC81F66B83ED83B305DB6ACB8E /* IssuanceParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IssuanceParams.swift; path = BitmarkSDK/Bitmark/IssuanceParams.swift; sourceTree = "<group>"; };
+		5C0DF6F785CF2477864C00A4A6A59222 /* BinaryPacking.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BinaryPacking.swift; path = BitmarkSDK/Utils/BinaryPacking.swift; sourceTree = "<group>"; };
+		5CED14978C2172F454A321469CE78446 /* Pods_Bitmark_Registry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bitmark_Registry.framework; path = "Pods-Bitmark Registry.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CEDE5A4063C932F3DD780772495CFB1 /* BitmarkSDK-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "BitmarkSDK-dummy.m"; sourceTree = "<group>"; };
 		5E076E791D768F83BCC1CB76644DA15D /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5E16FBD772B576A160E0728279E76809 /* TweetNacl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "TweetNacl-dummy.m"; sourceTree = "<group>"; };
-		5EA1A416AD83C08C1D0E34C3F29AD6A1 /* Pods_Bitmark_Registry_beta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bitmark_Registry_beta.framework; path = "Pods-Bitmark Registry beta.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5EE4EBA4B8E980D51895FA916E9476A4 /* Pods-Bitmark Registry dev-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Bitmark Registry dev-acknowledgements.plist"; sourceTree = "<group>"; };
-		602037F263B9A62C8F1368AF56FA0EB8 /* TweetNacl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TweetNacl.swift; path = Sources/TweetNacl/TweetNacl.swift; sourceTree = "<group>"; };
 		607EB922D57A0BC5F22EFCF0151DC752 /* Pods-Bitmark Registry dev-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Bitmark Registry dev-dummy.m"; sourceTree = "<group>"; };
-		616D6CE5296DF6D8151528C035BB796E /* sha3.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = sha3.h; path = BitmarkSDK/tiny_sha3/sha3.h; sourceTree = "<group>"; };
-		63718E96B3854F4331BECF6ABCD57FAE /* authorize_denied.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = authorize_denied.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/authorize_denied.png"; sourceTree = "<group>"; };
-		637881BA46D6D5436798B610B0E82080 /* Signable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Signable.swift; path = BitmarkSDK/Records/Signable.swift; sourceTree = "<group>"; };
-		63D05F2CEC1353FE744E04B901D1637F /* Ok.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Ok.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Ok.png"; sourceTree = "<group>"; };
-		63E4F944361680C8D609EEDF11ADDECC /* Pods_Bitmark_Registry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bitmark_Registry.framework; path = "Pods-Bitmark Registry.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		64726C9327A9228A7398B21E20379C54 /* authorize_denied@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "authorize_denied@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/authorize_denied@3x.png"; sourceTree = "<group>"; };
-		662C5A069392066706054909DC454629 /* tr.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = tr.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/tr.lproj"; sourceTree = "<group>"; };
-		66AF35D85D7504C66440B733F926654E /* feedbackActivity.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = feedbackActivity.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity.png"; sourceTree = "<group>"; };
-		68EE47D7CE8F22FE4115EF95958C4FAD /* BitmarkSDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BitmarkSDK-prefix.pch"; sourceTree = "<group>"; };
+		6091BA031D1189A05C8B0367604D77D4 /* iCloudDocumentSync.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = iCloudDocumentSync.xcconfig; sourceTree = "<group>"; };
+		63A92C93E0641352641AA8315B9228A4 /* Config.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Config.swift; path = BitmarkSDK/Config.swift; sourceTree = "<group>"; };
+		65AC9C03B7C37F1C6F5623A40026D15E /* TweetNacl.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TweetNacl.modulemap; sourceTree = "<group>"; };
+		67A2D4C0F49C728524F3CC7005E2DE4E /* KeychainAccess.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = KeychainAccess.modulemap; sourceTree = "<group>"; };
 		695328FCCDA47B83F9CB589B2F06FD63 /* Pods-Bitmark Registry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry.release.xcconfig"; sourceTree = "<group>"; };
-		6956190CC8F604153EA0616E4B1586C4 /* Migration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Migration.swift; path = BitmarkSDK/Utils/Migration.swift; sourceTree = "<group>"; };
-		6CCDD3D9931EC986C0683CC517EBBD1A /* Ok@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Ok@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Ok@3x.png"; sourceTree = "<group>"; };
-		6CEC4A663186B3C7FB8C550DA3C6E6E2 /* KeychainAccess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KeychainAccess.framework; path = KeychainAccess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6DA8406A17DEE3824DD674BCCD9EB607 /* Parameterizable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Parameterizable.swift; path = BitmarkSDK/Records/Parameterizable.swift; sourceTree = "<group>"; };
-		6F40288E966086467DAF9C2E733150E6 /* feedbackActivity@2x~ipad.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity@2x~ipad.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity@2x~ipad.png"; sourceTree = "<group>"; };
+		696349D130926335BDFB55C0E11B2413 /* API+Asset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Asset.swift"; path = "BitmarkSDK/Services/API+Asset.swift"; sourceTree = "<group>"; };
+		6D3D78C03C48F1B3B97C82158D674C0C /* API+Issuing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Issuing.swift"; path = "BitmarkSDK/Services/API+Issuing.swift"; sourceTree = "<group>"; };
+		6E8F5356A3EC458C2D907D8EADCDA57B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		6F4C2FFD4C5593CAE7FA95BC422A88DF /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		70C788F729C2423C4D1BDA0446C58BF5 /* BitmarkQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BitmarkQuery.swift; path = BitmarkSDK/Bitmark/BitmarkQuery.swift; sourceTree = "<group>"; };
-		745EBBDC7FB799CA2B7268636B7B666B /* feedbackActivity@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity@2x.png"; sourceTree = "<group>"; };
-		759DB75FFF1911769C832BD8623797BD /* feedbackActivity~ipad.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity~ipad.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity~ipad.png"; sourceTree = "<group>"; };
-		76151AD14CDFC8E1906EC4829163F4C0 /* pt.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = pt.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/pt.lproj"; sourceTree = "<group>"; };
-		76A897A752E7C7F26B70FF0A55B8B773 /* FileUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FileUtil.swift; path = BitmarkSDK/Utils/FileUtil.swift; sourceTree = "<group>"; };
+		725E55B137B59D327BDE06D3A429B250 /* RecoverPhrase+Dic.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "RecoverPhrase+Dic.swift"; path = "BitmarkSDK/Utils/RecoverPhrase+Dic.swift"; sourceTree = "<group>"; };
 		78ADDB353380A63FECAB4242130BD1F7 /* Pods-BitmarkTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BitmarkTests-resources.sh"; sourceTree = "<group>"; };
-		7BBBBCAF6B729032993D18C89B8AE87F /* Bitmark.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Bitmark.swift; path = BitmarkSDK/Bitmark/Bitmark.swift; sourceTree = "<group>"; };
-		7CB9563ACCEF60DE809D511529950EB7 /* Base58.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Base58.swift; path = BitmarkSDK/Utils/Base58.swift; sourceTree = "<group>"; };
-		80CD50BE33A74B2CE269B4FEED78C500 /* FeedbackPlaceholder.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = FeedbackPlaceholder.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/FeedbackPlaceholder.png"; sourceTree = "<group>"; };
-		82398B7FEF4ADE0CA3B432E160596708 /* Common.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Common.swift; path = BitmarkSDK/Utils/Common.swift; sourceTree = "<group>"; };
-		8626B11DEEDC1C42280DC754D3F11D63 /* IconGradient.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = IconGradient.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/IconGradient.png"; sourceTree = "<group>"; };
-		8633D96C8B7E30C090CE797EE23131F1 /* Constant.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Constant.swift; path = Sources/TweetNacl/Constant.swift; sourceTree = "<group>"; };
-		8706A9CC27D27C72F5225BE355B22E21 /* hu.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = hu.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/hu.lproj"; sourceTree = "<group>"; };
-		87421E25EAFD9E5CC2CEC0287B7AA18E /* KeychainAccess-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeychainAccess-umbrella.h"; sourceTree = "<group>"; };
-		884E25AC03801652BDC8A1121B81BA4F /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		88ABF3D5399FD99E44E4E9669F58B7A7 /* RegistrationParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RegistrationParams.swift; path = BitmarkSDK/Asset/RegistrationParams.swift; sourceTree = "<group>"; };
-		8949922E739D55C3C153DC5C2B4254F2 /* AssetQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AssetQuery.swift; path = BitmarkSDK/Asset/AssetQuery.swift; sourceTree = "<group>"; };
-		8A4A0B94B0122DE86957392AFD369644 /* Cancel.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Cancel.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Cancel.png"; sourceTree = "<group>"; };
-		90B38AB5F042255FFABEB018251789CB /* it.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = it.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/it.lproj"; sourceTree = "<group>"; };
+		792EA19F95E0BD405CA87551573FDAEB /* TransferParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransferParams.swift; path = BitmarkSDK/Bitmark/TransferParams.swift; sourceTree = "<group>"; };
+		7BCDE2BC9E84B2D6424C6282E6A020BC /* iCloudDocumentSync.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = iCloudDocumentSync.modulemap; sourceTree = "<group>"; };
+		818252F0BD55CCAA425E806758857A7E /* KeychainAccess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KeychainAccess.framework; path = KeychainAccess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		81FD27BBF22D0C292FE4A7245CE6828F /* Pods_Bitmark_Registry_dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bitmark_Registry_dev.framework; path = "Pods-Bitmark Registry dev.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C11C5799C6B7F6DF3BA02D933FD3259 /* API.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = API.swift; path = BitmarkSDK/Services/API.swift; sourceTree = "<group>"; };
+		8DDD81EE50A78269DC2ED3AFB90B67DB /* BitmarkSDK-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BitmarkSDK-umbrella.h"; sourceTree = "<group>"; };
+		8EC93D59F1553E4C4D783DC4FB9F5DE8 /* Signable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Signable.swift; path = BitmarkSDK/Records/Signable.swift; sourceTree = "<group>"; };
 		90C3595A2448AB77FE93C10796907722 /* Pods-Bitmark Registry dev-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry dev-resources.sh"; sourceTree = "<group>"; };
 		90DC431F7D84A3AE60892BE267711292 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9124C46E265F016535C020148E9E96D6 /* ctweetnacl.c */ = {isa = PBXFileReference; includeInIndex = 1; name = ctweetnacl.c; path = Sources/CTweetNacl/ctweetnacl.c; sourceTree = "<group>"; };
-		91278A3B4DF7E7BFD4F08F9E82B081DF /* TweetNacl.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TweetNacl.xcconfig; sourceTree = "<group>"; };
-		92ACDA2EA65184305FE0F7190485ADF9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91902B1A1220DE63381B2D78AEA23772 /* BitmarkSDK.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = BitmarkSDK.xcconfig; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9559D52EFB065ADAF19125EEBBB6DA76 /* Transaction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Transaction.swift; path = BitmarkSDK/Transaction/Transaction.swift; sourceTree = "<group>"; };
-		9752F5911E4412C452C34C249905CABE /* KeychainAccess-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeychainAccess-prefix.pch"; sourceTree = "<group>"; };
 		985979128707951133525908BBBA752B /* Pods-Bitmark Registry beta-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bitmark Registry beta-umbrella.h"; sourceTree = "<group>"; };
-		993B07AB3F543B2AD6040F2D8A1E277A /* BitmarkSDK.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BitmarkSDK.h; path = BitmarkSDK/BitmarkSDK.h; sourceTree = "<group>"; };
+		99FCBB9CE0601ACBA7F1ED6B9684A216 /* iCloud.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = iCloud.h; path = iCloud/iCloud.h; sourceTree = "<group>"; };
 		9D84516B87C52088C7F76F457DF375FE /* Pods-BitmarkTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-BitmarkTests-umbrella.h"; sourceTree = "<group>"; };
-		9E41DCD25194127BDF96E5722A70B299 /* sha3.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sha3.c; path = BitmarkSDK/tiny_sha3/sha3.c; sourceTree = "<group>"; };
-		9E66B72AD62A268AE1039783AC600C7B /* EncryptionKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EncryptionKey.swift; path = BitmarkSDK/EncryptionKey.swift; sourceTree = "<group>"; };
-		9EBDACD9E8CB35934960487DD7E1A1EF /* Pods_Bitmark_Registry_dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bitmark_Registry_dev.framework; path = "Pods-Bitmark Registry dev.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A35F05BEEB09C52B643BBE824C9C48AD /* Asset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Asset.swift; path = BitmarkSDK/Asset/Asset.swift; sourceTree = "<group>"; };
+		A049BCF1F73A74C050400CDFBA5C9B9E /* Base58.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Base58.swift; path = BitmarkSDK/Utils/Base58.swift; sourceTree = "<group>"; };
 		A5D2EA65ADCFF22EAAD6C8EDAA26D23D /* Pods-Bitmark Registry-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Bitmark Registry-dummy.m"; sourceTree = "<group>"; };
-		A7B5558E5C02B1FBA0EE9BF8A675E2E8 /* BitmarkSDK.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = BitmarkSDK.xcconfig; sourceTree = "<group>"; };
+		A875088704656CCA84E10D666F799C16 /* iCloudDocument.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = iCloudDocument.m; path = iCloud/iCloudDocument.m; sourceTree = "<group>"; };
 		A8E6F403572EDD5B47DD0FACB95DD07B /* Pods-Bitmark Registry-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry-resources.sh"; sourceTree = "<group>"; };
-		AB00701A70EF9D59EE351BB917680AC9 /* fa.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = fa.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/fa.lproj"; sourceTree = "<group>"; };
-		AB2E5CB873EE34E9328B6FEF63C3FEA3 /* zh-Hans.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = "zh-Hans.lproj"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/zh-Hans.lproj"; sourceTree = "<group>"; };
-		ABBDCCA8B1779C974402768FC76F7D6D /* buttonRoundedDeleteHighlighted.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedDeleteHighlighted.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDeleteHighlighted.png"; sourceTree = "<group>"; };
-		AD79B40FDBC91D3E82FC74AECE2FAE10 /* buttonRoundedRegularHighlighted@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedRegularHighlighted@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegularHighlighted@2x.png"; sourceTree = "<group>"; };
-		AE3E2B3370B301976CF38C73E29EF0E5 /* HockeySDKResources.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = HockeySDKResources.bundle; path = "HockeySDK-HockeySDKResources.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB54008E99768BACE84332B7616D6B3A /* KeychainAccess-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeychainAccess-prefix.pch"; sourceTree = "<group>"; };
+		AD009AE17D2A753B876B6C458FAD5AF1 /* BitmarkSDK.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BitmarkSDK.h; path = BitmarkSDK/BitmarkSDK.h; sourceTree = "<group>"; };
 		AE50187A0D2D6FA516870C39FE2C6CD4 /* Pods-Bitmark Registry-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Bitmark Registry-umbrella.h"; sourceTree = "<group>"; };
-		AFD32C6AA3163AE89C7378480EC6BFE4 /* Ok@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Ok@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Ok@2x.png"; sourceTree = "<group>"; };
-		B375DAA0787634E7FA243B9657C59D75 /* KeychainAccess.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KeychainAccess.xcconfig; sourceTree = "<group>"; };
-		B5040F36BFC69829A4BE3353D4F26BA3 /* Pods_BitmarkTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_BitmarkTests.framework; path = "Pods-BitmarkTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B6ACCBA42298F4CACF900AA564A31F5E /* Rectangle@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Rectangle@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Rectangle@2x.png"; sourceTree = "<group>"; };
-		B8B8A89385510E06E8E2E9657794FC32 /* BitmarkSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = BitmarkSDK.framework; path = BitmarkSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BA663579E96E1A75ADD8C0E33BCDE53E /* KeychainAccess.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = KeychainAccess.modulemap; sourceTree = "<group>"; };
-		BA675EE53645B9E24465BD211C942C9F /* Account.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Account.swift; path = BitmarkSDK/Account.swift; sourceTree = "<group>"; };
-		BBE0923514616E3AE7F3660F03E784BF /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BC1517EC20137E2BE9750CADB6EBD551 /* OfferParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OfferParams.swift; path = BitmarkSDK/Bitmark/OfferParams.swift; sourceTree = "<group>"; };
-		BCA976389C6A08CD65FA831D694BA760 /* API.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = API.swift; path = BitmarkSDK/Services/API.swift; sourceTree = "<group>"; };
+		AF6CEBF83B951F02062F4EC076914DA4 /* KeychainAccess-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KeychainAccess-dummy.m"; sourceTree = "<group>"; };
+		AF9C0B2EDEA0535EC918EBDC25362E8D /* Migration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Migration.swift; path = BitmarkSDK/Utils/Migration.swift; sourceTree = "<group>"; };
+		B4B54A49E50C2A57AAAE92FE5A8D199F /* TweetNacl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TweetNacl.framework; path = TweetNacl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B9BD902F9385377360779FFADA174013 /* ctweetnacl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ctweetnacl.h; path = Sources/CTweetNacl/include/ctweetnacl.h; sourceTree = "<group>"; };
+		BA344FD4A15B96C20E19F911FECE2C05 /* TweetNacl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TweetNacl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCB2BF8B48A1F4B482C6F3F8AF47C944 /* Pods-BitmarkTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BitmarkTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		BD26618E4B4035F007B54E571D03A358 /* TransferParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TransferParams.swift; path = BitmarkSDK/Bitmark/TransferParams.swift; sourceTree = "<group>"; };
 		BDC51794A45BD6F94528A093EA4AD6D6 /* Pods-Bitmark Registry.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry.debug.xcconfig"; sourceTree = "<group>"; };
-		BDDB130AB5847DADE709AA46B76B2516 /* Data+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Data+Extension.swift"; path = "BitmarkSDK/Extensions/Data+Extension.swift"; sourceTree = "<group>"; };
-		BFD52DEEB9C0DD0AB8728690B8297CF9 /* BinaryPacking.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BinaryPacking.swift; path = BitmarkSDK/Utils/BinaryPacking.swift; sourceTree = "<group>"; };
 		C015C4D3D400192CA6BA3DAE16935312 /* Pods-Bitmark Registry dev-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Bitmark Registry dev-acknowledgements.markdown"; sourceTree = "<group>"; };
-		C1CAD4A03E2E9B368B285CD2CFBB4967 /* Blur.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = Blur.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Blur.png"; sourceTree = "<group>"; };
-		C2BF48BF3AB621FB859783B3EC7C9A2F /* SHA3.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SHA3.swift; path = BitmarkSDK/Utils/SHA3.swift; sourceTree = "<group>"; };
-		C3402C991214D346DCF6162F8C046F98 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		C3C6518B46C8385A5B51C34ACB1FE89A /* iconCamera.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = iconCamera.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/iconCamera.png"; sourceTree = "<group>"; };
-		C608308B3D88B90D196FD96AE6BCC48E /* BItmarkSDK.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BItmarkSDK.swift; path = BitmarkSDK/BItmarkSDK.swift; sourceTree = "<group>"; };
-		C7AB504DC3715B5A248D017A8B60F486 /* TweetNacl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TweetNacl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8BDD2CFBDEA8220F2CCD37B19AE8A15 /* TweetNacl.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = TweetNacl.modulemap; sourceTree = "<group>"; };
-		C91C4CACBF751B7728839B9E32BB9123 /* Cancel@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Cancel@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Cancel@3x.png"; sourceTree = "<group>"; };
-		CC9C070ADE8782FDB07D3C540645992F /* TweetNacl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = TweetNacl.h; path = Sources/TweetNacl/TweetNacl.h; sourceTree = "<group>"; };
+		C4B52E458ACE98B44258F1F001F1F9A0 /* main.c */ = {isa = PBXFileReference; includeInIndex = 1; name = main.c; path = BitmarkSDK/tiny_sha3/main.c; sourceTree = "<group>"; };
+		C520F996D969748F3087510EF87137A1 /* sha3.c */ = {isa = PBXFileReference; includeInIndex = 1; name = sha3.c; path = BitmarkSDK/tiny_sha3/sha3.c; sourceTree = "<group>"; };
+		C69CA20E3D54D6F831372F5273A284AF /* RegistrationParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RegistrationParams.swift; path = BitmarkSDK/Asset/RegistrationParams.swift; sourceTree = "<group>"; };
+		C88C881A6125C9088B295B6CA73F0A8F /* EncryptionKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EncryptionKey.swift; path = BitmarkSDK/EncryptionKey.swift; sourceTree = "<group>"; };
+		C93AFE003B1563263DCC7EFB6B5DDEB8 /* Keychain.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
+		C947AAD8ADDA7F47E62D2E4F38BE3FF0 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0337384A0DB1848FAB4C7E9F43091E3 /* Common.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Common.swift; path = BitmarkSDK/Utils/Common.swift; sourceTree = "<group>"; };
 		D16DB891B2086F9A42CB37BE614636D9 /* Pods-Bitmark Registry dev.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Bitmark Registry dev.modulemap"; sourceTree = "<group>"; };
-		D2EEE4A7752A915AA96A5CA8A54D711C /* Blur@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Blur@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Blur@3x.png"; sourceTree = "<group>"; };
+		D2527FC1EF58DAA657C5AB712B37D7BD /* BitmarkQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BitmarkQuery.swift; path = BitmarkSDK/Bitmark/BitmarkQuery.swift; sourceTree = "<group>"; };
+		D383AD55A164F7E6FEBD61B67B216A18 /* TweetNacl.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TweetNacl.xcconfig; sourceTree = "<group>"; };
 		D4229A980AF7381B2AD867437442B123 /* Pods-BitmarkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BitmarkTests.debug.xcconfig"; sourceTree = "<group>"; };
-		D43634A113C831689669AFE51ECA0E6B /* es.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = es.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/es.lproj"; sourceTree = "<group>"; };
-		D50BD2877A7C6B36D4F0935327B11331 /* Keychain.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Keychain.swift; path = Lib/KeychainAccess/Keychain.swift; sourceTree = "<group>"; };
-		D63E3FD9F05C1F0C93449E23EC7A8110 /* module.map */ = {isa = PBXFileReference; includeInIndex = 1; name = module.map; path = Sources/module.map; sourceTree = "<group>"; };
-		D7B90899498365E518CE90321E3B9C3B /* AppIconPlaceHolder.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = AppIconPlaceHolder.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/AppIconPlaceHolder.png"; sourceTree = "<group>"; };
-		D85565BBF34F12BBD5BDCCDC993E9F10 /* API+Issuing.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Issuing.swift"; path = "BitmarkSDK/Services/API+Issuing.swift"; sourceTree = "<group>"; };
+		D5999BCF86443E78E06A7254C14794F1 /* iCloudDocumentSync-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "iCloudDocumentSync-dummy.m"; sourceTree = "<group>"; };
 		D85A78F26F8AE4E005895C9F95E2691B /* Pods-BitmarkTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-BitmarkTests.modulemap"; sourceTree = "<group>"; };
+		D971DA705778D3742E0018D369AC4702 /* TweetNacl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TweetNacl-umbrella.h"; sourceTree = "<group>"; };
 		DA9C82422DE13BB6F1462357FF9C6E44 /* Pods-Bitmark Registry beta.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Bitmark Registry beta.modulemap"; sourceTree = "<group>"; };
-		DE58B76BD2C845DF103D4A4D28578902 /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HockeySDK.framework; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDK.framework"; sourceTree = "<group>"; };
+		DB88B5998FD539569FEA63BF4529ADEE /* AssetQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AssetQuery.swift; path = BitmarkSDK/Asset/AssetQuery.swift; sourceTree = "<group>"; };
+		DCE37A06107F938B605812C8516DCBBB /* iCloud-Prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "iCloud-Prefix.pch"; path = "iCloud/iCloud-Prefix.pch"; sourceTree = "<group>"; };
+		DDCF6B608D0EBEC320ADB360DD54AC20 /* iCloudDocumentSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = iCloudDocumentSync.framework; path = iCloudDocumentSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF1B77A658A2F9F982C3E0D5E46B5E3C /* Pods-Bitmark Registry beta-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Bitmark Registry beta-frameworks.sh"; sourceTree = "<group>"; };
-		E04E4381193A4C3E9E7ACE6033C34151 /* TweetNacl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = TweetNacl.framework; path = TweetNacl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E3C9C496BDC47416C8A730DD9453C13D /* Seed.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Seed.swift; path = BitmarkSDK/Seed.swift; sourceTree = "<group>"; };
-		E5C8BD54F96F86B1BAE301E461E8957B /* ResourceBundle-HockeySDKResources-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "ResourceBundle-HockeySDKResources-Info.plist"; sourceTree = "<group>"; };
+		E333C87F700A5E7F6CFAD0EB15BDCF8C /* BitmarkSDK-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BitmarkSDK-prefix.pch"; sourceTree = "<group>"; };
+		E33529F99643C77FA8FBC20EA4B8B24D /* KeychainAccess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KeychainAccess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4FF4A075048A29D296090B5FE7E64C9 /* Transaction.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Transaction.swift; path = BitmarkSDK/Transaction/Transaction.swift; sourceTree = "<group>"; };
 		E7ABBA314843EBAF10F87824D4256E95 /* Pods-Bitmark Registry dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry dev.release.xcconfig"; sourceTree = "<group>"; };
-		EBECD0D530CE1785AA39B63E4BF4DC37 /* buttonRoundedRegularHighlighted.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedRegularHighlighted.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedRegularHighlighted.png"; sourceTree = "<group>"; };
-		EC1A9975892B5AAED591519E0496F4C0 /* AccountNumber.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AccountNumber.swift; path = BitmarkSDK/AccountNumber.swift; sourceTree = "<group>"; };
-		EE1592D569BD6FEAD8A296257D5A3422 /* feedbackActivity@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "feedbackActivity@3x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/feedbackActivity@3x.png"; sourceTree = "<group>"; };
-		EE773198658F39DC88DFC468F61EC3C8 /* ctweetnacl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ctweetnacl.h; path = Sources/CTweetNacl/include/ctweetnacl.h; sourceTree = "<group>"; };
-		EEFA50C6399012DCAC78DD1BFC7123A3 /* buttonRoundedDelete.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = buttonRoundedDelete.png; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDelete.png"; sourceTree = "<group>"; };
-		F15BA54CDFEDF650C0C730BE08F80411 /* TweetNacl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "TweetNacl-umbrella.h"; sourceTree = "<group>"; };
-		F27D2AF3E3B2D7C5A5A1B04A101AFD4B /* Blur@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "Blur@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/Blur@2x.png"; sourceTree = "<group>"; };
+		EBE1712A0F821E6B7F2245B1EFE91831 /* Account+Keychain.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Account+Keychain.swift"; path = "BitmarkSDK/Account+Keychain.swift"; sourceTree = "<group>"; };
+		EBF1BD1DDE4260D70951BC195F67155C /* KeychainAccess-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeychainAccess-umbrella.h"; sourceTree = "<group>"; };
+		EF3DE23B2F5663CF17E0FC2EFD4B2900 /* Bitmark.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Bitmark.swift; path = BitmarkSDK/Bitmark/Bitmark.swift; sourceTree = "<group>"; };
+		EF655D50EEF497283D0F0794B5968A89 /* FileUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FileUtil.swift; path = BitmarkSDK/Utils/FileUtil.swift; sourceTree = "<group>"; };
+		EFA6D42E216CC6EBABF25B81D5FEB394 /* Data+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Data+Extension.swift"; path = "BitmarkSDK/Extensions/Data+Extension.swift"; sourceTree = "<group>"; };
+		F2E35EDE1081DCD1C6047C57D4E955F4 /* TweetNacl.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TweetNacl.swift; path = Sources/TweetNacl/TweetNacl.swift; sourceTree = "<group>"; };
 		F4D0E3B6891C8DC93BC4BC1B8FB73582 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F5098EB384D237CC566F65062DCE5808 /* Ed25519.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Ed25519.swift; path = BitmarkSDK/Utils/Ed25519.swift; sourceTree = "<group>"; };
-		F684D4FC34F3C49DD49A6B2F3828002A /* authorize_denied@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "authorize_denied@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/authorize_denied@2x.png"; sourceTree = "<group>"; };
-		F7202EF450111EB7587126EF90B44A94 /* de.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = de.lproj; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/de.lproj"; sourceTree = "<group>"; };
-		F89509C27FF8B60BB8263762FBDBD8C1 /* API+Transfer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Transfer.swift"; path = "BitmarkSDK/Services/API+Transfer.swift"; sourceTree = "<group>"; };
+		F4EE623330D7BF90008A36EB52F8274A /* Seed.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Seed.swift; path = BitmarkSDK/Seed.swift; sourceTree = "<group>"; };
+		F83D15895B841D681282424DACAADA84 /* Pods_Bitmark_Registry_beta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Bitmark_Registry_beta.framework; path = "Pods-Bitmark Registry beta.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9A3CED6EDA3F548B9E9EEAD3F1688A2 /* Pods-Bitmark Registry beta-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Bitmark Registry beta-dummy.m"; sourceTree = "<group>"; };
-		FB6FAEC8A02116094C0D362E6FDDCC1A /* AuthKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AuthKey.swift; path = BitmarkSDK/AuthKey.swift; sourceTree = "<group>"; };
-		FBFCA33FB72C072E17C7A733E6D1BBE5 /* API+Asset.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "API+Asset.swift"; path = "BitmarkSDK/Services/API+Asset.swift"; sourceTree = "<group>"; };
 		FC3113124E48D425989C4BD5EF6CD1D8 /* Pods-Bitmark Registry beta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Bitmark Registry beta.release.xcconfig"; sourceTree = "<group>"; };
-		FD89345783ABE9B8D2C2AC16E75B71E6 /* IconGradient@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "IconGradient@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/IconGradient@2x.png"; sourceTree = "<group>"; };
-		FF4CBCBFFA62BAF9C211CD05F586205C /* buttonRoundedDelete@2x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "buttonRoundedDelete@2x.png"; path = "HockeySDK-iOS/HockeySDK.embeddedframework/HockeySDKResources.bundle/buttonRoundedDelete@2x.png"; sourceTree = "<group>"; };
+		FE8AD89E143C6D32411DBA94A77E6753 /* SHA3.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SHA3.swift; path = BitmarkSDK/Utils/SHA3.swift; sourceTree = "<group>"; };
+		FEC4501A9DB605EB56B78DD6534D6E56 /* OfferParams.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OfferParams.swift; path = BitmarkSDK/Bitmark/OfferParams.swift; sourceTree = "<group>"; };
+		FF33887531C51CA0B6BA8F621C4D8A5C /* BitmarkSDK.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = BitmarkSDK.modulemap; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0366D979832FA96B0EBFA8B35C1352E8 /* Frameworks */ = {
+		05867AD70EEB7B58CEA31B0857FDF0C2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FB8C4D3042DF4A50C1FF99BD5D6A38F /* Foundation.framework in Frameworks */,
+				67DD32EDAB9864AAE21428AF94A117E4 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1A647A655C87DCB554ADDABA492672E8 /* Frameworks */ = {
+		4FCA75A18993AF38377238E7791E6682 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3E0E9322808BD8E24295B17CD05BB18 /* Foundation.framework in Frameworks */,
+				B93292821A72904DE5143B61DAC0BE95 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9B9ECDC61316D0EF467B5E438651CB8A /* Frameworks */ = {
+		5D500A10C34777AB292D8EAE8D261850 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44EBD347AD83468E612B3B99C738909E /* Foundation.framework in Frameworks */,
+				33768EC3F283F1AEDDF029A68AD4FD45 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9D387793F175F24DB8D3C6FFAD29C836 /* Frameworks */ = {
+		8149707BC28A7FCB8DEBD44C022FB72B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				976AD64750AB5AD440EF784DF464B84B /* Foundation.framework in Frameworks */,
+				AF043ED501EEEC06E4E4DA7DC42966A4 /* Foundation.framework in Frameworks */,
+				2BF952503FC2284FA91EB22ED72C0EAE /* KeychainAccess.framework in Frameworks */,
+				184FCFCA0F1E2860C645AB3581FAD33F /* TweetNacl.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A62B84E2E444E04C410BE7116F9E003C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1CA3391C90B47E275517C25D6C31490 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,58 +383,69 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D83F41C35122B9469EFE0B26DE89F3E2 /* Frameworks */ = {
+		C68C92C08D17AECC91B9F10077AF408A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				976D6D053FF14D1E40C1763AAFA9E644 /* Foundation.framework in Frameworks */,
+				8811CEED0825D90B2076E62170F09705 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E21BBE5571665ECCAD1F8C0396BAE01D /* Frameworks */ = {
+		DE7DF917056EB8FFD83CD7FC7FC44905 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88D07AFE1BB3891A0B0CEA4F97426C2D /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E2B0E6E98089DB5FE16111843746B8CF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D407BB5E0D3BBB3E9481B6D4C41B959C /* Foundation.framework in Frameworks */,
-				728A8D695148322532797F2881FA0CC6 /* TweetNacl.framework in Frameworks */,
+				9F1AB061BF64DCC0E453414F270A705F /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0919F7376081FB58D0AC4D14E515EBBC /* iOS */ = {
+		0CA168B87FE8DFF5C42450084EF66705 /* KeychainAccess */ = {
 			isa = PBXGroup;
 			children = (
-				C3402C991214D346DCF6162F8C046F98 /* Foundation.framework */,
+				C93AFE003B1563263DCC7EFB6B5DDEB8 /* Keychain.swift */,
+				9B2CECCD0AB49B41D43234D44FCB6AEA /* Support Files */,
+			);
+			name = KeychainAccess;
+			path = KeychainAccess;
+			sourceTree = "<group>";
+		};
+		1C18F8F69E00D5789D8BCDC6CD4A4D32 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6E8F5356A3EC458C2D907D8EADCDA57B /* Foundation.framework */,
+				2933155A795142C8B59A12B06259258B /* UIKit.framework */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		0F20189BEC04A54F0AB82F44C3636EAB /* Frameworks */ = {
+		26433D9CDA0FE0FAAD9FC8460CCAFA1C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DE58B76BD2C845DF103D4A4D28578902 /* HockeySDK.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		36D7349B95809039849125AFF5763491 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6998F2289B4F935F9C7EF133391863B3 /* BitmarkSDK */,
-				9782AE8B7C7BB7F0154205785E79116D /* HockeySDK */,
-				B77BE3928462594E9082243A3A37F67F /* KeychainAccess */,
-				B14E0C20C7612D671C09CB55711B098C /* TweetNacl */,
+				AFC8CCEA5075972F72D61423C23C279A /* BitmarkSDK */,
+				8A6DDF568F1279B4CE7FAC6004F85D32 /* iCloudDocumentSync */,
+				0CA168B87FE8DFF5C42450084EF66705 /* KeychainAccess */,
+				6E4ED9B2331E86FDF984935EEE828117 /* TweetNacl */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		335DE8610A79731F628B161D63FC45E0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				102AB07DC3B089B4418314D249EFF4DB /* BitmarkSDK.framework */,
+				DDCF6B608D0EBEC320ADB360DD54AC20 /* iCloudDocumentSync.framework */,
+				818252F0BD55CCAA425E806758857A7E /* KeychainAccess.framework */,
+				5CED14978C2172F454A321469CE78446 /* Pods_Bitmark_Registry.framework */,
+				F83D15895B841D681282424DACAADA84 /* Pods_Bitmark_Registry_beta.framework */,
+				81FD27BBF22D0C292FE4A7245CE6828F /* Pods_Bitmark_Registry_dev.framework */,
+				221F93D0B714E3A54C9B45AA3748284C /* Pods_BitmarkTests.framework */,
+				B4B54A49E50C2A57AAAE92FE5A8D199F /* TweetNacl.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		37602EB11E4BB0CCDDECD2386FF27685 /* Pods-Bitmark Registry */ = {
@@ -516,82 +466,33 @@
 			path = "Target Support Files/Pods-Bitmark Registry";
 			sourceTree = "<group>";
 		};
-		4A3159D0E79A0DE90E07A12A93A44025 /* Support Files */ = {
+		6C825239B653A0909BE62CD572FB2FF3 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				BBE0923514616E3AE7F3660F03E784BF /* Info.plist */,
-				BA663579E96E1A75ADD8C0E33BCDE53E /* KeychainAccess.modulemap */,
-				B375DAA0787634E7FA243B9657C59D75 /* KeychainAccess.xcconfig */,
-				4F6C2F39CB76676BFBF510857004A4AA /* KeychainAccess-dummy.m */,
-				9752F5911E4412C452C34C249905CABE /* KeychainAccess-prefix.pch */,
-				87421E25EAFD9E5CC2CEC0287B7AA18E /* KeychainAccess-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/KeychainAccess";
-			sourceTree = "<group>";
-		};
-		55C112AE39D7665BEEDB99CC5A475030 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				57C2191D31B391668BE390CC3609CA54 /* BitmarkSDK.modulemap */,
-				A7B5558E5C02B1FBA0EE9BF8A675E2E8 /* BitmarkSDK.xcconfig */,
-				5AD1733641B1581CC3FB7708CAEA8229 /* BitmarkSDK-dummy.m */,
-				68EE47D7CE8F22FE4115EF95958C4FAD /* BitmarkSDK-prefix.pch */,
-				03844A9555EC02B89DB57FD0ECD583FF /* BitmarkSDK-umbrella.h */,
-				92ACDA2EA65184305FE0F7190485ADF9 /* Info.plist */,
+				FF33887531C51CA0B6BA8F621C4D8A5C /* BitmarkSDK.modulemap */,
+				91902B1A1220DE63381B2D78AEA23772 /* BitmarkSDK.xcconfig */,
+				5CEDE5A4063C932F3DD780772495CFB1 /* BitmarkSDK-dummy.m */,
+				E333C87F700A5E7F6CFAD0EB15BDCF8C /* BitmarkSDK-prefix.pch */,
+				8DDD81EE50A78269DC2ED3AFB90B67DB /* BitmarkSDK-umbrella.h */,
+				131100E5C5A16508B400B5B0DB5F68F2 /* Info.plist */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/BitmarkSDK";
 			sourceTree = "<group>";
 		};
-		6998F2289B4F935F9C7EF133391863B3 /* BitmarkSDK */ = {
+		6E4ED9B2331E86FDF984935EEE828117 /* TweetNacl */ = {
 			isa = PBXGroup;
 			children = (
-				BA675EE53645B9E24465BD211C942C9F /* Account.swift */,
-				EC1A9975892B5AAED591519E0496F4C0 /* AccountNumber.swift */,
-				BCA976389C6A08CD65FA831D694BA760 /* API.swift */,
-				FBFCA33FB72C072E17C7A733E6D1BBE5 /* API+Asset.swift */,
-				40BF31E1DF025BF43A69B37731D367A1 /* API+Bitmark.swift */,
-				D85565BBF34F12BBD5BDCCDC993E9F10 /* API+Issuing.swift */,
-				F89509C27FF8B60BB8263762FBDBD8C1 /* API+Transfer.swift */,
-				A35F05BEEB09C52B643BBE824C9C48AD /* Asset.swift */,
-				8949922E739D55C3C153DC5C2B4254F2 /* AssetQuery.swift */,
-				FB6FAEC8A02116094C0D362E6FDDCC1A /* AuthKey.swift */,
-				7CB9563ACCEF60DE809D511529950EB7 /* Base58.swift */,
-				BFD52DEEB9C0DD0AB8728690B8297CF9 /* BinaryPacking.swift */,
-				7BBBBCAF6B729032993D18C89B8AE87F /* Bitmark.swift */,
-				70C788F729C2423C4D1BDA0446C58BF5 /* BitmarkQuery.swift */,
-				993B07AB3F543B2AD6040F2D8A1E277A /* BitmarkSDK.h */,
-				C608308B3D88B90D196FD96AE6BCC48E /* BItmarkSDK.swift */,
-				82398B7FEF4ADE0CA3B432E160596708 /* Common.swift */,
-				2BF48A178478C356AE01930F4E079C68 /* Config.swift */,
-				BDDB130AB5847DADE709AA46B76B2516 /* Data+Extension.swift */,
-				F5098EB384D237CC566F65062DCE5808 /* Ed25519.swift */,
-				9E66B72AD62A268AE1039783AC600C7B /* EncryptionKey.swift */,
-				76A897A752E7C7F26B70FF0A55B8B773 /* FileUtil.swift */,
-				4B5F675BBDF5A61D4182B52E2B53C01F /* IssuanceParams.swift */,
-				52854E59CDF4570AAC9E51E191700BB8 /* main.c */,
-				6956190CC8F604153EA0616E4B1586C4 /* Migration.swift */,
-				40CD296FCDECDBC899230D910B1FDD94 /* ModelEquatable.swift */,
-				BC1517EC20137E2BE9750CADB6EBD551 /* OfferParams.swift */,
-				6DA8406A17DEE3824DD674BCCD9EB607 /* Parameterizable.swift */,
-				5D01B95F1C75E7F5CDE4DFA2AE8371CE /* Queryable.swift */,
-				2A6CA227A552757028186B026DE911BD /* RecoverPhrase.swift */,
-				1C11CD7DD379FEA278CAC6938AC5842E /* RecoverPhrase+Dic.swift */,
-				88ABF3D5399FD99E44E4E9669F58B7A7 /* RegistrationParams.swift */,
-				E3C9C496BDC47416C8A730DD9453C13D /* Seed.swift */,
-				9E41DCD25194127BDF96E5722A70B299 /* sha3.c */,
-				616D6CE5296DF6D8151528C035BB796E /* sha3.h */,
-				C2BF48BF3AB621FB859783B3EC7C9A2F /* SHA3.swift */,
-				637881BA46D6D5436798B610B0E82080 /* Signable.swift */,
-				9559D52EFB065ADAF19125EEBBB6DA76 /* Transaction.swift */,
-				4B7AE523E28B35F0E276ED178A91FE39 /* TransactionQuery.swift */,
-				BD26618E4B4035F007B54E571D03A358 /* TransferParams.swift */,
-				13DA1F30F3FC93D2F0B42C9964F86082 /* Varint.swift */,
-				55C112AE39D7665BEEDB99CC5A475030 /* Support Files */,
+				30C9D9312AA01607CE0DF04EAC19FD45 /* Constant.swift */,
+				1270CBD48FADDC4725A835F7402177A1 /* ctweetnacl.c */,
+				B9BD902F9385377360779FFADA174013 /* ctweetnacl.h */,
+				459D7DE25E4E588DC76BFA9F30E6A36A /* module.map */,
+				062F58710FF9AD4319B82E0023A4F01E /* TweetNacl.h */,
+				F2E35EDE1081DCD1C6047C57D4E955F4 /* TweetNacl.swift */,
+				86D9B2C8BE71B45B4641B1552F6097CB /* Support Files */,
 			);
-			name = BitmarkSDK;
-			path = BitmarkSDK;
+			name = TweetNacl;
+			path = TweetNacl;
 			sourceTree = "<group>";
 		};
 		734A898E388A9BA7F36EB0C243105928 /* Pods-Bitmark Registry dev */ = {
@@ -612,43 +513,71 @@
 			path = "Target Support Files/Pods-Bitmark Registry dev";
 			sourceTree = "<group>";
 		};
-		7D725C97509368C8FDCA1344F21F544D /* DefaultLib */ = {
-			isa = PBXGroup;
-			children = (
-				0F20189BEC04A54F0AB82F44C3636EAB /* Frameworks */,
-				BE70C10F032E19B77CF51ACEBCE333CB /* Resources */,
-			);
-			name = DefaultLib;
-			sourceTree = "<group>";
-		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				D3B8EA42790C5D45F5024084E47E58B1 /* Frameworks */,
-				36D7349B95809039849125AFF5763491 /* Pods */,
-				EB270BF9FFB8D3F038D099667BACF70D /* Products */,
+				F5C8FE0EA2EA861CDB28735E943E85E0 /* Frameworks */,
+				26433D9CDA0FE0FAAD9FC8460CCAFA1C /* Pods */,
+				335DE8610A79731F628B161D63FC45E0 /* Products */,
 				F13043AB962782633F0BADE753B6D98C /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		85EEA538241FE10F3452F4C89D8E9D89 /* Support Files */ = {
+		86D9B2C8BE71B45B4641B1552F6097CB /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				E5C8BD54F96F86B1BAE301E461E8957B /* ResourceBundle-HockeySDKResources-Info.plist */,
+				506FB58D763EC7FA7DCAB5A25B7888EE /* Info.plist */,
+				65AC9C03B7C37F1C6F5623A40026D15E /* TweetNacl.modulemap */,
+				D383AD55A164F7E6FEBD61B67B216A18 /* TweetNacl.xcconfig */,
+				1ACC2A2C64257A4939135FCD635C2769 /* TweetNacl-dummy.m */,
+				219EDEC11A016710AB1B398D7DB36504 /* TweetNacl-prefix.pch */,
+				D971DA705778D3742E0018D369AC4702 /* TweetNacl-umbrella.h */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/HockeySDK";
+			path = "../Target Support Files/TweetNacl";
 			sourceTree = "<group>";
 		};
-		9782AE8B7C7BB7F0154205785E79116D /* HockeySDK */ = {
+		8A6DDF568F1279B4CE7FAC6004F85D32 /* iCloudDocumentSync */ = {
 			isa = PBXGroup;
 			children = (
-				7D725C97509368C8FDCA1344F21F544D /* DefaultLib */,
-				85EEA538241FE10F3452F4C89D8E9D89 /* Support Files */,
+				99FCBB9CE0601ACBA7F1ED6B9684A216 /* iCloud.h */,
+				349BC595F05B82FEB4D42E088F4CD757 /* iCloud.m */,
+				DCE37A06107F938B605812C8516DCBBB /* iCloud-Prefix.pch */,
+				4961364BE2984D590CED0F7FFDBB6F42 /* iCloudDocument.h */,
+				A875088704656CCA84E10D666F799C16 /* iCloudDocument.m */,
+				8DA2384F5C2D8B851EA071BB3505D753 /* Support Files */,
 			);
-			name = HockeySDK;
-			path = HockeySDK;
+			name = iCloudDocumentSync;
+			path = iCloudDocumentSync;
+			sourceTree = "<group>";
+		};
+		8DA2384F5C2D8B851EA071BB3505D753 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				7BCDE2BC9E84B2D6424C6282E6A020BC /* iCloudDocumentSync.modulemap */,
+				6091BA031D1189A05C8B0367604D77D4 /* iCloudDocumentSync.xcconfig */,
+				D5999BCF86443E78E06A7254C14794F1 /* iCloudDocumentSync-dummy.m */,
+				141E4341BC79057A254197EE2A1701C0 /* iCloudDocumentSync-prefix.pch */,
+				079D9E906C4A7D9E87B137288BE2DE89 /* iCloudDocumentSync-umbrella.h */,
+				C947AAD8ADDA7F47E62D2E4F38BE3FF0 /* Info.plist */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/iCloudDocumentSync";
+			sourceTree = "<group>";
+		};
+		9B2CECCD0AB49B41D43234D44FCB6AEA /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				1221A54B0D7AAD562F8021E00E4DA0A6 /* Info.plist */,
+				67A2D4C0F49C728524F3CC7005E2DE4E /* KeychainAccess.modulemap */,
+				30B6F5F09CE00EC3D4511373E9DCE8DF /* KeychainAccess.xcconfig */,
+				AF6CEBF83B951F02062F4EC076914DA4 /* KeychainAccess-dummy.m */,
+				AB54008E99768BACE84332B7616D6B3A /* KeychainAccess-prefix.pch */,
+				EBF1BD1DDE4260D70951BC195F67155C /* KeychainAccess-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/KeychainAccess";
 			sourceTree = "<group>";
 		};
 		9CE2241380848F1A83CC3DB24E28EF88 /* Pods-Bitmark Registry beta */ = {
@@ -669,90 +598,55 @@
 			path = "Target Support Files/Pods-Bitmark Registry beta";
 			sourceTree = "<group>";
 		};
-		B14E0C20C7612D671C09CB55711B098C /* TweetNacl */ = {
+		AFC8CCEA5075972F72D61423C23C279A /* BitmarkSDK */ = {
 			isa = PBXGroup;
 			children = (
-				8633D96C8B7E30C090CE797EE23131F1 /* Constant.swift */,
-				9124C46E265F016535C020148E9E96D6 /* ctweetnacl.c */,
-				EE773198658F39DC88DFC468F61EC3C8 /* ctweetnacl.h */,
-				D63E3FD9F05C1F0C93449E23EC7A8110 /* module.map */,
-				CC9C070ADE8782FDB07D3C540645992F /* TweetNacl.h */,
-				602037F263B9A62C8F1368AF56FA0EB8 /* TweetNacl.swift */,
-				C8552D747B5E2981108FE4A62816A752 /* Support Files */,
+				28E283C5DFE84FCC5D195D30388C417E /* Account.swift */,
+				EBE1712A0F821E6B7F2245B1EFE91831 /* Account+Keychain.swift */,
+				4A5FF7A19633115DD55B977C521D224B /* AccountNumber.swift */,
+				8C11C5799C6B7F6DF3BA02D933FD3259 /* API.swift */,
+				696349D130926335BDFB55C0E11B2413 /* API+Asset.swift */,
+				278D69DC616FACE2A8B9BA807FFF7600 /* API+Bitmark.swift */,
+				6D3D78C03C48F1B3B97C82158D674C0C /* API+Issuing.swift */,
+				221888249E2235D96C53592B936BCD1C /* API+Transfer.swift */,
+				4CE67AC35DBE774F36C9984BDA187A34 /* Asset.swift */,
+				DB88B5998FD539569FEA63BF4529ADEE /* AssetQuery.swift */,
+				553E1E20AAA078E9AA51E26768E16D10 /* AuthKey.swift */,
+				A049BCF1F73A74C050400CDFBA5C9B9E /* Base58.swift */,
+				5C0DF6F785CF2477864C00A4A6A59222 /* BinaryPacking.swift */,
+				EF3DE23B2F5663CF17E0FC2EFD4B2900 /* Bitmark.swift */,
+				D2527FC1EF58DAA657C5AB712B37D7BD /* BitmarkQuery.swift */,
+				AD009AE17D2A753B876B6C458FAD5AF1 /* BitmarkSDK.h */,
+				26B634AB35C34A6A57445F4C4A6B9B09 /* BItmarkSDK.swift */,
+				D0337384A0DB1848FAB4C7E9F43091E3 /* Common.swift */,
+				63A92C93E0641352641AA8315B9228A4 /* Config.swift */,
+				EFA6D42E216CC6EBABF25B81D5FEB394 /* Data+Extension.swift */,
+				215437B37819065F846D6FABB0B40443 /* Ed25519.swift */,
+				C88C881A6125C9088B295B6CA73F0A8F /* EncryptionKey.swift */,
+				EF655D50EEF497283D0F0794B5968A89 /* FileUtil.swift */,
+				59025DEC81F66B83ED83B305DB6ACB8E /* IssuanceParams.swift */,
+				C4B52E458ACE98B44258F1F001F1F9A0 /* main.c */,
+				AF9C0B2EDEA0535EC918EBDC25362E8D /* Migration.swift */,
+				19FBA0D243304C3768935D2E065987C3 /* ModelEquatable.swift */,
+				FEC4501A9DB605EB56B78DD6534D6E56 /* OfferParams.swift */,
+				2E7721B2D88B9DE39C13869CC9AA5AFB /* Parameterizable.swift */,
+				5526793646CB716410A1FD078CEB5880 /* Queryable.swift */,
+				2166E95EFBC7CC6197F92290F32CCF57 /* RecoverPhrase.swift */,
+				725E55B137B59D327BDE06D3A429B250 /* RecoverPhrase+Dic.swift */,
+				C69CA20E3D54D6F831372F5273A284AF /* RegistrationParams.swift */,
+				F4EE623330D7BF90008A36EB52F8274A /* Seed.swift */,
+				C520F996D969748F3087510EF87137A1 /* sha3.c */,
+				24BDCADB097D088BD10E5EA983F3FF47 /* sha3.h */,
+				FE8AD89E143C6D32411DBA94A77E6753 /* SHA3.swift */,
+				8EC93D59F1553E4C4D783DC4FB9F5DE8 /* Signable.swift */,
+				E4FF4A075048A29D296090B5FE7E64C9 /* Transaction.swift */,
+				00DA3946C41797FFBB795CFE0BBFB87C /* TransactionQuery.swift */,
+				792EA19F95E0BD405CA87551573FDAEB /* TransferParams.swift */,
+				505187A04FAD0EF77A0257DA2D84337A /* Varint.swift */,
+				6C825239B653A0909BE62CD572FB2FF3 /* Support Files */,
 			);
-			name = TweetNacl;
-			path = TweetNacl;
-			sourceTree = "<group>";
-		};
-		B77BE3928462594E9082243A3A37F67F /* KeychainAccess */ = {
-			isa = PBXGroup;
-			children = (
-				D50BD2877A7C6B36D4F0935327B11331 /* Keychain.swift */,
-				4A3159D0E79A0DE90E07A12A93A44025 /* Support Files */,
-			);
-			name = KeychainAccess;
-			path = KeychainAccess;
-			sourceTree = "<group>";
-		};
-		BE70C10F032E19B77CF51ACEBCE333CB /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				D7B90899498365E518CE90321E3B9C3B /* AppIconPlaceHolder.png */,
-				556B3491A4816C5D03828D96654A6CC1 /* Arrow.png */,
-				2486DEAA1D6858D001AFE7BD6588C9EE /* Arrow@2x.png */,
-				165EC854D662D121E626B79E109501B1 /* Arrow@3x.png */,
-				63718E96B3854F4331BECF6ABCD57FAE /* authorize_denied.png */,
-				F684D4FC34F3C49DD49A6B2F3828002A /* authorize_denied@2x.png */,
-				64726C9327A9228A7398B21E20379C54 /* authorize_denied@3x.png */,
-				1919BF69C703344E2F29FB6BB912ED06 /* bg.png */,
-				C1CAD4A03E2E9B368B285CD2CFBB4967 /* Blur.png */,
-				F27D2AF3E3B2D7C5A5A1B04A101AFD4B /* Blur@2x.png */,
-				D2EEE4A7752A915AA96A5CA8A54D711C /* Blur@3x.png */,
-				EEFA50C6399012DCAC78DD1BFC7123A3 /* buttonRoundedDelete.png */,
-				FF4CBCBFFA62BAF9C211CD05F586205C /* buttonRoundedDelete@2x.png */,
-				ABBDCCA8B1779C974402768FC76F7D6D /* buttonRoundedDeleteHighlighted.png */,
-				0A1D61BA3A87D012F3480755A4E34EA5 /* buttonRoundedDeleteHighlighted@2x.png */,
-				1AF25740E32DDBC6BC4F0D382A3834D0 /* buttonRoundedRegular.png */,
-				27F7F6B4E0420144E76EA22230ACF31A /* buttonRoundedRegular@2x.png */,
-				EBECD0D530CE1785AA39B63E4BF4DC37 /* buttonRoundedRegularHighlighted.png */,
-				AD79B40FDBC91D3E82FC74AECE2FAE10 /* buttonRoundedRegularHighlighted@2x.png */,
-				8A4A0B94B0122DE86957392AFD369644 /* Cancel.png */,
-				1BEA89CE93A71D2719AA858F2C5FD921 /* Cancel@2x.png */,
-				C91C4CACBF751B7728839B9E32BB9123 /* Cancel@3x.png */,
-				F7202EF450111EB7587126EF90B44A94 /* de.lproj */,
-				1819D90E60BEE0074531C37696B0ED6F /* en.lproj */,
-				D43634A113C831689669AFE51ECA0E6B /* es.lproj */,
-				AB00701A70EF9D59EE351BB917680AC9 /* fa.lproj */,
-				66AF35D85D7504C66440B733F926654E /* feedbackActivity.png */,
-				745EBBDC7FB799CA2B7268636B7B666B /* feedbackActivity@2x.png */,
-				6F40288E966086467DAF9C2E733150E6 /* feedbackActivity@2x~ipad.png */,
-				EE1592D569BD6FEAD8A296257D5A3422 /* feedbackActivity@3x.png */,
-				759DB75FFF1911769C832BD8623797BD /* feedbackActivity~ipad.png */,
-				80CD50BE33A74B2CE269B4FEED78C500 /* FeedbackPlaceholder.png */,
-				34C63638D6DF1E8B2C6484C33EAFA350 /* fr.lproj */,
-				2980667EE765A143B615D57CE4A9C0BD /* hr.lproj */,
-				8706A9CC27D27C72F5225BE355B22E21 /* hu.lproj */,
-				C3C6518B46C8385A5B51C34ACB1FE89A /* iconCamera.png */,
-				2D14BA84F781750A7148814E4C1049B5 /* iconCamera@2x.png */,
-				8626B11DEEDC1C42280DC754D3F11D63 /* IconGradient.png */,
-				FD89345783ABE9B8D2C2AC16E75B71E6 /* IconGradient@2x.png */,
-				90B38AB5F042255FFABEB018251789CB /* it.lproj */,
-				22CEF1F2633AF4F06F22A55C9FD078FA /* ja.lproj */,
-				46F0236A1ED32CC401D2C081D6B0AA10 /* nb.lproj */,
-				245104882C75573B12A8F446863FDF63 /* nl.lproj */,
-				63D05F2CEC1353FE744E04B901D1637F /* Ok.png */,
-				AFD32C6AA3163AE89C7378480EC6BFE4 /* Ok@2x.png */,
-				6CCDD3D9931EC986C0683CC517EBBD1A /* Ok@3x.png */,
-				76151AD14CDFC8E1906EC4829163F4C0 /* pt.lproj */,
-				0E0788C611862D08ADE47BAE8A72DE70 /* pt-PT.lproj */,
-				2816E59B8D599EF658076ECC705E879D /* Rectangle.png */,
-				B6ACCBA42298F4CACF900AA564A31F5E /* Rectangle@2x.png */,
-				2EF94FA89D652A49631B300182609E93 /* Rectangle@3x.png */,
-				02417CB0338DE29F0503ABE8D136608B /* ru.lproj */,
-				662C5A069392066706054909DC454629 /* tr.lproj */,
-				AB2E5CB873EE34E9328B6FEF63C3FEA3 /* zh-Hans.lproj */,
-			);
-			name = Resources;
+			name = BitmarkSDK;
+			path = BitmarkSDK;
 			sourceTree = "<group>";
 		};
 		C270F4273B97A544B02D055E4A383254 /* Pods-BitmarkTests */ = {
@@ -773,44 +667,6 @@
 			path = "Target Support Files/Pods-BitmarkTests";
 			sourceTree = "<group>";
 		};
-		C8552D747B5E2981108FE4A62816A752 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				884E25AC03801652BDC8A1121B81BA4F /* Info.plist */,
-				C8BDD2CFBDEA8220F2CCD37B19AE8A15 /* TweetNacl.modulemap */,
-				91278A3B4DF7E7BFD4F08F9E82B081DF /* TweetNacl.xcconfig */,
-				5E16FBD772B576A160E0728279E76809 /* TweetNacl-dummy.m */,
-				01684943C983E1C5D614DC671D8E0318 /* TweetNacl-prefix.pch */,
-				F15BA54CDFEDF650C0C730BE08F80411 /* TweetNacl-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/TweetNacl";
-			sourceTree = "<group>";
-		};
-		D3B8EA42790C5D45F5024084E47E58B1 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				C7AB504DC3715B5A248D017A8B60F486 /* TweetNacl.framework */,
-				0919F7376081FB58D0AC4D14E515EBBC /* iOS */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EB270BF9FFB8D3F038D099667BACF70D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				B8B8A89385510E06E8E2E9657794FC32 /* BitmarkSDK.framework */,
-				AE3E2B3370B301976CF38C73E29EF0E5 /* HockeySDKResources.bundle */,
-				6CEC4A663186B3C7FB8C550DA3C6E6E2 /* KeychainAccess.framework */,
-				63E4F944361680C8D609EEDF11ADDECC /* Pods_Bitmark_Registry.framework */,
-				5EA1A416AD83C08C1D0E34C3F29AD6A1 /* Pods_Bitmark_Registry_beta.framework */,
-				9EBDACD9E8CB35934960487DD7E1A1EF /* Pods_Bitmark_Registry_dev.framework */,
-				B5040F36BFC69829A4BE3353D4F26BA3 /* Pods_BitmarkTests.framework */,
-				E04E4381193A4C3E9E7ACE6033C34151 /* TweetNacl.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		F13043AB962782633F0BADE753B6D98C /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -822,40 +678,60 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
+		F5C8FE0EA2EA861CDB28735E943E85E0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E33529F99643C77FA8FBC20EA4B8B24D /* KeychainAccess.framework */,
+				BA344FD4A15B96C20E19F911FECE2C05 /* TweetNacl.framework */,
+				1C18F8F69E00D5789D8BCDC6CD4A4D32 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		07EA17F7DD02B42CA21D9447DB68DA5A /* Headers */ = {
+		04497CA6339EE464D87D28B780C5EE7C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				364899C8E91D275625D04D6E64AF3914 /* Pods-Bitmark Registry beta-umbrella.h in Headers */,
+				553EDA26811E269F86D605DFA6059421 /* iCloud.h in Headers */,
+				5CE10AAC49BC5F7EB491F128A5D91828 /* iCloudDocument.h in Headers */,
+				6715BA14B24F46C07B9EFD8F48B3562E /* iCloudDocumentSync-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0E5FB5537F072334882784434371D576 /* Headers */ = {
+		69E5400B15DFCA3DA5FD3AFA6F5AB738 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8081AD9B625A552B803F3796DCD207A2 /* BitmarkSDK-umbrella.h in Headers */,
-				4F5AF44ADE8CE63E292079A838E78F96 /* BitmarkSDK.h in Headers */,
-				31494726FFF8906CD763814874468698 /* sha3.h in Headers */,
+				FE38928DFD1AEC8A9732BE9287E865D1 /* KeychainAccess-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1E5D791596E0DDE2D824FAC9C4AD8C79 /* Headers */ = {
+		7C95E65B4AAFE70370A6EAA4E33EC73A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14489A1DEC3BB7D354206CC7F15E881F /* Pods-Bitmark Registry dev-umbrella.h in Headers */,
+				8893CF347E3661014CB45F7B7D65B385 /* ctweetnacl.h in Headers */,
+				8A051E9706DCB2F912E161708803ADF9 /* TweetNacl-umbrella.h in Headers */,
+				614377FA331079F85F6ACC88ABDFEF84 /* TweetNacl.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3DCB50E1EAE76A10559C48D06F53E0EE /* Headers */ = {
+		94096195B9DC67AA07D6BC7D95F483F9 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4565031E0304574C7A466B62E73E7478 /* KeychainAccess-umbrella.h in Headers */,
+				8EEF276DAA907E0B388957D4F2A63754 /* Pods-Bitmark Registry dev-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9601A10A76BCFEFC8B1B2C79D15BCDC4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9BF578E1129E514830D68DB1B903FBF5 /* Pods-Bitmark Registry-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,65 +743,65 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D366AEC5BD821CB4BDD29CE284AA7299 /* Headers */ = {
+		BE00E641D1E1F0AB9238625BF024AE52 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB6511402D6A0DC16A819AAAE87CFE4D /* ctweetnacl.h in Headers */,
-				E450928BB9FD3A9B6A34691F12C447ED /* TweetNacl-umbrella.h in Headers */,
-				FA38A143B8B8EC23339FDE37345DDBD9 /* TweetNacl.h in Headers */,
+				42D18C0BFB445BCC2B50BF81019AA0CC /* BitmarkSDK-umbrella.h in Headers */,
+				BC6AE0BDECE80A8E2D35472CEF3283DC /* BitmarkSDK.h in Headers */,
+				25122FEDAA1214FC9F7136149EEED81D /* sha3.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D750D141962F0417E836123408F4017B /* Headers */ = {
+		F49516E5912D73474A47A4E43DE06F0A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36858112121128A158CA56086A6F7CE1 /* Pods-Bitmark Registry-umbrella.h in Headers */,
+				C6B0C8EECEB2ECB3D11710269255132D /* Pods-Bitmark Registry beta-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1630C0AC0CCE2704C3F517D1DFD56586 /* KeychainAccess */ = {
+		3E367D9CBC05A13C451632B2278FCA83 /* Pods-Bitmark Registry */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4BC26EB508840B6B2446C27E690E60BC /* Build configuration list for PBXNativeTarget "KeychainAccess" */;
+			buildConfigurationList = C7BC27123757B6CAA90F9DE1122DED8E /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry" */;
 			buildPhases = (
-				3DCB50E1EAE76A10559C48D06F53E0EE /* Headers */,
-				6CF23713FC2035F5BD9D246E95236685 /* Sources */,
-				0366D979832FA96B0EBFA8B35C1352E8 /* Frameworks */,
-				82731D02B1DBAC326E46F5E6E83C1130 /* Resources */,
+				9601A10A76BCFEFC8B1B2C79D15BCDC4 /* Headers */,
+				79415D059C8E0DEE7071075B15978FF2 /* Sources */,
+				A62B84E2E444E04C410BE7116F9E003C /* Frameworks */,
+				E154FF1761FE968A3553B8055077F97E /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CA78446172EA1B71932599043E8DA953 /* PBXTargetDependency */,
+				9A822E631E3C06FB3FD8FD89A1BD22F7 /* PBXTargetDependency */,
+				57F50CAA3573D731FCF212DC4B0AE32B /* PBXTargetDependency */,
+				FA2319593D143B54B2033769894F2D25 /* PBXTargetDependency */,
 			);
-			name = KeychainAccess;
-			productName = KeychainAccess;
-			productReference = 6CEC4A663186B3C7FB8C550DA3C6E6E2 /* KeychainAccess.framework */;
+			name = "Pods-Bitmark Registry";
+			productName = "Pods-Bitmark Registry";
+			productReference = 5CED14978C2172F454A321469CE78446 /* Pods_Bitmark_Registry.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		26FF84AF2636419193FA0EF4C9B9C759 /* Pods-Bitmark Registry dev */ = {
+		47A9C1DC0BC4116EDFE563E5E6FEF7F3 /* TweetNacl */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D61B19131F75D9744EAE6BEE95BF1810 /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry dev" */;
+			buildConfigurationList = 29C540D24393569BCE79FC93177673CA /* Build configuration list for PBXNativeTarget "TweetNacl" */;
 			buildPhases = (
-				1E5D791596E0DDE2D824FAC9C4AD8C79 /* Headers */,
-				CEC6BBF6FB13291EA0ABAE32B9624852 /* Sources */,
-				E21BBE5571665ECCAD1F8C0396BAE01D /* Frameworks */,
-				C88A17941CCB3E55EFA6FBE6390AA864 /* Resources */,
+				7C95E65B4AAFE70370A6EAA4E33EC73A /* Headers */,
+				49BAEE2957FB824CC9C00F49CEBF1167 /* Sources */,
+				DE7DF917056EB8FFD83CD7FC7FC44905 /* Frameworks */,
+				AFA47E9F75D0C172C34957004FC93CAD /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				D0344A60A4033CCD6DC73B68392B8522 /* PBXTargetDependency */,
-				0B8CA256BB45A2C8955B8A58F2A24745 /* PBXTargetDependency */,
-				3F1A7272C827907033F3CF1C0DBD846A /* PBXTargetDependency */,
-				B022E81533CFB9F03D03302F8153F527 /* PBXTargetDependency */,
 			);
-			name = "Pods-Bitmark Registry dev";
-			productName = "Pods-Bitmark Registry dev";
-			productReference = 9EBDACD9E8CB35934960487DD7E1A1EF /* Pods_Bitmark_Registry_dev.framework */;
+			name = TweetNacl;
+			productName = TweetNacl;
+			productReference = B4B54A49E50C2A57AAAE92FE5A8D199F /* TweetNacl.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		6E0C8D103C3D1B950AE579C6228A1F6F /* Pods-BitmarkTests */ = {
@@ -944,104 +820,107 @@
 			);
 			name = "Pods-BitmarkTests";
 			productName = "Pods-BitmarkTests";
-			productReference = B5040F36BFC69829A4BE3353D4F26BA3 /* Pods_BitmarkTests.framework */;
+			productReference = 221F93D0B714E3A54C9B45AA3748284C /* Pods_BitmarkTests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		9A7D03B11EFCF7AB036D170ED5FD506F /* BitmarkSDK */ = {
+		70E763E6EE98432CA679CFB2910FF578 /* Pods-Bitmark Registry dev */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 67CDF8F88468A59E5C5606319382AF9D /* Build configuration list for PBXNativeTarget "BitmarkSDK" */;
+			buildConfigurationList = 45C727AC99373C7DD1A39D2CBB09606D /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry dev" */;
 			buildPhases = (
-				0E5FB5537F072334882784434371D576 /* Headers */,
-				AFF10B399C8F6105022035786E7B960E /* Sources */,
-				E2B0E6E98089DB5FE16111843746B8CF /* Frameworks */,
-				25A3A9ABDC9DBAE5D02A7FBFF5E00201 /* Resources */,
+				94096195B9DC67AA07D6BC7D95F483F9 /* Headers */,
+				A4CA63F869F780758A820D051B7D7EDD /* Sources */,
+				5D500A10C34777AB292D8EAE8D261850 /* Frameworks */,
+				3BF2944929A439A8075197D7E166A5E3 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				A12DB9B223822ACA7CD091C3A5CE271B /* PBXTargetDependency */,
+				5020AB6474D6FED2A24836989E12D0FA /* PBXTargetDependency */,
+				73AC5AE15E97D9177442D72E57C8B20A /* PBXTargetDependency */,
+				009F2BAF88D630B0205E2B3A3466770C /* PBXTargetDependency */,
+				E339DDCB010005AA1A3A46EE1224F0D1 /* PBXTargetDependency */,
 			);
-			name = BitmarkSDK;
-			productName = BitmarkSDK;
-			productReference = B8B8A89385510E06E8E2E9657794FC32 /* BitmarkSDK.framework */;
+			name = "Pods-Bitmark Registry dev";
+			productName = "Pods-Bitmark Registry dev";
+			productReference = 81FD27BBF22D0C292FE4A7245CE6828F /* Pods_Bitmark_Registry_dev.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		AE83927FE69E82F550595BB839D9B817 /* Pods-Bitmark Registry beta */ = {
+		7BF8A933FD8207C03C414943A597A54D /* Pods-Bitmark Registry beta */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 36A9BA2D7349038AA3CE14B821CB7C91 /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry beta" */;
+			buildConfigurationList = 6B4C584EBFFCCB8F72ABFB6EEE261C69 /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry beta" */;
 			buildPhases = (
-				07EA17F7DD02B42CA21D9447DB68DA5A /* Headers */,
-				2E963DD32770D9B8396499223DC03D8F /* Sources */,
-				1A647A655C87DCB554ADDABA492672E8 /* Frameworks */,
-				7FC32C6F8B196DB621A62B9DBB3D42EC /* Resources */,
+				F49516E5912D73474A47A4E43DE06F0A /* Headers */,
+				89A8D16D663C9FD108364473167253C7 /* Sources */,
+				05867AD70EEB7B58CEA31B0857FDF0C2 /* Frameworks */,
+				80FEAEBB52D6E448A151C2F7F36F85C2 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				BEE2C8A25E7BFBD15D67CBD197F1A9D4 /* PBXTargetDependency */,
-				C58387580BE00C02501870FEF067F9D9 /* PBXTargetDependency */,
-				1785A1A125AB5B75C754BABB79296E93 /* PBXTargetDependency */,
-				717E5E420BDF2AEADC398CBCDED83A04 /* PBXTargetDependency */,
+				39740EF8DCD517F57AB8055BEC2C57D6 /* PBXTargetDependency */,
+				440742E94CCF1EFE032060A91DF73AD3 /* PBXTargetDependency */,
+				87C701101E451A73B5D053561B136CDF /* PBXTargetDependency */,
+				1A9D1133782B8DDE4112B1586641A62F /* PBXTargetDependency */,
 			);
 			name = "Pods-Bitmark Registry beta";
 			productName = "Pods-Bitmark Registry beta";
-			productReference = 5EA1A416AD83C08C1D0E34C3F29AD6A1 /* Pods_Bitmark_Registry_beta.framework */;
+			productReference = F83D15895B841D681282424DACAADA84 /* Pods_Bitmark_Registry_beta.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */ = {
+		995D8491B782A74606C5AC2E85162706 /* KeychainAccess */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7426EFE9DC8CD76828693A410546A1C4 /* Build configuration list for PBXNativeTarget "TweetNacl" */;
+			buildConfigurationList = D15244D6D810AEF716284B29D4A3DA6D /* Build configuration list for PBXNativeTarget "KeychainAccess" */;
 			buildPhases = (
-				D366AEC5BD821CB4BDD29CE284AA7299 /* Headers */,
-				AF2BE25ADABD217F58CCC675A1C09CC2 /* Sources */,
-				9D387793F175F24DB8D3C6FFAD29C836 /* Frameworks */,
-				708B7C01B9A5B82DABB543C50A8745C3 /* Resources */,
+				69E5400B15DFCA3DA5FD3AFA6F5AB738 /* Headers */,
+				7ED3349776D6B1D07B37C224927E0DA6 /* Sources */,
+				4FCA75A18993AF38377238E7791E6682 /* Frameworks */,
+				575F7F8829B1E5C48E70CC7BC0E15315 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = TweetNacl;
-			productName = TweetNacl;
-			productReference = E04E4381193A4C3E9E7ACE6033C34151 /* TweetNacl.framework */;
+			name = KeychainAccess;
+			productName = KeychainAccess;
+			productReference = 818252F0BD55CCAA425E806758857A7E /* KeychainAccess.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C587F1B2FA2CB38A29F84936DEFD569D /* HockeySDK-HockeySDKResources */ = {
+		A3E07F7AC8C727650538B6AD0B2C0B0D /* BitmarkSDK */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0FC2FABFCFEBF498AF80B6AE02C030A5 /* Build configuration list for PBXNativeTarget "HockeySDK-HockeySDKResources" */;
+			buildConfigurationList = F75211CC400B7BB489753FCAB09817E5 /* Build configuration list for PBXNativeTarget "BitmarkSDK" */;
 			buildPhases = (
-				0FF9CBA4DD3425B7E8E790CB76D18160 /* Sources */,
-				D83F41C35122B9469EFE0B26DE89F3E2 /* Frameworks */,
-				EDD671D0392060F0FE733EF56A6C89BA /* Resources */,
+				BE00E641D1E1F0AB9238625BF024AE52 /* Headers */,
+				E424908F13798FC3C54F2945B532DD0D /* Sources */,
+				8149707BC28A7FCB8DEBD44C022FB72B /* Frameworks */,
+				82259F6EAFB661A63152DB623F5B8046 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				010FA5626D1C8930762803AA4687FAC1 /* PBXTargetDependency */,
+				6C15F9565E82F683AF6D358CC066A6D8 /* PBXTargetDependency */,
 			);
-			name = "HockeySDK-HockeySDKResources";
-			productName = "HockeySDK-HockeySDKResources";
-			productReference = AE3E2B3370B301976CF38C73E29EF0E5 /* HockeySDKResources.bundle */;
-			productType = "com.apple.product-type.bundle";
+			name = BitmarkSDK;
+			productName = BitmarkSDK;
+			productReference = 102AB07DC3B089B4418314D249EFF4DB /* BitmarkSDK.framework */;
+			productType = "com.apple.product-type.framework";
 		};
-		F347ABA86F9EE731898211163CB5580B /* Pods-Bitmark Registry */ = {
+		FDD592D83B8B1BC50022B09CB33217C0 /* iCloudDocumentSync */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 941191C23143C4F463E0DA870BBB9EBD /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry" */;
+			buildConfigurationList = B6077886BF3CA08383932108C84D700D /* Build configuration list for PBXNativeTarget "iCloudDocumentSync" */;
 			buildPhases = (
-				D750D141962F0417E836123408F4017B /* Headers */,
-				7919077099697644678AD75A40CF679C /* Sources */,
-				9B9ECDC61316D0EF467B5E438651CB8A /* Frameworks */,
-				46F92F5F6EB75A3BD9DD34765AADB940 /* Resources */,
+				04497CA6339EE464D87D28B780C5EE7C /* Headers */,
+				0F14A1DBAFDD4CD8C6DA18941A2B8E59 /* Sources */,
+				C68C92C08D17AECC91B9F10077AF408A /* Frameworks */,
+				E6EAE98749A42EC38BB273DF44E78C09 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				25F89D88061A739293A654485B59DF49 /* PBXTargetDependency */,
-				BEE6268815953DD567F6FF4724795FFB /* PBXTargetDependency */,
-				450A4753D511B40DA5967BB75CC0D49C /* PBXTargetDependency */,
 			);
-			name = "Pods-Bitmark Registry";
-			productName = "Pods-Bitmark Registry";
-			productReference = 63E4F944361680C8D609EEDF11ADDECC /* Pods_Bitmark_Registry.framework */;
+			name = iCloudDocumentSync;
+			productName = iCloudDocumentSync;
+			productReference = DDCF6B608D0EBEC320ADB360DD54AC20 /* iCloudDocumentSync.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -1061,31 +940,31 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = EB270BF9FFB8D3F038D099667BACF70D /* Products */;
+			productRefGroup = 335DE8610A79731F628B161D63FC45E0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9A7D03B11EFCF7AB036D170ED5FD506F /* BitmarkSDK */,
-				C587F1B2FA2CB38A29F84936DEFD569D /* HockeySDK-HockeySDKResources */,
-				1630C0AC0CCE2704C3F517D1DFD56586 /* KeychainAccess */,
-				F347ABA86F9EE731898211163CB5580B /* Pods-Bitmark Registry */,
-				AE83927FE69E82F550595BB839D9B817 /* Pods-Bitmark Registry beta */,
-				26FF84AF2636419193FA0EF4C9B9C759 /* Pods-Bitmark Registry dev */,
+				A3E07F7AC8C727650538B6AD0B2C0B0D /* BitmarkSDK */,
+				FDD592D83B8B1BC50022B09CB33217C0 /* iCloudDocumentSync */,
+				995D8491B782A74606C5AC2E85162706 /* KeychainAccess */,
+				3E367D9CBC05A13C451632B2278FCA83 /* Pods-Bitmark Registry */,
+				7BF8A933FD8207C03C414943A597A54D /* Pods-Bitmark Registry beta */,
+				70E763E6EE98432CA679CFB2910FF578 /* Pods-Bitmark Registry dev */,
 				6E0C8D103C3D1B950AE579C6228A1F6F /* Pods-BitmarkTests */,
-				C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */,
+				47A9C1DC0BC4116EDFE563E5E6FEF7F3 /* TweetNacl */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		25A3A9ABDC9DBAE5D02A7FBFF5E00201 /* Resources */ = {
+		3BF2944929A439A8075197D7E166A5E3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		46F92F5F6EB75A3BD9DD34765AADB940 /* Resources */ = {
+		575F7F8829B1E5C48E70CC7BC0E15315 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1099,110 +978,52 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		708B7C01B9A5B82DABB543C50A8745C3 /* Resources */ = {
+		80FEAEBB52D6E448A151C2F7F36F85C2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7FC32C6F8B196DB621A62B9DBB3D42EC /* Resources */ = {
+		82259F6EAFB661A63152DB623F5B8046 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82731D02B1DBAC326E46F5E6E83C1130 /* Resources */ = {
+		AFA47E9F75D0C172C34957004FC93CAD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C88A17941CCB3E55EFA6FBE6390AA864 /* Resources */ = {
+		E154FF1761FE968A3553B8055077F97E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EDD671D0392060F0FE733EF56A6C89BA /* Resources */ = {
+		E6EAE98749A42EC38BB273DF44E78C09 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				970466C82DB88ECDDD27BF3E9DF4FC46 /* AppIconPlaceHolder.png in Resources */,
-				1741C39F86DB6FEA459F2B549CD326FB /* Arrow.png in Resources */,
-				4BD0CD3F98A9DECD717A405B6F5B7D85 /* Arrow@2x.png in Resources */,
-				E244908082C989A96CA733AD2B3C78AB /* Arrow@3x.png in Resources */,
-				EEBE916DB2F225C07EF64E2D05060418 /* authorize_denied.png in Resources */,
-				D07FABF52BC4DA8B8D3C35DCAD6BC2BD /* authorize_denied@2x.png in Resources */,
-				945181D2B7E30D3C0B07EDEC26E1FC2B /* authorize_denied@3x.png in Resources */,
-				DDC7B4901BAFE62B6B02777D1FA029F4 /* bg.png in Resources */,
-				BA2233A98BC53B7D3A80D66A15750525 /* Blur.png in Resources */,
-				34F1B4DCE098F105AAE2C9CA9A58EF85 /* Blur@2x.png in Resources */,
-				94673DF28CFD10AF179F7D04CDA8BAC5 /* Blur@3x.png in Resources */,
-				94B7C8911B2A9A08A71606D9581A1148 /* buttonRoundedDelete.png in Resources */,
-				3B13A83F0B416416FE3AE60DD68D00B4 /* buttonRoundedDelete@2x.png in Resources */,
-				1B9228F487DF7B494E7E8E93DF2D2371 /* buttonRoundedDeleteHighlighted.png in Resources */,
-				10E71ECB9306E5534B085AEA0BCD8A52 /* buttonRoundedDeleteHighlighted@2x.png in Resources */,
-				A416F348274132328F2F7889EE0070B0 /* buttonRoundedRegular.png in Resources */,
-				0EB4EA6580DAE04E7C6E70ECF6434B32 /* buttonRoundedRegular@2x.png in Resources */,
-				05B2A27272B2CE67127CD9DD9E729606 /* buttonRoundedRegularHighlighted.png in Resources */,
-				95B86A37516E4159141D192C653EC815 /* buttonRoundedRegularHighlighted@2x.png in Resources */,
-				C55B22B5563005DBE84409659356E8F3 /* Cancel.png in Resources */,
-				7D498B858EFD7F9E012A78B81781175B /* Cancel@2x.png in Resources */,
-				3E08E40938C162E223543E74CC97374E /* Cancel@3x.png in Resources */,
-				4F01E11E5BC96B92C255589CF5BBCC49 /* de.lproj in Resources */,
-				682F3F35A8D7954EAD87213CF6D92CA6 /* en.lproj in Resources */,
-				A9DDA23615CC07AA99D48471BF75C2C1 /* es.lproj in Resources */,
-				B8D849B69A2177B7C31381E54D1A0712 /* fa.lproj in Resources */,
-				FC3045CA8195C0BF3460910978BEE9B2 /* feedbackActivity.png in Resources */,
-				AD12DCF1C2174A7E2FA68AF2D7D59DAF /* feedbackActivity@2x.png in Resources */,
-				40902EEE245159F48FE2048E0DAE9168 /* feedbackActivity@2x~ipad.png in Resources */,
-				D9DEFA783A3190B4261843DCF2D07E6E /* feedbackActivity@3x.png in Resources */,
-				59CA5F7719005184AB71884C81DFA971 /* feedbackActivity~ipad.png in Resources */,
-				CF06D2A6538A5E191A84AAD84742D4B2 /* FeedbackPlaceholder.png in Resources */,
-				6EC8E3228BB60E487E156467919BA83A /* fr.lproj in Resources */,
-				10102D2E1E4FCF01E4839F71170EF4FA /* hr.lproj in Resources */,
-				0BE0EB2E46F8813032EC45640B8B595B /* hu.lproj in Resources */,
-				7C4D1F326A2B12AE370997778531801A /* iconCamera.png in Resources */,
-				BF9BA87EFEB1661385681C47E3F5AF1F /* iconCamera@2x.png in Resources */,
-				3D99AEFD65C4B18FF4D751CC43DEAF0D /* IconGradient.png in Resources */,
-				CCFF4CE602C8186E2465ADE936E75F08 /* IconGradient@2x.png in Resources */,
-				4EC2B357CD04FCBA1A75CC7A477153CC /* it.lproj in Resources */,
-				9369C7444953229DAAFC0D616CCAC0FF /* ja.lproj in Resources */,
-				35720EF83CF77037C3DF93CCA5394BF6 /* nb.lproj in Resources */,
-				2744196B80834C8C64B2B22220285201 /* nl.lproj in Resources */,
-				CA8BF5345E764D249B03B1A6778AED0F /* Ok.png in Resources */,
-				7D99EDF1A4767CCDB9B5E29DA6D6B8D6 /* Ok@2x.png in Resources */,
-				ECAE78B15FAE7AF144F6EA0A1F03AF16 /* Ok@3x.png in Resources */,
-				4548C1011A02C777B4B263AD821A2DD3 /* pt-PT.lproj in Resources */,
-				A8D32AA73678855CF6E93D4FFEA2F7AF /* pt.lproj in Resources */,
-				7BF1BC9703683E3CDD159A6264CFB58B /* Rectangle.png in Resources */,
-				8D401BC540B6CF254C8C5E2B2E41636D /* Rectangle@2x.png in Resources */,
-				211848600C7182B0051E73DE82B20421 /* Rectangle@3x.png in Resources */,
-				7DDD41B9276BFE828CD85F7E049F9A7A /* ru.lproj in Resources */,
-				7FC1A2AC6EE5A2A9FED69B5D8C39ECA9 /* tr.lproj in Resources */,
-				8F7E5E1D1B7D7B814864BFCAEBCAF00F /* zh-Hans.lproj in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0FF9CBA4DD3425B7E8E790CB76D18160 /* Sources */ = {
+		0F14A1DBAFDD4CD8C6DA18941A2B8E59 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		2E963DD32770D9B8396499223DC03D8F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				73C4327C8376E69FB8AA2136B8D7CE58 /* Pods-Bitmark Registry beta-dummy.m in Sources */,
+				85E61FBE99D6DD930AB7DFC5713F6612 /* iCloud-Prefix.pch in Sources */,
+				CC5D3D98ADFE06C019C13EAF996FEF50 /* iCloud.m in Sources */,
+				C6243487550BBFC4A6205C3C935A99F0 /* iCloudDocument.m in Sources */,
+				F6090EF05A7AEFC1A27E5E8D6AEF67DC /* iCloudDocumentSync-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1214,178 +1035,200 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6CF23713FC2035F5BD9D246E95236685 /* Sources */ = {
+		49BAEE2957FB824CC9C00F49CEBF1167 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8FC628BC39A85B021B33CD0EDF94E06 /* Keychain.swift in Sources */,
-				7FD1C9171DE80CDCBE2C974D9EE0991A /* KeychainAccess-dummy.m in Sources */,
+				1D4E521918BF27A43CB3DE9A0B55346E /* Constant.swift in Sources */,
+				3603E21389EC0C1E3FD26CF342E086C9 /* ctweetnacl.c in Sources */,
+				D459F1F5C29EF381C8AAABD8548C6A04 /* module.map in Sources */,
+				F45F60B810AFB5AD5A5FA31C7960AAC3 /* TweetNacl-dummy.m in Sources */,
+				973B5BDD48D42A656C9C24234B732808 /* TweetNacl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7919077099697644678AD75A40CF679C /* Sources */ = {
+		79415D059C8E0DEE7071075B15978FF2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB8CC1D553EA759444663CE60E1DD12A /* Pods-Bitmark Registry-dummy.m in Sources */,
+				41578EEACFB57E010B6E8DE327689E05 /* Pods-Bitmark Registry-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AF2BE25ADABD217F58CCC675A1C09CC2 /* Sources */ = {
+		7ED3349776D6B1D07B37C224927E0DA6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E528CC3282ED867146F11A945E98113 /* Constant.swift in Sources */,
-				9836CA5C10A6CAB5D7365A71B4943CF1 /* ctweetnacl.c in Sources */,
-				EC9861BCD34B71E38B20097084D58FF0 /* module.map in Sources */,
-				3B384DAC10D2E537452641C609CF9006 /* TweetNacl-dummy.m in Sources */,
-				F30DA8A1A205D8A310348D48E9C15C7C /* TweetNacl.swift in Sources */,
+				719E03CA263165616350799AA19346D2 /* Keychain.swift in Sources */,
+				4611B8DF04197A7534FA9932032512E7 /* KeychainAccess-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AFF10B399C8F6105022035786E7B960E /* Sources */ = {
+		89A8D16D663C9FD108364473167253C7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C936B09D61C39335C2A35BD7A7C4C20C /* Account.swift in Sources */,
-				582A4FFEC67A1EA7283416CCF7DE3DC9 /* AccountNumber.swift in Sources */,
-				6716AE3BF2076B797200E0CD079B44EE /* API+Asset.swift in Sources */,
-				B83E79A322A7C5250E051A71106E4867 /* API+Bitmark.swift in Sources */,
-				DDDB2E55D48030593C5DBFA794601F57 /* API+Issuing.swift in Sources */,
-				E2A6F85F24BE0871E91D31ECAD64CF53 /* API+Transfer.swift in Sources */,
-				F9DB93F751270C11803813D5F11A2575 /* API.swift in Sources */,
-				1BD453782B7F29EE3DE319AC43F1FEE6 /* Asset.swift in Sources */,
-				CB56A193E4A5163236E4AA04AD0FE7CB /* AssetQuery.swift in Sources */,
-				86080098A45FE4FFAA0BB22AFFBCACCF /* AuthKey.swift in Sources */,
-				02E668C269C103A951D1E05C73CFA186 /* Base58.swift in Sources */,
-				229C0D036E9312F5CD53592917E6CE46 /* BinaryPacking.swift in Sources */,
-				13F28D53E529C4E9F5AAF4D6C2E70A55 /* Bitmark.swift in Sources */,
-				891A9595F2143798530744349E3D1D9F /* BitmarkQuery.swift in Sources */,
-				DBB00B9A4A1B3C4933AD2DA7E4E23C69 /* BitmarkSDK-dummy.m in Sources */,
-				7CAC1795A174343E8B68D073C8CD82DA /* BItmarkSDK.swift in Sources */,
-				B31E1A951071DAA01CA7843C3CF2C2CD /* Common.swift in Sources */,
-				3D5540F3A0FDD1C883EF85C0ED2EC0FB /* Config.swift in Sources */,
-				4764A0CCB17FC1663236EB10E6F895E3 /* Data+Extension.swift in Sources */,
-				85D126F98E588C703E15F192B538BBB0 /* Ed25519.swift in Sources */,
-				B8AE7225CEF20209E6A50211950C5DAA /* EncryptionKey.swift in Sources */,
-				728B9051546EA3999FE0E17688AB2707 /* FileUtil.swift in Sources */,
-				F7DBF447F0D19C414CC5B796FBAAB435 /* IssuanceParams.swift in Sources */,
-				717A3E0BA053ABCDB3A34C68D48DED20 /* main.c in Sources */,
-				BC874915FD7ED4CE0EA30076BFCEF099 /* Migration.swift in Sources */,
-				A5F8767258CC31F16AC9AB2CA0A723EF /* ModelEquatable.swift in Sources */,
-				7AC37665783490E831ADDDB2F4E4E542 /* OfferParams.swift in Sources */,
-				D84A0585A2A6B72CD4940DE92EC36967 /* Parameterizable.swift in Sources */,
-				FD9D4AEB1C57DF9D1C882BB3AD5E2F6E /* Queryable.swift in Sources */,
-				E081DED6B068CCD1698020967CFA72A3 /* RecoverPhrase+Dic.swift in Sources */,
-				5D3F6EA40089DBB3DA67D28A747275BA /* RecoverPhrase.swift in Sources */,
-				E564C9B9AE4DA2CB53E056D5CE930999 /* RegistrationParams.swift in Sources */,
-				70BC9C2195FDF2D42B55E0C3097D0899 /* Seed.swift in Sources */,
-				504FDC57948E1EC58AD587C23CB49396 /* sha3.c in Sources */,
-				6648D2C2740A1BA5611347DEB7201E17 /* SHA3.swift in Sources */,
-				6C0E710FA822BBAAE16DE5011BB653C9 /* Signable.swift in Sources */,
-				6158FA3F19FA47E4477906F3CE3CAC79 /* Transaction.swift in Sources */,
-				64315A995D7D5B487D2CC42A9C9D4C38 /* TransactionQuery.swift in Sources */,
-				91BC54F739A468F50D09AB5E6B67360F /* TransferParams.swift in Sources */,
-				EAA6391E1FFC02C8C35CDC8DB5E81C4E /* Varint.swift in Sources */,
+				ADFB83F3929F33356EF0F127795F52DD /* Pods-Bitmark Registry beta-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CEC6BBF6FB13291EA0ABAE32B9624852 /* Sources */ = {
+		A4CA63F869F780758A820D051B7D7EDD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1344E160ED2ECEF270CEB7836B191772 /* Pods-Bitmark Registry dev-dummy.m in Sources */,
+				DA80D230322630E7FB58EE5A4F09CFA3 /* Pods-Bitmark Registry dev-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E424908F13798FC3C54F2945B532DD0D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57639E8BEDBC25C3AA328899CA7D6CFF /* Account+Keychain.swift in Sources */,
+				213BFEB8060AA45633D5F3D050B8C177 /* Account.swift in Sources */,
+				810712624D233B00147370D145CDF97F /* AccountNumber.swift in Sources */,
+				C636409726BCE5CAB5C63B920F16ACA8 /* API+Asset.swift in Sources */,
+				A4B3C7C4B6C275D781918476D099C5E4 /* API+Bitmark.swift in Sources */,
+				0E1BEA7BD87577C8E7E7CD91FA26E8EC /* API+Issuing.swift in Sources */,
+				4EE962BF621EEC74F9A54F268DE39D17 /* API+Transfer.swift in Sources */,
+				41CA6DDA3D3AAF79D30F5B24BBFD8AA3 /* API.swift in Sources */,
+				E95B97C75EC7106EA98DFF182ABD1F2A /* Asset.swift in Sources */,
+				6F530896C0BD1087607AF45617904627 /* AssetQuery.swift in Sources */,
+				CB8024BBE4C67F00E1ECA85301A554BD /* AuthKey.swift in Sources */,
+				7E6649810EFE7370A5FE6015BC57EDDE /* Base58.swift in Sources */,
+				A1C2C9509F5AC7404731F529385A099E /* BinaryPacking.swift in Sources */,
+				9869D7AB50CA9DB2DEE2D2BAD2B9DF54 /* Bitmark.swift in Sources */,
+				ED7C02B8F71C8B11C3608190F4BC83B5 /* BitmarkQuery.swift in Sources */,
+				A583F60357E475E87936824073D37F47 /* BitmarkSDK-dummy.m in Sources */,
+				8C7F1974888A81C9E7B7C07C8012310A /* BItmarkSDK.swift in Sources */,
+				0BFED81A104851996993F6D0DC23928D /* Common.swift in Sources */,
+				6056E6F1AE9DE36C2240E8FE69FB08C3 /* Config.swift in Sources */,
+				CE9E93EB143342F70718E91A742AEB29 /* Data+Extension.swift in Sources */,
+				8738CC2A3B3ACCF1F698DE95E759A63E /* Ed25519.swift in Sources */,
+				CBC6F641DCE88609E3E552CFB0CED937 /* EncryptionKey.swift in Sources */,
+				204A021720387352C832EAF09E7801AB /* FileUtil.swift in Sources */,
+				ABA27BD6C85801F6AD88640F06655ED0 /* IssuanceParams.swift in Sources */,
+				BCED8FBFF5E6597CBD0A323DCA988635 /* main.c in Sources */,
+				286AD832B49EC97EB155BCFE0ABA5BC8 /* Migration.swift in Sources */,
+				521FCC4C569847C9F62ABE2D001A1B91 /* ModelEquatable.swift in Sources */,
+				798770212201518508E072BA0C350D95 /* OfferParams.swift in Sources */,
+				B798E25B8F3BA75FDD4CBD055742C9E3 /* Parameterizable.swift in Sources */,
+				231D81BE704151025803C5432A2F59D3 /* Queryable.swift in Sources */,
+				318B12A57136067A57E755AE32F1D335 /* RecoverPhrase+Dic.swift in Sources */,
+				2050456DFB0445C75FD06726362FAD5B /* RecoverPhrase.swift in Sources */,
+				61640350A6E2F47CFA3A85103999A067 /* RegistrationParams.swift in Sources */,
+				45FED8ED482D23DACE954C8611CACCDE /* Seed.swift in Sources */,
+				4C5DFD733441E942FC18E13BAF59D5FD /* sha3.c in Sources */,
+				B6C83404F214A6FCA23ECFAA0A5A290D /* SHA3.swift in Sources */,
+				17A25293B8C3152B8C69F9988B6AEAA9 /* Signable.swift in Sources */,
+				2783D4B5BE0191D75DBF98FF920C0A31 /* Transaction.swift in Sources */,
+				68E538D3CA7F36154194A24E47D2E874 /* TransactionQuery.swift in Sources */,
+				8C2B2AF27609B88D87301C192EEF255D /* TransferParams.swift in Sources */,
+				2A21A574700594C575A5A09D59C0610C /* Varint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0B8CA256BB45A2C8955B8A58F2A24745 /* PBXTargetDependency */ = {
+		009F2BAF88D630B0205E2B3A3466770C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "HockeySDK-HockeySDKResources";
-			target = C587F1B2FA2CB38A29F84936DEFD569D /* HockeySDK-HockeySDKResources */;
-			targetProxy = E9B7305E603F9FFA68103DF836D407C4 /* PBXContainerItemProxy */;
+			name = TweetNacl;
+			target = 47A9C1DC0BC4116EDFE563E5E6FEF7F3 /* TweetNacl */;
+			targetProxy = 6C298435DB5EB446C43A92EBF98C9979 /* PBXContainerItemProxy */;
 		};
-		1785A1A125AB5B75C754BABB79296E93 /* PBXTargetDependency */ = {
+		010FA5626D1C8930762803AA4687FAC1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = KeychainAccess;
-			target = 1630C0AC0CCE2704C3F517D1DFD56586 /* KeychainAccess */;
-			targetProxy = DBA68A67F225C1557A76A4A6AF599C11 /* PBXContainerItemProxy */;
+			target = 995D8491B782A74606C5AC2E85162706 /* KeychainAccess */;
+			targetProxy = F3FC1457B041F2411C75A72B1938B772 /* PBXContainerItemProxy */;
 		};
-		25F89D88061A739293A654485B59DF49 /* PBXTargetDependency */ = {
+		1A9D1133782B8DDE4112B1586641A62F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = iCloudDocumentSync;
+			target = FDD592D83B8B1BC50022B09CB33217C0 /* iCloudDocumentSync */;
+			targetProxy = BD25A3126FB2555466038AEC453879C3 /* PBXContainerItemProxy */;
+		};
+		39740EF8DCD517F57AB8055BEC2C57D6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = BitmarkSDK;
-			target = 9A7D03B11EFCF7AB036D170ED5FD506F /* BitmarkSDK */;
-			targetProxy = 1216E7FBC76E93CAF94A73BA23A43962 /* PBXContainerItemProxy */;
-		};
-		3F1A7272C827907033F3CF1C0DBD846A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = KeychainAccess;
-			target = 1630C0AC0CCE2704C3F517D1DFD56586 /* KeychainAccess */;
-			targetProxy = 7CFE57398EA887E3BF5FF36B2C37EE19 /* PBXContainerItemProxy */;
+			target = A3E07F7AC8C727650538B6AD0B2C0B0D /* BitmarkSDK */;
+			targetProxy = C155115C63116A45EC99635628C31709 /* PBXContainerItemProxy */;
 		};
 		40C09C3BEB5DFAB7DEF2FFF6D0E47492 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-Bitmark Registry";
-			target = F347ABA86F9EE731898211163CB5580B /* Pods-Bitmark Registry */;
+			target = 3E367D9CBC05A13C451632B2278FCA83 /* Pods-Bitmark Registry */;
 			targetProxy = 9A68C293110229BA1B5654AE7521FD9F /* PBXContainerItemProxy */;
 		};
-		450A4753D511B40DA5967BB75CC0D49C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TweetNacl;
-			target = C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */;
-			targetProxy = 18AD114AF54905C01B85E07723ED1144 /* PBXContainerItemProxy */;
-		};
-		717E5E420BDF2AEADC398CBCDED83A04 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TweetNacl;
-			target = C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */;
-			targetProxy = F9A7C389D8479C2EBD37B0B5F6EDC6D0 /* PBXContainerItemProxy */;
-		};
-		A12DB9B223822ACA7CD091C3A5CE271B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TweetNacl;
-			target = C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */;
-			targetProxy = 63809A4FBDDBC97659E6DC3B9F7CA248 /* PBXContainerItemProxy */;
-		};
-		B022E81533CFB9F03D03302F8153F527 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TweetNacl;
-			target = C2AE887ED5B0FE5BC099FBE4A5504306 /* TweetNacl */;
-			targetProxy = 85FC82FD58EF3671FE3FFB2DD1813D75 /* PBXContainerItemProxy */;
-		};
-		BEE2C8A25E7BFBD15D67CBD197F1A9D4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = BitmarkSDK;
-			target = 9A7D03B11EFCF7AB036D170ED5FD506F /* BitmarkSDK */;
-			targetProxy = D5025A26FAC38833F3B6D3AD668AAA4F /* PBXContainerItemProxy */;
-		};
-		BEE6268815953DD567F6FF4724795FFB /* PBXTargetDependency */ = {
+		440742E94CCF1EFE032060A91DF73AD3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = KeychainAccess;
-			target = 1630C0AC0CCE2704C3F517D1DFD56586 /* KeychainAccess */;
-			targetProxy = 894548F7ECBB6C4F7C1BCBEAE8A5A785 /* PBXContainerItemProxy */;
+			target = 995D8491B782A74606C5AC2E85162706 /* KeychainAccess */;
+			targetProxy = 8884262FD9C436C73E50C48C544FCCE7 /* PBXContainerItemProxy */;
 		};
-		C58387580BE00C02501870FEF067F9D9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "HockeySDK-HockeySDKResources";
-			target = C587F1B2FA2CB38A29F84936DEFD569D /* HockeySDK-HockeySDKResources */;
-			targetProxy = F19C1A78FD690E03E6AC89A8CF7ACF86 /* PBXContainerItemProxy */;
-		};
-		D0344A60A4033CCD6DC73B68392B8522 /* PBXTargetDependency */ = {
+		5020AB6474D6FED2A24836989E12D0FA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = BitmarkSDK;
-			target = 9A7D03B11EFCF7AB036D170ED5FD506F /* BitmarkSDK */;
-			targetProxy = FEBA45FEA8CBDEBC6AC86F7BFBBFC78F /* PBXContainerItemProxy */;
+			target = A3E07F7AC8C727650538B6AD0B2C0B0D /* BitmarkSDK */;
+			targetProxy = E49D9A64070FCCA4FCEEF6A7B9E940B7 /* PBXContainerItemProxy */;
+		};
+		57F50CAA3573D731FCF212DC4B0AE32B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TweetNacl;
+			target = 47A9C1DC0BC4116EDFE563E5E6FEF7F3 /* TweetNacl */;
+			targetProxy = 1C9BF108E3A8BF19604D59EDBD6C7D88 /* PBXContainerItemProxy */;
+		};
+		6C15F9565E82F683AF6D358CC066A6D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TweetNacl;
+			target = 47A9C1DC0BC4116EDFE563E5E6FEF7F3 /* TweetNacl */;
+			targetProxy = 29C59569C645DEF78C460388BBADE289 /* PBXContainerItemProxy */;
+		};
+		73AC5AE15E97D9177442D72E57C8B20A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KeychainAccess;
+			target = 995D8491B782A74606C5AC2E85162706 /* KeychainAccess */;
+			targetProxy = B32232C2CA2E90F1209F1CB65BDFD27B /* PBXContainerItemProxy */;
+		};
+		87C701101E451A73B5D053561B136CDF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = TweetNacl;
+			target = 47A9C1DC0BC4116EDFE563E5E6FEF7F3 /* TweetNacl */;
+			targetProxy = 98D9FCBC3F926A3DF57CAC7B7E31C7AC /* PBXContainerItemProxy */;
+		};
+		9A822E631E3C06FB3FD8FD89A1BD22F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = KeychainAccess;
+			target = 995D8491B782A74606C5AC2E85162706 /* KeychainAccess */;
+			targetProxy = 100BC6712221F891B083965B2FC3ADFE /* PBXContainerItemProxy */;
+		};
+		CA78446172EA1B71932599043E8DA953 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BitmarkSDK;
+			target = A3E07F7AC8C727650538B6AD0B2C0B0D /* BitmarkSDK */;
+			targetProxy = 3B08295A6FCF7EACD77428A5A29BE537 /* PBXContainerItemProxy */;
+		};
+		E339DDCB010005AA1A3A46EE1224F0D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = iCloudDocumentSync;
+			target = FDD592D83B8B1BC50022B09CB33217C0 /* iCloudDocumentSync */;
+			targetProxy = C9F8A29D3E55B9898866D90D7F325A90 /* PBXContainerItemProxy */;
+		};
+		FA2319593D143B54B2033769894F2D25 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = iCloudDocumentSync;
+			target = FDD592D83B8B1BC50022B09CB33217C0 /* iCloudDocumentSync */;
+			targetProxy = AE010EB80E0D1ADD2AE841E36C7C3F1D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		0CA92EB08AB58643091DAD76EEDD8F05 /* Release */ = {
+		29AD7D909217A6460D493902343F043D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A7B5558E5C02B1FBA0EE9BF8A675E2E8 /* BitmarkSDK.xcconfig */;
+			baseConfigurationReference = 566E7D368634E0903AB8ED1333BE6578 /* Pods-Bitmark Registry beta.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1396,14 +1239,47 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/BitmarkSDK/BitmarkSDK-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/BitmarkSDK/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-Bitmark Registry beta/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/BitmarkSDK/BitmarkSDK.modulemap";
-				PRODUCT_MODULE_NAME = BitmarkSDK;
-				PRODUCT_NAME = BitmarkSDK;
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Bitmark Registry beta/Pods-Bitmark Registry beta.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		381B7AE486DD95EEE54BE60DA1409951 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D383AD55A164F7E6FEBD61B67B216A18 /* TweetNacl.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/TweetNacl/TweetNacl-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TweetNacl/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/TweetNacl/TweetNacl.modulemap";
+				PRODUCT_MODULE_NAME = TweetNacl;
+				PRODUCT_NAME = TweetNacl;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -1415,11 +1291,10 @@
 			};
 			name = Release;
 		};
-		4A401AF44916114ECC9B947484EEED08 /* Debug */ = {
+		477139DD4376B3C3223A5476438E4846 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A7B5558E5C02B1FBA0EE9BF8A675E2E8 /* BitmarkSDK.xcconfig */;
+			baseConfigurationReference = 30B6F5F09CE00EC3D4511373E9DCE8DF /* KeychainAccess.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1429,14 +1304,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/BitmarkSDK/BitmarkSDK-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/BitmarkSDK/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/KeychainAccess/KeychainAccess-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/KeychainAccess/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/BitmarkSDK/BitmarkSDK.modulemap";
-				PRODUCT_MODULE_NAME = BitmarkSDK;
-				PRODUCT_NAME = BitmarkSDK;
+				MODULEMAP_FILE = "Target Support Files/KeychainAccess/KeychainAccess.modulemap";
+				PRODUCT_MODULE_NAME = KeychainAccess;
+				PRODUCT_NAME = KeychainAccess;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -1447,21 +1322,108 @@
 			};
 			name = Debug;
 		};
-		73ACCA04BA7F0000F07561FEBABDE5DD /* Debug */ = {
+		4953C39F325D6D5DE53C4008BD1EECE7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D383AD55A164F7E6FEBD61B67B216A18 /* TweetNacl.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/HockeySDK";
-				INFOPLIST_FILE = "Target Support Files/HockeySDK/ResourceBundle-HockeySDKResources-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				PRODUCT_NAME = HockeySDKResources;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/TweetNacl/TweetNacl-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/TweetNacl/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/TweetNacl/TweetNacl.modulemap";
+				PRODUCT_MODULE_NAME = TweetNacl;
+				PRODUCT_NAME = TweetNacl;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		53E69516CA33DEA2AE0B4573233E02EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7ABBA314843EBAF10F87824D4256E95 /* Pods-Bitmark Registry dev.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-Bitmark Registry dev/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
+		};
+		57252D5AAF98736EC79EA641E306ED7D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC3113124E48D425989C4BD5EF6CD1D8 /* Pods-Bitmark Registry beta.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-Bitmark Registry beta/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Bitmark Registry beta/Pods-Bitmark Registry beta.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
 		};
 		79159B6D43ECB5CE6F0A489B5DDF55F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1484,41 +1446,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-BitmarkTests/Pods-BitmarkTests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		7A6B0CB6671C87779BD6B1736D1538AE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4FC4EC3463DDFF2CC758C7848E7B07F0 /* Pods-Bitmark Registry dev.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Bitmark Registry dev/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -1631,9 +1558,9 @@
 			};
 			name = Release;
 		};
-		9D3FE9FA82AD340313FD8813240552CA /* Debug */ = {
+		A3B3297C8886A76782738CB185E2CC37 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BDC51794A45BD6F94528A093EA4AD6D6 /* Pods-Bitmark Registry.debug.xcconfig */;
+			baseConfigurationReference = 4FC4EC3463DDFF2CC758C7848E7B07F0 /* Pods-Bitmark Registry dev.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1646,12 +1573,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Bitmark Registry/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-Bitmark Registry dev/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Bitmark Registry/Pods-Bitmark Registry.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -1666,9 +1593,9 @@
 			};
 			name = Debug;
 		};
-		AA98FBE85C02FF3E1D4C48A3800D69B6 /* Release */ = {
+		C4C807A09612EFF802DF4976499B6350 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B375DAA0787634E7FA243B9657C59D75 /* KeychainAccess.xcconfig */;
+			baseConfigurationReference = 30B6F5F09CE00EC3D4511373E9DCE8DF /* KeychainAccess.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1698,10 +1625,11 @@
 			};
 			name = Release;
 		};
-		B1E7A319E7855B6DBB7E70C39B2F10C6 /* Debug */ = {
+		CCCF3A6F4983C4A1B42C76DFD211441E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 91278A3B4DF7E7BFD4F08F9E82B081DF /* TweetNacl.xcconfig */;
+			baseConfigurationReference = 91902B1A1220DE63381B2D78AEA23772 /* BitmarkSDK.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1711,45 +1639,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/TweetNacl/TweetNacl-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TweetNacl/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/BitmarkSDK/BitmarkSDK-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/BitmarkSDK/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TweetNacl/TweetNacl.modulemap";
-				PRODUCT_MODULE_NAME = TweetNacl;
-				PRODUCT_NAME = TweetNacl;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		B43516A2ABF57FDE814DB07EA5D0F57B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 91278A3B4DF7E7BFD4F08F9E82B081DF /* TweetNacl.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/TweetNacl/TweetNacl-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/TweetNacl/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/TweetNacl/TweetNacl.modulemap";
-				PRODUCT_MODULE_NAME = TweetNacl;
-				PRODUCT_NAME = TweetNacl;
+				MODULEMAP_FILE = "Target Support Files/BitmarkSDK/BitmarkSDK.modulemap";
+				PRODUCT_MODULE_NAME = BitmarkSDK;
+				PRODUCT_NAME = BitmarkSDK;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -1761,9 +1658,9 @@
 			};
 			name = Release;
 		};
-		C9A3097B041DF008944E006ED2D9C5EE /* Debug */ = {
+		D38B3800E4974349E58F7B5611B492CB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 566E7D368634E0903AB8ED1333BE6578 /* Pods-Bitmark Registry beta.debug.xcconfig */;
+			baseConfigurationReference = 695328FCCDA47B83F9CB589B2F06FD63 /* Pods-Bitmark Registry.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1776,63 +1673,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Bitmark Registry beta/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-Bitmark Registry/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Bitmark Registry beta/Pods-Bitmark Registry beta.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		D521DF85A1FBC90A5BD76522C1863CEE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/HockeySDK";
-				INFOPLIST_FILE = "Target Support Files/HockeySDK/ResourceBundle-HockeySDKResources-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				PRODUCT_NAME = HockeySDKResources;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
-		D5EE85CCCA48BFD32DA779D06A8CD5FB /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7ABBA314843EBAF10F87824D4256E95 /* Pods-Bitmark Registry dev.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Bitmark Registry dev/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Bitmark Registry dev/Pods-Bitmark Registry dev.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-Bitmark Registry/Pods-Bitmark Registry.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -1914,45 +1760,9 @@
 			};
 			name = Debug;
 		};
-		E933BEF66EBB59B1AD78D5DA014A4DC0 /* Release */ = {
+		E2BAD8717434A268D565A26B845F58EE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC3113124E48D425989C4BD5EF6CD1D8 /* Pods-Bitmark Registry beta.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-Bitmark Registry beta/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Bitmark Registry beta/Pods-Bitmark Registry beta.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		EE1FFEE52EB6C2706BBEF2F936F2CCBA /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 695328FCCDA47B83F9CB589B2F06FD63 /* Pods-Bitmark Registry.release.xcconfig */;
+			baseConfigurationReference = BDC51794A45BD6F94528A093EA4AD6D6 /* Pods-Bitmark Registry.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1980,15 +1790,46 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
-		FE7F9698AABDE060F38D8CE93838F298 /* Debug */ = {
+		E6E761BCD772143E386E21A6A89FE956 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B375DAA0787634E7FA243B9657C59D75 /* KeychainAccess.xcconfig */;
+			baseConfigurationReference = 91902B1A1220DE63381B2D78AEA23772 /* BitmarkSDK.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/BitmarkSDK/BitmarkSDK-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/BitmarkSDK/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/BitmarkSDK/BitmarkSDK.modulemap";
+				PRODUCT_MODULE_NAME = BitmarkSDK;
+				PRODUCT_NAME = BitmarkSDK;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EB1C73E605F8DAA440F14A14E134A46A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6091BA031D1189A05C8B0367604D77D4 /* iCloudDocumentSync.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1999,14 +1840,46 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/KeychainAccess/KeychainAccess-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/KeychainAccess/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/iCloudDocumentSync/iCloudDocumentSync-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/iCloudDocumentSync/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/KeychainAccess/KeychainAccess.modulemap";
-				PRODUCT_MODULE_NAME = KeychainAccess;
-				PRODUCT_NAME = KeychainAccess;
+				MODULEMAP_FILE = "Target Support Files/iCloudDocumentSync/iCloudDocumentSync.modulemap";
+				PRODUCT_MODULE_NAME = iCloudDocumentSync;
+				PRODUCT_NAME = iCloudDocumentSync;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EB59DBF5CBFBC47044435C5066F15C9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6091BA031D1189A05C8B0367604D77D4 /* iCloudDocumentSync.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/iCloudDocumentSync/iCloudDocumentSync-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/iCloudDocumentSync/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/iCloudDocumentSync/iCloudDocumentSync.modulemap";
+				PRODUCT_MODULE_NAME = iCloudDocumentSync;
+				PRODUCT_NAME = iCloudDocumentSync;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -2020,11 +1893,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0FC2FABFCFEBF498AF80B6AE02C030A5 /* Build configuration list for PBXNativeTarget "HockeySDK-HockeySDKResources" */ = {
+		29C540D24393569BCE79FC93177673CA /* Build configuration list for PBXNativeTarget "TweetNacl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				73ACCA04BA7F0000F07561FEBABDE5DD /* Debug */,
-				D521DF85A1FBC90A5BD76522C1863CEE /* Release */,
+				4953C39F325D6D5DE53C4008BD1EECE7 /* Debug */,
+				381B7AE486DD95EEE54BE60DA1409951 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2038,20 +1911,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		36A9BA2D7349038AA3CE14B821CB7C91 /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry beta" */ = {
+		45C727AC99373C7DD1A39D2CBB09606D /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry dev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C9A3097B041DF008944E006ED2D9C5EE /* Debug */,
-				E933BEF66EBB59B1AD78D5DA014A4DC0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		4BC26EB508840B6B2446C27E690E60BC /* Build configuration list for PBXNativeTarget "KeychainAccess" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FE7F9698AABDE060F38D8CE93838F298 /* Debug */,
-				AA98FBE85C02FF3E1D4C48A3800D69B6 /* Release */,
+				A3B3297C8886A76782738CB185E2CC37 /* Debug */,
+				53E69516CA33DEA2AE0B4573233E02EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2065,38 +1929,47 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		67CDF8F88468A59E5C5606319382AF9D /* Build configuration list for PBXNativeTarget "BitmarkSDK" */ = {
+		6B4C584EBFFCCB8F72ABFB6EEE261C69 /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry beta" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4A401AF44916114ECC9B947484EEED08 /* Debug */,
-				0CA92EB08AB58643091DAD76EEDD8F05 /* Release */,
+				29AD7D909217A6460D493902343F043D /* Debug */,
+				57252D5AAF98736EC79EA641E306ED7D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7426EFE9DC8CD76828693A410546A1C4 /* Build configuration list for PBXNativeTarget "TweetNacl" */ = {
+		B6077886BF3CA08383932108C84D700D /* Build configuration list for PBXNativeTarget "iCloudDocumentSync" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B1E7A319E7855B6DBB7E70C39B2F10C6 /* Debug */,
-				B43516A2ABF57FDE814DB07EA5D0F57B /* Release */,
+				EB59DBF5CBFBC47044435C5066F15C9A /* Debug */,
+				EB1C73E605F8DAA440F14A14E134A46A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		941191C23143C4F463E0DA870BBB9EBD /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry" */ = {
+		C7BC27123757B6CAA90F9DE1122DED8E /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9D3FE9FA82AD340313FD8813240552CA /* Debug */,
-				EE1FFEE52EB6C2706BBEF2F936F2CCBA /* Release */,
+				E2BAD8717434A268D565A26B845F58EE /* Debug */,
+				D38B3800E4974349E58F7B5611B492CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D61B19131F75D9744EAE6BEE95BF1810 /* Build configuration list for PBXNativeTarget "Pods-Bitmark Registry dev" */ = {
+		D15244D6D810AEF716284B29D4A3DA6D /* Build configuration list for PBXNativeTarget "KeychainAccess" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7A6B0CB6671C87779BD6B1736D1538AE /* Debug */,
-				D5EE85CCCA48BFD32DA779D06A8CD5FB /* Release */,
+				477139DD4376B3C3223A5476438E4846 /* Debug */,
+				C4C807A09612EFF802DF4976499B6350 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F75211CC400B7BB489753FCAB09817E5 /* Build configuration list for PBXNativeTarget "BitmarkSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E6E761BCD772143E386E21A6A89FE956 /* Debug */,
+				CCCF3A6F4983C4A1B42C76DFD211441E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

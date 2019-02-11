@@ -8,16 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import localAddPropertyStyle from './edit-label.component.style';
 import { defaultStyles } from 'src/views/commons';
 import { constant } from 'src/configs';
-
-
-
-const MetadataLabelSamples = [
-  'Created (date)', 'Contributor', 'Coverage', 'Creator',
-  'Description', 'Dimensions', 'Duration', 'Edition',
-  'Format', 'Identifier', 'Language', 'License',
-  'Medium', 'Publisher', 'Relation', 'Rights',
-  'Size', 'Source', 'Subject', 'Keywords',
-  'Type', 'Version'];
+import { getMetadataLabel } from 'src/utils';
 
 export class LocalIssueFileEditLabelComponent extends React.Component {
   constructor(props) {
@@ -27,19 +18,19 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
 
     let suggestions = [];
     let label = this.props.label || ''
-    MetadataLabelSamples.forEach((text, key) => {
-      if (!label || text.toLowerCase().indexOf(label.toLowerCase()) >= 0) {
-        suggestions.push({ key, text });
+    constant.asset.NormalMetadataLabel.forEach((text, key) => {
+      if (!label || getMetadataLabel(text).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
+        suggestions.push({ key, originalText: text, text: getMetadataLabel(text).toUpperCase() });
       }
     });
-    this.state = { label: this.props.label || '', suggestions };
+    this.state = { label: getMetadataLabel(label), suggestions };
   }
 
   onChangeText(label) {
     let suggestions = [];
-    MetadataLabelSamples.forEach((text, key) => {
-      if (!label || text.toLowerCase().indexOf(label.toLowerCase()) >= 0) {
-        suggestions.push({ key, text });
+    constant.asset.NormalMetadataLabel.forEach((text, key) => {
+      if (!label || getMetadataLabel(text).toLowerCase().indexOf(label.toLowerCase()) >= 0) {
+        suggestions.push({ key, originalText: text, text: getMetadataLabel(text).toUpperCase() });
       }
     });
     this.setState({ label, suggestions });
@@ -84,9 +75,10 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
             <View style={localAddPropertyStyle.inputLabelBar} />
             <View style={localAddPropertyStyle.suggestionsList}>
               <FlatList
+                keyExtractor={(item) => item.key}
                 data={this.state.suggestions}
                 renderItem={({ item }) => {
-                  return (<TouchableOpacity style={localAddPropertyStyle.suggestionsButton} onPress={() => this.onChooseLabel(item.text)}>
+                  return (<TouchableOpacity style={localAddPropertyStyle.suggestionsButton} onPress={() => this.onChooseLabel(item.originalText)}>
                     <Text style={localAddPropertyStyle.suggestionsButtonText}>{item.text}</Text>
                   </TouchableOpacity>);
                 }}

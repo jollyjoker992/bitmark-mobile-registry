@@ -1,8 +1,8 @@
-import moment from 'moment';
 import { chunk } from 'lodash';
 
 import { config } from 'src/configs';
 import { BitmarkSDK } from './adapters';
+import { FileUtil } from 'src/utils';
 
 // ===================================================================================================================
 // ===================================================================================================================
@@ -10,7 +10,7 @@ const doGet100Bitmarks = (accountNumber, lastOffset) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     let bitmarkUrl = config.api_server_url +
-      `/v1/bitmarks?owner=${accountNumber}&asset=true&pending=true&to=later&sent=true` + (lastOffset ? `&at=${lastOffset}` : '');
+      `/v1/bitmarks?owner=${accountNumber}&asset=true&pending=true&sent=true&to=later` + (lastOffset ? `&at=${lastOffset}` : '');
     fetch(bitmarkUrl, {
       method: 'GET',
       headers: {
@@ -133,7 +133,6 @@ const doGetProvenance = (bitmarkId) => {
       }
       let bitmark = data.bitmark;
       let provenance = (bitmark && bitmark.provenance) ? bitmark.provenance : [];
-      provenance.forEach(item => item.created_at = moment(item.created_at).format('YYYY MMM DD HH:mm:ss'));
       bitmark.provenance = provenance;
       resolve({ bitmark, provenance });
     }).catch(reject);
@@ -239,8 +238,44 @@ const doCheckMetadata = async (metadata) => {
   return await BitmarkSDK.validateMetadata(metadata);
 };
 
+
+// const doTryIssueFile = async ({ filePath, assetName, metadata, numberIssue }, limited, index) => {
+//   index = index || 0;
+//   let result = await runPromiseWithoutError(BitmarkSDK.issue(filePath, assetName, metadata, numberIssue));
+//   console.log('doTryIssueFile ', { filePath, assetName, metadata, numberIssue }, index, result);
+//   index++;
+//   if (result && result.error) {
+//     if (index < limited) {
+//       if (index === 1) {
+//         await delay(101 * 1000);
+//       }
+//       return doTryIssueFile({ filePath, assetName, metadata, numberIssue }, limited, index);
+//     } else {
+//       throw result.error;
+//     }
+//   } else {
+//     return result;
+//   }
+// };
+
 const doIssueFile = async (filePath, assetName, metadata, quantity) => {
+  // let results;
+  // let total = 0;
+  // while (total < quantity) {
+  //   let numberIssue = quantity - total;
+  //   numberIssue = numberIssue > 100 ? 100 : numberIssue;
+  //   let result = await doTryIssueFile({ filePath, assetName, metadata, numberIssue }, 3);
+  //   results = results || { bitmarkIds: [], assetId: result.assetId };
+  //   results.bitmarkIds = results.bitmarkIds.concat(result.bitmarkIds);
+  //   total += numberIssue;
+  // }
+  // return results;
   let result = await BitmarkSDK.issue(filePath, assetName, metadata, quantity);
+  return result;
+};
+
+const registerNewAsset = async (filePath, assetName, metadata) => {
+  let result = await BitmarkSDK.registerNewAsset(filePath, assetName, metadata);
   return result;
 };
 
@@ -340,88 +375,6 @@ const doGetBitmarkInformation = (bitmarkId) => {
   });
 };
 
-const doAddTrackingBitmark = async (bitmarkAccount, timestamp, signature, bitmark_id, tx_id, status) => {
-  return new Promise((resolve, reject) => {
-    let statusCode;
-    let bitmarkUrl = config.mobile_server_url + `/api/tracking_bitmarks`;
-    fetch(bitmarkUrl, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        timestamp,
-        signature,
-        requester: bitmarkAccount,
-      },
-      body: JSON.stringify({
-        bitmark_id, tx_id, status
-      })
-    }).then((response) => {
-      statusCode = response.status;
-      return response.json();
-    }).then((data) => {
-      if (statusCode >= 400) {
-        return reject(new Error(`doAddTrackingBitmark error :` + JSON.stringify(data)));
-      }
-      resolve(data);
-    }).catch(reject);
-  });
-};
-
-const doStopTrackingBitmark = async (bitmarkAccount, timestamp, signature, bitmark_id) => {
-  return new Promise((resolve, reject) => {
-    let statusCode;
-    let bitmarkUrl = config.mobile_server_url + `/api/tracking_bitmarks/${bitmark_id}`;
-    fetch(bitmarkUrl, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        timestamp,
-        signature,
-        requester: bitmarkAccount,
-      },
-    }).then((response) => {
-      statusCode = response.status;
-      if (statusCode < 400) {
-        return response.json();
-      }
-      return response.text();
-    }).then((data) => {
-      if (statusCode >= 400) {
-        return reject(new Error(`doStopTrackingBitmark error :` + JSON.stringify(data)));
-      }
-      resolve(data);
-    }).catch(reject);
-  });
-};
-
-const doGetAllTrackingBitmark = async (bitmarkAccount) => {
-  return new Promise((resolve, reject) => {
-    let statusCode;
-    let bitmarkUrl = config.mobile_server_url + `/api/tracking_bitmarks`;
-    fetch(bitmarkUrl, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        requester: bitmarkAccount,
-      },
-    }).then((response) => {
-      statusCode = response.status;
-      if (statusCode < 400) {
-        return response.json();
-      }
-      return response.text();
-    }).then((data) => {
-      if (statusCode >= 400) {
-        return reject(new Error(`doGetAllTrackingBitmark error :` + JSON.stringify(data)));
-      }
-      resolve(data);
-    }).catch(reject);
-  });
-};
-
 const doConfirmWebAccount = async (bitmarkAccount, code, timestamp, signature) => {
   return new Promise((resolve, reject) => {
     let statusCode;
@@ -444,7 +397,7 @@ const doConfirmWebAccount = async (bitmarkAccount, code, timestamp, signature) =
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doGetAllTrackingBitmark error :` + JSON.stringify(data)));
+        return reject(new Error(`doConfirmWebAccount error :` + JSON.stringify(data)));
       }
       resolve(data);
     }).catch(reject);
@@ -639,9 +592,65 @@ const doUploadMusicThumbnail = async (bitmarkAccountNumber, assetId, thumbnailPa
   });
 };
 
+const doUploadMusicAsset = async (jwt, assetId, filePath) => {
+  const formData = new FormData();
+  formData.append('file', {
+    uri: filePath,
+    name: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length)
+  });
+  formData.append('asset_id', assetId);
+  let headers = {
+    'Content-Type': 'multipart/form-data',
+    Authorization: 'Bearer ' + jwt,
+  };
+
+  return new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.mobile_server_url}/api/claim_requests/upload`, {
+      method: 'POST',
+      headers,
+      body: formData,
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode < 400) {
+        return response.json();
+      }
+      return response.text();
+    }).then((data) => {
+      console.log('doUploadMusicAsset :', data, statusCode);
+      if (statusCode >= 400) {
+        return reject(new Error(`doUploadMusicAsset error :` + JSON.stringify(data)));
+      }
+      resolve(data);
+    }).catch(reject);
+  });
+};
+
+const doDownloadAssetForClaimRequest = async (jwt, claimId, filePath) => {
+  let response;
+  let result = await FileUtil.downloadFile({
+    fromUrl: `${config.mobile_server_url}/api/claim_requests/download/${claimId}`,
+    toFile: filePath,
+    method: 'GET',
+    headers: {
+      Authorization: 'Bearer ' + jwt,
+    },
+    begin: (res) => response = res
+  });
+  if (response.statusCode >= 400) {
+    throw new Error(`doDownloadAssetForClaimRequest error ${response.statusCode}`);
+  }
+  console.log('doDownloadAssetForClaimRequest result :', result);
+  return {
+    filename: response.headers['File-Name'],
+  };
+};
+
 const getBitmarksOfAssetOfIssuer = (accountNumber, assetId, lastOffset) => {
   return new Promise((resolve, reject) => {
-    let bitmarkUrl = `${config.api_server_url}/v1/bitmarks?issuer=${accountNumber}&asset_id=${assetId}&pending=true&to=later` + (lastOffset ? `&at=${lastOffset}` : '');
+    let bitmarkUrl = `${config.api_server_url}/v1/bitmarks?issuer=${accountNumber}&asset=true&pending=true&to=later` +
+      (assetId ? `&asset_id=${assetId}` : '') +
+      (lastOffset ? `&at=${lastOffset}` : '');
     let statusCode;
     fetch(bitmarkUrl, {
       method: 'GET',
@@ -664,14 +673,20 @@ const getBitmarksOfAssetOfIssuer = (accountNumber, assetId, lastOffset) => {
   });
 };
 
-const doGetTotalBitmarksOfAssetOfIssuer = async (issuer, assetId) => {
+const getAllBitmarksOfAssetFromIssuer = async (issuer, assetId) => {
   let returnedBitmarks = [];
-
-  let results = await getBitmarksOfAssetOfIssuer(issuer, assetId);
-  returnedBitmarks = returnedBitmarks.concat(results.bitmarks || []);
-  while (results && results.bitmarks && results.bitmarks.length === 100) {
-    results = await getBitmarksOfAssetOfIssuer(issuer, assetId);
-    returnedBitmarks = returnedBitmarks.concat(results.bitmarks || []);
+  let data = await getBitmarksOfAssetOfIssuer(issuer, assetId);
+  let lastOffset = -1;
+  for (let bitmark of data.bitmarks) {
+    lastOffset = Math.max(lastOffset, bitmark.offset);
+    returnedBitmarks.push(bitmark);
+  }
+  while (data && data.bitmarks && data.bitmarks.length >= 100) {
+    data = await getBitmarksOfAssetOfIssuer(issuer, assetId, lastOffset);
+    for (let bitmark of data.bitmarks) {
+      lastOffset = Math.max(lastOffset, bitmark.offset);
+      returnedBitmarks.push(bitmark);
+    }
   }
   return returnedBitmarks;
 };
@@ -700,7 +715,7 @@ const doGetLimitedEdition = async (issuer, assetId) => {
   });
 };
 
-const doPostClaimRequest = (jwt, assetId, toAccount, ) => {
+const doPostIncomingClaimRequest = (jwt, assetId, toAccount, ) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     fetch(`${config.mobile_server_url}/api/claim_requests`, {
@@ -715,13 +730,16 @@ const doPostClaimRequest = (jwt, assetId, toAccount, ) => {
       })
     }).then((response) => {
       statusCode = response.status;
-      if (statusCode < 400) {
+      if (statusCode < 500) {
         return response.json();
       }
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doPostClaimRequest error :` + JSON.stringify(data)));
+        let error = new Error(`doPostClaimRequest error :` + JSON.stringify(data));
+        error.data = data;
+        error.statusCode = statusCode;
+        return reject(error);
       }
       resolve(data);
     }).catch(reject);
@@ -748,21 +766,26 @@ const doGetClaimRequest = (jwt) => {
       if (statusCode >= 400) {
         return reject(new Error(`doGetClaimRequest error :` + JSON.stringify(data)));
       }
-      resolve(data.claim_requests);
+      resolve({
+        incoming_claim_requests: data.claim_requests.filter(item => item.status === 'pending'),
+        outgoing_claim_requests: data.my_submitted_claim_requests
+      });
     }).catch(reject);
   });
 };
 
-const doDeleteClaimRequests = (jwt, id) => {
+
+const doSubmitIncomingClaimRequests = (jwt, statuses) => {
   return new Promise((resolve, reject) => {
     let statusCode;
-    fetch(`${config.mobile_server_url}/api/claim_requests/${id}`, {
-      method: 'DELETE',
+    fetch(`${config.mobile_server_url}/api/claim_requests`, {
+      method: 'PATCH',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + jwt,
-      }
+      },
+      body: JSON.stringify({ statuses })
     }).then((response) => {
       statusCode = response.status;
       if (statusCode < 400) {
@@ -771,7 +794,7 @@ const doDeleteClaimRequests = (jwt, id) => {
       return response.text();
     }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doDeleteClaimRequests error :` + JSON.stringify(data)));
+        return reject(new Error(`doSubmitIncomingClaimRequests error :` + JSON.stringify(data)));
       }
       resolve(data);
     }).catch(reject);
@@ -838,6 +861,7 @@ let BitmarkModel = {
   doGetProvenance,
   doPrepareAssetInfo,
   doIssueFile,
+  registerNewAsset,
   doCheckMetadata,
   doGetBitmarkInformation,
   doGetTransactionDetail,
@@ -848,9 +872,6 @@ let BitmarkModel = {
   doGetAssetTextContentType,
   doGetAssetTextContent,
 
-  doAddTrackingBitmark,
-  doStopTrackingBitmark,
-  doGetAllTrackingBitmark,
   doConfirmWebAccount,
   doGetAssetInfoOfDecentralizedIssuance,
   doUpdateStatusForDecentralizedIssuance,
@@ -859,11 +880,14 @@ let BitmarkModel = {
   doUpdateStatusForDecentralizedTransfer,
 
   doUploadMusicThumbnail,
-  doGetTotalBitmarksOfAssetOfIssuer,
+  doUploadMusicAsset,
+  doDownloadAssetForClaimRequest,
+  getBitmarksOfAssetOfIssuer,
+  getAllBitmarksOfAssetFromIssuer,
   doGetLimitedEdition,
-  doPostClaimRequest,
+  doPostIncomingClaimRequest,
   doGetClaimRequest,
-  doDeleteClaimRequests,
+  doSubmitIncomingClaimRequests,
   doPostAwaitTransfer,
   doGetAwaitTransfers,
 };

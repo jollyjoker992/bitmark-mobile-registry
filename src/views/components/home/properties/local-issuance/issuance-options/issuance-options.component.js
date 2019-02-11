@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import {
   View, Text, TouchableOpacity, Image, SafeAreaView,
+  Alert,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 import { Actions } from 'react-native-router-flux';
 
 import issuanceOptionsStyle from './issuance-options.component.style';
-import { FileUtil } from 'src/utils';
-import { AppProcessor, EventEmitterService } from 'src/processors';
+import { FileUtil, isReleasedAsset } from 'src/utils';
+import { AppProcessor, EventEmitterService, CacheData } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { AccountStore } from 'src/views/stores';
 
@@ -57,6 +58,10 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     let fileName = response.fileName.substring(0, response.fileName.lastIndexOf('.'));
     let fileFormat = response.fileName.substring(response.fileName.lastIndexOf('.'));
     AppProcessor.doCheckFileToIssue(filePath).then(asset => {
+      if (isReleasedAsset(asset)) {
+        Alert.alert('Can not issue!', 'This asset was released by other account!')
+        return;
+      }
       Actions.localIssueFile({
         filePath, fileName, fileFormat, asset,
         fingerprint: asset.fingerprint
@@ -86,11 +91,12 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
           <TouchableOpacity style={defaultStyles.headerRight} />
         </View>
         <View style={issuanceOptionsStyle.content}>
-          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={Actions.musicFileChosen}>
-            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/music_icon.png')} />
-            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_musics")}</Text>
-            <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
-          </TouchableOpacity>
+          {CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] && CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account &&
+            <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={Actions.musicFileChosen}>
+              <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/music_icon.png')} />
+              <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_musics")}</Text>
+              <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
+            </TouchableOpacity>}
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile.bind(this)}>
             <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/photo_icon.png')} />
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>

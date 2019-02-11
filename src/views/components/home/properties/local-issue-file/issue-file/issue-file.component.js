@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import {
   View, Text, TouchableOpacity, Image, TextInput, FlatList, KeyboardAvoidingView, SafeAreaView, ScrollView,
   Alert,
+  Keyboard,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import localAddPropertyStyle from './issue-file.component.style';
 import { AppProcessor, BitmarkService } from 'src/processors';
-import { FileUtil, convertWidth } from 'src/utils';
+import { FileUtil, convertWidth, getMetadataLabel, getMetadataValue } from 'src/utils';
 import { defaultStyles } from 'src/views/commons';
 import { constant } from 'src/configs';
 
@@ -37,7 +38,11 @@ export class LocalIssueFileComponent extends React.Component {
     if (existingAsset) {
       let key = 0;
       for (let label in asset.metadata) {
-        metadataList.push({ key, label, value: asset.metadata[label] });
+        metadataList.push({
+          key,
+          label: getMetadataLabel(label, true),
+          value: getMetadataValue(asset.metadata[label]),
+        });
         key++;
       }
     }
@@ -67,6 +72,7 @@ export class LocalIssueFileComponent extends React.Component {
   // ==========================================================================================
   // ==========================================================================================
   onIssueFile() {
+    Keyboard.dismiss();
     AppProcessor.doIssueFile(this.state.filePath, this.state.assetName, this.state.metadataList, parseInt(this.state.quantity), {
       indicator: true, title: '', message: global.i18n.t("LocalIssueFileComponent_issueMessage")
     }).then((data) => {
@@ -75,7 +81,7 @@ export class LocalIssueFileComponent extends React.Component {
         FileUtil.removeSafe(this.state.filePath);
         Alert.alert(global.i18n.t("LocalIssueFileComponent_success"), global.i18n.t("LocalIssueFileComponent_successMessage"), [{
           text: global.i18n.t("LocalIssueFileComponent_ok"),
-          onPress: () => Actions.jump('assets')
+          onPress: () => Actions.jump('properties')
         }]);
       }
     }).catch(error => {
@@ -220,6 +226,7 @@ export class LocalIssueFileComponent extends React.Component {
               <Text style={localAddPropertyStyle.metadataDescription}>{global.i18n.t("LocalIssueFileComponent_metadataDescription")}</Text>
               <View style={localAddPropertyStyle.metadataArea}>
                 <FlatList style={localAddPropertyStyle.metadataList}
+                  keyExtractor={(item) => item.key}
                   scrollEnabled={false}
                   data={this.state.metadataList}
                   extraData={this.state}
@@ -246,7 +253,7 @@ export class LocalIssueFileComponent extends React.Component {
                             <Text style={[localAddPropertyStyle.metadataFieldKeyText, {
                               color: (item.label && !this.state.existingAsset) ? 'black' : '#C1C1C1',
                               width: convertWidth(this.state.isEditingMetadata ? 286 : 302),
-                            }]}>{item.label || global.i18n.t("LocalIssueFileComponent_label")}</Text>
+                            }]}>{item.label ? getMetadataLabel(item.label) : global.i18n.t("LocalIssueFileComponent_label")}</Text>
                             {!this.state.existingAsset && <Image style={localAddPropertyStyle.metadataFieldKeyEditIcon}
                               source={require('assets/imgs/next-icon-blue.png')} />}
                           </TouchableOpacity>

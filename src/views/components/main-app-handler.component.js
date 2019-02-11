@@ -10,7 +10,7 @@ const {
   NetInfo,
   View, TouchableOpacity, Text
 } = ReactNative;
-import Mailer from 'react-native-mail';
+import { Sentry } from 'react-native-sentry';
 
 import {
   DefaultIndicatorComponent,
@@ -18,14 +18,9 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, DataProcessor, CacheData, BitmarkSDK, AppProcessor } from 'src/processors';
-import { FileUtil, convertWidth, runPromiseWithoutError } from 'src/utils';
+import { UserModel, EventEmitterService, CacheData, BitmarkSDK, CommonProcessor, TransactionProcessor } from 'src/processors';
+import { convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
-
-const CRASH_LOG_FILE_NAME = 'crash_log.txt';
-const CRASH_LOG_FILE_PATH = FileUtil.CacheDirectory + '/' + CRASH_LOG_FILE_NAME;
-const ERROR_LOG_FILE_NAME = 'error_log.txt';
-const ERROR_LOG_FILE_PATH = FileUtil.CacheDirectory + '/' + ERROR_LOG_FILE_NAME;
 
 export class MainAppHandlerComponent extends Component {
   constructor(props) {
@@ -98,50 +93,8 @@ export class MainAppHandlerComponent extends Component {
 
   }
 
-  async checkAndShowCrashLog() {
-    //let crashLog = await CommonModel.doGetLocalData(CommonModel.KEYS.CRASH_LOG);
-    let hasCrashLog = await FileUtil.exists(CRASH_LOG_FILE_PATH);
-
-    if (hasCrashLog) {
-      let title = global.i18n.t("MainComponent_crashReportTitle");
-      let message = global.i18n.t("MainComponent_crashReportMessage");
-
-      Alert.alert(title, message, [{
-        text: global.i18n.t("MainComponent_cancel"),
-        style: 'cancel',
-        onPress: () => {
-          FileUtil.removeSafe(CRASH_LOG_FILE_PATH);
-        }
-      }, {
-        text: global.i18n.t("MainComponent_send"),
-        onPress: () => {
-          this.sendReport(CRASH_LOG_FILE_PATH, CRASH_LOG_FILE_NAME);
-        }
-      }]);
-    }
-  }
-
-  sendReport(logFilePath, attachmentName) {
-    Mailer.mail({
-      subject: (attachmentName == CRASH_LOG_FILE_NAME) ? 'Crash Report' : 'Error Report',
-      recipients: ['support@bitmark.com'],
-      body: `App version: ${DataProcessor.getApplicationVersion()} (${DataProcessor.getApplicationBuildNumber()})`,
-      attachment: {
-        path: logFilePath,
-        type: 'doc',
-        name: attachmentName,
-      }
-    }, (error) => {
-      if (error) {
-        Alert.alert(global.i18n.t("MainComponent_error"), global.i18n.t("MainComponent_couldNotSendMail"));
-      }
-
-      // Remove crash/error log file
-      FileUtil.removeSafe(logFilePath);
-    });
-  }
-
   handerProcessErrorEvent(processError) {
+    console.log('processError :', processError);
     if (processError && (processError.title || processError.message)) {
       this.handleDefaultJSError(processError);
     } else {
@@ -165,6 +118,7 @@ export class MainAppHandlerComponent extends Component {
   }
 
   handleUnexpectedJSError(processError) {
+    console.log('processError :', processError);
     let title = global.i18n.t("MainComponent_errorReportTitle");
     let message = global.i18n.t("MainComponent_errorReportMessage");
 
@@ -181,14 +135,7 @@ export class MainAppHandlerComponent extends Component {
       onPress: async () => {
         // Write error to log file
         let error = processError.error || new Error('There was an error');
-        let userInformation = await UserModel.doGetCurrentUser();
-        let errorLog = `${error.name} : ${error.message}\r\n${error.stack ? error.stack : ''}`;
-        errorLog = `${userInformation.bitmarkAccountNumber ? 'Bitmark account number:' + userInformation.bitmarkAccountNumber + '\r\n' : ''}${errorLog}`;
-
-        console.log('Handled JS error:', errorLog);
-
-        await FileUtil.create(ERROR_LOG_FILE_PATH, errorLog);
-        this.sendReport(ERROR_LOG_FILE_PATH, ERROR_LOG_FILE_NAME);
+        Sentry.captureException(error, { logger: 'user' });
 
         if (processError && processError.onClose) {
           processError.onClose();
@@ -212,40 +159,46 @@ export class MainAppHandlerComponent extends Component {
     if (!event.url) {
       return;
     }
+    CacheData.processingDeepLink = true;
     const route = event.url.replace(/.*?:\/\//g, '');
     const params = route.split('/');
     switch (params[0]) {
       case 'claim': {
         let assetId = params[1];
+        let issuer = params[2];
         if (assetId) {
           UserModel.doTryGetCurrentUser().then(userInformation => {
             if (!userInformation || !userInformation.bitmarkAccountNumber) {
               Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
             }
+            TransactionProcessor.doGetAssetToClaim(assetId, issuer).then(async (asset) => {
+              let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
+              if ((userInformation && userInformation.bitmarkAccountNumber && passTouchFaceId) ||
+                (!userInformation || !userInformation.bitmarkAccountNumber)) {
+                CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
+              }
+            }).catch(error => {
+              CacheData.processingDeepLink = false;
+              EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+            });
           });
-          AppProcessor.doGetAssetToClaim(assetId).then(asset => {
-            DataProcessor.doViewSendClaimRequest(asset);
-          }).catch(error => {
-            EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-          })
         }
         break;
       }
       default: {
-        // TODO
         break;
       }
     }
   }
 
   handleAppStateChange = (nextAppState) => {
-    console.log('nextAppState :', nextAppState);
     if (this.appState.match(/background/) && nextAppState === 'active') {
-      runPromiseWithoutError(DataProcessor.doMetricOnScreen(true));
+      runPromiseWithoutError(CommonProcessor.doMetricOnScreen(true));
       this.doTryConnectInternet();
     }
     if (nextAppState && nextAppState.match(/background/)) {
-      runPromiseWithoutError(DataProcessor.doMetricOnScreen(false));
+      CacheData.passTouchFaceId = false;
+      runPromiseWithoutError(CommonProcessor.doMetricOnScreen(false));
     }
     this.appState = nextAppState;
   }
@@ -255,10 +208,10 @@ export class MainAppHandlerComponent extends Component {
     if (networkStatus) {
       UserModel.doTryGetCurrentUser().then(async (userInformation) => {
         if (userInformation && userInformation.bitmarkAccountNumber) {
-          let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
-          let passTouchFaceId = !result || !result.error;
+          let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
           this.setState({ passTouchFaceId });
           if (passTouchFaceId) {
+            CommonProcessor.checkDisplayModal();
             EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
           }
         } else {
@@ -277,10 +230,10 @@ export class MainAppHandlerComponent extends Component {
 
   async doRefresh(justCreatedBitmarkAccount) {
     if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
-      let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
-      let passTouchFaceId = !result || !result.error;
+      let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
       this.setState({ passTouchFaceId });
       if (passTouchFaceId && this.state.networkStatus) {
+        CommonProcessor.checkDisplayModal();
         EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus: this.state.networkStatus, justCreatedBitmarkAccount });
       }
     } else if (this.state.networkStatus) {
@@ -306,7 +259,7 @@ export class MainAppHandlerComponent extends Component {
             <Text style={{
               width: convertWidth(300),
               color: 'white', fontWeight: '900', fontSize: 16,
-              backgroundColor: '#FF4444', padding: 10,
+              backgroundColor: '#0060F2', padding: 10,
               textAlign: 'center',
             }}>{i18n.t('MainComponent_pleaseAuthorizeText​')}</Text>
           </TouchableOpacity>
@@ -314,7 +267,7 @@ export class MainAppHandlerComponent extends Component {
         {this.state.processingCount > 0 && <DefaultIndicatorComponent />}
         {!!this.state.submitting && !this.state.submitting.title && !this.state.submitting.message && <DefaultIndicatorComponent />}
         {!!this.state.submitting && (this.state.submitting.title || this.state.submitting.message) && <BitmarkIndicatorComponent
-          indicator={!!this.state.submitting.indicator} title={this.state.submitting.title} message={this.state.submitting.message} />}
+          indicator={this.state.submitting.indicator} title={this.state.submitting.title} message={this.state.submitting.message} />}
       </View>
     );
   }

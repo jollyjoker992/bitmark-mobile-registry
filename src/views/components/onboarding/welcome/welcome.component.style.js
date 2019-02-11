@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
-import { convertWidth } from 'src/utils';
+import { convertWidth, calculateAdditionalHeight } from 'src/utils';
+import { config } from 'src/configs';
 export default StyleSheet.create({
   body: {
     flex: 1,
@@ -16,9 +17,48 @@ export default StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
   },
+
+  swipePage: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    paddingTop: 20 + (config.isIPhoneX ? 44 : 20),
+    paddingBottom: 100 + (config.isIPhoneX ? 22 : 0),
+  },
+  swipePageContent: {
+    alignItems: 'center', justifyContent: 'center',
+  },
+  introductionTitle: {
+    width: convertWidth(275), minHeight: 47,
+    fontFamily: 'AvenirNextW1G-Bold', color: '#0060F2', fontSize: 17,
+  },
+  introductionDescription: {
+    width: convertWidth(275),
+    fontFamily: 'AvenirNextW1G-Regular', fontSize: 17,
+    minHeight: 117,
+  },
+  introductionTermPrivacy: {
+    marginTop: calculateAdditionalHeight(667, 30, true),
+    width: convertWidth(275),
+  },
+  introductionLinkButton: {
+    marginTop: 20,
+    left: convertWidth(50),
+  },
+  introductionImage: {
+    flex: 1,
+    resizeMode: 'contain', width: '90%', height: '90%',
+  },
+  bitmarkTermsPrivacyText: {
+    fontFamily: 'AvenirNextW1G-Light', fontSize: 14,
+  },
+  bitmarkTermsPrivacyButtonText: {
+    fontFamily: 'AvenirNextW1G-Light', color: '#0060F2', fontSize: 14,
+  },
+
   welcomeLogo: {
-    width: 285,
-    height: 48,
+    width: 316,
+    height: 123,
     resizeMode: 'contain',
   },
   welcomeButtonArea: {
@@ -39,10 +79,6 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2',
   },
   welcomeButtonText: {
-    fontFamily: 'Avenir black',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '900',
-    color: 'white'
+    fontFamily: 'AvenirNextW1G-Bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
 });

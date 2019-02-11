@@ -15,3 +15,4 @@
 "notification_transfer_failed" = "You’ve received a property transfer request. Tap to review the request.";
 "notification_transfer_accepted" = "Your property transfer request has been accpeted.";
 "notification_claim_request" = "You’ve received a claim request for property %@ from %@.";
+"notification_claim_request_rejected" = "%@ has rejected your claim request for property %@";

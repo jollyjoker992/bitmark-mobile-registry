@@ -9,7 +9,7 @@ import {
 
 import faceTouchIdStyle from './face-touch-id.component.style';
 import { Actions } from 'react-native-router-flux';
-import { CommonModel } from 'src/processors';
+import { CommonModel, EventEmitterService } from 'src/processors';
 
 export class FaceTouchIdComponent extends React.Component {
   constructor(props) {
@@ -21,7 +21,6 @@ export class FaceTouchIdComponent extends React.Component {
 
     this.state = {
       supported: true,
-      errorMessage: '',
     }
     this.appState = AppState.currentState;
   }
@@ -54,7 +53,7 @@ export class FaceTouchIdComponent extends React.Component {
       }
     }).catch(error => {
       console.log('error :', error);
-      this.setState({ errorMessage: global.i18n.t("FaceTouchIdComponent_canNotCreateOrAccessBitmarkAccount") })
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
     });
   }
 

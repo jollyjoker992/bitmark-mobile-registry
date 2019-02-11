@@ -125,6 +125,47 @@ class BitmarkSDKWrapper: NSObject {
     }
   }
   
+  @objc(registerNewAsset:::)
+  func registerNewAsset(_ params: [String: Any], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) {
+    do {
+      guard let account = self.account else {
+        reject(nil, BitmarkSDKWrapper.accountNotFound, nil)
+        return
+      }
+      
+      guard let fileURL = params["url"] as? String,
+        let name = params["property_name"] as? String,
+        let metadata = params["metadata"] as? [String: String] else {
+          reject(nil, "Invalid parameters", nil)
+          return
+      }
+      
+      // Register asset
+      var assetParams = try Asset.newRegistrationParams(name: name,
+                                                        metadata: metadata)
+      
+      try assetParams.setFingerprint(fromFileURL: fileURL)
+      try assetParams.sign(account)
+      let assetId = try Asset.register(assetParams)
+      
+      // Issue bitmarks
+      
+      var issueParams = try Bitmark.newIssuanceParams(assetID: assetId,
+                                                      owner: account.accountNumber,
+                                                      quantity: 1)
+      try issueParams.sign(account)
+      guard let bitmarkId = try Bitmark.issue(issueParams).first else {
+        reject(nil, "Fail to register asset", nil)
+        return
+      }
+      
+      resolve([bitmarkId, assetId])
+    }
+    catch let e {
+      reject(nil, nil, e);
+    }
+  }
+  
   @objc(issue:::)
   func issue(_ params: [String: Any], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) {
     do {
@@ -137,7 +178,7 @@ class BitmarkSDKWrapper: NSObject {
         let name = params["property_name"] as? String,
         let metadata = params["metadata"] as? [String: String],
         let quantity = params["quantity"] as? Int else {
-          reject(nil, "Invalid fingerprint", nil)
+          reject(nil, "Invalid paramsters", nil)
           return
       }
       
@@ -626,11 +667,42 @@ class BitmarkSDKWrapper: NSObject {
     }
   }
   
+  @objc(encryptSessionData:::)
+  func encryptSessionData(_ params:[String: Any], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) -> Void {
+    do {
+      guard let sessionDataDic = params["session_data"] as? [String: String],
+        let receiverPubkey = params["receiver_pub_key"] as? String else {
+          reject(nil, "Invalid parameters", nil)
+          return
+      }
+      
+      guard let account = self.account else {
+        reject(nil, BitmarkSDKWrapper.accountNotFound, nil)
+        return
+      }
+      
+      guard let encryptedDataKey = sessionDataDic["enc_data_key"] else {
+        reject(nil, "Invalid session data format", nil)
+        return
+      }
+      
+      let key = try account.encryptionKey.decrypt(cipher: encryptedDataKey.hexDecodedData, senderPublicKey: account.encryptionKey.publicKey)
+      
+      let sessionData = try SessionData.createSessionData(account: account,
+                                                          sessionKey: key,
+                                                          forRecipient: receiverPubkey.hexDecodedData)
+      
+      resolve(try sessionData.asDictionary())
+    }
+    catch let e {
+      reject(nil, "Cannot encrypt session data", e)
+    }
+  }
+  
   @objc(encryptFile:::)
   func encryptFile(_ params:[String: Any], _ resolve: @escaping RCTPromiseResolveBlock, _ reject: @escaping RCTPromiseRejectBlock) -> Void {
     do {
       guard let filePath = params["file_path"] as? String,
-        let recipient = params["recipient"] as? String,
         let outputFilePath = params["output_file_path"] as? String else {
           reject(nil, "Invalid parameters", nil)
           return
@@ -643,7 +715,7 @@ class BitmarkSDKWrapper: NSObject {
       
       let data = try Data(contentsOf: URL(fileURLWithPath: filePath))
       let assetEncryption = try AssetEncryption()
-      let (encryptedData, sessionData) = try assetEncryption.encrypt(data: data, signWithAccount: account, forRecipient: recipient.hexDecodedData)
+      let (encryptedData, sessionData) = try assetEncryption.encrypt(data: data, signWithAccount: account, forRecipient: account.encryptionKey.publicKey)
       try encryptedData.write(to: URL(fileURLWithPath: outputFilePath), options: .atomicWrite)
       
       resolve(try sessionData.asDictionary())
