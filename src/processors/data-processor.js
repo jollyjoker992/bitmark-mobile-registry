@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import moment from 'moment';
 import { merge } from 'lodash';
@@ -626,8 +627,9 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 const doOpenApp = async (justCreatedBitmarkAccount) => {
   CacheData.userInformation = await UserModel.doTryGetCurrentUser();
   console.log('CacheData.userInformation :', CacheData.userInformation, FileUtil.DocumentDirectory);
-  await LocalFileService.setShareLocalStoragePath();
-
+  if (Platform.OS === 'ios') {
+    await LocalFileService.setShareLocalStoragePath();
+  }
   let appInfo = await doGetAppInformation();
   appInfo = appInfo || {};
 

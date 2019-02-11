@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import KeepAwake from 'react-native-keep-awake';
 const {
+  Platform,
   Linking,
   Alert,
   AppState,
@@ -62,6 +63,14 @@ export class MainAppHandlerComponent extends Component {
     NetInfo.isConnected.fetch().then().done(() => {
       NetInfo.isConnected.addEventListener('connectionChange', this.handleNetworkChange);
     });
+
+    if (Platform.OS === 'android') {
+      NetInfo.getConnectionInfo().then((connectionInfo) => {
+        if (connectionInfo.type === 'wifi' || connectionInfo.type === 'cellular') {
+          this.handleNetworkChange(true);
+        }
+      });
+    }
 
     // Handle Crashes
     this.checkAndShowCrashLog();

@@ -47,8 +47,10 @@ let NativeBitmarkSDK = Platform.select({
 
 const BitmarkSDK = {
 
-  sdkInit: async (network) => {
-    return await NativeBitmarkSDK.sdkInit(network);
+  sdkInit: (network) => {
+    return new Promise((resolve) => {
+      NativeBitmarkSDK.sdkInit(network).then(resolve).catch(() => resolve());
+    });
   },
   // return session id
   newAccount: async (enableTouchFaceId) => {

@@ -1,5 +1,13 @@
 
+const headerHeight = 44;
+const headerPaddingTop = 20;
+
 const androidConstant = {
+  headerSize: {
+    width: '100%',
+    height: headerHeight,
+    paddingTop: headerPaddingTop,
+  },
   zIndex: {
     internetOff: 1000,
     error: 300,
