@@ -463,8 +463,10 @@ const doSignAllIncomingClaimRequest = async (mapAssetClaimRequest) => {
           let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${asset.id}/encrypted/temp.encrypted`;
           let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptedFilePath);
           let access = '';
+          let existAccounts = {};
           for (let incomingClaimRequest of incomingClaimRequestsOfAsset) {
-            if (incomingClaimRequest.bitmark) {
+            if (incomingClaimRequest.bitmark && !existAccounts[incomingClaimRequest.from]) {
+              existAccounts[incomingClaimRequest.from] = true;
               let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);
               let receiverSessionData = await BitmarkSDK.encryptSessionData(sessionData, encryptionPublicKey);
               access += (access ? ':' : '') + `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;

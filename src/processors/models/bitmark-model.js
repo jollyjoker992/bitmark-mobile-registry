@@ -2,7 +2,7 @@ import { chunk } from 'lodash';
 
 import { config } from 'src/configs';
 import { BitmarkSDK } from './adapters';
-import { FileUtil, runPromiseWithoutError, delay } from 'src/utils';
+import { FileUtil } from 'src/utils';
 
 // ===================================================================================================================
 // ===================================================================================================================
@@ -640,6 +640,7 @@ const doDownloadAssetForClaimRequest = async (jwt, claimId, filePath) => {
   if (response.statusCode >= 400) {
     throw new Error(`doDownloadAssetForClaimRequest error ${response.statusCode}`);
   }
+  console.log('doDownloadAssetForClaimRequest result :', result);
   return {
     filename: response.headers['File-Name'],
   };

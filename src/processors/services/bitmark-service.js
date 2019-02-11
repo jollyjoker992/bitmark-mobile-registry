@@ -2,7 +2,7 @@ import moment from 'moment';
 import { merge } from 'lodash';
 import { BitmarkModel, CommonModel, BitmarkSDK } from "../models";
 import { FileUtil, isReleasedAsset } from 'src/utils';
-import { config, constant } from 'src/configs';
+import { config } from 'src/configs';
 import { CacheData } from '../caches';
 
 
@@ -362,8 +362,10 @@ const doUpdateAccessFileInCourierServer = async (assetId, access) => {
       body: formData,
     }).then((response) => {
       statusCode = response.status;
+      return response.text();
+    }).then((data) => {
       if (statusCode >= 400) {
-        return reject(new Error(`doUpdateAccessFileInCourierServer error ${statusCode}`));
+        return reject(new Error(`doUpdateAccessFileInCourierServer error ${statusCode} :` + JSON.stringify(data, null, 2)));
       }
       resolve(true);
     }).catch(reject);
