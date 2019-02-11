@@ -15,8 +15,10 @@ const BitmarkSDK = {
   },
   // return session id
   newAccount: async (enableTouchFaceId) => {
-    // todo call authenticate before call new account for case enableTouchFaceId
-    return await NativeBitmarkSDK.createAccount(enableTouchFaceId);
+    console.log('newAccount run 1', enableTouchFaceId);
+    let result = await NativeBitmarkSDK.createAccount(enableTouchFaceId);
+    console.log('newAccount run 2', result);
+    return result;
   },
   newAccountFromPhraseWords: async (phraseWords, enableTouchFaceId) => {
     // todo call authenticate before call login for case enableTouchFaceId

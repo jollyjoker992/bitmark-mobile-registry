@@ -18,7 +18,7 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, CacheData, BitmarkSDK, CommonProcessor, TransactionProcessor } from 'src/processors';
+import { UserModel, EventEmitterService, CacheData, CommonProcessor, TransactionProcessor } from 'src/processors';
 import { convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
 
@@ -66,9 +66,6 @@ export class MainAppHandlerComponent extends Component {
         }
       });
     }
-
-    // Handle Crashes
-    this.checkAndShowCrashLog();
   }
   componentWillUnmount() {
     EventEmitterService.remove(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);

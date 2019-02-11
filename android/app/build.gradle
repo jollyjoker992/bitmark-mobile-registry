@@ -209,6 +209,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-share')
+    implementation project(':lottie-react-native')
     implementation project(':react-native-sentry')
     implementation project(':react-native-zip-archive')
     implementation project(':react-native-push-notification')
