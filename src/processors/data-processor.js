@@ -153,7 +153,6 @@ const doCreateAccount = async () => {
     event_name: 'registry_create_new_account',
     account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
   });
-
   return userInformation;
 };
 
@@ -205,10 +204,6 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 
 const doOpenApp = async (justCreatedBitmarkAccount) => {
   CacheData.userInformation = await UserModel.doTryGetCurrentUser();
-  CacheData.userInformation = {
-    bitmarkAccountNumber: 'test',
-  }
-
   console.log('CacheData.userInformation :', CacheData.userInformation, FileUtil.DocumentDirectory);
   if (Platform.OS === 'ios') {
     await LocalFileService.setShareLocalStoragePath();
@@ -235,20 +230,16 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     if (!__DEV__) {
       Sentry.setUserContext({ userID: bitmarkAccountNumber, });
     }
-    console.log('run 1');
     configNotification();
-    console.log('run 2');
     await checkAppNeedResetLocalData(appInfo);
     if (Platform.OS === 'ios') {
       await LocalFileService.moveFilesFromLocalStorageToSharedStorage();
     }
-    console.log('run 4');
 
     let identities = await runPromiseWithoutError(AccountModel.doGetIdentities());
     if (identities && !identities.error) {
       CacheData.identities = identities;
     }
-    console.log('run 5');
     if (CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] &&
       CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account != CacheData.userInformation.is_released_account) {
       CacheData.userInformation.is_released_account = CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account;
@@ -297,22 +288,20 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       });
       iCloudSyncAdapter.syncCloud();
     }
-    console.log('run 6');
 
-    // let signatureData = await CommonModel.doCreateSignatureData();
-    // let result = await AccountModel.doRegisterJWT(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
-    // CacheData.jwt = result.jwt_token;
+    let signatureData = await CommonModel.doCreateSignatureData();
+    let result = await AccountModel.doRegisterJWT(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+    CacheData.jwt = result.jwt_token;
 
-    // if (justCreatedBitmarkAccount) {
-    //   appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
-    //   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
-    // } else {
-    //   if (!appInfo.displayedWhatNewInformation || compareVersion(appInfo.displayedWhatNewInformation, DeviceInfo.getVersion(), 2) < 0) {
-    //     CommonProcessor.updateModal(CommonProcessor.ModalDisplayKeyIndex.what_new, true);
-    //   }
-    // }
+    if (justCreatedBitmarkAccount) {
+      appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
+      await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
+    } else {
+      if (!appInfo.displayedWhatNewInformation || compareVersion(appInfo.displayedWhatNewInformation, DeviceInfo.getVersion(), 2) < 0) {
+        CommonProcessor.updateModal(CommonProcessor.ModalDisplayKeyIndex.what_new, true);
+      }
+    }
 
-    console.log('run 7');
 
     let assetsBitmarks = await BitmarkProcessor.doGetLocalAssetsBitmarks();
     let releasedAssetsBitmarks = await BitmarkProcessor.doGetLocalReleasedAssetsBitmarks();
@@ -333,7 +322,6 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     }
     // ============================
     NotificationService.setApplicationIconBadgeNumber(totalTasks || 0);
-    console.log('run 8');
     BottomTabStore.dispatch(BottomTabActions.init({
       totalTasks,
       totalNewBitmarks: Object.values(assetsBitmarks.bitmarks || {}).filter(bitmark => !bitmark.isViewed).length,
@@ -367,13 +355,11 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       userInformation: CacheData.userInformation,
       iftttInformation: await TransactionProcessor.doGetIftttInformation(),
     }));
-    console.log('run 9');
 
     // ============================
   }
 
   setAppLoadingStatus();
-  console.log('run 10');
   return CacheData.userInformation;
 };
 

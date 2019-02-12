@@ -17,9 +17,7 @@ export class WelcomeComponent extends React.Component {
   }
 
   async createNewAccount(enableTouchId) {
-    console.log('createNewAccount run 1');
     let user = await AppProcessor.doCreateNewAccount(enableTouchId);
-    console.log('createNewAccount run 2', user);
     if (!user) {
       return;
     }
