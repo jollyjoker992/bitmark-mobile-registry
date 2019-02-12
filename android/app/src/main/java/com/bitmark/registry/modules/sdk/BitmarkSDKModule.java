@@ -53,6 +53,7 @@ import com.facebook.react.bridge.ReadableMap;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,13 +61,19 @@ import static com.bitmark.apiservice.utils.Awaitility.await;
 import static com.bitmark.cryptography.crypto.encoder.Hex.HEX;
 import static com.bitmark.cryptography.crypto.encoder.Raw.RAW;
 import static com.bitmark.registry.keymanagement.ApiKeyManager.API_KEY_MANAGER;
+import static com.bitmark.registry.utils.DataTypeMapper.toJson;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringArray;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringMap;
+import static com.bitmark.registry.utils.DataTypeMapper.toWritableArray;
 import static com.bitmark.sdk.utils.FileUtils.isValid;
 import static com.bitmark.sdk.utils.FileUtils.read;
 import static com.bitmark.sdk.utils.FileUtils.write;
 
 public class BitmarkSDKModule extends ReactContextBaseJavaModule implements BitmarkSDKExposable {
+
+    private static final String ERROR_UNEXPECTED_CODE = "ERROR_UNEXPECTED";
+
+    private static final String ERROR_GET_ACCOUNT_CODE = "ERROR_GET_ACCOUNT";
 
     private static final String ACTIVE_ACCOUNT_NUMBER = "active_account_number";
 
@@ -94,7 +101,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                                                .withNetwork(networkConfigure));
             promise.resolve(true);
         } catch (Throwable e) {
-            promise.reject(e);
+            promise.reject("ERROR_SDK_INIT", e);
         }
     }
 
@@ -108,17 +115,20 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             account.saveToKeyStore(getAttachedActivity(), authentication, new Callback0() {
                 @Override
                 public void onSuccess() {
-                    promise.resolve(account);
+                    Map<String, String> accountMap = new HashMap<>();
+                    accountMap.put("account_number", account.getAccountNumber());
+                    accountMap.put("seed", account.getSeed().getEncodedSeed());
+                    promise.resolve(accountMap);
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
-                    promise.reject(throwable);
+                    promise.reject("ERROR_SAVE_KEY_STORE", throwable);
                 }
             });
 
         } catch (Throwable e) {
-            promise.reject(e);
+            promise.reject(ERROR_UNEXPECTED_CODE, e);
         }
     }
 
@@ -133,17 +143,20 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             account.saveToKeyStore(getAttachedActivity(), authentication, new Callback0() {
                 @Override
                 public void onSuccess() {
-                    promise.resolve(account);
+                    Map<String, String> accountMap = new HashMap<>();
+                    accountMap.put("account_number", account.getAccountNumber());
+                    accountMap.put("seed", account.getSeed().getEncodedSeed());
+                    promise.resolve(accountMap);
                 }
 
                 @Override
                 public void onError(Throwable throwable) {
-                    promise.reject(throwable);
+                    promise.reject("ERROR_SAVE_KEY_STORE", throwable);
                 }
             });
 
         } catch (Throwable e) {
-            promise.reject(e);
+            promise.reject(ERROR_UNEXPECTED_CODE, e);
         }
     }
 
@@ -158,7 +171,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject("ERROR_REMOVE_KEY_STORE", throwable);
             }
         });
     }
@@ -169,14 +182,14 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         getAccount(new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
-                promise.resolve(new Object[]{account.getAccountNumber(), account
+                promise.resolve(toWritableArray(account.getAccountNumber(), account
                         .getRecoveryPhrase().getMnemonicWords(), 0x01, HEX.encode(
-                        account.getEncryptionKey().publicKey().toBytes())});
+                        account.getEncryptionKey().publicKey().toBytes())));
             }
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
     }
@@ -193,16 +206,15 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                 for (int i = 0, size = messageArray.length; i < size; i++) {
                     String message = messageArray[i];
-                    signatures[i] = RAW
-                            .encode(Ed25519.sign(RAW.decode(message), key.toBytes()));
+                    signatures[i] = HEX.encode(Ed25519.sign(RAW.decode(message), key.toBytes()));
                 }
 
-                promise.resolve(signatures);
+                promise.resolve(toWritableArray(signatures));
             }
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
     }
@@ -223,12 +235,12 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                             .encode(Ed25519.sign(HEX.decode(message), key.toBytes()));
                 }
 
-                promise.resolve(signatures);
+                promise.resolve(toWritableArray(signatures));
             }
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
     }
@@ -244,7 +256,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
         if (TextUtils.isEmpty(assetName) || TextUtils.isEmpty(filePath) || !isValid(
                 file)) {
-            promise.reject(new NativeModuleException("Invalid params"));
+            promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid params"));
             return;
         }
 
@@ -278,17 +290,17 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     issuanceParams.sign(keyPair);
                     List<String> bitmarkIds = await(
                             callback -> Bitmark.issue(issuanceParams, callback));
-                    promise.resolve(bitmarkIds);
+                    promise.resolve(toWritableArray(bitmarkIds));
 
                 } catch (Throwable throwable) {
-                    promise.reject(throwable);
+                    promise.reject(ERROR_UNEXPECTED_CODE, throwable);
                 }
 
             }
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
     }
@@ -301,7 +313,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         String receiver = params.getString("recipient");
 
         if (TextUtils.isEmpty(assetId) || TextUtils.isEmpty(receiver)) {
-            promise.reject(new NativeModuleException("Invalid Params"));
+            promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid Params"));
             return;
         }
 
@@ -324,24 +336,25 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                             callback -> Bitmark.get(bitmarkId, callback));
                     BitmarkRecord bitmark = response.getBitmark();
                     if (bitmark == null) {
-                        promise.reject(new NativeModuleException("Bitmark is not existed"));
+                        promise.reject(ERROR_UNEXPECTED_CODE,
+                                new NativeModuleException("Bitmark is not existed"));
                         return;
                     }
 
                     String link = bitmark.getHeadId();
                     TransferParams transferParams = new TransferParams(
                             Address.fromAccountNumber(receiver), link);
-                    promise.resolve(new Object[]{bitmarkId, transferParams});
+                    promise.resolve(toWritableArray(bitmarkId, transferParams));
 
                 } catch (Throwable throwable) {
-                    promise.reject(throwable);
+                    promise.reject(ERROR_UNEXPECTED_CODE, throwable);
                 }
 
             }
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
     }
@@ -354,7 +367,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         String receiver = params.getString("recipient");
 
         if (TextUtils.isEmpty(bitmarkId) || TextUtils.isEmpty(receiver)) {
-            promise.reject(new NativeModuleException("Invalid Params"));
+            promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid Params"));
             return;
         }
 
@@ -367,7 +380,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                             callback -> Bitmark.get(bitmarkId, callback));
                     BitmarkRecord bitmark = response.getBitmark();
                     if (bitmark == null) {
-                        promise.reject(new NativeModuleException("Bitmark is not existed"));
+                        promise.reject(ERROR_UNEXPECTED_CODE,
+                                new NativeModuleException("Bitmark is not existed"));
                         return;
                     }
 
@@ -380,14 +394,14 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     promise.resolve(txId);
 
                 } catch (Throwable throwable) {
-                    promise.reject(throwable);
+                    promise.reject(ERROR_UNEXPECTED_CODE, throwable);
                 }
 
             }
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
     }
@@ -413,7 +427,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                             callback -> Bitmark.get(bitmarkId, callback));
                     BitmarkRecord bitmark = response.getBitmark();
                     if (bitmark == null) {
-                        promise.reject(new NativeModuleException("Bitmark is not existed"));
+                        promise.reject(ERROR_UNEXPECTED_CODE,
+                                new NativeModuleException("Bitmark is not existed"));
                         return;
                     }
 
@@ -426,13 +441,13 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     promise.resolve(txId);
 
                 } catch (Throwable throwable) {
-                    promise.reject(throwable);
+                    promise.reject(ERROR_UNEXPECTED_CODE, throwable);
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
     }
@@ -446,7 +461,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         String response = params.getString("response");
 
         if (TextUtils.isEmpty(bitmarkId) || TextUtils.isEmpty(response)) {
-            promise.reject(new NativeModuleException("Invalid Params"));
+            promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid Params"));
             return;
         }
 
@@ -459,7 +474,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                             callback -> Bitmark.get(bitmarkId, callback));
                     BitmarkRecord bitmark = getBitmarkResponse.getBitmark();
                     if (bitmark == null) {
-                        promise.reject(new NativeModuleException("Bitmark is not existed"));
+                        promise.reject(ERROR_UNEXPECTED_CODE,
+                                new NativeModuleException("Bitmark is not existed"));
                         return;
                     }
 
@@ -491,13 +507,13 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     promise.resolve(status);
 
                 } catch (Throwable throwable) {
-                    promise.reject(throwable);
+                    promise.reject(ERROR_UNEXPECTED_CODE, throwable);
                 }
             }
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
     }
@@ -519,17 +535,20 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     public void getAssetInfo(String filePath, Promise promise) throws NativeModuleException {
 
         File file = new File(filePath);
-        if (!file.exists() || file.isDirectory()) throw new NativeModuleException(
-                "Invalid file. The file is not existed or a directory");
+        if (!file.exists() || file.isDirectory()) {
+            promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException(
+                    "Invalid file. The file is not existed or a directory"));
+            return;
+        }
 
         try {
 
             String fingerprint = RegistrationParams.computeFingerprint(file);
             String assetId = HEX.encode(RAW.decode(fingerprint));
-            promise.resolve(new String[]{assetId, fingerprint});
+            promise.resolve(toWritableArray(assetId, fingerprint));
 
         } catch (Throwable e) {
-            promise.reject(e);
+            promise.reject(ERROR_UNEXPECTED_CODE, e);
         }
     }
 
@@ -544,7 +563,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             else promise.resolve(false);
 
         } catch (Throwable e) {
-            promise.reject(e);
+            promise.reject(ERROR_UNEXPECTED_CODE, e);
         }
     }
 
@@ -556,7 +575,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             promise.resolve(Account.isValidAccountNumber(accountNumber));
 
         } catch (Throwable e) {
-            promise.reject(e);
+            promise.reject(ERROR_UNEXPECTED_CODE, e);
         }
     }
 
@@ -605,9 +624,9 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             if (limit != null) builder.limit(limit);
 
             GetBitmarksResponse response = await(callback -> Bitmark.list(builder, callback));
-            promise.resolve(new Object[]{response.getBitmarks(), response.getAssets()});
+            promise.resolve(toWritableArray(response.getBitmarks(), response.getAssets()));
         } catch (Throwable throwable) {
-            promise.reject(throwable);
+            promise.reject(ERROR_UNEXPECTED_CODE, throwable);
         }
 
     }
@@ -630,10 +649,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                 if (includeAsset != null) Bitmark.get(id, includeAsset, callback);
                 else Bitmark.get(id, callback);
             });
-            promise.resolve(new Object[]{response.getBitmark(), response.getAsset()});
+            promise.resolve(toWritableArray(response.getBitmark(), response.getAsset()));
 
         } catch (Throwable throwable) {
-            promise.reject(throwable);
+            promise.reject(ERROR_UNEXPECTED_CODE, throwable);
         }
 
     }
@@ -644,10 +663,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         try {
 
             AssetRecord asset = await(callback -> Asset.get(id, callback));
-            promise.resolve(asset);
+            promise.resolve(toJson(asset));
 
         } catch (Throwable e) {
-            promise.reject(e);
+            promise.reject(ERROR_UNEXPECTED_CODE, e);
         }
     }
 
@@ -672,10 +691,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             if (limit != null) builder.limit(limit);
 
             List<AssetRecord> assets = await(callback -> Asset.list(builder, callback));
-            promise.resolve(assets);
+            promise.resolve(toJson(assets));
 
         } catch (Throwable e) {
-            promise.reject(e);
+            promise.reject(ERROR_UNEXPECTED_CODE, e);
         }
     }
 
@@ -696,10 +715,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                 if (includeAsset != null) Transaction.get(id, includeAsset, callback);
                 else Transaction.get(id, callback);
             });
-            promise.resolve(new Object[]{response.getTransaction(), response.getAsset()});
+            promise.resolve(toWritableArray(response.getTransaction(), response.getAsset()));
 
         } catch (Throwable e) {
-            promise.reject(e);
+            promise.reject(ERROR_UNEXPECTED_CODE, e);
         }
     }
 
@@ -732,10 +751,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
             GetTransactionsResponse response = await(
                     callback -> Transaction.list(builder, callback));
-            promise.resolve(new Object[]{response.getTransactions(), response.getAssets()});
+            promise.resolve(toWritableArray(response.getTransactions(), response.getAssets()));
 
         } catch (Throwable e) {
-            promise.reject(e);
+            promise.reject(ERROR_UNEXPECTED_CODE, e);
         }
     }
 
@@ -747,7 +766,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         final File outputFile = new File(params.getString("output_file_path"));
 
         if (!isValid(inputFile) || isValid(outputFile) || TextUtils
-                .isEmpty(receiver)) throw new NativeModuleException("Invalid params");
+                .isEmpty(receiver)) {
+            promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid params"));
+            return;
+        }
 
         getAccount(new Callback1<Account>() {
             @Override
@@ -763,7 +785,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                             .encrypt(inputFile, receiverPubKey, keyEncryption);
                     byte[] data = result.first();
                     write(outputFile, data);
-                    promise.resolve(result.second());
+                    promise.resolve(result.second().toMap());
 
                 } catch (IOException e) {
                     promise.reject(e);
@@ -773,7 +795,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
 
@@ -789,7 +811,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
 
         if (!isValid(inputFile) || isValid(outputFile) || TextUtils
-                .isEmpty(sender)) throw new NativeModuleException("Invalid params");
+                .isEmpty(sender)) {
+            promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid params"));
+            return;
+        }
 
         getAccount(new Callback1<Account>() {
             @Override
@@ -815,7 +840,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
     }
@@ -829,8 +854,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         final String receiver = params.getString("receiver_pub_key");
         final String encryptionDataKey = sessionDataMap.get("enc_data_key");
 
-        if (TextUtils.isEmpty(encryptionDataKey) || TextUtils.isEmpty(receiver))
-            throw new NativeModuleException("Invalid params");
+        if (TextUtils.isEmpty(encryptionDataKey) || TextUtils.isEmpty(receiver)) {
+            promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid params"));
+            return;
+        }
 
         getAccount(new Callback1<Account>() {
             @Override
@@ -849,7 +876,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
 
@@ -863,8 +890,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         final String name = params.getString("property_name");
         final Map<String, String> metadata = toStringMap(params.getMap("metadata"));
 
-        if (!isValid(file) || TextUtils.isEmpty(name))
-            throw new NativeModuleException("Invalid params");
+        if (!isValid(file) || TextUtils.isEmpty(name)) {
+            promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid params"));
+            return;
+        }
 
         getAccount(new Callback1<Account>() {
             @Override
@@ -891,14 +920,14 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     promise.resolve(new String[]{bitmarkId, assetId});
 
                 } catch (Throwable throwable) {
-                    promise.reject(throwable);
+                    promise.reject(ERROR_UNEXPECTED_CODE, throwable);
                 }
 
             }
 
             @Override
             public void onError(Throwable throwable) {
-                promise.reject(throwable);
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
     }
