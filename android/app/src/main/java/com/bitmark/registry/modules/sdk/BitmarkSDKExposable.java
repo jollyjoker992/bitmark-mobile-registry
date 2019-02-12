@@ -56,4 +56,8 @@ public interface BitmarkSDKExposable {
 
     void decryptFile(ReadableMap params, Promise promise) throws NativeModuleException;
 
+    void encryptSessionData(ReadableMap params, Promise promise) throws NativeModuleException;
+
+    void registerNewAsset(ReadableMap params, Promise promise) throws NativeModuleException;
+
 }

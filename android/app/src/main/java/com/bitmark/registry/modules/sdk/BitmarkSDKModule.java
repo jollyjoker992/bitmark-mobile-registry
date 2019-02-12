@@ -820,6 +820,89 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         });
     }
 
+    @Override
+    public void encryptSessionData(ReadableMap params, Promise promise)
+            throws NativeModuleException {
+
+        if (!params.hasKey("session_data")) throw new NativeModuleException("Missing Session Data");
+        final Map<String, String> sessionDataMap = toStringMap(params.getMap("session_data"));
+        final String receiver = params.getString("receiver_pub_key");
+        final String encryptionDataKey = sessionDataMap.get("enc_data_key");
+
+        if (TextUtils.isEmpty(encryptionDataKey) || TextUtils.isEmpty(receiver))
+            throw new NativeModuleException("Invalid params");
+
+        getAccount(new Callback1<Account>() {
+            @Override
+            public void onSuccess(Account account) {
+
+                final byte[] receiverPubKey = HEX.decode(receiver);
+                final PublicKeyEncryption keyEncryption = new BoxEncryption(
+                        account.getEncryptionKey().privateKey().toBytes());
+                final byte[] key = keyEncryption.decrypt(HEX.decode(encryptionDataKey),
+                        account.getEncryptionKey().publicKey().toBytes());
+
+                final SessionData sessionData = SessionData
+                        .getDefault(key, receiverPubKey, keyEncryption);
+                promise.resolve(sessionData.toMap());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                promise.reject(throwable);
+            }
+        });
+
+    }
+
+    @Override
+    public void registerNewAsset(ReadableMap params, Promise promise)
+            throws NativeModuleException {
+
+        final File file = new File(params.getString("url"));
+        final String name = params.getString("property_name");
+        final Map<String, String> metadata = toStringMap(params.getMap("metadata"));
+
+        if (!isValid(file) || TextUtils.isEmpty(name))
+            throw new NativeModuleException("Invalid params");
+
+        getAccount(new Callback1<Account>() {
+            @Override
+            public void onSuccess(Account account) {
+
+                try {
+                    // Register Asset
+                    RegistrationParams registrationParams = new RegistrationParams(name, metadata,
+                            account.toAddress());
+                    registrationParams.generateFingerprint(file);
+                    registrationParams.sign(account.getKeyPair());
+                    RegistrationResponse res = await(
+                            callback -> Asset.register(registrationParams, callback));
+                    String assetId = res.getAssets().get(0).getId();
+
+                    // Issue new bitmark
+                    IssuanceParams issuanceParams = new IssuanceParams(assetId,
+                            account.toAddress());
+                    issuanceParams.sign(account.getKeyPair());
+                    List<String> bitmarkIds = await(
+                            callback -> Bitmark.issue(issuanceParams, callback));
+                    String bitmarkId = bitmarkIds.get(0);
+
+                    promise.resolve(new String[]{bitmarkId, assetId});
+
+                } catch (Throwable throwable) {
+                    promise.reject(throwable);
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                promise.reject(throwable);
+            }
+        });
+    }
+
     private void getAccount(Callback1<Account> callback) throws NativeModuleException {
         Account.loadFromKeyStore(getAttachedActivity(), getAccountNumber(),
                 new Callback1<Account>() {

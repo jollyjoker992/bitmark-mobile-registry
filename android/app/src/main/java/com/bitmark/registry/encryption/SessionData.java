@@ -3,6 +3,9 @@ package com.bitmark.registry.encryption;
 import com.bitmark.cryptography.error.ValidateException;
 import com.facebook.react.bridge.ReadableMap;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.bitmark.cryptography.crypto.encoder.Hex.HEX;
 
 public class SessionData {
@@ -13,8 +16,8 @@ public class SessionData {
 
     private final String encryptedKey;
 
-    static SessionData getDefault(byte[] sessionKey,
-                                  byte[] receiverPubKey, PublicKeyEncryption encryption)
+    public static SessionData getDefault(byte[] sessionKey,
+                                         byte[] receiverPubKey, PublicKeyEncryption encryption)
             throws ValidateException {
         byte[] encryptedKey = encryption.encrypt(sessionKey, receiverPubKey);
         return new SessionData(HEX.encode(encryptedKey), CHACHA20_POLY1305_ALGORITHM);
@@ -37,5 +40,12 @@ public class SessionData {
 
     public String getEncryptedKey() {
         return encryptedKey;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data_key_alg", algorithm);
+        map.put("enc_data_key", encryptedKey);
+        return map;
     }
 }
