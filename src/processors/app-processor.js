@@ -2,7 +2,7 @@ import { Platform, AppRegistry } from 'react-native';
 import moment from 'moment';
 import { registerTasks } from './app-tasks';
 
-import { AccountModel, FaceTouchId, NotificationModel } from './models';
+import { AccountModel, FaceTouchId } from './models';
 import { AccountService, BitmarkService, EventEmitterService, TransactionService } from './services'
 import { DataProcessor } from './data-processor';
 
@@ -185,7 +185,7 @@ const doGetAssetToClaim = async (assetId, issuer) => {
 
 
 const doCheckNoLongerSupportVersion = async () => {
-  let data = await NotificationModel.doTryGetAppVersion();
+  let data = await AccountModel.doTryGetAppVersion();
   if (data && data.version && data.version.minimum_supported_version) {
     let minimumSupportedVersion = data.version.minimum_supported_version;
     if (compareVersion(minimumSupportedVersion, config.version) > 0) {

@@ -11,7 +11,7 @@ import {
 } from './services';
 import {
   CommonModel, AccountModel, UserModel, BitmarkSDK,
-  BitmarkModel, NotificationModel, iCloudSyncAdapter, IftttModel
+  BitmarkModel, iCloudSyncAdapter, IftttModel
 } from './models';
 
 import {
@@ -113,7 +113,7 @@ const configNotification = () => {
       }, 1000);
     }
   };
-  NotificationService.configure(onRegistered, onReceivedNotification);
+  NotificationService.configureNotifications(onRegistered, onReceivedNotification);
   NotificationService.removeAllDeliveredNotifications();
 };
 // ================================================================================================================================================
@@ -146,7 +146,7 @@ const doStartBackgroundProcess = async (justCreatedBitmarkAccount) => {
 const doCreateAccount = async () => {
   let userInformation = await AccountService.doGetCurrentAccount();
   let signatureData = await CommonModel.doCreateSignatureData();
-  await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  await AccountModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
   let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
   await runPromiseWithoutError(AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]));
   await CommonModel.doTrackEvent({
@@ -160,7 +160,7 @@ const doCreateAccount = async () => {
 const doLogin = async () => {
   let userInformation = await AccountService.doGetCurrentAccount();
   let signatureData = await CommonModel.doCreateSignatureData();
-  await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  await AccountModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
   let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
   await runPromiseWithoutError(AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]));
   return userInformation;
@@ -205,6 +205,10 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 
 const doOpenApp = async (justCreatedBitmarkAccount) => {
   CacheData.userInformation = await UserModel.doTryGetCurrentUser();
+  CacheData.userInformation = {
+    bitmarkAccountNumber: 'test',
+  }
+
   console.log('CacheData.userInformation :', CacheData.userInformation, FileUtil.DocumentDirectory);
   if (Platform.OS === 'ios') {
     await LocalFileService.setShareLocalStoragePath();
@@ -231,74 +235,84 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     if (!__DEV__) {
       Sentry.setUserContext({ userID: bitmarkAccountNumber, });
     }
+    console.log('run 1');
     configNotification();
+    console.log('run 2');
     await checkAppNeedResetLocalData(appInfo);
-    await LocalFileService.moveFilesFromLocalStorageToSharedStorage();
+    if (Platform.OS === 'ios') {
+      await LocalFileService.moveFilesFromLocalStorageToSharedStorage();
+    }
+    console.log('run 4');
 
     let identities = await runPromiseWithoutError(AccountModel.doGetIdentities());
     if (identities && !identities.error) {
       CacheData.identities = identities;
     }
+    console.log('run 5');
     if (CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] &&
       CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account != CacheData.userInformation.is_released_account) {
       CacheData.userInformation.is_released_account = CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account;
       await UserModel.doUpdateUserInfo(CacheData.userInformation);
     }
 
-    iCloudSyncAdapter.oniCloudFileChanged((mapFiles) => {
-      if (this.iCloudFileChangedTimeout) {
-        clearTimeout(this.iCloudFileChangedTimeout)
-      }
+    if (Platform.OS === 'ios') {
+      iCloudSyncAdapter.oniCloudFileChanged((mapFiles) => {
+        if (this.iCloudFileChangedTimeout) {
+          clearTimeout(this.iCloudFileChangedTimeout)
+        }
 
-      this.iCloudFileChangedTimeout = setTimeout(
-        () => {
-          for (let key in mapFiles) {
-            let keyList = key.split('_');
-            let assetId;
-            if (keyList[0] === bitmarkAccountNumber) {
-              let keyFilePath;
-              if (keyList[1] === 'assets') {
-                assetId = base58.decode(keyList[2]).toString('hex');
-                keyFilePath = key.replace(`${bitmarkAccountNumber}_assets_${keyList[2]}_`, `${bitmarkAccountNumber}/assets/${assetId}/downloaded/`);
-              } else if (keyList[1] === 'thumbnail') {
-                assetId = base58.decode(keyList[2]).toString('hex');
-                keyFilePath = key.replace(`${bitmarkAccountNumber}_thumbnail_${keyList[2]}_`, `${bitmarkAccountNumber}/assets/${assetId}/`);
-              }
-              let doSyncFile = async () => {
-                let filePath = mapFiles[key];
-                let downloadedFile = `${FileUtil.SharedGroupDirectory}/${keyFilePath}`;
-                let existFileICloud = await FileUtil.exists(filePath);
-                let existFileLocal = await FileUtil.exists(downloadedFile);
-                if (existFileICloud && !existFileLocal) {
-                  let downloadedFolder = downloadedFile.substring(0, downloadedFile.lastIndexOf('/'));
-                  await FileUtil.mkdir(downloadedFolder);
-                  await FileUtil.copyFile(filePath, downloadedFile);
+        this.iCloudFileChangedTimeout = setTimeout(
+          () => {
+            for (let key in mapFiles) {
+              let keyList = key.split('_');
+              let assetId;
+              if (keyList[0] === bitmarkAccountNumber) {
+                let keyFilePath;
+                if (keyList[1] === 'assets') {
+                  assetId = base58.decode(keyList[2]).toString('hex');
+                  keyFilePath = key.replace(`${bitmarkAccountNumber}_assets_${keyList[2]}_`, `${bitmarkAccountNumber}/assets/${assetId}/downloaded/`);
+                } else if (keyList[1] === 'thumbnail') {
+                  assetId = base58.decode(keyList[2]).toString('hex');
+                  keyFilePath = key.replace(`${bitmarkAccountNumber}_thumbnail_${keyList[2]}_`, `${bitmarkAccountNumber}/assets/${assetId}/`);
                 }
-              };
-              runPromiseWithoutError(doSyncFile());
+                let doSyncFile = async () => {
+                  let filePath = mapFiles[key];
+                  let downloadedFile = `${FileUtil.SharedGroupDirectory}/${keyFilePath}`;
+                  let existFileICloud = await FileUtil.exists(filePath);
+                  let existFileLocal = await FileUtil.exists(downloadedFile);
+                  if (existFileICloud && !existFileLocal) {
+                    let downloadedFolder = downloadedFile.substring(0, downloadedFile.lastIndexOf('/'));
+                    await FileUtil.mkdir(downloadedFolder);
+                    await FileUtil.copyFile(filePath, downloadedFile);
+                  }
+                };
+                runPromiseWithoutError(doSyncFile());
+              }
             }
-          }
-          CacheData.userInformation.lastSyncIcloud = moment().toDate().toISOString();
-          UserModel.doUpdateUserInfo(CacheData.userInformation);
-        },
-        1000 * 5 // 5s
-      );
-    });
-    iCloudSyncAdapter.syncCloud();
-
-    let signatureData = await CommonModel.doCreateSignatureData();
-    let result = await AccountModel.doRegisterJWT(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
-    CacheData.jwt = result.jwt_token;
-
-    if (justCreatedBitmarkAccount) {
-      appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
-      await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
-    } else {
-      if (!appInfo.displayedWhatNewInformation || compareVersion(appInfo.displayedWhatNewInformation, DeviceInfo.getVersion(), 2) < 0) {
-        // TODO
-        // CommonProcessor.updateModal(CommonProcessor.ModalDisplayKeyIndex.what_new, true);
-      }
+            CacheData.userInformation.lastSyncIcloud = moment().toDate().toISOString();
+            UserModel.doUpdateUserInfo(CacheData.userInformation);
+          },
+          1000 * 5 // 5s
+        );
+      });
+      iCloudSyncAdapter.syncCloud();
     }
+    console.log('run 6');
+
+    // let signatureData = await CommonModel.doCreateSignatureData();
+    // let result = await AccountModel.doRegisterJWT(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+    // CacheData.jwt = result.jwt_token;
+
+    // if (justCreatedBitmarkAccount) {
+    //   appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
+    //   await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
+    // } else {
+    //   if (!appInfo.displayedWhatNewInformation || compareVersion(appInfo.displayedWhatNewInformation, DeviceInfo.getVersion(), 2) < 0) {
+    //     CommonProcessor.updateModal(CommonProcessor.ModalDisplayKeyIndex.what_new, true);
+    //   }
+    // }
+
+    console.log('run 7');
 
     let assetsBitmarks = await BitmarkProcessor.doGetLocalAssetsBitmarks();
     let releasedAssetsBitmarks = await BitmarkProcessor.doGetLocalReleasedAssetsBitmarks();
@@ -319,6 +333,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     }
     // ============================
     NotificationService.setApplicationIconBadgeNumber(totalTasks || 0);
+    console.log('run 8');
     BottomTabStore.dispatch(BottomTabActions.init({
       totalTasks,
       totalNewBitmarks: Object.values(assetsBitmarks.bitmarks || {}).filter(bitmark => !bitmark.isViewed).length,
@@ -352,11 +367,13 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       userInformation: CacheData.userInformation,
       iftttInformation: await TransactionProcessor.doGetIftttInformation(),
     }));
+    console.log('run 9');
 
     // ============================
   }
 
   setAppLoadingStatus();
+  console.log('run 10');
   return CacheData.userInformation;
 };
 

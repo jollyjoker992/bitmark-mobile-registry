@@ -26,7 +26,9 @@ const BitmarkSDK = {
   },
   requestSession: async (message) => {
     try {
-      if (Platform.OS === 'ios') await NativeBitmarkSDK.authenticate(message);
+      if (Platform.OS === 'ios') {
+        await NativeBitmarkSDK.authenticate(message);
+      }
       return true;
     } catch (error) {
       return null;

@@ -1,13 +1,14 @@
 import DeviceInfo from 'react-native-device-info';
+import PushNotification from 'react-native-push-notification';
 import ReactNative from 'react-native';
 const {
   PushNotificationIOS,
   Platform,
 } = ReactNative;
-import { NotificationModel, CommonModel } from '../models';
+import { AccountModel, CommonModel } from '../models';
 
-let configure = (onRegister, onNotification) => {
-  return NotificationModel.configure(onRegister, onNotification);
+let configureNotifications = (onRegister, onNotification) => {
+  return AccountModel.configureNotifications(onRegister, onNotification);
 };
 
 let isRequesting = false;
@@ -29,7 +30,7 @@ let doRequestNotificationPermissions = async () => {
     return await waitRequestPermission();
   }
   isRequesting = true;
-  requestResult = await NotificationModel.doRequestNotificationPermissions();
+  requestResult = await AccountModel.doRequestNotificationPermissions();
   isRequesting = false;
   return requestResult;
 };
@@ -44,7 +45,7 @@ let doCheckNotificationPermission = () => {
 };
 
 let setApplicationIconBadgeNumber = (number) => {
-  return NotificationModel.setApplicationIconBadgeNumber(number);
+  return AccountModel.setApplicationIconBadgeNumber(number);
 };
 
 let doRegisterNotificationInfo = async (accountNumber, token) => {
@@ -56,12 +57,12 @@ let doRegisterNotificationInfo = async (accountNumber, token) => {
   client = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? 'registryinhouse' :
     (DeviceInfo.getBundleId() === 'com.bitmark.registry.beta' ? 'registrybeta' : client);
 
-  return await NotificationModel.doRegisterNotificationInfo(accountNumber, signatureData.timestamp, signatureData.signature, Platform.OS, token, client);
+  return await AccountModel.doRegisterNotificationInfo(accountNumber, signatureData.timestamp, signatureData.signature, Platform.OS, token, client);
 };
 
 let doTryDeregisterNotificationInfo = (accountNumber, token, signatureData) => {
   return new Promise((resolve) => {
-    NotificationModel.doDeregisterNotificationInfo(accountNumber, signatureData.timestamp, signatureData.signature, token)
+    AccountModel.doDeregisterNotificationInfo(accountNumber, signatureData.timestamp, signatureData.signature, token)
       .then(resolve)
       .catch(error => {
         console.log('doTryDeregisterNotificationInfo error :', error);
@@ -71,11 +72,16 @@ let doTryDeregisterNotificationInfo = (accountNumber, token, signatureData) => {
 };
 
 let removeAllDeliveredNotifications = () => {
-  PushNotificationIOS.removeAllDeliveredNotifications();
+  if (Platform.OS === 'android') {
+    // TODO should check if have schedule for local notification
+    PushNotification.cancelAllLocalNotifications();
+  } else {
+    PushNotificationIOS.removeAllDeliveredNotifications();
+  }
 };
 
 let NotificationService = {
-  configure,
+  configureNotifications,
   setApplicationIconBadgeNumber,
   removeAllDeliveredNotifications,
 
