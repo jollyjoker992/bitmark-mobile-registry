@@ -10,6 +10,7 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,14 @@ public class DataTypeMapper {
         return new GsonBuilder().create().toJson(object);
     }
 
+    public static Object[] toObjects(Object object) {
+        if (object.getClass().isArray()) {
+            String serialized = toJson(object);
+            return new GsonBuilder().create().fromJson(serialized, Object[].class);
+        }
+        return new Object[]{};
+    }
+
     public static WritableArray toWritableArray(Object... objects) {
         WritableArray array = new WritableNativeArray();
         for (Object value : objects) {
@@ -56,7 +65,7 @@ public class DataTypeMapper {
             } else if (value instanceof String) {
                 array.pushString((String) value);
             } else if (value.getClass().isArray()) {
-                array.pushArray(toWritableArray(value));
+                array.pushArray(toWritableArray(toObjects(value)));
             } else {
                 array.pushString(toJson(value));
             }
