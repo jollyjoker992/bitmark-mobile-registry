@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import KeepAwake from 'react-native-keep-awake';
 const {
+  Platform,
   Linking,
   Alert,
   AppState,
@@ -17,7 +18,7 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, DataProcessor, CacheData, BitmarkSDK, AppProcessor } from 'src/processors';
+import { UserModel, EventEmitterService, CacheData, CommonProcessor, TransactionProcessor } from 'src/processors';
 import { convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant } from 'src/configs';
 
@@ -58,6 +59,13 @@ export class MainAppHandlerComponent extends Component {
       NetInfo.isConnected.addEventListener('connectionChange', this.handleNetworkChange);
     });
 
+    if (Platform.OS === 'android') {
+      NetInfo.getConnectionInfo().then((connectionInfo) => {
+        if (connectionInfo.type === 'wifi' || connectionInfo.type === 'cellular') {
+          this.handleNetworkChange(true);
+        }
+      });
+    }
   }
   componentWillUnmount() {
     EventEmitterService.remove(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);
@@ -83,6 +91,7 @@ export class MainAppHandlerComponent extends Component {
   }
 
   handerProcessErrorEvent(processError) {
+    console.log('processError :', processError);
     if (processError && (processError.title || processError.message)) {
       this.handleDefaultJSError(processError);
     } else {
@@ -106,6 +115,7 @@ export class MainAppHandlerComponent extends Component {
   }
 
   handleUnexpectedJSError(processError) {
+    console.log('processError :', processError);
     let title = global.i18n.t("MainComponent_errorReportTitle");
     let message = global.i18n.t("MainComponent_errorReportMessage");
 
@@ -146,40 +156,46 @@ export class MainAppHandlerComponent extends Component {
     if (!event.url) {
       return;
     }
+    CacheData.processingDeepLink = true;
     const route = event.url.replace(/.*?:\/\//g, '');
     const params = route.split('/');
     switch (params[0]) {
       case 'claim': {
         let assetId = params[1];
+        let issuer = params[2];
         if (assetId) {
           UserModel.doTryGetCurrentUser().then(userInformation => {
             if (!userInformation || !userInformation.bitmarkAccountNumber) {
               Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
             }
+            TransactionProcessor.doGetAssetToClaim(assetId, issuer).then(async (asset) => {
+              let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
+              if ((userInformation && userInformation.bitmarkAccountNumber && passTouchFaceId) ||
+                (!userInformation || !userInformation.bitmarkAccountNumber)) {
+                CommonProcessor.doViewSendIncomingClaimRequest(asset, issuer);
+              }
+            }).catch(error => {
+              CacheData.processingDeepLink = false;
+              EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+            });
           });
-          AppProcessor.doGetAssetToClaim(assetId).then(asset => {
-            DataProcessor.doViewSendIncomingClaimRequest(asset);
-          }).catch(error => {
-            EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-          })
         }
         break;
       }
       default: {
-        // TODO
         break;
       }
     }
   }
 
   handleAppStateChange = (nextAppState) => {
-    console.log('nextAppState :', nextAppState);
     if (this.appState.match(/background/) && nextAppState === 'active') {
-      runPromiseWithoutError(DataProcessor.doMetricOnScreen(true));
+      runPromiseWithoutError(CommonProcessor.doMetricOnScreen(true));
       this.doTryConnectInternet();
     }
     if (nextAppState && nextAppState.match(/background/)) {
-      runPromiseWithoutError(DataProcessor.doMetricOnScreen(false));
+      CacheData.passTouchFaceId = false;
+      runPromiseWithoutError(CommonProcessor.doMetricOnScreen(false));
     }
     this.appState = nextAppState;
   }
@@ -189,10 +205,10 @@ export class MainAppHandlerComponent extends Component {
     if (networkStatus) {
       UserModel.doTryGetCurrentUser().then(async (userInformation) => {
         if (userInformation && userInformation.bitmarkAccountNumber) {
-          let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
-          let passTouchFaceId = result && !result.error;
+          let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
           this.setState({ passTouchFaceId });
           if (passTouchFaceId) {
+            CommonProcessor.checkDisplayModal();
             EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
           }
         } else {
@@ -211,10 +227,10 @@ export class MainAppHandlerComponent extends Component {
 
   async doRefresh(justCreatedBitmarkAccount) {
     if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
-      let result = await runPromiseWithoutError(BitmarkSDK.requestSession(i18n.t('FaceTouchId_doOpenApp')));
-      let passTouchFaceId = result && !result.error;
+      let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();
       this.setState({ passTouchFaceId });
       if (passTouchFaceId && this.state.networkStatus) {
+        CommonProcessor.checkDisplayModal();
         EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus: this.state.networkStatus, justCreatedBitmarkAccount });
       }
     } else if (this.state.networkStatus) {
@@ -248,7 +264,7 @@ export class MainAppHandlerComponent extends Component {
         {this.state.processingCount > 0 && <DefaultIndicatorComponent />}
         {!!this.state.submitting && !this.state.submitting.title && !this.state.submitting.message && <DefaultIndicatorComponent />}
         {!!this.state.submitting && (this.state.submitting.title || this.state.submitting.message) && <BitmarkIndicatorComponent
-          indicator={!!this.state.submitting.indicator} title={this.state.submitting.title} message={this.state.submitting.message} />}
+          indicator={this.state.submitting.indicator} title={this.state.submitting.title} message={this.state.submitting.message} />}
       </View>
     );
   }

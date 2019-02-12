@@ -7,16 +7,25 @@ PODS:
   - TweetNacl (1.0.1)
 
 DEPENDENCIES:
-  - BitmarkSDK
+  - BitmarkSDK (from `https://github.com/bitmark-inc/bitmark-sdk-swift.git`, branch `master`)
   - iCloudDocumentSync
   - KeychainAccess
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - BitmarkSDK
     - iCloudDocumentSync
     - KeychainAccess
     - TweetNacl
+
+EXTERNAL SOURCES:
+  BitmarkSDK:
+    :branch: master
+    :git: https://github.com/bitmark-inc/bitmark-sdk-swift.git
+
+CHECKOUT OPTIONS:
+  BitmarkSDK:
+    :commit: d580ed78316960df8d87b277160898df1e67ef7e
+    :git: https://github.com/bitmark-inc/bitmark-sdk-swift.git
 
 SPEC CHECKSUMS:
   BitmarkSDK: 0d5c89730c36cf0eda7d0d1995bc60fdf9972e75
@@ -24,6 +33,6 @@ SPEC CHECKSUMS:
   KeychainAccess: b3816fddcf28aa29d94b10ec305cd52be14c472b
   TweetNacl: ea279cd32bffee69c59c73631470d3419db675df
 
-PODFILE CHECKSUM: 0517c5a48dc2f8b6d5ae1f52ef3fb37b5b3e7464
+PODFILE CHECKSUM: 2eccd54a9cbecc9f859846519cfee883b9824531
 
 COCOAPODS: 1.5.3

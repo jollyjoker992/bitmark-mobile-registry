@@ -9,9 +9,10 @@
 "info_plist_touch_face_id" = "請使用指紋與人臉辨識或密碼來授權你的交易。";
 "notification_tracking_transfer_confirmed" = "資產 \"%@\" 有新動態，請點此來追蹤其詳細資訊。";
 "notification_transfer_confirmed_sender" = "資產 \"%@\"已經轉移至 %@。";
-"notification_transfer_confirmed_receiver" = "收到來自%@的資產\"%@\"。";
+"notification_transfer_confirmed_receiver" = "收到來自%2$@的資產\"%1$@。\"";
 "notification_transfer_request" = "收到一則資產轉移請求，請點此來查看。";
 "notification_transfer_rejected" = "你的資產發送請求已被駁回，請稍後再試或者嘗試聯繫收件者。";
 "notification_transfer_failed" = "收到一則資產轉移請求，請點此來查看。";
 "notification_transfer_accepted" = "你的資產發送請求已成功。";
-"notification_claim_request" = "收到來自%@要求擁有資產%@的請求，請查看。";
+"notification_claim_request" = "收到來自%2$@要求擁有資產%1$@的請求，請查看。";
+"notification_claim_request_rejected" = "%@已經拒絕了你的資產%@索取請求。";

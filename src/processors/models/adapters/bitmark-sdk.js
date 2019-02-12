@@ -1,42 +1,3 @@
-// import { NativeModules } from 'react-native'
-// let SwiftBitmarkSDK = NativeModules.BitmarkSDK;
-
-// const newError = (reason, defaultMessage) => {
-//   let message = (reason && typeof (reason) === 'string') ? reason : defaultMessage;
-//   message = message || 'Internal application error!'
-//   return new Error(message);
-// }
-
-// const BitmarkSDK = {
-
-// TODO 
-//   createSessionData: (sessionId, encryptionKey) => {
-//     return new Promise((resolve, reject) => {
-//       SwiftBitmarkSDK.createSessionData(sessionId, encryptionKey, (ok, result) => {
-//         if (ok && result) {
-//           resolve(result);
-//         } else {
-//           reject(newError(result, global.i18n.t("BitmarkSDK_canNotCreateSessionData")));
-//         }
-//       });
-//     });
-//   },
-// TODO 
-//   issueRecord: (sessionId, fingerprint, property_name, metadata, quantity) => {
-//     return new Promise((resolve, reject) => {
-//       SwiftBitmarkSDK.issueRecord(sessionId, { fingerprint, property_name, metadata, quantity }, (ok, result) => {
-//         if (ok && result) {
-//           resolve(result);
-//         } else {
-//           reject(newError(result, global.i18n.t("BitmarkSDK_canNotIssueBitmark")));
-//         } 
-//       });
-//     });
-//   },
-
-// };
-// export { BitmarkSDK };
-
 
 import { NativeModules, Platform } from 'react-native'
 
@@ -47,13 +8,17 @@ let NativeBitmarkSDK = Platform.select({
 
 const BitmarkSDK = {
 
-  sdkInit: async (network) => {
-    return await NativeBitmarkSDK.sdkInit(network);
+  sdkInit: (network) => {
+    return new Promise((resolve) => {
+      NativeBitmarkSDK.sdkInit(network).then(resolve).catch(() => resolve());
+    });
   },
   // return session id
   newAccount: async (enableTouchFaceId) => {
-    // todo call authenticate before call new account for case enableTouchFaceId
-    return await NativeBitmarkSDK.createAccount(enableTouchFaceId);
+    console.log('newAccount run 1', enableTouchFaceId);
+    let result = await NativeBitmarkSDK.createAccount(enableTouchFaceId);
+    console.log('newAccount run 2', result);
+    return result;
   },
   newAccountFromPhraseWords: async (phraseWords, enableTouchFaceId) => {
     // todo call authenticate before call login for case enableTouchFaceId
@@ -138,7 +103,6 @@ const BitmarkSDK = {
   encryptFile: async (filePath, recipient, outputFilePath) => {
     return await NativeBitmarkSDK.encryptFile({
       file_path: filePath,
-      recipient,
       output_file_path: outputFilePath,
     });
   },
@@ -150,6 +114,12 @@ const BitmarkSDK = {
       output_file_path: outputFilePath,
     });
   },
+  encryptSessionData: async (sessionData, receiverPublicEncryptionKey) => {
+    return await NativeBitmarkSDK.encryptSessionData({
+      session_data: sessionData,
+      receiver_pub_key: receiverPublicEncryptionKey,
+    });
+  },
   giveAwayBitmark: async (asset_id, recipient) => {
     let list = await NativeBitmarkSDK.giveAwayBitmark({ asset_id, recipient, });
     return {
@@ -158,12 +128,7 @@ const BitmarkSDK = {
     }
   },
   registerNewAsset: async (filePath, propertyName, metadata) => {
-    console.log({
-      url: filePath,
-      property_name: propertyName,
-      metadata,
-    });
-    let list = await SwiftBitmarkSDK.registerNewAsset({
+    let list = await NativeBitmarkSDK.registerNewAsset({
       url: filePath,
       property_name: propertyName,
       metadata,

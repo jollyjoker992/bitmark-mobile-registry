@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 import {
   View, TouchableOpacity, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
   StyleSheet,
+  Keyboard,
+  Platform,
   Alert,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
-import { convertWidth } from 'src/utils';
-import { BitmarkService, AppProcessor } from 'src/processors';
+import { convertWidth, getMetadataLabel } from 'src/utils';
+import { BitmarkService, AppProcessor, EventEmitterService } from 'src/processors';
 
 
 export class MusicMetadataComponent extends React.Component {
@@ -20,10 +22,13 @@ export class MusicMetadataComponent extends React.Component {
     thumbnailPath: PropTypes.string,
     assetName: PropTypes.string,
     limitedEdition: PropTypes.number,
-    description: PropTypes.string,
   }
   constructor(props) {
     super(props);
+    this.onKeyboardDidShow = this.onKeyboardDidShow.bind(this);
+    this.onKeyboardDidHide = this.onKeyboardDidHide.bind(this);
+    this.onKeyboardWillShow = this.onKeyboardWillShow.bind(this);
+
     this.state = {
       canAddNewMetadata: false,
       isEditingMetadata: false,
@@ -32,7 +37,30 @@ export class MusicMetadataComponent extends React.Component {
       }],
       isDisplayingKeyboard: false,
       metadataError: '',
+      keyboardHeight: 0,
     };
+  }
+
+  componentDidMount() {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.onKeyboardWillShow);
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardDidHide);
+  }
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  onKeyboardWillShow() {
+    this.setState({ keyboardHeight: 1 });
+  }
+  onKeyboardDidShow(keyboardEvent) {
+    let keyboardHeight = keyboardEvent.endCoordinates.height;
+    this.setState({ keyboardHeight, });
+  }
+  onKeyboardDidHide() {
+    this.setState({ keyboardHeight: 0 });
   }
 
   addMetadata() {
@@ -68,10 +96,7 @@ export class MusicMetadataComponent extends React.Component {
 
     if (!metadataError) {
       let tempMetadata = merge([], metadata);
-      tempMetadata.push({ label: 'type', value: constant.asset.type.music });
-
-      //TODO Chinese
-      tempMetadata.push({ label: 'description', value: this.props.description });
+      tempMetadata.push({ label: constant.asset.metadata.labels.type, value: constant.asset.metadata.values.music });
       metadataError = await BitmarkService.doCheckMetadata(tempMetadata);
     }
 
@@ -111,26 +136,31 @@ export class MusicMetadataComponent extends React.Component {
   }
 
   onSubmit() {
+    Keyboard.dismiss();
     let tempMetadata = merge([], this.state.metadata);
-    tempMetadata.push({ label: 'type', value: constant.asset.type.music });
+    tempMetadata.push({ label: constant.asset.metadata.labels.type, value: constant.asset.metadata.values.music });
 
-    //TODO Chinese
-    tempMetadata.push({ label: 'description', value: this.props.description });
     AppProcessor.doIssueMusic(this.props.filePath, this.props.assetName, tempMetadata, this.props.thumbnailPath, this.props.limitedEdition, {
       indicator: true, title: '', message: global.i18n.t('MusicMetadataComponent_processMessage'),
     }).then(result => {
-      console.log('doIssueMusic result:', result);
       if (result) {
-        Actions.musicIssueSuccess({ assetId: result[0].assetId, assetName: this.props.assetName });
+        Actions.musicIssueSuccess({
+          assetId: result[0].assetId,
+          assetName: this.props.assetName,
+          thumbnailPath: this.props.thumbnailPath,
+          limitedEditions: this.props.limitedEdition,
+          totalEditionLeft: this.props.limitedEdition,
+        });
       }
     }).catch(error => {
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
       console.log('doIssueMusic error:', error);
     })
   }
 
   doCancel() {
     Alert.alert(global.i18n.t('MusicMetadataComponent_cancelTitle'), global.i18n.t('MusicMetadataComponent_cancelMessage'), [{
-      text: global.i18n.t('MusicMetadataComponent_cancelYes'), onPress: () => Actions.jump('assets'),
+      text: global.i18n.t('MusicMetadataComponent_cancelYes'), onPress: () => Actions.jump('properties'),
     }, {
       text: global.i18n.t('MusicMetadataComponent_cancelNo'), style: 'cancel',
     }]);
@@ -139,7 +169,7 @@ export class MusicMetadataComponent extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1, borderBottomColor: '#0060F2', borderBottomWidth: 1, backgroundColor: 'white' }} >
+        <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: '' })} enabled style={{ flex: 1, borderBottomColor: '#0060F2', borderBottomWidth: 1, backgroundColor: 'white' }} >
           <View style={cStyles.header}>
             <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
@@ -162,7 +192,9 @@ export class MusicMetadataComponent extends React.Component {
                       disabled={this.state.isEditingMetadata}
                       onPress={() => Actions.musicMetadataEdit({ index: index, label: item.label, onChangeMetadataLabel: this.onChangeMetadataLabel.bind(this) })}
                     >
-                      <Text style={[cStyles.fieldLabelButtonText, item.label ? {} : { color: '#C1C1C1' }]}>{item.label ? item.label : global.i18n.t('MusicMetadataComponent_fieldLabelButtonText', { index: index + 1 })}</Text>
+                      <Text style={[cStyles.fieldLabelButtonText, item.label ? {} : { color: '#C1C1C1' }]}>
+                        {item.label ? getMetadataLabel(item.label, true) : global.i18n.t('MusicMetadataComponent_fieldLabelButtonText', { index: index + 1 })}
+                      </Text>
                       <Image style={cStyles.fieldLabelButtonIcon} source={require('assets/imgs/next-icon-blue.png')} />
                     </TouchableOpacity>
                     <View style={[cStyles.fieldLabelButton, item.valueError ? { borderBottomColor: '#FF003C' } : {}]}>
@@ -197,19 +229,19 @@ export class MusicMetadataComponent extends React.Component {
               </View>
             </View>
           </ScrollView>
-        </KeyboardAvoidingView>
-        <View style={cStyles.ownershipArea}>
-          <Text style={cStyles.ownershipTitle}>{global.i18n.t('MusicMetadataComponent_ownershipTitle')}</Text>
-          <Text style={cStyles.ownershipDescription}>{global.i18n.t('MusicMetadataComponent_ownershipDescription')}</Text>
-        </View>
+          {this.state.keyboardHeight === 0 && <View style={cStyles.ownershipArea}>
+            <Text style={cStyles.ownershipTitle}>{global.i18n.t('MusicMetadataComponent_ownershipTitle')}</Text>
+            <Text style={cStyles.ownershipDescription}>{global.i18n.t('MusicMetadataComponent_ownershipDescription')}</Text>
+          </View>}
 
-        <TouchableOpacity
-          style={[cStyles.continueButton, (!this.state.metadataError) ? { backgroundColor: '#0060F2' } : {}]}
-          disabled={!!this.state.metadataError}
-          onPress={this.onSubmit.bind(this)}
-        >
-          <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicMetadataComponent_continueButtonText')}</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[cStyles.continueButton, (!this.state.metadataError) ? { backgroundColor: '#0060F2' } : {}, this.state.keyboardHeight ? { height: constant.buttonHeight } : {}]}
+            disabled={!!this.state.metadataError}
+            onPress={this.onSubmit.bind(this)}
+          >
+            <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicMetadataComponent_continueButtonText')}</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
       </View>
     );
   }

@@ -101,7 +101,7 @@ android {
         minSdkVersion 21
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.56.3"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -209,6 +209,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-share')
+    implementation project(':lottie-react-native')
     implementation project(':react-native-sentry')
     implementation project(':react-native-zip-archive')
     implementation project(':react-native-push-notification')

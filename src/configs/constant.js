@@ -6,9 +6,38 @@ import { androidConstant } from './android-constant';
 
 let commonConstant = {
   asset: {
-    type: {
-      music: 'music',
-    }
+    metadata: {
+      labels: {
+        type: 'type',
+        description: 'description',
+        playlink: 'playlink',
+      },
+      values: {
+        music: 'music'
+      }
+    },
+    MetadataLabelForMusic: [
+      'description',
+      'performer',
+      'genre',
+      'isrc',
+      'producer',
+      'composer',
+      'copyright',
+      'playlink',
+    ],
+    NormalMetadataLabel: [
+      'created (date)', 'contributor', 'coverage', 'creator',
+      'description', 'dimensions', 'duration', 'edition',
+      'format', 'identifier', 'language', 'license',
+      'medium', 'publisher', 'relation', 'rights',
+      'size', 'source', 'subject', 'keywords',
+      'type', 'version'],
+  },
+  indicators: {
+    processing: 'processing',
+    success: 'success',
+    searching: 'searching',
   }
 };
 

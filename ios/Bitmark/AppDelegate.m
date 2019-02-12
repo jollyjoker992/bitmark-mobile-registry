@@ -8,6 +8,7 @@
  */
 
 #import "AppDelegate.h"
+#import <AVFoundation/AVFoundation.h>
 #import <CodePush/CodePush.h>
 
 #import <React/RCTBundleURLProvider.h>
@@ -51,6 +52,8 @@
   else {
     RCTLog(@"iCloud is not available on this device");
   }
+
+  [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
   
   return YES;
 }

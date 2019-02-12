@@ -11,16 +11,11 @@
 
 default_platform(:ios)
 
-reset_git_repo(
-  force: true,
-  skip_clean: true
-)
-git_pull
-sh "npm install"
-
 platform :ios do
   desc "Push a new beta build to Hockeyapp"
   lane :prepare_appstore do
+    git_pull
+    sh "rm -rf node_modules/ && rm -rf ios/build/ && npm cache clean --force && npm install"
     version_number = latest_hockey_build_number(
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
@@ -42,7 +37,8 @@ platform :ios do
       export_options: {iCloudContainerEnvironment: 'Production'},
       workspace: "./Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry",
-      include_bitcode: true
+      include_bitcode: true,
+      clean: true
     )
     sentry_upload_dsym(
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
@@ -53,8 +49,14 @@ platform :ios do
     hockey(
       api_token: ENV['HOCKEYAPP_KEY']
     )
+    reset_git_repo(
+      force: true,
+      skip_clean: true
+    )
   end
   lane :beta do
+    git_pull
+    sh "rm -rf node_modules/ && rm -rf ios/build/ && npm cache clean --force && npm install"
     version_number = latest_hockey_build_number(
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
@@ -75,7 +77,8 @@ platform :ios do
       export_options: {iCloudContainerEnvironment: 'Production'},
       workspace: "./Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry beta",
-      include_bitcode: false
+      include_bitcode: false,
+      clean: true
     )
     sentry_upload_dsym(
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
@@ -84,10 +87,17 @@ platform :ios do
       dsym_path: './Bitmark Registry beta.app.dSYM.zip'
     )
     hockey(
-      api_token: ENV['HOCKEYAPP_KEY']
-      )
+      api_token: ENV['HOCKEYAPP_KEY'],
+      release_type: "2"
+    )
+    reset_git_repo(
+      force: true,
+      skip_clean: true
+    )
   end
   lane :alpha do
+    git_pull
+    sh "rm -rf node_modules/ && rm -rf ios/build/ && npm cache clean --force && npm install"
     version_number = latest_hockey_build_number(
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
@@ -103,7 +113,8 @@ platform :ios do
       export_options: {iCloudContainerEnvironment: 'Production'},
       workspace: "./Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry dev",
-      include_bitcode: false
+      include_bitcode: false,
+      clean: true
     )
     sentry_upload_dsym(
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
@@ -114,6 +125,10 @@ platform :ios do
     hockey(
       api_token: ENV['HOCKEYAPP_KEY'],
       notes_type: "1"
+    )
+    reset_git_repo(
+      force: true,
+      skip_clean: true
     )
   end
   lane :betatravis do

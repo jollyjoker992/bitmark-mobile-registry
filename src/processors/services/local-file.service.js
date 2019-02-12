@@ -1,8 +1,9 @@
 import DeviceInfo from 'react-native-device-info';
 import base58 from 'bs58';
-import { FileUtil } from 'src/utils';
+import { FileUtil, runPromiseWithoutError } from 'src/utils';
 import { iCloudSyncAdapter } from '../models';
 import { CacheData } from '../caches';
+import { config } from 'src/configs';
 
 const setShareLocalStoragePath = async () => {
   let appBundleId = DeviceInfo.getBundleId();
@@ -34,7 +35,6 @@ const moveFilesFromLocalStorageToSharedStorage = async (bitmarkAccountNumber) =>
 
 const doCheckAndSyncDataWithICloud = async (asset) => {
   // upload to iCloud
-  console.log('doCheckAndSyncDataWithICloud :', asset);
   if (!asset) {
     return;
   }
@@ -51,9 +51,52 @@ const doCheckAndSyncDataWithICloud = async (asset) => {
   }
 };
 
+const detectLocalAssetFilePath = async (assetId) => {
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${assetId}`;
+  let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
+  if (!existAssetFolder || existAssetFolder.error) {
+    return null;
+  }
+  let downloadedFolder = `${assetFolderPath}/downloaded`;
+  let existDownloadedFolder = await runPromiseWithoutError(FileUtil.exists(downloadedFolder));
+  if (!existDownloadedFolder || existDownloadedFolder.error) {
+    return null;
+  }
+  let list = await FileUtil.readDir(`${assetFolderPath}/downloaded`);
+  return (list && list.length > 0) ? `${assetFolderPath}/downloaded/${list[0]}` : null;
+};
+
+const detectMusicThumbnailPath = async (assetId) => {
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${assetId}`;
+  let thumbnailPath = `${assetFolderPath}/thumbnail.png`;
+  let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
+  if (!existAssetFolder || existAssetFolder.error) {
+    thumbnailPath = null;
+  }
+  let existFile = await runPromiseWithoutError(FileUtil.exists(thumbnailPath));
+  if (!existFile || existFile.error) {
+    thumbnailPath = null;
+  }
+  if (!thumbnailPath) {
+    thumbnailPath = `${assetFolderPath}/thumbnail.png`;
+    await FileUtil.mkdir(assetFolderPath);
+    await FileUtil.downloadFile({
+      fromUrl: config.bitmark_profile_server + `/s/asset/thumbnail?asset_id=${assetId}`,
+      toFile: thumbnailPath,
+    });
+    let existFile = await runPromiseWithoutError(FileUtil.exists(thumbnailPath));
+    if (!existFile || existFile.error) {
+      thumbnailPath = null;
+    }
+  }
+  return thumbnailPath;
+};
+
 let LocalFileService = {
   setShareLocalStoragePath,
   moveFilesFromLocalStorageToSharedStorage,
   doCheckAndSyncDataWithICloud,
+  detectLocalAssetFilePath,
+  detectMusicThumbnailPath,
 };
 export { LocalFileService };

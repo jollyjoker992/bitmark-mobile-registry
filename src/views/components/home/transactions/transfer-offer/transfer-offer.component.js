@@ -7,12 +7,12 @@ import {
 } from 'react-native';
 
 import transferOfferStyle from './transfer-offer.component.style';
-import { BitmarkModel, EventEmitterService, AppProcessor } from 'src/processors';
+import { BitmarkModel, EventEmitterService, AppProcessor, CommonProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { Actions } from 'react-native-router-flux';
 
 export class TransferOfferComponent extends React.Component {
-  propTypes = {
+  static propTypes = {
     transferOffer: PropTypes.any,
   }
   constructor(props) {
@@ -36,7 +36,6 @@ export class TransferOfferComponent extends React.Component {
       transactionData: null
     };
     BitmarkModel.doGetTransactionDetail(transferOffer.record.link).then(transactionData => {
-      console.log('transactionData :', transactionData);
       this.setState({ transactionData })
     }).catch(error => {
       console.log('TransferOfferComponent doGetTransactionDetail error :', error);
@@ -56,7 +55,7 @@ export class TransferOfferComponent extends React.Component {
           if (data) {
             Alert.alert(global.i18n.t("TransferOfferComponent_receiptRejectedTitle"), global.i18n.t("TransferOfferComponent_receiptRejectedMessage"), [{
               text: global.i18n.t("TransferOfferComponent_ok"),
-              onPress: () => Actions.jump('assets')
+              onPress: () => Actions.jump('properties')
             }]);
           }
         }).catch(error => {
@@ -71,7 +70,7 @@ export class TransferOfferComponent extends React.Component {
       if (data) {
         Alert.alert(global.i18n.t("TransferOfferComponent_signatureSubmittedTitle"), global.i18n.t("TransferOfferComponent_signatureSubmittedMessage"), [{
           text: global.i18n.t("TransferOfferComponent_ok"),
-          onPress: () => Actions.jump('assets')
+          onPress: () => Actions.jump('properties')
         }]);
       }
     }).catch(error => {
@@ -112,7 +111,7 @@ export class TransferOfferComponent extends React.Component {
                   <Text style={transferOfferStyle.externalAreaRowLabel}>{global.i18n.t("TransferOfferComponent_issuer")}:</Text>
                   <View style={transferOfferStyle.externalAreaRowValueIssuerView}>
                     <Text style={transferOfferStyle.externalAreaRowValueIssuer_}>[</Text>
-                    <Text style={transferOfferStyle.externalAreaRowValueIssuer} numberOfLines={1}>{this.state.transferOffer.asset.registrantName || this.state.transferOffer.asset.registrant}</Text>
+                    <Text style={transferOfferStyle.externalAreaRowValueIssuer} numberOfLines={1}>{CommonProcessor.getDisplayedAccount(this.state.transferOffer.asset.registrant)}</Text>
                     <Text style={transferOfferStyle.externalAreaRowValueIssuer_}>]</Text>
                   </View>
                 </View>

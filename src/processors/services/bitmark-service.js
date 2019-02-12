@@ -1,94 +1,82 @@
 import moment from 'moment';
 import { merge } from 'lodash';
 import { BitmarkModel, CommonModel, BitmarkSDK } from "../models";
-import { FileUtil } from 'src/utils';
+import { FileUtil, isReleasedAsset } from 'src/utils';
 import { config } from 'src/configs';
+import { CacheData } from '../caches';
 
 
 // ================================================================================================
 // ================================================================================================
 
-const doGet100Bitmarks = async (bitmarkAccountNumber, oldLocalAssets, lastOffset) => {
-  let hasChanging = false;
-  if (!oldLocalAssets) {
-    hasChanging = true;
-    oldLocalAssets = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_LOCAL_BITMARKS);
-  }
-  oldLocalAssets = oldLocalAssets || [];
-  if (!lastOffset) {
-    oldLocalAssets.forEach(asset => {
-      asset.bitmarks.forEach(bitmark => {
-        lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
-      });
-    });
+const doGetNewAssetsBitmarks = async (bitmarkAccountNumber, bitmarkAssets, lastOffset) => {
+  bitmarkAssets = bitmarkAssets || {};
+  bitmarkAssets.bitmarks = bitmarkAssets.bitmarks || {};
+  bitmarkAssets.assets = bitmarkAssets.assets || {};
+
+  for (let bitmarkId in bitmarkAssets.bitmarks) {
+    if (bitmarkAssets.bitmarks[bitmarkId].edition) {
+      lastOffset = lastOffset ? Math.max(lastOffset, bitmarkAssets.bitmarks[bitmarkId].offset) : bitmarkAssets.bitmarks[bitmarkId].offset;
+    }
   }
   let data = await BitmarkModel.doGet100Bitmarks(bitmarkAccountNumber, lastOffset);
-  let localAssets = merge([], oldLocalAssets || []);
-
-  if (data && data.bitmarks && data.assets) {
-    hasChanging = data.bitmarks.length >= 100;
+  while (data && data.bitmarks && data.bitmarks.length > 0) {
+    for (let asset of data.assets) {
+      bitmarkAssets.assets[asset.id] = merge({}, bitmarkAssets.assets[asset.id] || {}, asset);
+    }
     for (let bitmark of data.bitmarks) {
-      lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
-      bitmark.bitmark_id = bitmark.id;
-      bitmark.isViewed = false;
-      let oldAsset = (localAssets).find(asset => asset.id === bitmark.asset_id);
-      let newAsset = data.assets.find(asset => asset.id === bitmark.asset_id);
-      if (oldAsset && newAsset && !oldAsset.created_at) {
-        oldAsset.created_at = newAsset.created_at;
-      }
       if (bitmark.owner === bitmarkAccountNumber) {
-        hasChanging = true;
-        if (oldAsset) {
-          let oldBitmarkIndex = oldAsset.bitmarks.findIndex(ob => ob.id === bitmark.id);
-          if (oldBitmarkIndex >= 0) {
-            oldAsset.bitmarks[oldBitmarkIndex] = bitmark;
-          } else {
-            oldAsset.bitmarks.push(bitmark);
-          }
-          oldAsset.isViewed = false;
-        } else {
-          newAsset.bitmarks = [bitmark];
-          newAsset.isViewed = false;
-          localAssets.push(newAsset);
+        if (bitmarkAssets.assets[bitmark.asset_id]) {
+          bitmarkAssets.bitmarks[bitmark.id] = merge({}, bitmarkAssets.bitmarks[bitmark.id] || {}, bitmark);
         }
       } else {
-        let oldAssetIndex = (localAssets).findIndex(asset => asset.id === bitmark.asset_id);
-        if (oldAssetIndex >= 0) {
-          let oldAsset = localAssets[oldAssetIndex];
-          let oldBitmarkIndex = oldAsset.bitmarks.findIndex(ob => bitmark.id === ob.id);
-          if (oldBitmarkIndex >= 0) {
-            hasChanging = true;
-            oldAsset.bitmarks.splice(oldBitmarkIndex, 1);
-            if (oldAsset.bitmarks.length === 0) {
-              localAssets.splice(oldAssetIndex, 1);
+        if (bitmarkAssets.bitmarks[bitmark.id]) {
+          if (bitmarkAssets.assets[bitmarkAssets.bitmarks[bitmark.id].asset_id]) {
+            let existOtherBitmarks = data.bitmarks.findIndex(bm => bm.asset_id === bitmarkAssets.bitmarks[bitmark.id].asset_id) >= 0;
+            if (!existOtherBitmarks) {
+              existOtherBitmarks = Object.values(bitmarkAssets.bitmarks || {}).findIndex(bm => bm.asset_id === bitmarkAssets.bitmarks[bitmark.id].asset_id) >= 0;
+            }
+            if (!existOtherBitmarks) {
+              delete bitmarkAssets.assets[bitmarkAssets.bitmarks[bitmark.id].asset_id];
             }
           }
+          delete bitmarkAssets.bitmarks[bitmark.id];
         }
       }
+      lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
+    }
+    data = await BitmarkModel.doGet100Bitmarks(bitmarkAccountNumber, lastOffset);
+  }
+  return bitmarkAssets;
+};
+
+const doGetNewReleasedAssetsBitmarks = async (bitmarkAccountNumber, releasedBitmarksAssets, lastOffset) => {
+  releasedBitmarksAssets = releasedBitmarksAssets || {}
+  releasedBitmarksAssets.bitmarks = releasedBitmarksAssets.bitmarks || {};
+  releasedBitmarksAssets.assets = releasedBitmarksAssets.assets || {};
+
+  for (let bitmarkId in releasedBitmarksAssets.bitmarks) {
+    if (releasedBitmarksAssets.bitmarks[bitmarkId].edition) {
+      lastOffset = lastOffset ? Math.max(lastOffset, releasedBitmarksAssets.bitmarks[bitmarkId].offset) : releasedBitmarksAssets.bitmarks[bitmarkId].offset;
     }
   }
-  for (let asset of localAssets) {
-    let oldTotalPending = asset.totalPending;
-    asset.totalPending = 0;
-    asset.bitmarks = asset.bitmarks.sort((a, b) => b.offset - a.offset);
-    for (let bitmark of asset.bitmarks) {
-      let oldData = asset.maxBitmarkOffset;
-      asset.maxBitmarkOffset = asset.maxBitmarkOffset ? Math.max(asset.maxBitmarkOffset, bitmark.offset) : bitmark.offset;
-      hasChanging = hasChanging || (oldData !== asset.maxBitmarkOffset);
 
-      asset.totalPending += (bitmark.status === 'pending') ? 1 : 0;
+  let data = await BitmarkModel.getBitmarksOfAssetOfIssuer(bitmarkAccountNumber, null, lastOffset);
+  while (data && data.bitmarks && data.bitmarks.length > 0) {
+    for (let asset of data.assets) {
+      if (isReleasedAsset(asset)) {
+        releasedBitmarksAssets.assets[asset.id] = merge({}, releasedBitmarksAssets.assets[asset.id] || {}, asset);
+      }
     }
-    hasChanging = hasChanging || (oldTotalPending !== asset.totalPending);
+    for (let bitmark of data.bitmarks) {
+      if (releasedBitmarksAssets.assets[bitmark.asset_id]) {
+        releasedBitmarksAssets.bitmarks[bitmark.id] = merge({}, releasedBitmarksAssets.bitmarks[bitmark.id] || {}, bitmark);
+      }
+      lastOffset = lastOffset ? Math.max(lastOffset, bitmark.offset) : bitmark.offset;
+    }
+    data = await BitmarkModel.getBitmarksOfAssetOfIssuer(bitmarkAccountNumber, null, lastOffset);
   }
-
-  if (hasChanging) {
-    localAssets = localAssets.sort((a, b) => b.maxBitmarkOffset - a.maxBitmarkOffset);
-  }
-  return {
-    hasChanging,
-    localAssets,
-    lastOffset,
-  };
+  return releasedBitmarksAssets;
 };
 
 const doCheckFileToIssue = async (filePath) => {
@@ -155,6 +143,7 @@ const doIssueFile = async (bitmarkAccountNumber, filePath, assetName, metadataLi
     results.push({
       id,
       assetId: issueResult.assetId,
+      metadata,
       filePath: `${downloadedFolder}/${listFile[0]}`
     });
   });
@@ -172,9 +161,12 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
   } else {
     metadata = metadataList;
   }
-  let issueResult = await BitmarkModel.registerNewAsset(filePath, assetName, metadata);
+  let issueResult = await BitmarkModel.doIssueFile(filePath, assetName, metadata, limitedEdition + 1);
+
   let signatures = await BitmarkSDK.signMessages([issueResult.assetId + '|' + limitedEdition]);
   await BitmarkModel.doUploadMusicThumbnail(bitmarkAccountNumber, issueResult.assetId, thumbnailPath, limitedEdition, signatures[0]);
+  await BitmarkModel.doUploadMusicAsset(CacheData.jwt, issueResult.assetId, filePath);
+
   let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber)}/${issueResult.assetId}`;
   let downloadedFolder = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(assetFolderPath);
@@ -185,11 +177,15 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
   await FileUtil.copyFileSafe(thumbnailPath, `${assetFolderPath}/thumbnail.png`);
 
   let listFile = await FileUtil.readDir(downloadedFolder);
-  let results = [{
-    id: issueResult.bitmarkId,
-    assetId: issueResult.assetId,
-    filePath: `${downloadedFolder}/${listFile[0]}`
-  }];
+  let results = [];
+  issueResult.bitmarkIds.forEach(id => {
+    results.push({
+      id,
+      assetId: issueResult.assetId,
+      metadata,
+      filePath: `${downloadedFolder}/${listFile[0]}`
+    });
+  });
   return results;
 };
 
@@ -198,48 +194,6 @@ const doGetBitmarkInformation = async (bitmarkId) => {
   data.bitmark.created_at = moment(data.bitmark.created_at).format('YYYY MMM DD HH:mm:ss');
   data.bitmark.bitmark_id = data.bitmark.id;
   return data;
-};
-
-const doGetTrackingBitmarks = async (bitmarkAccountNumber) => {
-  let oldTrackingBitmarks = await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_TRACKING_BITMARKS);
-  oldTrackingBitmarks = oldTrackingBitmarks || [];
-  let oldStatuses = {};
-  let allTrackingBitmarksFromServer = await BitmarkModel.doGetAllTrackingBitmark(bitmarkAccountNumber);
-  allTrackingBitmarksFromServer.bitmarks.forEach(tb => {
-    oldStatuses[tb.bitmark_id] = {
-      lastHistory: {
-        status: tb.status,
-        head_id: tb.tx_id,
-      },
-    };
-  });
-  oldTrackingBitmarks.forEach(otb => {
-    if (oldStatuses[otb.id]) {
-      oldStatuses[otb.id].lastHistory = otb.lastHistory;
-      oldStatuses[otb.id].asset = otb.asset;
-      oldStatuses[otb.id].isViewed = otb.isViewed;
-    }
-  });
-  let bitmarkIds = Object.keys(oldStatuses);
-  let allData = await BitmarkModel.doGetListBitmarks(bitmarkIds, { includeAsset: true });
-  let bitmarks = allData ? (allData.bitmarks || []) : [];
-  let assets = allData ? (allData.assets || []) : [];
-  let trackingBitmarks = [];
-  for (let bitmark of bitmarks) {
-    let oldStatus = oldStatuses[bitmark.id];
-    bitmark.asset = assets.find(asset => asset.id === bitmark.asset_id);
-
-    if (oldStatus.lastHistory.head_id !== bitmark.head_id ||
-      (oldStatus.lastHistory.head_id === bitmark.head_id && oldStatus.lastHistory.status !== bitmark.status)) {
-      bitmark.isViewed = false;
-    } else {
-      bitmark.isViewed = !!oldStatus.isViewed;
-    }
-    bitmark.lastHistory = oldStatus.lastHistory;
-
-    trackingBitmarks.push(bitmark);
-  }
-  return trackingBitmarks;
 };
 
 const doGetProvenance = async (bitmarkId, headId, status) => {
@@ -308,11 +262,11 @@ const doDecentralizedTransfer = async (bitmarkAccountNumber, token, bitmarkId, r
   }
 };
 
-const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver, filePath, sessionData, filename) => {
-  if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
-    let message = `${sessionData.data_key_alg}|${sessionData.enc_data_key}|*`;
-    let signature = (await BitmarkSDK.signMessages([message]))[0];
 
+const doUploadFileToCourierServer = async (assetId, filePath, sessionData, filename, access) => {
+  if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
+    let message = `${assetId}|${sessionData.data_key_alg}|${sessionData.enc_data_key}|*|${access}`;
+    let signature = (await BitmarkSDK.signMessages([message]))[0];
     const formData = new FormData();
     formData.append('file', {
       uri: filePath,
@@ -321,19 +275,20 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
     formData.append('data_key_alg', sessionData.data_key_alg);
     formData.append('enc_data_key', sessionData.enc_data_key);
     formData.append('orig_content_type', '*');
+    formData.append('access', access);
 
     let headers = {
       'Accept': 'application/json',
       'Content-Type': 'multipart/form-data',
-      requester: bitmarkAccountNumber,
+      requester: CacheData.userInformation.bitmarkAccountNumber,
       signature
     };
 
     let uploadFunction = (headers, formData) => {
       return new Promise((resolve, reject) => {
         let statusCode;
-        fetch(`${config.file_courier_server}/files/${assetId}/${receiver}`, {
-          method: 'PUT',
+        fetch(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
+          method: 'POST',
           headers,
           body: formData,
         }).then((response) => {
@@ -344,7 +299,7 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
           return response.text();
         }).then((data) => {
           if (statusCode >= 400) {
-            return reject(new Error(`uploadFunction error :` + JSON.stringify(data)));
+            return reject(new Error(`uploadFunction error : ${statusCode}` + JSON.stringify(data)));
           }
           resolve(data);
         }).catch(reject);
@@ -354,46 +309,142 @@ const uploadFileToCourierServer = async (bitmarkAccountNumber, assetId, receiver
   }
 };
 
-const downloadFileToCourierServer = async (bitmarkAccountNumber, assetId, filePath) => {
-  let signature = (await BitmarkSDK.signMessages([assetId]))[0];
+const doCheckFileExistInCourierServer = async (assetId) => {
+  let message = `${assetId}`;
+  let signature = (await BitmarkSDK.signMessages([message]))[0];
+  return await (new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
+      method: 'HEAD',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        signature: signature,
+        requester: CacheData.userInformation.bitmarkAccountNumber,
+      }
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode >= 500) {
+        return reject(new Error('checkFileExistInCourierServer error!'));
+      }
+      if (statusCode >= 400) {
+        return resolve();
+      }
+      resolve({
+        data_key_alg: response.headers.map['data-key-alg'],
+        enc_data_key: response.headers.map['enc-data-key'],
+        orig_content_type: response.headers.map['orig-content-type'],
+        expiration: response.headers.map['expiration'],
+        filename: response.headers.map['file-name'],
+        date: response.headers.map['date'],
+      });
+    }).catch(error => {
+      return reject(new Error('checkFileExistInCourierServer error :' + JSON.stringify(error)));
+    });
+  }));
+};
+
+const doUpdateAccessFileInCourierServer = async (assetId, access) => {
+  let message = `${assetId}|${access}`;
+  let signature = (await BitmarkSDK.signMessages([message]))[0];
+
+  const formData = new FormData();
+  formData.append('access', access);
+  return await (new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.file_courier_server}/v2/access/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        signature: signature,
+        requester: CacheData.userInformation.bitmarkAccountNumber,
+      },
+      body: formData,
+    }).then((response) => {
+      statusCode = response.status;
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doUpdateAccessFileInCourierServer error ${statusCode} :` + JSON.stringify(data, null, 2)));
+      }
+      resolve(true);
+    }).catch(reject);
+  }));
+};
+
+const doGetDownloadableAssets = async () => {
+  let { timestamp, signature } = await CommonModel.doCreateSignatureData();
+  return await (new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.file_courier_server}/v2/files?receiver=${CacheData.userInformation.bitmarkAccountNumber}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        requester: CacheData.userInformation.bitmarkAccountNumber,
+        signature,
+        timestamp
+      }
+    }).then((response) => {
+      statusCode = response.status;
+      if (statusCode >= 500) {
+        return response.text();
+      }
+      return response.json();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doGetDownloadableAssets error : ${statusCode}` + JSON.stringify(data)));
+      }
+      resolve(data ? (data.file_ids || []) : []);
+    }).catch(reject);
+  }));
+};
+
+const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
+  let signature = (await BitmarkSDK.signMessages([`${assetId}|${sender}`]))[0];
   let response;
   let result = await FileUtil.downloadFile({
-    fromUrl: `${config.file_courier_server}/files/${assetId}/${bitmarkAccountNumber}`,
+    fromUrl: `${config.file_courier_server}/v2/files/${assetId}/${sender}?receiver=${CacheData.userInformation.bitmarkAccountNumber}`,
     toFile: filePath,
     method: 'GET',
     headers: {
-      requester: bitmarkAccountNumber,
+      requester: CacheData.userInformation.bitmarkAccountNumber,
       signature
     },
     begin: (res) => response = res
   });
   console.log('response :', response, result);
+  if (response.statusCode >= 400) {
+    throw new Error(`doDownloadFileToCourierServer error ${response.statusCode}`);
+  }
   return {
     data_key_alg: response.headers['Data-Key-Alg'],
     enc_data_key: response.headers['Enc-Data-Key'],
     filename: response.headers['File-Name'],
-    sender: response.headers['Sender'],
-  }
+  };
 };
 
 // ================================================================================================
 // ================================================================================================
 let BitmarkService = {
-  doGet100Bitmarks,
+  doGetNewAssetsBitmarks,
+  doGetNewReleasedAssetsBitmarks,
   doCheckFileToIssue,
   doCheckMetadata,
   doIssueFile,
   doIssueMusic,
   doTransferBitmark,
   doGetBitmarkInformation,
-  doGetTrackingBitmarks,
   doGetProvenance,
   doConfirmWebAccount,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
 
-  uploadFileToCourierServer,
-  downloadFileToCourierServer,
+  doCheckFileExistInCourierServer,
+  doUploadFileToCourierServer,
+  doUpdateAccessFileInCourierServer,
+  doDownloadFileToCourierServer,
+  doGetDownloadableAssets,
 
 };
 

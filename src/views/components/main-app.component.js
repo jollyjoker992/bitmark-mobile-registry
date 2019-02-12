@@ -7,16 +7,17 @@ const {
   Alert,
   View,
 } = ReactNative;
-
+import moment from 'moment';
 
 import { DefaultRouterComponent } from './onboarding';
 import { UserRouterComponent } from './home';
 import { MainAppHandlerComponent } from './main-app-handler.component';
 import { CodePushUpdateComponent } from './code-push/code-push.component';
 import CodePush from 'react-native-code-push';
-import { EventEmitterService, AppProcessor, DataProcessor, CommonModel } from 'src/processors';
+import { EventEmitterService, AppProcessor, DataProcessor, CommonModel, CacheData, CommonProcessor } from 'src/processors';
 import { config } from 'src/configs';
 import { LoadingComponent } from '../commons';
+import { MainCoverComponent } from './main-app-cover.component';
 
 export class BitmarkAppComponent extends Component {
   static propTypes = {
@@ -28,11 +29,13 @@ export class BitmarkAppComponent extends Component {
 
     this.doOpenApp = this.doOpenApp.bind(this);
     this.doAppRefresh = this.doAppRefresh.bind(this);
+    this.setUser = this.setUser.bind(this);
 
     this.state = {
       user: null,
       networkStatus: true,
     };
+    this.start = moment().toDate().getTime();
   }
 
   componentDidMount() {
@@ -66,12 +69,22 @@ export class BitmarkAppComponent extends Component {
       console.log('doOpenApp error:', error);
     });
   }
+
+  setUser(user) {
+    if ((!user || !user.bitmarkAccountNumber) && (this.start + 4000 > moment().toDate().getTime())) {
+      setTimeout(() => this.setUser(user), 100);
+    } else {
+      this.setState({ user });
+    }
+  }
+
   doAppRefresh(justCreatedBitmarkAccount) {
-    DataProcessor.doCheckHaveCodePushUpdate().then(updated => {
+    CommonProcessor.doCheckHaveCodePushUpdate().then(updated => {
       if (updated) {
         return DataProcessor.doOpenApp(justCreatedBitmarkAccount).then(user => {
           user = user || {};
-          this.setState({ user });
+
+          this.setUser(user);
           if (user && user.bitmarkAccountNumber) {
             CommonModel.doCheckPasscodeAndFaceTouchId().then(ok => {
               if (ok) {
@@ -108,6 +121,7 @@ export class BitmarkAppComponent extends Component {
       <View style={{ flex: 1 }}>
         <DisplayComponent />
         <MainAppHandlerComponent />
+        <MainCoverComponent />
       </View>
     );
   }
@@ -123,9 +137,9 @@ export class MainAppComponent extends React.Component {
 
     CodePush.checkForUpdate().then((needUpdate) => {
       console.log('checkForUpdate  :', needUpdate);
-      DataProcessor.setCodePushUpdated(!needUpdate);
+      CacheData.codePushUpdated = !needUpdate
     }).catch(error => {
-      DataProcessor.setCodePushUpdated(true);
+      CacheData.codePushUpdated = true
       console.log('checkForUpdate error :', error);
     });
     CodePush.getCurrentPackage().then(updateInfo => {

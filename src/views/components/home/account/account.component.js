@@ -163,7 +163,7 @@ class PrivateAccountDetailComponent extends React.Component {
                 {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT && <View style={accountStyle.authorizedItem}>
 
                   <View style={accountStyle.authorizedItemTitle}>
-                    <Text style={accountStyle.authorizedItemTitleText} >IFTTT</Text>
+                    <Text style={accountStyle.authorizedItemTitleText}>IFTTT</Text>
                     <TouchableOpacity style={accountStyle.authorizedItemRemoveButton} onPress={this.revokeIFTTT}>
                       <Text style={accountStyle.authorizedItemRemoveButtonText}>{global.i18n.t("AccountDetailComponent_remove")}</Text>
                     </TouchableOpacity>
@@ -173,7 +173,6 @@ class PrivateAccountDetailComponent extends React.Component {
                     <Image style={accountStyle.authorizedItemDescriptionIcon} source={require('assets/imgs/ifttt-icon.png')} />
                     <View style={accountStyle.authorizedItemDescriptionDetail}>
                       <Text style={accountStyle.authorizedItemDescriptionText}>{global.i18n.t("AccountDetailComponent_authorizedItemDescriptionText")}</Text>
-                      {/* TODO */}
                       <TouchableOpacity style={accountStyle.authorizedViewButton} onPress={() => Actions.iftttActive({ stage: 'view' })}>
                         <Text style={accountStyle.authorizedViewButtonText}>{global.i18n.t("AccountDetailComponent_viewApplets")} »  </Text>
                       </TouchableOpacity>

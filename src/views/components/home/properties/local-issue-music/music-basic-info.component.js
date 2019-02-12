@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import ReactNative, {
   View, TouchableOpacity, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
   StyleSheet,
+  Keyboard,
+  Platform,
   Alert,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
@@ -24,8 +26,12 @@ export class MusicBasicInfoComponent extends React.Component {
 
   constructor(props) {
     super(props);
+    this.onKeyboardDidShow = this.onKeyboardDidShow.bind(this);
+    this.onKeyboardDidHide = this.onKeyboardDidHide.bind(this);
+    this.onKeyboardWillShow = this.onKeyboardWillShow.bind(this);
+
     this.state = {
-      filePath: this.props.filePath || 'abc/test.mp4',
+      filePath: this.props.filePath,
       thumbnailPath: null,
       canContinue: false,
       assetName: '',
@@ -33,11 +39,29 @@ export class MusicBasicInfoComponent extends React.Component {
       assetNameError: '',
       limited: '',
       limitedError: '',
-      description: '',
-      // description: this.props.asset.metadata.description || '',
-      descriptionError: '',
       thumbnailPathError: '',
-    }
+    };
+  }
+  componentDidMount() {
+    this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.onKeyboardWillShow);
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardDidShow);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardDidHide);
+  }
+  componentWillUnmount() {
+    this.keyboardWillShowListener.remove();
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  onKeyboardWillShow() {
+    this.setState({ keyboardHeight: 1 });
+  }
+  onKeyboardDidShow(keyboardEvent) {
+    let keyboardHeight = keyboardEvent.endCoordinates.height;
+    this.setState({ keyboardHeight, });
+  }
+  onKeyboardDidHide() {
+    this.setState({ keyboardHeight: 0 });
   }
 
   changeFile() {
@@ -45,7 +69,7 @@ export class MusicBasicInfoComponent extends React.Component {
       filetype: [DocumentPickerUtil.allFiles(), "public.data"],
     }, async (error, response) => {
       if (error) {
-        Actions.jump('assets');
+        Actions.jump('properties');
         return;
       }
       if (response.fileSize > 100 * 1024 * 1024) {
@@ -96,16 +120,14 @@ export class MusicBasicInfoComponent extends React.Component {
                 Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
                 return;
               }
-              console.log('response uri:', response.uri);
               let thumbnailPath = response.uri.replace('file://', '');
               thumbnailPath = decodeURIComponent(thumbnailPath);
               let destPath = FileUtil.CacheDirectory + '/' + (response.fileName || (response.uri.substring(response.uri.lastIndexOf('/') + 1, response.uri.length)));
               await FileUtil.copyFileSafe(thumbnailPath, destPath);
-              console.log('destPath :', destPath);
               thumbnailPath = destPath;
               this.setState({
                 thumbnailPath, thumbnailPathError: '',
-                canContinue: this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
+                canContinue: this.state.assetName && this.state.limited && !this.state.assetNameError && !this.state.limitedError,
               });
             });
             break;
@@ -119,16 +141,14 @@ export class MusicBasicInfoComponent extends React.Component {
                 Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
                 return;
               }
-              console.log('response.uri :', response.uri);
               let thumbnailPath = response.uri.replace('file://', '');
               thumbnailPath = decodeURIComponent(thumbnailPath);
               let destPath = FileUtil.CacheDirectory + '/' + (response.fileName || (response.uri.substring(response.uri.lastIndexOf('/') + 1, response.uri.length)));
               await FileUtil.copyFileSafe(thumbnailPath, destPath);
-              console.log('destPath :', destPath);
               thumbnailPath = destPath;
               this.setState({
                 thumbnailPath, thumbnailPathError: '',
-                canContinue: this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
+                canContinue: this.state.assetName && this.state.limited && !this.state.assetNameError && !this.state.limitedError,
               });
             });
             break;
@@ -151,7 +171,7 @@ export class MusicBasicInfoComponent extends React.Component {
               thumbnailPath = destPath;
 
               let thumbnailPathError = '';
-              if (!isImageFile(this.thumbnailPath)) {
+              if (!isImageFile(thumbnailPath)) {
                 thumbnailPath = '';
                 thumbnailPathError = global.i18n.t('MusicBasicInfoComponent_chooseThumbnailFileWrong');
               }
@@ -160,7 +180,7 @@ export class MusicBasicInfoComponent extends React.Component {
               }
               this.setState({
                 thumbnailPath, thumbnailPathError,
-                canContinue: !!thumbnailPath && this.state.assetName && this.state.limited && this.state.description && !this.state.assetNameError && !this.state.descriptionError && !this.state.limitedError,
+                canContinue: !!thumbnailPath && this.state.assetName && this.state.limited && !this.state.assetNameError && !this.state.limitedError,
               });
             });
             break;
@@ -185,7 +205,7 @@ export class MusicBasicInfoComponent extends React.Component {
 
     this.setState({
       assetName, assetNameError,
-      canContinue: assetName && this.state.limited && this.state.description && !!this.state.thumbnailPath && !assetNameError && !this.state.descriptionError && !this.state.limitedError,
+      canContinue: assetName && this.state.limited && !!this.state.thumbnailPath && !assetNameError && !this.state.limitedError,
     });
   }
   onInputLimited(limited) {
@@ -194,29 +214,14 @@ export class MusicBasicInfoComponent extends React.Component {
     if (isNaN(limited) || limited <= 0) {
       limitedError = global.i18n.t('MusicBasicInfoComponent_limitedError1');
     }
-    console.log({ limited, limitedError });
     this.setState({
       limited, limitedError,
-      canContinue: this.state.assetName && limited && this.state.description && !!this.state.thumbnailPath && !limitedError && !this.state.descriptionError && !this.state.assetNameError,
+      canContinue: this.state.assetName && limited && !!this.state.thumbnailPath && !limitedError && !this.state.assetNameError,
     });
   }
 
-  onInputDescription(description) {
-    let descriptionError = '';
-    if (description) {
-      let temp = new Buffer(description);
-      if (temp.length > 1024) {
-        global.i18n.t('MusicBasicInfoComponent_descriptionError1');
-      }
-    } else {
-      global.i18n.t('MusicBasicInfoComponent_descriptionError2');
-    }
-    this.setState({
-      description, descriptionError,
-      canContinue: this.state.assetName && this.state.limited && description && !!this.state.thumbnailPath && !descriptionError && !this.state.limitedError && !this.state.assetNameError,
-    });
-  }
   onContinue() {
+    Keyboard.dismiss();
     let assetNameError = '';
     if (this.state.assetName) {
       let temp = new Buffer(this.state.assetName);
@@ -229,22 +234,13 @@ export class MusicBasicInfoComponent extends React.Component {
     let limited = parseInt(this.state.limited);
     let limitedError = '';
     if (isNaN(limited) || limited <= 0) {
-      limitedError = 'The limited number should be greater than 0.';
-    }
-    let descriptionError = '';
-    if (this.state.description) {
-      let temp = new Buffer(this.state.description);
-      if (temp.length > 1024) {
-        descriptionError = global.i18n.t('MusicBasicInfoComponent_descriptionError1');
-      }
-    } else {
-      descriptionError = global.i18n.t('MusicBasicInfoComponent_descriptionError2');
+      limitedError = global.i18n.t('MusicBasicInfoComponent_limitedError1');
     }
     let thumbnailPathError = '';
     if (!this.state.thumbnailPath) {
       thumbnailPathError = global.i18n.t('MusicBasicInfoComponent_thumbnailError');
     }
-    let canContinue = this.state.assetName && this.state.limited && this.state.description && !!this.state.thumbnailPath && !descriptionError && !limitedError && !assetNameError;
+    let canContinue = this.state.assetName && this.state.limited && !!this.state.thumbnailPath && !limitedError && !assetNameError;
 
     if (canContinue) {
       Actions.musicMetadata({
@@ -252,7 +248,6 @@ export class MusicBasicInfoComponent extends React.Component {
         thumbnailPath: this.state.thumbnailPath,
         assetName: this.state.assetName,
         limitedEdition: this.state.limited,
-        description: this.state.description,
       });
     } else {
       this.setState({
@@ -260,14 +255,13 @@ export class MusicBasicInfoComponent extends React.Component {
         thumbnailPathError,
         assetNameError,
         limitedError,
-        descriptionError,
       });
     }
   }
 
   doCancel() {
     Alert.alert(global.i18n.t('MusicBasicInfoComponent_cancelTitle'), global.i18n.t('MusicBasicInfoComponent_cancelMessage'), [{
-      text: global.i18n.t('MusicBasicInfoComponent_cancelYes'), onPress: () => Actions.jump('assets'),
+      text: global.i18n.t('MusicBasicInfoComponent_cancelYes'), onPress: () => Actions.jump('properties'),
     }, {
       text: global.i18n.t('MusicBasicInfoComponent_cancelNo'), style: 'cancel',
     }]);
@@ -276,7 +270,7 @@ export class MusicBasicInfoComponent extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} >
+        <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: '' })} style={{ flex: 1 }} >
           <View style={cStyles.header}>
             <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
@@ -289,61 +283,59 @@ export class MusicBasicInfoComponent extends React.Component {
           <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
             <View style={cStyles.content}>
               <View style={cStyles.mainContent}>
-                {!!this.state.thumbnailPath && <TouchableOpacity style={cStyles.thumbnailArea} onPress={this.onChooseThumbnail.bind(this)}>
-                  <Image style={cStyles.thumbnailImage} source={{ uri: this.state.thumbnailPath }} />
-                </TouchableOpacity>}
-                {!this.state.thumbnailPath && <TouchableOpacity style={[cStyles.thumbnailArea, { backgroundColor: '#E6FF00' }]} onPress={this.onChooseThumbnail.bind(this)}>
-                  <Image style={cStyles.thumbnailImageIcon} source={require('assets/imgs/music_thumbnail.png')} />
-                  <Text style={cStyles.thumbnailImageText}>{global.i18n.t('MusicBasicInfoComponent_thumbnailImageText')}</Text>
-                  <Text style={[cStyles.fieldInputError, { width: 'auto' }]}>{this.state.thumbnailPathError}</Text>
-                </TouchableOpacity>}
-
-                <View style={cStyles.fileInfo}>
-                  <Text style={cStyles.fileName}>{this.state.filePath.substring(this.state.filePath.lastIndexOf('/') + 1, this.state.filePath.length)}</Text>
-                  <TouchableOpacity style={cStyles.fileRemoveButton} onPress={this.changeFile.bind(this)}>
-                    <Image style={cStyles.fileRemoveButtonIcon} source={require('assets/imgs/change_file_icon.png')} />
-                  </TouchableOpacity>
+                <View style={cStyles.thumbnailArea}>
+                  {!!this.state.thumbnailPath && <TouchableOpacity style={cStyles.thumbnailImageArea} onPress={this.onChooseThumbnail.bind(this)}>
+                    <Image style={cStyles.thumbnailImage} source={{ uri: this.state.thumbnailPath }} />
+                  </TouchableOpacity>}
+                  {!this.state.thumbnailPath && <TouchableOpacity style={[cStyles.thumbnailImageArea, { backgroundColor: '#E6FF00' }]} onPress={this.onChooseThumbnail.bind(this)}>
+                    <Image style={cStyles.thumbnailImageIcon} source={require('assets/imgs/music_thumbnail.png')} />
+                    <Text style={cStyles.thumbnailImageText}>{global.i18n.t('MusicBasicInfoComponent_thumbnailImageText')}</Text>
+                    <Text style={[cStyles.fieldInputError, { width: 'auto' }]}>{this.state.thumbnailPathError}</Text>
+                  </TouchableOpacity>}
                 </View>
 
-                <View style={[cStyles.fieldArea, { marginTop: 30 }]}>
-                  <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyName')}</Text>
-                  <TextInput style={[cStyles.fieldInput]}
-                    placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyNamePlaceholder')}
-                    defaultValue={this.state.assetName}
-                    onChangeText={(assetName) => this.onInputAsset.bind(this)(assetName)}
-                  />
-                  <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.assetNameError ? '#FF003C' : '#0060F2', width: '100%' }} />
-                  <Text style={cStyles.fieldInputError}>{this.state.assetNameError}</Text>
-                </View>
+                <View style={cStyles.inputArea}>
+                  <View style={[cStyles.fieldArea, { marginTop: 33, }]}>
+                    <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelFile')}</Text>
+                    <View style={cStyles.fileInfo}>
+                      <Text style={cStyles.fileName}>{this.state.filePath.substring(this.state.filePath.lastIndexOf('/') + 1, this.state.filePath.length)}</Text>
+                      <TouchableOpacity style={cStyles.fileRemoveButton} onPress={this.changeFile.bind(this)}>
+                        <Image style={cStyles.fileRemoveButtonIcon} source={require('assets/imgs/change_file_icon.png')} />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
 
-                <View style={cStyles.fieldArea}>
-                  <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelLimited')}</Text>
-                  <TextInput style={[cStyles.fieldInput]}
-                    keyboardType='number-pad'
-                    onChangeText={(limitedNumber) => this.onInputLimited.bind(this)(limitedNumber)}
-                  />
-                  <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.limitedError ? '#FF003C' : '#0060F2', width: '100%' }} />
-                  <Text style={cStyles.fieldInputError}>{this.state.limitedError}</Text>
-                </View>
+                  <View style={[cStyles.fieldArea,]}>
+                    <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyName')}</Text>
+                    <TextInput style={[cStyles.fieldInput]}
+                      placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyNamePlaceholder')}
+                      defaultValue={this.state.assetName}
+                      onChangeText={(assetName) => this.onInputAsset.bind(this)(assetName)}
+                    />
+                    <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.assetNameError ? '#FF003C' : '#0060F2', width: '100%' }} />
+                    <Text style={cStyles.fieldInputError}>{this.state.assetNameError}</Text>
+                  </View>
 
-                <View style={cStyles.fieldArea}>
-                  <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelDescription')}</Text>
-                  <TextInput style={[cStyles.fieldInput]}
-                    placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelDescriptionPlaceholder')}
-                    defaultValue={this.state.description}
-                    multiline={true}
-                    onChangeText={(description) => this.onInputDescription.bind(this)(description)}
-                  />
-                  <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.descriptionError ? '#FF003C' : '#0060F2', width: '100%' }} />
-                  <Text style={cStyles.fieldInputError}>{this.state.descriptionError}</Text>
+                  <View style={cStyles.fieldArea}>
+                    <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelLimited')}</Text>
+                    <TextInput style={[cStyles.fieldInput]}
+                      keyboardType='number-pad'
+                      placeholder="e.g. 300"
+                      onChangeText={(limitedNumber) => this.onInputLimited.bind(this)(limitedNumber)}
+                    />
+                    <View style={{ borderBottomWidth: 2, borderBottomColor: this.state.limitedError ? '#FF003C' : '#0060F2', width: '100%' }} />
+                    <Text style={cStyles.fieldInputError}>{this.state.limitedError}</Text>
+                  </View>
                 </View>
               </View>
             </View>
           </ScrollView>
+          <TouchableOpacity
+            style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}, this.state.keyboardHeight ? { height: constant.buttonHeight } : {}]}
+            onPress={this.onContinue.bind(this)}>
+            <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicBasicInfoComponent_continueButtonText')}</Text>
+          </TouchableOpacity>
         </KeyboardAvoidingView>
-        <TouchableOpacity style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}]} onPress={this.onContinue.bind(this)}>
-          <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicBasicInfoComponent_continueButtonText')}</Text>
-        </TouchableOpacity>
       </View>
     );
   }
@@ -373,8 +365,11 @@ const cStyles = StyleSheet.create({
     width: '100%',
   },
   thumbnailArea: {
-    flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-    width: '100%', height: 206,
+    flex: 1, width: '100%', alignItems: 'center', justifyContent: 'center',
+  },
+  thumbnailImageArea: {
+    flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+    width: '100%',
   },
   thumbnailImage: {
     width: '100%', height: '100%', resizeMode: 'contain',
@@ -383,16 +378,15 @@ const cStyles = StyleSheet.create({
     width: 78, height: 55, resizeMode: 'contain',
   },
   thumbnailImageText: {
-    fontFamily: 'Avenir-Black', fontSize: 16, fontWeight: '800', textAlign: 'center', color: '#0060F2',
+    fontFamily: 'AvenirNextW1G-Bold', fontSize: 16, textAlign: 'center', color: '#0060F2',
     marginTop: 17,
   },
   fileInfo: {
-    flexDirection: 'row',
-    marginTop: 33,
+    flexDirection: 'row', alignItems: 'center',
   },
   fileName: {
     flex: 1,
-    fontFamily: 'Avenir-Black', fontSize: 16, fontWeight: '800',
+    fontFamily: 'AvenirNextW1G-Regular', fontSize: 16,
   },
   fileRemoveButton: {
     paddingLeft: 8,
@@ -400,14 +394,19 @@ const cStyles = StyleSheet.create({
   fileRemoveButtonIcon: {
     width: 22, height: 22, resizeMode: 'contain'
   },
+  inputArea: {
+    width: '100%',
+    flexDirection: 'column',
+    paddingBottom: 20,
+  },
   fieldArea: {
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 25,
     width: '100%',
   },
   fieldLabel: {
     width: '100%',
-    fontFamily: 'Avenir-Black', fontSize: 16, fontWeight: '800',
+    fontFamily: 'AvenirNextW1G-Bold', fontSize: 16,
   },
   fieldInput: {
     width: '100%',
