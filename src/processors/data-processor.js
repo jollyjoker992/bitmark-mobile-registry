@@ -11,7 +11,7 @@ import {
 } from './services';
 import {
   CommonModel, AccountModel, UserModel, BitmarkSDK,
-  BitmarkModel, NotificationModel, iCloudSyncAdapter, IftttModel
+  BitmarkModel, iCloudSyncAdapter, IftttModel
 } from './models';
 
 import {
@@ -113,7 +113,7 @@ const configNotification = () => {
       }, 1000);
     }
   };
-  NotificationService.configure(onRegistered, onReceivedNotification);
+  NotificationService.configureNotifications(onRegistered, onReceivedNotification);
   NotificationService.removeAllDeliveredNotifications();
 };
 // ================================================================================================================================================
@@ -146,21 +146,20 @@ const doStartBackgroundProcess = async (justCreatedBitmarkAccount) => {
 const doCreateAccount = async () => {
   let userInformation = await AccountService.doGetCurrentAccount();
   let signatureData = await CommonModel.doCreateSignatureData();
-  await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  await AccountModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
   let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
   await runPromiseWithoutError(AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]));
   await CommonModel.doTrackEvent({
     event_name: 'registry_create_new_account',
     account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
   });
-
   return userInformation;
 };
 
 const doLogin = async () => {
   let userInformation = await AccountService.doGetCurrentAccount();
   let signatureData = await CommonModel.doCreateSignatureData();
-  await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  await AccountModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
   let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
   await runPromiseWithoutError(AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]));
   return userInformation;
@@ -233,7 +232,9 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     }
     configNotification();
     await checkAppNeedResetLocalData(appInfo);
-    await LocalFileService.moveFilesFromLocalStorageToSharedStorage();
+    if (Platform.OS === 'ios') {
+      await LocalFileService.moveFilesFromLocalStorageToSharedStorage();
+    }
 
     let identities = await runPromiseWithoutError(AccountModel.doGetIdentities());
     if (identities && !identities.error) {
@@ -245,46 +246,48 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       await UserModel.doUpdateUserInfo(CacheData.userInformation);
     }
 
-    iCloudSyncAdapter.oniCloudFileChanged((mapFiles) => {
-      if (this.iCloudFileChangedTimeout) {
-        clearTimeout(this.iCloudFileChangedTimeout)
-      }
+    if (Platform.OS === 'ios') {
+      iCloudSyncAdapter.oniCloudFileChanged((mapFiles) => {
+        if (this.iCloudFileChangedTimeout) {
+          clearTimeout(this.iCloudFileChangedTimeout)
+        }
 
-      this.iCloudFileChangedTimeout = setTimeout(
-        () => {
-          for (let key in mapFiles) {
-            let keyList = key.split('_');
-            let assetId;
-            if (keyList[0] === bitmarkAccountNumber) {
-              let keyFilePath;
-              if (keyList[1] === 'assets') {
-                assetId = base58.decode(keyList[2]).toString('hex');
-                keyFilePath = key.replace(`${bitmarkAccountNumber}_assets_${keyList[2]}_`, `${bitmarkAccountNumber}/assets/${assetId}/downloaded/`);
-              } else if (keyList[1] === 'thumbnail') {
-                assetId = base58.decode(keyList[2]).toString('hex');
-                keyFilePath = key.replace(`${bitmarkAccountNumber}_thumbnail_${keyList[2]}_`, `${bitmarkAccountNumber}/assets/${assetId}/`);
-              }
-              let doSyncFile = async () => {
-                let filePath = mapFiles[key];
-                let downloadedFile = `${FileUtil.SharedGroupDirectory}/${keyFilePath}`;
-                let existFileICloud = await FileUtil.exists(filePath);
-                let existFileLocal = await FileUtil.exists(downloadedFile);
-                if (existFileICloud && !existFileLocal) {
-                  let downloadedFolder = downloadedFile.substring(0, downloadedFile.lastIndexOf('/'));
-                  await FileUtil.mkdir(downloadedFolder);
-                  await FileUtil.copyFile(filePath, downloadedFile);
+        this.iCloudFileChangedTimeout = setTimeout(
+          () => {
+            for (let key in mapFiles) {
+              let keyList = key.split('_');
+              let assetId;
+              if (keyList[0] === bitmarkAccountNumber) {
+                let keyFilePath;
+                if (keyList[1] === 'assets') {
+                  assetId = base58.decode(keyList[2]).toString('hex');
+                  keyFilePath = key.replace(`${bitmarkAccountNumber}_assets_${keyList[2]}_`, `${bitmarkAccountNumber}/assets/${assetId}/downloaded/`);
+                } else if (keyList[1] === 'thumbnail') {
+                  assetId = base58.decode(keyList[2]).toString('hex');
+                  keyFilePath = key.replace(`${bitmarkAccountNumber}_thumbnail_${keyList[2]}_`, `${bitmarkAccountNumber}/assets/${assetId}/`);
                 }
-              };
-              runPromiseWithoutError(doSyncFile());
+                let doSyncFile = async () => {
+                  let filePath = mapFiles[key];
+                  let downloadedFile = `${FileUtil.SharedGroupDirectory}/${keyFilePath}`;
+                  let existFileICloud = await FileUtil.exists(filePath);
+                  let existFileLocal = await FileUtil.exists(downloadedFile);
+                  if (existFileICloud && !existFileLocal) {
+                    let downloadedFolder = downloadedFile.substring(0, downloadedFile.lastIndexOf('/'));
+                    await FileUtil.mkdir(downloadedFolder);
+                    await FileUtil.copyFile(filePath, downloadedFile);
+                  }
+                };
+                runPromiseWithoutError(doSyncFile());
+              }
             }
-          }
-          CacheData.userInformation.lastSyncIcloud = moment().toDate().toISOString();
-          UserModel.doUpdateUserInfo(CacheData.userInformation);
-        },
-        1000 * 5 // 5s
-      );
-    });
-    iCloudSyncAdapter.syncCloud();
+            CacheData.userInformation.lastSyncIcloud = moment().toDate().toISOString();
+            UserModel.doUpdateUserInfo(CacheData.userInformation);
+          },
+          1000 * 5 // 5s
+        );
+      });
+      iCloudSyncAdapter.syncCloud();
+    }
 
     let signatureData = await CommonModel.doCreateSignatureData();
     let result = await AccountModel.doRegisterJWT(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
@@ -295,10 +298,10 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
     } else {
       if (!appInfo.displayedWhatNewInformation || compareVersion(appInfo.displayedWhatNewInformation, DeviceInfo.getVersion(), 2) < 0) {
-        // TODO
-        // CommonProcessor.updateModal(CommonProcessor.ModalDisplayKeyIndex.what_new, true);
+        CommonProcessor.updateModal(CommonProcessor.ModalDisplayKeyIndex.what_new, true);
       }
     }
+
 
     let assetsBitmarks = await BitmarkProcessor.doGetLocalAssetsBitmarks();
     let releasedAssetsBitmarks = await BitmarkProcessor.doGetLocalReleasedAssetsBitmarks();

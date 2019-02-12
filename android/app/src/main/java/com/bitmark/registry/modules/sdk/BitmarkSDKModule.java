@@ -44,12 +44,15 @@ import com.bitmark.sdk.features.Bitmark;
 import com.bitmark.sdk.features.BitmarkSDK;
 import com.bitmark.sdk.features.Transaction;
 import com.bitmark.sdk.utils.SharedPreferenceApi;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
 
 import java.io.File;
 import java.io.IOException;
@@ -115,10 +118,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             account.saveToKeyStore(getAttachedActivity(), authentication, new Callback0() {
                 @Override
                 public void onSuccess() {
-                    Map<String, String> accountMap = new HashMap<>();
-                    accountMap.put("account_number", account.getAccountNumber());
-                    accountMap.put("seed", account.getSeed().getEncodedSeed());
-                    promise.resolve(accountMap);
+                    promise.resolve(null);
                 }
 
                 @Override
@@ -166,7 +166,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         Account.removeFromKeyStore(getAttachedActivity(), getAccountNumber(), new Callback0() {
             @Override
             public void onSuccess() {
-                promise.resolve(true);
+                promise.resolve(null);
             }
 
             @Override
@@ -185,6 +185,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                 promise.resolve(toWritableArray(account.getAccountNumber(), account
                         .getRecoveryPhrase().getMnemonicWords(), 0x01, HEX.encode(
                         account.getEncryptionKey().publicKey().toBytes())));
+
             }
 
             @Override
@@ -227,12 +228,12 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             public void onSuccess(Account account) {
                 PrivateKey key = account.getKeyPair().privateKey();
                 String[] messageArray = toStringArray(messages);
-                String[] signatures = new String[messageArray.length];
+                WritableArray signatures = Arguments.createArray();
 
                 for (int i = 0, size = messageArray.length; i < size; i++) {
                     String message = messageArray[i];
-                    signatures[i] = HEX
-                            .encode(Ed25519.sign(HEX.decode(message), key.toBytes()));
+                    signatures.pushString(HEX.encode(
+                            Ed25519.sign(HEX.decode(message), key.toBytes())));
                 }
 
                 promise.resolve(toWritableArray(signatures));

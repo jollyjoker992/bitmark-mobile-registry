@@ -15,9 +15,7 @@ const BitmarkSDK = {
   },
   // return session id
   newAccount: async (enableTouchFaceId) => {
-    console.log('newAccount run 1', enableTouchFaceId);
     let result = await NativeBitmarkSDK.createAccount(enableTouchFaceId);
-    console.log('newAccount run 2', result);
     return result;
   },
   newAccountFromPhraseWords: async (phraseWords, enableTouchFaceId) => {
@@ -26,7 +24,9 @@ const BitmarkSDK = {
   },
   requestSession: async (message) => {
     try {
-      if (Platform.OS === 'ios') await NativeBitmarkSDK.authenticate(message);
+      if (Platform.OS === 'ios') {
+        await NativeBitmarkSDK.authenticate(message);
+      }
       return true;
     } catch (error) {
       return null;
