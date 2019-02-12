@@ -85,7 +85,7 @@ public class DataTypeMapper {
             } else if (value instanceof String) {
                 array.pushString((String) value);
             } else if (value.getClass().isArray()) {
-                array.pushArray(toWritableArray(value));
+                array.pushArray(toWritableArray(toObjects(value)));
             } else {
                 array.pushString(toJson(value));
             }
