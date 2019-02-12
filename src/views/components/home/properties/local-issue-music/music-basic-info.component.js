@@ -4,6 +4,7 @@ import ReactNative, {
   View, TouchableOpacity, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
   StyleSheet,
   Keyboard,
+  Platform,
   Alert,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
@@ -269,7 +270,7 @@ export class MusicBasicInfoComponent extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} >
+        <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: '' })} style={{ flex: 1 }} >
           <View style={cStyles.header}>
             <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />

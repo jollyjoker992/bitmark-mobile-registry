@@ -11,10 +11,8 @@ export default StyleSheet.create({
   },
 
   mainContent: {
-    flex: 1,
-    flexDirection: 'column',
+    flex: 1, flexDirection: 'column',
     backgroundColor: 'white',
-    paddingBottom: Math.max(10),
   },
   //sign-in
   writeRecoveryPhraseContentMessage: {
@@ -58,11 +56,9 @@ export default StyleSheet.create({
     textAlign: 'right',
   },
   recoveryPhraseWord: {
-    fontFamily: 'Avenir Light',
-    fontSize: 15,
-    fontWeight: '300',
-    color: '#0060F2',
+    fontFamily: 'Avenir Light', fontSize: 15, fontWeight: '300', color: '#0060F2',
     width: convertWidth(107),
+    paddingTop: 2, paddingBottom: 2,
     marginLeft: 6,
   },
 
@@ -117,7 +113,7 @@ export default StyleSheet.create({
   },
 
   submitButton: {
-    height: 45,
+    height: constant.buttonHeight,
     width: convertWidth(375),
     flexDirection: 'row',
     alignItems: 'center',
@@ -134,7 +130,6 @@ export default StyleSheet.create({
   },
 
   keyboardExternal: {
-    position: 'absolute',
     width: '100%', height: constant.buttonHeight,
     flexDirection: 'row',
     alignContent: 'center',

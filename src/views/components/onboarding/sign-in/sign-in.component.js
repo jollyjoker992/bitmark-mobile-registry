@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Text, View, TouchableOpacity, KeyboardAvoidingView, TextInput, Image, FlatList, SafeAreaView, ScrollView, Animated,
   Keyboard,
+  Platform,
   StatusBar,
 } from 'react-native';
 import signStyle from './sign-in.component.style';
@@ -62,7 +63,7 @@ export class SignInComponent extends React.Component {
       numberPhraseWords,
       remainWordNumber: numberPhraseWords,
       dataSource: dictionaryPhraseWords,
-      keyBoardHeight: 0,
+      keyboardHeight: 0,
       keyboardExternalBottom: new Animated.Value(0),
       keyboardExternalOpacity: new Animated.Value(0),
     };
@@ -271,18 +272,20 @@ export class SignInComponent extends React.Component {
           <TouchableOpacity style={[defaultStyles.headerRight, { width: 50 }]}>
           </TouchableOpacity>
         </View>
-        <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }} keyboardVerticalOffset={constant.buttonHeight} >
-          <ScrollView style={signStyle.mainContent}>
+        <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: '' })} enabled style={{ flex: 1, }}  >
+          <ScrollView style={signStyle.mainContent} contentContainerStyle={{ flexGrow: 1 }}>
             <Text style={[signStyle.writeRecoveryPhraseContentMessage,]}>{global.i18n.t("SignInComponent_writeRecoveryPhraseContentMessage", { number: this.state.numberPhraseWords })}</Text>
             <View style={[signStyle.writeRecoveryPhraseArea]}>
               <View style={signStyle.writeRecoveryPhraseContentHalfList}>
                 <FlatList data={this.state.smallerList}
+                  keyExtractor={(item) => item.key}
                   scrollEnabled={false}
                   extraData={this.state}
                   renderItem={({ item }) => {
                     return (<View style={signStyle.recoveryPhraseSet}>
                       <Text style={signStyle.recoveryPhraseIndex}>{item.key + 1}.</Text>
                       <TextInput
+                        autoComplete='off'
                         style={[signStyle.recoveryPhraseWord, {
                           backgroundColor: (item.word ? 'white' : '#F5F5F5'),
                           borderColor: '#0060F2',
@@ -303,12 +306,14 @@ export class SignInComponent extends React.Component {
 
               <View style={[signStyle.writeRecoveryPhraseContentHalfList, { marginLeft: 33, }]}>
                 <FlatList data={this.state.biggerList}
+                  keyExtractor={(item) => item.key}
                   scrollEnabled={false}
                   extraData={this.state}
                   renderItem={({ item }) => {
                     return (<View style={signStyle.recoveryPhraseSet}>
                       <Text style={signStyle.recoveryPhraseIndex}>{item.key + 1}.</Text>
                       <TextInput
+                        autoComplete='off'
                         style={[signStyle.recoveryPhraseWord, {
                           backgroundColor: (item.word ? 'white' : '#F5F5F5'),
                           borderColor: '#0060F2',
@@ -338,52 +343,50 @@ export class SignInComponent extends React.Component {
               </Text>
             </View>
           </ScrollView>
+
+          {this.state.keyboardHeight === 0 && <TouchableOpacity style={signStyle.switchFormMessageButton} onPress={this.changeNumberPhraseWord.bind(this)}>
+            <Text style={[signStyle.switchFormMessage,]}>{i18n.t('SignInComponent_switchFormMessage', { number: this.state.numberPhraseWords === 12 ? 24 : 12 })}</Text>
+          </TouchableOpacity>}
+
+          {this.state.keyboardHeight === 0 && <TouchableOpacity style={[signStyle.submitButton, {
+            backgroundColor: !this.state.remainWordNumber ? '#0060F2' : 'gray'
+          }]} onPress={this.doSignIn} disabled={this.state.remainWordNumber > 0}>
+            <Text style={[signStyle.submitButtonText]}>{this.state.preCheckResult === PreCheckResults.error
+              ? i18n.t('SignInComponent_submitButtonTextWrong')
+              : i18n.t('SignInComponent_submitButtonTextSuccess')}</Text>
+          </TouchableOpacity>}
+
+
+
+          {this.state.keyboardHeight > 0 &&
+            <Animated.View style={[signStyle.keyboardExternal, { opacity: this.state.keyboardExternalOpacity, }]}>
+              <TouchableOpacity style={signStyle.nextButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 1) % 24)}>
+                <Image style={signStyle.nextButtonImage} source={require('assets/imgs/arrow_down_enable.png')} />
+              </TouchableOpacity>
+              <TouchableOpacity style={signStyle.prevButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 23) % 24)}>
+                <Image style={signStyle.prevButtonImage} source={require('assets/imgs/arrow_up_enable.png')} />
+              </TouchableOpacity>
+              {this.state.dataSource && <View style={[signStyle.selectionList]}>
+                <FlatList
+                  keyExtractor={(item, index) => index}
+                  ref={(ref) => this.listViewElement = ref}
+                  keyboardShouldPersistTaps="handled"
+                  horizontal={true}
+                  extraData={this.state}
+                  data={this.state.dataSource}
+                  renderItem={({ item }) => {
+                    return (<TouchableOpacity style={signStyle.selectionItem} onPress={() => this.onSubmitWord(item)}>
+                      <Text style={[signStyle.selectionItemText, { color: this.state.currentInputtedText === item ? 'blue' : 'gray' }]}>{item}</Text>
+                    </TouchableOpacity>)
+                  }}
+                />
+              </View>}
+              <TouchableOpacity style={signStyle.doneButton} onPress={this.doCheck24Word.bind(this)} disabled={this.state.status !== statuses.done}>
+                <Text style={[signStyle.doneButtonText, { color: this.state.status === statuses.done ? '#0060F2' : 'gray' }]}>{global.i18n.t("SignInComponent_doneInput")}</Text>
+              </TouchableOpacity>
+            </Animated.View>}
         </KeyboardAvoidingView>
-
-        <TouchableOpacity style={signStyle.switchFormMessageButton} onPress={this.changeNumberPhraseWord.bind(this)}>
-          <Text style={[signStyle.switchFormMessage,]}>{i18n.t('SignInComponent_switchFormMessage', { number: this.state.numberPhraseWords === 12 ? 24 : 12 })}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={[signStyle.submitButton, {
-          backgroundColor: !this.state.remainWordNumber ? '#0060F2' : 'gray'
-        }]} onPress={this.doSignIn} disabled={this.state.remainWordNumber > 0}>
-          <Text style={[signStyle.submitButtonText]}>{this.state.preCheckResult === PreCheckResults.error
-            ? i18n.t('SignInComponent_submitButtonTextWrong')
-            : i18n.t('SignInComponent_submitButtonTextSuccess')}</Text>
-        </TouchableOpacity>
-
-
-
-        {this.state.keyboardHeight > 0 &&
-          <Animated.View style={[signStyle.keyboardExternal, { bottom: this.state.keyboardExternalBottom, opacity: this.state.keyboardExternalOpacity, }]}>
-            <TouchableOpacity style={signStyle.nextButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 1) % 24)}>
-              <Image style={signStyle.nextButtonImage} source={require('assets/imgs/arrow_down_enable.png')} />
-            </TouchableOpacity>
-            <TouchableOpacity style={signStyle.prevButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 23) % 24)}>
-              <Image style={signStyle.prevButtonImage} source={require('assets/imgs/arrow_up_enable.png')} />
-            </TouchableOpacity>
-            {this.state.dataSource && <View style={[signStyle.selectionList]}>
-              <FlatList
-                ref={(ref) => this.listViewElement = ref}
-                keyboardShouldPersistTaps="handled"
-                horizontal={true}
-                extraData={this.state}
-                data={this.state.dataSource}
-                renderItem={({ item }) => {
-                  return (<TouchableOpacity style={signStyle.selectionItem} onPress={() => this.onSubmitWord(item)}>
-                    <Text style={[signStyle.selectionItemText, { color: this.state.currentInputtedText === item ? 'blue' : 'gray' }]}>{item}</Text>
-                  </TouchableOpacity>)
-                }}
-              />
-            </View>}
-            <TouchableOpacity style={signStyle.doneButton} onPress={this.doCheck24Word.bind(this)} disabled={this.state.status !== statuses.done}>
-              <Text style={[signStyle.doneButtonText, { color: this.state.status === statuses.done ? '#0060F2' : 'gray' }]}>{global.i18n.t("SignInComponent_doneInput")}</Text>
-            </TouchableOpacity>
-          </Animated.View>}
-
-
       </SafeAreaView>
-
     );
   }
 }

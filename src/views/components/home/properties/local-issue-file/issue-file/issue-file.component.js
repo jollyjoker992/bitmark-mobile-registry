@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   View, Text, TouchableOpacity, Image, TextInput, FlatList, KeyboardAvoidingView, SafeAreaView, ScrollView,
   Alert,
+  Platform,
   Keyboard,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -184,7 +185,7 @@ export class LocalIssueFileComponent extends React.Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', }}>
-        <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1 }} >
+        <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: '' })} enabled style={{ flex: 1 }} >
           <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
             <TouchableOpacity style={[defaultStyles.headerLeft, { width: 50, }]} onPress={Actions.pop}>
               <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />

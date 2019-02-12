@@ -5,6 +5,7 @@ import {
   View, TouchableOpacity, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
   StyleSheet,
   Keyboard,
+  Platform,
   Alert,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -168,7 +169,7 @@ export class MusicMetadataComponent extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <KeyboardAvoidingView behavior="padding" enabled style={{ flex: 1, borderBottomColor: '#0060F2', borderBottomWidth: 1, backgroundColor: 'white' }} >
+        <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: '' })} enabled style={{ flex: 1, borderBottomColor: '#0060F2', borderBottomWidth: 1, backgroundColor: 'white' }} >
           <View style={cStyles.header}>
             <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
