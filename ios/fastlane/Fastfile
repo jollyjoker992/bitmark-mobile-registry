@@ -249,4 +249,85 @@ platform :ios do
       dsym_path: './Bitmark Registry dev.app.dSYM.zip'
     )
   end
+  lane :betajenkins do
+    sh "npm install"
+    keychain_name = "ios-build.keychain"
+    keychain_password = SecureRandom.base64
+
+    version_number = latest_hockey_build_number(
+      api_token: ENV['HOCKEYAPP_KEY']
+    ).to_i
+    increment_build_number(
+      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      build_number: (version_number + 1).to_i
+    )
+    set_info_plist_value(
+      path: "ios/Info-beta.plist",
+      key: "BitmarkSDKAPIKey",
+      value: ENV['BITMARKSDK_API_KEY']
+    )
+    
+    cert
+    sigh(
+      force: false
+    )
+
+    build_app(
+      export_options: {iCloudContainerEnvironment: 'Production'},
+      export_method: "enterprise",
+      clean: "true",
+      workspace: "ios/Bitmark Registry.xcworkspace", 
+      scheme: "Bitmark Registry beta",
+      silent:true,
+      include_bitcode: true
+    )
+    sentry_upload_dsym(
+      auth_token: ENV['SENTRY_AUTH_TOKEN'],
+      org_slug: 'bitmark-inc',
+      project_slug: 'bitmark-registry',
+      dsym_path: './Bitmark Registry beta.app.dSYM.zip'
+    )
+    hockey(
+      api_token: ENV['HOCKEYAPP_KEY'],
+      release_type: "2",
+      tags: "internal_testers",
+    )
+  end
+  lane :developjenkins do
+    version_number = latest_hockey_build_number(
+      api_token: ENV['HOCKEYAPP_KEY']
+    ).to_i
+    increment_build_number(
+      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      build_number: (version_number + 1).to_i
+    )
+    
+    cert
+    sigh(
+      force: false
+    )
+
+    build_app(
+      export_options: {iCloudContainerEnvironment: 'Production'},
+      export_method: "enterprise",
+      clean: "true",
+      workspace: "ios/Bitmark Registry.xcworkspace", 
+      scheme: "Bitmark Registry dev",
+      silent:true,
+      include_bitcode: false
+    )
+
+    hockey(
+      api_token: ENV['HOCKEYAPP_KEY'],
+      notes_type: "1",
+      repository_url: "https://github.com/bitmark-inc/bitmark-mobile-registry",
+    )
+    
+    sentry_upload_dsym(
+      auth_token: ENV['SENTRY_AUTH_TOKEN'],
+      org_slug: 'bitmark-inc',
+      project_slug: 'bitmark-registry',
+      dsym_path: './Bitmark Registry dev.app.dSYM.zip'
+    )
+  end
 end
