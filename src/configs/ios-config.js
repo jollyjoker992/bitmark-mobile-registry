@@ -4,6 +4,7 @@ const currentSize = Dimensions.get('window');
 const isIPhoneX = (currentSize.height === 812 || currentSize.width === 812 || currentSize.height === 896 || currentSize.width === 896);
 
 let iosConfig = {
+  isIPhone: true,
   isIPhoneX,
   appLink: 'https://itunes.apple.com/us/app/bitmark-registry/id1429427796?ls=1&mt=8',
   codePush: {

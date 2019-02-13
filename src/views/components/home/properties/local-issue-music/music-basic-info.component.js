@@ -5,6 +5,7 @@ import ReactNative, {
   StyleSheet,
   Keyboard,
   Platform,
+  BackHandler,
   Alert,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
@@ -29,6 +30,7 @@ export class MusicBasicInfoComponent extends React.Component {
     this.onKeyboardDidShow = this.onKeyboardDidShow.bind(this);
     this.onKeyboardDidHide = this.onKeyboardDidHide.bind(this);
     this.onKeyboardWillShow = this.onKeyboardWillShow.bind(this);
+    this.doCancel = this.doCancel.bind(this);
 
     this.state = {
       filePath: this.props.filePath,
@@ -46,11 +48,17 @@ export class MusicBasicInfoComponent extends React.Component {
     this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.onKeyboardWillShow);
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardDidHide);
+    if (config.isAndroid) {
+      this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.doCancels);
+    }
   }
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
+    if (config.isAndroid) {
+      this.backHandler.remove();
+    }
   }
 
   onKeyboardWillShow() {
@@ -276,7 +284,7 @@ export class MusicBasicInfoComponent extends React.Component {
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
             </TouchableOpacity>
             <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{global.i18n.t('MusicBasicInfoComponent_headerTitle')}</Text>
-            <TouchableOpacity style={defaultStyles.headerRight} onPress={this.doCancel.bind(this)}>
+            <TouchableOpacity style={defaultStyles.headerRight} onPress={this.doCancel}>
               <Text style={defaultStyles.headerRightText}>{global.i18n.t('MusicBasicInfoComponent_headerRightText')}</Text>
             </TouchableOpacity>
           </View>

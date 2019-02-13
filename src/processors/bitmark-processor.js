@@ -11,6 +11,7 @@ import {
   PropertiesActions, PropertiesStore,
   PropertyStore, PropertyActions
 } from 'src/views/stores';
+import { config } from 'src/configs';
 
 
 const _doGetAllAssetsBitmarks = async (isReleased) => {
@@ -51,7 +52,9 @@ const _doCheckNewReleasedAssetsBitmarks = async (releasedBitmarksAssets) => {
   if (releasedBitmarksAssets) {
     for (let assetId in releasedBitmarksAssets.assets) {
       releasedBitmarksAssets.assets[assetId].filePath = await LocalFileService.detectLocalAssetFilePath(assetId);
-      await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(releasedBitmarksAssets.assets[assetId]));
+      if (config.isIPhone) {
+        await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(releasedBitmarksAssets.assets[assetId]));
+      }
 
       if (isMusicAsset(releasedBitmarksAssets.assets[assetId])) {
         releasedBitmarksAssets.assets[assetId].thumbnailPath = await LocalFileService.detectMusicThumbnailPath(assetId);
@@ -101,7 +104,9 @@ const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
     for (let assetId in assetsBitmarks.assets) {
       assetsBitmarks.assets[assetId] = merge({}, assetsBitmarks.assets[assetId], ((releasedBitmarksAssets.assets || {})[assetId] || {}))
       assetsBitmarks.assets[assetId].filePath = await LocalFileService.detectLocalAssetFilePath(assetId);
-      await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(assetsBitmarks.assets[assetId]));
+      if (config.isIPhone) {
+        await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(assetsBitmarks.assets[assetId]));
+      }
     }
 
     let tempMapBitmarksOfAssetOfIssuer = {};

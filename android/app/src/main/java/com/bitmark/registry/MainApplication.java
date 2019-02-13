@@ -2,16 +2,14 @@ package com.bitmark.registry;
 
 import android.app.Application;
 
+import com.airbnb.android.react.lottie.LottiePackage;
 import com.bitmark.registry.modules.sdk.BitmarkSDKPackage;
 import com.chirag.RNMail.RNMail;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.crashlytics.android.Crashlytics;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.react.ReactApplication;
-import com.airbnb.android.react.lottie.LottiePackage;
-
-import cl.json.RNSharePackage;
-
+import com.masteratul.exceptionhandler.ReactNativeExceptionHandlerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -28,6 +26,7 @@ import com.rnziparchive.RNZipArchivePackage;
 import java.util.Arrays;
 import java.util.List;
 
+import cl.json.RNSharePackage;
 import io.fabric.sdk.android.Fabric;
 import io.sentry.RNSentryPackage;
 
@@ -51,6 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
+            new ReactNativeExceptionHandlerPackage(),
                     new RNSharePackage(),
                     new LottiePackage(),
                     new RNSentryPackage(),
@@ -76,6 +76,8 @@ public class MainApplication extends Application implements ReactApplication {
             return "index";
         }
     };
+    public static Thread.UncaughtExceptionHandler defaultHandler = null;
+    public static Thread.UncaughtExceptionHandler exceptionHandler = null;
 
     @Override
     public ReactNativeHost getReactNativeHost() {
@@ -85,6 +87,22 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        if (defaultHandler == null) {
+            defaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+        }
+
+        if (exceptionHandler == null) {
+            exceptionHandler = new Thread.UncaughtExceptionHandler() {
+                @Override
+                public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
+                    defaultHandler.uncaughtException(paramThread, paramThrowable);
+                }
+            };
+            Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
+        }
+
+
         Fabric.with(this, new Crashlytics());
         SoLoader.init(this, /* native exopackage */ false);
     }

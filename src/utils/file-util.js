@@ -1,5 +1,6 @@
 import RNFS from 'react-native-fs';
 import { zip, unzip } from 'react-native-zip-archive';
+console.log('RNFS :', RNFS);
 
 class FileUtil {
   static CacheDirectory = RNFS.CachesDirectoryPath;

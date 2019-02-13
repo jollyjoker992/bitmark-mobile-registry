@@ -2,8 +2,9 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import KeepAwake from 'react-native-keep-awake';
+import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler';
+
 const {
-  Platform,
   Linking,
   Alert,
   AppState,
@@ -20,7 +21,7 @@ import {
 } from './../commons';
 import { UserModel, EventEmitterService, CacheData, CommonProcessor, TransactionProcessor } from 'src/processors';
 import { convertWidth, runPromiseWithoutError } from 'src/utils';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 
 export class MainAppHandlerComponent extends Component {
   constructor(props) {
@@ -59,13 +60,21 @@ export class MainAppHandlerComponent extends Component {
       NetInfo.isConnected.addEventListener('connectionChange', this.handleNetworkChange);
     });
 
-    if (Platform.OS === 'android') {
+    if (config.isAndroid) {
       NetInfo.getConnectionInfo().then((connectionInfo) => {
         if (connectionInfo.type === 'wifi' || connectionInfo.type === 'cellular') {
           this.handleNetworkChange(true);
         }
       });
     }
+
+    setJSExceptionHandler((error, isFatal) => {
+      console.log(' setJSExceptionHandler :', { error, isFatal });
+    }, true);
+
+    setNativeExceptionHandler(exceptionString => {
+      console.log(' setNativeExceptionHandler :', { exceptionString });
+    });
   }
   componentWillUnmount() {
     EventEmitterService.remove(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);

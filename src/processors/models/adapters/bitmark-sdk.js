@@ -1,5 +1,6 @@
 
 import { NativeModules, Platform } from 'react-native'
+import { config } from 'src/configs';
 
 let NativeBitmarkSDK = Platform.select({
   ios: NativeModules.BitmarkSDKWrapper,
@@ -19,12 +20,14 @@ const BitmarkSDK = {
     return result;
   },
   newAccountFromPhraseWords: async (phraseWords, enableTouchFaceId) => {
-    // todo call authenticate before call login for case enableTouchFaceId
-    return await NativeBitmarkSDK.createAccountFromPhrase(phraseWords, enableTouchFaceId);
+    console.log('newAccountFromPhraseWords run 1');
+    let result = await NativeBitmarkSDK.createAccountFromPhrase(phraseWords, enableTouchFaceId);
+    console.log('newAccountFromPhraseWords run 2', result);
+    return result;
   },
   requestSession: async (message) => {
     try {
-      if (Platform.OS === 'ios') {
+      if (config.isIPhone) {
         await NativeBitmarkSDK.authenticate(message);
       }
       return true;

@@ -1,4 +1,5 @@
 const androidConfig = {
+  isAndroid: true,
   appLink: '',
   codePush: {
     productionKey: '',

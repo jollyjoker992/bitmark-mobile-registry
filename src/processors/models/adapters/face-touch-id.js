@@ -1,11 +1,12 @@
-import { NativeModules, Platform } from 'react-native'
+import { NativeModules } from 'react-native'
+import { config } from 'src/configs';
 let SwiftFaceTouchId = NativeModules.TouchID;
 
 const FaceTouchId = {
   isSupported: () => {
     return new Promise((resolve) => {
       // TODO
-      if (Platform.OS === 'android') {
+      if (config.isAndroid) {
         return resolve(true);
       }
       SwiftFaceTouchId.isSupported((ok) => {

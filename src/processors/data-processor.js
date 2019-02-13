@@ -166,12 +166,18 @@ const doLogin = async () => {
 };
 
 const doLogout = async () => {
+  console.log('doLogout run 1');
   if (CacheData.userInformation.notificationUUID) {
+    console.log('doLogout run 2');
     let signatureData = await CommonModel.doCreateSignatureData();
+    console.log('doLogout run 3');
     await NotificationService.doTryDeregisterNotificationInfo(CacheData.userInformation.bitmarkAccountNumber, CacheData.userInformation.notificationUUID, signatureData);
+    console.log('doLogout run 4');
   }
   await AccountModel.doLogout();
+  console.log('doLogout run 5');
   await UserModel.doRemoveUserInfo();
+  console.log('doLogout run 6');
   CacheData.userInformation = {};
   PropertiesStore.dispatch(PropertiesActions.reset());
   BottomTabStore.dispatch(BottomTabActions.reset());
@@ -179,6 +185,7 @@ const doLogout = async () => {
   PropertyActionSheetStore.dispatch(PropertyActionSheetActions.reset());
   AccountStore.dispatch(AccountActions.reset());
   TransactionsStore.dispatch(TransactionsActions.reset());
+  console.log('doLogout run 7');
 };
 
 
@@ -205,11 +212,12 @@ const checkAppNeedResetLocalData = async (appInfo) => {
 const doOpenApp = async (justCreatedBitmarkAccount) => {
   CacheData.userInformation = await UserModel.doTryGetCurrentUser();
   console.log('CacheData.userInformation :', CacheData.userInformation, FileUtil.DocumentDirectory);
-  if (Platform.OS === 'ios') {
+  if (config.isIPhone) {
     await LocalFileService.setShareLocalStoragePath();
   }
   let appInfo = await doGetAppInformation();
   appInfo = appInfo || {};
+  console.log('doOpenApp run 1');
 
   if (!appInfo.trackEvents || !appInfo.trackEvents.app_download) {
     let appInfo = await doGetAppInformation();
@@ -223,6 +231,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     });
   }
 
+  console.log('doOpenApp run 2');
 
   if (CacheData.userInformation && CacheData.userInformation.bitmarkAccountNumber) {
     let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
@@ -232,9 +241,11 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     }
     configNotification();
     await checkAppNeedResetLocalData(appInfo);
-    if (Platform.OS === 'ios') {
+    if (config.isIPhone) {
       await LocalFileService.moveFilesFromLocalStorageToSharedStorage();
     }
+
+    console.log('doOpenApp run 3');
 
     let identities = await runPromiseWithoutError(AccountModel.doGetIdentities());
     if (identities && !identities.error) {
@@ -246,7 +257,9 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       await UserModel.doUpdateUserInfo(CacheData.userInformation);
     }
 
-    if (Platform.OS === 'ios') {
+    console.log('doOpenApp run 4');
+
+    if (config.isIPhone) {
       iCloudSyncAdapter.oniCloudFileChanged((mapFiles) => {
         if (this.iCloudFileChangedTimeout) {
           clearTimeout(this.iCloudFileChangedTimeout)
@@ -293,6 +306,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     let result = await AccountModel.doRegisterJWT(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
     CacheData.jwt = result.jwt_token;
 
+    console.log('doOpenApp run 5');
     if (justCreatedBitmarkAccount) {
       appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
       await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
@@ -302,6 +316,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       }
     }
 
+    console.log('doOpenApp run 6');
 
     let assetsBitmarks = await BitmarkProcessor.doGetLocalAssetsBitmarks();
     let releasedAssetsBitmarks = await BitmarkProcessor.doGetLocalReleasedAssetsBitmarks();
@@ -320,6 +335,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       });
       totalTasks += 1;
     }
+    console.log('doOpenApp run 7');
     // ============================
     NotificationService.setApplicationIconBadgeNumber(totalTasks || 0);
     BottomTabStore.dispatch(BottomTabActions.init({
@@ -355,6 +371,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       userInformation: CacheData.userInformation,
       iftttInformation: await TransactionProcessor.doGetIftttInformation(),
     }));
+    console.log('doOpenApp run 8');
 
     // ============================
   }

@@ -8,6 +8,7 @@ import ReactNative, {
   StyleSheet,
   Clipboard,
   Share,
+  BackHandler,
   Linking,
 } from 'react-native';
 import { Provider, connect } from 'react-redux';
@@ -72,6 +73,17 @@ class PrivatePropertyDetailComponent extends React.Component {
         console.log('error:', JSON.stringify(error));
         EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
       });
+    }
+  }
+
+  componentDidMount() {
+    if (config.isAndroid) {
+      this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => Actions.jump('properties'));
+    }
+  }
+  componentWillUnmount() {
+    if (config.isAndroid && this.backHandler) {
+      this.backHandler.remove();
     }
   }
 

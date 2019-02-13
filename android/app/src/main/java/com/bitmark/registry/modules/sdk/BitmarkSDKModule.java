@@ -44,15 +44,12 @@ import com.bitmark.sdk.features.Bitmark;
 import com.bitmark.sdk.features.BitmarkSDK;
 import com.bitmark.sdk.features.Transaction;
 import com.bitmark.sdk.utils.SharedPreferenceApi;
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.WritableArray;
-import com.facebook.react.bridge.WritableMap;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,6 +65,7 @@ import static com.bitmark.registry.utils.DataTypeMapper.toJson;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringArray;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringMap;
 import static com.bitmark.registry.utils.DataTypeMapper.toWritableArray;
+import static com.bitmark.registry.utils.DataTypeMapper.toWritableMap;
 import static com.bitmark.sdk.utils.FileUtils.isValid;
 import static com.bitmark.sdk.utils.FileUtils.read;
 import static com.bitmark.sdk.utils.FileUtils.write;
@@ -143,10 +141,9 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             account.saveToKeyStore(getAttachedActivity(), authentication, new Callback0() {
                 @Override
                 public void onSuccess() {
-                    Map<String, String> accountMap = new HashMap<>();
+                    Map<String, Object> accountMap = new HashMap<>();
                     accountMap.put("account_number", account.getAccountNumber());
-                    accountMap.put("seed", account.getSeed().getEncodedSeed());
-                    promise.resolve(accountMap);
+                    promise.resolve(toWritableMap(accountMap));
                 }
 
                 @Override
@@ -163,17 +160,21 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     @ReactMethod
     @Override
     public void removeAccount(Promise promise) throws NativeModuleException {
-        Account.removeFromKeyStore(getAttachedActivity(), getAccountNumber(), new Callback0() {
-            @Override
-            public void onSuccess() {
-                promise.resolve(null);
-            }
+        try {
+            Account.removeFromKeyStore(getAttachedActivity(), getAccountNumber(), new Callback0() {
+                @Override
+                public void onSuccess() {
+                    promise.resolve(null);
+                }
 
-            @Override
-            public void onError(Throwable throwable) {
-                promise.reject("ERROR_REMOVE_KEY_STORE", throwable);
-            }
-        });
+                @Override
+                public void onError(Throwable throwable) {
+                    promise.reject("ERROR_REMOVE_KEY_STORE", throwable);
+                }
+            });
+        }catch (Throwable e) {
+            promise.reject("ERROR_REMOVE_ACCOUNT", e);
+        }
     }
 
     @ReactMethod
@@ -228,12 +229,12 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             public void onSuccess(Account account) {
                 PrivateKey key = account.getKeyPair().privateKey();
                 String[] messageArray = toStringArray(messages);
-                WritableArray signatures = Arguments.createArray();
+                String[] signatures = new String[messageArray.length];
 
                 for (int i = 0, size = messageArray.length; i < size; i++) {
                     String message = messageArray[i];
-                    signatures.pushString(HEX.encode(
-                            Ed25519.sign(HEX.decode(message), key.toBytes())));
+                    signatures[i] = HEX.encode(
+                            Ed25519.sign(HEX.decode(message), key.toBytes()));
                 }
 
                 promise.resolve(toWritableArray(signatures));

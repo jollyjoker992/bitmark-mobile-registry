@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   View, Text, TouchableOpacity, Image, FlatList, ScrollView, SafeAreaView,
+  BackHandler,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -9,6 +10,7 @@ import accountRecoveryStyle from './account-recovery.component.style';
 import { AppProcessor, TransactionProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { UserModel } from 'src/processors/models';
+import { config } from 'src/configs';
 
 
 export class RecoveryPhraseComponent extends React.Component {
@@ -231,6 +233,17 @@ export class TryRecoveryPhraseComponent extends React.Component {
       biggerList: biggerList,
       selectedIndex: 0,
     };
+  }
+
+  componentDidMount() {
+    if (config.isAndroid) {
+      this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => Actions.reset('accountDetail'));
+    }
+  }
+  componentWillUnmount() {
+    if (config.isAndroid && this.backHandler) {
+      this.backHandler.remove();
+    }
   }
 
   nextSelectedIndex(currentSelectedIndex) {

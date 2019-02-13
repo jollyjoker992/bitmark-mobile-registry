@@ -48,11 +48,12 @@ export class FaceTouchIdComponent extends React.Component {
 
   doContinue(enableTouchId) {
     this.props.doContinue(enableTouchId).then((result) => {
+      console.log('doContinue result :', result);
       if (result && result.user) {
-        Actions.notification({ justCreatedBitmarkAccount: result.justCreatedBitmarkAccount });
+        // Actions.notification({ justCreatedBitmarkAccount: result.justCreatedBitmarkAccount });
       }
     }).catch(error => {
-      console.log('error :', error);
+      console.log('doContinue error :', error);
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
     });
   }

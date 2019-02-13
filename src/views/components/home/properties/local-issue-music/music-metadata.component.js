@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Keyboard,
   Platform,
+  BackHandler,
   Alert,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -45,11 +46,17 @@ export class MusicMetadataComponent extends React.Component {
     this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.onKeyboardWillShow);
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardDidHide);
+    if (config.isAndroid) {
+      this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => Actions.jump('properties', { subTab: 'Release' }));
+    }
   }
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
+    if (config.isAndroid && this.backHandler) {
+      this.backHandler.remove();
+    }
   }
 
   onKeyboardWillShow() {
@@ -175,7 +182,7 @@ export class MusicMetadataComponent extends React.Component {
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
             </TouchableOpacity>
             <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{global.i18n.t('MusicMetadataComponent_headerTitle')}</Text>
-            <TouchableOpacity style={defaultStyles.headerRight} onPress={this.doCancel.bind(this)}>
+            <TouchableOpacity style={defaultStyles.headerRight} onPress={this.doCancel}>
               <Text style={defaultStyles.headerRightText}>{global.i18n.t('MusicMetadataComponent_headerRightText')}</Text>
             </TouchableOpacity>
           </View>

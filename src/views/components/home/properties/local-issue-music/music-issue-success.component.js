@@ -4,6 +4,7 @@ import {
   View, TouchableOpacity, Image, Text, ScrollView,
   WebView,
   StyleSheet,
+  BackHandler,
   Clipboard
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -28,6 +29,17 @@ export class MusicIssueSuccessComponent extends React.Component {
       selected: 'link',
       copied: false,
     };
+  }
+
+  componentDidMount() {
+    if (config.isAndroid) {
+      this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => Actions.jump('properties', { subTab: 'Release' }));
+    }
+  }
+  componentWillUnmount() {
+    if (config.isAndroid && this.backHandler) {
+      this.backHandler.remove();
+    }
   }
 
   copySelectedResult() {

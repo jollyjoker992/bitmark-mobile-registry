@@ -12,10 +12,9 @@ export class NotificationComponent extends React.Component {
   static propTypes = {
     justCreatedBitmarkAccount: PropTypes.bool,
   }
-  constructor(props) {
-    super(props);
-  }
+
   render() {
+    console.log('NotificationComponent render :', this.props);
     CacheData.passTouchFaceId = true;
     let requestNotification = () => {
       NotificationService.doRequestNotificationPermissions().then((result) => {

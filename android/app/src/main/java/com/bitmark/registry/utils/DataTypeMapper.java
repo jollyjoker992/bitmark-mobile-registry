@@ -9,8 +9,6 @@ import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.google.gson.GsonBuilder;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,8 +62,10 @@ public class DataTypeMapper {
                 array.pushDouble((Double) value);
             } else if (value instanceof String) {
                 array.pushString((String) value);
+            } else if (value instanceof Map) {
+                array.pushMap(toWritableMap((Map<String, Object>) value));
             } else if (value.getClass().isArray()) {
-                array.pushArray(toWritableArray(toObjects(value)));
+                array.pushArray(toWritableArray((Object[]) value));
             } else {
                 array.pushString(toJson(value));
             }
@@ -84,13 +84,39 @@ public class DataTypeMapper {
                 array.pushDouble((Double) value);
             } else if (value instanceof String) {
                 array.pushString((String) value);
+            } else if (value instanceof Map) {
+                array.pushMap(toWritableMap((Map<String, Object>) value));
             } else if (value.getClass().isArray()) {
-                array.pushArray(toWritableArray(toObjects(value)));
+                array.pushArray(toWritableArray((Object[]) value));
             } else {
                 array.pushString(toJson(value));
             }
         }
         return array;
+    }
+
+    public static WritableMap toWritableMap(Map<String, Object> map) {
+        WritableMap result = new WritableNativeMap();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            Object value = entry.getValue();
+            String key = entry.getKey();
+            if (value instanceof Boolean) {
+                result.putBoolean(key, (Boolean) value);
+            } else if (value instanceof Integer) {
+                result.putInt(key, (Integer) value);
+            } else if (value instanceof Double) {
+                result.putDouble(key, (Double) value);
+            } else if (value instanceof String) {
+                result.putString(key, (String) value);
+            } else if (value.getClass().isArray()) {
+                result.putArray(key, toWritableArray((Object[]) value));
+            } else if (value instanceof Map) {
+                result.putMap(key, toWritableMap((Map<String, Object>) value));
+            } else {
+                result.putString(key, toJson(value));
+            }
+        }
+        return result;
     }
 
 }

@@ -1,4 +1,4 @@
-import { Platform, AppRegistry } from 'react-native';
+import { AppRegistry } from 'react-native';
 import moment from 'moment';
 import { registerTasks } from './app-tasks';
 
@@ -64,7 +64,7 @@ const executeTask = (taskKey, data) => {
 // ================================================================================================
 // ================================================================================================
 const doCreateNewAccount = async (enableTouchId) => {
-  if (enableTouchId && Platform.OS === 'ios' && config.isIPhoneX) {
+  if (enableTouchId && config.isIPhone && config.isIPhoneX) {
     let result = await runPromiseWithoutError(FaceTouchId.authenticate());
     if (result && result.error) {
       return null;

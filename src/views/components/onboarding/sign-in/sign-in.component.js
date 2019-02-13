@@ -23,6 +23,7 @@ const statuses = {
   inputting: 'inputting'
 };
 
+let testWords = ["track", "occur", "mercy", "machine", "guitar", "occur", "main", "extra", "topic", "pen", "fatigue", "whale"];
 export class SignInComponent extends React.Component {
 
   constructor(props) {
@@ -43,14 +44,14 @@ export class SignInComponent extends React.Component {
       if (index < (numberPhraseWords / 2)) {
         smallerList.push({
           key: index,
-          // word: testWords[index],
-          word: '',
+          word: testWords[index],
+          // word: '',
         });
       } else {
         biggerList.push({
           key: index,
-          // word: testWords[index],
-          word: '',
+          word: testWords[index],
+          // word: '',
         });
       }
     }
@@ -67,7 +68,7 @@ export class SignInComponent extends React.Component {
       keyboardExternalBottom: new Animated.Value(0),
       keyboardExternalOpacity: new Animated.Value(0),
     };
-    // setTimeout(this.checkStatusInputting, 200);
+    setTimeout(this.checkStatusInputting, 200);
   }
 
   onChangeText(index, text) {
@@ -278,7 +279,7 @@ export class SignInComponent extends React.Component {
             <View style={[signStyle.writeRecoveryPhraseArea]}>
               <View style={signStyle.writeRecoveryPhraseContentHalfList}>
                 <FlatList data={this.state.smallerList}
-                  keyExtractor={(item) => item.key}
+                  keyExtractor={(item) => item.key + ''}
                   scrollEnabled={false}
                   extraData={this.state}
                   renderItem={({ item }) => {
@@ -306,7 +307,7 @@ export class SignInComponent extends React.Component {
 
               <View style={[signStyle.writeRecoveryPhraseContentHalfList, { marginLeft: 33, }]}>
                 <FlatList data={this.state.biggerList}
-                  keyExtractor={(item) => item.key}
+                  keyExtractor={(item) => item.key + ''}
                   scrollEnabled={false}
                   extraData={this.state}
                   renderItem={({ item }) => {
@@ -368,7 +369,7 @@ export class SignInComponent extends React.Component {
               </TouchableOpacity>
               {this.state.dataSource && <View style={[signStyle.selectionList]}>
                 <FlatList
-                  keyExtractor={(item, index) => index}
+                  keyExtractor={(item) => item}
                   ref={(ref) => this.listViewElement = ref}
                   keyboardShouldPersistTaps="handled"
                   horizontal={true}

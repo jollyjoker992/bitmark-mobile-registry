@@ -6,6 +6,7 @@ const {
   Platform,
 } = ReactNative;
 import { AccountModel, CommonModel } from '../models';
+import { config } from 'src/configs';
 
 let configureNotifications = (onRegister, onNotification) => {
   return AccountModel.configureNotifications(onRegister, onNotification);
@@ -72,7 +73,7 @@ let doTryDeregisterNotificationInfo = (accountNumber, token, signatureData) => {
 };
 
 let removeAllDeliveredNotifications = () => {
-  if (Platform.OS === 'android') {
+  if (config.isAndroid) {
     // TODO should check if have schedule for local notification
     PushNotification.cancelAllLocalNotifications();
   } else {
