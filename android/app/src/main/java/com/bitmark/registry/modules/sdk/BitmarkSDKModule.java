@@ -38,6 +38,8 @@ import com.bitmark.registry.encryption.PublicKeyEncryption;
 import com.bitmark.registry.encryption.SessionData;
 import com.bitmark.registry.utils.NetworkMapper;
 import com.bitmark.registry.utils.error.NativeModuleException;
+import com.bitmark.sdk.authentication.KeyAuthenticationSpec;
+import com.bitmark.sdk.authentication.error.AuthenticationRequiredException;
 import com.bitmark.sdk.features.Account;
 import com.bitmark.sdk.features.Asset;
 import com.bitmark.sdk.features.Bitmark;
@@ -50,9 +52,12 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.InvalidKeyException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +71,7 @@ import static com.bitmark.registry.utils.DataTypeMapper.toStringArray;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringMap;
 import static com.bitmark.registry.utils.DataTypeMapper.toWritableArray;
 import static com.bitmark.registry.utils.DataTypeMapper.toWritableMap;
+import static com.bitmark.sdk.authentication.error.AuthenticationRequiredException.PASSWORD;
 import static com.bitmark.sdk.utils.FileUtils.isValid;
 import static com.bitmark.sdk.utils.FileUtils.read;
 import static com.bitmark.sdk.utils.FileUtils.write;
@@ -98,9 +104,14 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
             String apiKey = networkConfigure == Network.TEST_NET ? "bmk-lljpzkhqdkzmblhg" :
                     API_KEY_MANAGER.getBitmarkApiKey();
-            BitmarkSDK.init(GlobalConfiguration.builder().withApiToken(apiKey)
-                                               .withNetwork(networkConfigure));
-            promise.resolve(true);
+            try {
+                BitmarkSDK.init(GlobalConfiguration.builder().withApiToken(apiKey)
+                                                   .withNetwork(networkConfigure));
+                promise.resolve(true);
+            } catch (UnsupportedOperationException e) {
+                promise.resolve(true);
+            }
+
         } catch (Throwable e) {
             promise.reject("ERROR_SDK_INIT", e);
         }
@@ -113,7 +124,11 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
             final Account account = new Account();
             saveAccountNumber(account.getAccountNumber());
-            account.saveToKeyStore(getAttachedActivity(), authentication, new Callback0() {
+            KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
+                    getReactApplicationContext()).setAuthenticationRequired(true)
+                                                 .setAuthenticationValidityDuration(10 * 60)
+                                                 .build();
+            account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
                 @Override
                 public void onSuccess() {
                     promise.resolve(null);
@@ -121,7 +136,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                 @Override
                 public void onError(Throwable throwable) {
-                    promise.reject("ERROR_SAVE_KEY_STORE", throwable);
+                    if (!handleKeyStoreException(throwable, promise))
+                        promise.reject("ERROR_SAVE_KEY_STORE", throwable);
                 }
             });
 
@@ -138,7 +154,11 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
             final Account account = Account.fromRecoveryPhrase(toStringArray(phraseWords));
             saveAccountNumber(account.getAccountNumber());
-            account.saveToKeyStore(getAttachedActivity(), authentication, new Callback0() {
+            KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
+                    getReactApplicationContext()).setAuthenticationRequired(true)
+                                                 .setAuthenticationValidityDuration(10 * 60)
+                                                 .build();
+            account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
                 @Override
                 public void onSuccess() {
                     Map<String, Object> accountMap = new HashMap<>();
@@ -148,7 +168,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                 @Override
                 public void onError(Throwable throwable) {
-                    promise.reject("ERROR_SAVE_KEY_STORE", throwable);
+                    if (!handleKeyStoreException(throwable, promise))
+                        promise.reject("ERROR_SAVE_KEY_STORE", throwable);
                 }
             });
 
@@ -160,27 +181,41 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     @ReactMethod
     @Override
     public void removeAccount(Promise promise) throws NativeModuleException {
-        try {
-            Account.removeFromKeyStore(getAttachedActivity(), getAccountNumber(), new Callback0() {
-                @Override
-                public void onSuccess() {
-                    promise.resolve(null);
-                }
+        getAccount(promise, new Callback1<Account>() {
+            @Override
+            public void onSuccess(Account account) {
+                try {
+                    account.removeFromKeyStore(getAttachedActivity(),
+                            new KeyAuthenticationSpec.Builder(getReactApplicationContext()).build(),
+                            new Callback0() {
+                                @Override
+                                public void onSuccess() {
+                                    promise.resolve(account.getAccountNumber());
+                                }
 
-                @Override
-                public void onError(Throwable throwable) {
-                    promise.reject("ERROR_REMOVE_KEY_STORE", throwable);
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    if (!handleKeyStoreException(throwable, promise))
+                                        promise.reject("ERROR_REMOVE_ACCOUNT", throwable);
+                                }
+                            });
+                } catch (NativeModuleException e) {
+                    e.printStackTrace();
+                    promise.reject(e);
                 }
-            });
-        }catch (Throwable e) {
-            promise.reject("ERROR_REMOVE_ACCOUNT", e);
-        }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
+            }
+        });
     }
 
     @ReactMethod
     @Override
     public void accountInfo(Promise promise) throws NativeModuleException {
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
                 promise.resolve(toWritableArray(account.getAccountNumber(), account
@@ -199,7 +234,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     @ReactMethod
     @Override
     public void sign(ReadableArray messages, Promise promise) throws NativeModuleException {
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
                 PrivateKey key = account.getKeyPair().privateKey();
@@ -224,7 +259,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     @ReactMethod
     @Override
     public void signHexData(ReadableArray messages, Promise promise) throws NativeModuleException {
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
                 PrivateKey key = account.getKeyPair().privateKey();
@@ -267,7 +302,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
         final int quantity = optQuantity;
 
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
 
@@ -319,7 +354,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             return;
         }
 
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
 
@@ -373,7 +408,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             return;
         }
 
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
 
@@ -420,7 +455,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             return;
         }
 
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
 
@@ -467,7 +502,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             return;
         }
 
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
 
@@ -773,7 +808,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             return;
         }
 
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
 
@@ -818,7 +853,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             return;
         }
 
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
 
@@ -861,7 +896,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             return;
         }
 
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
 
@@ -897,7 +932,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             return;
         }
 
-        getAccount(new Callback1<Account>() {
+        getAccount(promise, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
 
@@ -934,8 +969,11 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         });
     }
 
-    private void getAccount(Callback1<Account> callback) throws NativeModuleException {
-        Account.loadFromKeyStore(getAttachedActivity(), getAccountNumber(),
+    private void getAccount(Promise promise, Callback1<Account> callback)
+            throws NativeModuleException {
+        KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
+                getReactApplicationContext()).build();
+        Account.loadFromKeyStore(getAttachedActivity(), getAccountNumber(), spec,
                 new Callback1<Account>() {
                     @Override
                     public void onSuccess(Account account) {
@@ -944,7 +982,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                     @Override
                     public void onError(Throwable throwable) {
-                        callback.onError(throwable);
+                        if (!handleKeyStoreException(throwable, promise))
+                            callback.onError(throwable);
                     }
                 });
     }
@@ -966,6 +1005,19 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     private void saveAccountNumber(String accountNumber) {
         new SharedPreferenceApi(getReactApplicationContext(), BuildConfig.APPLICATION_ID)
                 .put(ACTIVE_ACCOUNT_NUMBER, accountNumber);
+    }
+
+    private boolean handleKeyStoreException(Throwable throwable, Promise promise) {
+        if (throwable instanceof AuthenticationRequiredException) {
+            AuthenticationRequiredException ex = (AuthenticationRequiredException) throwable;
+            if (ex.getType().equals(PASSWORD))
+                promise.reject("PASSCODE_SET_UP_REQUIRED", throwable);
+            else promise.reject("BIOMETRIC_SET_UP_REQUIRED", throwable);
+            return true;
+        } else if (throwable instanceof InvalidKeyException) {
+            promise.reject("UNREADABLE_KEY", throwable);
+            return true;
+        } else return false;
     }
 
 }
