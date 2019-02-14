@@ -20,20 +20,19 @@ const BitmarkSDK = {
     return result;
   },
   newAccountFromPhraseWords: async (phraseWords, enableTouchFaceId) => {
-    console.log('newAccountFromPhraseWords run 1');
     let result = await NativeBitmarkSDK.createAccountFromPhrase(phraseWords, enableTouchFaceId);
-    console.log('newAccountFromPhraseWords run 2', result);
     return result;
   },
   requestSession: async (message) => {
     try {
       if (config.isIPhone) {
         await NativeBitmarkSDK.authenticate(message);
+        return true;
       } else {
         return AuthenticationWrapper.authenticate(message);
       }
-      return true;
     } catch (error) {
+      // TODO
       return null;
     }
   },

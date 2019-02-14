@@ -4,12 +4,15 @@ import {
   View, Text, Image, TouchableOpacity,
   Linking,
   AppState,
-  Alert
+  Alert,
+  NativeModules
 } from 'react-native'
+let Navigation = NativeModules.Navigation;
 
 import faceTouchIdStyle from './face-touch-id.component.style';
 import { Actions } from 'react-native-router-flux';
 import { CommonModel, EventEmitterService } from 'src/processors';
+import { config } from 'src/configs';
 
 export class FaceTouchIdComponent extends React.Component {
   constructor(props) {
@@ -21,8 +24,8 @@ export class FaceTouchIdComponent extends React.Component {
     this.appState = AppState.currentState;
   }
 
-
   doContinue(enableTouchId = true) {
+    console.log('doContinue enableTouchId :', enableTouchId);
     let doSubmit = () => {
       this.props.doContinue(enableTouchId).then((result) => {
         console.log('doContinue result :', result);
@@ -37,10 +40,15 @@ export class FaceTouchIdComponent extends React.Component {
 
     if (enableTouchId) {
       CommonModel.doCheckPasscodeAndFaceTouchId().then((supported) => {
+        console.log('doCheckPasscodeAndFaceTouchId :', supported);
         if (supported) {
           doSubmit();
         } else {
-          Linking.openURL('app-settings:');
+          if (config.isAndroid) {
+            Navigation.openSystemSetting('android.settings.SECURITY_SETTINGS');
+          } else {
+            Linking.openURL('app-settings:');
+          }
         }
       });
     } else {
@@ -78,7 +86,7 @@ export class FaceTouchIdComponent extends React.Component {
         <View style={faceTouchIdStyle.enableButtonArea}>
           {/*Enable Button*/}
           <TouchableOpacity style={[faceTouchIdStyle.enableButton]}
-            onPress={() => this.doContinue.bind(this)}>
+            onPress={()=>this.doContinue.bind(this)()}>
             <Text style={faceTouchIdStyle.enableButtonText}>{global.i18n.t("FaceTouchIdComponent_enableButtonText")}</Text>
           </TouchableOpacity>
           {/*Skip Button*/}
