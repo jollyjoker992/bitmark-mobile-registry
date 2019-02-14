@@ -52,8 +52,6 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.WritableArray;
-import com.facebook.react.bridge.WritableMap;
 
 import java.io.File;
 import java.io.IOException;
@@ -125,7 +123,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             final Account account = new Account();
             saveAccountNumber(account.getAccountNumber());
             KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                    getReactApplicationContext()).setAuthenticationRequired(true)
+                    getReactApplicationContext()).setAuthenticationRequired(authentication)
                                                  .setAuthenticationValidityDuration(10 * 60)
                                                  .build();
             account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
@@ -155,7 +153,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             final Account account = Account.fromRecoveryPhrase(toStringArray(phraseWords));
             saveAccountNumber(account.getAccountNumber());
             KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                    getReactApplicationContext()).setAuthenticationRequired(true)
+                    getReactApplicationContext()).setAuthenticationRequired(authentication)
                                                  .setAuthenticationValidityDuration(10 * 60)
                                                  .build();
             account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
