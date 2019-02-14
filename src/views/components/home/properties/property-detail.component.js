@@ -265,9 +265,15 @@ class PrivatePropertyDetailComponent extends React.Component {
 
             <View style={{ paddingLeft: convertWidth(15), paddingRight: convertWidth(15), width: '100%', }}>
 
-              {((this.props.bitmark && !this.props.bitmark.isDraft) || playLink) && <OneTabButtonComponent style={cStyles.actionRow} onPress={() => this.showActionSheets.bind(this)({ playLink })}>
-                <Text style={[cStyles.actionRowText]}>{global.i18n.t("PropertyDetailComponent_releaseActionViewOptions")}</Text>
-              </OneTabButtonComponent>}
+              <OneTabButtonComponent
+                style={cStyles.actionRow}
+                disabled={this.props.bitmark && this.props.bitmark.isDraft}
+                onPress={() => this.showActionSheets.bind(this)({ playLink })}>
+                <Text style={[cStyles.actionRowText, (this.props.bitmark && this.props.bitmark.isDraft) ? { color: '#999999' } : {}]}>
+                  {(this.props.bitmark && this.props.bitmark.isDraft) ? global.i18n.t("PropertyDetailComponent_releaseAuthenticating") : global.i18n.t("PropertyDetailComponent_releaseActionViewOptions")}
+                </Text>
+              </OneTabButtonComponent>
+
             </View>
           </Animated.View>
         </View >
