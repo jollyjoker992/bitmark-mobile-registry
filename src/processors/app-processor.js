@@ -45,13 +45,19 @@ let processing = (promise) => {
   });
 };
 
+let mapTaskIds = {};
 const executeTask = (taskKey, data) => {
-  let taskId = `${taskKey}_${moment().toDate().getTime()}`;
+  let taskId = moment().toDate().getTime() * 1000;
+  if (mapTaskIds[taskId]) {
+    taskId += 1;
+  }
   data = data || {};
   data.taskId = taskId;
   return new Promise((resolve, reject) => {
+    mapTaskIds[taskId] = true;
     EventEmitterService.on(`${EventEmitterService.events.APP_TASK}${taskId}`, ({ ok, result, error }) => {
       EventEmitterService.remove(`${EventEmitterService.events.APP_TASK}${taskId}`);
+      delete mapTaskIds[taskId];
       if (ok) {
         resolve(result);
       } else {

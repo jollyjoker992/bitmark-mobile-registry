@@ -43,14 +43,6 @@ public class DataTypeMapper {
         return new GsonBuilder().create().toJson(object);
     }
 
-    public static Object[] toObjects(Object object) {
-        if (object.getClass().isArray()) {
-            String serialized = toJson(object);
-            return new GsonBuilder().create().fromJson(serialized, Object[].class);
-        }
-        return new Object[]{};
-    }
-
     public static WritableArray toWritableArray(Object... objects) {
         WritableArray array = new WritableNativeArray();
         for (Object value : objects) {
