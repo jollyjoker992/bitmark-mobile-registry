@@ -1,7 +1,7 @@
 
 import { NativeModules, Platform } from 'react-native'
 import { config } from 'src/configs';
-
+let AuthenticationWrapper = NativeModules.Authentication;
 let NativeBitmarkSDK = Platform.select({
   ios: NativeModules.BitmarkSDKWrapper,
   android: NativeModules.BitmarkSDK,
@@ -29,6 +29,8 @@ const BitmarkSDK = {
     try {
       if (config.isIPhone) {
         await NativeBitmarkSDK.authenticate(message);
+      } else {
+        return AuthenticationWrapper.authenticate(message);
       }
       return true;
     } catch (error) {

@@ -14,10 +14,6 @@ import { CommonModel, EventEmitterService } from 'src/processors';
 export class FaceTouchIdComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.handleAppStateChange = this.handleAppStateChange.bind(this);
-    this.checkSupportFaceTouchId = this.checkSupportFaceTouchId.bind(this);
-    this.doContinue = this.doContinue.bind(this);
-    this.confirmSkipTouchId = this.confirmSkipTouchId.bind(this);
 
     this.state = {
       supported: true,
@@ -25,37 +21,31 @@ export class FaceTouchIdComponent extends React.Component {
     this.appState = AppState.currentState;
   }
 
-  componentDidMount() {
-    AppState.addEventListener('change', this.handleAppStateChange);
-  }
 
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
-  }
+  doContinue(enableTouchId = true) {
+    let doSubmit = () => {
+      this.props.doContinue(enableTouchId).then((result) => {
+        console.log('doContinue result :', result);
+        if (result && result.user) {
+          Actions.notification({ justCreatedBitmarkAccount: result.justCreatedBitmarkAccount });
+        }
+      }).catch(error => {
+        console.log('doContinue error :', error);
+        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+      });
+    };
 
-  handleAppStateChange = (nextAppState) => {
-    if (this.appState.match(/background/) && nextAppState === 'active') {
-      this.checkSupportFaceTouchId();
+    if (enableTouchId) {
+      CommonModel.doCheckPasscodeAndFaceTouchId().then((supported) => {
+        if (supported) {
+          doSubmit();
+        } else {
+          Linking.openURL('app-settings:');
+        }
+      });
+    } else {
+      doSubmit();
     }
-    this.appState = nextAppState;
-  }
-
-  checkSupportFaceTouchId() {
-    CommonModel.doCheckPasscodeAndFaceTouchId().then((supported) => {
-      this.setState({ supported });
-    });
-  }
-
-  doContinue(enableTouchId) {
-    this.props.doContinue(enableTouchId).then((result) => {
-      console.log('doContinue result :', result);
-      if (result && result.user) {
-        Actions.notification({ justCreatedBitmarkAccount: result.justCreatedBitmarkAccount });
-      }
-    }).catch(error => {
-      console.log('doContinue error :', error);
-      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-    });
   }
 
   confirmSkipTouchId() {
@@ -88,20 +78,12 @@ export class FaceTouchIdComponent extends React.Component {
         <View style={faceTouchIdStyle.enableButtonArea}>
           {/*Enable Button*/}
           <TouchableOpacity style={[faceTouchIdStyle.enableButton]}
-            onPress={() => {
-              if (!this.state.supported) {
-                Linking.openURL('app-settings:');
-              } else {
-                this.doContinue(true);
-              }
-            }}>
+            onPress={() => this.doContinue.bind(this)}>
             <Text style={faceTouchIdStyle.enableButtonText}>{global.i18n.t("FaceTouchIdComponent_enableButtonText")}</Text>
           </TouchableOpacity>
           {/*Skip Button*/}
           <TouchableOpacity style={[faceTouchIdStyle.skipButton]}
-            onPress={() => {
-              this.confirmSkipTouchId();
-            }}>
+            onPress={this.confirmSkipTouchId.bind(this)}>
             <Text style={faceTouchIdStyle.skipButtonText}>{global.i18n.t("FaceTouchIdComponent_skip")}</Text>
           </TouchableOpacity>
         </View>
