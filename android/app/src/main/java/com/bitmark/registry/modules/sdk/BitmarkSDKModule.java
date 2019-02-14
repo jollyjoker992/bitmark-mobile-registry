@@ -82,7 +82,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     private static final String ACTIVE_ACCOUNT_NUMBER = "active_account_number";
 
-    private static final String KEY_ALIAS = BuildConfig.APPLICATION_ID + "encryption_key";
+    private static final String KEY_ALIAS = BuildConfig.APPLICATION_ID + ".encryption_key";
 
     private String accountNumber;
 
@@ -290,8 +290,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     public void issue(ReadableMap params, Promise promise) throws NativeModuleException {
 
         Map<String, String> metadata = toStringMap(params.getMap("metadata"));
-        String assetName = params.getString("asset_name");
-        String filePath = params.getString("file_path");
+        String assetName = params.getString("property_name");
+        String filePath = params.getString("url");
         File file = new File(filePath);
 
         if (TextUtils.isEmpty(assetName) || TextUtils.isEmpty(filePath) || !isValid(
