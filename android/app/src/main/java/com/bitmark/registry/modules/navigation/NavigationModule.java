@@ -23,6 +23,7 @@ public class NavigationModule extends ReactContextBaseJavaModule {
         try {
             Intent intent = new Intent(action);
             getReactApplicationContext().startActivity(intent);
+            promise.resolve(null);
         } catch (Throwable e) {
             promise.reject("ERROR_OPEN_SETTING", e);
         }

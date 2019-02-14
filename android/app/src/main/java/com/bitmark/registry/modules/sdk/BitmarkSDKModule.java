@@ -117,7 +117,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     @ReactMethod
     @Override
-    public void createAccount(boolean authentication, Promise promise) {
+    public void createAccount(Boolean authentication, Promise promise) {
         try {
 
             final Account account = new Account();
@@ -146,7 +146,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     @ReactMethod
     @Override
-    public void createAccountFromPhrase(ReadableArray phraseWords, boolean authentication,
+    public void createAccountFromPhrase(ReadableArray phraseWords, Boolean authentication,
                                         Promise promise) {
         try {
 

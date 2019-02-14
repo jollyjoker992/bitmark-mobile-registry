@@ -9,9 +9,9 @@ public interface BitmarkSDKExposable {
 
     void sdkInit(String network, Promise promise);
 
-    void createAccount(boolean authentication, Promise promise);
+    void createAccount(Boolean authentication, Promise promise);
 
-    void createAccountFromPhrase(ReadableArray phraseWords, boolean authentication,
+    void createAccountFromPhrase(ReadableArray phraseWords, Boolean authentication,
                                  Promise promise);
 
     void removeAccount(Promise promise) throws NativeModuleException;
