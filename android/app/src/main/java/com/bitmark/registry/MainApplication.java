@@ -2,6 +2,7 @@ package com.bitmark.registry;
 
 import android.app.Application;
 
+import com.bitmark.registry.modules.authentication.AuthenticationPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.bitmark.registry.modules.sdk.BitmarkSDKPackage;
 import com.chirag.RNMail.RNMail;
@@ -50,7 +51,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
-            new ReactNativeExceptionHandlerPackage(),
+                    new ReactNativeExceptionHandlerPackage(),
                     new RNSharePackage(),
                     new LottiePackage(),
                     new RNSentryPackage(),
@@ -67,7 +68,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new ReactNativePushNotificationPackage(),
                     new RNMail(),
                     new RNFSPackage(),
-                    new BitmarkSDKPackage()
+                    new BitmarkSDKPackage(),
+                    new AuthenticationPackage()
             );
         }
 
@@ -76,8 +78,6 @@ public class MainApplication extends Application implements ReactApplication {
             return "index";
         }
     };
-    public static Thread.UncaughtExceptionHandler defaultHandler = null;
-    public static Thread.UncaughtExceptionHandler exceptionHandler = null;
 
     @Override
     public ReactNativeHost getReactNativeHost() {
@@ -87,22 +87,6 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        if (defaultHandler == null) {
-            defaultHandler = Thread.getDefaultUncaughtExceptionHandler();
-        }
-
-        if (exceptionHandler == null) {
-            exceptionHandler = new Thread.UncaughtExceptionHandler() {
-                @Override
-                public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
-                    defaultHandler.uncaughtException(paramThread, paramThrowable);
-                }
-            };
-            Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
-        }
-
-
         Fabric.with(this, new Crashlytics());
         SoLoader.init(this, /* native exopackage */ false);
     }
