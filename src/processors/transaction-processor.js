@@ -5,11 +5,12 @@ import { TransactionService, NotificationService, BitmarkService } from './servi
 import { CacheData } from './caches';
 import { BitmarkModel, IftttModel, CommonModel, } from './models';
 import { TransactionsStore, TransactionsActions, BottomTabStore, BottomTabActions, AccountStore, AccountActions } from 'src/views/stores';
+import { config } from 'src/configs';
 
 const TransactionHistoryTypes = {
   issuance: {
     title: 'ISSUANCE',
-    type: '',
+    type: 'PROPERTY ISSUANCE',
   },
   transfer: {
     title: 'SEND',
@@ -27,12 +28,15 @@ const _doGenerateTransactionHistoryData = async (outgoingClaimRequest) => {
   if (transactions) {
     transactions.forEach((item) => {
       let title = TransactionHistoryTypes.issuance.title;
-      let type = TransactionHistoryTypes.issuance.title.type;
+      let type = TransactionHistoryTypes.issuance.type;
       let to = item.to;
       let status = item.status;
       let mapIssuance = [];
 
       if (item.to) {
+        if (item.to === config.zeroAddress) {
+          return;
+        }
         title = TransactionHistoryTypes.transfer.title;
         type = TransactionHistoryTypes.transfer.type;
       }
