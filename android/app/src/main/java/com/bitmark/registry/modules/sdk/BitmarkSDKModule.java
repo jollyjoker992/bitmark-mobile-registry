@@ -82,6 +82,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     private static final String ACTIVE_ACCOUNT_NUMBER = "active_account_number";
 
+    private static final String KEY_ALIAS = BuildConfig.APPLICATION_ID + "encryption_key";
+
     private String accountNumber;
 
     BitmarkSDKModule(ReactApplicationContext reactContext) {
@@ -123,7 +125,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             final Account account = new Account();
             saveAccountNumber(account.getAccountNumber());
             KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                    getReactApplicationContext()).setAuthenticationRequired(authentication)
+                    getReactApplicationContext()).setKeyAlias(KEY_ALIAS)
+                                                 .setAuthenticationRequired(authentication)
                                                  .setAuthenticationValidityDuration(10 * 60)
                                                  .build();
             account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
@@ -153,7 +156,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             final Account account = Account.fromRecoveryPhrase(toStringArray(phraseWords));
             saveAccountNumber(account.getAccountNumber());
             KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                    getReactApplicationContext()).setAuthenticationRequired(authentication)
+                    getReactApplicationContext()).setKeyAlias(KEY_ALIAS)
+                                                 .setAuthenticationRequired(authentication)
                                                  .setAuthenticationValidityDuration(10 * 60)
                                                  .build();
             account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
@@ -184,7 +188,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             public void onSuccess(Account account) {
                 try {
                     account.removeFromKeyStore(getAttachedActivity(),
-                            new KeyAuthenticationSpec.Builder(getReactApplicationContext()).build(),
+                            new KeyAuthenticationSpec.Builder(getReactApplicationContext())
+                                    .setKeyAlias(KEY_ALIAS).build(),
                             new Callback0() {
                                 @Override
                                 public void onSuccess() {
@@ -970,7 +975,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     private void getAccount(Promise promise, Callback1<Account> callback)
             throws NativeModuleException {
         KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                getReactApplicationContext()).build();
+                getReactApplicationContext()).setKeyAlias(KEY_ALIAS).build();
         Account.loadFromKeyStore(getAttachedActivity(), getAccountNumber(), spec,
                 new Callback1<Account>() {
                     @Override
