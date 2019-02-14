@@ -40,6 +40,7 @@ import { EventEmitterService, AppProcessor, CommonProcessor, BitmarkProcessor, T
 
 // import PushNotification from 'react-native-push-notification';
 import { MusicReleaseToPublicComponent } from './properties/local-issue-music/music-release-to-public.component';
+import { config } from 'src/configs';
 // import { BitmarkProcessor } from 'src/processors/bitmark-processor';
 
 let ComponentName = 'UserRouterComponent';
@@ -142,7 +143,7 @@ export class UserRouterComponent extends Component {
                 <Scene key="iftttActive" panHandlers={null} component={IftttActiveComponent} />
                 <Scene key="releasedProperties" panHandlers={null} component={ReleasedPropertiesComponent} />
               </Stack>
-              <Scene key="transactions" panHandlers={null} component={TransactionsComponent} />
+              {config.isIPhone && <Scene key="transactions" panHandlers={null} component={TransactionsComponent} />}
               <Stack key="account" headerMode='none'>
                 <Scene key="bitmarkWebView" panHandlers={null} component={BitmarkWebViewComponent} />
                 <Scene key="accountDetail" initial={true} panHandlers={null} component={AccountDetailComponent} />

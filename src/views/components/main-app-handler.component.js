@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import KeepAwake from 'react-native-keep-awake';
-import { setJSExceptionHandler, setNativeExceptionHandler } from 'react-native-exception-handler';
 
 const {
   Linking,
@@ -67,14 +66,6 @@ export class MainAppHandlerComponent extends Component {
         }
       });
     }
-
-    setJSExceptionHandler((error, isFatal) => {
-      console.log(' setJSExceptionHandler :', { error, isFatal });
-    }, true);
-
-    setNativeExceptionHandler(exceptionString => {
-      console.log(' setNativeExceptionHandler :', { exceptionString });
-    });
   }
   componentWillUnmount() {
     EventEmitterService.remove(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);

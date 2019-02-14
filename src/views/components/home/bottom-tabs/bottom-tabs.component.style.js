@@ -1,7 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { constant } from 'src/configs';
-import { convertWidth } from 'src/utils';
-
 
 export default StyleSheet.create({
   bottomTabArea: {
@@ -16,7 +14,7 @@ export default StyleSheet.create({
   },
 
   bottomTabButton: {
-    width: convertWidth(75),
+    flex: 1,
     height: '100%',
     flexDirection: 'column',
     alignItems: "center",
