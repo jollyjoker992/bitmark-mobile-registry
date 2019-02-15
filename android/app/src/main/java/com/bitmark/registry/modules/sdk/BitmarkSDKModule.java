@@ -65,6 +65,7 @@ import static com.bitmark.apiservice.utils.Awaitility.await;
 import static com.bitmark.cryptography.crypto.encoder.Hex.HEX;
 import static com.bitmark.cryptography.crypto.encoder.Raw.RAW;
 import static com.bitmark.registry.keymanagement.ApiKeyManager.API_KEY_MANAGER;
+import static com.bitmark.registry.utils.Constant.ENCRYPTION_KEY_ALIAS;
 import static com.bitmark.registry.utils.DataTypeMapper.toJson;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringArray;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringMap;
@@ -82,8 +83,6 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     private static final String ERROR_GET_ACCOUNT_CODE = "ERROR_GET_ACCOUNT";
 
     private static final String ACTIVE_ACCOUNT_NUMBER = "active_account_number";
-
-    private static final String KEY_ALIAS = BuildConfig.APPLICATION_ID + ".encryption_key";
 
     private static final int KEY_VALIDITY_TIME = 10 * 60; // 10 minutes
 
@@ -128,7 +127,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             final Account account = new Account();
             saveAccountNumber(account.getAccountNumber());
             KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                    getReactApplicationContext()).setKeyAlias(KEY_ALIAS)
+                    getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS)
                                                  .setAuthenticationRequired(authentication)
                                                  .setAuthenticationValidityDuration(
                                                          KEY_VALIDITY_TIME)
@@ -160,7 +159,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             final Account account = Account.fromRecoveryPhrase(toStringArray(phraseWords));
             saveAccountNumber(account.getAccountNumber());
             KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                    getReactApplicationContext()).setKeyAlias(KEY_ALIAS)
+                    getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS)
                                                  .setAuthenticationRequired(authentication)
                                                  .setAuthenticationValidityDuration(
                                                          KEY_VALIDITY_TIME)
@@ -194,7 +193,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                 try {
                     account.removeFromKeyStore(getAttachedActivity(),
                             new KeyAuthenticationSpec.Builder(getReactApplicationContext())
-                                    .setKeyAlias(KEY_ALIAS).build(),
+                                    .setKeyAlias(ENCRYPTION_KEY_ALIAS).build(),
                             new Callback0() {
                                 @Override
                                 public void onSuccess() {
@@ -995,7 +994,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         Account account = Account.fromSeed(SeedTwelve.fromEncodedSeed(encodedSeed));
         saveAccountNumber(account.getAccountNumber());
         KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                getReactApplicationContext()).setKeyAlias(KEY_ALIAS)
+                getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS)
                                              .setAuthenticationRequired(authentication)
                                              .setAuthenticationValidityDuration(
                                                      KEY_VALIDITY_TIME)
@@ -1025,7 +1024,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     private void getAccount(Promise promise, Callback1<Account> callback)
             throws NativeModuleException {
         KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                getReactApplicationContext()).setKeyAlias(KEY_ALIAS).build();
+                getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS).build();
         Account.loadFromKeyStore(getAttachedActivity(), getAccountNumber(), spec,
                 new Callback1<Account>() {
                     @Override

@@ -14,13 +14,13 @@ import com.facebook.react.bridge.ReactMethod;
 
 import java.security.InvalidKeyException;
 
+import static com.bitmark.registry.utils.Constant.ENCRYPTION_KEY_ALIAS;
 import static com.bitmark.sdk.authentication.error.AuthenticationRequiredException.PASSWORD;
 
 public class AuthenticationModule extends ReactContextBaseJavaModule implements Authentication {
 
     AuthenticationModule(ReactApplicationContext reactContext) {
         super(reactContext);
-
     }
 
     @Override
@@ -40,7 +40,8 @@ public class AuthenticationModule extends ReactContextBaseJavaModule implements 
     @Override
     public void authenticate(String authDescription, Promise promise) {
         KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                getReactApplicationContext()).setAuthenticationDescription(authDescription).build();
+                getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS)
+                                             .setAuthenticationDescription(authDescription).build();
         Account.loadFromKeyStore(getCurrentActivity(), "", spec, new Callback1<Account>() {
             @Override
             public void onSuccess(Account account) {
