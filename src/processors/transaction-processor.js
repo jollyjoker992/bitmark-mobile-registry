@@ -31,7 +31,6 @@ const _doGenerateTransactionHistoryData = async (outgoingClaimRequest) => {
       let type = TransactionHistoryTypes.issuance.type;
       let to = item.to;
       let status = item.status;
-      let mapIssuance = [];
 
       if (item.to) {
         if (item.to === config.zeroAddress) {
@@ -42,15 +41,8 @@ const _doGenerateTransactionHistoryData = async (outgoingClaimRequest) => {
       }
 
       if (title === TransactionHistoryTypes.issuance.title) {
-        if (mapIssuance[item.assetId] && mapIssuance[item.assetId][item.blockNumber]) {
-          return;
-        }
-        if (!mapIssuance[item.assetId]) {
-          mapIssuance[item.assetId] = {};
-        }
-        mapIssuance[item.assetId][item.blockNumber] = true;
-      }
-
+        return;
+      } 
       completed.push({
         title,
         type,
