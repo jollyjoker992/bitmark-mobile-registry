@@ -6,6 +6,7 @@ def pods
     pod 'BitmarkSDK', :git => 'https://github.com/bitmark-inc/bitmark-sdk-swift.git', :branch => 'master'
     pod 'KeychainAccess'
     pod 'iCloudDocumentSync'
+    pod 'Intercom'
     
 end
 
