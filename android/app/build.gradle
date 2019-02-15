@@ -186,23 +186,16 @@ android {
 
     productFlavors {
 
-        alpha {
+        inhouse {
             dimension "version"
             applicationIdSuffix ".inhouse"
             versionNameSuffix "-inhouse"
-            resValue "string", "app_name", "Registry - INHOUSE"
-        }
-
-        beta {
-            dimension "version"
-            applicationIdSuffix ".beta"
-            versionNameSuffix "-beta"
-            resValue "string", "app_name", "Registry - BETA"
+            resValue "string", "app_name", "Registry\\nINHOUSE"
         }
 
         prd {
             dimension "version"
-            resValue "string", "app_name", "Bitmark Registry"
+            resValue "string", "app_name", "Registry"
         }
     }
 
@@ -227,7 +220,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation "com.bitmark.sdk:android-sdk:1.4"
-    compile('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
         transitive = true
     }
 }
