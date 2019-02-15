@@ -382,10 +382,10 @@ class PrivatePropertyDetailComponent extends React.Component {
                         }
                         return '';
                       }}>
-                      <Text style={[cStyles.assetRegister, this.props.bitmark.status === 'confirmed' ? {} : { fontFamily: 'AvenirNextW1G-Demi' }]}>
+                      <Text style={[cStyles.assetRegister, this.props.bitmark.status === 'confirmed' ? {} : { fontFamily: 'AvenirNextW1G-Demi', color: '#999999' }]}>
                         {this.props.bitmark.status === 'confirmed'
-                          ? `ISSUED ON ${moment(this.props.bitmark.issued_at).format('YYYY MMM DD').toUpperCase()} by ${config.registry_server_url}/account/${this.props.bitmark.issuer}`
-                          : `Pending...`}
+                          ? global.i18n.t('PropertyDetailComponent_issuedOn', { time: moment(this.props.bitmark.issued_at).format('YYYY MMM DD').toUpperCase() })
+                          : global.i18n.t('PropertyDetailComponent_pending')}
                       </Text>
                     </Hyperlink>
                   </View>
