@@ -45,6 +45,7 @@ import com.bitmark.sdk.features.Asset;
 import com.bitmark.sdk.features.Bitmark;
 import com.bitmark.sdk.features.BitmarkSDK;
 import com.bitmark.sdk.features.Transaction;
+import com.bitmark.sdk.features.internal.SeedTwelve;
 import com.bitmark.sdk.utils.SharedPreferenceApi;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -83,6 +84,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     private static final String ACTIVE_ACCOUNT_NUMBER = "active_account_number";
 
     private static final String KEY_ALIAS = BuildConfig.APPLICATION_ID + ".encryption_key";
+
+    private static final int KEY_VALIDITY_TIME = 10 * 60; // 10 minutes
 
     private String accountNumber;
 
@@ -127,7 +130,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
                     getReactApplicationContext()).setKeyAlias(KEY_ALIAS)
                                                  .setAuthenticationRequired(authentication)
-                                                 .setAuthenticationValidityDuration(10 * 60)
+                                                 .setAuthenticationValidityDuration(
+                                                         KEY_VALIDITY_TIME)
                                                  .build();
             account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
                 @Override
@@ -158,7 +162,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
                     getReactApplicationContext()).setKeyAlias(KEY_ALIAS)
                                                  .setAuthenticationRequired(authentication)
-                                                 .setAuthenticationValidityDuration(10 * 60)
+                                                 .setAuthenticationValidityDuration(
+                                                         KEY_VALIDITY_TIME)
                                                  .build();
             account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
                 @Override
@@ -970,6 +975,51 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                 promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
             }
         });
+    }
+
+    @ReactMethod
+    @Override
+    public void migrate(Boolean authentication, Promise promise) {
+        final String ACCOUNT_INFO = "account_info";
+        SharedPreferenceApi sharePrefApi = new SharedPreferenceApi(getReactApplicationContext(),
+                BuildConfig.APPLICATION_ID);
+        String accountInfo = sharePrefApi.get(ACCOUNT_INFO, String.class);
+        if (TextUtils.isEmpty(accountInfo)) {
+            promise.reject("ERROR_RAW_ACCOUNT_IS_NOT_EXISTING",
+                    new NativeModuleException("raw account info is not existing"));
+            return;
+        }
+
+        String[] accountInfoArray = accountInfo.split(",");
+        String encodedSeed = accountInfoArray[1];
+        Account account = Account.fromSeed(SeedTwelve.fromEncodedSeed(encodedSeed));
+        saveAccountNumber(account.getAccountNumber());
+        KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
+                getReactApplicationContext()).setKeyAlias(KEY_ALIAS)
+                                             .setAuthenticationRequired(authentication)
+                                             .setAuthenticationValidityDuration(
+                                                     KEY_VALIDITY_TIME)
+                                             .build();
+        try {
+            account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
+                @Override
+                public void onSuccess() {
+                    // Delete raw data
+                    sharePrefApi.put(ACCOUNT_INFO, "");
+                    promise.resolve(account.getAccountNumber());
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    if (!handleKeyStoreException(throwable, promise))
+                        promise.reject("ERROR_SAVE_KEY_STORE", throwable);
+                }
+            });
+        } catch (NativeModuleException e) {
+            e.printStackTrace();
+            promise.reject(ERROR_UNEXPECTED_CODE, e);
+        }
+
     }
 
     private void getAccount(Promise promise, Callback1<Account> callback)
