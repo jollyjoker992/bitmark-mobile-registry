@@ -378,7 +378,7 @@ class PrivateTransactionsComponent extends React.Component {
                           <Text style={[transactionsStyle.completedTransferContentRowLabel, { marginTop: 1, }]}>{global.i18n.t("TransactionsComponent_property")}</Text>
                           <Text style={[transactionsStyle.completedTransferContentRowPropertyName]} numberOfLines={1} >{item.assetName}</Text>
                         </View>
-                        {!!item.type && <View style={transactionsStyle.completedTransferContentRow}>
+                        {!!item.type && <View style={[transactionsStyle.completedTransferContentRow, { marginTop: 1, }]}>
                           <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_type")}</Text>
                           <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{global.i18n.t(`TransactionsComponent_type_${item.type}`, { defaultValue: item.type })}</Text>
                         </View>}
