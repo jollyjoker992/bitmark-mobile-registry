@@ -46,7 +46,6 @@ const delay = (tms) => {
 const runPromiseWithoutError = (promise) => {
   return new Promise((resolve) => {
     promise.then(resolve).catch(error => {
-      console.log('runPromiseWithoutError error:', error);
       resolve({ error });
     });
   });

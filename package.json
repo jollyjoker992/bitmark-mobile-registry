@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "watchman watch-del-all && rm -rf node_modules/ && rm -rf ios/build/ && rm -rf android/app/build/ && npm cache clean --force && npm install",
     "start": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
-    "a-test": "react-native run-android --variant=alphaDebug",
+    "a-test": "react-native run-android --variant=inhouseDebug",
     "i-test": "react-native run-ios --scheme 'Bitmark Registry dev'",
     "i-test-x": "react-native run-ios --scheme 'Bitmark Registry dev' --simulator='iPhone X'",
     "i-live": "react-native run-ios",
@@ -41,7 +41,7 @@
     "react-native-video": "^4.3.1",
     "react-native-zip-archive": "^3.0.1",
     "react-navigation": "^2.18.3",
-    "react-navigation-tabs": "^1.0.1",
+    "react-navigation-tabs": "^0.8.4",
     "react-redux": "^6.0.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"

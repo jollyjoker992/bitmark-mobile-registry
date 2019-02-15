@@ -39,6 +39,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     DocumentPicker.show({
       filetype: [DocumentPickerUtil.allFiles(), "public.data"],
     }, (error, response) => {
+      console.log('onChooseFile :', error, response);
       if (error) {
         return;
       }

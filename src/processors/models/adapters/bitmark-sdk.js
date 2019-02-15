@@ -29,9 +29,10 @@ const BitmarkSDK = {
         await NativeBitmarkSDK.authenticate(message);
         return true;
       } else {
-        return AuthenticationWrapper.authenticate(message);
+        return await AuthenticationWrapper.authenticate(message);
       }
     } catch (error) {
+      console.log('requestSession :', error);
       // TODO
       return null;
     }
