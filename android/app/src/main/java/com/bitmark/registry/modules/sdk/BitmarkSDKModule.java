@@ -65,6 +65,7 @@ import static com.bitmark.apiservice.utils.Awaitility.await;
 import static com.bitmark.cryptography.crypto.encoder.Hex.HEX;
 import static com.bitmark.cryptography.crypto.encoder.Raw.RAW;
 import static com.bitmark.registry.keymanagement.ApiKeyManager.API_KEY_MANAGER;
+import static com.bitmark.registry.utils.Constant.ACTIVE_ACCOUNT_NUMBER;
 import static com.bitmark.registry.utils.Constant.ENCRYPTION_KEY_ALIAS;
 import static com.bitmark.registry.utils.DataTypeMapper.toJson;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringArray;
@@ -81,8 +82,6 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     private static final String ERROR_UNEXPECTED_CODE = "ERROR_UNEXPECTED";
 
     private static final String ERROR_GET_ACCOUNT_CODE = "ERROR_GET_ACCOUNT";
-
-    private static final String ACTIVE_ACCOUNT_NUMBER = "active_account_number";
 
     private static final int KEY_VALIDITY_TIME = 10 * 60; // 10 minutes
 
