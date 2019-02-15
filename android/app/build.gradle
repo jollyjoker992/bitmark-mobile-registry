@@ -199,6 +199,16 @@ android {
         }
     }
 
+    applicationVariants.all { variant ->
+        def name = variant.getName()
+
+        if (name.contains("inhouse")) {
+            variant.buildConfigField 'int', 'KEY_VALIDITY_DURATION', '180'
+        } else if (name.contains("prd")) {
+            variant.buildConfigField 'int', 'KEY_VALIDITY_DURATION', '600'
+        }
+    }
+
 }
 
 dependencies {
