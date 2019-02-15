@@ -156,7 +156,7 @@ class PrivatePropertyDetailComponent extends React.Component {
     if (playLink) {
       options.push(global.i18n.t("PropertyDetailComponent_releaseActionPlay"));
     }
-    if (this.props.bitmark && !this.props.bitmark.isDraft) {
+    if (this.state.bitmark && !this.state.bitmark.isDraft) {
       options.push(global.i18n.t("PropertyDetailComponent_releaseActionDownload"));
       options.push(global.i18n.t("PropertyDetailComponent_releaseActionTransfer"));
     }
@@ -177,19 +177,19 @@ class PrivatePropertyDetailComponent extends React.Component {
           if (playLink) {
             this.shareAssetFile();
           } else {
-            Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
+            Actions.localPropertyTransfer({ bitmark: this.state.bitmark, asset: this.props.asset });
           }
         } else if (buttonIndex === 3) {
           if (playLink) {
-            Actions.localPropertyTransfer({ bitmark: this.props.bitmark, asset: this.props.asset });
+            Actions.localPropertyTransfer({ bitmark: this.state.bitmark, asset: this.props.asset });
           }
         }
       });
   }
   render() {
     if (isMusicAsset(this.props.asset)) {
-      let editionNumber = this.props.bitmark ? this.props.bitmark.editionNumber : 0;
-      let issuer = this.props.bitmark ? this.props.bitmark.issuer : this.props.claimToAccount;
+      let editionNumber = this.state.bitmark ? this.state.bitmark.editionNumber : 0;
+      let issuer = this.state.bitmark ? this.state.bitmark.issuer : this.props.claimToAccount;
 
       let totalEditionLeft = issuer ? this.props.asset.editions[issuer].totalEditionLeft : null;
       let limited = issuer ? this.props.asset.editions[issuer].limited : null;
@@ -255,10 +255,10 @@ class PrivatePropertyDetailComponent extends React.Component {
 
               <OneTabButtonComponent
                 style={cStyles.actionRow}
-                disabled={this.props.bitmark && this.props.bitmark.isDraft}
+                disabled={this.state.bitmark && this.state.bitmark.isDraft}
                 onPress={() => this.showActionSheets.bind(this)({ playLink })}>
-                <Text style={[cStyles.actionRowText, (this.props.bitmark && this.props.bitmark.isDraft) ? { color: '#999999' } : {}]}>
-                  {(this.props.bitmark && this.props.bitmark.isDraft) ? global.i18n.t("PropertyDetailComponent_releaseAuthenticating") : global.i18n.t("PropertyDetailComponent_releaseActionViewOptions")}
+                <Text style={[cStyles.actionRowText, (this.state.bitmark && this.state.bitmark.isDraft) ? { color: '#999999' } : {}]}>
+                  {(this.state.bitmark && this.state.bitmark.isDraft) ? global.i18n.t("PropertyDetailComponent_releaseAuthenticating") : global.i18n.t("PropertyDetailComponent_releaseActionViewOptions")}
                 </Text>
               </OneTabButtonComponent>
 
