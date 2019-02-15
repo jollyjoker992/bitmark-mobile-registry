@@ -30,7 +30,11 @@ export class FaceTouchIdComponent extends React.Component {
       this.props.doContinue(enableTouchId).then((result) => {
         console.log('doContinue result :', result);
         if (result && result.user) {
-          Actions.notification({ justCreatedBitmarkAccount: result.justCreatedBitmarkAccount });
+          if (config.isAndroid) {
+            EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, result.justCreatedBitmarkAccount);
+          } else {
+            Actions.notification({ justCreatedBitmarkAccount: result.justCreatedBitmarkAccount });
+          }
         }
       }).catch(error => {
         console.log('doContinue error :', error);
@@ -86,7 +90,7 @@ export class FaceTouchIdComponent extends React.Component {
         <View style={faceTouchIdStyle.enableButtonArea}>
           {/*Enable Button*/}
           <TouchableOpacity style={[faceTouchIdStyle.enableButton]}
-            onPress={()=>this.doContinue.bind(this)()}>
+            onPress={() => this.doContinue.bind(this)()}>
             <Text style={faceTouchIdStyle.enableButtonText}>{global.i18n.t("FaceTouchIdComponent_enableButtonText")}</Text>
           </TouchableOpacity>
           {/*Skip Button*/}
