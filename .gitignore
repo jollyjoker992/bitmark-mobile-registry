@@ -87,3 +87,6 @@ package-lock.json
 .env
 sentry.properties
 secret.tar
+
+android/app/bin/
+.project
