@@ -83,9 +83,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     private static final String ERROR_GET_ACCOUNT_CODE = "ERROR_GET_ACCOUNT";
 
-    private static final int KEY_VALIDITY_TIME = 10 * 60; // 10 minutes
-
-    private String accountNumber;
+    private static final int KEY_VALIDITY_TIME = BuildConfig.KEY_VALIDITY_DURATION;
 
     BitmarkSDKModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -196,6 +194,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                             new Callback0() {
                                 @Override
                                 public void onSuccess() {
+                                    saveAccountNumber("");
                                     promise.resolve(account.getAccountNumber());
                                 }
 
@@ -1046,11 +1045,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     }
 
     private String getAccountNumber() {
-        if (!TextUtils.isEmpty(accountNumber)) return accountNumber;
-        else {
-            return accountNumber = new SharedPreferenceApi(getReactApplicationContext(),
-                    BuildConfig.APPLICATION_ID).get(ACTIVE_ACCOUNT_NUMBER, String.class);
-        }
+        return new SharedPreferenceApi(getReactApplicationContext(),
+                BuildConfig.APPLICATION_ID).get(ACTIVE_ACCOUNT_NUMBER, String.class);
     }
 
     private void saveAccountNumber(String accountNumber) {
