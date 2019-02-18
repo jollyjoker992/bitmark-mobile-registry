@@ -183,38 +183,29 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     @ReactMethod
     @Override
-    public void removeAccount(Promise promise) throws NativeModuleException {
-        getAccount(promise, new Callback1<Account>() {
-            @Override
-            public void onSuccess(Account account) {
-                try {
-                    account.removeFromKeyStore(getAttachedActivity(),
-                            new KeyAuthenticationSpec.Builder(getReactApplicationContext())
-                                    .setKeyAlias(ENCRYPTION_KEY_ALIAS).build(),
-                            new Callback0() {
-                                @Override
-                                public void onSuccess() {
-                                    saveAccountNumber("");
-                                    promise.resolve(account.getAccountNumber());
-                                }
+    public void removeAccount(Promise promise) {
+        try {
+            String accountNumber = getAccountNumber();
+            Account.removeFromKeyStore(getAttachedActivity(), accountNumber,
+                    new KeyAuthenticationSpec.Builder(getReactApplicationContext())
+                            .setKeyAlias(ENCRYPTION_KEY_ALIAS).build(),
+                    new Callback0() {
+                        @Override
+                        public void onSuccess() {
+                            saveAccountNumber("");
+                            promise.resolve(null);
+                        }
 
-                                @Override
-                                public void onError(Throwable throwable) {
-                                    if (!handleKeyStoreException(throwable, promise))
-                                        promise.reject("ERROR_REMOVE_ACCOUNT", throwable);
-                                }
-                            });
-                } catch (NativeModuleException e) {
-                    e.printStackTrace();
-                    promise.reject(e);
-                }
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                promise.reject(ERROR_GET_ACCOUNT_CODE, throwable);
-            }
-        });
+                        @Override
+                        public void onError(Throwable throwable) {
+                            if (!handleKeyStoreException(throwable, promise))
+                                promise.reject("ERROR_REMOVE_ACCOUNT", throwable);
+                        }
+                    });
+        } catch (NativeModuleException e) {
+            e.printStackTrace();
+            promise.reject(e);
+        }
     }
 
     @ReactMethod
