@@ -1,4 +1,3 @@
-import { Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import Intercom from 'react-native-intercom';
 import moment from 'moment';
@@ -804,7 +803,12 @@ const doDecentralizedTransfer = async (token, ) => {
   return result;
 };
 
+const doMigrateAndroidAccount = async () => {
+  await BitmarkSDK.migrate();
+};
+
 const DataProcessor = {
+  doMigrateAndroidAccount,
   doOpenApp,
   doCreateAccount,
   doLogin,

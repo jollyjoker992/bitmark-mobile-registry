@@ -567,8 +567,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     public void tryPhrase(ReadableArray phraseWords, Promise promise) {
         try {
             String[] phraseWordArray = toStringArray(phraseWords);
-            Account.fromRecoveryPhrase(phraseWordArray);
-            promise.resolve(true);
+            Account account = Account.fromRecoveryPhrase(phraseWordArray);
+            promise.resolve(account.getAccountNumber());
         } catch (ValidateException e) {
             promise.resolve(false);
         }

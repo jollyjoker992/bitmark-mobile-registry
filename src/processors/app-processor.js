@@ -189,6 +189,9 @@ const doGetAssetToClaim = async (assetId, issuer) => {
   return executeTask('doGetAssetToClaim', { assetId, issuer });
 };
 
+const doMigrateAndroidAccount = async () => {
+  return await processing(DataProcessor.doMigrateAndroidAccount());
+};
 
 const doCheckNoLongerSupportVersion = async () => {
   let data = await AccountModel.doTryGetAppVersion();
@@ -207,6 +210,7 @@ const doCheckNoLongerSupportVersion = async () => {
 // ================================================================================================
 
 let AppProcessor = {
+  doMigrateAndroidAccount,
   doCreateNewAccount,
   doGetCurrentAccount,
   doCheckPhraseWords,

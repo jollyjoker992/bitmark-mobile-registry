@@ -18,7 +18,7 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, CacheData, CommonProcessor, TransactionProcessor } from 'src/processors';
+import { UserModel, EventEmitterService, CacheData, CommonProcessor, TransactionProcessor, BitmarkSDK, AppProcessor } from 'src/processors';
 import { convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant, config } from 'src/configs';
 
@@ -212,7 +212,19 @@ export class MainAppHandlerComponent extends Component {
             EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
           }
         } else {
-          EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
+          if (config.isAndroid) {
+            BitmarkSDK.needMigration().then(needed => {
+              if (needed) {
+                AppProcessor.doMigrateAndroidAccount().then(() => {
+                  EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
+                }).catch(error => EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error }));
+              } else {
+                EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
+              }
+            });
+          } else {
+            EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
+          }
         }
       });
     }

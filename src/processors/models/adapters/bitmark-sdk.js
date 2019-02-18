@@ -145,5 +145,20 @@ const BitmarkSDK = {
     };
   },
 
+  needMigration: async () => {
+    if (config.isAndroid) {
+      //android only
+      return await NativeBitmarkSDK.needMigration();
+    }
+    return true;
+  },
+  migrate: async () => {
+    if (config.isAndroid) {
+      //android only
+      return await NativeBitmarkSDK.migrate();
+    }
+    return true;
+  },
+
 };
 export { BitmarkSDK };
