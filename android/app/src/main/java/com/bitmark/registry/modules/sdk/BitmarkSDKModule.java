@@ -313,7 +313,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                     // Register asset
                     RegistrationParams registrationParams = new RegistrationParams(assetName,
-                            metadata, owner);
+                            metadata.isEmpty() ? null : metadata, owner);
                     registrationParams.generateFingerprint(file);
                     registrationParams.sign(keyPair);
                     String assetId = await((Callable1<RegistrationResponse>) callback -> Asset
@@ -947,7 +947,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                 try {
                     // Register Asset
-                    RegistrationParams registrationParams = new RegistrationParams(name, metadata,
+                    RegistrationParams registrationParams = new RegistrationParams(name,
+                            metadata.isEmpty() ? null : metadata,
                             account.toAddress());
                     registrationParams.generateFingerprint(file);
                     registrationParams.sign(account.getKeyPair());
