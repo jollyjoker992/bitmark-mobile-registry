@@ -90,3 +90,6 @@ secret.tar
 
 android/app/bin/
 .project
+android/.gradle/*
+android/app/.externalNativeBuild
+android/keystores

@@ -7,6 +7,7 @@ import {
   Alert,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import Intercom from 'react-native-intercom';
 
 import accountStyle from './account.component.style';
 import { AppProcessor, EventEmitterService, DataProcessor } from 'src/processors';
@@ -70,9 +71,7 @@ class PrivateAccountDetailComponent extends React.Component {
             <Image style={accountStyle.cameraIcon} source={require('assets/imgs/camera.png')} />
           </TouchableOpacity> */}
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("AccountDetailComponent_account")}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight} onPress={Actions.applicationDetail}>
-            <Image style={accountStyle.bitmarkAccountHelpIcon} source={require('assets/imgs/icon_help.png')} />
-          </TouchableOpacity>
+          <TouchableOpacity style={defaultStyles.headerRight} />
         </View>
         <View style={accountStyle.subTabArea}>
           {this.state.subTab === SubTabs.settings && <TouchableOpacity style={[accountStyle.subTabButton, {
@@ -122,9 +121,9 @@ class PrivateAccountDetailComponent extends React.Component {
           </TouchableOpacity>}
         </View>
 
-        <ScrollView style={[accountStyle.scrollSubTabArea]}>
-          <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
-            {this.state.subTab === SubTabs.settings && <View style={accountStyle.contentSubTab}>
+        <ScrollView style={[accountStyle.scrollSubTabArea]} contentContainerStyle={{ flexGrow: 1 }}>
+          {this.state.subTab === SubTabs.settings && <View style={accountStyle.contentSubTab}>
+            <View style={{ flex: 1, borderBottomWidth: 1, borderBottomColor: "#A4B5CD" }}>
               <Text style={accountStyle.accountNumberLabel}>{global.i18n.t("AccountDetailComponent_accountNumberLabel")}</Text>
 
               <TouchableOpacity style={accountStyle.accountNumberArea} onPress={() => {
@@ -148,6 +147,10 @@ class PrivateAccountDetailComponent extends React.Component {
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_removeAccessFromThisDevice")} » </Text>
               </TouchableOpacity>
 
+              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.applicationDetail}>
+                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_appDetails")} » </Text>
+              </TouchableOpacity>
+
               {/* <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.webAccountMigrate}>
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_migrateWebAccount")} » </Text>
               </TouchableOpacity>
@@ -155,34 +158,39 @@ class PrivateAccountDetailComponent extends React.Component {
               <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.webAccountSignIn}>
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_signInUsingMobileApp")} » </Text>
               </TouchableOpacity> */}
-            </View>}
+            </View>
+            <TouchableOpacity style={[accountStyle.accountRemoveButton, { height: 45 }]} onPress={() => {
+              Intercom.displayConversationsList();
+            }}>
+              <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_needHelp")} » </Text>
+            </TouchableOpacity>
+          </View>}
 
-            {this.state.subTab === SubTabs.authorized && <View style={accountStyle.contentSubTab}>
-              <View style={accountStyle.dataSourcesArea}>
-                <Text style={accountStyle.noAuthorizedMessage}>{global.i18n.t("AccountDetailComponent_noAuthorizedMessage")} </Text>
-                {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT && <View style={accountStyle.authorizedItem}>
+          {this.state.subTab === SubTabs.authorized && <View style={accountStyle.contentSubTab}>
+            <View style={accountStyle.dataSourcesArea}>
+              <Text style={accountStyle.noAuthorizedMessage}>{global.i18n.t("AccountDetailComponent_noAuthorizedMessage")} </Text>
+              {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT && <View style={accountStyle.authorizedItem}>
 
-                  <View style={accountStyle.authorizedItemTitle}>
-                    <Text style={accountStyle.authorizedItemTitleText}>IFTTT</Text>
-                    <TouchableOpacity style={accountStyle.authorizedItemRemoveButton} onPress={this.revokeIFTTT}>
-                      <Text style={accountStyle.authorizedItemRemoveButtonText}>{global.i18n.t("AccountDetailComponent_remove")}</Text>
+                <View style={accountStyle.authorizedItemTitle}>
+                  <Text style={accountStyle.authorizedItemTitleText}>IFTTT</Text>
+                  <TouchableOpacity style={accountStyle.authorizedItemRemoveButton} onPress={this.revokeIFTTT}>
+                    <Text style={accountStyle.authorizedItemRemoveButtonText}>{global.i18n.t("AccountDetailComponent_remove")}</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={accountStyle.authorizedItemDescription}>
+                  <Image style={accountStyle.authorizedItemDescriptionIcon} source={require('assets/imgs/ifttt-icon.png')} />
+                  <View style={accountStyle.authorizedItemDescriptionDetail}>
+                    <Text style={accountStyle.authorizedItemDescriptionText}>{global.i18n.t("AccountDetailComponent_authorizedItemDescriptionText")}</Text>
+                    <TouchableOpacity style={accountStyle.authorizedViewButton} onPress={() => Actions.iftttActive({ stage: 'view' })}>
+                      <Text style={accountStyle.authorizedViewButtonText}>{global.i18n.t("AccountDetailComponent_viewApplets")} »  </Text>
                     </TouchableOpacity>
                   </View>
-
-                  <View style={accountStyle.authorizedItemDescription}>
-                    <Image style={accountStyle.authorizedItemDescriptionIcon} source={require('assets/imgs/ifttt-icon.png')} />
-                    <View style={accountStyle.authorizedItemDescriptionDetail}>
-                      <Text style={accountStyle.authorizedItemDescriptionText}>{global.i18n.t("AccountDetailComponent_authorizedItemDescriptionText")}</Text>
-                      <TouchableOpacity style={accountStyle.authorizedViewButton} onPress={() => Actions.iftttActive({ stage: 'view' })}>
-                        <Text style={accountStyle.authorizedViewButtonText}>{global.i18n.t("AccountDetailComponent_viewApplets")} »  </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>}
-                {this.props.appLoadingData && <ActivityIndicator size="large" style={{ marginTop: 46, }} />}
-              </View>
-            </View>}
-          </TouchableOpacity>
+                </View>
+              </View>}
+              {this.props.appLoadingData && <ActivityIndicator size="large" style={{ marginTop: 46, }} />}
+            </View>
+          </View>}
         </ScrollView>
       </SafeAreaView >
     );

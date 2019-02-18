@@ -137,24 +137,28 @@ const doGetIdentities = () => {
   });
 };
 
-
-
-const doRegisterNotificationInfo = (accountNumber, timestamp, signature, platform, token, client) => {
+const doRegisterNotificationInfo = (accountNumber, timestamp, signature, platform, token, client, intercom_user_id) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     let tempURL = `${config.mobile_server_url}/api/push_uuids`;
+    let headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+    if (accountNumber) {
+      headers.requester = accountNumber;
+      headers.timestamp = timestamp;
+      headers.signature = signature;
+    }
     fetch(tempURL, {
       method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        requester: accountNumber,
-        timestamp,
-        signature,
-      },
-      body: JSON.stringify({ platform, token, client }),
+      headers,
+      body: JSON.stringify({ platform, token, client, intercom_user_id }),
     }).then((response) => {
       statusCode = response.status;
+      if (statusCode >= 500) {
+        return response.text();
+      }
       return response.json();
     }).then((data) => {
       if (statusCode >= 400) {
@@ -180,6 +184,9 @@ const doDeregisterNotificationInfo = (accountNumber, timestamp, signature, token
       },
     }).then((response) => {
       statusCode = response.status;
+      if (statusCode >= 500) {
+        return response.text();
+      }
       return response.json();
     }).then((data) => {
       if (statusCode >= 400) {
@@ -205,6 +212,9 @@ const doTryRegisterAccount = (accountNumber, timestamp, signature) => {
       },
     }).then((response) => {
       statusCode = response.status;
+      if (statusCode >= 500) {
+        return response.text();
+      }
       return response.json();
     }).then((data) => {
       if (statusCode >= 400) {
@@ -214,7 +224,6 @@ const doTryRegisterAccount = (accountNumber, timestamp, signature) => {
     }).catch(() => resolve());
   });
 };
-
 
 const doTryGetAppVersion = () => {
   return new Promise((resolve) => {

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { merge } from 'lodash';
 
-import { TransactionService, NotificationService, BitmarkService } from './services';
+import { TransactionService, AccountService, BitmarkService } from './services';
 import { CacheData } from './caches';
 import { BitmarkModel, IftttModel, CommonModel, } from './models';
 import { TransactionsStore, TransactionsActions, BottomTabStore, BottomTabActions, AccountStore, AccountActions } from 'src/views/stores';
@@ -183,7 +183,7 @@ const _doGenerateTransactionActionRequiredData = async (incomingClaimRequests) =
   BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
 
   console.log('actionRequired :', actionRequired);
-  NotificationService.setApplicationIconBadgeNumber(totalTasks || 0);
+  AccountService.setApplicationIconBadgeNumber(totalTasks || 0);
 };
 
 const _doCheckNewTransfers = async (transactions, isLoadingOtherData) => {

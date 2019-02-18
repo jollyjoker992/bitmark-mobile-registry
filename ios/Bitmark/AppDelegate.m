@@ -17,6 +17,7 @@
 #import <React/RCTPushNotificationManager.h>
 #import <React/RCTLog.h>
 #import <React/RNSentry.h>
+#import "Intercom/intercom.h"
 @import iCloudDocumentSync;
 
 
@@ -57,6 +58,9 @@
   }
 
   [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
+  
+  // Intercom
+  [Intercom setApiKey:@"ios_sdk-73c4808d20211944196736d561a405f6ffcdaded" forAppId:@"ejkeunzw"];
   
   return YES;
 }
