@@ -48,13 +48,17 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
   }
 
   async prepareToIssue(response) {
+    console.log('prepareToIssue :', response);
     let filePath = response.uri.replace('file://', '');
+    console.log('filePath run 1:', filePath);
     filePath = decodeURIComponent(filePath);
+    console.log('filePath run 2:', filePath);
 
     // Move file from "tmp" folder to "cache" folder
     let destPath = FileUtil.CacheDirectory + '/' + response.fileName;
     await FileUtil.moveFileSafe(filePath, destPath);
     filePath = destPath;
+    console.log('filePath :', filePath);
 
     let fileName = response.fileName.substring(0, response.fileName.lastIndexOf('.'));
     let fileFormat = response.fileName.substring(response.fileName.lastIndexOf('.'));
@@ -68,7 +72,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
         fingerprint: asset.fingerprint
       });
     }).catch(error => {
-      console.log('onChooseFile error :', error);
+      console.log('doCheckFileToIssue error :', error);
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
     });
   }
