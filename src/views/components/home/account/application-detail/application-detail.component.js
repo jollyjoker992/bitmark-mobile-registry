@@ -9,8 +9,8 @@ import Mailer from 'react-native-mail';
 import { Actions } from 'react-native-router-flux';
 
 import applicationDetailStyle from './application-detail.component.style';
-import { config, constant } from 'src/configs';
-import { DataProcessor, CacheData, CommonProcessor } from 'src/processors';
+import { config, } from 'src/configs';
+import { CacheData, CommonProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import moment from 'moment';
 
