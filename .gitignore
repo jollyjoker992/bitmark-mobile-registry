@@ -5,6 +5,7 @@ client-app/src/markets-old
 client-app/source-map-tool/source-map
 .idea/
 **/node_modules/
+package-lock.json
 
 .travis/ssh-deploy.sh
 
@@ -86,3 +87,9 @@ package-lock.json
 .env
 sentry.properties
 secret.tar
+
+android/app/bin/
+.project
+android/.gradle/*
+android/app/.externalNativeBuild
+android/keystores

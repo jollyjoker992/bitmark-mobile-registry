@@ -48,9 +48,14 @@ let setApplicationIconBadgeNumber = (number) => {
 };
 
 let doRegisterNotificationInfo = async (accountNumber, token, intercomUserId) => {
-  let signatureData = await CommonModel.doCreateSignatureData();
-  if (!signatureData) {
-    return;
+  let signatureData;
+  if (accountNumber) {
+    signatureData = await CommonModel.doCreateSignatureData();
+    if (!signatureData) {
+      return;
+    }
+  } else {
+    signatureData = {};
   }
   let client = 'registry';
   client = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? 'registryinhouse' :
