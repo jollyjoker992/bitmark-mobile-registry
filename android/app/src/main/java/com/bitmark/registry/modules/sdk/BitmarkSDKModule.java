@@ -85,6 +85,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     private static final int KEY_VALIDITY_TIME = BuildConfig.KEY_VALIDITY_DURATION;
 
+    private static final long SINGLE_TASK_TIMEOUT = 30 * 1000; // 30 seconds
+
     BitmarkSDKModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
@@ -314,7 +316,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     registrationParams.generateFingerprint(file);
                     registrationParams.sign(keyPair);
                     String assetId = await((Callable1<RegistrationResponse>) callback -> Asset
-                            .register(registrationParams, callback)).getAssets().get(0).getId();
+                            .register(registrationParams, callback), SINGLE_TASK_TIMEOUT)
+                            .getAssets().get(0).getId();
 
 
                     // Issue bitmark
@@ -322,7 +325,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                             quantity);
                     issuanceParams.sign(keyPair);
                     List<String> bitmarkIds = await(
-                            callback -> Bitmark.issue(issuanceParams, callback));
+                            callback -> Bitmark.issue(issuanceParams, callback),
+                            SINGLE_TASK_TIMEOUT);
                     promise.resolve(toWritableArray(bitmarkIds));
 
                 } catch (Throwable throwable) {
@@ -361,12 +365,13 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     IssuanceParams issuanceParams = new IssuanceParams(assetId, owner);
                     issuanceParams.sign(account.getKeyPair());
                     List<String> bitmarkIds = await(
-                            callback -> Bitmark.issue(issuanceParams, callback));
+                            callback -> Bitmark.issue(issuanceParams, callback),
+                            SINGLE_TASK_TIMEOUT);
 
                     // Create Transfer payload
                     String bitmarkId = bitmarkIds.get(0);
                     GetBitmarkResponse response = await(
-                            callback -> Bitmark.get(bitmarkId, callback));
+                            callback -> Bitmark.get(bitmarkId, callback), SINGLE_TASK_TIMEOUT);
                     BitmarkRecord bitmark = response.getBitmark();
                     if (bitmark == null) {
                         promise.reject(ERROR_UNEXPECTED_CODE,
@@ -410,7 +415,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                 try {
                     GetBitmarkResponse response = await(
-                            callback -> Bitmark.get(bitmarkId, callback));
+                            callback -> Bitmark.get(bitmarkId, callback), SINGLE_TASK_TIMEOUT);
                     BitmarkRecord bitmark = response.getBitmark();
                     if (bitmark == null) {
                         promise.reject(ERROR_UNEXPECTED_CODE,
@@ -423,7 +428,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     TransferParams transferParams = new TransferParams(
                             Address.fromAccountNumber(receiver), link);
                     transferParams.sign(account.getKeyPair());
-                    String txId = await(callback -> Bitmark.transfer(transferParams, callback));
+                    String txId = await(callback -> Bitmark.transfer(transferParams, callback),
+                            SINGLE_TASK_TIMEOUT);
                     promise.resolve(txId);
 
                 } catch (Throwable throwable) {
@@ -457,7 +463,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                 try {
                     GetBitmarkResponse response = await(
-                            callback -> Bitmark.get(bitmarkId, callback));
+                            callback -> Bitmark.get(bitmarkId, callback), SINGLE_TASK_TIMEOUT);
                     BitmarkRecord bitmark = response.getBitmark();
                     if (bitmark == null) {
                         promise.reject(ERROR_UNEXPECTED_CODE,
@@ -470,7 +476,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     TransferOfferParams offerParams = new TransferOfferParams(
                             Address.fromAccountNumber(receiver), link);
                     offerParams.sign(account.getKeyPair());
-                    String txId = await(callback -> Bitmark.offer(offerParams, callback));
+                    String txId = await(callback -> Bitmark.offer(offerParams, callback),
+                            SINGLE_TASK_TIMEOUT);
                     promise.resolve(txId);
 
                 } catch (Throwable throwable) {
@@ -504,7 +511,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                 try {
                     GetBitmarkResponse getBitmarkResponse = await(
-                            callback -> Bitmark.get(bitmarkId, callback));
+                            callback -> Bitmark.get(bitmarkId, callback), SINGLE_TASK_TIMEOUT);
                     BitmarkRecord bitmark = getBitmarkResponse.getBitmark();
                     if (bitmark == null) {
                         promise.reject(ERROR_UNEXPECTED_CODE,
@@ -536,7 +543,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
                     responseParams.sign(account.getKeyPair());
                     String status = await(
-                            callback -> Bitmark.respond(responseParams, callback));
+                            callback -> Bitmark.respond(responseParams, callback),
+                            SINGLE_TASK_TIMEOUT);
                     promise.resolve(status);
 
                 } catch (Throwable throwable) {
@@ -656,7 +664,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             if (!TextUtils.isEmpty(to)) builder.to(to);
             if (limit != null) builder.limit(limit);
 
-            GetBitmarksResponse response = await(callback -> Bitmark.list(builder, callback));
+            GetBitmarksResponse response = await(callback -> Bitmark.list(builder, callback),
+                    SINGLE_TASK_TIMEOUT);
             promise.resolve(toWritableArray(response.getBitmarks(), response.getAssets()));
         } catch (Throwable throwable) {
             promise.reject(ERROR_UNEXPECTED_CODE, throwable);
@@ -681,7 +690,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             {
                 if (includeAsset != null) Bitmark.get(id, includeAsset, callback);
                 else Bitmark.get(id, callback);
-            });
+            }, SINGLE_TASK_TIMEOUT);
             promise.resolve(toWritableArray(response.getBitmark(), response.getAsset()));
 
         } catch (Throwable throwable) {
@@ -695,7 +704,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     public void getAsset(String id, Promise promise) {
         try {
 
-            AssetRecord asset = await(callback -> Asset.get(id, callback));
+            AssetRecord asset = await(callback -> Asset.get(id, callback), SINGLE_TASK_TIMEOUT);
             promise.resolve(toJson(asset));
 
         } catch (Throwable e) {
@@ -723,7 +732,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             if (assetIds != null) builder.assetIds(assetIds);
             if (limit != null) builder.limit(limit);
 
-            List<AssetRecord> assets = await(callback -> Asset.list(builder, callback));
+            List<AssetRecord> assets = await(callback -> Asset.list(builder, callback),
+                    SINGLE_TASK_TIMEOUT);
             promise.resolve(toJson(assets));
 
         } catch (Throwable e) {
@@ -747,7 +757,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             {
                 if (includeAsset != null) Transaction.get(id, includeAsset, callback);
                 else Transaction.get(id, callback);
-            });
+            }, SINGLE_TASK_TIMEOUT);
             promise.resolve(toWritableArray(response.getTransaction(), response.getAsset()));
 
         } catch (Throwable e) {
@@ -783,7 +793,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             if (limit != null) builder.limit(limit);
 
             GetTransactionsResponse response = await(
-                    callback -> Transaction.list(builder, callback));
+                    callback -> Transaction.list(builder, callback), SINGLE_TASK_TIMEOUT);
             promise.resolve(toWritableArray(response.getTransactions(), response.getAssets()));
 
         } catch (Throwable e) {
@@ -939,7 +949,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     registrationParams.generateFingerprint(file);
                     registrationParams.sign(account.getKeyPair());
                     RegistrationResponse res = await(
-                            callback -> Asset.register(registrationParams, callback));
+                            callback -> Asset.register(registrationParams, callback),
+                            SINGLE_TASK_TIMEOUT);
                     String assetId = res.getAssets().get(0).getId();
 
                     // Issue new bitmark
@@ -947,7 +958,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                             account.toAddress());
                     issuanceParams.sign(account.getKeyPair());
                     List<String> bitmarkIds = await(
-                            callback -> Bitmark.issue(issuanceParams, callback));
+                            callback -> Bitmark.issue(issuanceParams, callback),
+                            SINGLE_TASK_TIMEOUT);
                     String bitmarkId = bitmarkIds.get(0);
 
                     promise.resolve(new String[]{bitmarkId, assetId});
@@ -968,10 +980,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     @ReactMethod
     @Override
     public void migrate(Boolean authentication, Promise promise) {
-        final String ACCOUNT_INFO = "account_info";
+        final String accountInfoKey = "account_info";
         SharedPreferenceApi sharePrefApi = new SharedPreferenceApi(getReactApplicationContext(),
                 BuildConfig.APPLICATION_ID);
-        String accountInfo = sharePrefApi.get(ACCOUNT_INFO, String.class);
+        String accountInfo = sharePrefApi.get(accountInfoKey, String.class);
         if (TextUtils.isEmpty(accountInfo)) {
             promise.reject("ERROR_RAW_ACCOUNT_IS_NOT_EXISTING",
                     new NativeModuleException("raw account info is not existing"));
@@ -993,7 +1005,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                 @Override
                 public void onSuccess() {
                     // Delete raw data
-                    sharePrefApi.put(ACCOUNT_INFO, "");
+                    sharePrefApi.put(accountInfoKey, "");
                     promise.resolve(account.getAccountNumber());
                 }
 
