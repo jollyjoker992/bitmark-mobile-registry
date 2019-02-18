@@ -22,7 +22,6 @@ const statuses = {
   inputting: 'inputting'
 };
 
-const testWords = ['follow', 'height', 'deny', 'box', 'small', 'bike', 'exile', 'gravity', 'delay', 'accuse', 'present', 'blossom'];
 export class SignInComponent extends React.Component {
 
   constructor(props) {
@@ -43,14 +42,14 @@ export class SignInComponent extends React.Component {
       if (index < (numberPhraseWords / 2)) {
         smallerList.push({
           key: index,
-          word: testWords[index],
-          // word: '',
+          // word: testWords[index],
+          word: '',
         });
       } else {
         biggerList.push({
           key: index,
-          word: testWords[index],
-          // word: '',
+          // word: testWords[index],
+          word: '',
         });
       }
     }

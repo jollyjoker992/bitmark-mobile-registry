@@ -103,10 +103,10 @@ export class ApplicationDetailComponent extends React.Component {
             <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => { shareApp() }}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_shareThisApp")}</Text>
             </TouchableOpacity>
-            <View style={applicationDetailStyle.lineSetting}></View>
+            {/* <View style={applicationDetailStyle.lineSetting}></View>
             <TouchableOpacity style={[applicationDetailStyle.rowSetting, { marginBottom: constant.blankFooter, }]} onPress={() => { requestSendFeedback() }}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_sendFeedback")}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </SafeAreaView >
