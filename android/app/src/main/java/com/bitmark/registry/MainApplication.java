@@ -11,6 +11,7 @@ import com.corbt.keepawake.KCKeepAwakePackage;
 import com.crashlytics.android.Crashlytics;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.react.ReactApplication;
+import com.robinpowered.react.Intercom.IntercomPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -51,6 +52,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
+                    new IntercomPackage(),
                     new RNSharePackage(),
                     new LottiePackage(),
                     new RNSentryPackage(),
@@ -89,5 +91,6 @@ public class MainApplication extends Application implements ReactApplication {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         SoLoader.init(this, /* native exopackage */ false);
+        Intercom.initialize(this, "ios_sdk-73c4808d20211944196736d561a405f6ffcdaded", "ejkeunzw");
     }
 }
