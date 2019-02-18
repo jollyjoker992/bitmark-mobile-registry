@@ -60,6 +60,8 @@ public interface BitmarkSDKExposable {
 
     void registerNewAsset(ReadableMap params, Promise promise) throws NativeModuleException;
 
+    void needMigration(Promise promise);
+
     void migrate(Boolean authentication, Promise promise);
 
 }
