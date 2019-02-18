@@ -9,8 +9,8 @@ import Mailer from 'react-native-mail';
 import { Actions } from 'react-native-router-flux';
 
 import applicationDetailStyle from './application-detail.component.style';
-import { config, constant } from 'src/configs';
-import { DataProcessor, CacheData, CommonProcessor } from 'src/processors';
+import { config, } from 'src/configs';
+import { CacheData, CommonProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import moment from 'moment';
 
@@ -103,10 +103,10 @@ export class ApplicationDetailComponent extends React.Component {
             <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => { shareApp() }}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_shareThisApp")}</Text>
             </TouchableOpacity>
-            <View style={applicationDetailStyle.lineSetting}></View>
+            {/* <View style={applicationDetailStyle.lineSetting}></View>
             <TouchableOpacity style={[applicationDetailStyle.rowSetting, { marginBottom: constant.blankFooter, }]} onPress={() => { requestSendFeedback() }}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_sendFeedback")}</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </SafeAreaView >

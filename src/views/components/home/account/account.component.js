@@ -162,7 +162,7 @@ class PrivateAccountDetailComponent extends React.Component {
             <TouchableOpacity style={[accountStyle.accountRemoveButton, { height: 45 }]} onPress={() => {
               Intercom.displayConversationsList();
             }}>
-              <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_needHelp")} » </Text>
+              <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_needHelp")}</Text>
             </TouchableOpacity>
           </View>}
 

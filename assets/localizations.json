@@ -817,7 +817,7 @@
     "AccountDetailComponent_copiedToClipboard": "Copied to clipboard!",
     "AccountDetailComponent_accountMessage": "To protect your privacy, you are identified in the Bitmark system by a pseudonymous account number. This number is public. You can safely share it with others without compromising your security.",
     "AccountDetailComponent_writeDownRecoveryPhrase": "WRITE DOWN RECOVERY PHRASE",
-    "AccountDetailComponent_removeAccessFromThisDevice": "REMOVE ACCESS FROM THIS DEVICE",
+    "AccountDetailComponent_removeAccessFromThisDevice": "LOG OUT",
     "AccountDetailComponent_appDetails": "DETAILS",
     "AccountDetailComponent_migrateWebAccount": "MIGRATE WEB ACCOUNT",
     "AccountDetailComponent_signInUsingMobileApp": "SIGN IN USING MOBILE APP",
