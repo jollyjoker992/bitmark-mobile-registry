@@ -70,12 +70,14 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2'
   },
   scrollSubTabArea: {
+    flex: 1,
     width: '100%',
     flexDirection: 'column',
     alignContent: 'center',
     backgroundColor: 'white'
   },
   contentSubTab: {
+    flex: 1,
     width: '100%',
     flexDirection: 'column',
     paddingLeft: convertWidth(19),
@@ -139,8 +141,8 @@ export default StyleSheet.create({
   },
   accountRemoveButton: {
     marginTop: 2,
-    paddingTop: 4,
-    paddingBottom: 4,
+    paddingTop: 4, paddingBottom: 4,
+    flexDirection: 'row', alignItems: 'center'
   },
   accountRemoveButtonText: {
     fontFamily: 'Avenir Black',

@@ -47,7 +47,7 @@ let setApplicationIconBadgeNumber = (number) => {
   return NotificationModel.setApplicationIconBadgeNumber(number);
 };
 
-let doRegisterNotificationInfo = async (accountNumber, token) => {
+let doRegisterNotificationInfo = async (accountNumber, token, intercomUserId) => {
   let signatureData = await CommonModel.doCreateSignatureData();
   if (!signatureData) {
     return;
@@ -56,7 +56,7 @@ let doRegisterNotificationInfo = async (accountNumber, token) => {
   client = DeviceInfo.getBundleId() === 'com.bitmark.registry.inhouse' ? 'registryinhouse' :
     (DeviceInfo.getBundleId() === 'com.bitmark.registry.beta' ? 'registrybeta' : client);
 
-  return await NotificationModel.doRegisterNotificationInfo(accountNumber, signatureData.timestamp, signatureData.signature, Platform.OS, token, client);
+  return await NotificationModel.doRegisterNotificationInfo(accountNumber, signatureData.timestamp, signatureData.signature, Platform.OS, token, client, intercomUserId);
 };
 
 let doTryDeregisterNotificationInfo = (accountNumber, token, signatureData) => {

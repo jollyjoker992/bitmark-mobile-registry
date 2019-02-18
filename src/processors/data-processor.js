@@ -1,8 +1,11 @@
 import DeviceInfo from 'react-native-device-info';
+import Intercom from 'react-native-intercom';
 import moment from 'moment';
 import { merge } from 'lodash';
 import { Sentry } from 'react-native-sentry';
 import base58 from 'bs58';
+import { sha3_256 } from 'js-sha3';
+import randomString from 'random-string';
 
 import {
   EventEmitterService, NotificationService, TransactionService,
@@ -89,17 +92,30 @@ const doReloadUserData = async () => {
 
 const configNotification = () => {
   const onRegistered = async (registeredNotificationInfo) => {
-    let notificationUUID = registeredNotificationInfo ? registeredNotificationInfo.token : null;
+    CacheData.notificationUUID = registeredNotificationInfo ? registeredNotificationInfo.token : null;
     if (!CacheData.userInformation || !CacheData.userInformation.bitmarkAccountNumber) {
       CacheData.userInformation = await UserModel.doGetCurrentUser();
     }
-    if (notificationUUID && CacheData.userInformation.notificationUUID !== notificationUUID) {
-      NotificationService.doRegisterNotificationInfo(CacheData.userInformation.bitmarkAccountNumber, notificationUUID).then(() => {
-        CacheData.userInformation.notificationUUID = notificationUUID;
-        return UserModel.doUpdateUserInfo(CacheData.userInformation);
-      }).catch(error => {
-        console.log('DataProcessor doRegisterNotificationInfo error:', error);
-      });
+
+    if (!CacheData.userInformation || !CacheData.userInformation.bitmarkAccountNumber) {
+      let appInfo = (await doGetAppInformation()) || {};
+      if (appInfo.notificationUUID !== CacheData.notificationUUID) {
+        NotificationService.doRegisterNotificationInfo(null, CacheData.notificationUUID, appInfo.intercomUserId).then(() => {
+          CacheData.userInformation.notificationUUID = CacheData.notificationUUID;
+          return UserModel.doUpdateUserInfo(CacheData.userInformation);
+        }).catch(error => {
+          console.log('DataProcessor doRegisterNotificationInfo error:', error);
+        });
+      }
+    } else {
+      if (CacheData.notificationUUID && CacheData.userInformation.notificationUUID !== CacheData.notificationUUID) {
+        NotificationService.doRegisterNotificationInfo(CacheData.userInformation.bitmarkAccountNumber, CacheData.notificationUUID, CacheData.userInformation.intercomUserId).then(() => {
+          CacheData.userInformation.notificationUUID = CacheData.notificationUUID;
+          return UserModel.doUpdateUserInfo(CacheData.userInformation);
+        }).catch(error => {
+          console.log('DataProcessor doRegisterNotificationInfo error:', error);
+        });
+      }
     }
   };
   const onReceivedNotification = async (notificationData) => {
@@ -107,9 +123,13 @@ const configNotification = () => {
       if (!CacheData.userInformation || !CacheData.userInformation.bitmarkAccountNumber) {
         CacheData.userInformation = await UserModel.doGetCurrentUser();
       }
-      setTimeout(async () => {
-        EventEmitterService.emit(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, notificationData.data);
-      }, 1000);
+      if (notificationData.data.event === 'intercom_reply') {
+        setTimeout(() => { Intercom.displayConversationsList(); }, 1000);
+      } else {
+        setTimeout(() => {
+          EventEmitterService.emit(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, notificationData.data);
+        }, 1000);
+      }
     }
   };
   NotificationService.configure(onRegistered, onReceivedNotification);
@@ -146,6 +166,16 @@ const doCreateAccount = async () => {
   let userInformation = await AccountService.doGetCurrentAccount();
   let signatureData = await CommonModel.doCreateSignatureData();
   await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  if (CacheData.notificationUUID) {
+    let intercomUserId = `HealthPlus_${sha3_256(userInformation.bitmarkAccountNumber)}`;
+    userInformation.intercomUserId = intercomUserId;
+    AccountService.doRegisterNotificationInfo(userInformation.bitmarkAccountNumber, CacheData.notificationUUID, intercomUserId).then(() => {
+      userInformation.notificationUUID = CacheData.notificationUUID;
+      return UserModel.doUpdateUserInfo(userInformation);
+    }).catch(error => {
+      console.log('DataProcessor doRegisterNotificationInfo error:', error);
+    });
+  }
   let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
   await runPromiseWithoutError(AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]));
   await CommonModel.doTrackEvent({
@@ -172,6 +202,7 @@ const doLogout = async () => {
   }
   await AccountModel.doLogout();
   await UserModel.doRemoveUserInfo();
+  await Intercom.logout();
   CacheData.userInformation = {};
   PropertiesStore.dispatch(PropertiesActions.reset());
   BottomTabStore.dispatch(BottomTabActions.reset());
@@ -230,6 +261,16 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       Sentry.setUserContext({ userID: bitmarkAccountNumber, });
     }
     configNotification();
+    if (!CacheData.userInformation.intercomUserId) {
+      let intercomUserId = `HealthPlus_${sha3_256(bitmarkAccountNumber)}`;
+      CacheData.userInformation.intercomUserId = intercomUserId;
+      await UserModel.doUpdateUserInfo(CacheData.userInformation);
+      Intercom.logout().then(() => {
+        return Intercom.registerIdentifiedUser({ userId: intercomUserId })
+      }).catch(error => {
+        console.log('registerIdentifiedUser error :', error);
+      });
+    }
     await checkAppNeedResetLocalData(appInfo);
     await LocalFileService.moveFilesFromLocalStorageToSharedStorage();
 
@@ -352,6 +393,22 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     }));
 
     // ============================
+  } else if (!CacheData.userInformation || !CacheData.userInformation.bitmarkAccountNumber) {
+    let intercomUserId = appInfo.intercomUserId || `HealthPlus_${sha3_256(moment().toDate().getTime() + randomString({ length: 8 }))}`;
+    if (!appInfo.intercomUserId) {
+      appInfo.intercomUserId = intercomUserId;
+      Intercom.logout().then(() => {
+        return Intercom.registerIdentifiedUser({ userId: intercomUserId })
+      }).catch(error => {
+        console.log('registerIdentifiedUser error :', error);
+      });
+      CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
+    } else {
+      Intercom.registerIdentifiedUser({ userId: intercomUserId }).catch(error => {
+        console.log('registerIdentifiedUser error :', error);
+      });
+    }
+    configNotification();
   }
 
   setAppLoadingStatus();

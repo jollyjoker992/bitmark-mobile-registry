@@ -5,6 +5,7 @@ let CacheData = {
 
   keyIndexModalDisplaying: 0,
   codePushUpdated: null,
+  notificationUUID: null,
   mountedRouter: null,
   passTouchFaceId: false,
   processingDeepLink: false,

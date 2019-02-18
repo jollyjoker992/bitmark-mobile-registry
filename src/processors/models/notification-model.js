@@ -1,7 +1,7 @@
 import PushNotification from 'react-native-push-notification';
 import { config } from 'src/configs';
 
-const doRegisterNotificationInfo = (accountNumber, timestamp, signature, platform, token, client) => {
+const doRegisterNotificationInfo = (accountNumber, timestamp, signature, platform, token, client, intercom_user_id) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     let tempURL = `${config.mobile_server_url}/api/push_uuids`;
@@ -14,7 +14,7 @@ const doRegisterNotificationInfo = (accountNumber, timestamp, signature, platfor
         timestamp,
         signature,
       },
-      body: JSON.stringify({ platform, token, client }),
+      body: JSON.stringify({ platform, token, client, intercom_user_id }),
     }).then((response) => {
       statusCode = response.status;
       return response.json();

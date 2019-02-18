@@ -141,6 +141,9 @@
 		F150CA412023230B00C8FC17 /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F150CA152023230B00C8FC17 /* AndaleMono.ttf */; };
 		F15C1D112063B9D4002DDF98 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15C1D102063B9B6002DDF98 /* libRNZipArchive.a */; };
 		F15F68E1203D70EC00A5A582 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15F68DE203D70DE00A5A582 /* libRNImagePicker.a */; };
+		F172FE1F2216A60200299278 /* libRNIntercom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F172FE182216A5F900299278 /* libRNIntercom.a */; };
+		F172FE202216A60800299278 /* libRNIntercom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F172FE182216A5F900299278 /* libRNIntercom.a */; };
+		F172FE212216A60E00299278 /* libRNIntercom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F172FE182216A5F900299278 /* libRNIntercom.a */; };
 		F179A25020AF9775002D5539 /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F179A21C20AF9760002D5539 /* libKCKeepAwake.a */; };
 		F188819C21F95DA00017C2E5 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F188817821F95D7D0017C2E5 /* libRCTVideo.a */; };
 		F188819D21F95DA90017C2E5 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F188817821F95D7D0017C2E5 /* libRCTVideo.a */; };
@@ -580,6 +583,13 @@
 			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
 			remoteInfo = RNImagePicker;
 		};
+		F172FE172216A5F900299278 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F172FDDA2216A5F800299278 /* RNIntercom.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 112EE36D1CC0AB8A00BF6BB8;
+			remoteInfo = RNIntercom;
+		};
 		F179A21B20AF9760002D5539 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F179A21520AF9760002D5539 /* KCKeepAwake.xcodeproj */;
@@ -800,6 +810,7 @@
 		F150CA152023230B00C8FC17 /* AndaleMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AndaleMono.ttf; path = ../assets/fonts/AndaleMono.ttf; sourceTree = "<group>"; };
 		F15C1CDA2063B9B6002DDF98 /* RNZipArchive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNZipArchive.xcodeproj; path = "../node_modules/react-native-zip-archive/ios/RNZipArchive.xcodeproj"; sourceTree = "<group>"; };
 		F15F68AF203D70DE00A5A582 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
+		F172FDDA2216A5F800299278 /* RNIntercom.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNIntercom.xcodeproj; path = "../node_modules/react-native-intercom/iOS/RNIntercom.xcodeproj"; sourceTree = "<group>"; };
 		F179A21520AF9760002D5539 /* KCKeepAwake.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KCKeepAwake.xcodeproj; path = "../node_modules/react-native-keep-awake/ios/KCKeepAwake.xcodeproj"; sourceTree = "<group>"; };
 		F188815621F95D7D0017C2E5 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVideo.xcodeproj; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; };
 		F18C03802049095000FA36E4 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
@@ -839,6 +850,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F172FE1F2216A60200299278 /* libRNIntercom.a in Frameworks */,
 				F188819D21F95DA90017C2E5 /* libRCTVideo.a in Frameworks */,
 				F12F329821F817CB002D918E /* MessageUI.framework in Frameworks */,
 				F12F329721F817C4002D918E /* Social.framework in Frameworks */,
@@ -880,6 +892,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F172FE212216A60E00299278 /* libRNIntercom.a in Frameworks */,
 				F188819E21F95DAF0017C2E5 /* libRCTVideo.a in Frameworks */,
 				F12F329A21F817D6002D918E /* MessageUI.framework in Frameworks */,
 				F12F329921F817D1002D918E /* Social.framework in Frameworks */,
@@ -921,6 +934,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F172FE202216A60800299278 /* libRNIntercom.a in Frameworks */,
 				F188819C21F95DA00017C2E5 /* libRCTVideo.a in Frameworks */,
 				F12F329621F817BD002D918E /* MessageUI.framework in Frameworks */,
 				F12F329421F817B4002D918E /* Social.framework in Frameworks */,
@@ -1293,6 +1307,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F172FDDA2216A5F800299278 /* RNIntercom.xcodeproj */,
 				F188815621F95D7D0017C2E5 /* RCTVideo.xcodeproj */,
 				F12F328A21F8152F002D918E /* RNShare.xcodeproj */,
 				F12F327E21F8134E002D918E /* LottieReactNative.xcodeproj */,
@@ -1456,6 +1471,14 @@
 			isa = PBXGroup;
 			children = (
 				F15F68DE203D70DE00A5A582 /* libRNImagePicker.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F172FDDB2216A5F800299278 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F172FE182216A5F900299278 /* libRNIntercom.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1766,6 +1789,10 @@
 				{
 					ProductGroup = F15F68B0203D70DE00A5A582 /* Products */;
 					ProjectRef = F15F68AF203D70DE00A5A582 /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = F172FDDB2216A5F800299278 /* Products */;
+					ProjectRef = F172FDDA2216A5F800299278 /* RNIntercom.xcodeproj */;
 				},
 				{
 					ProductGroup = 58FC1DFD201B14CB00F60AF9 /* Products */;
@@ -2164,6 +2191,13 @@
 			fileType = archive.ar;
 			path = libRNImagePicker.a;
 			remoteRef = F15F68DD203D70DE00A5A582 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F172FE182216A5F900299278 /* libRNIntercom.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNIntercom.a;
+			remoteRef = F172FE172216A5F900299278 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F179A21C20AF9760002D5539 /* libKCKeepAwake.a */ = {
