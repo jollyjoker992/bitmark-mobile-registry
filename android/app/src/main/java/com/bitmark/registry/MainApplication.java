@@ -30,6 +30,7 @@ import java.util.List;
 
 import cl.json.RNSharePackage;
 import io.fabric.sdk.android.Fabric;
+import io.intercom.android.sdk.Intercom;
 import io.sentry.RNSentryPackage;
 
 import static com.bitmark.registry.keymanagement.ApiKeyManager.API_KEY_MANAGER;

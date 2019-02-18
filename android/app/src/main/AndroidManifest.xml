@@ -47,6 +47,19 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name="com.robinpowered.react.Intercom.IntercomIntentService"
+            android:exported="false">
+            <intent-filter
+                android:priority="999">
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </service>
+        <receiver
+            android:name="io.intercom.android.sdk.push.IntercomPushBroadcastReceiver"
+            tools:replace="android:exported"
+            android:exported="true" />
+
         <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_name"
             android:value="@string/notification_channel_name"/>
 
