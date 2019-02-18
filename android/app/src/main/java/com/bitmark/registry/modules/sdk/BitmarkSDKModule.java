@@ -979,18 +979,26 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     @ReactMethod
     @Override
+    public void needMigration(Promise promise) {
+        String rawAccountInfo = new SharedPreferenceApi(getReactApplicationContext(),
+                BuildConfig.APPLICATION_ID).get("account_info", String.class);
+        promise.resolve(!TextUtils.isEmpty(rawAccountInfo));
+    }
+
+    @ReactMethod
+    @Override
     public void migrate(Boolean authentication, Promise promise) {
         final String accountInfoKey = "account_info";
         SharedPreferenceApi sharePrefApi = new SharedPreferenceApi(getReactApplicationContext(),
                 BuildConfig.APPLICATION_ID);
-        String accountInfo = sharePrefApi.get(accountInfoKey, String.class);
-        if (TextUtils.isEmpty(accountInfo)) {
+        String rawAccountInfo = sharePrefApi.get(accountInfoKey, String.class);
+        if (TextUtils.isEmpty(rawAccountInfo)) {
             promise.reject("ERROR_RAW_ACCOUNT_IS_NOT_EXISTING",
                     new NativeModuleException("raw account info is not existing"));
             return;
         }
 
-        String[] accountInfoArray = accountInfo.split(",");
+        String[] accountInfoArray = rawAccountInfo.split(",");
         String encodedSeed = accountInfoArray[1];
         Account account = Account.fromSeed(SeedTwelve.fromEncodedSeed(encodedSeed));
         saveAccountNumber(account.getAccountNumber());
