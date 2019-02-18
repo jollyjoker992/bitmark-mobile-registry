@@ -26,7 +26,7 @@ const setShareLocalStoragePath = async () => {
 
 const moveFilesFromLocalStorageToSharedStorage = async (bitmarkAccountNumber) => {
   let localStorageFolderPath = `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}`;
-  let sharedStorageFolderPath = FileUtil.getSharedLocalStorageFolderPath(bitmarkAccountNumber);
+  let sharedStorageFolderPath = FileUtil.getSharedLocalStorageFolderPath(bitmarkAccountNumber, config.isAndroid);
 
   if (await FileUtil.exists(localStorageFolderPath)) {
     await FileUtil.copyDir(localStorageFolderPath, sharedStorageFolderPath, true);
@@ -52,7 +52,7 @@ const doCheckAndSyncDataWithICloud = async (asset) => {
 };
 
 const detectLocalAssetFilePath = async (assetId) => {
-  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${assetId}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${assetId}`;
   let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
   if (!existAssetFolder || existAssetFolder.error) {
     return null;
@@ -67,7 +67,7 @@ const detectLocalAssetFilePath = async (assetId) => {
 };
 
 const detectMusicThumbnailPath = async (assetId) => {
-  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${assetId}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${assetId}`;
   let thumbnailPath = `${assetFolderPath}/thumbnail.png`;
   let existAssetFolder = await runPromiseWithoutError(FileUtil.exists(assetFolderPath));
   if (!existAssetFolder || existAssetFolder.error) {

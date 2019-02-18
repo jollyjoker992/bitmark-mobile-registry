@@ -1,6 +1,6 @@
 import RNFS from 'react-native-fs';
 import { zip, unzip } from 'react-native-zip-archive';
-console.log('RNFS :', RNFS);
+import { config } from 'src/configs';
 
 class FileUtil {
   static CacheDirectory = RNFS.CachesDirectoryPath;
@@ -101,6 +101,10 @@ class FileUtil {
     return await RNFS.readFile(filePath, encoding);
   }
 
+  static async stat(filePath) {
+    return await RNFS.stat(filePath);
+  }
+
   static async writeFile(filePath, content, encoding = 'utf8') {
     return await RNFS.writeFile(filePath, content, encoding);
   }
@@ -121,12 +125,17 @@ class FileUtil {
     return await RNFS.pathForGroup(groupIdentifier);
   }
 
-  static getSharedLocalStorageFolderPath(bitmarkAccountNumber) {
-    return `${FileUtil.SharedGroupDirectory}/${bitmarkAccountNumber}`;
+  static getSharedLocalStorageFolderPath(bitmarkAccountNumber, isAndroid) {
+    if (isAndroid) {
+      return `${FileUtil.DocumentDirectory}/${bitmarkAccountNumber}`;
+    } else {
+      return `${FileUtil.SharedGroupDirectory}/${bitmarkAccountNumber}`;
+    }
+
   }
 
-  static getLocalAssetsFolderPath(bitmarkAccountNumber) {
-    return `${FileUtil.getSharedLocalStorageFolderPath(bitmarkAccountNumber)}/assets`;
+  static getLocalAssetsFolderPath(bitmarkAccountNumber, isAndroid) {
+    return `${FileUtil.getSharedLocalStorageFolderPath(bitmarkAccountNumber, isAndroid)}/assets`;
   }
 }
 export { FileUtil };

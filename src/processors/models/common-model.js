@@ -3,7 +3,6 @@ import moment from 'moment';
 import { FaceTouchId, BitmarkSDK } from './adapters'
 import { AsyncStorage } from 'react-native';
 import { config } from 'src/configs';
-import { CacheData } from '../caches';
 
 const KEYS = {
   APP_INFORMATION: 'app-information',
@@ -88,6 +87,7 @@ const doTrackEvent = (tags, fields) => {
   return new Promise((resolve) => {
     let statusCode;
     let bitmarkUrl = config.mobile_server_url + `/api/metrics`;
+    console.log('doTrackEvent :', bitmarkUrl, tags, fields);
     fetch(bitmarkUrl, {
       method: 'POST',
       headers: {

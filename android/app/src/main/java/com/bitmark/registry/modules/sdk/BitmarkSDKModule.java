@@ -57,6 +57,7 @@ import com.facebook.react.bridge.ReadableMap;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidKeyException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -327,8 +328,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     List<String> bitmarkIds = await(
                             callback -> Bitmark.issue(issuanceParams, callback),
                             SINGLE_TASK_TIMEOUT);
-                    promise.resolve(toWritableArray(bitmarkIds));
-
+                    List<Object> result = new ArrayList<>();
+                    result.add(bitmarkIds.toArray());
+                    result.add(assetId);
+                    promise.resolve(toWritableArray(result));
                 } catch (Throwable throwable) {
                     promise.reject(ERROR_UNEXPECTED_CODE, throwable);
                 }

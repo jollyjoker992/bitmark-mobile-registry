@@ -129,13 +129,17 @@ const doIssueFile = async (bitmarkAccountNumber, filePath, assetName, metadataLi
   }
   let issueResult = await BitmarkModel.doIssueFile(filePath, assetName, metadata, quantity);
 
-  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber)}/${issueResult.assetId}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber, config.isAndroid)}/${issueResult.assetId}`;
   let downloadedFolder = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(assetFolderPath);
   await FileUtil.mkdir(downloadedFolder);
 
   let filename = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
-  await BitmarkSDK.storeFileSecurely(filePath, `${downloadedFolder}/${filename}`);
+  if (config.isIPhone) {
+    await BitmarkSDK.storeFileSecurely(filePath, `${downloadedFolder}/${filename}`);
+  } else {
+    await FileUtil.copyFile(filePath, `${downloadedFolder}/${filename}`);
+  }
 
   let listFile = await FileUtil.readDir(downloadedFolder);
   let results = [];
@@ -167,7 +171,7 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
   await BitmarkModel.doUploadMusicThumbnail(bitmarkAccountNumber, issueResult.assetId, thumbnailPath, limitedEdition, signatures[0]);
   await BitmarkModel.doUploadMusicAsset(CacheData.jwt, issueResult.assetId, filePath);
 
-  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber)}/${issueResult.assetId}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber, config.isAndroid)}/${issueResult.assetId}`;
   let downloadedFolder = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(assetFolderPath);
   await FileUtil.mkdir(downloadedFolder);

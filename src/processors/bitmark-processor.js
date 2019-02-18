@@ -241,7 +241,7 @@ const doReloadUserReleasedAssetsBitmarks = async () => {
 const doDownloadBitmark = async (bitmark) => {
   let assetsBitmarks = await doGetLocalAssetsBitmarks();
   let asset = (assetsBitmarks.assets || {})[bitmark.asset_id];
-  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${bitmark.asset_id}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${bitmark.asset_id}`;
 
   if ((await FileUtil.exists(`${assetFolderPath}/decrypting`)) &&
     (await FileUtil.readDir(`${assetFolderPath}/decrypting`)).length > 0 &&

@@ -165,6 +165,7 @@ export default StyleSheet.create({
   assetNameInput: {
     marginTop: 5,
     marginLeft: convertWidth(19),
+    padding: 2,
     width: convertWidth(330),
     borderBottomWidth: 1,
     height: 25,
@@ -246,6 +247,7 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   metadataFieldValue: {
+    padding: 2,
     width: '100%',
     fontFamily: 'Andale Mono',
     fontWeight: '300',
@@ -304,6 +306,7 @@ export default StyleSheet.create({
     height: 28,
   },
   quantityInput: {
+    padding: 2,
     marginTop: 12,
     marginLeft: convertWidth(19),
     width: convertWidth(330),

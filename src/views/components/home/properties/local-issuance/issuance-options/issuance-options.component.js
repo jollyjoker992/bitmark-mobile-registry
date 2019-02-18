@@ -14,6 +14,7 @@ import { FileUtil, isReleasedAsset } from 'src/utils';
 import { AppProcessor, EventEmitterService, CacheData } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { AccountStore } from 'src/views/stores';
+import { config } from 'src/configs';
 
 
 export class PrivateIssuanceOptionsComponent extends React.Component {
@@ -43,20 +44,30 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
       if (error) {
         return;
       }
-      this.prepareToIssue(response);
+      this.prepareToIssue(response, true);
     });
   }
 
-  async prepareToIssue(response) {
-    console.log('prepareToIssue :', response);
-    let filePath = response.uri.replace('file://', '');
-    console.log('filePath run 1:', filePath);
-    filePath = decodeURIComponent(filePath);
-    console.log('filePath run 2:', filePath);
-
-    // Move file from "tmp" folder to "cache" folder
+  async prepareToIssue(response, isFile) {
+    console.log('prepareToIssue :', response, isFile);
+    let filePath;
     let destPath = FileUtil.CacheDirectory + '/' + response.fileName;
-    await FileUtil.moveFileSafe(filePath, destPath);
+    if (isFile) {
+      if (config.isAndroid) {
+        console.log('stat uri :', response.uri, decodeURIComponent(response.uri));
+        let result = await FileUtil.stat(decodeURIComponent(response.uri));
+        console.log('stat result :', result);
+        await FileUtil.moveFileSafe(result.originalFilepath, destPath);
+      } else {
+        await FileUtil.moveFileSafe(decodeURIComponent(response.uri.replace('file://', '')), destPath);
+      }
+    } else {
+      if (config.isAndroid) {
+        await FileUtil.moveFileSafe(response.path, destPath);
+      } else {
+        await FileUtil.moveFileSafe(decodeURIComponent(response.uri.replace('file://', '')), destPath);
+      }
+    }
     filePath = destPath;
     console.log('filePath :', filePath);
 
