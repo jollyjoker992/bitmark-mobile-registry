@@ -315,7 +315,7 @@ export class MusicBasicInfoComponent extends React.Component {
 
                   <View style={[cStyles.fieldArea,]}>
                     <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyName')}</Text>
-                    <TextInput style={[cStyles.fieldInput]}
+                    <TextInput style={[config.isAndroid ? { padding: 2 } : {}, cStyles.fieldInput,]}
                       placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyNamePlaceholder')}
                       defaultValue={this.state.assetName}
                       onChangeText={(assetName) => this.onInputAsset.bind(this)(assetName)}
@@ -326,7 +326,7 @@ export class MusicBasicInfoComponent extends React.Component {
 
                   <View style={cStyles.fieldArea}>
                     <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelLimited')}</Text>
-                    <TextInput style={[cStyles.fieldInput]}
+                    <TextInput style={[config.isAndroid ? { padding: 2 } : {}, cStyles.fieldInput]}
                       keyboardType='number-pad'
                       placeholder="e.g. 300"
                       onChangeText={(limitedNumber) => this.onInputLimited.bind(this)(limitedNumber)}

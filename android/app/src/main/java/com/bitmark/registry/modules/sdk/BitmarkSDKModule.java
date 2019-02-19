@@ -804,6 +804,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         }
     }
 
+    @ReactMethod
     @Override
     public void encryptFile(ReadableMap params, Promise promise) throws NativeModuleException {
 
@@ -847,6 +848,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     }
 
+    @ReactMethod
     @Override
     public void decryptFile(ReadableMap params, Promise promise) throws NativeModuleException {
 
@@ -891,6 +893,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         });
     }
 
+    @ReactMethod
     @Override
     public void encryptSessionData(ReadableMap params, Promise promise)
             throws NativeModuleException {
@@ -928,6 +931,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     }
 
+    @ReactMethod
     @Override
     public void registerNewAsset(ReadableMap params, Promise promise)
             throws NativeModuleException {

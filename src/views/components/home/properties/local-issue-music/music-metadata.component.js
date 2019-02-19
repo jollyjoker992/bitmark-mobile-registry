@@ -205,7 +205,7 @@ export class MusicMetadataComponent extends React.Component {
                       <Image style={cStyles.fieldLabelButtonIcon} source={require('assets/imgs/next-icon-blue.png')} />
                     </TouchableOpacity>
                     <View style={[cStyles.fieldLabelButton, item.valueError ? { borderBottomColor: '#FF003C' } : {}]}>
-                      <TextInput style={cStyles.fieldValue}
+                      <TextInput style={[config.isAndroid ? { padding: 2 } : {}, cStyles.fieldValue]}
                         multiline={true}
                         placeholder={global.i18n.t('MusicMetadataComponent_fieldValuePlaceholder')} placeholderTextColor='#C1C1C1'
                         onChangeText={(text) => this.onChangeMetadataValue.bind(this)(index, text)}

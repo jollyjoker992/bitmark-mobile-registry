@@ -58,7 +58,6 @@ export default StyleSheet.create({
   recoveryPhraseWord: {
     fontFamily: 'Avenir Light', fontSize: 15, fontWeight: '300', color: '#0060F2',
     width: convertWidth(107),
-    paddingTop: 2, paddingBottom: 2,
     marginLeft: 6,
   },
 

@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import propertyTransferStyle from './local-property-transfer.component.style';
 import { AccountService, AppProcessor, EventEmitterService } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 
@@ -78,7 +78,7 @@ export class LocalPropertyTransferComponent extends React.Component {
             <TouchableOpacity activeOpacity={1} style={propertyTransferStyle.mainContent}>
               <Text style={propertyTransferStyle.transferTitle}>{global.i18n.t("LocalPropertyTransferComponent_sendBitmark")}</Text>
               <View style={propertyTransferStyle.inputAccountNumberBar} >
-                <TextInput style={propertyTransferStyle.inputAccountNumber} placeholder={global.i18n.t("LocalPropertyTransferComponent_recipientBitmarkAccountNumber")}
+                <TextInput style={[config.isAndroid ? { padding: 2 } : {}, propertyTransferStyle.inputAccountNumber]} placeholder={global.i18n.t("LocalPropertyTransferComponent_recipientBitmarkAccountNumber")}
                   onChangeText={(bitmarkAccount) => this.setState({ bitmarkAccount })}
                   returnKeyType="done"
                   value={this.state.bitmarkAccount}

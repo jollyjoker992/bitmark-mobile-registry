@@ -11,7 +11,7 @@ import localAddPropertyStyle from './issue-file.component.style';
 import { AppProcessor, BitmarkService } from 'src/processors';
 import { FileUtil, convertWidth, getMetadataLabel, getMetadataValue } from 'src/utils';
 import { defaultStyles } from 'src/views/commons';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 
 
 
@@ -207,7 +207,7 @@ export class LocalIssueFileComponent extends React.Component {
               <Text style={localAddPropertyStyle.assetNameLabel}>{global.i18n.t("LocalIssueFileComponent_propertyName")}</Text>
               {!this.state.existingAsset && <TextInput
                 ref={(ref) => this.assetNameInputRef = ref}
-                style={[localAddPropertyStyle.assetNameInput, {
+                style={[config.isAndroid ? { padding: 2 } : {}, localAddPropertyStyle.assetNameInput, {
                   color: this.state.existingAsset ? '#C2C2C2' : 'black',
                   borderBottomColor: this.state.assetNameError ? '#FF003C' : (this.state.existingAsset ? '#C2C2C2' : '#0060F2')
                 }]} placeholder={global.i18n.t("LocalIssueFileComponent_64characterMax")}
@@ -258,7 +258,7 @@ export class LocalIssueFileComponent extends React.Component {
                             {!this.state.existingAsset && <Image style={localAddPropertyStyle.metadataFieldKeyEditIcon}
                               source={require('assets/imgs/next-icon-blue.png')} />}
                           </TouchableOpacity>
-                          <TextInput style={[localAddPropertyStyle.metadataFieldValue, {
+                          <TextInput style={[config.isAndroid ? { padding: 2 } : {}, localAddPropertyStyle.metadataFieldValue, {
                             color: (item.label && !this.state.existingAsset) ? 'black' : '#C1C1C1',
                           }]} placeholder={global.i18n.t("LocalIssueFileComponent_description")}
                             ref={(ref) => this['valueInput_' + item.key] = ref}
@@ -302,7 +302,7 @@ export class LocalIssueFileComponent extends React.Component {
               <Text style={localAddPropertyStyle.quantityLabel}>{global.i18n.t("LocalIssueFileComponent_quantityLabel")}</Text>
               <TextInput
                 ref={(ref) => this.quantityInputRef = ref}
-                style={[localAddPropertyStyle.quantityInput, {
+                style={[config.isAndroid ? { padding: 2 } : {}, localAddPropertyStyle.quantityInput, {
                   borderBottomColor: this.state.quantityError ? '#FF003C' : '#0060F2'
                 }]} placeholder="1 ~ 100"
                 onChangeText={this.doInputQuantity}

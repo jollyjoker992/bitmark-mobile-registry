@@ -7,7 +7,7 @@ import { Actions } from 'react-native-router-flux';
 
 import localAddPropertyStyle from './edit-label.component.style';
 import { defaultStyles } from 'src/views/commons';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { getMetadataLabel } from 'src/utils';
 
 export class LocalIssueFileEditLabelComponent extends React.Component {
@@ -58,7 +58,7 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
 
         <View style={localAddPropertyStyle.body}>
           <ScrollView style={localAddPropertyStyle.bodyContent}>
-            <TextInput style={localAddPropertyStyle.inputLabel}
+            <TextInput style={[config.isAndroid ? { padding: 2 } : {}, localAddPropertyStyle.inputLabel]}
               placeholder={global.i18n.t("LocalIssueFileEditLabelComponent_placeholder")}
               ref={(ref) => this.inputRef = ref}
               multiline={false}

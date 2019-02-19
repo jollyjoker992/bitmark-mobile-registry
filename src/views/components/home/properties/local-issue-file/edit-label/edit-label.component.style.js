@@ -14,7 +14,6 @@ export default StyleSheet.create({
     paddingRight: convertWidth(19),
   },
   inputLabel: {
-    padding: 2,
     marginTop: 47,
     width: convertWidth(337),
     fontFamily: 'Andale Mono',

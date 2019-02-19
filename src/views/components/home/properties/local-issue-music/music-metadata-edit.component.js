@@ -7,7 +7,7 @@ import {
 import { Actions } from 'react-native-router-flux';
 
 import { defaultStyles } from 'src/views/commons';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth, getMetadataLabel } from 'src/utils';
 
 
@@ -67,7 +67,7 @@ export class MusicMetadataEditComponent extends React.Component {
 
         <View style={cStyles.body}>
           <ScrollView style={cStyles.bodyContent}>
-            <TextInput style={cStyles.inputLabel}
+            <TextInput style={[config.isAndroid ? { padding: 2 } : {}, cStyles.inputLabel]}
               placeholder={global.i18n.t("MusicMetadataEditComponent_placeholder")}
               ref={(ref) => this.inputRef = ref}
               multiline={false}

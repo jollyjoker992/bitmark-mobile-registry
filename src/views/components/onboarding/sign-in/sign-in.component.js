@@ -11,7 +11,7 @@ import { Actions } from 'react-native-router-flux';
 import { dictionaryPhraseWords, convertWidth } from 'src/utils';
 import { AppProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 
 let PreCheckResults = {
   success: 'SUBMIT',
@@ -287,7 +287,7 @@ export class SignInComponent extends React.Component {
                       <Text style={signStyle.recoveryPhraseIndex}>{item.key + 1}.</Text>
                       <TextInput
                         autoComplete='off'
-                        style={[signStyle.recoveryPhraseWord, {
+                        style={[config.isAndroid ? { padding: 2 } : {}, signStyle.recoveryPhraseWord, {
                           backgroundColor: (item.word ? 'white' : '#F5F5F5'),
                           borderColor: '#0060F2',
                           borderWidth: (item.key === this.state.selectedIndex ? 1 : 0),
@@ -315,7 +315,7 @@ export class SignInComponent extends React.Component {
                       <Text style={signStyle.recoveryPhraseIndex}>{item.key + 1}.</Text>
                       <TextInput
                         autoComplete='off'
-                        style={[signStyle.recoveryPhraseWord, {
+                        style={[config.isAndroid ? { padding: 2 } : {}, signStyle.recoveryPhraseWord, {
                           backgroundColor: (item.word ? 'white' : '#F5F5F5'),
                           borderColor: '#0060F2',
                           borderWidth: (item.key === this.state.selectedIndex ? 1 : 0),

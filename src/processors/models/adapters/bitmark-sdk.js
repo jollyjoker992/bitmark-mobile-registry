@@ -106,7 +106,7 @@ const BitmarkSDK = {
     });
   },
 
-  encryptFile: async (filePath, recipient, outputFilePath) => {
+  encryptFile: async (filePath, outputFilePath) => {
     return await NativeBitmarkSDK.encryptFile({
       file_path: filePath,
       output_file_path: outputFilePath,
