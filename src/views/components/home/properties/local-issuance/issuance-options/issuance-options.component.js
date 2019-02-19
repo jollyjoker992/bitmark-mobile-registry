@@ -25,7 +25,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
       takePhotoButtonTitle: null,
       chooseFromLibraryButtonTitle: global.i18n.t("IssuanceOptionsComponent_chooseFromLibraryButtonTitle"),
       cancelButtonTitle: global.i18n.t("IssuanceOptionsComponent_cancelButtonTitle"),
-      mediaType: 'mixed',
+      mediaType: 'photo',
       noData: true,
     };
     ImagePicker.showImagePicker(options, (response) => {
@@ -57,13 +57,13 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
         console.log('stat uri :', response.uri, decodeURIComponent(response.uri));
         let result = await FileUtil.stat(decodeURIComponent(response.uri));
         console.log('stat result :', result);
-        await FileUtil.moveFileSafe(result.originalFilepath, destPath);
+        await FileUtil.copyFileSafe(result.originalFilepath, destPath);
       } else {
         await FileUtil.moveFileSafe(decodeURIComponent(response.uri.replace('file://', '')), destPath);
       }
     } else {
       if (config.isAndroid) {
-        await FileUtil.moveFileSafe(response.path, destPath);
+        await FileUtil.copyFileSafe(response.path, destPath);
       } else {
         await FileUtil.moveFileSafe(decodeURIComponent(response.uri.replace('file://', '')), destPath);
       }

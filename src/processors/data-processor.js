@@ -805,6 +805,7 @@ const doDecentralizedTransfer = async (token, ) => {
 
 const doMigrateAndroidAccount = async () => {
   await BitmarkSDK.migrate();
+  await doCreateAccount();
 };
 
 const DataProcessor = {
