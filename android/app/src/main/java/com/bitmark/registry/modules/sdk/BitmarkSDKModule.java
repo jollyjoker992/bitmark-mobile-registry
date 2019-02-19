@@ -809,11 +809,9 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     public void encryptFile(ReadableMap params, Promise promise) throws NativeModuleException {
 
         final File inputFile = new File(params.getString("file_path"));
-        final String receiver = params.getString("recipient");
         final File outputFile = new File(params.getString("output_file_path"));
 
-        if (!isValid(inputFile) || isValid(outputFile) || TextUtils
-                .isEmpty(receiver)) {
+        if (!isValid(inputFile) || isValid(outputFile)) {
             promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid params"));
             return;
         }
@@ -822,14 +820,14 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             @Override
             public void onSuccess(Account account) {
 
+                final KeyPair encryptionKey = account.getEncryptionKey();
                 final AssetEncryption assetEncryption = new AssetEncryption();
-                final byte[] receiverPubKey = HEX.decode(receiver);
                 final PublicKeyEncryption keyEncryption = new BoxEncryption(
-                        account.getEncryptionKey().privateKey().toBytes());
+                        encryptionKey.privateKey().toBytes());
 
                 try {
                     Pair<byte[], SessionData> result = assetEncryption
-                            .encrypt(inputFile, receiverPubKey, keyEncryption);
+                            .encrypt(inputFile, encryptionKey.publicKey().toBytes(), keyEncryption);
                     byte[] data = result.first();
                     write(outputFile, data);
                     promise.resolve(result.second().toMap());
