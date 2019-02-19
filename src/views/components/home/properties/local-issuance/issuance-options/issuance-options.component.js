@@ -54,10 +54,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     let destPath = FileUtil.CacheDirectory + '/' + response.fileName;
     if (isFile) {
       if (config.isAndroid) {
-        console.log('stat uri :', response.uri, decodeURIComponent(response.uri));
-        let result = await FileUtil.stat(decodeURIComponent(response.uri));
-        console.log('stat result :', result);
-        await FileUtil.copyFileSafe(result.originalFilepath, destPath);
+        await FileUtil.copyFileSafe((await FileUtil.pathFromUri(decodeURIComponent(response.uri))), destPath);
       } else {
         await FileUtil.moveFileSafe(decodeURIComponent(response.uri.replace('file://', '')), destPath);
       }

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.bitmark.registry.modules.authentication.AuthenticationPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
+import com.bitmark.registry.modules.common.CommonPackage;
 import com.bitmark.registry.modules.navigation.NavigationPackage;
 import com.bitmark.registry.modules.sdk.BitmarkSDKPackage;
 import com.chirag.RNMail.RNMail;
@@ -72,6 +73,7 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNFSPackage(),
                     new BitmarkSDKPackage(),
                     new AuthenticationPackage(),
+                    new CommonPackage(),
                     new NavigationPackage()
             );
         }

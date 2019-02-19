@@ -1,6 +1,10 @@
+
+import { NativeModules } from 'react-native'
 import RNFS from 'react-native-fs';
 import { zip, unzip } from 'react-native-zip-archive';
 import { config } from 'src/configs';
+
+const CommonModule = config.isAndroid ? NativeModules.CommonModule : null;
 
 class FileUtil {
   static CacheDirectory = RNFS.CachesDirectoryPath;
@@ -119,6 +123,10 @@ class FileUtil {
 
   static async exists(filePath) {
     return RNFS.exists(filePath);
+  }
+
+  static async pathFromUri(uri) {
+    return config.isAndroid ? (await CommonModule.getRealPathFromUri(uri)) : null;
   }
 
   static async pathForGroup(groupIdentifier) {
