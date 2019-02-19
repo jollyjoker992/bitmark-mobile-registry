@@ -73,9 +73,9 @@ const BitmarkSDK = {
       assetId: list[1],
     };
   },
-  transfer: async (bitmarkId, address) => {
+  transfer: async (bitmark_id, address) => {
     return await NativeBitmarkSDK.transfer({
-      address, bitmark_id: bitmarkId
+      address, bitmark_id
     });
   },
 

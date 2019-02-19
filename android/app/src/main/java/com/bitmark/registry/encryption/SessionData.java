@@ -2,6 +2,8 @@ package com.bitmark.registry.encryption;
 
 import com.bitmark.cryptography.error.ValidateException;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,10 +44,10 @@ public class SessionData {
         return encryptedKey;
     }
 
-    public Map<String, Object> toMap() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("data_key_alg", algorithm);
-        map.put("enc_data_key", encryptedKey);
+    public WritableMap toMap() {
+        WritableMap map = new WritableNativeMap();
+        map.putString("data_key_alg", algorithm);
+        map.putString("enc_data_key", encryptedKey);
         return map;
     }
 }

@@ -405,7 +405,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     public void transfer(ReadableMap params, Promise promise) throws NativeModuleException {
 
         String bitmarkId = params.getString("bitmark_id");
-        String receiver = params.getString("recipient");
+        String receiver = params.getString("address");
 
         if (TextUtils.isEmpty(bitmarkId) || TextUtils.isEmpty(receiver)) {
             promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid Params"));
@@ -811,7 +811,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         final File inputFile = new File(params.getString("file_path"));
         final File outputFile = new File(params.getString("output_file_path"));
 
-        if (!isValid(inputFile) || isValid(outputFile)) {
+        if (!isValid(inputFile)) {
             promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid params"));
             return;
         }
@@ -829,6 +829,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     Pair<byte[], SessionData> result = assetEncryption
                             .encrypt(inputFile, encryptionKey.publicKey().toBytes(), keyEncryption);
                     byte[] data = result.first();
+                    if (!outputFile.exists()) outputFile.createNewFile();
                     write(outputFile, data);
                     promise.resolve(result.second().toMap());
 
@@ -856,8 +857,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         final SessionData sessionData = SessionData.fromReadableMap(params.getMap("session_data"));
 
 
-        if (!isValid(inputFile) || isValid(outputFile) || TextUtils
-                .isEmpty(sender)) {
+        if (!isValid(inputFile) || TextUtils.isEmpty(sender)) {
             promise.reject(ERROR_UNEXPECTED_CODE, new NativeModuleException("Invalid params"));
             return;
         }
@@ -875,6 +875,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     final AssetEncryption assetEncryption = AssetEncryption
                             .fromSessionData(keyEncryption, sessionData, senderPubKey);
                     final byte[] decryptedData = assetEncryption.decrypt(encryptedData);
+                    if (!outputFile.exists()) outputFile.createNewFile();
                     write(outputFile, decryptedData);
                     promise.resolve(true);
 

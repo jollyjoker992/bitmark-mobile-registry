@@ -271,45 +271,71 @@ const doUploadFileToCourierServer = async (assetId, filePath, sessionData, filen
   if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
     let message = `${assetId}|${sessionData.data_key_alg}|${sessionData.enc_data_key}|*|${access}`;
     let signature = (await BitmarkSDK.signMessages([message]))[0];
-    const formData = new FormData();
-    formData.append('file', {
-      uri: filePath,
-      name: filename
-    });
-    formData.append('data_key_alg', sessionData.data_key_alg);
-    formData.append('enc_data_key', sessionData.enc_data_key);
-    formData.append('orig_content_type', '*');
-    formData.append('access', access);
 
-    let headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'multipart/form-data',
-      requester: CacheData.userInformation.bitmarkAccountNumber,
-      signature
-    };
-
-    let uploadFunction = (headers, formData) => {
+    let uploadFunction = () => {
       return new Promise((resolve, reject) => {
-        let statusCode;
-        fetch(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
-          method: 'POST',
-          headers,
-          body: formData,
-        }).then((response) => {
-          statusCode = response.status;
-          if (statusCode < 400) {
-            return response.json();
+        const formData = new FormData();
+        formData.append('file', {
+          uri: (config.isAndroid ? 'file://' : '') + filePath,
+          name: filename,
+          filename,
+        });
+        formData.append('data_key_alg', sessionData.data_key_alg);
+        formData.append('enc_data_key', sessionData.enc_data_key);
+        formData.append('orig_content_type', '*');
+        formData.append('access', access);
+        let headers = {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data',
+          requester: CacheData.userInformation.bitmarkAccountNumber,
+          signature
+        };
+
+
+        let xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = (e) => {
+          if (xhr.readyState !== 4) {
+            resolve(true);
           }
-          return response.text();
-        }).then((data) => {
-          if (statusCode >= 400) {
-            return reject(new Error(`uploadFunction error : ${statusCode}` + JSON.stringify(data)));
+
+          if (xhr.status === 200) {
+            resolve(true);
+          } else {
+            reject(new Error('upload error'));
           }
-          resolve(data);
-        }).catch(reject);
+        };
+        xhr.open('POST', `${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`);
+        xhr.setRequestHeader(headers);
+        xhr.send(formData);
       });
-    }
-    return await uploadFunction(headers, formData);
+    };
+    return await uploadFunction();
+
+    // console.log('uploadFunction :', { formData, headers });
+
+    // let uploadFunction = (headers, formData) => {
+    //   return new Promise((resolve, reject) => {
+    //     let statusCode;
+    //     fetch(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
+    //       method: 'POST',
+    //       headers,
+    //       body: formData,
+    //     }).then((response) => {
+    //       statusCode = response.status;
+    //       if (statusCode < 400) {
+    //         return response.json();
+    //       }
+    //       return response.text();
+    //     }).then((data) => {
+    //       if (statusCode >= 400) {
+    //         return reject(new Error(`uploadFunction error : ${statusCode}` + JSON.stringify(data)));
+    //       }
+    //       resolve(data);
+    //     }).catch(reject);
+    //   });
+    // }
+    // return await uploadFunction(headers, formData);
   }
 };
 

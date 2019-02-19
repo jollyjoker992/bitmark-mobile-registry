@@ -179,7 +179,7 @@ const doCreateAccount = async () => {
   let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
   await runPromiseWithoutError(AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]));
   await CommonModel.doTrackEvent({
-    event_name: 'registry_create_new_account',
+    event_name: `registry${config.isAndroid ? '_android' : ''}_create_new_account`,
     account_number: userInformation ? userInformation.bitmarkAccountNumber : null,
   });
   return userInformation;
@@ -248,7 +248,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     appInfo.trackEvents.app_download = true;
     await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
     await CommonModel.doTrackEvent({
-      event_name: 'registry_download',
+      event_name: `registry${config.isAndroid ? '_android' : ''}_download`,
       account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
     });
   }

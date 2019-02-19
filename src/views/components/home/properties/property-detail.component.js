@@ -15,6 +15,7 @@ import { Provider, connect } from 'react-redux';
 import moment from 'moment';
 // import Video from 'react-native-video';
 import Hyperlink from 'react-native-hyperlink';
+import CustomShare from 'react-native-share';
 
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 import { convertWidth, isHealthRecord, isMedicalRecord, isImageFile, isVideoFile, isDocFile, isZipFile, isMusicAsset, } from 'src/utils';
@@ -97,7 +98,11 @@ class PrivatePropertyDetailComponent extends React.Component {
       indicator: true, title: global.i18n.t("PropertyDetailComponent_preparingToExport"), message: global.i18n.t("PropertyDetailComponent_downloadingFile", { fileName: this.props.asset.name })
     }).then(filePath => {
       if (filePath) {
-        Share.share({ title: this.props.asset.name, url: filePath });
+        CustomShare.open({ title: this.props.asset.name, url: filePath }).then(() => {
+          console.log('Share success', filePath);
+        }).catch(error => {
+          console.log('Share error :', error);
+        });
       }
     }).catch(error => {
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("PropertyDetailComponent_notReadyToDownload") });
@@ -107,7 +112,11 @@ class PrivatePropertyDetailComponent extends React.Component {
 
   shareAssetFile() {
     if (this.props.asset.filePath) {
-      Share.share({ title: this.props.asset.name, url: this.props.asset.filePath });
+      CustomShare.open({ title: this.props.asset.name, url: this.props.asset.filePath }).then(() => {
+        console.log('Share success', this.props.asset.filePath);
+      }).catch(error => {
+        console.log('Share error :', error);
+      });
     } else {
       this.downloadAsset();
     }

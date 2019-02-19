@@ -303,7 +303,7 @@ const doIssueFile = async (filePath, assetName, metadataList, quantity) => {
   if (appInfo && (!appInfo.lastTimeIssued ||
     (appInfo.lastTimeIssued && (appInfo.lastTimeIssued - moment().toDate().getTime()) > 7 * 24 * 60 * 60 * 1000))) {
     await CommonModel.doTrackEvent({
-      event_name: 'registry_weekly_active_user',
+      event_name: `registry${config.isAndroid ? '_android' : ''}_weekly_active_user`,
       account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
     });
     appInfo.lastTimeIssued = moment().toDate().getTime();
@@ -348,7 +348,7 @@ const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, li
   if (appInfo && (!appInfo.lastTimeIssued ||
     (appInfo.lastTimeIssued && (appInfo.lastTimeIssued - moment().toDate().getTime()) > 7 * 24 * 60 * 60 * 1000))) {
     await CommonModel.doTrackEvent({
-      event_name: 'registry_weekly_active_user',
+      event_name: `registry${config.isAndroid ? '_android' : ''}_weekly_active_user`,
       account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
     });
     appInfo.lastTimeIssued = moment().toDate().getTime();

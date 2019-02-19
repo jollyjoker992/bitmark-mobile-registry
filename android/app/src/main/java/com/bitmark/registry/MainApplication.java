@@ -30,13 +30,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import cl.json.RNSharePackage;
+import cl.json.ShareApplication;
 import io.fabric.sdk.android.Fabric;
 import io.intercom.android.sdk.Intercom;
 import io.sentry.RNSentryPackage;
 
 import static com.bitmark.registry.keymanagement.ApiKeyManager.API_KEY_MANAGER;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends Application implements ReactApplication, ShareApplication {
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
@@ -95,5 +96,10 @@ public class MainApplication extends Application implements ReactApplication {
         Fabric.with(this, new Crashlytics());
         SoLoader.init(this, /* native exopackage */ false);
         Intercom.initialize(this, "ios_sdk-73c4808d20211944196736d561a405f6ffcdaded", "ejkeunzw");
+    }
+
+    @Override
+    public String getFileProviderAuthority() {
+        return BuildConfig.APPLICATION_ID + ".provider";
     }
 }

@@ -72,7 +72,7 @@ const doMetricOnScreen = async (isActive) => {
 
       let totalOnScreenAtPreTime = Math.floor((offScreenAt - onScreenAt) / (1000 * 60));
       await CommonModel.doTrackEvent({
-        event_name: 'registry_screen_time',
+        event_name: `registry${config.isAndroid ? '_android' : ''}_screen_time`,
         account_number: userInfo ? userInfo.bitmarkAccountNumber : null,
       }, {
           hit: totalOnScreenAtPreTime
