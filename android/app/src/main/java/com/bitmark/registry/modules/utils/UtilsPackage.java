@@ -1,4 +1,4 @@
-package com.bitmark.registry.modules.common;
+package com.bitmark.registry.modules.utils;
 
 
 import com.facebook.react.ReactPackage;
@@ -10,10 +10,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class CommonPackage implements ReactPackage {
+public class UtilsPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.asList(new CommonModule(reactContext));
+        return Arrays.asList(new UtilsModule(reactContext));
     }
 
     @Override
