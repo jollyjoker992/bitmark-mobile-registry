@@ -79,14 +79,7 @@ public class MediaUtils {
                     }
 
                     if (path == null) {
-                        long millis = System.currentTimeMillis();
-                        String datetime = new Date().toString();
-                        datetime = datetime.replace(" ", "");
-                        datetime = datetime.replace(":", "");
-                        final String displayName = Random
-                                .secureRandomInt() + "_" + datetime + "_" + millis;
-
-                        path = writeCacheFile(context, uri, displayName.replace(".", ""));
+                        path = writeCacheFile(context, uri, "temp" + getRandomFileName());
                     }
 
                     return path;
@@ -142,7 +135,7 @@ public class MediaUtils {
                         .getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME);
                 final String displayName = cursor.getString(columnIndex);
 
-                return writeCacheFile(context, uri, displayName);
+                return writeCacheFile(context, uri, "temp" + displayName);
             }
         } finally {
             if (cursor != null)
@@ -177,5 +170,10 @@ public class MediaUtils {
         } catch (FileNotFoundException e) {
             throw new IOException(e);
         }
+    }
+
+    private static String getRandomFileName() {
+        long millis = System.currentTimeMillis();
+        return Random.secureRandomInt() + "_" + millis;
     }
 }
