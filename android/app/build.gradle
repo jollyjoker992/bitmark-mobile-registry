@@ -204,7 +204,7 @@ android {
         def name = variant.getName()
 
         if (name.contains("inhouse")) {
-            variant.buildConfigField 'int', 'KEY_VALIDITY_DURATION', '180'
+            variant.buildConfigField 'int', 'KEY_VALIDITY_DURATION', '60'
         } else if (name.contains("prd")) {
             variant.buildConfigField 'int', 'KEY_VALIDITY_DURATION', '600'
         }
@@ -232,11 +232,11 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation "com.bitmark.sdk:android-sdk:1.5-SNAPSHOT"
-    implementation 'io.intercom.android:intercom-sdk-fcm:5.1.5'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {
         transitive = true
     }
+    implementation 'io.intercom.android:intercom-sdk-fcm:5.2.0'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
 }
 
 // Run this once to be able to run the application with BUCK

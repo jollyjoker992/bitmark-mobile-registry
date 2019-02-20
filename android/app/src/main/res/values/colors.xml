@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/wild_sand</color>
+    <color name="colorPrimaryDark">@color/silver</color>
+    <color name="colorAccent">@color/blue_ribbon</color>
+    <color name="blue">#42a5f5</color>
+    <color name="blue_ribbon">#0060F2</color>
+    <color name="blue_ribbon_66">#660060F2</color>
+    <color name="athens_gray">#EDF0F4</color>
+    <color name="athens_gray_66">#66EDF0F4</color>
+    <color name="wild_sand">#F5F5F5</color>
+    <color name="mercury">#E5E5E5</color>
+    <color name="silver">#C1C1C1</color>
+</resources>

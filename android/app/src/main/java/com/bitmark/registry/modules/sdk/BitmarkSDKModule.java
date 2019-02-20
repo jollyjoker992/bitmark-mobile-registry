@@ -19,6 +19,7 @@ import com.bitmark.apiservice.response.GetTransactionResponse;
 import com.bitmark.apiservice.response.GetTransactionsResponse;
 import com.bitmark.apiservice.response.RegistrationResponse;
 import com.bitmark.apiservice.utils.Address;
+import com.bitmark.apiservice.utils.BackgroundJobScheduler;
 import com.bitmark.apiservice.utils.Data;
 import com.bitmark.apiservice.utils.Pair;
 import com.bitmark.apiservice.utils.callback.Callable1;
@@ -1045,13 +1046,15 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                 new Callback1<Account>() {
                     @Override
                     public void onSuccess(Account account) {
-                        callback.onSuccess(account);
+                        BackgroundJobScheduler.getInstance()
+                                              .execute(() -> callback.onSuccess(account));
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
                         if (!handleKeyStoreException(throwable, promise))
-                            callback.onError(throwable);
+                            BackgroundJobScheduler.getInstance()
+                                                  .execute(() -> callback.onError(throwable));
                     }
                 });
     }
