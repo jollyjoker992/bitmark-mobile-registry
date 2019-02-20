@@ -74,7 +74,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-        entryFile: "index.js",
+        entryFile      : "index.js",
         bundleAssetName: "index.android.bundle"
 ]
 
@@ -244,4 +244,17 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
+}
+
+task fillSecretKey() {
+    def keyPropertiesFile = rootProject.file('key.properties')
+    def keyProperties = new Properties()
+    keyProperties.load(new FileInputStream(keyPropertiesFile))
+    def apiKeyFile = file('src/main/jni/api-key.cpp')
+    def content = apiKeyFile.getText()
+    content = content.replace('bitmark-api-key-to-be-filled', keyProperties['api.key.bitmark'])
+            .replace('code-push-api-key-to-be-filled', keyProperties['api.key.codepush'])
+            .replace('intercom-api-key-to-be-filled', keyProperties['api.key.intercom'])
+    apiKeyFile.bytes = []
+    apiKeyFile.text = content
 }

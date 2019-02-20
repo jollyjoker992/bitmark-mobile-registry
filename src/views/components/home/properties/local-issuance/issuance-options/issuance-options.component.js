@@ -1,20 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Provider, connect } from 'react-redux';
+import {Provider, connect} from 'react-redux';
 import {
   View, Text, TouchableOpacity, Image, SafeAreaView,
-  Alert,
+  Alert, PermissionsAndroid, Platform
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
-import { Actions } from 'react-native-router-flux';
+import {DocumentPicker, DocumentPickerUtil} from 'react-native-document-picker';
+import {Actions} from 'react-native-router-flux';
 
 import issuanceOptionsStyle from './issuance-options.component.style';
-import { FileUtil, isReleasedAsset } from 'src/utils';
-import { AppProcessor, EventEmitterService, CacheData } from 'src/processors';
-import { defaultStyles } from 'src/views/commons';
-import { AccountStore } from 'src/views/stores';
-import { config } from 'src/configs';
+import {FileUtil, isReleasedAsset} from 'src/utils';
+import {AppProcessor, EventEmitterService, CacheData} from 'src/processors';
+import {defaultStyles} from 'src/views/commons';
+import {AccountStore} from 'src/views/stores';
+import {config} from 'src/configs';
 
 
 export class PrivateIssuanceOptionsComponent extends React.Component {
@@ -36,16 +36,21 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     });
   }
 
-  onChooseFile() {
-    DocumentPicker.show({
-      filetype: [DocumentPickerUtil.allFiles(), "public.data"],
-    }, (error, response) => {
-      console.log('onChooseFile :', error, response);
-      if (error) {
-        return;
-      }
-      this.prepareToIssue(response, true);
-    });
+  async onChooseFile() {
+
+    if ((await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)) === PermissionsAndroid.RESULTS.GRANTED) {
+      DocumentPicker.show({
+        filetype: [DocumentPickerUtil.allFiles(), "public.data"],
+      }, (error, response) => {
+        console.log('onChooseFile :', error, response);
+        if (error) {
+          return;
+        }
+        this.prepareToIssue(response, true);
+      });
+
+    }
+
   }
 
   async prepareToIssue(response, isFile) {
@@ -81,7 +86,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
       });
     }).catch(error => {
       console.log('doCheckFileToIssue error :', error);
-      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+      EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, {error});
     });
   }
 
@@ -89,7 +94,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     if (!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) {
       Actions.iftttActive();
     } else {
-      Actions.jump('accountDetail', { subTab: 'AUTHORIZED' });
+      Actions.jump('accountDetail', {subTab: 'AUTHORIZED'});
     }
   }
 
@@ -98,33 +103,43 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
       <SafeAreaView style={issuanceOptionsStyle.body}>
         <View style={issuanceOptionsStyle.header}>
           <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
-            <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
+            <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')}/>
           </TouchableOpacity>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("IssuanceOptionsComponent_register")}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight} />
+          <TouchableOpacity style={defaultStyles.headerRight}/>
         </View>
         <View style={issuanceOptionsStyle.content}>
           {CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] && CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account &&
-            <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={Actions.musicFileChosen}>
-              <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/music_icon.png')} />
-              <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_musics")}</Text>
-              <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
-            </TouchableOpacity>}
+          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={Actions.musicFileChosen}>
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/music_icon.png')}/>
+            <Text
+              style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_musics")}</Text>
+            <Image style={issuanceOptionsStyle.optionButtonNextIcon}
+                   source={require('assets/imgs/next-icon-blue.png')}/>
+          </TouchableOpacity>}
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile.bind(this)}>
-            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/photo_icon.png')} />
-            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>
-            <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/photo_icon.png')}/>
+            <Text
+              style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>
+            <Image style={issuanceOptionsStyle.optionButtonNextIcon}
+                   source={require('assets/imgs/next-icon-blue.png')}/>
           </TouchableOpacity>
           <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChooseFile.bind(this)}>
-            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/file_icon.png')} />
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/file_icon.png')}/>
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_files")}</Text>
-            <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
+            <Image style={issuanceOptionsStyle.optionButtonNextIcon}
+                   source={require('assets/imgs/next-icon-blue.png')}/>
           </TouchableOpacity>
-          {config.isIPhone && <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData.bind(this)}>
-            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/ifttt-icon.png')} />
-            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
-            {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) && <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />}
-            {this.props.iftttInformation && !!this.props.iftttInformation.connectIFTTT && <Text style={issuanceOptionsStyle.optionButtonStatus}>{global.i18n.t("IssuanceOptionsComponent_authorized")}</Text>}
+          {config.isIPhone &&
+          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData.bind(this)}>
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/ifttt-icon.png')}/>
+            <Text
+              style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
+            {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) &&
+            <Image style={issuanceOptionsStyle.optionButtonNextIcon}
+                   source={require('assets/imgs/next-icon-blue.png')}/>}
+            {this.props.iftttInformation && !!this.props.iftttInformation.connectIFTTT && <Text
+              style={issuanceOptionsStyle.optionButtonStatus}>{global.i18n.t("IssuanceOptionsComponent_authorized")}</Text>}
           </TouchableOpacity>}
 
           <Text style={issuanceOptionsStyle.message}>
@@ -152,9 +167,10 @@ export class IssuanceOptionsComponent extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <Provider store={AccountStore}>
           <StoreIssuanceOptionsComponent />
         </Provider>
