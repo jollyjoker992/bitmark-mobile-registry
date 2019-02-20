@@ -78,7 +78,7 @@
 	<string>Avenir-Light</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>AndaleMono.ttf</string>
+		<string>andale_mono.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

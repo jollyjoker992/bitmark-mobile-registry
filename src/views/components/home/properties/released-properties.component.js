@@ -135,14 +135,14 @@ const cStyles = StyleSheet.create({
     paddingLeft: convertWidth(19), paddingRight: convertWidth(10),
   },
   assetContentName: {
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17,
     marginBottom: 14,
   },
   register: {
-    fontFamily: 'Andale Mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14,
   },
   viewAssetInfoButtonText: {
-    fontFamily: 'AvenirNextW1G-Regular', fontSize: 12, color: '#0060F2'
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 12, color: '#0060F2'
   },
   assetButtonsArea: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
@@ -158,7 +158,7 @@ const cStyles = StyleSheet.create({
   },
   assetButtonText: {
     marginLeft: 10,
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 14, color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: '#0060F2',
   },
   assetButtonIcon: {
     resizeMode: 'contain', height: 14, width: 17,
@@ -181,15 +181,15 @@ const cStyles = StyleSheet.create({
   },
   timestamp: {
     width: 86,
-    fontFamily: 'Andale Mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13,
   },
   bitmarkId: {
     width: 80,
-    fontFamily: 'Andale Mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13,
     marginLeft: convertWidth(20),
   },
   owner: {
-    fontFamily: 'Andale Mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13,
     marginLeft: convertWidth(20),
     flex: 1, width: '100%',
   },

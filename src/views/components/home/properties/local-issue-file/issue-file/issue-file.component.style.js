@@ -30,7 +30,7 @@ export default StyleSheet.create({
     height: 28,
   },
   fingerprintValue: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontWeight: '300',
     fontSize: 14,
     lineHeight: 16,
@@ -168,7 +168,7 @@ export default StyleSheet.create({
     width: convertWidth(330),
     borderBottomWidth: 1,
     height: 25,
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
   },
   assetNameInputError: {
@@ -234,7 +234,7 @@ export default StyleSheet.create({
     width: '100%',
   },
   metadataFieldKeyText: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontWeight: '300',
     fontSize: 14,
     marginLeft: 7,
@@ -247,7 +247,7 @@ export default StyleSheet.create({
   },
   metadataFieldValue: {
     width: '100%',
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontWeight: '300',
     fontSize: 14,
     marginLeft: 7,
@@ -280,7 +280,7 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   addMetadataButtonText: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 14,
     color: '#C2C2C2',
   },
@@ -309,7 +309,7 @@ export default StyleSheet.create({
     width: convertWidth(330),
     borderBottomWidth: 1,
     height: 25,
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontWeight: '300',
     fontSize: 14,
     lineHeight: 16,

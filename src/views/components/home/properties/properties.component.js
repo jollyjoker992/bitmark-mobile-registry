@@ -365,7 +365,7 @@ const cStyles = StyleSheet.create({
     height: 35,
   },
   subTabButtonText: {
-    fontFamily: 'AvenirNextW1G-Bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     textAlign: 'center',
   },
@@ -392,7 +392,7 @@ const cStyles = StyleSheet.create({
     marginTop: 46,
     width: '100%',
     paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
-    fontFamily: 'AvenirNextW1G-Bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 17,
     color: '#0060F2'
   },
@@ -400,7 +400,7 @@ const cStyles = StyleSheet.create({
     marginTop: 46,
     width: '100%',
     paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
-    fontFamily: 'AvenirNextW1G-Light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 17,
   },
   noReleaseIcon: {
@@ -417,7 +417,7 @@ const cStyles = StyleSheet.create({
     minHeight: 45,
   },
   addFirstPropertyButtonText: {
-    fontFamily: 'AvenirNextW1G-Bold', textAlign: 'center', fontSize: 16, color: 'white'
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
   bitmarkRowArea: {
     width: '100%',
@@ -438,30 +438,30 @@ const cStyles = StyleSheet.create({
     flexDirection: 'column',
   },
   bitmarkCreatedAt: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     width: '100%',
   },
   bitmarkAssetName: {
-    fontFamily: 'AvenirNextW1G-Bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     width: '100%',
     marginTop: 10,
   },
   bitmarkissuer: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 14,
     marginTop: 10,
     width: '100%',
   },
   releasedAssetName: {
     width: '100%',
-    fontFamily: 'AvenirNextW1G-Demi', fontSize: 13,
+    fontFamily: 'avenir_next_w1g_demi', fontSize: 13,
   },
   releasedAssetEditionLeft: {
     marginTop: 3,
     width: '100%',
-    fontFamily: 'AvenirNextW1G-Demi', fontSize: 13, color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_demi', fontSize: 13, color: '#0060F2',
   },
   globalArea: {
     flex: 1,

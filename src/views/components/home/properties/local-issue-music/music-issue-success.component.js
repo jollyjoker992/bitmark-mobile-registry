@@ -162,7 +162,7 @@ const cStyles = StyleSheet.create({
     width: '100%',
   },
   description: {
-    fontFamily: 'AvenirNextW1G-Light', fontSize: 17, fontWeight: '300', color: 'white', lineHeight: 23,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, fontWeight: '300', color: 'white', lineHeight: 23,
     paddingLeft: convertWidth(39), paddingRight: convertWidth(35), marginTop: 30,
     width: '100%',
   },
@@ -185,17 +185,17 @@ const cStyles = StyleSheet.create({
   linkAssetName: {
     width: '100%',
     marginTop: 12,
-    fontFamily: 'AvenirNextW1G-Bold', color: 'white', fontSize: 16, textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_bold', color: 'white', fontSize: 16, textAlign: 'center',
   },
   linkLimitedEdition: {
     width: '100%',
     marginTop: 3,
-    fontFamily: 'AvenirNextW1G-Medium', color: 'white', fontSize: 12, textAlign: 'center', fontStyle: 'italic',
+    fontFamily: 'avenir_next_w1g_medium', color: 'white', fontSize: 12, textAlign: 'center', fontStyle: 'italic',
   },
   linkIssuer: {
     width: '100%',
     marginTop: 3,
-    fontFamily: 'AvenirNextW1G-Medium', color: 'white', fontSize: 12, textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_medium', color: 'white', fontSize: 12, textAlign: 'center',
   },
   issueResult: {
     flex: 1,
@@ -239,7 +239,7 @@ const cStyles = StyleSheet.create({
     width: '100%',
   },
   resultContentTextLink: {
-    fontFamily: 'AvenirNextW1G-Light', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17,
     width: '100%',
   },
   musicSuccessButton: {

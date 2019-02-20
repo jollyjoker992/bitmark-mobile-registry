@@ -61,7 +61,7 @@ export default StyleSheet.create({
     height: 35,
   },
   subTabButtonText: {
-    fontFamily: 'AvenirNextW1G-Bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     textAlign: 'center',
   },
@@ -100,7 +100,7 @@ export default StyleSheet.create({
     minHeight: 30,
   },
   accountNumberValue: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontWeight: '900',
     fontSize: convertWidth(11),
     width: convertWidth(337),

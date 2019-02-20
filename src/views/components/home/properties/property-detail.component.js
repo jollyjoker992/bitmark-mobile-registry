@@ -260,7 +260,7 @@ class PrivatePropertyDetailComponent extends React.Component {
           }]}>
             <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', paddingLeft: convertWidth(15), paddingRight: convertWidth(15) }}>
               <Image style={{ width: 15, height: 15, resizeMode: 'contain', marginRight: 5, }} source={require('assets/imgs/logo.png')} />
-              <Text style={{ fontFamily: 'Andale Mono', fontSize: 14, color: '#545454', }} >{global.i18n.t("PropertyDetailComponent_releaseLabel")}</Text>
+              <Text style={{ fontFamily: 'andale_mono', fontSize: 14, color: '#545454', }} >{global.i18n.t("PropertyDetailComponent_releaseLabel")}</Text>
             </View>
 
             <View style={{ width: '100%', flexDirection: 'row', paddingLeft: convertWidth(15), paddingRight: convertWidth(15), alignItems: 'center', justifyContent: 'space-between', marginTop: 5, }}>
@@ -268,8 +268,8 @@ class PrivatePropertyDetailComponent extends React.Component {
               <Image style={{ width: 18, height: 18, resizeMode: 'contain', }} source={require('assets/imgs/+_grey.png')} />
             </View>
             <View style={cStyles.assetContent}>
-              <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{global.i18n.t("PropertyDetailComponent_releaseAssetId", { assetId: this.props.asset.id })}</Text>
-              <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, marginTop: 5 }}>{global.i18n.t("PropertyDetailComponent_releaseIssuedAt", { issuedAt: moment(this.props.asset.created_at).format('YYYY MMM DD').toUpperCase() })}</Text>
+              <Text numberOfLines={1} style={{ fontFamily: 'andale_mono', color: '#545454', fontSize: 14, }}>{global.i18n.t("PropertyDetailComponent_releaseAssetId", { assetId: this.props.asset.id })}</Text>
+              <Text numberOfLines={1} style={{ fontFamily: 'andale_mono', color: '#545454', fontSize: 14, marginTop: 5 }}>{global.i18n.t("PropertyDetailComponent_releaseIssuedAt", { issuedAt: moment(this.props.asset.created_at).format('YYYY MMM DD').toUpperCase() })}</Text>
             </View>
 
             <View style={{ paddingLeft: convertWidth(15), paddingRight: convertWidth(15), width: '100%', }}>
@@ -403,7 +403,7 @@ class PrivatePropertyDetailComponent extends React.Component {
                         }
                         return '';
                       }}>
-                      <Text style={[cStyles.assetRegister, this.props.bitmark.status === 'confirmed' ? {} : { fontFamily: 'AvenirNextW1G-Demi', color: '#999999' }]}>
+                      <Text style={[cStyles.assetRegister, this.props.bitmark.status === 'confirmed' ? {} : { fontFamily: 'avenir_next_w1g_demi', color: '#999999' }]}>
                         {this.props.bitmark.status === 'confirmed'
                           ? global.i18n.t('PropertyDetailComponent_issuedOn', { time: moment(this.props.bitmark.issued_at).format('YYYY MMM DD').toUpperCase() })
                           : global.i18n.t('PropertyDetailComponent_pending')}
@@ -428,10 +428,10 @@ class PrivatePropertyDetailComponent extends React.Component {
                     backgroundColor: '#F5F5F5'
                   }]}>
                     <Text style={[cStyles.provenanceRowItem, this.props.bitmark.status === 'confirmed' ? {} : {
-                      color: '#545454', fontFamily: 'AvenirNextW1G-Regular'
+                      color: '#545454', fontFamily: 'avenir_next_w1g_regular'
                     }]}>{global.i18n.t("PropertyDetailComponent_timestamp")}</Text>
                     <Text style={[cStyles.provenanceRowItem, { marginLeft: convertWidth(19), }, this.props.bitmark.status === 'confirmed' ? {} : {
-                      color: '#545454', fontFamily: 'AvenirNextW1G-Regular'
+                      color: '#545454', fontFamily: 'avenir_next_w1g_regular'
                     }]}>{global.i18n.t("PropertyDetailComponent_owner")}</Text>
                   </View>
                   {this.state.gettingData && <ActivityIndicator style={{ marginTop: 42 }} size="large" />}
@@ -560,11 +560,11 @@ const cStyles = StyleSheet.create({
   },
   assetContentName: {
     marginTop: 34,
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 18,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 18,
   },
   assetRegister: {
     marginTop: 10,
-    fontFamily: 'Andale Mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13,
   },
   metadataArea: {
     marginTop: 26,
@@ -576,7 +576,7 @@ const cStyles = StyleSheet.create({
     flexDirection: 'row',
   },
   metadataItemLabel: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     fontWeight: '900',
     color: '#0060F2',
@@ -597,7 +597,7 @@ const cStyles = StyleSheet.create({
     paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
   },
   provenanceLabel: {
-    fontFamily: 'AvenirNextW1G-Bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     width: '100%',
     height: 27,
@@ -608,7 +608,7 @@ const cStyles = StyleSheet.create({
     paddingTop: 10, paddingBottom: 10,
   },
   provenanceRowItem: {
-    fontFamily: 'Andale Mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13,
     flex: 1,
   },
 
@@ -621,7 +621,7 @@ const cStyles = StyleSheet.create({
   actionRowText: {
     width: '100%',
     textAlign: 'center',
-    fontFamily: 'AvenirNextW1G-Bold', color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', color: '#0060F2',
   },
 
 });

@@ -95,7 +95,7 @@ public class MainApplication extends Application implements ReactApplication, Sh
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         SoLoader.init(this, /* native exopackage */ false);
-        Intercom.initialize(this, "android_sdk-4fa38f1d69fc8299c4a70609c01731bafbbb311d",
+        Intercom.initialize(this, API_KEY_MANAGER.getIntercomApiKey(),
                 "ejkeunzw");
     }
 

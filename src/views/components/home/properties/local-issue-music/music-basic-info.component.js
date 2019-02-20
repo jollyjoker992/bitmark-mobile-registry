@@ -386,7 +386,7 @@ const cStyles = StyleSheet.create({
     width: 78, height: 55, resizeMode: 'contain',
   },
   thumbnailImageText: {
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 16, textAlign: 'center', color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, textAlign: 'center', color: '#0060F2',
     marginTop: 17,
   },
   fileInfo: {
@@ -394,7 +394,7 @@ const cStyles = StyleSheet.create({
   },
   fileName: {
     flex: 1,
-    fontFamily: 'AvenirNextW1G-Regular', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 16,
   },
   fileRemoveButton: {
     paddingLeft: 8,
@@ -414,7 +414,7 @@ const cStyles = StyleSheet.create({
   },
   fieldLabel: {
     width: '100%',
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16,
   },
   fieldInput: {
     width: '100%',

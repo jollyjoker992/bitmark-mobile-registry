@@ -127,7 +127,7 @@ const cStyles = StyleSheet.create({
   inputLabel: {
     marginTop: 47,
     width: convertWidth(337),
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 15,
     marginLeft: convertWidth(10),
   },
@@ -165,7 +165,7 @@ const cStyles = StyleSheet.create({
     paddingLeft: 10,
   },
   suggestionsButtonText: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 15,
     color: '#0060F2',
   },

@@ -55,13 +55,13 @@ export default StyleSheet.create({
   },
 
   externalAreaRowLabel: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     color: '#0060F2',
     width: convertWidth(117),
   },
   externalAreaRowValue: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     width: convertWidth(198),
     color: '#0060F2',
@@ -74,12 +74,12 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   externalAreaRowValueIssuer_: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     color: '#0060F2',
     fontSize: 13,
   },
   externalAreaRowValueIssuer: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     width: convertWidth(190),
     color: '#0060F2',

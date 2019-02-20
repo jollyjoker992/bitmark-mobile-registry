@@ -43,7 +43,7 @@ export default StyleSheet.create({
     marginTop: 8,
   },
   inputAccountNumber: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 14,
     lineHeight: 16,
     width: convertWidth(315),

@@ -74,7 +74,7 @@ export default StyleSheet.create({
   version: {
     fontSize: 14,
     color: 'black',
-    fontFamily: 'Andale Mono'
+    fontFamily: 'andale_mono'
   },
 
   sendFeedbackPopupTitle: {

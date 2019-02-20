@@ -55,7 +55,7 @@ export default StyleSheet.create({
     height: 35,
   },
   subTabButtonText: {
-    fontFamily: 'AvenirNextW1G-Bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     textAlign: 'center',
   },
@@ -110,14 +110,14 @@ export default StyleSheet.create({
     width: '100%',
   },
   transferOfferTitleType: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     fontWeight: '700',
     color: '#0060F2',
     width: convertWidth(220),
   },
   transferOfferTitleTime: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     fontWeight: '700',
     width: convertWidth(90),
@@ -189,7 +189,7 @@ export default StyleSheet.create({
     width: 16, height: 16, resizeMode: 'contain',
   },
   completedTransferHeaderTitle: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     color: '#0060F2',
     width: convertWidth(102),
@@ -197,7 +197,7 @@ export default StyleSheet.create({
   completedTransferHeaderValue: {
     width: convertWidth(220),
     marginLeft: convertWidth(15),
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     color: '#0060F2',
   },
@@ -212,7 +212,7 @@ export default StyleSheet.create({
     height: 20,
   },
   completedTransferContentRowLabel: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     width: convertWidth(102),
   },
@@ -226,7 +226,7 @@ export default StyleSheet.create({
   completedTransferContentRowValue: {
     width: convertWidth(220),
     marginLeft: convertWidth(15),
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
   },
 

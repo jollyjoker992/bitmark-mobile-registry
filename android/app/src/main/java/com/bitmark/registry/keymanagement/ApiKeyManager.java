@@ -12,4 +12,6 @@ public class ApiKeyManager {
 
     public native String getCodePushApiKey();
 
+    public native String getIntercomApiKey();
+
 }

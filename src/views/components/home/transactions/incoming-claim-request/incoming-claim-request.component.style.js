@@ -30,14 +30,14 @@ export default StyleSheet.create({
   },
   assetInfo: {
     marginTop: 11,
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 20,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 20,
   },
   editionNumber: {
     marginTop: 3,
-    fontFamily: 'AvenirNextW1G-Medium', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_medium', fontSize: 16,
   },
   issuer: {
-    fontFamily: 'AvenirNextW1G-Medium', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_medium', fontSize: 16,
   },
   requestInfoArea: {
     alignItems: 'center', justifyContent: 'center',
@@ -50,13 +50,13 @@ export default StyleSheet.create({
     width: '100%',
   },
   requestFromAccountLabel: {
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17,
   },
   requestFromAccountCopyButton: {
 
   },
   requestFromAccountCopyButtonText: {
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 14, color: '#0060F2'
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: '#0060F2'
 
   },
   requestFromAccountNumber: {
@@ -65,11 +65,11 @@ export default StyleSheet.create({
     borderBottomWidth: 0.5, borderTopWidth: 0.5,
   },
   requestFromAccountNumberValue: {
-    fontFamily: 'Andale Mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14,
   },
   requestMessage: {
     width: '100%',
-    fontFamily: 'AvenirNextW1G-Medium', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_medium', fontSize: 16,
   },
 
   buttonsArea: {

@@ -327,12 +327,12 @@ const cStyles = StyleSheet.create({
   metadataAddButtonText: {
     minWidth: convertWidth(117),
     marginLeft: 10,
-    fontFamily: 'Andale Mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13,
   },
   metadataEditButton: {
   },
   metadataEditButtonText: {
-    fontFamily: 'Andale Mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14,
   },
   metadataInputError: {
     color: 'red',

@@ -44,11 +44,11 @@ export default StyleSheet.create({
 
   introductionTitle: {
     width: convertWidth(275), minHeight: 47,
-    fontFamily: 'AvenirNextW1G-Bold', color: '#0060F2', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_bold', color: '#0060F2', fontSize: 17,
   },
   introductionDescription: {
     width: convertWidth(275),
-    fontFamily: 'AvenirNextW1G-Regular', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17,
     minHeight: 117,
   },
   introductionLinkButton: {
@@ -56,7 +56,7 @@ export default StyleSheet.create({
     left: convertWidth(50),
   },
   introductionLink: {
-    fontFamily: 'AvenirNextW1G-Bold', color: '#0060F2', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_bold', color: '#0060F2', fontSize: 14,
   },
   introductionImage: {
     flex: 1,
@@ -72,10 +72,10 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   bitmarkTermsPrivacyText: {
-    fontFamily: 'AvenirNextW1G-Light', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 14,
   },
   bitmarkTermsPrivacyButtonText: {
-    fontFamily: 'AvenirNextW1G-Light', color: '#0060F2', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_light', color: '#0060F2', fontSize: 14,
   },
 
   skipButtonArea: {
@@ -94,7 +94,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   skipButtonText: {
-    fontFamily: 'AvenirNextW1G-Bold', textAlign: 'center', fontSize: 14, color: '#0060F2'
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 14, color: '#0060F2'
   },
 
   letDoItButtonArea: {
@@ -116,6 +116,6 @@ export default StyleSheet.create({
   },
   letDoItButtonText: {
     paddingBottom: constant.blankFooter / 2,
-    fontFamily: 'AvenirNextW1G-Bold', textAlign: 'center', fontSize: 16, color: 'white'
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
 });
