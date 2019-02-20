@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { merge } from 'lodash';
 
-import { FileUtil, runPromiseWithoutError, isMusicAsset } from "src/utils";
+import { FileUtil, runPromiseWithoutError, isMusicAsset, isReleasedAsset } from "src/utils";
 import { BitmarkService, LocalFileService } from "./services";
 import { CommonModel, AccountModel, BitmarkSDK, BitmarkModel } from "./models";
 import { CacheData } from "./caches";
@@ -260,6 +260,12 @@ const doDownloadBitmark = async (bitmark) => {
   let canDownloadFrom = (downloadableAssets || []).find(item => item.indexOf(asset.id) >= 0);
   let sender = canDownloadFrom ? canDownloadFrom.substring(canDownloadFrom.lastIndexOf('/') + 1, canDownloadFrom.length) : null;
   if (!sender) {
+    if (isReleasedAsset(asset)) {
+      await FileUtil.mkdir(`${assetFolderPath}/downloaded`);
+      let filename = await BitmarkService.doDownloadReleasedAsset(CacheData.jwt, asset.id, `${assetFolderPath}/downloaded/temp.tmp`);
+      await FileUtil.moveFileSafe(`${assetFolderPath}/downloaded/temp.tmp`, `${assetFolderPath}/downloaded/${filename}`);
+      return `${assetFolderPath}/downloaded/${filename}`;
+    }
     throw new Error('Cannot detect sender to download!');
   }
   let downloadResult = await BitmarkService.doDownloadFileToCourierServer(asset.id, sender, `${assetFolderPath}/downloading/temp.encrypt`);
