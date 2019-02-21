@@ -386,7 +386,7 @@ const cStyles = StyleSheet.create({
     width: 78, height: 55, resizeMode: 'contain',
   },
   thumbnailImageText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 16, textAlign: 'center', color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, textAlign: 'center', color: '#0060F2',
     marginTop: 17,
   },
   fileInfo: {
@@ -394,7 +394,7 @@ const cStyles = StyleSheet.create({
   },
   fileName: {
     flex: 1,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_regular' : 'AvenirNextW1G-regular', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 16,
   },
   fileRemoveButton: {
     paddingLeft: 8,
@@ -414,17 +414,17 @@ const cStyles = StyleSheet.create({
   },
   fieldLabel: {
     width: '100%',
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16,
   },
   fieldInput: {
     width: '100%',
     marginTop: 9, marginBottom: 4,
     paddingLeft: 7, paddingBottom: 5,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 16,
   },
   fieldInputError: {
     minHeight: 20, width: '100%',
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 14, color: '#FF003C',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 14, color: '#FF003C',
   },
 
   continueButton: {
@@ -434,6 +434,6 @@ const cStyles = StyleSheet.create({
     backgroundColor: '#999999',
   },
   continueButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 16, lineHeight: 33, color: 'white',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 33, color: 'white',
   },
 });

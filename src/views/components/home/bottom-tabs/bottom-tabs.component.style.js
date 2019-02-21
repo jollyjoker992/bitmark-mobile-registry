@@ -27,7 +27,7 @@ export default StyleSheet.create({
     resizeMode: 'contain'
   },
   bottomTabButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 10,
     lineHeight: 12,
     height: 14,
@@ -68,7 +68,7 @@ export default StyleSheet.create({
     zIndex: 1,
   },
   transactionNumberText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 8,
     color: '#FFFFFF',
     textAlign: 'center',

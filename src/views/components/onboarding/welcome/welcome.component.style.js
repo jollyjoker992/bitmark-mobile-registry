@@ -30,11 +30,11 @@ export default StyleSheet.create({
   },
   introductionTitle: {
     width: convertWidth(275), minHeight: 47,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', color: '#0060F2', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_bold', color: '#0060F2', fontSize: 17,
   },
   introductionDescription: {
     width: convertWidth(275),
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_regular' : 'AvenirNextW1G-regular', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17,
     minHeight: 117,
   },
   introductionTermPrivacy: {
@@ -50,10 +50,10 @@ export default StyleSheet.create({
     resizeMode: 'contain', width: '90%', height: '90%',
   },
   bitmarkTermsPrivacyText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 14,
   },
   bitmarkTermsPrivacyButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', color: '#0060F2', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_light', color: '#0060F2', fontSize: 14,
   },
 
   welcomeLogo: {
@@ -79,6 +79,6 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2',
   },
   welcomeButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', textAlign: 'center', fontSize: 16, color: 'white'
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
 });

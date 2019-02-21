@@ -102,7 +102,7 @@ const cStyles = StyleSheet.create({
   },
   label: {
     flex: 1,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14,
   },
   closeIcon: {
     width: 16, height: 16, resizeMode: 'contain',
@@ -117,11 +117,11 @@ const cStyles = StyleSheet.create({
   },
   metadataLabel: {
     width: convertWidth(102),
-    fontFamily: 'Andale Mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14,
   },
   metadataValue: {
     flex: 1,
-    fontFamily: 'Andale Mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14,
   },
 
 });

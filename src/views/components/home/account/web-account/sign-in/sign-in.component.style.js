@@ -34,7 +34,7 @@ export default StyleSheet.create({
   },
 
   scanMessage: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 17,
     width: convertWidth(337),
     marginTop: 40,

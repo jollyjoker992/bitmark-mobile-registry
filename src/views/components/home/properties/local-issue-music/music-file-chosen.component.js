@@ -100,11 +100,11 @@ const cStyles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 24, color: 'white', lineHeight: 33,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 24, color: 'white', lineHeight: 33,
     marginLeft: convertWidth(39),
   },
   description: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 17, color: 'white', lineHeight: 23,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, color: 'white', lineHeight: 23,
     marginLeft: convertWidth(39), marginTop: 30,
   },
   musicImage: {
@@ -112,7 +112,7 @@ const cStyles = StyleSheet.create({
     marginTop: 75,
   },
   message: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 15, color: 'white', textAlign: 'center', fontStyle: 'italic',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 15, color: 'white', textAlign: 'center', fontStyle: 'italic',
     width: '100%',
     marginBottom: 12,
   },
@@ -123,6 +123,6 @@ const cStyles = StyleSheet.create({
     backgroundColor: '#E6FF00',
   },
   chooseMusicButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 16, lineHeight: 33, color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 33, color: '#0060F2',
   },
 });

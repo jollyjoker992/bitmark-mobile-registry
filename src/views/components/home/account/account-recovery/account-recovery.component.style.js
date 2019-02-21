@@ -33,7 +33,7 @@ export default StyleSheet.create({
     marginLeft: convertWidth(85),
   },
   recoveryDescription: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_heavy' : 'AvenirNextW1G-Heavy',
+    fontFamily: 'avenir_next_w1g_heavy',
     fontSize: 15,
     lineHeight: 18,
     marginTop: 23,
@@ -49,14 +49,14 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   recoveryPhraseBottomButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 16,
     color: 'white',
     textAlign: 'center',
   },
 
   writeRecoveryPhraseContentMessage: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-Light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 17,
     width: convertWidth(309),
     marginTop: 20,
@@ -76,7 +76,7 @@ export default StyleSheet.create({
     height: 283,
   },
   writeRecoveryPhraseContentTestButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-Light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 14,
     color: '#0060F2',
     marginTop: 66,
@@ -86,14 +86,14 @@ export default StyleSheet.create({
     height: 21,
   },
   recoveryPhraseIndex: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-Light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 15,
     color: '#D4D4D4',
     width: convertWidth(39),
     textAlign: 'left',
   },
   recoveryPhraseWord: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-Light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 15,
     color: '#0060F2',
     width: convertWidth(108),
@@ -119,7 +119,7 @@ export default StyleSheet.create({
     alignContent: 'center',
   },
   recoveryPhraseChooseButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 15,
     color: '#0060F2',
     textAlign: 'center',
@@ -132,11 +132,11 @@ export default StyleSheet.create({
     paddingBottom: 27,
   },
   recoveryPhraseTestTitle: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 15,
   },
   recoveryPhraseTestMessage: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-Light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 15,
     textAlign: 'center',
     width: convertWidth(309),

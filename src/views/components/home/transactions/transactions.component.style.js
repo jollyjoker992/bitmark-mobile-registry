@@ -55,7 +55,7 @@ export default StyleSheet.create({
     height: 35,
   },
   subTabButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     textAlign: 'center',
   },
@@ -76,7 +76,7 @@ export default StyleSheet.create({
     marginTop: 46,
     marginLeft: convertWidth(19),
     width: convertWidth(337),
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 17,
     lineHeight: 19,
     color: '#0060F2'
@@ -86,7 +86,7 @@ export default StyleSheet.create({
     marginTop: 46,
     marginLeft: convertWidth(19),
     width: convertWidth(337),
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 17,
     lineHeight: 19,
   },
@@ -108,13 +108,13 @@ export default StyleSheet.create({
     width: '100%',
   },
   transferOfferTitleType: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     color: '#0060F2',
     width: convertWidth(220),
   },
   transferOfferTitleTime: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     width: convertWidth(90),
     marginLeft: convertWidth(12),
@@ -131,7 +131,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
   },
   recoveryPhaseActionRequiredTitle: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
   },
   recoveryPhaseActionRequiredDescriptionArea: {
@@ -141,7 +141,7 @@ export default StyleSheet.create({
   },
   recoveryPhaseActionRequiredDescription: {
     marginTop: 3,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 14,
   },
   recoveryPhaseActionRequiredImportantIcon: {
@@ -154,12 +154,12 @@ export default StyleSheet.create({
     marginTop: 12,
   },
   iftttTitle: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_heavy' : 'AvenirNextW1G-heavy',
+    fontFamily: 'avenir_next_w1g_heavy',
     fontSize: 15,
   },
   iftttDescription: {
     marginTop: 3,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 14,
 
   },
@@ -182,7 +182,7 @@ export default StyleSheet.create({
     width: 16, height: 16, resizeMode: 'contain',
   },
   completedTransferHeaderTitle: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     color: '#0060F2',
     width: convertWidth(102),
@@ -190,7 +190,7 @@ export default StyleSheet.create({
   completedTransferHeaderValue: {
     width: convertWidth(220),
     marginLeft: convertWidth(15),
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     color: '#0060F2',
   },
@@ -205,20 +205,20 @@ export default StyleSheet.create({
     height: 20,
   },
   completedTransferContentRowLabel: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
     width: convertWidth(102),
   },
   completedTransferContentRowPropertyName: {
     width: convertWidth(220),
     marginLeft: convertWidth(15),
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
   },
   completedTransferContentRowValue: {
     width: convertWidth(220),
     marginLeft: convertWidth(15),
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
   },
 
@@ -230,7 +230,7 @@ export default StyleSheet.create({
     marginBottom: 1,
   },
   acceptAllTransfersButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     color: '#0060F2'
   },
@@ -240,6 +240,6 @@ export default StyleSheet.create({
     flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
   },
   signAllClaimRequestsButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 14, color: 'white'
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: 'white'
   },
 });

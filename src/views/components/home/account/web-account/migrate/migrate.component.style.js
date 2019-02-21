@@ -35,7 +35,7 @@ export default StyleSheet.create({
 
 
   scanMessage: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 17,
     width: convertWidth(337),
     marginTop: 40,
@@ -52,13 +52,13 @@ export default StyleSheet.create({
     marginTop: 60,
   },
   confirmMessageText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 17,
     width: convertWidth(337),
     marginTop: 20,
   },
   confirmAccountNumber: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 17,
     width: convertWidth(337),
     marginTop: 20,
@@ -74,7 +74,7 @@ export default StyleSheet.create({
     bottom: 0,
   },
   confirmButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 17,
     color: 'white',
   }

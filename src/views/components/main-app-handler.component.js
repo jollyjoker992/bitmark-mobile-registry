@@ -267,7 +267,7 @@ export class MainAppHandlerComponent extends Component {
           <TouchableOpacity style={{ flex: 1, justifyContent: 'center', }} onPress={this.doRefresh}>
             <Text style={{
               width: convertWidth(300),
-              fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', color: 'white', fontSize: 16,
+              fontFamily: 'avenir_next_w1g_bold', color: 'white', fontSize: 16,
               backgroundColor: '#0060F2', padding: 10,
               textAlign: 'center',
             }}>{i18n.t('MainComponent_pleaseAuthorizeText​')}</Text>

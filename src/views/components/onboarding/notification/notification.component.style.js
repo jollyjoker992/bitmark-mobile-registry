@@ -13,7 +13,7 @@ export default StyleSheet.create({
   },
   // notification
   notificationTitle: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     color: '#0060F2',
     fontSize: 20,
     marginTop: 25,
@@ -29,7 +29,7 @@ export default StyleSheet.create({
   notificationDescription: {
     marginTop: 37,
     width: convertWidth(275),
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 17,
   },
 
@@ -47,7 +47,7 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2',
   },
   enableButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     textAlign: 'center',
     fontSize: 16,
     color: 'white',

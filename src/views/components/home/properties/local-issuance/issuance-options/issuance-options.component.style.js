@@ -38,7 +38,7 @@ export default StyleSheet.create({
         backgroundColor: '#F5F5F5',
     },
     optionButtonText: {
-        fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+        fontFamily: 'avenir_next_w1g_bold',
         fontSize: 16,
         color: '#0060F2',
         flex: 1,
@@ -55,14 +55,14 @@ export default StyleSheet.create({
         resizeMode: 'contain',
     },
     optionButtonStatus: {
-        fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+        fontFamily: 'avenir_next_w1g_light',
         fontSize: 16,
         textAlign: 'center',
         color: '#0060F2',
         marginLeft: convertWidth(19),
     },
     message: {
-        fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+        fontFamily: 'avenir_next_w1g_light',
         fontSize: 17,
         color: 'black',
         width: convertWidth(337),

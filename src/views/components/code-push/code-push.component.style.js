@@ -35,13 +35,13 @@ export default StyleSheet.create({
 
   updatingStatus: {
     fontSize: 16,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     color: '#A4B5CD'
   },
 
   completedStatus: {
     fontSize: 16,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     color: '#0060F2'
   },
 

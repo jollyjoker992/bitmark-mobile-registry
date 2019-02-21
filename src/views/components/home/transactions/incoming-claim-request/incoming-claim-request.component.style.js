@@ -31,14 +31,14 @@ export default StyleSheet.create({
   },
   assetInfo: {
     marginTop: 11,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 20,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 20,
   },
   editionNumber: {
     marginTop: 3,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_medium' : 'AvenirNextW1G-medium', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_medium', fontSize: 16,
   },
   issuer: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_medium' : 'AvenirNextW1G-medium', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_medium', fontSize: 16,
   },
   requestInfoArea: {
     alignItems: 'center', justifyContent: 'center',
@@ -51,13 +51,13 @@ export default StyleSheet.create({
     width: '100%',
   },
   requestFromAccountLabel: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17,
   },
   requestFromAccountCopyButton: {
 
   },
   requestFromAccountCopyButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 14, color: '#0060F2'
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: '#0060F2'
 
   },
   requestFromAccountNumber: {
@@ -66,11 +66,11 @@ export default StyleSheet.create({
     borderBottomWidth: 0.5, borderTopWidth: 0.5,
   },
   requestFromAccountNumberValue: {
-    fontFamily: 'Andale Mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14,
   },
   requestMessage: {
     width: '100%',
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_medium' : 'AvenirNextW1G-medium', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_medium', fontSize: 16,
   },
 
   buttonsArea: {
@@ -89,7 +89,7 @@ export default StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   rejectButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 16,
     color: '#A4B5CD',
   },
@@ -103,7 +103,7 @@ export default StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   acceptButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 16,
     color: '#0060F2',
   }

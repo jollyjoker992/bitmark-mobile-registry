@@ -50,7 +50,7 @@ export default StyleSheet.create({
 
   itemSettingText: {
     fontSize: 15,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     color: '#0060F2',
   },
 
@@ -73,7 +73,7 @@ export default StyleSheet.create({
   version: {
     fontSize: 14,
     color: 'black',
-    fontFamily: 'Andale Mono'
+    fontFamily: 'andale_mono'
   },
 
   sendFeedbackPopupTitle: {

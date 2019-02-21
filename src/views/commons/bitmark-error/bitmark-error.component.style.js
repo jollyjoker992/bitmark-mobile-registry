@@ -47,7 +47,7 @@ export default StyleSheet.create({
     minHeight: 30,
   },
   okButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     color: '#0060F2',
   }

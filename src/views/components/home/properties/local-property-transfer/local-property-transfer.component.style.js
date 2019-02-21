@@ -26,7 +26,7 @@ export default StyleSheet.create({
     paddingRight: convertWidth(19),
   },
   transferTitle: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 16,
     lineHeight: 19,
     marginTop: 38,
@@ -43,7 +43,7 @@ export default StyleSheet.create({
     marginTop: 8,
   },
   inputAccountNumber: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 14,
     lineHeight: 16,
     width: convertWidth(315),
@@ -65,7 +65,7 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   accountNumberError: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 14,
     lineHeight: 16,
     width: convertWidth(325),
@@ -74,7 +74,7 @@ export default StyleSheet.create({
     color: '#FF003C',
   },
   transferMessage: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 15,
     lineHeight: 18,
     marginTop: 20,
@@ -90,7 +90,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   sendButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 17,
     lineHeight: 20,
     color: '#0060F2',

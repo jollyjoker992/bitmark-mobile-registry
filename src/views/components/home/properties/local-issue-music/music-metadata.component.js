@@ -302,7 +302,7 @@ const cStyles = StyleSheet.create({
   },
   fieldLabelButtonText: {
     flex: 1,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 16,
   },
   fieldLabelButtonIcon: {
     width: 10, height: 10, resizeMode: 'contain',
@@ -310,7 +310,7 @@ const cStyles = StyleSheet.create({
   fieldValue: {
     width: '100%',
     marginTop: 9,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 16,
   },
 
   metadataButtonArea: {
@@ -327,12 +327,12 @@ const cStyles = StyleSheet.create({
   metadataAddButtonText: {
     minWidth: convertWidth(117),
     marginLeft: 10,
-    fontFamily: 'Andale Mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13,
   },
   metadataEditButton: {
   },
   metadataEditButtonText: {
-    fontFamily: 'Andale Mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14,
   },
   metadataInputError: {
     color: 'red',
@@ -344,10 +344,10 @@ const cStyles = StyleSheet.create({
     backgroundColor: '#EDF0F4',
   },
   ownershipTitle: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16,
   },
   ownershipDescription: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 17, marginTop: 5,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, marginTop: 5,
   },
 
   continueButton: {
@@ -357,6 +357,6 @@ const cStyles = StyleSheet.create({
     backgroundColor: '#999999',
   },
   continueButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 16, lineHeight: 33, color: 'white',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 33, color: 'white',
   },
 });

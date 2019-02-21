@@ -61,7 +61,7 @@ export default StyleSheet.create({
     height: 35,
   },
   subTabButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     textAlign: 'center',
   },
@@ -86,7 +86,7 @@ export default StyleSheet.create({
 
   //settings
   accountNumberLabel: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 14,
     marginTop: 27,
   },
@@ -100,7 +100,7 @@ export default StyleSheet.create({
     minHeight: 30,
   },
   accountNumberValue: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: convertWidth(11),
     width: convertWidth(337),
     color: '#0060F2',
@@ -114,13 +114,13 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
   },
   accountNumberCopyButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_regular' : 'AvenirNextW1G-regular',
+    fontFamily: 'avenir_next_w1g_regular',
     fontStyle: 'italic',
     fontSize: 8,
     color: '#0060F2',
   },
   accountMessage: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 15,
     marginTop: 9,
     width: convertWidth(337),
@@ -131,7 +131,7 @@ export default StyleSheet.create({
     paddingBottom: 4,
   },
   accountWriteDownButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     color: '#0060F2',
   },
@@ -141,14 +141,14 @@ export default StyleSheet.create({
     flexDirection: 'row', alignItems: 'center'
   },
   accountRemoveButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     color: '#0060F2',
   },
 
   accountDataSourceLabel: {
     marginTop: 17,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 16,
   },
   dataSourcesArea: {
@@ -158,12 +158,12 @@ export default StyleSheet.create({
     marginBottom: 20,
   },
   dataSourcesMessage: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 14,
   },
 
   noAuthorizedMessage: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 17,
     marginTop: 16,
   },
@@ -180,14 +180,14 @@ export default StyleSheet.create({
     borderBottomColor: '#A4B5CD',
   },
   authorizedItemTitleText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
   },
   authorizedItemRemoveButton: {
     padding: 4,
   },
   authorizedItemRemoveButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     color: '#0060F2',
   },
@@ -211,13 +211,13 @@ export default StyleSheet.create({
     paddingBottom: 4,
   },
   authorizedViewButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     color: '#0060F2',
   },
   authorizedItemDescriptionText: {
     width: convertWidth(257),
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 15,
   },
 

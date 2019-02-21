@@ -47,7 +47,7 @@ export class MusicReleaseToPublicComponent extends React.Component {
           <TouchableOpacity style={defaultStyles.headerRight} onPress={Actions.pop}>
             <Text style={[defaultStyles.headerRightText, {
               color: '#E6FF00',
-              fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+              fontFamily: 'avenir_next_w1g_bold',
             }]}>{global.i18n.t("MusicReleaseToPublicComponent_headerRightText")}</Text>
           </TouchableOpacity>
         </View>
@@ -149,7 +149,7 @@ const cStyles = StyleSheet.create({
   },
 
   description: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 17, color: 'white', lineHeight: 23,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, color: 'white', lineHeight: 23,
     paddingLeft: convertWidth(39), paddingRight: convertWidth(34), marginTop: 30,
     width: '100%',
   },
@@ -172,17 +172,17 @@ const cStyles = StyleSheet.create({
   linkAssetName: {
     width: '100%',
     marginTop: 12,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', color: 'white', fontSize: 16, textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_bold', color: 'white', fontSize: 16, textAlign: 'center',
   },
   linkLimitedEdition: {
     width: '100%',
     marginTop: 3,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_medium' : 'AvenirNextW1G-medium', color: 'white', fontSize: 12, textAlign: 'center', fontStyle: 'italic',
+    fontFamily: 'avenir_next_w1g_medium', color: 'white', fontSize: 12, textAlign: 'center', fontStyle: 'italic',
   },
   linkIssuer: {
     width: '100%',
     marginTop: 3,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_medium' : 'AvenirNextW1G-medium', color: 'white', fontSize: 12, textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_medium', color: 'white', fontSize: 12, textAlign: 'center',
   },
 
   issueResult: {
@@ -199,11 +199,11 @@ const cStyles = StyleSheet.create({
     paddingLeft: convertWidth(4),
   },
   resultHeaderTitle: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 17, color: 'white',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, color: 'white',
     flex: 1,
   },
   resultHeaderCopy: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 14, color: 'white', textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: 'white', textAlign: 'center',
     minWidth: convertWidth(66),
   },
   resultContentEmbed: {
@@ -223,11 +223,11 @@ const cStyles = StyleSheet.create({
     backgroundColor: '#EBFAFF',
   },
   resultContentTextEmbed: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_regular' : 'AvenirNextW1G-regular', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14,
     width: '100%',
   },
   resultContentTextLink: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17,
     width: '100%',
   },
 
@@ -246,6 +246,6 @@ const cStyles = StyleSheet.create({
   },
   embedLabelText: {
     marginTop: 9,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17,
   },
 });

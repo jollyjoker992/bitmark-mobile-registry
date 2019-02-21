@@ -16,7 +16,7 @@ export default StyleSheet.create({
   },
   //sign-in
   writeRecoveryPhraseContentMessage: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 17,
     width: convertWidth(336),
     marginTop: 18,
@@ -35,7 +35,7 @@ export default StyleSheet.create({
     paddingBottom: 19,
   },
   writeRecoveryPhraseContentTestButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 14,
     color: '#0060F2',
     marginTop: 66,
@@ -46,14 +46,14 @@ export default StyleSheet.create({
     marginBottom: 4,
   },
   recoveryPhraseIndex: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 15,
     color: '#D4D4D4',
     width: convertWidth(23),
     textAlign: 'right',
   },
   recoveryPhraseWord: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 15, color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 15, color: '#0060F2',
     width: convertWidth(107),
     marginLeft: 6,
   },
@@ -64,19 +64,19 @@ export default StyleSheet.create({
     minHeight: 80,
   },
   recoveryPhraseTestTitle: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 15,
     marginTop: 10,
   },
   recoveryPhraseTestMessage: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 15,
     textAlign: 'center',
     width: convertWidth(335),
     marginTop: 5,
   },
   recoveringMessage: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 18,
     textAlign: 'center',
     color: '#0060F2',
@@ -98,7 +98,7 @@ export default StyleSheet.create({
   },
   switchFormMessage: {
     width: convertWidth(240),
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_medium' : 'AvenirNextW1G-medium',
+    fontFamily: 'avenir_next_w1g_medium',
     textAlign: 'center',
     fontSize: 14,
     color: '#0054FC',
@@ -115,7 +115,7 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2',
   },
   submitButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
+    fontFamily: 'avenir_next_w1g_bold',
     textAlign: 'center',
     fontSize: 16,
     color: 'white'

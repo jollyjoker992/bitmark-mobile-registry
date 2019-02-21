@@ -44,11 +44,11 @@ export default StyleSheet.create({
 
   introductionTitle: {
     width: convertWidth(275), minHeight: 47,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', color: '#0060F2', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_bold', color: '#0060F2', fontSize: 17,
   },
   introductionDescription: {
     width: convertWidth(275),
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_regular' : 'AvenirNextW1G-regular', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17,
     minHeight: 117,
   },
   introductionLinkButton: {
@@ -56,7 +56,7 @@ export default StyleSheet.create({
     left: convertWidth(50),
   },
   introductionLink: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', color: '#0060F2', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_bold', color: '#0060F2', fontSize: 14,
   },
   introductionImage: {
     flex: 1,
@@ -72,10 +72,10 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   bitmarkTermsPrivacyText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 14,
   },
   bitmarkTermsPrivacyButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', color: '#0060F2', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_light', color: '#0060F2', fontSize: 14,
   },
 
   skipButtonArea: {
@@ -94,7 +94,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   skipButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', textAlign: 'center', fontSize: 14, color: '#0060F2'
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 14, color: '#0060F2'
   },
 
   letDoItButtonArea: {
@@ -116,6 +116,6 @@ export default StyleSheet.create({
   },
   letDoItButtonText: {
     paddingBottom: constant.blankFooter / 2,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', textAlign: 'center', fontSize: 16, color: 'white'
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
 });

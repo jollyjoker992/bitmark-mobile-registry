@@ -207,11 +207,11 @@ const cStyles = StyleSheet.create({
   },
   rowInfoLabel: {
     width: 99,
-    fontFamily: 'Andale Mono', fontSize: 12, lineHeight: 16,
+    fontFamily: 'andale_mono', fontSize: 12, lineHeight: 16,
   },
   rowInfoValue: {
     flex: 1,
-    fontFamily: 'Andale Mono', fontSize: 12, lineHeight: 14,
+    fontFamily: 'andale_mono', fontSize: 12, lineHeight: 14,
     marginLeft: 5,
     paddingRight: convertWidth(13),
   },
@@ -232,7 +232,7 @@ const cStyles = StyleSheet.create({
   actionRowText: {
     flex: 1,
     marginLeft: 30,
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_regular' : 'AvenirNextW1G-regular', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14,
   },
 
 
