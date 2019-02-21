@@ -479,7 +479,7 @@ const doTransferBitmark = async (bitmarkId, receiver, isDelete) => {
       } else {
         let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
         await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${asset.id}/encrypted`);
-        let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${asset.id}/encrypted/temp.encrypted`;
+        let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${asset.id}/encrypted/${filename}`;
         let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptedFilePath);
 
         let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(receiver);
@@ -535,7 +535,7 @@ const doSignAllIncomingClaimRequest = async (mapAssetClaimRequest) => {
         } else {
           let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
           await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${asset.id}/encrypted`);
-          let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${asset.id}/encrypted/temp.encrypted`;
+          let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${asset.id}/encrypted/${filename}`;
           let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptedFilePath);
           let access = '';
           let existAccounts = {};
@@ -646,7 +646,7 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
         } else {
           let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
           await FileUtil.mkdir(`${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${asset.id}/encrypted`);
-          let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${asset.id}/encrypted/temp.encrypted`;
+          let encryptedFilePath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${asset.id}/encrypted/${filename}`;
           let sessionData = await BitmarkSDK.encryptFile(asset.filePath, encryptedFilePath);
 
           let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);

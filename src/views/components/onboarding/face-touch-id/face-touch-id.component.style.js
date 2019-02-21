@@ -69,7 +69,7 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2'
   },
   enableButtonText: {
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     textAlign: 'center',
     fontSize: 16,
     color: 'white'
@@ -85,7 +85,7 @@ export default StyleSheet.create({
   },
   skipButtonText: {
     paddingBottom: (constant.blankFooter / 2),
-    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     textAlign: 'center',
     fontSize: 16,
     color: '#0060F2'
