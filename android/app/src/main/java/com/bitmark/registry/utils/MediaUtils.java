@@ -180,7 +180,7 @@ public class MediaUtils {
     }
 
     public static File getCacheDir(Context context) {
-        File file = new File(context.getCacheDir() + BuildConfig.APPLICATION_ID);
+        File file = new File(context.getCacheDir(), "media_data");
         if (!file.exists()) {
             try {
                 file.createNewFile();

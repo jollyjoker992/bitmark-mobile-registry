@@ -52,7 +52,7 @@ public class NavigationModule extends ReactContextBaseJavaModule {
                                          Intent data) {
                 context.removeActivityEventListener(this);
                 if (resultCode == RESULT_OK && requestCode == READ_DOCUMENT_CODE) {
-                    Uri uri = intent.getData();
+                    Uri uri = data.getData();
                     try {
                         String path = MediaUtils.getAbsolutePathFromUri(context, uri);
                         promise.resolve(path);
