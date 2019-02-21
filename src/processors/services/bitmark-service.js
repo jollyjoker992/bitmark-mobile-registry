@@ -430,6 +430,26 @@ const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
   };
 };
 
+const doDownloadReleasedAsset = async (jwt, assetId, filePath) => {
+  let response;
+  let result = await FileUtil.downloadFile({
+    fromUrl: `${config.mobile_server_url}/api/claim_requests/download?asset_id=${assetId}`,
+    toFile: filePath,
+    method: 'GET',
+    headers: {
+      Authorization: 'Bearer ' + jwt,
+    },
+    begin: (res) => {
+      response = res;
+    },
+  });
+  console.log('response :', response, result);
+  if (response.statusCode >= 400) {
+    throw new Error(`doDownloadReleasedAsset error ${response.statusCode}`);
+  }
+  return response.headers['File-Name'];
+};
+
 // ================================================================================================
 // ================================================================================================
 let BitmarkService = {
@@ -451,6 +471,7 @@ let BitmarkService = {
   doUpdateAccessFileInCourierServer,
   doDownloadFileToCourierServer,
   doGetDownloadableAssets,
+  doDownloadReleasedAsset,
 
 };
 
