@@ -29,6 +29,7 @@ import com.bitmark.apiservice.utils.record.AssetRecord;
 import com.bitmark.apiservice.utils.record.BitmarkRecord;
 import com.bitmark.apiservice.utils.record.OfferRecord;
 import com.bitmark.cryptography.crypto.Ed25519;
+import com.bitmark.cryptography.crypto.Sha3512;
 import com.bitmark.cryptography.crypto.key.KeyPair;
 import com.bitmark.cryptography.crypto.key.PrivateKey;
 import com.bitmark.cryptography.error.ValidateException;
@@ -589,7 +590,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         try {
 
             String fingerprint = RegistrationParams.computeFingerprint(file);
-            String assetId = HEX.encode(RAW.decode(fingerprint));
+            String assetId = HEX.encode(Sha3512.hash(fingerprint));
             promise.resolve(toWritableArray(assetId, fingerprint));
 
         } catch (Throwable e) {
