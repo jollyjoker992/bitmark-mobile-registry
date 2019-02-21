@@ -38,6 +38,7 @@ import com.bitmark.registry.encryption.AssetEncryption;
 import com.bitmark.registry.encryption.BoxEncryption;
 import com.bitmark.registry.encryption.PublicKeyEncryption;
 import com.bitmark.registry.encryption.SessionData;
+import com.bitmark.registry.utils.Constant;
 import com.bitmark.registry.utils.NetworkMapper;
 import com.bitmark.registry.utils.error.NativeModuleException;
 import com.bitmark.sdk.authentication.KeyAuthenticationSpec;
@@ -127,9 +128,11 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         try {
 
             final Account account = new Account();
-            saveAccountNumber(account.getAccountNumber());
+            final String accountNumber = account.getAccountNumber();
+            final String encryptionKeyAlias = getRandomEncryptionKeyAlias(accountNumber);
+
             KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                    getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS)
+                    getReactApplicationContext()).setKeyAlias(encryptionKeyAlias)
                                                  .setAuthenticationRequired(authentication)
                                                  .setAuthenticationValidityDuration(
                                                          KEY_VALIDITY_TIME)
@@ -137,6 +140,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
                 @Override
                 public void onSuccess() {
+                    saveEncryptionKeyAlias(encryptionKeyAlias);
+                    saveAccountNumber(accountNumber);
                     promise.resolve(null);
                 }
 
@@ -159,9 +164,11 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         try {
 
             final Account account = Account.fromRecoveryPhrase(toStringArray(phraseWords));
-            saveAccountNumber(account.getAccountNumber());
+            final String accountNumber = account.getAccountNumber();
+            final String encryptionKeyAlias = getRandomEncryptionKeyAlias(accountNumber);
+
             KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                    getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS)
+                    getReactApplicationContext()).setKeyAlias(encryptionKeyAlias)
                                                  .setAuthenticationRequired(authentication)
                                                  .setAuthenticationValidityDuration(
                                                          KEY_VALIDITY_TIME)
@@ -169,6 +176,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
                 @Override
                 public void onSuccess() {
+                    saveEncryptionKeyAlias(encryptionKeyAlias);
+                    saveAccountNumber(accountNumber);
                     Map<String, Object> accountMap = new HashMap<>();
                     accountMap.put("account_number", account.getAccountNumber());
                     promise.resolve(toWritableMap(accountMap));
@@ -190,14 +199,14 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
     @Override
     public void removeAccount(Promise promise) {
         try {
-            String accountNumber = getAccountNumber();
-            Account.removeFromKeyStore(getAttachedActivity(), accountNumber,
+            Account.removeFromKeyStore(getAttachedActivity(), getAccountNumber(),
                     new KeyAuthenticationSpec.Builder(getReactApplicationContext())
-                            .setKeyAlias(ENCRYPTION_KEY_ALIAS).build(),
+                            .setKeyAlias(getEncryptionKeyAlias()).build(),
                     new Callback0() {
                         @Override
                         public void onSuccess() {
                             saveAccountNumber("");
+                            saveEncryptionKeyAlias("");
                             promise.resolve(null);
                         }
 
@@ -578,7 +587,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     @ReactMethod
     @Override
-    public void getAssetInfo(String filePath, Promise promise) throws NativeModuleException {
+    public void getAssetInfo(String filePath, Promise promise) {
 
         File file = new File(filePath);
         if (!file.exists() || file.isDirectory()) {
@@ -1010,7 +1019,13 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         String[] accountInfoArray = rawAccountInfo.split(",");
         String encodedSeed = accountInfoArray[1];
         Account account = Account.fromSeed(SeedTwelve.fromEncodedSeed(encodedSeed));
-        saveAccountNumber(account.getAccountNumber());
+        String accountNumber = account.getAccountNumber();
+        String existedEncryptionKeyAlias = getEncryptionKeyAlias();
+        if (TextUtils.isEmpty(getEncryptionKeyAlias()))
+            existedEncryptionKeyAlias = getRandomEncryptionKeyAlias(accountNumber);
+
+        final String encryptionKeyAlias = existedEncryptionKeyAlias;
+
         KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
                 getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS)
                                              .setAuthenticationRequired(true)
@@ -1021,6 +1036,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             account.saveToKeyStore(getAttachedActivity(), spec, new Callback0() {
                 @Override
                 public void onSuccess() {
+                    saveEncryptionKeyAlias(encryptionKeyAlias);
+                    saveAccountNumber(accountNumber);
                     // Delete raw data
                     sharePrefApi.put(accountInfoKey, "");
                     promise.resolve(account.getAccountNumber());
@@ -1041,9 +1058,11 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     private void getAccount(Promise promise, Callback1<Account> callback)
             throws NativeModuleException {
+        String accountNumber = getAccountNumber();
         KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS).build();
-        Account.loadFromKeyStore(getAttachedActivity(), getAccountNumber(), spec,
+                getReactApplicationContext()).setKeyAlias(getEncryptionKeyAlias())
+                                             .build();
+        Account.loadFromKeyStore(getAttachedActivity(), accountNumber, spec,
                 new Callback1<Account>() {
                     @Override
                     public void onSuccess(Account account) {
@@ -1087,6 +1106,22 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
             promise.reject("UNREADABLE_KEY", throwable);
             return true;
         } else return false;
+    }
+
+    private void saveEncryptionKeyAlias(String alias) {
+        SharedPreferenceApi preferenceApi = new SharedPreferenceApi(getReactApplicationContext(),
+                BuildConfig.APPLICATION_ID);
+        preferenceApi.put(Constant.ENCRYPTION_KEY_ALIAS, alias);
+    }
+
+    private String getEncryptionKeyAlias() {
+        SharedPreferenceApi preferenceApi = new SharedPreferenceApi(getReactApplicationContext(),
+                BuildConfig.APPLICATION_ID);
+        return preferenceApi.get(Constant.ENCRYPTION_KEY_ALIAS, String.class);
+    }
+
+    private String getRandomEncryptionKeyAlias(String accountNumber) {
+        return accountNumber + "." + System.currentTimeMillis() + ".encryption_key";
     }
 
 }
