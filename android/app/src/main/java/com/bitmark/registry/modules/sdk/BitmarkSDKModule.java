@@ -590,7 +590,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         try {
 
             String fingerprint = RegistrationParams.computeFingerprint(file);
-            String assetId = HEX.encode(Sha3512.hash(fingerprint));
+            String assetId = HEX.encode(Sha3512.hash(RAW.decode(fingerprint)));
             promise.resolve(toWritableArray(assetId, fingerprint));
 
         } catch (Throwable e) {
