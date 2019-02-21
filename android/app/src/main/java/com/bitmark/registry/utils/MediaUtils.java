@@ -9,6 +9,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
 import com.bitmark.cryptography.crypto.Random;
+import com.bitmark.registry.BuildConfig;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -79,7 +80,7 @@ public class MediaUtils {
                     }
 
                     if (path == null) {
-                        path = writeCacheFile(context, uri, "temp" + getRandomFileName());
+                        path = writeCacheFile(context, uri, getTempCacheFileName());
                     }
 
                     return path;
@@ -136,6 +137,8 @@ public class MediaUtils {
                 final String displayName = cursor.getString(columnIndex);
 
                 return writeCacheFile(context, uri, "temp" + displayName);
+            } else {
+                return writeCacheFile(context, uri, getTempCacheFileName());
             }
         } finally {
             if (cursor != null)
@@ -144,11 +147,11 @@ public class MediaUtils {
         return null;
     }
 
-    private static String writeCacheFile(Context context, Uri uri, String displayName)
+    public static String writeCacheFile(Context context, Uri uri, String displayName)
             throws IOException {
         try (InputStream input = context.getContentResolver().openInputStream(uri)) {
             try {
-                File file = new File(context.getCacheDir(), displayName);
+                File file = new File(getCacheDir(context), displayName);
                 try (OutputStream output = new FileOutputStream(file)) {
 
                     byte[] buffer = new byte[4 * 1024];
@@ -170,6 +173,22 @@ public class MediaUtils {
         } catch (FileNotFoundException e) {
             throw new IOException(e);
         }
+    }
+
+    public static String getTempCacheFileName() {
+        return "temp" + getRandomFileName();
+    }
+
+    public static File getCacheDir(Context context) {
+        File file = new File(context.getCacheDir() + BuildConfig.APPLICATION_ID);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                return context.getCacheDir();
+            }
+        }
+        return file;
     }
 
     private static String getRandomFileName() {
