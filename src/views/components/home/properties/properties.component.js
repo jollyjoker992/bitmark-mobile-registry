@@ -71,6 +71,7 @@ class PrivatePropertiesComponent extends React.Component {
   }
 
   render() {
+    console.log('this.props :', this.props);
     let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
     loadingDataWhenScroll = false;
     return (
@@ -365,7 +366,7 @@ const cStyles = StyleSheet.create({
     height: 35,
   },
   subTabButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 14,
     textAlign: 'center',
   },
@@ -392,7 +393,7 @@ const cStyles = StyleSheet.create({
     marginTop: 46,
     width: '100%',
     paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
-    fontFamily: 'avenir_next_w1g_bold',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 17,
     color: '#0060F2'
   },
@@ -400,7 +401,7 @@ const cStyles = StyleSheet.create({
     marginTop: 46,
     width: '100%',
     paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 17,
   },
   noReleaseIcon: {
@@ -417,7 +418,7 @@ const cStyles = StyleSheet.create({
     minHeight: 45,
   },
   addFirstPropertyButtonText: {
-    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 16, color: 'white'
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
   bitmarkRowArea: {
     width: '100%',
@@ -438,30 +439,30 @@ const cStyles = StyleSheet.create({
     flexDirection: 'column',
   },
   bitmarkCreatedAt: {
-    fontFamily: 'andale_mono',
+    fontFamily: 'Andale Mono',
     fontSize: 13,
     width: '100%',
   },
   bitmarkAssetName: {
-    fontFamily: 'avenir_next_w1g_bold',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 14,
     width: '100%',
     marginTop: 10,
   },
   bitmarkissuer: {
-    fontFamily: 'andale_mono',
+    fontFamily: 'Andale Mono',
     fontSize: 14,
     marginTop: 10,
     width: '100%',
   },
   releasedAssetName: {
     width: '100%',
-    fontFamily: 'avenir_next_w1g_demi', fontSize: 13,
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_demi' : 'AvenirNextW1G-demi', fontSize: 13,
   },
   releasedAssetEditionLeft: {
     marginTop: 3,
     width: '100%',
-    fontFamily: 'avenir_next_w1g_demi', fontSize: 13, color: '#0060F2',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_demi' : 'AvenirNextW1G-demi', fontSize: 13, color: '#0060F2',
   },
   globalArea: {
     flex: 1,

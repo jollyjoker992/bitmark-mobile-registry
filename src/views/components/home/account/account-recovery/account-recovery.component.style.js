@@ -1,5 +1,5 @@
 import { StyleSheet, } from 'react-native';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 export default StyleSheet.create({
@@ -33,9 +33,8 @@ export default StyleSheet.create({
     marginLeft: convertWidth(85),
   },
   recoveryDescription: {
-    fontFamily: 'Avenir Heavy',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_heavy' : 'AvenirNextW1G-Heavy',
     fontSize: 15,
-    fontWeight: '400',
     lineHeight: 18,
     marginTop: 23,
     width: convertWidth(337),
@@ -50,17 +49,15 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   recoveryPhraseBottomButtonText: {
-    fontFamily: 'Avenir Black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 16,
-    fontWeight: '900',
     color: 'white',
     textAlign: 'center',
   },
 
   writeRecoveryPhraseContentMessage: {
-    fontFamily: 'Avenir Light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-Light',
     fontSize: 17,
-    fontWeight: '300',
     width: convertWidth(309),
     marginTop: 20,
   },
@@ -79,9 +76,8 @@ export default StyleSheet.create({
     height: 283,
   },
   writeRecoveryPhraseContentTestButtonText: {
-    fontFamily: 'Avenir Light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-Light',
     fontSize: 14,
-    fontWeight: '300',
     color: '#0060F2',
     marginTop: 66,
   },
@@ -90,17 +86,15 @@ export default StyleSheet.create({
     height: 21,
   },
   recoveryPhraseIndex: {
-    fontFamily: 'Avenir Light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-Light',
     fontSize: 15,
-    fontWeight: '300',
     color: '#D4D4D4',
     width: convertWidth(39),
     textAlign: 'left',
   },
   recoveryPhraseWord: {
-    fontFamily: 'Avenir Light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-Light',
     fontSize: 15,
-    fontWeight: '300',
     color: '#0060F2',
     width: convertWidth(108),
   },
@@ -125,9 +119,8 @@ export default StyleSheet.create({
     alignContent: 'center',
   },
   recoveryPhraseChooseButtonText: {
-    fontFamily: 'Avenir Heavy',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 15,
-    fontWeight: '300',
     color: '#0060F2',
     textAlign: 'center',
   },
@@ -139,14 +132,12 @@ export default StyleSheet.create({
     paddingBottom: 27,
   },
   recoveryPhraseTestTitle: {
-    fontFamily: 'Avenir Light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 15,
-    fontWeight: '900',
   },
   recoveryPhraseTestMessage: {
-    fontFamily: 'Avenir Light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-Light',
     fontSize: 15,
-    fontWeight: '300',
     textAlign: 'center',
     width: convertWidth(309),
     marginTop: 11,

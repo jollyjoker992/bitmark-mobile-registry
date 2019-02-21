@@ -1,5 +1,6 @@
 import { StyleSheet, } from 'react-native';
 import { convertWidth } from 'src/utils';
+import { config } from 'src/configs';
 
 export default StyleSheet.create({
   body: {
@@ -20,10 +21,9 @@ export default StyleSheet.create({
     paddingRight: convertWidth(19),
   },
   assetName: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 16,
     lineHeight: 19,
-    fontWeight: '900',
     marginTop: 38,
   },
   transferOfferContent: {
@@ -32,18 +32,16 @@ export default StyleSheet.create({
     marginTop: 32,
   },
   transferOfferSenderFix: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 12,
-    fontWeight: '700',
   },
   transferOfferSenderName: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 13,
   },
   transferOfferAssetName: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 13,
-    fontWeight: '900',
     width: convertWidth(150),
   },
   externalArea: {
@@ -55,13 +53,13 @@ export default StyleSheet.create({
   },
 
   externalAreaRowLabel: {
-    fontFamily: 'andale_mono',
+    fontFamily: 'Andale Mono',
     fontSize: 13,
     color: '#0060F2',
     width: convertWidth(117),
   },
   externalAreaRowValue: {
-    fontFamily: 'andale_mono',
+    fontFamily: 'Andale Mono',
     fontSize: 13,
     width: convertWidth(198),
     color: '#0060F2',
@@ -74,12 +72,12 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   externalAreaRowValueIssuer_: {
-    fontFamily: 'andale_mono',
+    fontFamily: 'Andale Mono',
     color: '#0060F2',
     fontSize: 13,
   },
   externalAreaRowValueIssuer: {
-    fontFamily: 'andale_mono',
+    fontFamily: 'Andale Mono',
     fontSize: 13,
     width: convertWidth(190),
     color: '#0060F2',
@@ -88,7 +86,7 @@ export default StyleSheet.create({
     marginTop: 20,
   },
   metadataRowValue: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 13,
     width: convertWidth(198),
     marginBottom: 5,
@@ -109,9 +107,8 @@ export default StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   rejectButtonText: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 16,
-    fontWeight: '900',
     color: '#A4B5CD',
   },
   acceptButton: {
@@ -124,9 +121,8 @@ export default StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   acceptButtonText: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 16,
-    fontWeight: '900',
     color: '#0060F2',
   }
 });

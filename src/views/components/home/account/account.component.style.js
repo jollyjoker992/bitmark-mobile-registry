@@ -1,5 +1,5 @@
 import { StyleSheet, } from 'react-native';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 export default StyleSheet.create({
@@ -61,7 +61,7 @@ export default StyleSheet.create({
     height: 35,
   },
   subTabButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 14,
     textAlign: 'center',
   },
@@ -86,7 +86,7 @@ export default StyleSheet.create({
 
   //settings
   accountNumberLabel: {
-    fontFamily: 'Avenir Light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 14,
     marginTop: 27,
   },
@@ -100,8 +100,7 @@ export default StyleSheet.create({
     minHeight: 30,
   },
   accountNumberValue: {
-    fontFamily: 'andale_mono',
-    fontWeight: '900',
+    fontFamily: 'Andale Mono',
     fontSize: convertWidth(11),
     width: convertWidth(337),
     color: '#0060F2',
@@ -115,15 +114,13 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
   },
   accountNumberCopyButtonText: {
-    fontFamily: 'Avenir',
-    fontWeight: '700',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_regular' : 'AvenirNextW1G-regular',
     fontStyle: 'italic',
     fontSize: 8,
     color: '#0060F2',
   },
   accountMessage: {
-    fontFamily: 'Avenir Light',
-    fontWeight: '300',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 15,
     marginTop: 9,
     width: convertWidth(337),
@@ -134,8 +131,7 @@ export default StyleSheet.create({
     paddingBottom: 4,
   },
   accountWriteDownButtonText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 14,
     color: '#0060F2',
   },
@@ -145,17 +141,15 @@ export default StyleSheet.create({
     flexDirection: 'row', alignItems: 'center'
   },
   accountRemoveButtonText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 14,
     color: '#0060F2',
   },
 
   accountDataSourceLabel: {
     marginTop: 17,
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 16,
-    fontWeight: '900',
   },
   dataSourcesArea: {
     marginTop: 17,
@@ -164,14 +158,12 @@ export default StyleSheet.create({
     marginBottom: 20,
   },
   dataSourcesMessage: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 14,
-    fontWeight: '300'
   },
 
   noAuthorizedMessage: {
-    fontFamily: 'Avenir Light',
-    fontWeight: '300',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 17,
     marginTop: 16,
   },
@@ -188,16 +180,14 @@ export default StyleSheet.create({
     borderBottomColor: '#A4B5CD',
   },
   authorizedItemTitleText: {
-    fontFamily: 'Avenir Light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 14,
-    fontWeight: '900',
   },
   authorizedItemRemoveButton: {
     padding: 4,
   },
   authorizedItemRemoveButtonText: {
-    fontFamily: 'Avenir Light',
-    fontWeight: '900',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 14,
     color: '#0060F2',
   },
@@ -221,15 +211,13 @@ export default StyleSheet.create({
     paddingBottom: 4,
   },
   authorizedViewButtonText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 14,
     color: '#0060F2',
   },
   authorizedItemDescriptionText: {
     width: convertWidth(257),
-    fontFamily: 'Avenir Light',
-    fontWeight: '300',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 15,
   },
 

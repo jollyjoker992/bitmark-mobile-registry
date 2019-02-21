@@ -18,10 +18,9 @@ export default StyleSheet.create({
 
   // notification
   faceTouchIdTitle: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     color: '#0060F2',
     fontSize: 17,
-    fontWeight: '900',
     marginTop: 25,
     width: convertWidth(275),
   },
@@ -48,8 +47,7 @@ export default StyleSheet.create({
   faceTouchIdDescription: {
     marginTop: 50,
     width: convertWidth(275),
-    fontFamily: 'Avenir light',
-    fontWeight: '300',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 17,
     lineHeight: 20,
   },
@@ -71,10 +69,9 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2'
   },
   enableButtonText: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     textAlign: 'center',
     fontSize: 16,
-    fontWeight: '900',
     color: 'white'
   },
   skipButton: {
@@ -88,10 +85,9 @@ export default StyleSheet.create({
   },
   skipButtonText: {
     paddingBottom: (constant.blankFooter / 2),
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     textAlign: 'center',
     fontSize: 16,
-    fontWeight: '900',
     color: '#0060F2'
   }
 });

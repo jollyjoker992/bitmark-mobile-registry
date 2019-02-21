@@ -157,52 +157,52 @@
 		F1D09CF8207707BF008B16EE /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D09CF7207707BF008B16EE /* libz.tbd */; };
 		F1EE2A1F21F02A2C00A65824 /* avenir_next_w1g_ultra_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE29D821F02A2700A65824 /* avenir_next_w1g_ultra_light.ttf */; };
 		F1EE2A2021F02A2C00A65824 /* avenir_next_w1g_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1021F02A2700A65824 /* avenir_next_w1g_light.ttf */; };
-		F1EE2A2121F02A2C00A65824 /* avenir_next_w1g_ultra_lightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1121F02A2800A65824 /* avenir_next_w1g_ultra_lightIt.ttf */; };
+		F1EE2A2121F02A2C00A65824 /* avenir_next_w1g_ultra_light_it.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1121F02A2800A65824 /* avenir_next_w1g_ultra_light_it.ttf */; };
 		F1EE2A2221F02A2C00A65824 /* avenir_next_w1g_demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1221F02A2800A65824 /* avenir_next_w1g_demi.ttf */; };
 		F1EE2A2321F02A2C00A65824 /* avenir_next_w1g_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1321F02A2800A65824 /* avenir_next_w1g_medium.ttf */; };
 		F1EE2A2421F02A2C00A65824 /* avenir_next_w1g_heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1421F02A2900A65824 /* avenir_next_w1g_heavy.ttf */; };
-		F1EE2A2521F02A2C00A65824 /* avenir_next_w1g_thinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1521F02A2900A65824 /* avenir_next_w1g_thinItalic.ttf */; };
-		F1EE2A2621F02A2C00A65824 /* avenir_next_w1g_lightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1621F02A2900A65824 /* avenir_next_w1g_lightItalic.ttf */; };
+		F1EE2A2521F02A2C00A65824 /* avenir_next_w1g_thin_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1521F02A2900A65824 /* avenir_next_w1g_thin_italic.ttf */; };
+		F1EE2A2621F02A2C00A65824 /* avenir_next_w1g_light_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1621F02A2900A65824 /* avenir_next_w1g_light_italic.ttf */; };
 		F1EE2A2721F02A2C00A65824 /* avenir_next_w1g_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1721F02A2900A65824 /* avenir_next_w1g_bold.ttf */; };
-		F1EE2A2821F02A2C00A65824 /* avenir_next_w1g_mediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1821F02A2A00A65824 /* avenir_next_w1g_mediumItalic.ttf */; };
+		F1EE2A2821F02A2C00A65824 /* avenir_next_w1g_medium_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1821F02A2A00A65824 /* avenir_next_w1g_medium_italic.ttf */; };
 		F1EE2A2921F02A2C00A65824 /* avenir_next_w1g_thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1921F02A2A00A65824 /* avenir_next_w1g_thin.ttf */; };
 		F1EE2A2A21F02A2C00A65824 /* avenir_next_w1g_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1A21F02A2A00A65824 /* avenir_next_w1g_italic.ttf */; };
-		F1EE2A2B21F02A2C00A65824 /* avenir_next_w1g_demiItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1B21F02A2B00A65824 /* avenir_next_w1g_demiItalic.ttf */; };
+		F1EE2A2B21F02A2C00A65824 /* avenir_next_w1g_demi_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1B21F02A2B00A65824 /* avenir_next_w1g_demi_italic.ttf */; };
 		F1EE2A2C21F02A2C00A65824 /* avenir_next_w1g_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1C21F02A2B00A65824 /* avenir_next_w1g_regular.ttf */; };
-		F1EE2A2D21F02A2C00A65824 /* avenir_next_w1g_boldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1D21F02A2B00A65824 /* avenir_next_w1g_boldItalic.ttf */; };
-		F1EE2A2E21F02A2C00A65824 /* avenir_next_w1g_heavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1E21F02A2C00A65824 /* avenir_next_w1g_heavyItalic.ttf */; };
+		F1EE2A2D21F02A2C00A65824 /* avenir_next_w1g_bold_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1D21F02A2B00A65824 /* avenir_next_w1g_bold_Italic.ttf */; };
+		F1EE2A2E21F02A2C00A65824 /* avenir_next_w1g_heavy_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1E21F02A2C00A65824 /* avenir_next_w1g_heavy_italic.ttf */; };
 		F1EE2A2F21F02A3B00A65824 /* avenir_next_w1g_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1721F02A2900A65824 /* avenir_next_w1g_bold.ttf */; };
 		F1EE2A3021F02A3B00A65824 /* avenir_next_w1g_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1721F02A2900A65824 /* avenir_next_w1g_bold.ttf */; };
-		F1EE2A3221F02A4300A65824 /* avenir_next_w1g_boldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1D21F02A2B00A65824 /* avenir_next_w1g_boldItalic.ttf */; };
+		F1EE2A3221F02A4300A65824 /* avenir_next_w1g_bold_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1D21F02A2B00A65824 /* avenir_next_w1g_bold_Italic.ttf */; };
 		F1EE2A3321F02A4300A65824 /* avenir_next_w1g_demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1221F02A2800A65824 /* avenir_next_w1g_demi.ttf */; };
-		F1EE2A3421F02A4300A65824 /* avenir_next_w1g_demiItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1B21F02A2B00A65824 /* avenir_next_w1g_demiItalic.ttf */; };
+		F1EE2A3421F02A4300A65824 /* avenir_next_w1g_demi_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1B21F02A2B00A65824 /* avenir_next_w1g_demi_italic.ttf */; };
 		F1EE2A3521F02A4300A65824 /* avenir_next_w1g_heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1421F02A2900A65824 /* avenir_next_w1g_heavy.ttf */; };
-		F1EE2A3621F02A4300A65824 /* avenir_next_w1g_heavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1E21F02A2C00A65824 /* avenir_next_w1g_heavyItalic.ttf */; };
+		F1EE2A3621F02A4300A65824 /* avenir_next_w1g_heavy_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1E21F02A2C00A65824 /* avenir_next_w1g_heavy_italic.ttf */; };
 		F1EE2A3721F02A4300A65824 /* avenir_next_w1g_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1A21F02A2A00A65824 /* avenir_next_w1g_italic.ttf */; };
 		F1EE2A3821F02A4300A65824 /* avenir_next_w1g_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1021F02A2700A65824 /* avenir_next_w1g_light.ttf */; };
-		F1EE2A3921F02A4300A65824 /* avenir_next_w1g_lightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1621F02A2900A65824 /* avenir_next_w1g_lightItalic.ttf */; };
+		F1EE2A3921F02A4300A65824 /* avenir_next_w1g_light_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1621F02A2900A65824 /* avenir_next_w1g_light_italic.ttf */; };
 		F1EE2A3A21F02A4300A65824 /* avenir_next_w1g_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1321F02A2800A65824 /* avenir_next_w1g_medium.ttf */; };
-		F1EE2A3B21F02A4300A65824 /* avenir_next_w1g_mediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1821F02A2A00A65824 /* avenir_next_w1g_mediumItalic.ttf */; };
+		F1EE2A3B21F02A4300A65824 /* avenir_next_w1g_medium_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1821F02A2A00A65824 /* avenir_next_w1g_medium_italic.ttf */; };
 		F1EE2A3C21F02A4300A65824 /* avenir_next_w1g_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1C21F02A2B00A65824 /* avenir_next_w1g_regular.ttf */; };
 		F1EE2A3D21F02A4300A65824 /* avenir_next_w1g_thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1921F02A2A00A65824 /* avenir_next_w1g_thin.ttf */; };
-		F1EE2A3E21F02A4300A65824 /* avenir_next_w1g_thinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1521F02A2900A65824 /* avenir_next_w1g_thinItalic.ttf */; };
+		F1EE2A3E21F02A4300A65824 /* avenir_next_w1g_thin_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1521F02A2900A65824 /* avenir_next_w1g_thin_italic.ttf */; };
 		F1EE2A3F21F02A4300A65824 /* avenir_next_w1g_ultra_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE29D821F02A2700A65824 /* avenir_next_w1g_ultra_light.ttf */; };
-		F1EE2A4021F02A4300A65824 /* avenir_next_w1g_ultra_lightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1121F02A2800A65824 /* avenir_next_w1g_ultra_lightIt.ttf */; };
-		F1EE2A4121F02A4400A65824 /* avenir_next_w1g_boldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1D21F02A2B00A65824 /* avenir_next_w1g_boldItalic.ttf */; };
+		F1EE2A4021F02A4300A65824 /* avenir_next_w1g_ultra_light_it.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1121F02A2800A65824 /* avenir_next_w1g_ultra_light_it.ttf */; };
+		F1EE2A4121F02A4400A65824 /* avenir_next_w1g_bold_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1D21F02A2B00A65824 /* avenir_next_w1g_bold_Italic.ttf */; };
 		F1EE2A4221F02A4400A65824 /* avenir_next_w1g_demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1221F02A2800A65824 /* avenir_next_w1g_demi.ttf */; };
-		F1EE2A4321F02A4400A65824 /* avenir_next_w1g_demiItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1B21F02A2B00A65824 /* avenir_next_w1g_demiItalic.ttf */; };
+		F1EE2A4321F02A4400A65824 /* avenir_next_w1g_demi_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1B21F02A2B00A65824 /* avenir_next_w1g_demi_italic.ttf */; };
 		F1EE2A4421F02A4400A65824 /* avenir_next_w1g_heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1421F02A2900A65824 /* avenir_next_w1g_heavy.ttf */; };
-		F1EE2A4521F02A4400A65824 /* avenir_next_w1g_heavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1E21F02A2C00A65824 /* avenir_next_w1g_heavyItalic.ttf */; };
+		F1EE2A4521F02A4400A65824 /* avenir_next_w1g_heavy_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1E21F02A2C00A65824 /* avenir_next_w1g_heavy_italic.ttf */; };
 		F1EE2A4621F02A4400A65824 /* avenir_next_w1g_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1A21F02A2A00A65824 /* avenir_next_w1g_italic.ttf */; };
 		F1EE2A4721F02A4400A65824 /* avenir_next_w1g_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1021F02A2700A65824 /* avenir_next_w1g_light.ttf */; };
-		F1EE2A4821F02A4400A65824 /* avenir_next_w1g_lightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1621F02A2900A65824 /* avenir_next_w1g_lightItalic.ttf */; };
+		F1EE2A4821F02A4400A65824 /* avenir_next_w1g_light_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1621F02A2900A65824 /* avenir_next_w1g_light_italic.ttf */; };
 		F1EE2A4921F02A4400A65824 /* avenir_next_w1g_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1321F02A2800A65824 /* avenir_next_w1g_medium.ttf */; };
-		F1EE2A4A21F02A4400A65824 /* avenir_next_w1g_mediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1821F02A2A00A65824 /* avenir_next_w1g_mediumItalic.ttf */; };
+		F1EE2A4A21F02A4400A65824 /* avenir_next_w1g_medium_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1821F02A2A00A65824 /* avenir_next_w1g_medium_italic.ttf */; };
 		F1EE2A4B21F02A4400A65824 /* avenir_next_w1g_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1C21F02A2B00A65824 /* avenir_next_w1g_regular.ttf */; };
 		F1EE2A4C21F02A4400A65824 /* avenir_next_w1g_thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1921F02A2A00A65824 /* avenir_next_w1g_thin.ttf */; };
-		F1EE2A4D21F02A4400A65824 /* avenir_next_w1g_thinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1521F02A2900A65824 /* avenir_next_w1g_thinItalic.ttf */; };
+		F1EE2A4D21F02A4400A65824 /* avenir_next_w1g_thin_italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1521F02A2900A65824 /* avenir_next_w1g_thin_italic.ttf */; };
 		F1EE2A4E21F02A4400A65824 /* avenir_next_w1g_ultra_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE29D821F02A2700A65824 /* avenir_next_w1g_ultra_light.ttf */; };
-		F1EE2A4F21F02A4400A65824 /* avenir_next_w1g_ultra_lightIt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1121F02A2800A65824 /* avenir_next_w1g_ultra_lightIt.ttf */; };
+		F1EE2A4F21F02A4400A65824 /* avenir_next_w1g_ultra_light_it.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1EE2A1121F02A2800A65824 /* avenir_next_w1g_ultra_light_it.ttf */; };
 		F1F6E2E120B6BF5200CECD53 /* libRNCookieManagerIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F6E2D720B6BF4000CECD53 /* libRNCookieManagerIOS.a */; };
 		F1F6E2E320B6BF6800CECD53 /* libRNCookieManagerIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F6E2D720B6BF4000CECD53 /* libRNCookieManagerIOS.a */; };
 /* End PBXBuildFile section */
@@ -821,22 +821,22 @@
 		F18C03802049095000FA36E4 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		F1D09CBA20770725008B16EE /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		F1D09CF7207707BF008B16EE /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		F1EE29D821F02A2700A65824 /* avenir_next_w1g_ultra_light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_ultra_light.ttf"; path = "../assets/fonts/avenir_next_w1g_ultra_light.ttf"; sourceTree = "<group>"; };
-		F1EE2A1021F02A2700A65824 /* avenir_next_w1g_light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_light.ttf"; path = "../assets/fonts/avenir_next_w1g_light.ttf"; sourceTree = "<group>"; };
-		F1EE2A1121F02A2800A65824 /* avenir_next_w1g_ultra_lightIt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_ultra_lightIt.ttf"; path = "../assets/fonts/avenir_next_w1g_ultra_lightIt.ttf"; sourceTree = "<group>"; };
-		F1EE2A1221F02A2800A65824 /* avenir_next_w1g_demi.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_demi.ttf"; path = "../assets/fonts/avenir_next_w1g_demi.ttf"; sourceTree = "<group>"; };
-		F1EE2A1321F02A2800A65824 /* avenir_next_w1g_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_medium.ttf"; path = "../assets/fonts/avenir_next_w1g_medium.ttf"; sourceTree = "<group>"; };
-		F1EE2A1421F02A2900A65824 /* avenir_next_w1g_heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_heavy.ttf"; path = "../assets/fonts/avenir_next_w1g_heavy.ttf"; sourceTree = "<group>"; };
-		F1EE2A1521F02A2900A65824 /* avenir_next_w1g_thinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_thinItalic.ttf"; path = "../assets/fonts/avenir_next_w1g_thinItalic.ttf"; sourceTree = "<group>"; };
-		F1EE2A1621F02A2900A65824 /* avenir_next_w1g_lightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_lightItalic.ttf"; path = "../assets/fonts/avenir_next_w1g_lightItalic.ttf"; sourceTree = "<group>"; };
-		F1EE2A1721F02A2900A65824 /* avenir_next_w1g_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_bold.ttf"; path = "../assets/fonts/avenir_next_w1g_bold.ttf"; sourceTree = "<group>"; };
-		F1EE2A1821F02A2A00A65824 /* avenir_next_w1g_mediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_mediumItalic.ttf"; path = "../assets/fonts/avenir_next_w1g_mediumItalic.ttf"; sourceTree = "<group>"; };
-		F1EE2A1921F02A2A00A65824 /* avenir_next_w1g_thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_thin.ttf"; path = "../assets/fonts/avenir_next_w1g_thin.ttf"; sourceTree = "<group>"; };
-		F1EE2A1A21F02A2A00A65824 /* avenir_next_w1g_italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_italic.ttf"; path = "../assets/fonts/avenir_next_w1g_italic.ttf"; sourceTree = "<group>"; };
-		F1EE2A1B21F02A2B00A65824 /* avenir_next_w1g_demiItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_demiItalic.ttf"; path = "../assets/fonts/avenir_next_w1g_demiItalic.ttf"; sourceTree = "<group>"; };
-		F1EE2A1C21F02A2B00A65824 /* avenir_next_w1g_regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_regular.ttf"; path = "../assets/fonts/avenir_next_w1g_regular.ttf"; sourceTree = "<group>"; };
-		F1EE2A1D21F02A2B00A65824 /* avenir_next_w1g_boldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_boldItalic.ttf"; path = "../assets/fonts/avenir_next_w1g_boldItalic.ttf"; sourceTree = "<group>"; };
-		F1EE2A1E21F02A2C00A65824 /* avenir_next_w1g_heavyItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "avenir_next_w1g_heavyItalic.ttf"; path = "../assets/fonts/avenir_next_w1g_heavyItalic.ttf"; sourceTree = "<group>"; };
+		F1EE29D821F02A2700A65824 /* avenir_next_w1g_ultra_light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_ultra_light.ttf; path = ../assets/fonts/avenir_next_w1g_ultra_light.ttf; sourceTree = "<group>"; };
+		F1EE2A1021F02A2700A65824 /* avenir_next_w1g_light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_light.ttf; path = ../assets/fonts/avenir_next_w1g_light.ttf; sourceTree = "<group>"; };
+		F1EE2A1121F02A2800A65824 /* avenir_next_w1g_ultra_light_it.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_ultra_light_it.ttf; path = ../assets/fonts/avenir_next_w1g_ultra_light_it.ttf; sourceTree = "<group>"; };
+		F1EE2A1221F02A2800A65824 /* avenir_next_w1g_demi.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_demi.ttf; path = ../assets/fonts/avenir_next_w1g_demi.ttf; sourceTree = "<group>"; };
+		F1EE2A1321F02A2800A65824 /* avenir_next_w1g_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_medium.ttf; path = ../assets/fonts/avenir_next_w1g_medium.ttf; sourceTree = "<group>"; };
+		F1EE2A1421F02A2900A65824 /* avenir_next_w1g_heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_heavy.ttf; path = ../assets/fonts/avenir_next_w1g_heavy.ttf; sourceTree = "<group>"; };
+		F1EE2A1521F02A2900A65824 /* avenir_next_w1g_thin_italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_thin_italic.ttf; path = ../assets/fonts/avenir_next_w1g_thin_italic.ttf; sourceTree = "<group>"; };
+		F1EE2A1621F02A2900A65824 /* avenir_next_w1g_light_italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_light_italic.ttf; path = ../assets/fonts/avenir_next_w1g_light_italic.ttf; sourceTree = "<group>"; };
+		F1EE2A1721F02A2900A65824 /* avenir_next_w1g_bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_bold.ttf; path = ../assets/fonts/avenir_next_w1g_bold.ttf; sourceTree = "<group>"; };
+		F1EE2A1821F02A2A00A65824 /* avenir_next_w1g_medium_italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_medium_italic.ttf; path = ../assets/fonts/avenir_next_w1g_medium_italic.ttf; sourceTree = "<group>"; };
+		F1EE2A1921F02A2A00A65824 /* avenir_next_w1g_thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_thin.ttf; path = ../assets/fonts/avenir_next_w1g_thin.ttf; sourceTree = "<group>"; };
+		F1EE2A1A21F02A2A00A65824 /* avenir_next_w1g_italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_italic.ttf; path = ../assets/fonts/avenir_next_w1g_italic.ttf; sourceTree = "<group>"; };
+		F1EE2A1B21F02A2B00A65824 /* avenir_next_w1g_demi_italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_demi_italic.ttf; path = ../assets/fonts/avenir_next_w1g_demi_italic.ttf; sourceTree = "<group>"; };
+		F1EE2A1C21F02A2B00A65824 /* avenir_next_w1g_regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_regular.ttf; path = ../assets/fonts/avenir_next_w1g_regular.ttf; sourceTree = "<group>"; };
+		F1EE2A1D21F02A2B00A65824 /* avenir_next_w1g_bold_Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_bold_Italic.ttf; path = ../assets/fonts/avenir_next_w1g_bold_Italic.ttf; sourceTree = "<group>"; };
+		F1EE2A1E21F02A2C00A65824 /* avenir_next_w1g_heavy_italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = avenir_next_w1g_heavy_italic.ttf; path = ../assets/fonts/avenir_next_w1g_heavy_italic.ttf; sourceTree = "<group>"; };
 		F1F6E2A520B6BF4000CECD53 /* RNCookieManagerIOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCookieManagerIOS.xcodeproj; path = "../node_modules/react-native-cookies/ios/RNCookieManagerIOS.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1361,21 +1361,21 @@
 			isa = PBXGroup;
 			children = (
 				F1EE2A1721F02A2900A65824 /* avenir_next_w1g_bold.ttf */,
-				F1EE2A1D21F02A2B00A65824 /* avenir_next_w1g_boldItalic.ttf */,
+				F1EE2A1D21F02A2B00A65824 /* avenir_next_w1g_bold_Italic.ttf */,
 				F1EE2A1221F02A2800A65824 /* avenir_next_w1g_demi.ttf */,
-				F1EE2A1B21F02A2B00A65824 /* avenir_next_w1g_demiItalic.ttf */,
+				F1EE2A1B21F02A2B00A65824 /* avenir_next_w1g_demi_italic.ttf */,
 				F1EE2A1421F02A2900A65824 /* avenir_next_w1g_heavy.ttf */,
-				F1EE2A1E21F02A2C00A65824 /* avenir_next_w1g_heavyItalic.ttf */,
+				F1EE2A1E21F02A2C00A65824 /* avenir_next_w1g_heavy_italic.ttf */,
 				F1EE2A1A21F02A2A00A65824 /* avenir_next_w1g_italic.ttf */,
 				F1EE2A1021F02A2700A65824 /* avenir_next_w1g_light.ttf */,
-				F1EE2A1621F02A2900A65824 /* avenir_next_w1g_lightItalic.ttf */,
+				F1EE2A1621F02A2900A65824 /* avenir_next_w1g_light_italic.ttf */,
 				F1EE2A1321F02A2800A65824 /* avenir_next_w1g_medium.ttf */,
-				F1EE2A1821F02A2A00A65824 /* avenir_next_w1g_mediumItalic.ttf */,
+				F1EE2A1821F02A2A00A65824 /* avenir_next_w1g_medium_italic.ttf */,
 				F1EE2A1C21F02A2B00A65824 /* avenir_next_w1g_regular.ttf */,
 				F1EE2A1921F02A2A00A65824 /* avenir_next_w1g_thin.ttf */,
-				F1EE2A1521F02A2900A65824 /* avenir_next_w1g_thinItalic.ttf */,
+				F1EE2A1521F02A2900A65824 /* avenir_next_w1g_thin_italic.ttf */,
 				F1EE29D821F02A2700A65824 /* avenir_next_w1g_ultra_light.ttf */,
-				F1EE2A1121F02A2800A65824 /* avenir_next_w1g_ultra_lightIt.ttf */,
+				F1EE2A1121F02A2800A65824 /* avenir_next_w1g_ultra_light_it.ttf */,
 				F150CA152023230B00C8FC17 /* andale_mono.ttf */,
 				13B07FAE1A68108700A75B9A /* Bitmark */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -2294,8 +2294,8 @@
 			files = (
 				F1EE2A2C21F02A2C00A65824 /* avenir_next_w1g_regular.ttf in Resources */,
 				F1EE2A2021F02A2C00A65824 /* avenir_next_w1g_light.ttf in Resources */,
-				F1EE2A2B21F02A2C00A65824 /* avenir_next_w1g_demiItalic.ttf in Resources */,
-				F1EE2A2621F02A2C00A65824 /* avenir_next_w1g_lightItalic.ttf in Resources */,
+				F1EE2A2B21F02A2C00A65824 /* avenir_next_w1g_demi_italic.ttf in Resources */,
+				F1EE2A2621F02A2C00A65824 /* avenir_next_w1g_light_italic.ttf in Resources */,
 				F1EE2A2A21F02A2C00A65824 /* avenir_next_w1g_italic.ttf in Resources */,
 				F150CA412023230B00C8FC17 /* andale_mono.ttf in Resources */,
 				586D2E7E2167219C002A84B5 /* Localizable.strings in Resources */,
@@ -2303,13 +2303,13 @@
 				F1EE2A2921F02A2C00A65824 /* avenir_next_w1g_thin.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				F1EE2A2D21F02A2C00A65824 /* avenir_next_w1g_boldItalic.ttf in Resources */,
-				F1EE2A2E21F02A2C00A65824 /* avenir_next_w1g_heavyItalic.ttf in Resources */,
+				F1EE2A2D21F02A2C00A65824 /* avenir_next_w1g_bold_Italic.ttf in Resources */,
+				F1EE2A2E21F02A2C00A65824 /* avenir_next_w1g_heavy_italic.ttf in Resources */,
 				588E9D2F216C609100F0E5D9 /* InfoPlist.strings in Resources */,
-				F1EE2A2121F02A2C00A65824 /* avenir_next_w1g_ultra_lightIt.ttf in Resources */,
+				F1EE2A2121F02A2C00A65824 /* avenir_next_w1g_ultra_light_it.ttf in Resources */,
 				F1EE2A2421F02A2C00A65824 /* avenir_next_w1g_heavy.ttf in Resources */,
-				F1EE2A2821F02A2C00A65824 /* avenir_next_w1g_mediumItalic.ttf in Resources */,
-				F1EE2A2521F02A2C00A65824 /* avenir_next_w1g_thinItalic.ttf in Resources */,
+				F1EE2A2821F02A2C00A65824 /* avenir_next_w1g_medium_italic.ttf in Resources */,
+				F1EE2A2521F02A2C00A65824 /* avenir_next_w1g_thin_italic.ttf in Resources */,
 				F1EE2A2721F02A2C00A65824 /* avenir_next_w1g_bold.ttf in Resources */,
 				F1EE2A2221F02A2C00A65824 /* avenir_next_w1g_demi.ttf in Resources */,
 				F1EE2A2321F02A2C00A65824 /* avenir_next_w1g_medium.ttf in Resources */,
@@ -2321,18 +2321,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				583BAC21216F51600015E3A0 /* andale_mono.ttf in Resources */,
-				F1EE2A4A21F02A4400A65824 /* avenir_next_w1g_mediumItalic.ttf in Resources */,
-				F1EE2A4321F02A4400A65824 /* avenir_next_w1g_demiItalic.ttf in Resources */,
-				F1EE2A4F21F02A4400A65824 /* avenir_next_w1g_ultra_lightIt.ttf in Resources */,
+				F1EE2A4A21F02A4400A65824 /* avenir_next_w1g_medium_italic.ttf in Resources */,
+				F1EE2A4321F02A4400A65824 /* avenir_next_w1g_demi_italic.ttf in Resources */,
+				F1EE2A4F21F02A4400A65824 /* avenir_next_w1g_ultra_light_it.ttf in Resources */,
 				F1EE2A4221F02A4400A65824 /* avenir_next_w1g_demi.ttf in Resources */,
 				F1EE2A3021F02A3B00A65824 /* avenir_next_w1g_bold.ttf in Resources */,
 				F1EE2A4921F02A4400A65824 /* avenir_next_w1g_medium.ttf in Resources */,
-				F1EE2A4521F02A4400A65824 /* avenir_next_w1g_heavyItalic.ttf in Resources */,
+				F1EE2A4521F02A4400A65824 /* avenir_next_w1g_heavy_italic.ttf in Resources */,
 				583BAC22216F51600015E3A0 /* Localizable.strings in Resources */,
-				F1EE2A4121F02A4400A65824 /* avenir_next_w1g_boldItalic.ttf in Resources */,
+				F1EE2A4121F02A4400A65824 /* avenir_next_w1g_bold_Italic.ttf in Resources */,
 				F1EE2A4721F02A4400A65824 /* avenir_next_w1g_light.ttf in Resources */,
 				583BAC23216F51600015E3A0 /* Images.xcassets in Resources */,
-				F1EE2A4D21F02A4400A65824 /* avenir_next_w1g_thinItalic.ttf in Resources */,
+				F1EE2A4D21F02A4400A65824 /* avenir_next_w1g_thin_italic.ttf in Resources */,
 				F1EE2A4E21F02A4400A65824 /* avenir_next_w1g_ultra_light.ttf in Resources */,
 				583BAC24216F51600015E3A0 /* LaunchScreen.xib in Resources */,
 				F1EE2A4421F02A4400A65824 /* avenir_next_w1g_heavy.ttf in Resources */,
@@ -2340,7 +2340,7 @@
 				F1EE2A4B21F02A4400A65824 /* avenir_next_w1g_regular.ttf in Resources */,
 				F1EE2A4621F02A4400A65824 /* avenir_next_w1g_italic.ttf in Resources */,
 				583BAC25216F51600015E3A0 /* InfoPlist.strings in Resources */,
-				F1EE2A4821F02A4400A65824 /* avenir_next_w1g_lightItalic.ttf in Resources */,
+				F1EE2A4821F02A4400A65824 /* avenir_next_w1g_light_italic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2349,18 +2349,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				58908AC020A18A5A00C0064A /* andale_mono.ttf in Resources */,
-				F1EE2A3B21F02A4300A65824 /* avenir_next_w1g_mediumItalic.ttf in Resources */,
-				F1EE2A3421F02A4300A65824 /* avenir_next_w1g_demiItalic.ttf in Resources */,
-				F1EE2A4021F02A4300A65824 /* avenir_next_w1g_ultra_lightIt.ttf in Resources */,
+				F1EE2A3B21F02A4300A65824 /* avenir_next_w1g_medium_italic.ttf in Resources */,
+				F1EE2A3421F02A4300A65824 /* avenir_next_w1g_demi_italic.ttf in Resources */,
+				F1EE2A4021F02A4300A65824 /* avenir_next_w1g_ultra_light_it.ttf in Resources */,
 				F1EE2A3321F02A4300A65824 /* avenir_next_w1g_demi.ttf in Resources */,
 				F1EE2A2F21F02A3B00A65824 /* avenir_next_w1g_bold.ttf in Resources */,
 				F1EE2A3A21F02A4300A65824 /* avenir_next_w1g_medium.ttf in Resources */,
-				F1EE2A3621F02A4300A65824 /* avenir_next_w1g_heavyItalic.ttf in Resources */,
+				F1EE2A3621F02A4300A65824 /* avenir_next_w1g_heavy_italic.ttf in Resources */,
 				586D2E7F2167219C002A84B5 /* Localizable.strings in Resources */,
-				F1EE2A3221F02A4300A65824 /* avenir_next_w1g_boldItalic.ttf in Resources */,
+				F1EE2A3221F02A4300A65824 /* avenir_next_w1g_bold_Italic.ttf in Resources */,
 				F1EE2A3821F02A4300A65824 /* avenir_next_w1g_light.ttf in Resources */,
 				58908AC820A18A5A00C0064A /* Images.xcassets in Resources */,
-				F1EE2A3E21F02A4300A65824 /* avenir_next_w1g_thinItalic.ttf in Resources */,
+				F1EE2A3E21F02A4300A65824 /* avenir_next_w1g_thin_italic.ttf in Resources */,
 				F1EE2A3F21F02A4300A65824 /* avenir_next_w1g_ultra_light.ttf in Resources */,
 				58908AC920A18A5A00C0064A /* LaunchScreen.xib in Resources */,
 				F1EE2A3521F02A4300A65824 /* avenir_next_w1g_heavy.ttf in Resources */,
@@ -2368,7 +2368,7 @@
 				F1EE2A3C21F02A4300A65824 /* avenir_next_w1g_regular.ttf in Resources */,
 				F1EE2A3721F02A4300A65824 /* avenir_next_w1g_italic.ttf in Resources */,
 				588E9D30216C609100F0E5D9 /* InfoPlist.strings in Resources */,
-				F1EE2A3921F02A4300A65824 /* avenir_next_w1g_lightItalic.ttf in Resources */,
+				F1EE2A3921F02A4300A65824 /* avenir_next_w1g_light_italic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

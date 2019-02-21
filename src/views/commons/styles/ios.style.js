@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { convertWidth } from 'src/utils';
+import { config } from 'src/configs';
 
 export default StyleSheet.create({
   header: {
@@ -32,8 +33,7 @@ export default StyleSheet.create({
   headerTitle: {
     textAlign: 'center',
     fontSize: 18,
-    fontWeight: '900',
-    fontFamily: 'Avenir Black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     flex: 1,
   },
   headerRight: {
@@ -44,9 +44,8 @@ export default StyleSheet.create({
     height: '100%',
   },
   headerRightText: {
-    fontFamily: 'Avenir Light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 16,
-    fontWeight: '300',
     color: '#0060F2',
     marginRight: 19,
     textAlign: 'right',

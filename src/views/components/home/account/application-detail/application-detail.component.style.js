@@ -1,7 +1,7 @@
 import {
   StyleSheet,
 } from 'react-native'
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 
@@ -50,9 +50,8 @@ export default StyleSheet.create({
 
   itemSettingText: {
     fontSize: 15,
-    fontFamily: 'Avenir Black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     color: '#0060F2',
-    fontWeight: '900',
   },
 
   topArea: {
@@ -74,7 +73,7 @@ export default StyleSheet.create({
   version: {
     fontSize: 14,
     color: 'black',
-    fontFamily: 'andale_mono'
+    fontFamily: 'Andale Mono'
   },
 
   sendFeedbackPopupTitle: {

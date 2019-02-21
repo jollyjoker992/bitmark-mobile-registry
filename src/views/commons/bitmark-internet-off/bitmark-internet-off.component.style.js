@@ -23,9 +23,8 @@ export default StyleSheet.create({
     paddingTop: (config.isIPhoneX ? 44 : 0),
   },
   titleText: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 18,
-    fontWeight: '900',
     color: 'white',
     textAlign: 'center',
   },

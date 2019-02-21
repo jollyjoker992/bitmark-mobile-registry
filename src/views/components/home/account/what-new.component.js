@@ -8,7 +8,7 @@ import Swiper from 'react-native-swiper';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
-import { DataProcessor, CommonProcessor } from 'src/processors';
+import { CommonProcessor } from 'src/processors';
 import { config, } from 'src/configs';
 
 
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     flex: 1,
-    textAlign: 'center', fontFamily: 'Avenir Black', fontStyle: 'italic', fontWeight: '600', fontSize: 18,
+    textAlign: 'center', fontFamily: config.isAndroid ? 'avenir_next_w1g_regular' : 'AvenirNextW1G-regular', fontStyle: 'italic', fontSize: 18,
   },
   newContent: {
     flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
@@ -136,22 +136,16 @@ const styles = StyleSheet.create({
   },
   newDescription: {
     width: convertWidth(305),
-    fontFamily: 'Avenir Light', fontWeight: '300', fontSize: 16, textAlign: 'center',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 16, textAlign: 'center',
   },
   swipePagination: {
     position: 'absolute', bottom: config.isIPhoneX ? 3 : 18,
-  },
-  skipButton: {
-    position: 'absolute', bottom: config.isIPhoneX ? 0 : 15, left: 27, zIndex: 1,
-  },
-  skipButtonText: {
-    color: '#0060F2', fontFamily: 'Avenir Light', fontSize: 16,
   },
   doneButton: {
     position: 'absolute', bottom: config.isIPhoneX ? 0 : 15, right: 27, zIndex: 1,
   },
   doneButtonText: {
-    color: '#0060F2', fontFamily: 'Avenir Light', fontSize: 16, fontWeight: 'bold'
+    color: '#0060F2', fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 16,
   },
 
   closeButton: {
@@ -160,7 +154,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   closeButtonText: {
-    fontFamily: 'Avenir Light', color: '#0060F2', textAlign: 'center', textAlignVertical: 'center', fontSize: 16,
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', color: '#0060F2', textAlign: 'center', textAlignVertical: 'center', fontSize: 16,
   },
 
   versionInformation: {
@@ -170,16 +164,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
   },
   versionInformationText: {
-    fontFamily: 'Avenir Heavy', fontSize: 17, fontWeight: 'bold',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 17,
 
   },
   versionInformationReleaseDiff: {
-    fontFamily: 'Avenir Light', fontSize: 14, fontWeight: '300', color: '#999999',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 14, color: '#999999',
   },
   releaseNoteText: {
     width: '100%',
     paddingLeft: convertWidth(20), paddingRight: convertWidth(20),
-    fontFamily: 'Avenir Light', fontSize: 16, fontWeight: '300'
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light', fontSize: 16
   },
 
 });

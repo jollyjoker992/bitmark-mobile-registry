@@ -16,7 +16,7 @@ export default StyleSheet.create({
   inputLabel: {
     marginTop: 47,
     width: convertWidth(337),
-    fontFamily: 'andale_mono',
+    fontFamily: 'Andale Mono',
     fontSize: 15,
     marginLeft: convertWidth(10),
   },
@@ -54,7 +54,7 @@ export default StyleSheet.create({
     paddingLeft: 10,
   },
   suggestionsButtonText: {
-    fontFamily: 'andale_mono',
+    fontFamily: 'Andale Mono',
     fontSize: 15,
     color: '#0060F2',
   },

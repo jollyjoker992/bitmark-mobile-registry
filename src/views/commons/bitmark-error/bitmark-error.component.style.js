@@ -1,7 +1,7 @@
 import {
   StyleSheet,
 } from 'react-native';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 
@@ -47,9 +47,8 @@ export default StyleSheet.create({
     minHeight: 30,
   },
   okButtonText: {
-    fontFamily: 'Avenir Light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 14,
-    fontWeight: '800',
     color: '#0060F2',
   }
 });

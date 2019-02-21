@@ -10,7 +10,7 @@ import moment from 'moment';
 
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 import { convertWidth, } from 'src/utils';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { Actions } from 'react-native-router-flux';
 import { ReleasedPropertiesStore, ReleasedPropertiesActions } from 'src/views/stores';
 
@@ -135,14 +135,14 @@ const cStyles = StyleSheet.create({
     paddingLeft: convertWidth(19), paddingRight: convertWidth(10),
   },
   assetContentName: {
-    fontFamily: 'avenir_next_w1g_bold', fontSize: 17,
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 17,
     marginBottom: 14,
   },
   register: {
-    fontFamily: 'andale_mono', fontSize: 14,
+    fontFamily: 'Andale Mono', fontSize: 14,
   },
   viewAssetInfoButtonText: {
-    fontFamily: 'avenir_next_w1g_regular', fontSize: 12, color: '#0060F2'
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_regular' : 'AvenirNextW1G-regular', fontSize: 12, color: '#0060F2'
   },
   assetButtonsArea: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
@@ -158,7 +158,7 @@ const cStyles = StyleSheet.create({
   },
   assetButtonText: {
     marginLeft: 10,
-    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: '#0060F2',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 14, color: '#0060F2',
   },
   assetButtonIcon: {
     resizeMode: 'contain', height: 14, width: 17,
@@ -181,15 +181,15 @@ const cStyles = StyleSheet.create({
   },
   timestamp: {
     width: 86,
-    fontFamily: 'andale_mono', fontSize: 13,
+    fontFamily: 'Andale Mono', fontSize: 13,
   },
   bitmarkId: {
     width: 80,
-    fontFamily: 'andale_mono', fontSize: 13,
+    fontFamily: 'Andale Mono', fontSize: 13,
     marginLeft: convertWidth(20),
   },
   owner: {
-    fontFamily: 'andale_mono', fontSize: 13,
+    fontFamily: 'Andale Mono', fontSize: 13,
     marginLeft: convertWidth(20),
     flex: 1, width: '100%',
   },

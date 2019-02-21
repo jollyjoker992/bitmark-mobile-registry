@@ -1,5 +1,5 @@
 import { StyleSheet, } from 'react-native';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 export default StyleSheet.create({
@@ -38,9 +38,8 @@ export default StyleSheet.create({
         backgroundColor: '#F5F5F5',
     },
     optionButtonText: {
-        fontFamily: 'Avenir black',
+        fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
         fontSize: 16,
-        fontWeight: '900',
         color: '#0060F2',
         flex: 1,
         paddingLeft: convertWidth(30),
@@ -56,17 +55,15 @@ export default StyleSheet.create({
         resizeMode: 'contain',
     },
     optionButtonStatus: {
-        fontFamily: 'Avenir Light',
+        fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
         fontSize: 16,
-        fontWeight: '300',
         textAlign: 'center',
         color: '#0060F2',
         marginLeft: convertWidth(19),
     },
     message: {
-        fontFamily: 'Avenir Light',
+        fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
         fontSize: 17,
-        fontWeight: '300',
         color: 'black',
         width: convertWidth(337),
         marginLeft: convertWidth(19),

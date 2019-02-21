@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 
 export default StyleSheet.create({
   bottomTabArea: {
@@ -27,8 +27,7 @@ export default StyleSheet.create({
     resizeMode: 'contain'
   },
   bottomTabButtonText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 10,
     lineHeight: 12,
     height: 14,
@@ -69,8 +68,7 @@ export default StyleSheet.create({
     zIndex: 1,
   },
   transactionNumberText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 8,
     color: '#FFFFFF',
     textAlign: 'center',

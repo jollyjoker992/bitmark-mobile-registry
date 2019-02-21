@@ -1,6 +1,7 @@
 import {
   StyleSheet,
 } from 'react-native'
+import { config } from 'src/configs';
 
 export default StyleSheet.create({
   body: {
@@ -34,15 +35,13 @@ export default StyleSheet.create({
 
   updatingStatus: {
     fontSize: 16,
-    fontWeight: '900',
-    fontFamily: 'Avenir Black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     color: '#A4B5CD'
   },
 
   completedStatus: {
     fontSize: 16,
-    fontWeight: '900',
-    fontFamily: 'Avenir Black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     color: '#0060F2'
   },
 

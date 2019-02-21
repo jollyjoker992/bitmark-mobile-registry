@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { convertWidth } from 'src/utils';
+import { config } from 'src/configs';
 
 
 export default StyleSheet.create({
@@ -25,8 +26,7 @@ export default StyleSheet.create({
     paddingRight: convertWidth(19),
   },
   transferTitle: {
-    fontFamily: 'Avenir Light',
-    fontWeight: '900',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 16,
     lineHeight: 19,
     marginTop: 38,
@@ -43,7 +43,7 @@ export default StyleSheet.create({
     marginTop: 8,
   },
   inputAccountNumber: {
-    fontFamily: 'andale_mono',
+    fontFamily: 'Andale Mono',
     fontSize: 14,
     lineHeight: 16,
     width: convertWidth(315),
@@ -65,7 +65,7 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   accountNumberError: {
-    fontFamily: 'Avenir Light',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 14,
     lineHeight: 16,
     width: convertWidth(325),
@@ -74,8 +74,7 @@ export default StyleSheet.create({
     color: '#FF003C',
   },
   transferMessage: {
-    fontFamily: 'Avenir Light',
-    fontWeight: '300',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 15,
     lineHeight: 18,
     marginTop: 20,
@@ -91,8 +90,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   sendButtonText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 17,
     lineHeight: 20,
     color: '#0060F2',

@@ -1,5 +1,6 @@
 import { StyleSheet, } from 'react-native';
 import { convertWidth } from 'src/utils';
+import { config } from 'src/configs';
 
 export default StyleSheet.create({
   body: {
@@ -30,14 +31,14 @@ export default StyleSheet.create({
   },
   assetInfo: {
     marginTop: 11,
-    fontFamily: 'avenir_next_w1g_bold', fontSize: 20,
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 20,
   },
   editionNumber: {
     marginTop: 3,
-    fontFamily: 'avenir_next_w1g_medium', fontSize: 16,
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_medium' : 'AvenirNextW1G-medium', fontSize: 16,
   },
   issuer: {
-    fontFamily: 'avenir_next_w1g_medium', fontSize: 16,
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_medium' : 'AvenirNextW1G-medium', fontSize: 16,
   },
   requestInfoArea: {
     alignItems: 'center', justifyContent: 'center',
@@ -50,13 +51,13 @@ export default StyleSheet.create({
     width: '100%',
   },
   requestFromAccountLabel: {
-    fontFamily: 'avenir_next_w1g_bold', fontSize: 17,
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 17,
   },
   requestFromAccountCopyButton: {
 
   },
   requestFromAccountCopyButtonText: {
-    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: '#0060F2'
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold', fontSize: 14, color: '#0060F2'
 
   },
   requestFromAccountNumber: {
@@ -65,11 +66,11 @@ export default StyleSheet.create({
     borderBottomWidth: 0.5, borderTopWidth: 0.5,
   },
   requestFromAccountNumberValue: {
-    fontFamily: 'andale_mono', fontSize: 14,
+    fontFamily: 'Andale Mono', fontSize: 14,
   },
   requestMessage: {
     width: '100%',
-    fontFamily: 'avenir_next_w1g_medium', fontSize: 16,
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_medium' : 'AvenirNextW1G-medium', fontSize: 16,
   },
 
   buttonsArea: {
@@ -88,9 +89,8 @@ export default StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   rejectButtonText: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 16,
-    fontWeight: '900',
     color: '#A4B5CD',
   },
   acceptButton: {
@@ -103,9 +103,8 @@ export default StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   acceptButtonText: {
-    fontFamily: 'Avenir black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_bold' : 'AvenirNextW1G-bold',
     fontSize: 16,
-    fontWeight: '900',
     color: '#0060F2',
   }
 });

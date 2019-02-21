@@ -98,19 +98,19 @@
 	<array>
 		<string>andale_mono.ttf</string>
 		<string>avenir_next_w1g_bold.ttf</string>
-		<string>avenir_next_w1g_boldItalic.ttf</string>
+		<string>avenir_next_w1g_bold_italic.ttf</string>
 		<string>avenir_next_w1g_demi.ttf</string>
-		<string>avenir_next_w1g_demiItalic.ttf</string>
+		<string>avenir_next_w1g_demi_italic.ttf</string>
 		<string>avenir_next_w1g_heavy.ttf</string>
-		<string>avenir_next_w1g_heavyItalic.ttf</string>
+		<string>avenir_next_w1g_heavy_italic.ttf</string>
 		<string>avenir_next_w1g_italic.ttf</string>
 		<string>avenir_next_w1g_light.ttf</string>
-		<string>avenir_next_w1g_lightItalic.ttf</string>
+		<string>avenir_next_w1g_light_italic.ttf</string>
 		<string>avenir_next_w1g_medium.ttf</string>
-		<string>avenir_next_w1g_mediumItalic.ttf</string>
+		<string>avenir_next_w1g_medium_italic.ttf</string>
 		<string>avenir_next_w1g_regular.ttf</string>
 		<string>avenir_next_w1g_thin.ttf</string>
-		<string>avenir_next_w1g_thinItalic.ttf</string>
+		<string>avenir_next_w1g_thin_italic.ttf</string>
 		<string>avenir_next_w1g_ultra_light.ttf</string>
 		<string>avenir_next_w1g_ultra_lightIt.ttf</string>
 	</array>

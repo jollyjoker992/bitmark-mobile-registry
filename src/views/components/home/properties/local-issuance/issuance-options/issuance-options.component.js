@@ -41,9 +41,9 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
   async onChooseFile() {
     if (config.isAndroid) {
       if ((await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)) === PermissionsAndroid.RESULTS.GRANTED) {
-        Navigation.browseDocument().then(uri => {
-          console.log('browseDocument :', uri);
-          this.prepareToIssue({ uri }, true);
+        Navigation.browseDocument().then(filePath => {
+          console.log('browseDocument :', filePath);
+          this.prepareToIssue({ uri: filePath, fileName: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length) }, true);
         }).catch(error => {
           console.log('browseDocument error :', error);
           return;
@@ -68,7 +68,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     let destPath = FileUtil.CacheDirectory + '/' + response.fileName;
     if (isFile) {
       if (config.isAndroid) {
-        await FileUtil.copyFileSafe((await FileUtil.pathFromUri(decodeURIComponent(response.uri))), destPath);
+        await FileUtil.copyFileSafe(response.uri, destPath);
       } else {
         await FileUtil.moveFileSafe(decodeURIComponent(response.uri.replace('file://', '')), destPath);
       }

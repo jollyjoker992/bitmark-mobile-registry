@@ -1,7 +1,7 @@
 import {
   StyleSheet,
 } from 'react-native'
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 
@@ -34,9 +34,8 @@ export default StyleSheet.create({
   },
 
   scanMessage: {
-    fontFamily: 'Avenir Black',
+    fontFamily: config.isAndroid ? 'avenir_next_w1g_light' : 'AvenirNextW1G-light',
     fontSize: 17,
-    fontWeight: '300',
     width: convertWidth(337),
     marginTop: 40,
   },
