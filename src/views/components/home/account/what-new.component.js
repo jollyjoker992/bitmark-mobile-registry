@@ -9,6 +9,7 @@ import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
 import { config } from 'src/configs';
+import { CommonProcessor } from 'src/processors';
 
 export class WhatNewComponent extends Component {
   static propTypes = {

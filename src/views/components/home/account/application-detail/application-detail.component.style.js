@@ -1,7 +1,7 @@
 import {
   StyleSheet,
 } from 'react-native'
-import { constant, config } from 'src/configs';
+import { constant } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 

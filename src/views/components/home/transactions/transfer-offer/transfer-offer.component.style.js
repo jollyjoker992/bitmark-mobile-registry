@@ -1,6 +1,5 @@
 import { StyleSheet, } from 'react-native';
 import { convertWidth } from 'src/utils';
-import { config } from 'src/configs';
 
 export default StyleSheet.create({
   body: {

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { constant, config } from 'src/configs';
+import { constant, } from 'src/configs';
 
 export default StyleSheet.create({
   bottomTabArea: {

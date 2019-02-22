@@ -10,7 +10,7 @@ import moment from 'moment';
 
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 import { convertWidth, } from 'src/utils';
-import { constant, config } from 'src/configs';
+import { constant } from 'src/configs';
 import { Actions } from 'react-native-router-flux';
 import { ReleasedPropertiesStore, ReleasedPropertiesActions } from 'src/views/stores';
 
