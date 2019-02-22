@@ -250,8 +250,6 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
   appInfo = appInfo || {};
 
   if (!appInfo.trackEvents || !appInfo.trackEvents.app_download) {
-    let appInfo = await doGetAppInformation();
-    appInfo = appInfo || {};
     appInfo.trackEvents = appInfo.trackEvents || {};
     appInfo.trackEvents.app_download = true;
     await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
