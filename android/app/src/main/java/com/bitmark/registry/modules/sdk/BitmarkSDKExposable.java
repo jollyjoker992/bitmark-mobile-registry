@@ -62,6 +62,6 @@ public interface BitmarkSDKExposable {
 
     void needMigration(Promise promise);
 
-    void migrate(Boolean authentication, Promise promise);
+    void migrate(Promise promise);
 
 }

@@ -996,7 +996,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
     @ReactMethod
     @Override
-    public void migrate(Boolean authentication, Promise promise) {
+    public void migrate(Promise promise) {
         final String accountInfoKey = "account_info";
         SharedPreferenceApi sharePrefApi = new SharedPreferenceApi(getReactApplicationContext(),
                 BuildConfig.APPLICATION_ID);
@@ -1013,7 +1013,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         saveAccountNumber(account.getAccountNumber());
         KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
                 getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS)
-                                             .setAuthenticationRequired(authentication)
+                                             .setAuthenticationRequired(true)
                                              .setAuthenticationValidityDuration(
                                                      KEY_VALIDITY_TIME)
                                              .build();
