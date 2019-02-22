@@ -563,7 +563,7 @@ const cStyles = StyleSheet.create({
   },
   assetContentName: {
     marginTop: 34,
-    fontFamily: 'avenir_next_w1g_light', fontSize: 18,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 18,
   },
   assetRegister: {
     marginTop: 10,

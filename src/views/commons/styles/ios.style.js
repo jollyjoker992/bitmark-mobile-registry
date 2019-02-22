@@ -44,7 +44,7 @@ export default StyleSheet.create({
     height: '100%',
   },
   headerRightText: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 16,
     color: '#0060F2',
     marginRight: 19,

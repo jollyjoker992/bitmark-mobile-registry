@@ -8,9 +8,7 @@ import Swiper from 'react-native-swiper';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
-import { CommonProcessor } from 'src/processors';
-import { config, } from 'src/configs';
-
+import { config } from 'src/configs';
 
 export class WhatNewComponent extends Component {
   static propTypes = {
@@ -141,13 +139,6 @@ const styles = StyleSheet.create({
   swipePagination: {
     position: 'absolute', bottom: config.isIPhoneX ? 3 : 18,
   },
-  doneButton: {
-    position: 'absolute', bottom: config.isIPhoneX ? 0 : 15, right: 27, zIndex: 1,
-  },
-  doneButtonText: {
-    color: '#0060F2', fontFamily: 'avenir_next_w1g_bold', fontSize: 16,
-  },
-
   closeButton: {
     alignItems: 'center', justifyContent: 'center',
     position: 'absolute', paddingLeft: convertWidth(27), paddingRight: convertWidth(27), zIndex: 1,
@@ -175,5 +166,4 @@ const styles = StyleSheet.create({
     paddingLeft: convertWidth(20), paddingRight: convertWidth(20),
     fontFamily: 'avenir_next_w1g_light', fontSize: 16
   },
-
 });

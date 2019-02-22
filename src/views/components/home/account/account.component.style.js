@@ -86,7 +86,7 @@ export default StyleSheet.create({
 
   //settings
   accountNumberLabel: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 14,
     marginTop: 27,
   },
@@ -120,7 +120,7 @@ export default StyleSheet.create({
     color: '#0060F2',
   },
   accountMessage: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 15,
     marginTop: 9,
     width: convertWidth(337),
@@ -158,12 +158,12 @@ export default StyleSheet.create({
     marginBottom: 20,
   },
   dataSourcesMessage: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 14,
   },
 
   noAuthorizedMessage: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 17,
     marginTop: 16,
   },
