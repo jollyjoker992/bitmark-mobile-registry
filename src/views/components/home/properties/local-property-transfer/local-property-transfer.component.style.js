@@ -72,7 +72,7 @@ export default StyleSheet.create({
     color: '#FF003C',
   },
   transferMessage: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 15,
     lineHeight: 18,
     marginTop: 20,

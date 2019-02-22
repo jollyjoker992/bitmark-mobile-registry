@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   closeButtonText: {
-    fontFamily: 'avenir_next_w1g_light', color: '#0060F2', textAlign: 'center', textAlignVertical: 'center', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_regular', color: '#0060F2', textAlign: 'center', textAlignVertical: 'center', fontSize: 16,
   },
 
   versionInformation: {
@@ -160,11 +160,11 @@ const styles = StyleSheet.create({
 
   },
   versionInformationReleaseDiff: {
-    fontFamily: 'avenir_next_w1g_light', fontSize: 14, color: '#999999',
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14, color: '#999999',
   },
   releaseNoteText: {
     width: '100%',
     paddingLeft: convertWidth(20), paddingRight: convertWidth(20),
-    fontFamily: 'avenir_next_w1g_light', fontSize: 16
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 16
   },
 });

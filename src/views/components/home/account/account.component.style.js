@@ -86,7 +86,7 @@ export default StyleSheet.create({
 
   //settings
   accountNumberLabel: {
-    fontFamily: 'avenir_next_w1g_regular',
+    fontFamily: 'avenir',
     fontSize: 14,
     marginTop: 27,
   },
@@ -101,8 +101,8 @@ export default StyleSheet.create({
   },
   accountNumberValue: {
     fontFamily: 'andale_mono',
-    fontSize: convertWidth(11),
-    width: convertWidth(337),
+    fontSize: 11,
+    width: convertWidth(340),
     color: '#0060F2',
   },
   accountNumberBar: {

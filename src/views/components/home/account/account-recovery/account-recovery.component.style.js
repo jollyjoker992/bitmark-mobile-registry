@@ -136,7 +136,7 @@ export default StyleSheet.create({
     fontSize: 15,
   },
   recoveryPhraseTestMessage: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 15,
     textAlign: 'center',
     width: convertWidth(309),

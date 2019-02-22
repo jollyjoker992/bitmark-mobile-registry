@@ -141,7 +141,7 @@ export default StyleSheet.create({
   },
   recoveryPhaseActionRequiredDescription: {
     marginTop: 3,
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 14,
   },
   recoveryPhaseActionRequiredImportantIcon: {
@@ -159,7 +159,7 @@ export default StyleSheet.create({
   },
   iftttDescription: {
     marginTop: 3,
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 14,
 
   },

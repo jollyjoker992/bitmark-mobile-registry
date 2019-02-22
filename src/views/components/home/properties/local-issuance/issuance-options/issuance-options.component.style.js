@@ -62,7 +62,7 @@ export default StyleSheet.create({
         marginLeft: convertWidth(19),
     },
     message: {
-        fontFamily: 'avenir_next_w1g_light',
+        fontFamily: 'avenir_next_w1g_regular',
         fontSize: 17,
         color: 'black',
         width: convertWidth(337),

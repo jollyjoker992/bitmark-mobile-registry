@@ -42,7 +42,7 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   fingerprintInfoMessage: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 12,
     lineHeight: 14,
     marginLeft: convertWidth(19),
@@ -179,7 +179,7 @@ export default StyleSheet.create({
   },
   metadataDescription: {
     width: '100%',
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 14,
     lineHeight: 16,
     paddingLeft: convertWidth(19),
