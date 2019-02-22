@@ -101,7 +101,7 @@ android {
         applicationId "com.bitmark.registry"
         minSdkVersion 23
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 4
         versionName "1.56.3"
         ndk {
             abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
@@ -124,7 +124,7 @@ android {
     signingConfigs {
 
         debug {
-            def keystorePropertiesFile = rootProject.file("keystores/debug-keystore.properties")
+            def keystorePropertiesFile = rootProject.file("keystores/debug.properties")
             def keystoreProperties = new Properties()
             keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             keyAlias keystoreProperties['key.alias']
@@ -134,7 +134,7 @@ android {
         }
 
         release {
-            def keystorePropertiesFile = rootProject.file("keystores/release-keystore.properties")
+            def keystorePropertiesFile = rootProject.file("keystores/release.properties")
             def keystoreProperties = new Properties()
             keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
             keyAlias keystoreProperties['key.alias']
@@ -190,7 +190,6 @@ android {
         inhouse {
             dimension "version"
             applicationIdSuffix ".inhouse"
-            versionNameSuffix "-inhouse"
             resValue "string", "app_name", "Registry\\nINHOUSE"
         }
 
@@ -246,15 +245,15 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
-task fillSecretKey() {
-    def keyPropertiesFile = rootProject.file('key.properties')
-    def keyProperties = new Properties()
-    keyProperties.load(new FileInputStream(keyPropertiesFile))
-    def apiKeyFile = file('src/main/jni/api-key.cpp')
-    def content = apiKeyFile.getText()
-    content = content.replace('bitmark-api-key-to-be-filled', keyProperties['api.key.bitmark'])
-            .replace('code-push-api-key-to-be-filled', keyProperties['api.key.codepush'])
-            .replace('intercom-api-key-to-be-filled', keyProperties['api.key.intercom'])
-    apiKeyFile.bytes = []
-    apiKeyFile.text = content
-}
+//task fillSecretKey() {
+//    def keyPropertiesFile = rootProject.file('key.properties')
+//    def keyProperties = new Properties()
+//    keyProperties.load(new FileInputStream(keyPropertiesFile))
+//    def apiKeyFile = file('src/main/jni/api-key.cpp')
+//    def content = apiKeyFile.getText()
+//    content = content.replace('bitmark-api-key-to-be-filled', keyProperties['api.key.bitmark'])
+//            .replace('code-push-api-key-to-be-filled', keyProperties['api.key.codepush'])
+//            .replace('intercom-api-key-to-be-filled', keyProperties['api.key.intercom'])
+//    apiKeyFile.bytes = []
+//    apiKeyFile.text = content
+//}
