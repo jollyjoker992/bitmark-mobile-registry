@@ -50,10 +50,10 @@ export default StyleSheet.create({
     resizeMode: 'contain', width: '90%', height: '90%',
   },
   bitmarkTermsPrivacyText: {
-    fontFamily: 'avenir_next_w1g_light', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14,
   },
   bitmarkTermsPrivacyButtonText: {
-    fontFamily: 'avenir_next_w1g_light', color: '#0060F2', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_regular', color: '#0060F2', fontSize: 14,
   },
 
   welcomeLogo: {

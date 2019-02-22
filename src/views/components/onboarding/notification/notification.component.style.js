@@ -29,7 +29,7 @@ export default StyleSheet.create({
   notificationDescription: {
     marginTop: 37,
     width: convertWidth(275),
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 17,
   },
 

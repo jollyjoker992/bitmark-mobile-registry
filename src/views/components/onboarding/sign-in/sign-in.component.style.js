@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { convertWidth } from 'src/utils';
-import { constant, config } from 'src/configs';
+import { constant } from 'src/configs';
 
 export default StyleSheet.create({
   body: {
@@ -16,7 +16,7 @@ export default StyleSheet.create({
   },
   //sign-in
   writeRecoveryPhraseContentMessage: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 17,
     width: convertWidth(336),
     marginTop: 18,
@@ -46,14 +46,14 @@ export default StyleSheet.create({
     marginBottom: 4,
   },
   recoveryPhraseIndex: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 15,
     color: '#D4D4D4',
     width: convertWidth(23),
     textAlign: 'right',
   },
   recoveryPhraseWord: {
-    fontFamily: 'avenir_next_w1g_light', fontSize: 15, color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 15, color: '#0060F2',
     width: convertWidth(107),
     marginLeft: 6,
   },
@@ -69,7 +69,7 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   recoveryPhraseTestMessage: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 15,
     textAlign: 'center',
     width: convertWidth(335),

@@ -86,7 +86,7 @@ export default StyleSheet.create({
     marginTop: 46,
     marginLeft: convertWidth(19),
     width: convertWidth(337),
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 17,
     lineHeight: 19,
   },

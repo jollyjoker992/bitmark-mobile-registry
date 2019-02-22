@@ -47,7 +47,7 @@ export default StyleSheet.create({
   faceTouchIdDescription: {
     marginTop: 50,
     width: convertWidth(275),
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 17,
     lineHeight: 20,
   },

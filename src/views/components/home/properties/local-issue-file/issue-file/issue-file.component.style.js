@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { convertWidth } from 'src/utils';
-import { constant, config } from 'src/configs';
+import { constant } from 'src/configs';
 
 
 export default StyleSheet.create({
@@ -178,10 +178,11 @@ export default StyleSheet.create({
     marginTop: 29,
   },
   metadataDescription: {
+    width: '100%',
     fontFamily: 'avenir_next_w1g_light',
     fontSize: 14,
     lineHeight: 16,
-    marginLeft: convertWidth(19),
+    paddingLeft: convertWidth(19),
     marginTop: 5,
   },
   metadataArea: {
@@ -313,7 +314,7 @@ export default StyleSheet.create({
     height: 28,
   },
   ownershipClaimMessage: {
-    fontFamily: 'avenir_next_w1g_bold',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 14,
     lineHeight: 16,
     marginLeft: convertWidth(19),

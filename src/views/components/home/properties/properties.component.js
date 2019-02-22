@@ -401,7 +401,7 @@ const cStyles = StyleSheet.create({
     marginTop: 46,
     width: '100%',
     paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 17,
   },
   noReleaseIcon: {
