@@ -63,7 +63,7 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   accountNumberError: {
-    fontFamily: 'avenir_next_w1g_light',
+    fontFamily: 'avenir_next_w1g_regular',
     fontSize: 14,
     lineHeight: 16,
     width: convertWidth(325),

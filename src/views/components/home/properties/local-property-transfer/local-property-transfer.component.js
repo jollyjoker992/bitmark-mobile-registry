@@ -39,7 +39,11 @@ export class LocalPropertyTransferComponent extends React.Component {
 
   onSendProperty() {
     Keyboard.dismiss();
-    AccountService.doValidateBitmarkAccountNumber(this.state.bitmarkAccount).then(() => {
+    AccountService.doValidateBitmarkAccountNumber(this.state.bitmarkAccount).then((result) => {
+      if (!result) {
+        this.setState({ bitmarkAccountError: global.i18n.t("LocalPropertyTransferComponent_invalidBitmarkAccountNumber") });
+        return;
+      }
       this.setState({
         bitmarkAccountError: '',
       });
@@ -57,7 +61,6 @@ export class LocalPropertyTransferComponent extends React.Component {
       });
     }).catch(error => {
       console.log('onSendProperty doValidateBitmarkAccountNumber :', error);
-      this.setState({ bitmarkAccountError: global.i18n.t("LocalPropertyTransferComponent_invalidBitmarkAccountNumber") });
     });
   }
 
