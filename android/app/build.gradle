@@ -203,12 +203,22 @@ android {
         def name = variant.getName()
 
         if (name.contains("inhouse")) {
-            variant.buildConfigField 'int', 'KEY_VALIDITY_DURATION', '180'
+            variant.buildConfigField 'int', 'KEY_VALIDITY_DURATION', '15'
         } else if (name.contains("prd")) {
             variant.buildConfigField 'int', 'KEY_VALIDITY_DURATION', '600'
         }
     }
 
+    packagingOptions {
+        pickFirst '**/libjsc.so'
+    }
+
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'org.webkit:android-jsc:r236355'
+    }
 }
 
 dependencies {
