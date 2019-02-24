@@ -191,13 +191,15 @@ android {
             dimension "version"
             applicationIdSuffix ".inhouse"
             resValue "string", "app_name", "Registry\\nINHOUSE"
-            ext.betaDistributionReleaseNotesFilePath="../distribution/release_note.txt"
-            ext.betaDistributionEmailsFilePath="../distribution/testers.txt"
+            ext.betaDistributionReleaseNotesFilePath="${project.rootDir}/distribution/release_note.txt"
+            ext.betaDistributionEmailsFilePath="${project.rootDir}/distribution/testers.txt"
         }
 
         prd {
             dimension "version"
             resValue "string", "app_name", "Registry"
+            ext.betaDistributionReleaseNotesFilePath="${project.rootDir}/distribution/release_note.txt"
+            ext.betaDistributionEmailsFilePath="${project.rootDir}/distribution/testers.txt"
         }
     }
 
