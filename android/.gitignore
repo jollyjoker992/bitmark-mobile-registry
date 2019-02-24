@@ -10,3 +10,4 @@ keystores/*.properties
 fastlane/*.md
 fastlane/*.xml
 index.android.bundle
+distribution

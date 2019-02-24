@@ -72,10 +72,6 @@
             android:name="com.dieam.reactnativepushnotification.notification_channel_description"
             android:value="@string/notification_channel_description" />
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="4c8f8c1c37f09125014a280269aa4ccba503bfcd" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
