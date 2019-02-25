@@ -112,7 +112,7 @@ export class MainAppHandlerComponent extends Component {
           processError.onClose();
         }
       }
-    }]);
+    }], { cancelable: false });
   }
 
   handleUnexpectedJSError(processError) {
@@ -139,7 +139,7 @@ export class MainAppHandlerComponent extends Component {
           processError.onClose();
         }
       }
-    }]);
+    }], { cancelable: false });
   }
 
   handerSubmittingEvent(submitting) {
@@ -167,7 +167,7 @@ export class MainAppHandlerComponent extends Component {
         if (assetId) {
           UserModel.doTryGetCurrentUser().then(userInformation => {
             if (!userInformation || !userInformation.bitmarkAccountNumber) {
-              Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
+              Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"), { cancelable: false });
             }
             TransactionProcessor.doGetAssetToClaim(assetId, issuer).then(async (asset) => {
               let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();

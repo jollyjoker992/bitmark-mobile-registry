@@ -40,7 +40,7 @@ export class IncomingClaimRequestComponent extends React.Component {
       }
     }, {
       text: global.i18n.t('IncomingClaimRequestComponent_rejectAlertCancel'), style: 'cancel',
-    }])
+    }], { cancelable: false })
   }
   doAccept() {
     Alert.alert(global.i18n.t('IncomingClaimRequestComponent_signAlertTitle'), '', [{
@@ -77,7 +77,7 @@ export class IncomingClaimRequestComponent extends React.Component {
       }
     }, {
       text: global.i18n.t('IncomingClaimRequestComponent_signAlertDisagree'), style: 'cancel'
-    }]);
+    }], { cancelable: false });
   }
 
   render() {

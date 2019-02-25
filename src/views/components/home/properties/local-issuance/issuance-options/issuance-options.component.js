@@ -87,7 +87,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     let fileFormat = response.fileName.substring(response.fileName.lastIndexOf('.'));
     AppProcessor.doCheckFileToIssue(filePath).then(asset => {
       if (isReleasedAsset(asset)) {
-        Alert.alert('Can not issue!', 'This asset was released by other account!')
+        Alert.alert('Can not issue!', 'This asset was released by other account!', { cancelable: false })
         return;
       }
       Actions.localIssueFile({

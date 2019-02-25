@@ -71,7 +71,7 @@ class PrivateTransactionsComponent extends React.Component {
           Alert.alert(global.i18n.t("TransactionsComponent_success"), global.i18n.t("TransactionsComponent_yourPropertyRightsHaveBeenRegistered"), [{
             text: global.i18n.t("TransactionsComponent_ok"),
             onPress: () => Actions.jump('properties')
-          }]);
+          }], { cancelable: false });
         }
       }).catch(error => {
         console.log('doIssueIftttData error:', error);
@@ -110,7 +110,7 @@ class PrivateTransactionsComponent extends React.Component {
             Alert.alert(global.i18n.t("TransactionsComponent_requestFailedTitle"), global.i18n.t("TransactionsComponent_requestFailedMessage"));
           });
         }
-      }]);
+      }], { cancelable: false });
     }).catch(error => {
       console.log('doGetAllTransfersOffers error:', error);
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
@@ -143,7 +143,7 @@ class PrivateTransactionsComponent extends React.Component {
       }
     }, {
       text: global.i18n.t('TransactionsComponent_signAllAlertDisagree'), style: 'cancel'
-    }]);
+    }], { cancelable: false });
   }
 
   render() {

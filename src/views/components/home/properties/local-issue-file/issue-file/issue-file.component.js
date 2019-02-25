@@ -84,7 +84,7 @@ export class LocalIssueFileComponent extends React.Component {
         Alert.alert(global.i18n.t("LocalIssueFileComponent_success"), global.i18n.t("LocalIssueFileComponent_successMessage"), [{
           text: global.i18n.t("LocalIssueFileComponent_ok"),
           onPress: () => Actions.jump('properties')
-        }]);
+        }], { cancelable: false });
       }
     }).catch(error => {
       this.setState({ issueError: global.i18n.t("LocalIssueFileComponent_thereWasAProblemIssuingBitmarks") });
@@ -170,7 +170,7 @@ export class LocalIssueFileComponent extends React.Component {
         let metadataList = this.state.metadataList.filter((item) => item.key != key);
         this.checkIssuance(this.state.assetName, metadataList, this.state.quantity);
       }
-    }]);
+    }], { cancelable: false });
   }
 
   addNewMetadataField() {
