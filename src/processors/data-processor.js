@@ -169,7 +169,7 @@ const doCreateAccount = async () => {
   if (CacheData.notificationUUID) {
     let intercomUserId = `Registry_ios_${sha3_256(userInformation.bitmarkAccountNumber)}`;
     userInformation.intercomUserId = intercomUserId;
-    AccountService.doRegisterNotificationInfo(userInformation.bitmarkAccountNumber, CacheData.notificationUUID, intercomUserId).then(() => {
+    NotificationService.doRegisterNotificationInfo(userInformation.bitmarkAccountNumber, CacheData.notificationUUID, intercomUserId).then(() => {
       userInformation.notificationUUID = CacheData.notificationUUID;
       return UserModel.doUpdateUserInfo(userInformation);
     }).catch(error => {
