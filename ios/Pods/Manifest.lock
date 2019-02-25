@@ -1,5 +1,5 @@
 PODS:
-  - BitmarkSDK (2.3.0):
+  - BitmarkSDK (2.5.1):
     - KeychainAccess
     - TweetNacl
   - iCloudDocumentSync (7.4.1)
@@ -27,11 +27,11 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   BitmarkSDK:
-    :commit: d580ed78316960df8d87b277160898df1e67ef7e
+    :commit: 6696df896f454be33a1b88b6d63f3938a4f9e0b5
     :git: https://github.com/bitmark-inc/bitmark-sdk-swift.git
 
 SPEC CHECKSUMS:
-  BitmarkSDK: 0d5c89730c36cf0eda7d0d1995bc60fdf9972e75
+  BitmarkSDK: 4cb6539495e03956c7eeca6a5f6fc11c524a7088
   iCloudDocumentSync: 961aac30ca09c221de4c236e94dae69912f2c589
   Intercom: 53f07c24f0ca18c1e910750e79b75f9c9867338f
   KeychainAccess: b3816fddcf28aa29d94b10ec305cd52be14c472b
