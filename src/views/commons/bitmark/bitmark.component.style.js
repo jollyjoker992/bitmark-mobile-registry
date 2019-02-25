@@ -1,10 +1,10 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { convertWidth } from 'src/utils';
-let deviceSize = Dimensions.get('window');
+let windowSize = Dimensions.get('window');
 export default StyleSheet.create({
   body: {
     position: 'absolute',
-    width: deviceSize.width,
+    width: windowSize.width,
     flexDirection: 'column',
   },
   header: {

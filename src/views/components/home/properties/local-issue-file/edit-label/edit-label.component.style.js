@@ -4,6 +4,7 @@ import { convertWidth } from 'src/utils';
 
 export default StyleSheet.create({
   body: {
+    flex: 1,
     flexDirection: 'column',
     height: '100%',
     width: '100%',

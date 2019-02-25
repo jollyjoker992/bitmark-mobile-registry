@@ -23,7 +23,7 @@ let commonConfig = {
   version: DeviceInfo.getVersion(),
   buildNumber: DeviceInfo.getBuildNumber(),
   localization: DeviceInfo.getDeviceLocale(),
-  deviceSize: Dimensions.get('window'),
+  windowSize: Dimensions.get('window'),
 
   zeroAddress: 'dw9MQXcC5rJZb3QE1nz86PiQAheMP1dx9M3dr52tT8NNs14m33',
   bitmark_network: NETWORKS.testnet,

@@ -87,7 +87,7 @@ const cStyles = StyleSheet.create({
     backgroundColor: 'white',
     paddingTop: 19, paddingBottom: config.isIPhoneX ? 10 : 0,
     borderTopWidth: 0.1, borderTopRightRadius: 5, borderTopLeftRadius: 5,
-    maxHeight: config.deviceSize.height - 100,
+    maxHeight: config.windowSize.height - 100,
   },
   assetContent: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',

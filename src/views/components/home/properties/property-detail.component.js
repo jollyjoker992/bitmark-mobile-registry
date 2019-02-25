@@ -37,7 +37,7 @@ class PrivatePropertyDetailComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      animatedBottom: new Animated.Value(-config.deviceSize.height),
+      animatedBottom: new Animated.Value(-config.windowSize.height),
       copied: false,
       displayTopButton: false,
       provenance: [],
@@ -165,7 +165,7 @@ class PrivatePropertyDetailComponent extends React.Component {
         } else if (data.event === 'scroll-up') {
           let listAnimations = [];
           listAnimations.push(Animated.timing(this.state.animatedBottom, {
-            toValue: - config.deviceSize.height,
+            toValue: - config.windowSize.height,
             duration: 300,
           }));
           Animated.parallel(listAnimations).start();

@@ -228,7 +228,7 @@ export class LocalIssueFileComponent extends React.Component {
               <Text style={localAddPropertyStyle.metadataDescription}>{global.i18n.t("LocalIssueFileComponent_metadataDescription")}</Text>
               <View style={localAddPropertyStyle.metadataArea}>
                 <FlatList style={localAddPropertyStyle.metadataList}
-                  keyExtractor={(item) => item.key}
+                  keyExtractor={(item) => item.key + ''}
                   scrollEnabled={false}
                   data={this.state.metadataList}
                   extraData={this.state}

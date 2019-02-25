@@ -1,7 +1,6 @@
 import {
   StyleSheet,
 } from 'react-native'
-import { config } from 'src/configs';
 
 export default StyleSheet.create({
   body: {

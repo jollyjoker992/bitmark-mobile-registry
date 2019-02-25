@@ -167,7 +167,7 @@ class PrivatePropertiesComponent extends React.Component {
             if (loadingDataWhenScroll) {
               return;
             }
-            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - config.deviceSize.height) &&
+            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - config.windowSize.height) &&
               (this.props.displayedBitmarks.length < this.props.bitmarks.length)) {
               loadingDataWhenScroll = true;
               PropertiesStore.dispatch(PropertiesActions.viewMoreBitmarks());
@@ -257,7 +257,7 @@ class PrivatePropertiesComponent extends React.Component {
             if (loadingDataWhenScroll) {
               return;
             }
-            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - config.deviceSize.height) &&
+            if (scrollEvent.nativeEvent.contentOffset.y >= (scrollEvent.nativeEvent.contentSize.height - config.windowSize.height) &&
               (this.props.displayedReleasedAssets.length < this.props.releasedAssets.length)) {
               loadingDataWhenScroll = true;
               PropertiesStore.dispatch(PropertiesActions.viewMoreReleasedAssets());
