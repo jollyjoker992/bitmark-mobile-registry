@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import {
-  View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator, SafeAreaView,
+  View, Text, ScrollView, Image, ActivityIndicator, SafeAreaView,
   StyleSheet,
 } from 'react-native';
 
@@ -15,6 +15,7 @@ import { convertWidth, isReleasedAsset, isHealthRecord, isMedicalRecord, isImage
 import { PropertiesStore, PropertiesActions } from 'src/views/stores';
 import { CommonProcessor, EventEmitterService, CacheData, BitmarkProcessor } from 'src/processors';
 import moment from 'moment';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 const SubTabs = {
   local: 'Yours',
@@ -77,15 +78,15 @@ class PrivatePropertiesComponent extends React.Component {
     return (
       <View style={cStyles.body}>
         <View style={[cStyles.header, { zIndex: 1 }]}>
-          <TouchableOpacity style={defaultStyles.headerLeft}></TouchableOpacity>
+          <OneTabButtonComponent style={defaultStyles.headerLeft}></OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("PropertiesComponent_headerTitle")}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight} onPress={this.addProperty}>
+          <OneTabButtonComponent style={defaultStyles.headerRight} onPress={this.addProperty}>
             <Image style={cStyles.addPropertyIcon} source={require('assets/imgs/plus-icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </View>
 
         <View style={cStyles.subTabArea}>
-          {this.props.subTab === SubTabs.local && <TouchableOpacity style={[cStyles.subTabButton, {
+          {this.props.subTab === SubTabs.local && <OneTabButtonComponent style={[cStyles.subTabButton, {
             shadowOffset: { width: 2 },
             shadowOpacity: 0.15,
           }]}>
@@ -98,8 +99,8 @@ class PrivatePropertiesComponent extends React.Component {
                 </Text>
               </View>
             </View>
-          </TouchableOpacity>}
-          {this.props.subTab !== SubTabs.local && <TouchableOpacity style={[cStyles.subTabButton, {
+          </OneTabButtonComponent>}
+          {this.props.subTab !== SubTabs.local && <OneTabButtonComponent style={[cStyles.subTabButton, {
             backgroundColor: '#F5F5F5',
             zIndex: 0,
           }]} onPress={() => this.switchSubTab(SubTabs.local)}>
@@ -109,10 +110,10 @@ class PrivatePropertiesComponent extends React.Component {
                 <Text style={[cStyles.subTabButtonText, { color: '#C1C1C1', marginLeft: 0 }]}>{global.i18n.t("PropertiesComponent_yours")}<Text style={{ fontSize: 10 }}>{` (${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})`}</Text></Text>
               </View>
             </View>
-          </TouchableOpacity>}
+          </OneTabButtonComponent>}
 
           {CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] && CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account &&
-            this.props.subTab === SubTabs.release && <TouchableOpacity style={[cStyles.subTabButton, {
+            this.props.subTab === SubTabs.release && <OneTabButtonComponent style={[cStyles.subTabButton, {
               shadowOffset: { width: 2 },
               shadowOpacity: 0.15,
             }]}>
@@ -122,9 +123,9 @@ class PrivatePropertiesComponent extends React.Component {
                   <Text style={cStyles.subTabButtonText}>{global.i18n.t("PropertiesComponent_release")}</Text>
                 </View>
               </View>
-            </TouchableOpacity>}
+            </OneTabButtonComponent>}
           {CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] && CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account &&
-            this.props.subTab !== SubTabs.release && <TouchableOpacity style={[cStyles.subTabButton, {
+            this.props.subTab !== SubTabs.release && <OneTabButtonComponent style={[cStyles.subTabButton, {
               backgroundColor: '#F5F5F5',
               zIndex: 0,
             }]} onPress={() => this.switchSubTab(SubTabs.release)}>
@@ -134,9 +135,9 @@ class PrivatePropertiesComponent extends React.Component {
                   <Text style={[cStyles.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("PropertiesComponent_release")}</Text>
                 </View>
               </View>
-            </TouchableOpacity>}
+            </OneTabButtonComponent>}
 
-          {this.props.subTab === SubTabs.global && <TouchableOpacity style={[cStyles.subTabButton, {
+          {this.props.subTab === SubTabs.global && <OneTabButtonComponent style={[cStyles.subTabButton, {
             shadowOffset: { width: -2 },
             shadowOpacity: 0.15,
           }]}>
@@ -146,8 +147,8 @@ class PrivatePropertiesComponent extends React.Component {
                 <Text style={cStyles.subTabButtonText}>{global.i18n.t("PropertiesComponent_global")}</Text>
               </View>
             </View>
-          </TouchableOpacity>}
-          {this.props.subTab !== SubTabs.global && <TouchableOpacity style={[cStyles.subTabButton, {
+          </OneTabButtonComponent>}
+          {this.props.subTab !== SubTabs.global && <OneTabButtonComponent style={[cStyles.subTabButton, {
             backgroundColor: '#F5F5F5',
             zIndex: 0,
           }]} onPress={() => this.switchSubTab(SubTabs.global)}>
@@ -157,7 +158,7 @@ class PrivatePropertiesComponent extends React.Component {
                 <Text style={[cStyles.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("PropertiesComponent_global")}</Text>
               </View>
             </View>
-          </TouchableOpacity>}
+          </OneTabButtonComponent>}
         </View>
 
         {this.props.subTab === SubTabs.local && <ScrollView style={[cStyles.scrollSubTabArea]}
@@ -175,7 +176,7 @@ class PrivatePropertiesComponent extends React.Component {
           }}
           scrollEventThrottle={1}
         >
-          <TouchableOpacity activeOpacity={1} style={cStyles.contentSubTab}>
+          <OneTabButtonComponent activeOpacity={1} style={cStyles.contentSubTab}>
             {(!this.props.appLoadingData && this.props.displayedBitmarks && this.props.displayedBitmarks.length === 0) && <View style={cStyles.messageNoBitmarkArea}>
               <View>
                 <Text style={cStyles.messageNoBitmarkLabel}>
@@ -185,16 +186,16 @@ class PrivatePropertiesComponent extends React.Component {
                   {global.i18n.t("PropertiesComponent_messageNoContent")}
                 </Text>
               </View>
-              <TouchableOpacity style={cStyles.addFirstPropertyButton} onPress={this.addProperty}>
+              <OneTabButtonComponent style={cStyles.addFirstPropertyButton} onPress={this.addProperty}>
                 <Text style={cStyles.addFirstPropertyButtonText}>{global.i18n.t("PropertiesComponent_addFirstPropertyButtonText")}</Text>
-              </TouchableOpacity>
+              </OneTabButtonComponent>
             </View>}
             {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.props.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => {
               if (!bitmark || !bitmark.id) {
                 return
               }
               return (
-                <TouchableOpacity key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
+                <OneTabButtonComponent key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
                   BitmarkProcessor.doUpdateViewStatus(bitmark.id);
                   Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] });
                 }}>
@@ -241,13 +242,13 @@ class PrivatePropertiesComponent extends React.Component {
                   {/* <OneTabButtonComponent style={{ padding: 20, }} onPress={() => this.viewPropertyDetail.bind(this)(bitmark)}>
                   <Image style={cStyles.propertySettingIcon} source={require('assets/imgs/property_setting_grey.png')} />
                 </OneTabButtonComponent> */}
-                </TouchableOpacity>
+                </OneTabButtonComponent>
               )
             })}
             {(this.props.appLoadingData || (this.props.displayedBitmarks && this.props.displayedBitmarks.length < this.props.bitmarks)) && <View style={cStyles.messageNoBitmarkArea}>
               <ActivityIndicator size="large" style={{ marginTop: 46, }} />
             </View>}
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </ScrollView>}
 
         {this.props.subTab === SubTabs.release && <ScrollView style={[cStyles.scrollSubTabArea]}
@@ -265,7 +266,7 @@ class PrivatePropertiesComponent extends React.Component {
           }}
           scrollEventThrottle={1}
         >
-          <TouchableOpacity activeOpacity={1} style={cStyles.contentSubTab}>
+          <OneTabButtonComponent activeOpacity={1} style={cStyles.contentSubTab}>
             {(!this.props.appLoadingData && this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length === 0) && <View style={cStyles.messageNoBitmarkArea}>
               <View>
                 <Text style={cStyles.messageNoBitmarkLabel}>
@@ -278,12 +279,12 @@ class PrivatePropertiesComponent extends React.Component {
               <View style={{ flex: 1, justifyContent: 'center', width: '100%', paddingTop: 10, paddingBottom: 10, }}>
                 <Image style={cStyles.noReleaseIcon} source={require('assets/imgs/No_release_icon.png')} />
               </View>
-              <TouchableOpacity style={cStyles.addFirstPropertyButton} onPress={Actions.musicFileChosen}>
+              <OneTabButtonComponent style={cStyles.addFirstPropertyButton} onPress={Actions.musicFileChosen}>
                 <Text style={cStyles.addFirstPropertyButtonText}> {global.i18n.t("PropertiesComponent_releaseYourMusic")}</Text>
-              </TouchableOpacity>
+              </OneTabButtonComponent>
             </View>}
             {this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length > 0 && this.props.subTab === SubTabs.release && this.props.displayedReleasedAssets.map(asset => (
-              <TouchableOpacity key={asset.id} style={[cStyles.bitmarkRowArea]} onPress={() => this.viewReleaseDetail.bind(this)(asset)}>
+              <OneTabButtonComponent key={asset.id} style={[cStyles.bitmarkRowArea]} onPress={() => this.viewReleaseDetail.bind(this)(asset)}>
                 <View style={cStyles.thumbnailArea}>
                   <Image style={cStyles.thumbnailImage} source={{ uri: asset.thumbnailPath }} />
                 </View>
@@ -296,12 +297,12 @@ class PrivatePropertiesComponent extends React.Component {
                     })}
                   </Text>
                 </View>
-              </TouchableOpacity>
+              </OneTabButtonComponent>
             ))}
             {(this.props.appLoadingData || (this.props.displayedReleasedAssets && this.props.displayedReleasedAssets.length < this.props.bitmarks)) && <View style={cStyles.messageNoBitmarkArea}>
               <ActivityIndicator size="large" style={{ marginTop: 46, }} />
             </View>}
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </ScrollView>}
 
         {this.props.subTab === SubTabs.global && <View style={cStyles.globalArea}>

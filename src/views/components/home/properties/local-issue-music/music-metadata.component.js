@@ -2,7 +2,7 @@ import { merge } from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, TouchableOpacity, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
+  View, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
   StyleSheet,
   Keyboard,
   Platform,
@@ -15,6 +15,7 @@ import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth, getMetadataLabel } from 'src/utils';
 import { BitmarkService, AppProcessor, EventEmitterService } from 'src/processors';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 
 export class MusicMetadataComponent extends React.Component {
@@ -178,23 +179,23 @@ export class MusicMetadataComponent extends React.Component {
       <View style={{ flex: 1, backgroundColor: 'white' }}>
         <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: '' })} enabled style={{ flex: 1, borderBottomColor: '#0060F2', borderBottomWidth: 1, backgroundColor: 'white' }} >
           <View style={cStyles.header}>
-            <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+            <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
-            </TouchableOpacity>
+            </OneTabButtonComponent>
             <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{global.i18n.t('MusicMetadataComponent_headerTitle')}</Text>
-            <TouchableOpacity style={defaultStyles.headerRight} onPress={this.doCancel}>
+            <OneTabButtonComponent style={defaultStyles.headerRight} onPress={this.doCancel}>
               <Text style={defaultStyles.headerRightText}>{global.i18n.t('MusicMetadataComponent_headerRightText')}</Text>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
           </View>
           <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center', backgroundColor: 'white' }} ref={(ref) => this.scrollRef = ref}>
             <View style={cStyles.content}>
               <View style={cStyles.mainContent}>
                 {this.state.metadata.map((item, index) => (<View key={index} style={cStyles.fieldArea}>
-                  {this.state.isEditingMetadata && <TouchableOpacity style={cStyles.fieldRemoveButton} onPress={() => this.onRemoveMetadata.bind(this)(index)}>
+                  {this.state.isEditingMetadata && <OneTabButtonComponent style={cStyles.fieldRemoveButton} onPress={() => this.onRemoveMetadata.bind(this)(index)}>
                     <Image style={cStyles.fieldRemoveButtonIcon} source={require('assets/imgs/remove-icon-red.png')} />
-                  </TouchableOpacity>}
+                  </OneTabButtonComponent>}
                   <View style={cStyles.filedInputArea}>
-                    <TouchableOpacity
+                    <OneTabButtonComponent
                       style={[cStyles.fieldLabelButton, item.labelError ? { borderBottomColor: '#FF003C' } : {}]}
                       disabled={this.state.isEditingMetadata}
                       onPress={() => Actions.musicMetadataEdit({ index: index, label: item.label, onChangeMetadataLabel: this.onChangeMetadataLabel.bind(this) })}
@@ -203,7 +204,7 @@ export class MusicMetadataComponent extends React.Component {
                         {item.label ? getMetadataLabel(item.label, true) : global.i18n.t('MusicMetadataComponent_fieldLabelButtonText', { index: index + 1 })}
                       </Text>
                       <Image style={cStyles.fieldLabelButtonIcon} source={require('assets/imgs/next-icon-blue.png')} />
-                    </TouchableOpacity>
+                    </OneTabButtonComponent>
                     <View style={[cStyles.fieldLabelButton, item.valueError ? { borderBottomColor: '#FF003C' } : {}]}>
                       <TextInput style={[config.isAndroid ? { padding: 2 } : {}, cStyles.fieldValue]}
                         multiline={true}
@@ -219,18 +220,18 @@ export class MusicMetadataComponent extends React.Component {
                 </View>))}
 
                 <View style={cStyles.metadataButtonArea}>
-                  <TouchableOpacity style={cStyles.metadataAddButton} disabled={!this.state.canAddNewMetadata} onPress={this.addMetadata.bind(this)}>
+                  <OneTabButtonComponent style={cStyles.metadataAddButton} disabled={!this.state.canAddNewMetadata} onPress={this.addMetadata.bind(this)}>
                     <Image style={cStyles.metadataAddButtonIcon} source={
                       this.state.canAddNewMetadata ? require('assets/imgs/plus-white-blue-icon.png') : require('assets/imgs/plus-white-blue-icon-disable.png')} />
                     <Text style={[cStyles.metadataAddButtonText, { color: this.state.canAddNewMetadata ? '#0060F2' : '#C2C2C2' }]}>{global.i18n.t('MusicMetadataComponent_metadataAddButtonText')}</Text>
-                  </TouchableOpacity>
+                  </OneTabButtonComponent>
 
-                  {this.state.isEditingMetadata && this.state.metadata.length > 0 && <TouchableOpacity style={[cStyles.metadataEditButton]} onPress={() => this.setState({ isEditingMetadata: false })}>
+                  {this.state.isEditingMetadata && this.state.metadata.length > 0 && <OneTabButtonComponent style={[cStyles.metadataEditButton]} onPress={() => this.setState({ isEditingMetadata: false })}>
                     <Text style={[cStyles.metadataEditButtonText, { color: '#0060F2' }]}>{global.i18n.t('MusicMetadataComponent_metadataEditButtonText2')}</Text>
-                  </TouchableOpacity>}
-                  {!this.state.isEditingMetadata && this.state.metadata.length > 0 && <TouchableOpacity style={[cStyles.metadataEditButton]} onPress={() => this.setState({ isEditingMetadata: true })}>
+                  </OneTabButtonComponent>}
+                  {!this.state.isEditingMetadata && this.state.metadata.length > 0 && <OneTabButtonComponent style={[cStyles.metadataEditButton]} onPress={() => this.setState({ isEditingMetadata: true })}>
                     <Text style={[cStyles.metadataEditButtonText, { color: this.state.isEditingMetadata ? '#C2C2C2' : '#0060F2' }]}>{global.i18n.t('MusicMetadataComponent_metadataEditButtonText1')}</Text>
-                  </TouchableOpacity>}
+                  </OneTabButtonComponent>}
                 </View>
                 {!!this.state.metadataError && <Text style={cStyles.metadataInputError}>{this.state.metadataError}</Text>}
               </View>
@@ -241,13 +242,13 @@ export class MusicMetadataComponent extends React.Component {
             <Text style={cStyles.ownershipDescription}>{global.i18n.t('MusicMetadataComponent_ownershipDescription')}</Text>
           </View>}
 
-          <TouchableOpacity
+          <OneTabButtonComponent
             style={[cStyles.continueButton, (!this.state.metadataError) ? { backgroundColor: '#0060F2' } : {}, this.state.keyboardHeight ? { height: constant.buttonHeight } : {}]}
             disabled={!!this.state.metadataError}
             onPress={this.onSubmit.bind(this)}
           >
             <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicMetadataComponent_continueButtonText')}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </KeyboardAvoidingView>
       </View>
     );

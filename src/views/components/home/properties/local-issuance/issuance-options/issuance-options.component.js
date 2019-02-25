@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import ReactNative, {
-  View, Text, TouchableOpacity, Image, SafeAreaView,
+  View, Text, Image, SafeAreaView,
   Alert, NativeModules,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
@@ -17,6 +17,7 @@ import { AppProcessor, EventEmitterService, CacheData } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { AccountStore } from 'src/views/stores';
 import { config } from 'src/configs';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 
 export class PrivateIssuanceOptionsComponent extends React.Component {
@@ -111,36 +112,36 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     return (
       <SafeAreaView style={issuanceOptionsStyle.body}>
         <View style={issuanceOptionsStyle.header}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+          <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("IssuanceOptionsComponent_register")}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight} />
+          <OneTabButtonComponent style={defaultStyles.headerRight} />
         </View>
         <View style={issuanceOptionsStyle.content}>
           {CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] && CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account &&
-            <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={Actions.musicFileChosen}>
+            <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={Actions.musicFileChosen}>
               <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/music_icon.png')} />
               <Text
                 style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_musics")}</Text>
               <Image style={issuanceOptionsStyle.optionButtonNextIcon}
                 source={require('assets/imgs/next-icon-blue.png')} />
-            </TouchableOpacity>}
-          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile.bind(this)}>
+            </OneTabButtonComponent>}
+          <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile.bind(this)}>
             <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/photo_icon.png')} />
             <Text
               style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>
             <Image style={issuanceOptionsStyle.optionButtonNextIcon}
               source={require('assets/imgs/next-icon-blue.png')} />
-          </TouchableOpacity>
-          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChooseFile.bind(this)}>
+          </OneTabButtonComponent>
+          <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.onChooseFile.bind(this)}>
             <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/file_icon.png')} />
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_files")}</Text>
             <Image style={issuanceOptionsStyle.optionButtonNextIcon}
               source={require('assets/imgs/next-icon-blue.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           {config.isIPhone &&
-            <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData.bind(this)}>
+            <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData.bind(this)}>
               <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/ifttt-icon.png')} />
               <Text
                 style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
@@ -149,7 +150,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
                   source={require('assets/imgs/next-icon-blue.png')} />}
               {this.props.iftttInformation && !!this.props.iftttInformation.connectIFTTT && <Text
                 style={issuanceOptionsStyle.optionButtonStatus}>{global.i18n.t("IssuanceOptionsComponent_authorized")}</Text>}
-            </TouchableOpacity>}
+            </OneTabButtonComponent>}
 
           <Text style={issuanceOptionsStyle.message}>
             {global.i18n.t("IssuanceOptionsComponent_message")}

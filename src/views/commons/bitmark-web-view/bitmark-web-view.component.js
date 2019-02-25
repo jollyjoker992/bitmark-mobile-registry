@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Text, View, TouchableOpacity, WebView, Image, Share, SafeAreaView,
+  Text, View, WebView, Image, Share, SafeAreaView,
 } from 'react-native';
 
 import defaultStyles from '../styles/index';
@@ -10,6 +10,7 @@ import { Actions } from 'react-native-router-flux';
 
 import { EventEmitterService } from 'src/processors/services';
 import { constant } from 'src/configs';
+import { OneTabButtonComponent } from '../one-tab-button.component';
 
 export class BitmarkWebViewComponent extends React.Component {
   constructor(props) {
@@ -40,11 +41,11 @@ export class BitmarkWebViewComponent extends React.Component {
 
     return (<SafeAreaView style={termsStyles.body}>
       {!!title && <View style={termsStyles.header}>
-        <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+        <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
           <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-        </TouchableOpacity>
+        </OneTabButtonComponent>
         <Text style={defaultStyles.headerTitle}>{title.toUpperCase()}</Text>
-        <TouchableOpacity style={defaultStyles.headerRight} />
+        <OneTabButtonComponent style={defaultStyles.headerRight} />
       </View>}
       <View style={termsStyles.main}>
         <WebView
@@ -57,12 +58,12 @@ export class BitmarkWebViewComponent extends React.Component {
       {!hideBottomController && <View style={[termsStyles.bottomController, {
         height: (heightButtonController || constant.bottomTabsHeight),
       }]}>
-        <TouchableOpacity style={termsStyles.webViewControlButton} onPress={() => { this.webViewRef.goBack(); }}>
+        <OneTabButtonComponent style={termsStyles.webViewControlButton} onPress={() => { this.webViewRef.goBack(); }}>
           <Image style={termsStyles.webViewControlIcon} source={require('assets/imgs/webview-back.png')} />
-        </TouchableOpacity>
-        <TouchableOpacity style={[termsStyles.webViewControlButton, { marginLeft: 90 }]} onPress={() => { this.webViewRef.goForward(); }}>
+        </OneTabButtonComponent>
+        <OneTabButtonComponent style={[termsStyles.webViewControlButton, { marginLeft: 90 }]} onPress={() => { this.webViewRef.goForward(); }}>
           <Image style={termsStyles.webViewControlIcon} source={require('assets/imgs/webview-next.png')} />
-        </TouchableOpacity>
+        </OneTabButtonComponent>
       </View>}
     </SafeAreaView>);
   }

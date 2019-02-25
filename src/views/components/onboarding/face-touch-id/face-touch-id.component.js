@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, Image, TouchableOpacity,
+  View, Text, Image,
   Linking,
   AppState,
   Alert,
@@ -13,6 +13,7 @@ import faceTouchIdStyle from './face-touch-id.component.style';
 import { Actions } from 'react-native-router-flux';
 import { CommonModel, EventEmitterService } from 'src/processors';
 import { config } from 'src/configs';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 export class FaceTouchIdComponent extends React.Component {
   constructor(props) {
@@ -89,15 +90,15 @@ export class FaceTouchIdComponent extends React.Component {
 
         <View style={faceTouchIdStyle.enableButtonArea}>
           {/*Enable Button*/}
-          <TouchableOpacity style={[faceTouchIdStyle.enableButton]}
+          <OneTabButtonComponent style={[faceTouchIdStyle.enableButton]}
             onPress={() => this.doContinue.bind(this)()}>
             <Text style={faceTouchIdStyle.enableButtonText}>{global.i18n.t("FaceTouchIdComponent_enableButtonText")}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           {/*Skip Button*/}
-          <TouchableOpacity style={[faceTouchIdStyle.skipButton]}
+          <OneTabButtonComponent style={[faceTouchIdStyle.skipButton]}
             onPress={this.confirmSkipTouchId.bind(this)}>
             <Text style={faceTouchIdStyle.skipButtonText}>{global.i18n.t("FaceTouchIdComponent_skip")}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </View>
 
       </View>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
-  View, TouchableOpacity, Text, SafeAreaView, ScrollView, Image,
+  View, Text, SafeAreaView, ScrollView, Image,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import moment from 'moment';
@@ -10,6 +10,7 @@ import { Actions } from 'react-native-router-flux';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
 import { config } from 'src/configs';
 import { CommonProcessor } from 'src/processors';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 export class WhatNewComponent extends Component {
   static propTypes = {
@@ -60,19 +61,19 @@ export class WhatNewComponent extends Component {
                   </View>
                 </View>
               </Swiper>
-              {/* {this.state.index < 1 && <TouchableOpacity style={styles.skipButton} onPress={() => this.setState({ step: 2 })}>
+              {/* {this.state.index < 1 && <OneTabButtonComponent style={styles.skipButton} onPress={() => this.setState({ step: 2 })}>
                 <Text style={styles.skipButtonText}>{i18n.t('WhatNewComponent_skipButtonText')}</Text>
-              </TouchableOpacity>} */}
-              {this.state.index === 0 && <TouchableOpacity style={styles.doneButton} onPress={() => this.setState({ step: 2 })}>
+              </OneTabButtonComponent>} */}
+              {this.state.index === 0 && <OneTabButtonComponent style={styles.doneButton} onPress={() => this.setState({ step: 2 })}>
                 <Text style={styles.doneButtonText}>{i18n.t('WhatNewComponent_doneButtonText')}</Text>
-              </TouchableOpacity>}
+              </OneTabButtonComponent>}
             </View>
           </View>}
           {this.state.step === 2 && <View style={styles.bodyContent}>
             <View style={styles.header}>
-              <TouchableOpacity style={styles.closeButton} onPress={this.viewAllWhatNew.bind(this)}>
+              <OneTabButtonComponent style={styles.closeButton} onPress={this.viewAllWhatNew.bind(this)}>
                 <Text style={styles.closeButtonText}>{i18n.t('WhatNewComponent_closeButtonText')}</Text>
-              </TouchableOpacity>
+              </OneTabButtonComponent>
               <Text style={styles.headerTitle}>{i18n.t('WhatNewComponent_headerTitle2')}</Text>
             </View>
             <View style={styles.newContent}>

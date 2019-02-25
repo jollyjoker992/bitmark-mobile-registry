@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import {
-  View, Text, TouchableOpacity, ScrollView, FlatList, Image, ActivityIndicator, SafeAreaView,
+  View, Text, ScrollView, FlatList, Image, ActivityIndicator, SafeAreaView,
   Dimensions,
   Alert,
 } from 'react-native';
@@ -16,6 +16,7 @@ import { config, constant } from 'src/configs';
 import { defaultStyles } from 'src/views/commons';
 import { convertWidth } from 'src/utils';
 import { TransactionsStore } from 'src/views/stores';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 const SubTabs = {
   required: 'ACTIONS REQUIRED',
@@ -150,12 +151,12 @@ class PrivateTransactionsComponent extends React.Component {
     return (
       <SafeAreaView style={transactionsStyle.body}>
         <View style={[transactionsStyle.header, { height: constant.headerSize.height }]}>
-          <TouchableOpacity style={defaultStyles.headerLeft}></TouchableOpacity>
+          <OneTabButtonComponent style={defaultStyles.headerLeft}></OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("TransactionsComponent_transactions")}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight}></TouchableOpacity>
+          <OneTabButtonComponent style={defaultStyles.headerRight}></OneTabButtonComponent>
         </View>
         <View style={transactionsStyle.subTabArea}>
-          {this.state.subTab === SubTabs.required && <TouchableOpacity style={[transactionsStyle.subTabButton, {
+          {this.state.subTab === SubTabs.required && <OneTabButtonComponent style={[transactionsStyle.subTabButton, {
             shadowOffset: { width: 2 },
             shadowOpacity: 0.15,
           }]}>
@@ -165,8 +166,8 @@ class PrivateTransactionsComponent extends React.Component {
                 <Text style={transactionsStyle.subTabButtonText}>{global.i18n.t("TransactionsComponent_actionsRequired")}</Text>
               </View>
             </View>
-          </TouchableOpacity>}
-          {this.state.subTab !== SubTabs.required && <TouchableOpacity style={[transactionsStyle.subTabButton, {
+          </OneTabButtonComponent>}
+          {this.state.subTab !== SubTabs.required && <OneTabButtonComponent style={[transactionsStyle.subTabButton, {
             backgroundColor: '#F5F5F5',
             zIndex: 0,
           }]} onPress={() => this.switchSubTab(SubTabs.required)}>
@@ -176,9 +177,9 @@ class PrivateTransactionsComponent extends React.Component {
                 <Text style={[transactionsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("TransactionsComponent_actionsRequired")}</Text>
               </View>
             </View>
-          </TouchableOpacity>}
+          </OneTabButtonComponent>}
 
-          {this.state.subTab === SubTabs.completed && <TouchableOpacity style={[transactionsStyle.subTabButton, {
+          {this.state.subTab === SubTabs.completed && <OneTabButtonComponent style={[transactionsStyle.subTabButton, {
             shadowOffset: { width: -2 },
             shadowOpacity: 0.15,
           }]}>
@@ -188,8 +189,8 @@ class PrivateTransactionsComponent extends React.Component {
                 <Text style={transactionsStyle.subTabButtonText}>{global.i18n.t("TransactionsComponent_history")}</Text>
               </View>
             </View>
-          </TouchableOpacity>}
-          {this.state.subTab !== SubTabs.completed && <TouchableOpacity style={[transactionsStyle.subTabButton, {
+          </OneTabButtonComponent>}
+          {this.state.subTab !== SubTabs.completed && <OneTabButtonComponent style={[transactionsStyle.subTabButton, {
             backgroundColor: '#F5F5F5',
             zIndex: 0,
           }]} onPress={() => this.switchSubTab(SubTabs.completed)}>
@@ -199,7 +200,7 @@ class PrivateTransactionsComponent extends React.Component {
                 <Text style={[transactionsStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("TransactionsComponent_history")}</Text>
               </View>
             </View>
-          </TouchableOpacity>}
+          </OneTabButtonComponent>}
         </View>
 
         {this.state.subTab === SubTabs.required && <View style={{ width: '100%', flex: 1, flexDirection: 'column', alignContent: 'center', backgroundColor: 'white', }}>
@@ -215,7 +216,7 @@ class PrivateTransactionsComponent extends React.Component {
               this.loadingActionRequiredWhenScroll = false;
             }}
             scrollEventThrottle={1}>
-            <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
+            <OneTabButtonComponent activeOpacity={1} style={{ flex: 1 }}>
               {this.props.actionRequired && this.props.actionRequired.length === 0 && !this.props.appLoadingData && <View style={transactionsStyle.contentSubTab}>
                 <Text style={transactionsStyle.titleNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noActionsRequired")}</Text>
                 <Text style={transactionsStyle.messageNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_messageNoRequiredTransferOffer")}</Text>
@@ -226,7 +227,7 @@ class PrivateTransactionsComponent extends React.Component {
                   keyExtractor={(item, index) => (index + '')}
                   extraData={this.state}
                   renderItem={({ item }) => {
-                    return (<TouchableOpacity style={transactionsStyle.transferOfferRow} onPress={() => this.clickToActionRequired(item)}>
+                    return (<OneTabButtonComponent style={transactionsStyle.transferOfferRow} onPress={() => this.clickToActionRequired(item)}>
                       <View style={transactionsStyle.transferOfferTitle}>
                         <Text style={transactionsStyle.transferOfferTitleType}>{item.typeTitle.toUpperCase()}</Text>
                         <Text style={transactionsStyle.transferOfferTitleTime} >{moment(item.timestamp).format('YYYY MMM DD').toUpperCase()}</Text>
@@ -259,7 +260,7 @@ class PrivateTransactionsComponent extends React.Component {
                           accountNumber: CommonProcessor.getDisplayedAccount(item.incomingClaimRequest.from, true)
                         })}</Text>
                       </View>}
-                    </TouchableOpacity>)
+                    </OneTabButtonComponent>)
                   }} />
               </View>}
               {(this.props.appLoadingData || (this.props.actionRequired.length < this.props.totalActionRequired)) &&
@@ -267,19 +268,19 @@ class PrivateTransactionsComponent extends React.Component {
                   <ActivityIndicator size="large" style={{ marginTop: 46, }} />
                 </View>
               }
-            </TouchableOpacity>
+            </OneTabButtonComponent>
           </ScrollView>
 
           {this.props.actionRequired && this.props.actionRequired.length > 0 &&
             (this.props.actionRequired.findIndex(item => item.type === ActionRequireTypes.transfer) >= 0) &&
-            <TouchableOpacity style={transactionsStyle.acceptAllTransfersButton} onPress={this.acceptAllTransfers} >
+            <OneTabButtonComponent style={transactionsStyle.acceptAllTransfersButton} onPress={this.acceptAllTransfers} >
               <Text style={transactionsStyle.acceptAllTransfersButtonText}>{global.i18n.t("TransactionsComponent_acceptAllTransfersButtonText")}</Text>
-            </TouchableOpacity>}
+            </OneTabButtonComponent>}
           {this.props.actionRequired && this.props.actionRequired.length > 0 &&
             (this.props.actionRequired.findIndex(item => item.type === ActionRequireTypes.claim_request) >= 0) &&
-            <TouchableOpacity style={transactionsStyle.signAllClaimRequestsButton} onPress={this.signAllClaimRequests} >
+            <OneTabButtonComponent style={transactionsStyle.signAllClaimRequestsButton} onPress={this.signAllClaimRequests} >
               <Text style={transactionsStyle.signAllClaimRequestsButtonText}>{global.i18n.t("TransactionsComponent_signAllClaimRequests")}</Text>
-            </TouchableOpacity>}
+            </OneTabButtonComponent>}
         </View>}
 
         {this.state.subTab === SubTabs.completed && <ScrollView style={[transactionsStyle.scrollSubTabArea]}
@@ -295,7 +296,7 @@ class PrivateTransactionsComponent extends React.Component {
           }}
           scrollEventThrottle={1}
         >
-          <TouchableOpacity activeOpacity={1} style={{ flex: 1 }}>
+          <OneTabButtonComponent activeOpacity={1} style={{ flex: 1 }}>
             {this.props.completed && this.props.completed.length === 0 && !this.props.appLoadingData && <View style={transactionsStyle.contentSubTab}>
               <Text style={transactionsStyle.titleNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noTransactionHistoryTitle")}</Text>
               <Text style={transactionsStyle.messageNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noTransactionHistoryMessage")}</Text>
@@ -307,7 +308,7 @@ class PrivateTransactionsComponent extends React.Component {
                 renderItem={({ item }) => {
                   if (item.outgoingClaimRequest) {
                     return (
-                      <TouchableOpacity style={transactionsStyle.completedTransfer}>
+                      <OneTabButtonComponent style={transactionsStyle.completedTransfer}>
                         <View style={transactionsStyle.completedTransferHeader}>
                           {item.outgoingClaimRequest.status === 'accepted' && <View style={transactionsStyle.completedTransferHeaderIconArea}>
                             <Image style={transactionsStyle.completedTransferHeaderIconImage} source={require('assets/imgs/accepted_icon.png')} />
@@ -349,11 +350,11 @@ class PrivateTransactionsComponent extends React.Component {
                             </Text>
                           </View>
                         </View>
-                      </TouchableOpacity>
+                      </OneTabButtonComponent>
                     )
                   }
                   return (
-                    <TouchableOpacity style={transactionsStyle.completedTransfer} onPress={() => this.clickToCompleted(item)} disabled={(item.status === 'pending' || item.status === 'waiting')}>
+                    <OneTabButtonComponent style={transactionsStyle.completedTransfer} onPress={() => this.clickToCompleted(item)} disabled={(item.status === 'pending' || item.status === 'waiting')}>
                       <View style={transactionsStyle.completedTransferHeader}>
                         {(item.status === 'confirmed' || item.status === 'accepted') && <View style={transactionsStyle.completedTransferHeaderIconArea}>
                           <Image style={transactionsStyle.completedTransferHeaderIconImage} source={require('assets/imgs/accepted_icon.png')} />
@@ -394,7 +395,7 @@ class PrivateTransactionsComponent extends React.Component {
                             {item.researcherName ? item.researcherName : CommonProcessor.getDisplayedAccount(item.to)}</Text>
                         </View>}
                       </View>
-                    </TouchableOpacity>
+                    </OneTabButtonComponent>
                   )
                 }} />
             </View >}
@@ -403,7 +404,7 @@ class PrivateTransactionsComponent extends React.Component {
                 <ActivityIndicator size="large" style={{ marginTop: 46, }} />
               </View>
             }
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </ScrollView>}
       </SafeAreaView >
     );

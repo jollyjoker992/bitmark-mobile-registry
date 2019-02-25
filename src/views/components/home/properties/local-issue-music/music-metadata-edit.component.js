@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, Image, TextInput, FlatList, ScrollView,
+  View, Text, Image, TextInput, FlatList, ScrollView,
   StyleSheet,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -9,6 +9,7 @@ import { Actions } from 'react-native-router-flux';
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth, getMetadataLabel } from 'src/utils';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 
 export class MusicMetadataEditComponent extends React.Component {
@@ -53,16 +54,16 @@ export class MusicMetadataEditComponent extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={cStyles.header}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+          <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{this.state.label || global.i18n.t("MusicMetadataEditComponent_headerTitle", { number: this.props.index + 1 })}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight} onPress={() => {
+          <OneTabButtonComponent style={defaultStyles.headerRight} onPress={() => {
             this.props.onChangeMetadataLabel(this.props.index, this.state.label);
             Actions.pop();
           }}>
             <Text style={defaultStyles.headerRightText}>{global.i18n.t("MusicMetadataEditComponent_headerRightText")}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </View>
 
         <View style={cStyles.body}>
@@ -78,18 +79,18 @@ export class MusicMetadataEditComponent extends React.Component {
               returnKeyType="done"
               selectTextOnFocus={true}
             />
-            {!!this.state.label && <TouchableOpacity style={cStyles.removeLabelNumberButton} onPress={() => this.onChangeText('')} >
+            {!!this.state.label && <OneTabButtonComponent style={cStyles.removeLabelNumberButton} onPress={() => this.onChangeText('')} >
               <Image style={cStyles.removeLabelNumberIcon} source={require('assets/imgs/remove-icon.png')} />
-            </TouchableOpacity>}
+            </OneTabButtonComponent>}
             <View style={cStyles.inputLabelBar} />
             <View style={cStyles.suggestionsList}>
               <FlatList
                 keyExtractor={(item) => item.key}
                 data={this.state.suggestions}
                 renderItem={({ item }) => {
-                  return (<TouchableOpacity style={cStyles.suggestionsButton} onPress={() => this.onChooseLabel(item.originalText)}>
+                  return (<OneTabButtonComponent style={cStyles.suggestionsButton} onPress={() => this.onChooseLabel(item.originalText)}>
                     <Text style={cStyles.suggestionsButtonText}>{item.text}</Text>
-                  </TouchableOpacity>);
+                  </OneTabButtonComponent>);
                 }}
               />
             </View>

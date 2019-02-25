@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import {
-  Text, View, TouchableOpacity, Image, SafeAreaView,
+  Text, View, Image, SafeAreaView,
   Alert,
 } from 'react-native';
 import Camera from 'react-native-camera';
@@ -10,6 +10,7 @@ import { Actions } from 'react-native-router-flux';
 import { EventEmitterService } from 'src/processors/services';
 import { AppProcessor, BitmarkProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 export class ScanQRCodeComponent extends React.Component {
   constructor(props) {
@@ -119,11 +120,11 @@ export class ScanQRCodeComponent extends React.Component {
   render() {
     return (<SafeAreaView style={componentStyle.body}>
       <View style={componentStyle.header}>
-        <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop} >
+        <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop} >
           <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-        </TouchableOpacity>
+        </OneTabButtonComponent>
         <Text style={defaultStyles.headerTitle}>{global.i18n.t("ScanQRCodeComponent_scanQrcode")}</Text>
-        <TouchableOpacity style={defaultStyles.headerRight} />
+        <OneTabButtonComponent style={defaultStyles.headerRight} />
       </View>
       <View style={componentStyle.bodyContent}>
         <Camera ref={(ref) => this.cameraRef = ref} style={componentStyle.scanCamera} aspect={Camera.constants.Aspect.fill} onBarCodeRead={this.onBarCodeRead.bind(this)} />

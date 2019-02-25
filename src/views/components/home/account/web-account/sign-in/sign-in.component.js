@@ -1,7 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import {
-  Text, View, TouchableOpacity, Image, SafeAreaView
+  Text, View, Image, SafeAreaView
 } from 'react-native';
 import Camera from 'react-native-camera';
 import Hyperlink from 'react-native-hyperlink';
@@ -9,6 +9,7 @@ import { Actions } from 'react-native-router-flux';
 import componentStyle from './sign-in.component.style';
 import { AppProcessor, EventEmitterService, CacheData } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 
 export class WebAccountSignInComponent extends React.Component {
@@ -49,11 +50,11 @@ export class WebAccountSignInComponent extends React.Component {
   render() {
     return (<SafeAreaView style={componentStyle.body}>
       <View style={componentStyle.header}>
-        <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop} >
+        <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop} >
           <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-        </TouchableOpacity>
+        </OneTabButtonComponent>
         <Text style={defaultStyles.headerTitle}>{global.i18n.t("WebAccountSignInComponent_webAccountSignIn")}</Text>
-        <TouchableOpacity style={defaultStyles.headerRight} />
+        <OneTabButtonComponent style={defaultStyles.headerRight} />
       </View>
       <View style={componentStyle.bodyContent}>
         <Hyperlink

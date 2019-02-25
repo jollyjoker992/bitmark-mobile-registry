@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactNative, {
-  View, TouchableOpacity, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
+  View, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
   StyleSheet,
   Keyboard,
   Platform,
@@ -16,6 +16,7 @@ import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth, isImageFile, FileUtil } from 'src/utils';
 import { AppProcessor } from 'src/processors';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 const { ActionSheetIOS } = ReactNative;
 
@@ -280,26 +281,26 @@ export class MusicBasicInfoComponent extends React.Component {
       <View style={{ flex: 1, backgroundColor: 'white' }}>
         <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: '' })} style={{ flex: 1 }} >
           <View style={cStyles.header}>
-            <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+            <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
-            </TouchableOpacity>
+            </OneTabButtonComponent>
             <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{global.i18n.t('MusicBasicInfoComponent_headerTitle')}</Text>
-            <TouchableOpacity style={defaultStyles.headerRight} onPress={this.doCancel}>
+            <OneTabButtonComponent style={defaultStyles.headerRight} onPress={this.doCancel}>
               <Text style={defaultStyles.headerRightText}>{global.i18n.t('MusicBasicInfoComponent_headerRightText')}</Text>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
           </View>
           <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
             <View style={cStyles.content}>
               <View style={cStyles.mainContent}>
                 <View style={cStyles.thumbnailArea}>
-                  {!!this.state.thumbnailPath && <TouchableOpacity style={cStyles.thumbnailImageArea} onPress={this.onChooseThumbnail.bind(this)}>
+                  {!!this.state.thumbnailPath && <OneTabButtonComponent style={cStyles.thumbnailImageArea} onPress={this.onChooseThumbnail.bind(this)}>
                     <Image style={cStyles.thumbnailImage} source={{ uri: this.state.thumbnailPath }} />
-                  </TouchableOpacity>}
-                  {!this.state.thumbnailPath && <TouchableOpacity style={[cStyles.thumbnailImageArea, { backgroundColor: '#E6FF00' }]} onPress={this.onChooseThumbnail.bind(this)}>
+                  </OneTabButtonComponent>}
+                  {!this.state.thumbnailPath && <OneTabButtonComponent style={[cStyles.thumbnailImageArea, { backgroundColor: '#E6FF00' }]} onPress={this.onChooseThumbnail.bind(this)}>
                     <Image style={cStyles.thumbnailImageIcon} source={require('assets/imgs/music_thumbnail.png')} />
                     <Text style={cStyles.thumbnailImageText}>{global.i18n.t('MusicBasicInfoComponent_thumbnailImageText')}</Text>
                     <Text style={[cStyles.fieldInputError, { width: 'auto' }]}>{this.state.thumbnailPathError}</Text>
-                  </TouchableOpacity>}
+                  </OneTabButtonComponent>}
                 </View>
 
                 <View style={cStyles.inputArea}>
@@ -307,9 +308,9 @@ export class MusicBasicInfoComponent extends React.Component {
                     <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelFile')}</Text>
                     <View style={cStyles.fileInfo}>
                       <Text style={cStyles.fileName}>{this.state.filePath.substring(this.state.filePath.lastIndexOf('/') + 1, this.state.filePath.length)}</Text>
-                      <TouchableOpacity style={cStyles.fileRemoveButton} onPress={this.changeFile.bind(this)}>
+                      <OneTabButtonComponent style={cStyles.fileRemoveButton} onPress={this.changeFile.bind(this)}>
                         <Image style={cStyles.fileRemoveButtonIcon} source={require('assets/imgs/change_file_icon.png')} />
-                      </TouchableOpacity>
+                      </OneTabButtonComponent>
                     </View>
                   </View>
 
@@ -338,11 +339,11 @@ export class MusicBasicInfoComponent extends React.Component {
               </View>
             </View>
           </ScrollView>
-          <TouchableOpacity
+          <OneTabButtonComponent
             style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}, this.state.keyboardHeight ? { height: constant.buttonHeight } : {}]}
             onPress={this.onContinue.bind(this)}>
             <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicBasicInfoComponent_continueButtonText')}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </KeyboardAvoidingView>
       </View>
     );

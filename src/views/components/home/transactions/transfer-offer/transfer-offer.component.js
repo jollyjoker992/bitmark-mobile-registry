@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, ScrollView, Image, FlatList, SafeAreaView,
+  View, Text, ScrollView, Image, FlatList, SafeAreaView,
   Alert,
 } from 'react-native';
 
@@ -10,6 +10,7 @@ import transferOfferStyle from './transfer-offer.component.style';
 import { BitmarkModel, EventEmitterService, AppProcessor, CommonProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { Actions } from 'react-native-router-flux';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 export class TransferOfferComponent extends React.Component {
   static propTypes = {
@@ -83,16 +84,16 @@ export class TransferOfferComponent extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={defaultStyles.header}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+          <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("TransferOfferComponent_signForBitmark")}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight}></TouchableOpacity>
+          <OneTabButtonComponent style={defaultStyles.headerRight}></OneTabButtonComponent>
         </View>
 
         <View style={transferOfferStyle.body}>
           <ScrollView style={[transferOfferStyle.contentScroll]} scroll>
-            <TouchableOpacity activeOpacity={1} style={transferOfferStyle.content}>
+            <OneTabButtonComponent activeOpacity={1} style={transferOfferStyle.content}>
               <Text style={transferOfferStyle.assetName}>{this.state.transferOffer.asset.name}</Text>
               <Text style={transferOfferStyle.transferOfferContent}>
                 <Text style={transferOfferStyle.transferOfferSenderFix}>[</Text>
@@ -133,17 +134,17 @@ export class TransferOfferComponent extends React.Component {
                     }} />
                 </View>
               </View>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
           </ScrollView>
         </View >
 
         <View style={transferOfferStyle.buttonsArea}>
-          <TouchableOpacity style={transferOfferStyle.rejectButton} onPress={this.doReject}>
+          <OneTabButtonComponent style={transferOfferStyle.rejectButton} onPress={this.doReject}>
             <Text style={transferOfferStyle.rejectButtonText}>{global.i18n.t("TransferOfferComponent_reject")}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[transferOfferStyle.acceptButton, { marginLeft: 1 }]} onPress={this.doAccept}>
+          </OneTabButtonComponent>
+          <OneTabButtonComponent style={[transferOfferStyle.acceptButton, { marginLeft: 1 }]} onPress={this.doAccept}>
             <Text style={transferOfferStyle.acceptButtonText}>{global.i18n.t("TransferOfferComponent_accept")}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </View>
 
       </SafeAreaView>
