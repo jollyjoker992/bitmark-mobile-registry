@@ -46,7 +46,10 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
           console.log('browseDocument :', filePath);
           this.prepareToIssue({ uri: filePath, fileName: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length) }, true);
         }).catch(error => {
-          console.log('browseDocument error :', error);
+          if (error.code === 'UNSUPPORT_FILE') {
+            Alert.alert(global.i18n.t("IssuanceOptionsComponent_androidFileNotSupport"), '');
+          }
+          console.log('browseDocument error :', JSON.stringify(error, null, 2));
           return;
         });
       }
@@ -87,7 +90,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     let fileFormat = response.fileName.substring(response.fileName.lastIndexOf('.'));
     AppProcessor.doCheckFileToIssue(filePath).then(asset => {
       if (isReleasedAsset(asset)) {
-        Alert.alert('Can not issue!', 'This asset was released by other account!', { cancelable: false })
+        Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle2'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage2'));
         return;
       }
       Actions.localIssueFile({

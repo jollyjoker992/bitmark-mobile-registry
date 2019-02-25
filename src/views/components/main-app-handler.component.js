@@ -167,7 +167,7 @@ export class MainAppHandlerComponent extends Component {
         if (assetId) {
           UserModel.doTryGetCurrentUser().then(userInformation => {
             if (!userInformation || !userInformation.bitmarkAccountNumber) {
-              Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"), { cancelable: false });
+              Alert.alert('', global.i18n.t("MainComponent_claimMessageWhenUserNotLogin"));
             }
             TransactionProcessor.doGetAssetToClaim(assetId, issuer).then(async (asset) => {
               let passTouchFaceId = await CommonProcessor.doCheckPassTouchFaceId();

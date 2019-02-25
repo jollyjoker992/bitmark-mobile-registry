@@ -26,7 +26,7 @@ export class MusicFileChosenComponent extends React.Component {
         return;
       }
       if (response.fileSize > 100 * 1024 * 1024) {
-        Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage'), { cancelable: false });
+        Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage'));
         return;
       }
       let filePath = response.uri.replace('file://', '');
@@ -39,7 +39,7 @@ export class MusicFileChosenComponent extends React.Component {
       AppProcessor.doCheckFileToIssue(filePath).then(asset => {
         if (asset && asset.name) {
           // Actions.musicBasicInfo({ filePath, asset });
-          Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle2'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage2'), { cancelable: false });
+          Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle2'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage2'));
         } else {
           Actions.musicBasicInfo({ filePath });
         }
