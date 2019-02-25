@@ -50,7 +50,7 @@ export class ApplicationDetailComponent extends React.Component {
         body: global.i18n.t("ApplicationDetailComponent_appVersion") + ' ' + config.version + ' (' + config.buildNumber + ')',
       }, (error) => {
         if (error) {
-          Alert.alert(global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorTitle"), global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorMessage"), { cancelable: false });
+          Alert.alert(global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorTitle"), global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorMessage"));
         }
       });
     };

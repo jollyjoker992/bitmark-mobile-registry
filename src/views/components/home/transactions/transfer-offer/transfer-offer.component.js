@@ -75,7 +75,7 @@ export class TransferOfferComponent extends React.Component {
         }], { cancelable: false });
       }
     }).catch(error => {
-      Alert.alert(global.i18n.t("TransferOfferComponent_requestFailedTitle"), global.i18n.t("TransferOfferComponent_signatureSubmittedMessage"), { cancelable: false });
+      Alert.alert(global.i18n.t("TransferOfferComponent_requestFailedTitle"), global.i18n.t("TransferOfferComponent_signatureSubmittedMessage"));
       console.log('TransferOfferComponent doRejectTransferBitmark error:', error);
     });
   }
