@@ -18,7 +18,7 @@ export class MainCoverComponent extends Component {
       dataCover: null,
       opacityCoverArea: new Animated.Value(0),
       heightCoverArea: new Animated.Value(0),
-      topCoverArea: new Animated.Value(config.deviceSize.height),
+      topCoverArea: new Animated.Value(config.windowSize.height),
     }
   }
 
@@ -38,7 +38,7 @@ export class MainCoverComponent extends Component {
         duration: 100,
       }));
       listAnimations.push(Animated.spring(this.state.heightCoverArea, {
-        toValue: config.deviceSize.height,
+        toValue: config.windowSize.height,
         duration: 100,
       }));
       listAnimations.push(Animated.spring(this.state.topCoverArea, {
@@ -57,7 +57,7 @@ export class MainCoverComponent extends Component {
         duration: 100,
       }));
       listAnimations.push(Animated.spring(this.state.topCoverArea, {
-        toValue: config.deviceSize.height,
+        toValue: config.windowSize.height,
         duration: 100,
       }));
       Animated.parallel(listAnimations).start();

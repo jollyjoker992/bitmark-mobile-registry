@@ -76,7 +76,7 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
             <View style={localAddPropertyStyle.inputLabelBar} />
             <View style={localAddPropertyStyle.suggestionsList}>
               <FlatList
-                keyExtractor={(item) => item.key}
+                keyExtractor={(item) => item.key + ''}
                 data={this.state.suggestions}
                 renderItem={({ item }) => {
                   return (<OneTabButtonComponent style={localAddPropertyStyle.suggestionsButton} onPress={() => this.onChooseLabel(item.originalText)}>
