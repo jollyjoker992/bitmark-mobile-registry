@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Text, View, TouchableOpacity, Image, SafeAreaView,
+  Text, View, Image, SafeAreaView,
   Share,
   Alert,
   Linking,
@@ -13,6 +13,7 @@ import { config, } from 'src/configs';
 import { CacheData, CommonProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import moment from 'moment';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 
 export class ApplicationDetailComponent extends React.Component {
@@ -57,31 +58,31 @@ export class ApplicationDetailComponent extends React.Component {
     return (
       <SafeAreaView style={applicationDetailStyle.body}>
         <View style={applicationDetailStyle.header}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop} >
+          <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop} >
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("ApplicationDetailComponent_details")}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight} />
+          <OneTabButtonComponent style={defaultStyles.headerRight} />
         </View>
         <View style={applicationDetailStyle.bodyContent}>
           <View style={applicationDetailStyle.topArea}>
-            <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => {
+            <OneTabButtonComponent style={applicationDetailStyle.rowSetting} onPress={() => {
               Actions.bitmarkWebView({
                 title: global.i18n.t("ApplicationDetailComponent_termsOfService"), sourceUrl: config.bitmark_web_site + '/legal/terms?env=app',
                 hideBottomController: true,
               });
             }}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_termsOfService").toUpperCase()}</Text>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
             <View style={applicationDetailStyle.lineSetting}></View>
-            <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => {
+            <OneTabButtonComponent style={applicationDetailStyle.rowSetting} onPress={() => {
               Actions.bitmarkWebView({
                 title: global.i18n.t("ApplicationDetailComponent_privacyPolicy"), sourceUrl: config.bitmark_web_site + '/legal/privacy?env=app',
                 hideBottomController: true,
               });
             }}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_privacyPolicy").toUpperCase()}</Text>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
             <View style={applicationDetailStyle.lineSetting}></View>
           </View>
 
@@ -92,21 +93,21 @@ export class ApplicationDetailComponent extends React.Component {
 
           <View style={applicationDetailStyle.bottomArea}>
             <View style={applicationDetailStyle.lineSetting}></View>
-            <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => CommonProcessor.doDisplayedWhatNewInformation()}>
+            <OneTabButtonComponent style={applicationDetailStyle.rowSetting} onPress={() => CommonProcessor.doDisplayedWhatNewInformation()}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_whatNew")}</Text>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
             <View style={applicationDetailStyle.lineSetting}></View>
-            <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => rateApp()}>
+            <OneTabButtonComponent style={applicationDetailStyle.rowSetting} onPress={() => rateApp()}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_appStoreRatingAndReview")}</Text>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
             <View style={applicationDetailStyle.lineSetting}></View>
-            <TouchableOpacity style={applicationDetailStyle.rowSetting} onPress={() => { shareApp() }}>
+            <OneTabButtonComponent style={applicationDetailStyle.rowSetting} onPress={() => { shareApp() }}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_shareThisApp")}</Text>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
             {/* <View style={applicationDetailStyle.lineSetting}></View>
-            <TouchableOpacity style={[applicationDetailStyle.rowSetting, { marginBottom: constant.blankFooter, }]} onPress={() => { requestSendFeedback() }}>
+            <OneTabButtonComponent style={[applicationDetailStyle.rowSetting, { marginBottom: constant.blankFooter, }]} onPress={() => { requestSendFeedback() }}>
               <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_sendFeedback")}</Text>
-            </TouchableOpacity> */}
+            </OneTabButtonComponent> */}
           </View>
         </View>
       </SafeAreaView >

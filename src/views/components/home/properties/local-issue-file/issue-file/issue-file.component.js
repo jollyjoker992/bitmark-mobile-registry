@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, Image, TextInput, FlatList, KeyboardAvoidingView, SafeAreaView, ScrollView,
+  View, Text, Image, TextInput, FlatList, KeyboardAvoidingView, SafeAreaView, ScrollView,
   Alert,
   Platform,
   Keyboard,
@@ -12,6 +12,7 @@ import { AppProcessor, BitmarkService } from 'src/processors';
 import { FileUtil, convertWidth, getMetadataLabel, getMetadataValue } from 'src/utils';
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 
 
@@ -187,11 +188,11 @@ export class LocalIssueFileComponent extends React.Component {
       <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5', }}>
         <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: '' })} enabled style={{ flex: 1 }} >
           <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
-            <TouchableOpacity style={[defaultStyles.headerLeft, { width: 50, }]} onPress={Actions.pop}>
+            <OneTabButtonComponent style={[defaultStyles.headerLeft, { width: 50, }]} onPress={Actions.pop}>
               <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-            </TouchableOpacity>
+            </OneTabButtonComponent>
             <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>{global.i18n.t("LocalIssueFileComponent_registerPropertyRights")}</Text>
-            <TouchableOpacity style={[defaultStyles.headerRight, { width: 50, }]} />
+            <OneTabButtonComponent style={[defaultStyles.headerRight, { width: 50, }]} />
           </View>
 
           <ScrollView style={localAddPropertyStyle.body}>
@@ -234,11 +235,11 @@ export class LocalIssueFileComponent extends React.Component {
                   renderItem={({ item }) => {
                     return (
                       <View style={localAddPropertyStyle.metadataField}>
-                        {!this.state.existingAsset && this.state.isEditingMetadata && <TouchableOpacity style={localAddPropertyStyle.metadataFieldKeyRemoveButton} onPress={() => this.removeMetadata(item.key)}>
+                        {!this.state.existingAsset && this.state.isEditingMetadata && <OneTabButtonComponent style={localAddPropertyStyle.metadataFieldKeyRemoveButton} onPress={() => this.removeMetadata(item.key)}>
                           <Image style={localAddPropertyStyle.metadataFieldKeyRemoveIcon} source={require('assets/imgs/remove-icon-red.png')} />
-                        </TouchableOpacity>}
+                        </OneTabButtonComponent>}
                         <View style={[localAddPropertyStyle.metadataFieldInfo, { width: convertWidth(this.state.isEditingMetadata ? 322 : 337) }]}>
-                          <TouchableOpacity style={[localAddPropertyStyle.metadataFieldKeyArea, {
+                          <OneTabButtonComponent style={[localAddPropertyStyle.metadataFieldKeyArea, {
                             borderBottomColor: item.labelError ? '#FF003C' : (this.state.existingAsset ? '#C2C2C2' : '#0060F2')
                           }]}
                             disabled={this.state.existingAsset}
@@ -257,7 +258,7 @@ export class LocalIssueFileComponent extends React.Component {
                             }]}>{item.label ? getMetadataLabel(item.label) : global.i18n.t("LocalIssueFileComponent_label")}</Text>
                             {!this.state.existingAsset && <Image style={localAddPropertyStyle.metadataFieldKeyEditIcon}
                               source={require('assets/imgs/next-icon-blue.png')} />}
-                          </TouchableOpacity>
+                          </OneTabButtonComponent>
                           <TextInput style={[config.isAndroid ? { padding: 2 } : {}, localAddPropertyStyle.metadataFieldValue, {
                             color: (item.label && !this.state.existingAsset) ? 'black' : '#C1C1C1',
                           }]} placeholder={global.i18n.t("LocalIssueFileComponent_description")}
@@ -284,18 +285,18 @@ export class LocalIssueFileComponent extends React.Component {
                 />
               </View>
               {!this.state.existingAsset && <View style={localAddPropertyStyle.metadataFieldButtons}>
-                <TouchableOpacity style={localAddPropertyStyle.addMetadataButton} disabled={!this.state.canAddNewMetadata} onPress={this.addNewMetadataField}>
+                <OneTabButtonComponent style={localAddPropertyStyle.addMetadataButton} disabled={!this.state.canAddNewMetadata} onPress={this.addNewMetadataField}>
                   <Image style={localAddPropertyStyle.addMetadataButtonIcon} source={
                     this.state.canAddNewMetadata ? require('assets/imgs/plus-white-blue-icon.png') : require('assets/imgs/plus-white-blue-icon-disable.png')} />
                   <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: this.state.canAddNewMetadata ? '#0060F2' : '#C2C2C2' }]}> {global.i18n.t("LocalIssueFileComponent_addLabel")}</Text>
-                </TouchableOpacity>
+                </OneTabButtonComponent>
 
-                {this.state.isEditingMetadata && <TouchableOpacity style={[localAddPropertyStyle.addMetadataButton]} onPress={() => this.setState({ isEditingMetadata: false })}>
+                {this.state.isEditingMetadata && <OneTabButtonComponent style={[localAddPropertyStyle.addMetadataButton]} onPress={() => this.setState({ isEditingMetadata: false })}>
                   <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: '#0060F2' }]}>{global.i18n.t("LocalIssueFileComponent_done").toUpperCase()}</Text>
-                </TouchableOpacity>}
-                {!this.state.isEditingMetadata && this.state.metadataList.length > 0 && <TouchableOpacity style={[localAddPropertyStyle.addMetadataButton]} onPress={() => this.setState({ isEditingMetadata: true })}>
+                </OneTabButtonComponent>}
+                {!this.state.isEditingMetadata && this.state.metadataList.length > 0 && <OneTabButtonComponent style={[localAddPropertyStyle.addMetadataButton]} onPress={() => this.setState({ isEditingMetadata: true })}>
                   <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: this.state.isEditingMetadata ? '#C2C2C2' : '#0060F2' }]}>{global.i18n.t("LocalIssueFileComponent_edit")}</Text>
-                </TouchableOpacity>}
+                </OneTabButtonComponent>}
               </View>}
               {!!this.state.metadataError && <Text style={localAddPropertyStyle.metadataInputError}>{this.state.metadataError}</Text>}
 
@@ -317,13 +318,13 @@ export class LocalIssueFileComponent extends React.Component {
             </View>
           </ScrollView>
 
-          <TouchableOpacity
+          <OneTabButtonComponent
             style={[localAddPropertyStyle.issueButton, { borderTopColor: this.state.canIssue ? '#0060F2' : '#C2C2C2' }]}
             onPress={this.onIssueFile}
             disabled={!this.state.canIssue}
           >
             <Text style={[localAddPropertyStyle.issueButtonText, { color: this.state.canIssue ? '#0060F2' : '#C2C2C2' }]}>{global.i18n.t("LocalIssueFileComponent_issueButtonText")}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </KeyboardAvoidingView>
       </SafeAreaView>
     );

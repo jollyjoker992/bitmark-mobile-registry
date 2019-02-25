@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import {
-  View, Text, TouchableOpacity, Image, WebView, ActivityIndicator, SafeAreaView,
+  View, Text, Image, WebView, ActivityIndicator, SafeAreaView,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import styles from './ifttt-active.component.style';
@@ -11,6 +11,7 @@ import { EventEmitterService, AppProcessor, CacheData, TransactionProcessor } fr
 import { defaultStyles } from 'src/views/commons';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
 import { AccountStore } from 'src/views/stores';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 class PrivateIftttActiveComponent extends React.Component {
   constructor(props) {
@@ -80,21 +81,21 @@ class PrivateIftttActiveComponent extends React.Component {
     return (
       <View style={styles.body}>
         <View style={[defaultStyles.header, { height: constant.headerSize.height, zIndex: 2, }]}>
-          {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT && <TouchableOpacity style={[defaultStyles.headerLeft, { width: 60 }]} />}
+          {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT && <OneTabButtonComponent style={[defaultStyles.headerLeft, { width: 60 }]} />}
 
-          {!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT && <TouchableOpacity style={[defaultStyles.headerLeft, { width: 60 }]} onPress={() => {
+          {!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT && <OneTabButtonComponent style={[defaultStyles.headerLeft, { width: 60 }]} onPress={() => {
             runPromiseWithoutError(TransactionProcessor.doReloadIftttInformation());
             Actions.pop();
           }}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-          </TouchableOpacity>}
+          </OneTabButtonComponent>}
 
           <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(375) - 120 }]}>{global.i18n.t("IftttActiveComponent_registerYourIftttData")}</Text>
-          {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) && <TouchableOpacity style={[defaultStyles.headerRight, { width: 60 }]} />}
+          {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) && <OneTabButtonComponent style={[defaultStyles.headerRight, { width: 60 }]} />}
           {this.props.iftttInformation && this.props.iftttInformation.connectIFTTT &&
-            <TouchableOpacity style={[defaultStyles.headerRight, { width: 60, }]} onPress={Actions.pop}>
+            <OneTabButtonComponent style={[defaultStyles.headerRight, { width: 60, }]} onPress={Actions.pop}>
               <Text style={defaultStyles.headerRightText}>{global.i18n.t("IftttActiveComponent_done")}</Text>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
           }
         </View>
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, Image, TextInput, FlatList, ScrollView, SafeAreaView
+  View, Text, Image, TextInput, FlatList, ScrollView, SafeAreaView
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -9,6 +9,7 @@ import localAddPropertyStyle from './edit-label.component.style';
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { getMetadataLabel } from 'src/utils';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 export class LocalIssueFileEditLabelComponent extends React.Component {
   constructor(props) {
@@ -44,16 +45,16 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+          <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           <Text style={[defaultStyles.headerTitle, { color: this.state.label ? 'black' : '#C1C1C1' }]}>{this.state.label || global.i18n.t("LocalIssueFileEditLabelComponent_headerTitle", { number: this.props.labelKey + 1 })}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight} onPress={() => {
+          <OneTabButtonComponent style={defaultStyles.headerRight} onPress={() => {
             this.props.onEndChangeMetadataKey(this.props.labelKey, this.state.label);
             Actions.pop();
           }}>
             <Text style={defaultStyles.headerRightText}>{global.i18n.t("LocalIssueFileEditLabelComponent_done")}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </View>
 
         <View style={localAddPropertyStyle.body}>
@@ -69,18 +70,18 @@ export class LocalIssueFileEditLabelComponent extends React.Component {
               returnKeyType="done"
               selectTextOnFocus={true}
             />
-            {!!this.state.label && <TouchableOpacity style={localAddPropertyStyle.removeLabelNumberButton} onPress={() => this.onChangeText('')} >
+            {!!this.state.label && <OneTabButtonComponent style={localAddPropertyStyle.removeLabelNumberButton} onPress={() => this.onChangeText('')} >
               <Image style={localAddPropertyStyle.removeLabelNumberIcon} source={require('assets/imgs/remove-icon.png')} />
-            </TouchableOpacity>}
+            </OneTabButtonComponent>}
             <View style={localAddPropertyStyle.inputLabelBar} />
             <View style={localAddPropertyStyle.suggestionsList}>
               <FlatList
                 keyExtractor={(item) => item.key}
                 data={this.state.suggestions}
                 renderItem={({ item }) => {
-                  return (<TouchableOpacity style={localAddPropertyStyle.suggestionsButton} onPress={() => this.onChooseLabel(item.originalText)}>
+                  return (<OneTabButtonComponent style={localAddPropertyStyle.suggestionsButton} onPress={() => this.onChooseLabel(item.originalText)}>
                     <Text style={localAddPropertyStyle.suggestionsButtonText}>{item.text}</Text>
-                  </TouchableOpacity>);
+                  </OneTabButtonComponent>);
                 }}
               />
             </View>

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import {
-  Text, View, TouchableOpacity, KeyboardAvoidingView, TextInput, Image, FlatList, SafeAreaView, ScrollView, Animated,
+  Text, View, KeyboardAvoidingView, TextInput, Image, FlatList, SafeAreaView, ScrollView, Animated,
   Keyboard,
   Platform,
   StatusBar,
@@ -12,6 +12,7 @@ import { dictionaryPhraseWords, convertWidth } from 'src/utils';
 import { AppProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 let PreCheckResults = {
   success: 'SUBMIT',
@@ -265,12 +266,12 @@ export class SignInComponent extends React.Component {
 
         <View style={[defaultStyles.header, { backgroundColor: '#F5F5F5', height: constant.headerSize.height }]} onPress={Keyboard.dismiss}>
           <StatusBar hidden={false} />
-          <TouchableOpacity style={[defaultStyles.headerLeft, { width: 50 }]} onPress={Actions.pop}>
+          <OneTabButtonComponent style={[defaultStyles.headerLeft, { width: 50 }]} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(375) - 100 }]}>{global.i18n.t("SignInComponent_headerTitle")}</Text>
-          <TouchableOpacity style={[defaultStyles.headerRight, { width: 50 }]}>
-          </TouchableOpacity>
+          <OneTabButtonComponent style={[defaultStyles.headerRight, { width: 50 }]}>
+          </OneTabButtonComponent>
         </View>
         <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: '' })} enabled style={{ flex: 1, }}  >
           <ScrollView style={signStyle.mainContent} contentContainerStyle={{ flexGrow: 1 }}>
@@ -344,28 +345,28 @@ export class SignInComponent extends React.Component {
             </View>
           </ScrollView>
 
-          {this.state.keyboardHeight === 0 && <TouchableOpacity style={signStyle.switchFormMessageButton} onPress={this.changeNumberPhraseWord.bind(this)}>
+          {this.state.keyboardHeight === 0 && <OneTabButtonComponent style={signStyle.switchFormMessageButton} onPress={this.changeNumberPhraseWord.bind(this)}>
             <Text style={[signStyle.switchFormMessage,]}>{i18n.t('SignInComponent_switchFormMessage', { number: this.state.numberPhraseWords === 12 ? 24 : 12 })}</Text>
-          </TouchableOpacity>}
+          </OneTabButtonComponent>}
 
-          {this.state.keyboardHeight === 0 && <TouchableOpacity style={[signStyle.submitButton, {
+          {this.state.keyboardHeight === 0 && <OneTabButtonComponent style={[signStyle.submitButton, {
             backgroundColor: !this.state.remainWordNumber ? '#0060F2' : 'gray'
           }]} onPress={this.doSignIn} disabled={this.state.remainWordNumber > 0}>
             <Text style={[signStyle.submitButtonText]}>{this.state.preCheckResult === PreCheckResults.error
               ? i18n.t('SignInComponent_submitButtonTextWrong')
               : i18n.t('SignInComponent_submitButtonTextSuccess')}</Text>
-          </TouchableOpacity>}
+          </OneTabButtonComponent>}
 
 
 
           {this.state.keyboardHeight > 0 &&
             <Animated.View style={[signStyle.keyboardExternal, { opacity: this.state.keyboardExternalOpacity, }]}>
-              <TouchableOpacity style={signStyle.nextButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 1) % 24)}>
+              <OneTabButtonComponent style={signStyle.nextButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 1) % 24)}>
                 <Image style={signStyle.nextButtonImage} source={require('assets/imgs/arrow_down_enable.png')} />
-              </TouchableOpacity>
-              <TouchableOpacity style={signStyle.prevButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 23) % 24)}>
+              </OneTabButtonComponent>
+              <OneTabButtonComponent style={signStyle.prevButton} onPress={() => this.selectIndex.bind(this)((this.state.selectedIndex + 23) % 24)}>
                 <Image style={signStyle.prevButtonImage} source={require('assets/imgs/arrow_up_enable.png')} />
-              </TouchableOpacity>
+              </OneTabButtonComponent>
               {this.state.dataSource && <View style={[signStyle.selectionList]}>
                 <FlatList
                   keyExtractor={(item) => item}
@@ -375,15 +376,15 @@ export class SignInComponent extends React.Component {
                   extraData={this.state}
                   data={this.state.dataSource}
                   renderItem={({ item }) => {
-                    return (<TouchableOpacity style={signStyle.selectionItem} onPress={() => this.onSubmitWord(item)}>
+                    return (<OneTabButtonComponent style={signStyle.selectionItem} onPress={() => this.onSubmitWord(item)}>
                       <Text style={[signStyle.selectionItemText, { color: this.state.currentInputtedText === item ? 'blue' : 'gray' }]}>{item}</Text>
-                    </TouchableOpacity>)
+                    </OneTabButtonComponent>)
                   }}
                 />
               </View>}
-              <TouchableOpacity style={signStyle.doneButton} onPress={this.doCheck24Word.bind(this)} disabled={this.state.status !== statuses.done}>
+              <OneTabButtonComponent style={signStyle.doneButton} onPress={this.doCheck24Word.bind(this)} disabled={this.state.status !== statuses.done}>
                 <Text style={[signStyle.doneButtonText, { color: this.state.status === statuses.done ? '#0060F2' : 'gray' }]}>{global.i18n.t("SignInComponent_doneInput")}</Text>
-              </TouchableOpacity>
+              </OneTabButtonComponent>
             </Animated.View>}
         </KeyboardAvoidingView>
       </SafeAreaView>

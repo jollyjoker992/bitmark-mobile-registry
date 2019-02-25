@@ -1,7 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import {
-  View, TouchableOpacity, Image, Text,
+  View, Image, Text,
   StyleSheet,
   Alert,
 } from 'react-native';
@@ -12,6 +12,7 @@ import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth, FileUtil } from 'src/utils';
 import { AppProcessor, EventEmitterService } from 'src/processors';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 
 export class MusicFileChosenComponent extends React.Component {
@@ -54,11 +55,11 @@ export class MusicFileChosenComponent extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#0060F2' }}>
         <View style={cStyles.header}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+          <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_white_icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}></Text>
-          <TouchableOpacity style={defaultStyles.headerRight} />
+          <OneTabButtonComponent style={defaultStyles.headerRight} />
         </View>
         <View style={cStyles.content}>
           <View style={cStyles.mainContent}>
@@ -69,9 +70,9 @@ export class MusicFileChosenComponent extends React.Component {
           <View>
             <Text style={cStyles.message}>{global.i18n.t('MusicFileChosenComponent_message')}</Text>
           </View>
-          <TouchableOpacity style={cStyles.chooseMusicButton} onPress={this.onChooseMusicFile.bind(this)}>
+          <OneTabButtonComponent style={cStyles.chooseMusicButton} onPress={this.onChooseMusicFile.bind(this)}>
             <Text style={cStyles.chooseMusicButtonText}>{global.i18n.t('MusicFileChosenComponent_chooseMusicButtonText')}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </View>
       </View>
     );

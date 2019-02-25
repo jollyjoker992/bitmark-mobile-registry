@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Text, View, TouchableOpacity, Image, SafeAreaView
+  Text, View, Image, SafeAreaView
 } from 'react-native';
 import Hyperlink from 'react-native-hyperlink';
 import Camera from 'react-native-camera';
@@ -10,6 +10,7 @@ import componentStyle from './migrate.component.style';
 import { Actions } from 'react-native-router-flux';
 import { EventEmitterService, AppProcessor, CacheData } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 const STEPS = {
   scan: 0,
@@ -66,13 +67,13 @@ export class WebAccountMigrateComponent extends React.Component {
   render() {
     return (<SafeAreaView style={componentStyle.body}>
       <View style={componentStyle.header}>
-        <TouchableOpacity style={defaultStyles.headerLeft} onPress={this.goBack.bind(this)} >
+        <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={this.goBack.bind(this)} >
           <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-        </TouchableOpacity>
+        </OneTabButtonComponent>
         {this.state.step === STEPS.scan && <Text style={defaultStyles.headerTitle}>{global.i18n.t("WebAccountMigrateComponent_migrateWebAccount")}</Text>}
         {this.state.step === STEPS.confirm && <Text style={defaultStyles.headerTitle}>{global.i18n.t("WebAccountMigrateComponent_confirmMigration")}</Text>}
         {this.state.step === STEPS.done && <Text style={defaultStyles.headerTitle}>{global.i18n.t("WebAccountMigrateComponent_checkYourEmail")}</Text>}
-        <TouchableOpacity style={defaultStyles.headerRight} />
+        <OneTabButtonComponent style={defaultStyles.headerRight} />
       </View>
       {this.state.step === STEPS.scan && <View style={componentStyle.bodyContent}>
         <Hyperlink
@@ -90,9 +91,9 @@ export class WebAccountMigrateComponent extends React.Component {
           <Text style={componentStyle.confirmAccountNumber}>{this.state.userInformation.bitmarkAccountNumber}</Text>
           <Text style={componentStyle.confirmMessageText}>{global.i18n.t("WebAccountMigrateComponent_onYourMobileDevice")}</Text>
         </View>
-        <TouchableOpacity style={componentStyle.confirmButton} onPress={this.onConfirmMigration.bind(this)}>
+        <OneTabButtonComponent style={componentStyle.confirmButton} onPress={this.onConfirmMigration.bind(this)}>
           <Text style={componentStyle.confirmButtonText}>{global.i18n.t("WebAccountMigrateComponent_confirm")}</Text>
-        </TouchableOpacity>
+        </OneTabButtonComponent>
       </View>}
 
       {this.state.step === STEPS.done && <View style={componentStyle.bodyContent}>

@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import {
-  View, TouchableOpacity, Image, Text, SafeAreaView,
+  View, Image, Text, SafeAreaView,
 } from 'react-native';
 import { BottomTabBar } from 'react-navigation-tabs';
 
 import componentStyles from './bottom-tabs.component.style';
 import { Actions } from 'react-native-router-flux';
 import { BottomTabStore } from 'src/views/stores';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 const MainTabs = {
   properties: 'Properties',
@@ -29,7 +30,7 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           const active = index === this.props.navigation.state.index;
           const label = this.props.getLabelText({ route });
           if (label === 'properties') {
-            return (<TouchableOpacity key={index} style={componentStyles.bottomTabButton} onPress={() => {
+            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton} onPress={() => {
               this.props.onTabPress({ route });
               Actions.reset('properties');
             }}>
@@ -40,11 +41,11 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
               <Text style={[componentStyles.bottomTabButtonText, {
                 color: active ? '#0060F2' : '#A4B5CD'
               }]}>{global.i18n.t("BottomTabsComponent_properties")}</Text>
-            </TouchableOpacity>);
+            </OneTabButtonComponent>);
           }
 
           if (label === 'transactions') {
-            return (<TouchableOpacity key={index} style={componentStyles.bottomTabButton} onPress={() => {
+            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton} onPress={() => {
               this.props.onTabPress({ route });
               Actions.reset(label);
             }}>
@@ -57,11 +58,11 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
               <Text style={[componentStyles.bottomTabButtonText, {
                 color: active ? '#0060F2' : '#A4B5CD'
               }]}>{global.i18n.t("BottomTabsComponent_transactions")}</Text>
-            </TouchableOpacity>);
+            </OneTabButtonComponent>);
           }
 
           if (label === 'account') {
-            return (<TouchableOpacity key={index} style={componentStyles.bottomTabButton} onPress={() => {
+            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton} onPress={() => {
               this.props.onTabPress({ route });
               Actions.reset('accountDetail');
             }}>
@@ -71,7 +72,7 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
               <Text style={[componentStyles.bottomTabButtonText, {
                 color: active ? '#0060F2' : '#A4B5CD'
               }]}>{global.i18n.t("BottomTabsComponent_account")}</Text>
-            </TouchableOpacity>);
+            </OneTabButtonComponent>);
           }
         })}
       </View>
