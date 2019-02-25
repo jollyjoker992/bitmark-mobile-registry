@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.bitmark.apiservice.utils.callback.Callback1;
 import com.bitmark.registry.BuildConfig;
+import com.bitmark.registry.utils.Constant;
 import com.bitmark.registry.utils.error.NativeModuleException;
 import com.bitmark.sdk.authentication.KeyAuthenticationSpec;
 import com.bitmark.sdk.authentication.error.AuthenticationRequiredException;
@@ -19,7 +20,6 @@ import com.facebook.react.bridge.ReactMethod;
 import java.security.InvalidKeyException;
 
 import static com.bitmark.registry.utils.Constant.ACTIVE_ACCOUNT_NUMBER;
-import static com.bitmark.registry.utils.Constant.ENCRYPTION_KEY_ALIAS;
 import static com.bitmark.sdk.authentication.error.AuthenticationRequiredException.PASSWORD;
 
 public class AuthenticationModule extends ReactContextBaseJavaModule implements Authentication {
@@ -51,7 +51,7 @@ public class AuthenticationModule extends ReactContextBaseJavaModule implements 
             return;
         }
         KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS)
+                getReactApplicationContext()).setKeyAlias(getEncryptionKeyAlias())
                                              .setAuthenticationDescription(authDescription).build();
         Account.loadFromKeyStore(getCurrentActivity(), accountNumber, spec,
                 new Callback1<Account>() {
@@ -84,5 +84,11 @@ public class AuthenticationModule extends ReactContextBaseJavaModule implements 
     private String getAccountNumber() {
         return new SharedPreferenceApi(getReactApplicationContext(),
                 BuildConfig.APPLICATION_ID).get(ACTIVE_ACCOUNT_NUMBER, String.class);
+    }
+
+    private String getEncryptionKeyAlias() {
+        SharedPreferenceApi preferenceApi = new SharedPreferenceApi(getReactApplicationContext(),
+                BuildConfig.APPLICATION_ID);
+        return preferenceApi.get(Constant.ENCRYPTION_KEY_ALIAS, String.class);
     }
 }
