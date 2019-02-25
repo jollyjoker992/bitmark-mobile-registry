@@ -130,14 +130,12 @@ class PrivatePropertyDetailComponent extends React.Component {
   }
 
   deleteBitmark() {
-    ActionSheetIOS.showActionSheetWithOptions({
-      title: global.i18n.t("PropertyDetailComponent_titleDeleteModal"),
-      options: [global.i18n.t("PropertyDetailComponent_cancelButtonDeleteModal"), global.i18n.t("PropertyDetailComponent_deleteButtonDeleteModal")],
-      destructiveButtonIndex: 1,
-      cancelButtonIndex: 0,
-    },
-      (buttonIndex) => {
-        if (buttonIndex === 1) {
+    if (config.isAndroid) {
+      Alert.alert(global.i18n.t("PropertyDetailComponent_titleDeleteModal"), '', [{
+        text: global.i18n.t("PropertyDetailComponent_cancelButtonDeleteModal"),
+      }, {
+        text: global.i18n.t("PropertyDetailComponent_deleteButtonDeleteModal"),
+        onPress: () => {
           AppProcessor.doTransferBitmark(this.state.bitmark, config.zeroAddress, true).then((result) => {
             if (result) {
               Actions.jump('properties');
@@ -145,9 +143,29 @@ class PrivatePropertyDetailComponent extends React.Component {
           }).catch(error => {
             console.log('error:', error);
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-          })
+          });
         }
-      });
+      }], { cancelable: false });
+    } else {
+      ActionSheetIOS.showActionSheetWithOptions({
+        title: global.i18n.t("PropertyDetailComponent_titleDeleteModal"),
+        options: [global.i18n.t("PropertyDetailComponent_cancelButtonDeleteModal"), global.i18n.t("PropertyDetailComponent_deleteButtonDeleteModal")],
+        destructiveButtonIndex: 1,
+        cancelButtonIndex: 0,
+      },
+        (buttonIndex) => {
+          if (buttonIndex === 1) {
+            AppProcessor.doTransferBitmark(this.state.bitmark, config.zeroAddress, true).then((result) => {
+              if (result) {
+                Actions.jump('properties');
+              }
+            }).catch(error => {
+              console.log('error:', error);
+              EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+            });
+          }
+        });
+    }
   }
 
   onMessage(event) {
