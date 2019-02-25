@@ -1,11 +1,12 @@
 package com.bitmark.registry.modules.navigation;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.bitmark.registry.utils.MediaUtils;
+import com.bitmark.registry.utils.error.NativeModuleException;
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -55,7 +56,10 @@ public class NavigationModule extends ReactContextBaseJavaModule {
                     Uri uri = data.getData();
                     try {
                         String path = MediaUtils.getAbsolutePathFromUri(context, uri);
-                        promise.resolve(path);
+                        if (TextUtils.isEmpty(path)) promise.reject("UNSUPPORT_FILE",
+                                new NativeModuleException("Unsupport file type"));
+                        else
+                            promise.resolve(path);
                     } catch (Throwable e) {
                         promise.reject(e);
                     }
