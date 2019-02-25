@@ -82,7 +82,7 @@ export class MusicBasicInfoComponent extends React.Component {
         return;
       }
       if (response.fileSize > 100 * 1024 * 1024) {
-        Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
+        Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'), { cancelable: false });
         return;
       }
       let filePath = response.uri.replace('file://', '');
@@ -94,7 +94,7 @@ export class MusicBasicInfoComponent extends React.Component {
 
       AppProcessor.doCheckFileToIssue(filePath).then(asset => {
         if (asset && asset.name) {
-          Alert.alert(global.i18n.t('MusicBasicInfoComponent_registerFailedAlertTitle'), global.i18n.t('MusicBasicInfoComponent_registerFailedAlertMessage'));
+          Alert.alert(global.i18n.t('MusicBasicInfoComponent_registerFailedAlertTitle'), global.i18n.t('MusicBasicInfoComponent_registerFailedAlertMessage'), { cancelable: false });
         } else {
           if (this.state.filePath !== filePath) {
             FileUtil.removeSafe(this.state.filePath);
@@ -102,7 +102,7 @@ export class MusicBasicInfoComponent extends React.Component {
           this.setState({ filePath });
         }
       }).catch(error => {
-        Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
+        Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'), { cancelable: false });
         console.log({ error });
       });
     });
@@ -126,7 +126,7 @@ export class MusicBasicInfoComponent extends React.Component {
                 return;
               }
               if (response.fileSize > 100 * 1024 * 1024) {
-                Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
+                Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'), { cancelable: false });
                 return;
               }
               let thumbnailPath = response.uri.replace('file://', '');
@@ -147,7 +147,7 @@ export class MusicBasicInfoComponent extends React.Component {
                 return;
               }
               if (response.fileSize > 100 * 1024 * 1024) {
-                Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
+                Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'), { cancelable: false });
                 return;
               }
               let thumbnailPath = response.uri.replace('file://', '');
@@ -170,7 +170,7 @@ export class MusicBasicInfoComponent extends React.Component {
                 return;
               }
               if (response.fileSize > 100 * 1024 * 1024) {
-                Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'));
+                Alert.alert(global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertTitle'), global.i18n.t('MusicBasicInfoComponent_failedChangeFileAlertMessage'), { cancelable: false });
                 return;
               }
               let thumbnailPath = response.uri.replace('file://', '');
@@ -273,7 +273,7 @@ export class MusicBasicInfoComponent extends React.Component {
       text: global.i18n.t('MusicBasicInfoComponent_cancelYes'), onPress: () => Actions.jump('properties'),
     }, {
       text: global.i18n.t('MusicBasicInfoComponent_cancelNo'), style: 'cancel',
-    }]);
+    }], { cancelable: false });
   }
 
   render() {

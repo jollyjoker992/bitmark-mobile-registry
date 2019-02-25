@@ -30,7 +30,7 @@ export class ApplicationDetailComponent extends React.Component {
         text: global.i18n.t("ApplicationDetailComponent_cancel"), style: 'cancel',
       }, {
         text: global.i18n.t("ApplicationDetailComponent_send"), onPress: sendFeedback,
-      }]);
+      }], { cancelable: false });
     };
 
     const rateApp = () => {
@@ -40,7 +40,7 @@ export class ApplicationDetailComponent extends React.Component {
         onPress: () => { Linking.openURL(config.appLink) }
       }, {
         text: global.i18n.t("ApplicationDetailComponent_4StarsOrLess"), onPress: requestSendFeedback,
-      }]);
+      }], { cancelable: false });
     }
 
     const sendFeedback = () => {
@@ -50,7 +50,7 @@ export class ApplicationDetailComponent extends React.Component {
         body: global.i18n.t("ApplicationDetailComponent_appVersion") + ' ' + config.version + ' (' + config.buildNumber + ')',
       }, (error) => {
         if (error) {
-          Alert.alert(global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorTitle"), global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorMessage"));
+          Alert.alert(global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorTitle"), global.i18n.t("ApplicationDetailComponent_sendFeedbackErrorMessage"), { cancelable: false });
         }
       });
     };

@@ -61,7 +61,7 @@ export class BitmarkAppComponent extends Component {
         Alert.alert(global.i18n.t("MainComponent_newVersionAvailableTitle"), global.i18n.t("MainComponent_newVersionAvailableMessage"), [{
           text: global.i18n.t("MainComponent_visitAppstore"),
           onPress: () => Linking.openURL(config.appLink)
-        }]);
+        }], { cancelable: false });
         return;
       }
       this.doAppRefresh(justCreatedBitmarkAccount);
@@ -99,7 +99,7 @@ export class BitmarkAppComponent extends Component {
                       Linking.openURL('app-settings:');
                       this.requiringTouchId = false;
                     }
-                  }]);
+                  }], { cancelable: false });
                 }
               }
             });

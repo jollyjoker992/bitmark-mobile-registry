@@ -26,7 +26,7 @@ export class BitmarkInternetOffComponent extends React.Component {
                   this.props.tryConnectInternet();
                 }
               }
-            }]);
+            }], { cancelable: false });
           }}>
           <View style={[internetOffStyles.title]}>
             <Text style={[internetOffStyles.titleText,]}>{global.i18n.t("BitmarkInternetOffComponent_noInternetConnection")}</Text>

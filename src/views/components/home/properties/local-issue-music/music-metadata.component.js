@@ -140,7 +140,7 @@ export class MusicMetadataComponent extends React.Component {
         metadata.splice(index, 1);
         this.checkMetadata(metadata);
       }
-    }]);
+    }], { cancelable: false });
   }
 
   onSubmit() {
@@ -171,7 +171,7 @@ export class MusicMetadataComponent extends React.Component {
       text: global.i18n.t('MusicMetadataComponent_cancelYes'), onPress: () => Actions.jump('properties'),
     }, {
       text: global.i18n.t('MusicMetadataComponent_cancelNo'), style: 'cancel',
-    }]);
+    }], { cancelable: false });
   }
 
   render() {

@@ -65,7 +65,7 @@ export class ScanQRCodeComponent extends React.Component {
           Alert.alert(global.i18n.t("ScanQRCodeComponent_successTitle"), global.i18n.t("ScanQRCodeComponent_successMessage"), [{
             text: global.i18n.t("ScanQRCodeComponent_ok"),
             onPress: this.backToPropertiesScreen
-          }]);
+          }], { cancelable: false });
         }
       }).catch(error => {
         console.log('doDecentralizedIssuance error:', error);
@@ -103,7 +103,7 @@ export class ScanQRCodeComponent extends React.Component {
           Alert.alert(global.i18n.t("ScanQRCodeComponent_successTitle"), global.i18n.t("ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred"), [{
             text: global.i18n.t("ScanQRCodeComponent_ok"),
             onPress: this.backToPropertiesScreen
-          }]);
+          }], { cancelable: false });
         }
       }).catch(error => {
         console.log('doDecentralizedTransfer error:', error);

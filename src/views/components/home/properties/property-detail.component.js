@@ -340,7 +340,7 @@ class PrivatePropertyDetailComponent extends React.Component {
                         Alert.alert(global.i18n.t("PropertyDetailComponent_transferRequiredTitle"), global.i18n.t("PropertyDetailComponent_transferRequiredMessage"), [{
                           text: global.i18n.t("PropertyDetailComponent_downloadAsset"),
                           onPress: this.downloadAsset.bind(this),
-                        }]);
+                        }], { cancelable: false });
                       }
                     }}>
                     <Text style={[cStyles.topButtonText, {

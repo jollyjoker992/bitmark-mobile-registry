@@ -60,7 +60,7 @@ class PrivateAccountDetailComponent extends React.Component {
           console.log('doRevokeIftttToken error :', error);
         });
       }
-    }]);
+    }], { cancelable: false });
   }
 
   render() {

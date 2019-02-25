@@ -64,7 +64,7 @@ export class TransferOfferComponent extends React.Component {
           console.log('TransferOfferComponent doRejectTransferBitmark error:', error);
         });
       },
-    }]);
+    }], { cancelable: false });
   }
   doAccept() {
     AppProcessor.doAcceptTransferBitmark(this.state.transferOffer, { indicator: true, }).then(data => {
@@ -72,10 +72,10 @@ export class TransferOfferComponent extends React.Component {
         Alert.alert(global.i18n.t("TransferOfferComponent_signatureSubmittedTitle"), global.i18n.t("TransferOfferComponent_signatureSubmittedMessage"), [{
           text: global.i18n.t("TransferOfferComponent_ok"),
           onPress: () => Actions.jump('properties')
-        }]);
+        }], { cancelable: false });
       }
     }).catch(error => {
-      Alert.alert(global.i18n.t("TransferOfferComponent_requestFailedTitle"), global.i18n.t("TransferOfferComponent_signatureSubmittedMessage"));
+      Alert.alert(global.i18n.t("TransferOfferComponent_requestFailedTitle"), global.i18n.t("TransferOfferComponent_signatureSubmittedMessage"), { cancelable: false });
       console.log('TransferOfferComponent doRejectTransferBitmark error:', error);
     });
   }

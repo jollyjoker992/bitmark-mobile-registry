@@ -70,7 +70,7 @@ export class FaceTouchIdComponent extends React.Component {
       onPress: () => {
         this.doContinue(false);
       }
-    }]);
+    }], { cancelable: false });
   }
 
   render() {
