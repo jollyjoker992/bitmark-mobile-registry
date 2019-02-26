@@ -286,7 +286,6 @@ export class SignInComponent extends React.Component {
                     return (<View style={signStyle.recoveryPhraseSet}>
                       <Text style={signStyle.recoveryPhraseIndex}>{item.key + 1}.</Text>
                       <TextInput
-                        autoComplete='off'
                         style={[config.isAndroid ? { padding: 2 } : {}, signStyle.recoveryPhraseWord, {
                           backgroundColor: (item.word ? 'white' : '#F5F5F5'),
                           borderColor: '#0060F2',
@@ -314,7 +313,6 @@ export class SignInComponent extends React.Component {
                     return (<View style={signStyle.recoveryPhraseSet}>
                       <Text style={signStyle.recoveryPhraseIndex}>{item.key + 1}.</Text>
                       <TextInput
-                        autoComplete='off'
                         style={[config.isAndroid ? { padding: 2 } : {}, signStyle.recoveryPhraseWord, {
                           backgroundColor: (item.word ? 'white' : '#F5F5F5'),
                           borderColor: '#0060F2',
