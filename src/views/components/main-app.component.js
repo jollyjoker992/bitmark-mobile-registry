@@ -90,7 +90,7 @@ export class BitmarkAppComponent extends Component {
               if (ok) {
                 AppProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount);
               } else {
-                if (!this.requiringTouchId) {
+                if (config.isIPhone && !this.requiringTouchId) {
                   this.requiringTouchId = true;
                   Alert.alert(global.i18n.t("MainComponent_pleaseEnableYourTouchIdMessage"), '', [{
                     text: global.i18n.t("MainComponent_enable"),
