@@ -242,8 +242,8 @@ class PrivatePropertyDetailComponent extends React.Component {
       let editionNumber = this.state.bitmark ? this.state.bitmark.editionNumber : 0;
       let issuer = this.state.bitmark ? this.state.bitmark.issuer : this.props.claimToAccount;
 
-      let totalEditionLeft = issuer ? this.props.asset.editions[issuer].totalEditionLeft : null;
-      let limited = issuer ? this.props.asset.editions[issuer].limited : null;
+      let totalEditionLeft = (issuer && this.props.asset.editions && this.props.asset.editions[issuer]) ? this.props.asset.editions[issuer].totalEditionLeft : null;
+      let limited = (issuer && this.props.asset.editions && this.props.asset.editions[issuer]) ? this.props.asset.editions[issuer].limited : null;
       let webUrl = `${config.mobile_server_url}/api/claim_requests_view/${this.props.asset.id}?edition_number=${editionNumber || '?'}`;
       webUrl += (totalEditionLeft !== null) ? `&remaining=${totalEditionLeft}` : '';
       webUrl += limited ? `&total=${limited}` : '';
