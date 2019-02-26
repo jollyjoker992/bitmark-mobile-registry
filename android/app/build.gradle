@@ -190,8 +190,11 @@ android {
         inhouse {
             dimension "version"
             applicationIdSuffix ".inhouse"
-            resValue "string", "app_name", "Registry\\nINHOUSE"
+            resValue "string", "app_name", "Registry"
             resValue "string", "registry_scheme", "registryinhouse"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher_dev"
+            ]
             ext.betaDistributionReleaseNotesFilePath="${project.rootDir}/distribution/release_note.txt"
             ext.betaDistributionEmailsFilePath="${project.rootDir}/distribution/testers.txt"
         }
@@ -200,6 +203,9 @@ android {
             dimension "version"
             resValue "string", "app_name", "Registry"
             resValue "string", "registry_scheme", "registry"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher"
+            ]
             ext.betaDistributionReleaseNotesFilePath="${project.rootDir}/distribution/release_note.txt"
             ext.betaDistributionEmailsFilePath="${project.rootDir}/distribution/testers.txt"
         }
