@@ -31,9 +31,7 @@ export default StyleSheet.create({
     height: '100%',
   },
   headerTitle: {
-    textAlign: 'center',
-    fontSize: 18,
-    fontFamily: 'avenir_next_w1g_bold',
+    textAlign: 'center', fontSize: 18, fontFamily: 'avenir_next_w1g_bold', color: 'black',
     flex: 1,
   },
   headerRight: {

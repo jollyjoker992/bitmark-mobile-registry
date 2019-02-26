@@ -34,8 +34,7 @@ export default StyleSheet.create({
   },
 
   scanMessage: {
-    fontFamily: 'avenir_next_w1g_light',
-    fontSize: 17,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, color: 'black',
     width: convertWidth(337),
     marginTop: 40,
   },

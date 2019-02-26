@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     flex: 1,
-    textAlign: 'center', fontFamily: 'avenir_next_w1g_regular', fontStyle: 'italic', fontSize: 18,
+    textAlign: 'center', fontFamily: 'avenir_next_w1g_regular', fontStyle: 'italic', fontSize: 18, color: 'black',
   },
   newContent: {
     flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   newDescription: {
     width: convertWidth(305),
-    fontFamily: 'avenir_next_w1g_light', fontSize: 16, textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 16, textAlign: 'center', color: 'black',
   },
   swipePagination: {
     position: 'absolute', bottom: config.isIPhoneX ? 3 : 18,
@@ -157,8 +157,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
   },
   versionInformationText: {
-    fontFamily: 'avenir_next_w1g_bold', fontSize: 17,
-
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17, color: 'black',
   },
   versionInformationReleaseDiff: {
     fontFamily: 'avenir_next_w1g_regular', fontSize: 14, color: '#999999',
@@ -166,6 +165,6 @@ const styles = StyleSheet.create({
   releaseNoteText: {
     width: '100%',
     paddingLeft: convertWidth(20), paddingRight: convertWidth(20),
-    fontFamily: 'avenir_next_w1g_regular', fontSize: 16
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 16, color: 'black',
   },
 });

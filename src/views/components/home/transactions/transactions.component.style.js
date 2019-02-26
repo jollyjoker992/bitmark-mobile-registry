@@ -55,9 +55,7 @@ export default StyleSheet.create({
     height: 35,
   },
   subTabButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 14,
-    textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, textAlign: 'center', color: 'black',
   },
   activeSubTabBar: {
     height: 4,
@@ -76,19 +74,14 @@ export default StyleSheet.create({
     marginTop: 46,
     marginLeft: convertWidth(19),
     width: convertWidth(337),
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 17,
-    lineHeight: 19,
-    color: '#0060F2'
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17, lineHeight: 19, color: '#0060F2'
   },
 
   messageNoRequiredTransferOffer: {
     marginTop: 46,
     marginLeft: convertWidth(19),
     width: convertWidth(337),
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 17,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17, lineHeight: 19, color: 'black',
   },
 
   transferOfferRow: {
@@ -108,14 +101,11 @@ export default StyleSheet.create({
     width: '100%',
   },
   transferOfferTitleType: {
-    fontFamily: 'andale_mono',
-    fontSize: 13,
-    color: '#0060F2',
+    fontFamily: 'andale_mono', fontSize: 13, color: '#0060F2',
     width: convertWidth(220),
   },
   transferOfferTitleTime: {
-    fontFamily: 'andale_mono',
-    fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: 'black',
     width: convertWidth(90),
     marginLeft: convertWidth(12),
   },
@@ -131,8 +121,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
   },
   recoveryPhaseActionRequiredTitle: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 14,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: 'black',
   },
   recoveryPhaseActionRequiredDescriptionArea: {
     flexDirection: 'row',
@@ -141,8 +130,7 @@ export default StyleSheet.create({
   },
   recoveryPhaseActionRequiredDescription: {
     marginTop: 3,
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 14,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14, color: 'black',
   },
   recoveryPhaseActionRequiredImportantIcon: {
     width: 18,
@@ -154,13 +142,11 @@ export default StyleSheet.create({
     marginTop: 12,
   },
   iftttTitle: {
-    fontFamily: 'avenir_next_w1g_heavy',
-    fontSize: 15,
+    fontFamily: 'avenir_next_w1g_heavy', fontSize: 15, color: 'black',
   },
   iftttDescription: {
     marginTop: 3,
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 14,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14, color: 'black',
 
   },
 
@@ -182,17 +168,13 @@ export default StyleSheet.create({
     width: 16, height: 16, resizeMode: 'contain',
   },
   completedTransferHeaderTitle: {
-    fontFamily: 'andale_mono',
-    fontSize: 13,
-    color: '#0060F2',
+    fontFamily: 'andale_mono', fontSize: 13, color: '#0060F2',
     width: convertWidth(102),
   },
   completedTransferHeaderValue: {
     width: convertWidth(220),
     marginLeft: convertWidth(15),
-    fontFamily: 'andale_mono',
-    fontSize: 13,
-    color: '#0060F2',
+    fontFamily: 'andale_mono', fontSize: 13, color: '#0060F2',
   },
   completedTransferContent: {
     marginTop: 9,
@@ -205,21 +187,18 @@ export default StyleSheet.create({
     height: 20,
   },
   completedTransferContentRowLabel: {
-    fontFamily: 'andale_mono',
-    fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: 'black',
     width: convertWidth(102),
   },
   completedTransferContentRowPropertyName: {
     width: convertWidth(220),
     marginLeft: convertWidth(15),
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 14,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: 'black',
   },
   completedTransferContentRowValue: {
     width: convertWidth(220),
     marginLeft: convertWidth(15),
-    fontFamily: 'andale_mono',
-    fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: 'black',
   },
 
   acceptAllTransfersButton: {
@@ -230,9 +209,7 @@ export default StyleSheet.create({
     marginBottom: 1,
   },
   acceptAllTransfersButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 14,
-    color: '#0060F2'
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: '#0060F2'
   },
   signAllClaimRequestsButton: {
     width: '100%', height: 45,

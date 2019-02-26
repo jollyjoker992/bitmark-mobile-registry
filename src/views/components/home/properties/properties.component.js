@@ -367,9 +367,7 @@ const cStyles = StyleSheet.create({
     height: 35,
   },
   subTabButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 14,
-    textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, textAlign: 'center', color: 'black',
   },
   activeSubTabBar: {
     height: 4,
@@ -394,16 +392,13 @@ const cStyles = StyleSheet.create({
     marginTop: 46,
     width: '100%',
     paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 17,
-    color: '#0060F2'
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17, color: '#0060F2'
   },
   messageNoContent: {
     marginTop: 46,
     width: '100%',
     paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 17,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17, color: 'black',
   },
   noReleaseIcon: {
     resizeMode: 'stretch', height: '100%',
@@ -440,25 +435,21 @@ const cStyles = StyleSheet.create({
     flexDirection: 'column',
   },
   bitmarkCreatedAt: {
-    fontFamily: 'andale_mono',
-    fontSize: 13,
-    width: '100%',
+    fontFamily: 'andale_mono', fontSize: 13, width: '100%', color: 'black',
   },
   bitmarkAssetName: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 14,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: 'black',
     width: '100%',
     marginTop: 10,
   },
   bitmarkissuer: {
-    fontFamily: 'andale_mono',
-    fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14, color: 'black',
     marginTop: 10,
     width: '100%',
   },
   releasedAssetName: {
     width: '100%',
-    fontFamily: 'avenir_next_w1g_demi', fontSize: 13,
+    fontFamily: 'avenir_next_w1g_demi', fontSize: 13, color: 'black',
   },
   releasedAssetEditionLeft: {
     marginTop: 3,

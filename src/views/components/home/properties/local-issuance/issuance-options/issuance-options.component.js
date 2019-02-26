@@ -125,15 +125,13 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
           {CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] && CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account &&
             <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={Actions.musicFileChosen}>
               <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/music_icon.png')} />
-              <Text
-                style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_musics")}</Text>
+              <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_musics")}</Text>
               <Image style={issuanceOptionsStyle.optionButtonNextIcon}
                 source={require('assets/imgs/next-icon-blue.png')} />
             </OneTabButtonComponent>}
           <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile.bind(this)}>
             <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/photo_icon.png')} />
-            <Text
-              style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>
+            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>
             <Image style={issuanceOptionsStyle.optionButtonNextIcon}
               source={require('assets/imgs/next-icon-blue.png')} />
           </OneTabButtonComponent>
@@ -146,8 +144,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
           {config.isIPhone &&
             <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData.bind(this)}>
               <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/ifttt-icon.png')} />
-              <Text
-                style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
+              <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
               {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) &&
                 <Image style={issuanceOptionsStyle.optionButtonNextIcon}
                   source={require('assets/imgs/next-icon-blue.png')} />}

@@ -115,14 +115,12 @@ let cStyle = StyleSheet.create({
     flexDirection: 'column',
   },
   indicatorTitle: {
-    fontSize: 16, fontWeight: '600', textAlign: 'center',
+    fontSize: 16, fontWeight: '600', textAlign: 'center', color: 'black',
     width: '100%',
     paddingLeft: convertWidth(20), paddingRight: convertWidth(20),
   },
   indicatorMessage: {
-    fontSize: 16,
-    fontWeight: '400',
-    textAlign: 'center',
+    fontSize: 16, fontWeight: '400', textAlign: 'center', color: 'black',
     paddingLeft: convertWidth(20), paddingRight: convertWidth(20),
     marginTop: 16,
   },

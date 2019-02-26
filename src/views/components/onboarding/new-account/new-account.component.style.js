@@ -48,7 +48,7 @@ export default StyleSheet.create({
   },
   introductionDescription: {
     width: convertWidth(275),
-    fontFamily: 'avenir_next_w1g_regular', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17, color: 'black',
     minHeight: 117,
   },
   introductionLinkButton: {
@@ -72,7 +72,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   bitmarkTermsPrivacyText: {
-    fontFamily: 'avenir_next_w1g_light', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 14, color: 'black',
   },
   bitmarkTermsPrivacyButtonText: {
     fontFamily: 'avenir_next_w1g_light', color: '#0060F2', fontSize: 14,

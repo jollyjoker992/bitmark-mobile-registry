@@ -13,8 +13,7 @@ export default StyleSheet.create({
   },
   // notification
   notificationTitle: {
-    fontFamily: 'avenir_next_w1g_bold',
-    color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', color: '#0060F2',
     fontSize: 20,
     marginTop: 25,
   },
@@ -29,8 +28,7 @@ export default StyleSheet.create({
   notificationDescription: {
     marginTop: 37,
     width: convertWidth(275),
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 17,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17, color: 'black',
   },
 
   enableButtonArea: {
@@ -47,9 +45,6 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2',
   },
   enableButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    textAlign: 'center',
-    fontSize: 16,
-    color: 'white',
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 16, color: 'white',
   },
 });

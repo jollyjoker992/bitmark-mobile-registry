@@ -303,7 +303,7 @@ const cStyles = StyleSheet.create({
   },
   fieldLabelButtonText: {
     flex: 1,
-    fontFamily: 'avenir_next_w1g_light', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 16, color: 'black',
   },
   fieldLabelButtonIcon: {
     width: 10, height: 10, resizeMode: 'contain',
@@ -311,7 +311,7 @@ const cStyles = StyleSheet.create({
   fieldValue: {
     width: '100%',
     marginTop: 9,
-    fontFamily: 'avenir_next_w1g_light', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 16, color: 'black',
   },
 
   metadataButtonArea: {
@@ -328,12 +328,12 @@ const cStyles = StyleSheet.create({
   metadataAddButtonText: {
     minWidth: convertWidth(117),
     marginLeft: 10,
-    fontFamily: 'andale_mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: 'black',
   },
   metadataEditButton: {
   },
   metadataEditButtonText: {
-    fontFamily: 'andale_mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14, color: 'black',
   },
   metadataInputError: {
     color: 'red',
@@ -345,7 +345,7 @@ const cStyles = StyleSheet.create({
     backgroundColor: '#EDF0F4',
   },
   ownershipTitle: {
-    fontFamily: 'avenir_next_w1g_bold', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, color: 'black',
   },
   ownershipDescription: {
     fontFamily: 'avenir_next_w1g_light', fontSize: 17, marginTop: 5,

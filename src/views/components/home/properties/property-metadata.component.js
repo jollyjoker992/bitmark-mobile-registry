@@ -102,7 +102,7 @@ const cStyles = StyleSheet.create({
   },
   label: {
     flex: 1,
-    fontFamily: 'avenir_next_w1g_bold', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: 'black',
   },
   closeIcon: {
     width: 16, height: 16, resizeMode: 'contain',
@@ -117,7 +117,7 @@ const cStyles = StyleSheet.create({
   },
   metadataLabel: {
     width: convertWidth(102),
-    fontFamily: 'andale_mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14, color: 'black',
   },
   metadataValue: {
     flex: 1,
