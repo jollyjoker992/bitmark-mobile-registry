@@ -251,7 +251,8 @@ let configureNotifications = (onRegister, onNotification) => {
   PushNotification.configure({
     onRegister: onRegister,
     onNotification: onNotification,
-    requestPermissions: false,
+    senderID: 75694256790,
+    requestPermissions: !!config.isAndroid,
   });
 };
 
