@@ -19,7 +19,6 @@ import { AccountStore } from 'src/views/stores';
 import { config } from 'src/configs';
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
-
 export class PrivateIssuanceOptionsComponent extends React.Component {
   // ==========================================================================================
   onChoosePhotoFile() {

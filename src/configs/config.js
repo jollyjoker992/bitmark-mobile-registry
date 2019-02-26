@@ -27,7 +27,6 @@ let commonConfig = {
 
   zeroAddress: 'dw9MQXcC5rJZb3QE1nz86PiQAheMP1dx9M3dr52tT8NNs14m33',
   bitmark_network: NETWORKS.testnet,
-  appLink: 'https://itunes.apple.com/us/app/bitmark-registry/id1429427796?ls=1&mt=8',
   api_server_url: 'https://api.test.bitmark.com',
   key_account_server_url: 'https://key.test.bitmarkaccountassets.com',
   registry_server_url: 'https://registry.test.bitmark.com',
