@@ -239,11 +239,11 @@ const cStyles = StyleSheet.create({
     backgroundColor: '#EBFAFF',
   },
   resultContentTextEmbed: {
-    fontFamily: 'avenir_next_w1g_regular', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14, color: 'black',
     width: '100%',
   },
   resultContentTextLink: {
-    fontFamily: 'avenir_next_w1g_light', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, color: 'black',
     width: '100%',
   },
   musicSuccessButton: {

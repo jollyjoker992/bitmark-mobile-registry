@@ -23,9 +23,7 @@ export default StyleSheet.create({
     paddingTop: (config.isIPhoneX ? 44 : 0),
   },
   titleText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 18,
-    color: 'white',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 18, color: 'white',
     textAlign: 'center',
   },
 });

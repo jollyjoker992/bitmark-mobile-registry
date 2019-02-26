@@ -21,27 +21,23 @@ export default StyleSheet.create({
     paddingRight: convertWidth(19),
   },
   assetName: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 19, color: 'black',
     marginTop: 38,
   },
   transferOfferContent: {
+    color: 'black',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 32,
   },
   transferOfferSenderFix: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 12,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 12, color: 'black',
   },
   transferOfferSenderName: {
-    fontFamily: 'avenir_next_w1g_light',
-    fontSize: 13,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 13, color: 'black',
   },
   transferOfferAssetName: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 13,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 13, color: 'black',
     width: convertWidth(150),
   },
   externalArea: {
@@ -53,16 +49,12 @@ export default StyleSheet.create({
   },
 
   externalAreaRowLabel: {
-    fontFamily: 'andale_mono',
-    fontSize: 13,
-    color: '#0060F2',
+    fontFamily: 'andale_mono', fontSize: 13, color: '#0060F2',
     width: convertWidth(117),
   },
   externalAreaRowValue: {
-    fontFamily: 'andale_mono',
-    fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: '#0060F2',
     width: convertWidth(198),
-    color: '#0060F2',
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -72,22 +64,17 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   externalAreaRowValueIssuer_: {
-    fontFamily: 'andale_mono',
-    color: '#0060F2',
-    fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: '#0060F2',
   },
   externalAreaRowValueIssuer: {
-    fontFamily: 'andale_mono',
-    fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: '#0060F2',
     width: convertWidth(190),
-    color: '#0060F2',
   },
   metadataArea: {
     marginTop: 20,
   },
   metadataRowValue: {
-    fontFamily: 'avenir_next_w1g_light',
-    fontSize: 13,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 13, color: 'black',
     width: convertWidth(198),
     marginBottom: 5,
   },
@@ -107,9 +94,7 @@ export default StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   rejectButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 16,
-    color: '#A4B5CD',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, color: '#A4B5CD',
   },
   acceptButton: {
     borderTopWidth: 3,
@@ -121,8 +106,6 @@ export default StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   acceptButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 16,
-    color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, color: '#0060F2',
   }
 });

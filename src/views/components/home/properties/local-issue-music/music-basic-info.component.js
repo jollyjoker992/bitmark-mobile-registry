@@ -395,7 +395,7 @@ const cStyles = StyleSheet.create({
   },
   fileName: {
     flex: 1,
-    fontFamily: 'avenir_next_w1g_regular', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 16, color: 'black',
   },
   fileRemoveButton: {
     paddingLeft: 8,
@@ -415,13 +415,13 @@ const cStyles = StyleSheet.create({
   },
   fieldLabel: {
     width: '100%',
-    fontFamily: 'avenir_next_w1g_bold', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, color: 'black',
   },
   fieldInput: {
     width: '100%',
     marginTop: 9, marginBottom: 4,
     paddingLeft: 7, paddingBottom: 5,
-    fontFamily: 'avenir_next_w1g_light', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 16, color: 'black',
   },
   fieldInputError: {
     minHeight: 20, width: '100%',

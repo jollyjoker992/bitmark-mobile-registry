@@ -16,8 +16,7 @@ export default StyleSheet.create({
   },
   //sign-in
   writeRecoveryPhraseContentMessage: {
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 17,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17, color: 'black',
     width: convertWidth(336),
     marginTop: 18,
     marginLeft: convertWidth(19),
@@ -35,9 +34,7 @@ export default StyleSheet.create({
     paddingBottom: 19,
   },
   writeRecoveryPhraseContentTestButtonText: {
-    fontFamily: 'avenir_next_w1g_light',
-    fontSize: 14,
-    color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 14, color: '#0060F2',
     marginTop: 66,
   },
   recoveryPhraseSet: {
@@ -46,9 +43,7 @@ export default StyleSheet.create({
     marginBottom: 4,
   },
   recoveryPhraseIndex: {
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 15,
-    color: '#D4D4D4',
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 15, color: '#D4D4D4',
     width: convertWidth(23),
     textAlign: 'right',
   },
@@ -64,22 +59,16 @@ export default StyleSheet.create({
     minHeight: 80,
   },
   recoveryPhraseTestTitle: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 15,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 15, color: 'black',
     marginTop: 10,
   },
   recoveryPhraseTestMessage: {
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 15,
-    textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 15, textAlign: 'center', color: 'black',
     width: convertWidth(335),
     marginTop: 5,
   },
   recoveringMessage: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 18,
-    textAlign: 'center',
-    color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 18, textAlign: 'center', color: '#0060F2',
     width: convertWidth(307),
     minHeight: 42,
     marginTop: 158,
@@ -98,10 +87,7 @@ export default StyleSheet.create({
   },
   switchFormMessage: {
     width: convertWidth(240),
-    fontFamily: 'avenir_next_w1g_medium',
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#0054FC',
+    fontFamily: 'avenir_next_w1g_medium', textAlign: 'center', fontSize: 14, color: '#0054FC',
     marginBottom: 24,
   },
 
@@ -115,10 +101,7 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2',
   },
   submitButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    textAlign: 'center',
-    fontSize: 16,
-    color: 'white'
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
 
   keyboardExternal: {

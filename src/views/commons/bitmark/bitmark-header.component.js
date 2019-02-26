@@ -40,7 +40,7 @@ export class BitmarkHeaderComponent extends Component {
 
           {!this.props.headerLeft && this.props.leftText && !!this.props.leftOnPress &&
             <OneTabButtonComponent onPress={this.props.leftOnPress}>
-              <Text>{this.props.leftText}</Text>
+              <Text style={{ color: 'black' }}>{this.props.leftText}</Text>
             </OneTabButtonComponent>
           }
         </View>}
@@ -61,7 +61,7 @@ export class BitmarkHeaderComponent extends Component {
 
           {!this.props.headerRight && this.props.rightText && !!this.props.rightOnPress &&
             <OneTabButtonComponent onPress={this.props.rightOnPress}>
-              <Text>{this.props.rightText}</Text>
+              <Text style={{ color: 'black' }}>{this.props.rightText}</Text>
             </OneTabButtonComponent>
           }
         </View>}

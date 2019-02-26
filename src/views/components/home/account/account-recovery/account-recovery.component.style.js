@@ -33,9 +33,7 @@ export default StyleSheet.create({
     marginLeft: convertWidth(85),
   },
   recoveryDescription: {
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 15,
-    lineHeight: 18,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 15, lineHeight: 18, color: 'black',
     marginTop: 23,
     width: convertWidth(337),
   },
@@ -49,15 +47,11 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   recoveryPhraseBottomButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 16,
-    color: 'white',
-    textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, textAlign: 'center', color: 'white',
   },
 
   writeRecoveryPhraseContentMessage: {
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 17,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17, color: 'black',
     width: convertWidth(309),
     marginTop: 20,
   },
@@ -132,13 +126,10 @@ export default StyleSheet.create({
     paddingBottom: 27,
   },
   recoveryPhraseTestTitle: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 15,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 15, color: 'black',
   },
   recoveryPhraseTestMessage: {
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 15,
-    textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 15, textAlign: 'center', color: 'black',
     width: convertWidth(309),
     marginTop: 11,
   },

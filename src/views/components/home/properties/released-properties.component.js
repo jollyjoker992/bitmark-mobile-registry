@@ -135,11 +135,11 @@ const cStyles = StyleSheet.create({
     paddingLeft: convertWidth(19), paddingRight: convertWidth(10),
   },
   assetContentName: {
-    fontFamily: 'avenir_next_w1g_bold', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17, color: 'black',
     marginBottom: 14,
   },
   register: {
-    fontFamily: 'andale_mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14, color: 'black',
   },
   viewAssetInfoButtonText: {
     fontFamily: 'avenir_next_w1g_regular', fontSize: 12, color: '#0060F2'
@@ -164,6 +164,7 @@ const cStyles = StyleSheet.create({
     resizeMode: 'contain', height: 14, width: 17,
   },
   totalClaimedBitmarks: {
+    color: 'black',
     width: '100%',
     marginTop: 29,
     paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
@@ -181,15 +182,15 @@ const cStyles = StyleSheet.create({
   },
   timestamp: {
     width: 86,
-    fontFamily: 'andale_mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: 'black',
   },
   bitmarkId: {
     width: 80,
-    fontFamily: 'andale_mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: 'black',
     marginLeft: convertWidth(20),
   },
   owner: {
-    fontFamily: 'andale_mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: 'black',
     marginLeft: convertWidth(20),
     flex: 1, width: '100%',
   },

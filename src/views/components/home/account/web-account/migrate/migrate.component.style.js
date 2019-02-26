@@ -35,8 +35,7 @@ export default StyleSheet.create({
 
 
   scanMessage: {
-    fontFamily: 'avenir_next_w1g_light',
-    fontSize: 17,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, color: 'black',
     width: convertWidth(337),
     marginTop: 40,
   },
@@ -52,14 +51,12 @@ export default StyleSheet.create({
     marginTop: 60,
   },
   confirmMessageText: {
-    fontFamily: 'avenir_next_w1g_light',
-    fontSize: 17,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, color: 'black',
     width: convertWidth(337),
     marginTop: 20,
   },
   confirmAccountNumber: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 17,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17, color: 'black',
     width: convertWidth(337),
     marginTop: 20,
   },
@@ -74,9 +71,7 @@ export default StyleSheet.create({
     bottom: 0,
   },
   confirmButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 17,
-    color: 'white',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17, color: 'white',
   }
 
 });

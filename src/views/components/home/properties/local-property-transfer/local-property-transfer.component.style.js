@@ -24,9 +24,7 @@ export default StyleSheet.create({
     paddingRight: convertWidth(19),
   },
   transferTitle: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 19, color: 'black',
     marginTop: 38,
     height: 27,
     width: convertWidth(336),
@@ -41,9 +39,7 @@ export default StyleSheet.create({
     marginTop: 8,
   },
   inputAccountNumber: {
-    fontFamily: 'andale_mono',
-    fontSize: 14,
-    lineHeight: 16,
+    fontFamily: 'andale_mono', fontSize: 14, lineHeight: 16, color: 'black',
     width: convertWidth(315),
     marginTop: 12,
     height: 20,
@@ -63,18 +59,13 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   accountNumberError: {
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 14,
-    lineHeight: 16,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14, lineHeight: 16, color: '#FF003C',
     width: convertWidth(325),
     marginTop: 12,
     height: 20,
-    color: '#FF003C',
   },
   transferMessage: {
-    fontFamily: 'avenir_next_w1g_regular',
-    fontSize: 15,
-    lineHeight: 18,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 15, lineHeight: 18, color: 'black',
     marginTop: 20,
     width: convertWidth(336),
   },
@@ -88,10 +79,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   sendButtonText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 17,
-    lineHeight: 20,
-    color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17, lineHeight: 20, color: '#0060F2',
   },
 
 

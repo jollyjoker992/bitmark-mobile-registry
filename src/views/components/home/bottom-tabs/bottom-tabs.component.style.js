@@ -68,9 +68,7 @@ export default StyleSheet.create({
     zIndex: 1,
   },
   transactionNumberText: {
-    fontFamily: 'avenir_next_w1g_bold',
-    fontSize: 8,
-    color: '#FFFFFF',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 8, color: '#FFFFFF',
     textAlign: 'center',
     width: '100%',
   }
