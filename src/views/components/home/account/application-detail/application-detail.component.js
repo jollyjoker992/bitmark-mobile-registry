@@ -23,7 +23,7 @@ export class ApplicationDetailComponent extends React.Component {
 
   render() {
     const shareApp = () => {
-      Share.share({ title: 'Bitmark', message: '', url: config.appLink });
+      Share.share({ title: 'Bitmark', message: config.appLink, url: config.appLink });
     };
     const requestSendFeedback = () => {
       Alert.alert(global.i18n.t("ApplicationDetailComponent_sendFeedbackTitle"), global.i18n.t("ApplicationDetailComponent_sendFeedbackMessage"), [{

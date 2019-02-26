@@ -216,7 +216,7 @@ class PrivatePropertiesComponent extends React.Component {
                   <View style={cStyles.thumbnailArea}>
                     {(() => {
                       if (this.props.assets[bitmark.asset_id].thumbnailPath) {
-                        return (<Image style={cStyles.thumbnailImage} source={{ uri: this.props.assets[bitmark.asset_id].thumbnailPath }} />);
+                        return (<Image style={cStyles.thumbnailImage} source={{ uri: (config.isAndroid ? 'file://' : '') + this.props.assets[bitmark.asset_id].thumbnailPath }} />);
                       }
                       if (isHealthRecord(this.props.assets[bitmark.asset_id])) {
                         return (<Image style={cStyles.thumbnailImage} source={require('assets/imgs/asset_health_data_icon.png')} />);
