@@ -11,9 +11,10 @@ let Navigation = NativeModules.Navigation;
 
 import faceTouchIdStyle from './face-touch-id.component.style';
 import { Actions } from 'react-native-router-flux';
-import { CommonModel, EventEmitterService } from 'src/processors';
+import { CommonModel, EventEmitterService, AccountService } from 'src/processors';
 import { config } from 'src/configs';
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
+import { runPromiseWithoutError } from 'src/utils';
 
 export class FaceTouchIdComponent extends React.Component {
   constructor(props) {
@@ -32,6 +33,7 @@ export class FaceTouchIdComponent extends React.Component {
         console.log('doContinue result :', result);
         if (result && result.user) {
           if (config.isAndroid) {
+            runPromiseWithoutError(AccountService.doRequestNotificationPermissions());
             EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, result.justCreatedBitmarkAccount);
           } else {
             Actions.notification({ justCreatedBitmarkAccount: result.justCreatedBitmarkAccount });
