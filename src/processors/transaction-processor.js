@@ -453,6 +453,7 @@ let TransactionProcessor = {
   TransactionHistoryTypes,
 
   runGetTransactionsInBackground,
+  runGetClaimRequestInBackground,
 
   doCheckNewIftttInformation: _doCheckNewIftttInformation,
   doGenerateTransactionActionRequiredData: _doGenerateTransactionActionRequiredData,
