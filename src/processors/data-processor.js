@@ -168,7 +168,6 @@ const doCreateAccount = async () => {
   await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
   if (CacheData.notificationUUID) {
     let intercomUserId = `Registry_ios_${sha3_256(userInformation.bitmarkAccountNumber)}`;
-    userInformation.intercomUserId = intercomUserId;
     NotificationService.doRegisterNotificationInfo(userInformation.bitmarkAccountNumber, CacheData.notificationUUID, intercomUserId).then(() => {
       userInformation.notificationUUID = CacheData.notificationUUID;
       return UserModel.doUpdateUserInfo(userInformation);
@@ -190,6 +189,15 @@ const doLogin = async () => {
   let userInformation = await AccountService.doGetCurrentAccount();
   let signatureData = await CommonModel.doCreateSignatureData();
   await NotificationModel.doTryRegisterAccount(userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  if (CacheData.notificationUUID) {
+    let intercomUserId = `Registry_ios_${sha3_256(userInformation.bitmarkAccountNumber)}`;
+    NotificationService.doRegisterNotificationInfo(userInformation.bitmarkAccountNumber, CacheData.notificationUUID, intercomUserId).then(() => {
+      userInformation.notificationUUID = CacheData.notificationUUID;
+      return UserModel.doUpdateUserInfo(userInformation);
+    }).catch(error => {
+      console.log('DataProcessor doRegisterNotificationInfo error:', error);
+    });
+  }
   let signatures = await BitmarkSDK.signHexData([userInformation.encryptionPublicKey]);
   await runPromiseWithoutError(AccountModel.doRegisterEncryptionPublicKey(userInformation.bitmarkAccountNumber, userInformation.encryptionPublicKey, signatures[0]));
   return userInformation;
