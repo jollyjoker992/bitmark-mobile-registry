@@ -42,12 +42,23 @@ const doValidateBitmarkAccountNumber = async (accountNumber) => {
 
 let configureNotifications = async (onRegister, onNotification) => {
   if (config.isAndroid) {
+    FCM.createNotificationChannel({
+      id: 'default',
+      name: 'Default',
+      description: 'used for example',
+      priority: 'high'
+    });
+    FCM.on(FCMEvent.Notification, (data) => {
+      console.log('onNotification :', data);
+      onNotification({ data });
+    });
+    FCM.getInitialNotification().then(data => {
+      console.log('getInitialNotification :', data);
+      onNotification({ data });
+    });
     await FCM.requestPermissions();
     let token = await FCM.getFCMToken();
     onRegister({ token });
-    FCM.on(FCMEvent.Notification, (data) => {
-      onNotification({ data });
-    });
   } else {
     PushNotification.configure({
       onRegister: onRegister,
