@@ -424,6 +424,28 @@ const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
   };
 };
 
+const doDeleteAccessFileInCourierServer = async (assetId, sender) => {
+  let signature = (await BitmarkSDK.signMessages([`${assetId}|${sender}`]))[0];
+  return await (new Promise((resolve, reject) => {
+    let statusCode;
+    fetch(`${config.file_courier_server}/v2/files/${assetId}/${sender}?receiver=${CacheData.userInformation.bitmarkAccountNumber}`, {
+      method: 'DELETE',
+      headers: {
+        signature: signature,
+        requester: CacheData.userInformation.bitmarkAccountNumber,
+      },
+    }).then((response) => {
+      statusCode = response.status;
+      return response.text();
+    }).then((data) => {
+      if (statusCode >= 400) {
+        return reject(new Error(`doDeleteAccessFileInCourierServer error ${statusCode} :` + JSON.stringify(data, null, 2)));
+      }
+      resolve(true);
+    }).catch(reject);
+  }));
+};
+
 const doDownloadReleasedAsset = async (jwt, assetId, filePath) => {
   let response;
   let result = await FileUtil.downloadFile({
@@ -464,6 +486,7 @@ let BitmarkService = {
   doUploadFileToCourierServer,
   doUpdateAccessFileInCourierServer,
   doDownloadFileToCourierServer,
+  doDeleteAccessFileInCourierServer,
   doGetDownloadableAssets,
   doDownloadReleasedAsset,
 

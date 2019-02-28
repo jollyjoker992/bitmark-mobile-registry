@@ -283,6 +283,9 @@ const doDownloadBitmark = async (bitmark) => {
   await BitmarkSDK.decryptFile(`${assetFolderPath}/decrypting/${filename}`, downloadResult, encryptionPublicKey, `${assetFolderPath}/downloaded/${filename}`);
   await FileUtil.removeSafe(`${assetFolderPath}/decrypting`);
   await FileUtil.removeSafe(`${assetFolderPath}/decrypting_session_data`);
+
+  await BitmarkService.doDeleteAccessFileInCourierServer(asset.id, sender);
+
   asset.filePath = `${assetFolderPath}/downloaded/${filename}`;
   await _doCheckNewAssetsBitmarks(assetsBitmarks);
   return `${assetFolderPath}/downloaded/${filename}`;
