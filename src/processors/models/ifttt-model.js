@@ -50,15 +50,23 @@ const doRevokeIftttToken = (accountNumber, timestamp, signature) => {
 };
 
 const downloadBitmarkFile = async (accountNumber, timestamp, signature, id, filePath) => {
+  console.log('downloadBitmarkFile :', `${config.ifttt_server_url}/api/user/bitmark-file/${id}`, { accountNumber, timestamp, signature, id, filePath });
   return await FileUtil.downloadFile({
-    fromUrl: config.ifttt_server_url + `/api/user/bitmark-file/${id}`,
+    fromUrl: `${config.ifttt_server_url}/api/user/bitmark-file/${id}`,
     toFile: filePath,
+    method: 'GET',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       requester: accountNumber,
       timestamp,
       signature,
+    },
+    begin: (res) => {
+      console.log('downloadBitmarkFile begin ', res);
+    },
+    progress: (res) => {
+      console.log('downloadBitmarkFile progress ', res);
     }
   });
 };

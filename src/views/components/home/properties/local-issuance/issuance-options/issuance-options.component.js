@@ -140,16 +140,15 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
             <Image style={issuanceOptionsStyle.optionButtonNextIcon}
               source={require('assets/imgs/next-icon-blue.png')} />
           </OneTabButtonComponent>
-          {config.isIPhone &&
-            <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData.bind(this)}>
-              <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/ifttt-icon.png')} />
-              <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
-              {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) &&
-                <Image style={issuanceOptionsStyle.optionButtonNextIcon}
-                  source={require('assets/imgs/next-icon-blue.png')} />}
-              {this.props.iftttInformation && !!this.props.iftttInformation.connectIFTTT && <Text
-                style={issuanceOptionsStyle.optionButtonStatus}>{global.i18n.t("IssuanceOptionsComponent_authorized")}</Text>}
-            </OneTabButtonComponent>}
+          <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData.bind(this)}>
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/ifttt-icon.png')} />
+            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
+            {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) &&
+              <Image style={issuanceOptionsStyle.optionButtonNextIcon}
+                source={require('assets/imgs/next-icon-blue.png')} />}
+            {this.props.iftttInformation && !!this.props.iftttInformation.connectIFTTT && <Text
+              style={issuanceOptionsStyle.optionButtonStatus}>{global.i18n.t("IssuanceOptionsComponent_authorized")}</Text>}
+          </OneTabButtonComponent>
 
           <Text style={issuanceOptionsStyle.message}>
             {global.i18n.t("IssuanceOptionsComponent_message")}
