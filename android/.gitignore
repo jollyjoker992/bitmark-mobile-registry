@@ -11,3 +11,4 @@ fastlane/*.md
 fastlane/*.xml
 index.android.bundle
 distribution
+google-services.json

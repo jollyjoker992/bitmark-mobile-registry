@@ -12,6 +12,7 @@ import com.corbt.keepawake.KCKeepAwakePackage;
 import com.crashlytics.android.Crashlytics;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.react.ReactApplication;
+import com.evollu.react.fcm.FIRMessagingPackage;
 import com.robinpowered.react.Intercom.IntercomPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -55,6 +56,7 @@ public class MainApplication extends Application implements ReactApplication, Sh
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
+                    new FIRMessagingPackage(),
                     new IntercomPackage(),
                     new RNSharePackage(),
                     new LottiePackage(),
