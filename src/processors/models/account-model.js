@@ -1,5 +1,4 @@
 import CookieManager from 'react-native-cookies';
-import PushNotification from 'react-native-push-notification';
 
 import { BitmarkSDK } from './adapters';
 import { config } from 'src/configs';
@@ -247,24 +246,6 @@ const doTryGetAppVersion = () => {
   });
 };
 
-let configureNotifications = (onRegister, onNotification) => {
-  PushNotification.configure({
-    onRegister: onRegister,
-    onNotification: onNotification,
-    senderID: '1022250205503',
-    requestPermissions: !!config.isAndroid,
-  });
-};
-
-let doRequestNotificationPermissions = async () => {
-  return await PushNotification.requestPermissions();
-};
-
-let setApplicationIconBadgeNumber = (number) => {
-  return PushNotification.setApplicationIconBadgeNumber(number);
-};
-
-
 
 let AccountModel = {
   doGetCurrentAccount,
@@ -282,9 +263,6 @@ let AccountModel = {
   doTryRegisterAccount,
   doRegisterNotificationInfo,
   doDeregisterNotificationInfo,
-  configureNotifications,
-  doRequestNotificationPermissions,
-  setApplicationIconBadgeNumber,
 }
 
 export {

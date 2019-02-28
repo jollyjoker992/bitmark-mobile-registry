@@ -1,5 +1,6 @@
 import DeviceInfo from 'react-native-device-info';
 import PushNotification from 'react-native-push-notification';
+import FCM, { FCMEvent } from "react-native-fcm";
 import ReactNative from 'react-native';
 const {
   PushNotificationIOS,
@@ -39,8 +40,21 @@ const doValidateBitmarkAccountNumber = async (accountNumber) => {
   return result;
 }
 
-let configureNotifications = (onRegister, onNotification) => {
-  return AccountModel.configureNotifications(onRegister, onNotification);
+let configureNotifications = async (onRegister, onNotification) => {
+  if (config.isAndroid) {
+    await FCM.requestPermissions();
+    let token = await FCM.getFCMToken();
+    onRegister({ token });
+    FCM.on(FCMEvent.Notification, (data) => {
+      onNotification({ data });
+    });
+  } else {
+    PushNotification.configure({
+      onRegister: onRegister,
+      onNotification: onNotification,
+      requestPermissions: false,
+    });
+  }
 };
 
 let isRequesting = false;
@@ -62,7 +76,11 @@ let doRequestNotificationPermissions = async () => {
     return await waitRequestPermission();
   }
   isRequesting = true;
-  requestResult = await AccountModel.doRequestNotificationPermissions();
+  if (config.isAndroid) {
+    requestResult = await FCM.requestPermissions()();
+  } else {
+    requestResult = await PushNotification.requestPermissions();
+  }
   isRequesting = false;
   return requestResult;
 };
@@ -77,7 +95,10 @@ let doCheckNotificationPermission = () => {
 };
 
 let setApplicationIconBadgeNumber = (number) => {
-  return AccountModel.setApplicationIconBadgeNumber(number);
+  if (config.isAndroid) {
+    return FCM.setBadgeNumber(0);
+  }
+  return PushNotification.setApplicationIconBadgeNumber(number);
 };
 
 let doRegisterNotificationInfo = async (accountNumber, token, intercomUserId) => {
@@ -110,8 +131,7 @@ let doTryDeregisterNotificationInfo = (accountNumber, token, signatureData) => {
 
 let removeAllDeliveredNotifications = () => {
   if (config.isAndroid) {
-    // TODO should check if have schedule for local notification
-    PushNotification.cancelAllLocalNotifications();
+    FCM.removeAllDeliveredNotifications();
   } else {
     PushNotificationIOS.removeAllDeliveredNotifications();
   }

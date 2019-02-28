@@ -38,7 +38,6 @@ import {
 import { BitmarkWebViewComponent } from 'src/views/commons';
 import { EventEmitterService, AppProcessor, CommonProcessor, BitmarkProcessor, TransactionProcessor } from 'src/processors';
 
-// import PushNotification from 'react-native-push-notification';
 import { MusicReleaseToPublicComponent } from './properties/local-issue-music/music-release-to-public.component';
 import { config } from 'src/configs';
 // import { BitmarkProcessor } from 'src/processors/bitmark-processor';
@@ -55,15 +54,6 @@ export class UserRouterComponent extends Component {
   componentDidMount() {
     EventEmitterService.on(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, this.handerReceivedNotification, ComponentName);
     CommonProcessor.setMountedRouter(true);
-    // setTimeout(() => {
-    //   PushNotification.localNotification({
-    //     message: 'test message',
-    //     userInfo: {
-    //       event: 'claim_request',
-    //       claim_id: 'ae965fff-fe33-46c7-9aae-70a1bc2ad539',
-    //     }
-    //   });
-    // }, 3000);
   }
 
   componentWillUnmount() {
