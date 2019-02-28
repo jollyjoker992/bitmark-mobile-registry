@@ -373,7 +373,7 @@ platform :android do
   end
 
   desc "Build production version"
-  lane :production do
+  lane :production do |options|
 
     isFromLocal = options[:local]
     isDistribute = options[:distribute]
