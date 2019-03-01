@@ -163,7 +163,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
               source={require('assets/imgs/next-icon-blue.png')} />
           </OneTabButtonComponent>
           {config.isAndroid && <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoVide.bind(this)}>
-            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/photo_icon.png')} />
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/video_icon.png')} />
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_videos")}</Text>
             <Image style={issuanceOptionsStyle.optionButtonNextIcon}
               source={require('assets/imgs/next-icon-blue.png')} />
