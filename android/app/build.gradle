@@ -81,6 +81,7 @@ project.ext.react = [
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
+apply from: "versioning.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -101,8 +102,8 @@ android {
         applicationId "com.bitmark.registry"
         minSdkVersion 23
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
-        versionName "1.57.15"
+        versionCode buildVersionCode()
+        versionName buildVersionName()
         ndk {
             abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }

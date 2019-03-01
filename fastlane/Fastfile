@@ -357,7 +357,7 @@ platform :android do
       sh './gradlew fillSecretKey'    
 
       # Build signed APK
-      sh './gradlew clean assembleInhouseRelease'
+      sh './gradlew clean increaseVersionCode assembleInhouseRelease'
 
       # Distribute to fabric
       if isDistribute
