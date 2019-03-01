@@ -6,7 +6,7 @@
     "clean": "watchman watch-del-all && rm -rf node_modules/ && rm -rf ios/build/ && rm -rf android/app/build/ && npm cache clean --force && npm install",
     "start": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "a-test": "react-native run-android --variant=inhouseDebug",
-    "a-live": "react-native run-android --variant=prdDebug",
+    "a-live": "cd android && ./gradlew fillSecretKey && cd .. && react-native run-android --variant=prdDebug",
     "i-test": "react-native run-ios --scheme 'Bitmark Registry dev'",
     "i-test-x": "react-native run-ios --scheme 'Bitmark Registry dev' --simulator='iPhone X'",
     "i-live": "react-native run-ios",
