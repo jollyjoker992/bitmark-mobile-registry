@@ -78,12 +78,14 @@ public class NavigationModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void browseMedia(String type, Promise promise) throws NativeModuleException {
-        if (!type.equals("photo") || !type.equals("video"))
+        if (!type.equals("photo") && !type.equals("video"))
             throw new NativeModuleException("Invalid type");
         Intent intent = new Intent(Intent.ACTION_PICK);
-        Uri uri = type.equals("photo") ? MediaStore.Images.Media.EXTERNAL_CONTENT_URI :
-                type.equals("video") ? MediaStore.Video.Media.EXTERNAL_CONTENT_URI : null;
-        intent.setDataAndType(uri, "*/*");
+        if (type.equals("photo")) {
+            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        } else if (type.equals("video")) {
+            intent.setDataAndType(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, "video/*");
+        }
         ReactApplicationContext context = getReactApplicationContext();
         context.startActivityForResult(intent, READ_MEDIA_CODE, null);
         context.addActivityEventListener(new ActivityEventListener() {
