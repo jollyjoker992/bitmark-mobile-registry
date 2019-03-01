@@ -70,7 +70,6 @@ import static com.bitmark.cryptography.crypto.encoder.Hex.HEX;
 import static com.bitmark.cryptography.crypto.encoder.Raw.RAW;
 import static com.bitmark.registry.keymanagement.ApiKeyManager.API_KEY_MANAGER;
 import static com.bitmark.registry.utils.Constant.ACTIVE_ACCOUNT_NUMBER;
-import static com.bitmark.registry.utils.Constant.ENCRYPTION_KEY_ALIAS;
 import static com.bitmark.registry.utils.DataTypeMapper.toJson;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringArray;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringMap;
@@ -1020,14 +1019,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         String encodedSeed = accountInfoArray[1];
         Account account = Account.fromSeed(SeedTwelve.fromEncodedSeed(encodedSeed));
         String accountNumber = account.getAccountNumber();
-        String existedEncryptionKeyAlias = getEncryptionKeyAlias();
-        if (TextUtils.isEmpty(getEncryptionKeyAlias()))
-            existedEncryptionKeyAlias = getRandomEncryptionKeyAlias(accountNumber);
-
-        final String encryptionKeyAlias = existedEncryptionKeyAlias;
+        final String encryptionKeyAlias = getRandomEncryptionKeyAlias(accountNumber);
 
         KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS)
+                getReactApplicationContext()).setKeyAlias(encryptionKeyAlias)
                                              .setAuthenticationRequired(true)
                                              .setAuthenticationValidityDuration(
                                                      KEY_VALIDITY_TIME)
@@ -1040,7 +1035,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     saveAccountNumber(accountNumber);
                     // Delete raw data
                     sharePrefApi.put(accountInfoKey, "");
-                    promise.resolve(account.getAccountNumber());
+                    promise.resolve(accountNumber);
                 }
 
                 @Override
