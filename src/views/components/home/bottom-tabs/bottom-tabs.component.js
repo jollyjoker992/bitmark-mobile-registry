@@ -34,7 +34,7 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
               this.props.onTabPress({ route });
               Actions.reset('properties');
             }}>
-              {this.props.totalNewBitmarks && <View style={componentStyles.haveNewBitmark} />}
+              {this.props.totalNewBitmarks > 0 && <View style={componentStyles.haveNewBitmark} />}
               <Image style={componentStyles.bottomTabButtonIcon} source={active
                 ? require('assets/imgs/properties-icon-enable.png')
                 : require('assets/imgs/properties-icon-disable.png')} />
