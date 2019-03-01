@@ -21,13 +21,26 @@ import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.componen
 
 export class PrivateIssuanceOptionsComponent extends React.Component {
   // ==========================================================================================
-  onChoosePhotoFile() {
+  async onChoosePhotoFile() {
+    if (config.isAndroid && ((await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)) === PermissionsAndroid.RESULTS.GRANTED)) {
+      Navigation.browseMedia('photo').then(filePath => {
+        console.log('browseMedia :', filePath);
+        this.prepareToIssue({ uri: filePath, fileName: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length) }, true);
+      }).catch(error => {
+        if (error.code === 'UNSUPPORT_FILE') {
+          Alert.alert(global.i18n.t("IssuanceOptionsComponent_androidFileNotSupport"), '');
+        }
+        console.log('browseMedia error :', JSON.stringify(error, null, 2));
+      });
+      return;
+    }
+
     let options = {
       title: '',
       takePhotoButtonTitle: null,
       chooseFromLibraryButtonTitle: global.i18n.t("IssuanceOptionsComponent_chooseFromLibraryButtonTitle"),
       cancelButtonTitle: global.i18n.t("IssuanceOptionsComponent_cancelButtonTitle"),
-      mediaType: 'photo',
+      mediaType: 'mixed',
       noData: true,
     };
     ImagePicker.showImagePicker(options, (response) => {
@@ -36,6 +49,21 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
       }
       this.prepareToIssue(response);
     });
+  }
+
+  async onChoosePhotoVide() {
+    if (config.isAndroid && ((await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)) === PermissionsAndroid.RESULTS.GRANTED)) {
+      Navigation.browseMedia('video').then(filePath => {
+        console.log('browseMedia :', filePath);
+        this.prepareToIssue({ uri: filePath, fileName: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length) }, true);
+      }).catch(error => {
+        if (error.code === 'UNSUPPORT_FILE') {
+          Alert.alert(global.i18n.t("IssuanceOptionsComponent_androidFileNotSupport"), '');
+        }
+        console.log('browseMedia error :', JSON.stringify(error, null, 2));
+      });
+      return;
+    }
   }
 
   async onChooseFile() {
@@ -77,7 +105,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
       }
     } else {
       if (config.isAndroid) {
-        await FileUtil.copyFileSafe(response.path, destPath);
+        await FileUtil.copyFileSafe(response.uri, destPath);
       } else {
         await FileUtil.moveFileSafe(decodeURIComponent(response.uri.replace('file://', '')), destPath);
       }
@@ -129,6 +157,12 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
                 source={require('assets/imgs/next-icon-blue.png')} />
             </OneTabButtonComponent>}
           <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile.bind(this)}>
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/photo_icon.png')} />
+            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>
+            <Image style={issuanceOptionsStyle.optionButtonNextIcon}
+              source={require('assets/imgs/next-icon-blue.png')} />
+          </OneTabButtonComponent>
+          <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoVide.bind(this)}>
             <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/photo_icon.png')} />
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>
             <Image style={issuanceOptionsStyle.optionButtonNextIcon}
