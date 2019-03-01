@@ -10,7 +10,7 @@
     "i-test": "react-native run-ios --scheme 'Bitmark Registry dev'",
     "i-test-x": "react-native run-ios --scheme 'Bitmark Registry dev' --simulator='iPhone X'",
     "i-live": "react-native run-ios",
-    "test": "jest --no-cache --config=jest.config.json"
+    "test": "jest --no-cache --runInBand --config=jest.config.json"
   },
   "dependencies": {
     "bs58": "^4.0.1",
