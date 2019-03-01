@@ -15,8 +15,7 @@
         android:name=".MainApplication"
         android:icon="${appIcon}"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        tools:node="replace">
+        android:theme="@style/AppTheme">
 
         <activity
             android:name=".MainActivity"
