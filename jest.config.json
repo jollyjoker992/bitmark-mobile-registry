@@ -1,0 +1,6 @@
+{
+
+  "roots": ["<rootDir>/__tests__"],
+  "testMatch": ["**/?(*.)+(spec|test).[jt]s?(x)"],
+  "transform": {".*": "<rootDir>/custom-preprocessor.js"}
+}
