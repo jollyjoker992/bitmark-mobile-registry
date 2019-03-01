@@ -33,7 +33,7 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
               this.props.onTabPress({ route });
               Actions.reset('properties');
             }}>
-              {this.props.existNewAsset && <View style={componentStyles.haveNewBitmark} />}
+              {this.props.totalNewBitmarks && <View style={componentStyles.haveNewBitmark} />}
               <Image style={componentStyles.bottomTabButtonIcon} source={active
                 ? require('assets/imgs/properties-icon-enable.png')
                 : require('assets/imgs/properties-icon-disable.png')} />
@@ -81,12 +81,7 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
 
 PrivateBottomTabsComponent.propTypes = {
   totalTasks: PropTypes.number,
-  mainTab: PropTypes.string,
-  switchMainTab: PropTypes.func,
-  homeNavigation: PropTypes.shape({
-    dispatch: PropTypes.func,
-  }),
-  existNewAsset: PropTypes.bool,
+  totalNewBitmarks: PropTypes.number,
 };
 
 const StoreBottomTabsComponent = connect(
