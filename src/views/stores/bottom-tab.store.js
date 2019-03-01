@@ -13,15 +13,14 @@ const BottomTabActions = {
   reset: () => {
     return { type: ACTION_TYPES.RESET, };
   },
-  init: ({ totalNewBitmarks, totalTasks, mainTab }) => {
-    return { type: ACTION_TYPES.INIT, totalNewBitmarks, totalTasks, mainTab };
+  init: ({ totalNewBitmarks, totalTasks }) => {
+    return { type: ACTION_TYPES.INIT, totalNewBitmarks, totalTasks };
   },
 };
 
 const initialState = {
   totalNewBitmarks: false,
   totalTasks: 0,
-  mainTab: null,
 };
 
 const data = (state = initialState, action) => {
