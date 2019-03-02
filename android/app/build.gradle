@@ -194,7 +194,8 @@ android {
             resValue "string", "app_name", "Registry"
             resValue "string", "registry_scheme", "registryinhouse"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher_dev"
+                    appIcon: "@mipmap/ic_launcher_dev",
+                    appIconRound : "@mipmap/ic_launcher_dev_round"
             ]
             ext.betaDistributionReleaseNotesFilePath="${project.rootDir}/distribution/release_note.txt"
             ext.betaDistributionEmailsFilePath="${project.rootDir}/distribution/testers.txt"
@@ -205,7 +206,8 @@ android {
             resValue "string", "app_name", "Registry"
             resValue "string", "registry_scheme", "registry"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher"
+                    appIcon: "@mipmap/ic_launcher",
+                    appIconRound : "@mipmap/ic_launcher_round"
             ]
             ext.betaDistributionReleaseNotesFilePath="${project.rootDir}/distribution/release_note.txt"
             ext.betaDistributionEmailsFilePath="${project.rootDir}/distribution/testers.txt"
