@@ -85,6 +85,18 @@
             android:name="com.dieam.reactnativepushnotification.notification_channel_description"
             android:value="@string/notification_channel_description" />
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@android:color/white" />
+
+        <meta-data
+            android:name="com.dieam.reactnativepushnotification.notification_color"
+            android:resource="@android:color/white" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"

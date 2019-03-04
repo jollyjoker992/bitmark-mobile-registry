@@ -42,6 +42,8 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteNotification != null) {
             bundle.putString("title", remoteNotification.getTitle());
             bundle.putString("message", rebuildMessage(remoteNotification));
+            if (remoteNotification.getIcon() != null)
+                bundle.putString("smallIcon", remoteNotification.getIcon());
         }
 
         for (Map.Entry<String, String> entry : message.getData().entrySet()) {
