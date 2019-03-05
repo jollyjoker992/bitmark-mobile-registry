@@ -11,4 +11,5 @@
     <string name="notification_transfer_accepted">你的資產發送請求已成功。</string>
     <string name="notification_claim_request">收到來自%2$s要求擁有資產%1$s的請求，請查看。</string>
     <string name="notification_claim_request_rejected">%1$s已經拒絕了你的資產%2$s索取請求。</string>
+    <string name="loading_dot">載入中…</string>
 </resources>

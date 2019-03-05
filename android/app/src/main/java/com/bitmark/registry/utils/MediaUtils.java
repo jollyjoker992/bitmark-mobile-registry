@@ -11,7 +11,6 @@ import android.support.v4.provider.DocumentFile;
 import android.webkit.MimeTypeMap;
 
 import com.bitmark.apiservice.utils.BackgroundJobScheduler;
-import com.bitmark.apiservice.utils.callback.Callback1;
 import com.bitmark.cryptography.crypto.Random;
 
 import java.io.File;
@@ -36,7 +35,7 @@ public class MediaUtils {
     }
 
     public static void getAbsolutePathFromUri(Context context, Uri uri,
-                                              Callback1<String> callback) {
+                                              TaskExecutionCallback<String> callback) {
 
         try {
             if (DocumentsContract.isDocumentUri(context, uri)) {
@@ -151,8 +150,9 @@ public class MediaUtils {
     }
 
     public static void writeCacheFile(Context context, Uri uri, String displayName,
-                                      Callback1<String> callback) {
+                                      TaskExecutionCallback<String> callback) {
         BackgroundJobScheduler.getInstance().execute(() -> {
+            callback.onLongRunningTaskInvoked();
             try (InputStream input = context.getContentResolver().openInputStream(uri)) {
                 String fileName = (uri.getAuthority() + "." + URLDecoder
                         .decode(uri.getPath(), "UTF-8") + "." + displayName)
@@ -206,5 +206,14 @@ public class MediaUtils {
                 return name.concat("." + ext);
             else return name;
         } else return getRandomFileName();
+    }
+
+    public interface TaskExecutionCallback<T> {
+
+        void onSuccess(T data);
+
+        void onError(Throwable e);
+
+        void onLongRunningTaskInvoked();
     }
 }

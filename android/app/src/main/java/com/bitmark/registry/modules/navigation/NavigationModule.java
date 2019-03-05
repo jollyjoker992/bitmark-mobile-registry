@@ -1,13 +1,14 @@
 package com.bitmark.registry.modules.navigation;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
-import com.bitmark.apiservice.utils.callback.Callback1;
 import com.bitmark.registry.utils.MediaUtils;
+import com.bitmark.registry.utils.WidgetUtils;
 import com.bitmark.registry.utils.error.NativeModuleException;
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Promise;
@@ -16,6 +17,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
 import static android.app.Activity.RESULT_OK;
+import static com.bitmark.sdk.utils.CommonUtils.switchOnMain;
 
 public class NavigationModule extends ReactContextBaseJavaModule {
 
@@ -58,20 +60,30 @@ public class NavigationModule extends ReactContextBaseJavaModule {
                 context.removeActivityEventListener(this);
                 if (resultCode == RESULT_OK && requestCode == READ_DOCUMENT_CODE) {
                     Uri uri = data.getData();
-                    MediaUtils.getAbsolutePathFromUri(context, uri, new Callback1<String>() {
-                        @Override
-                        public void onSuccess(String path) {
-                            if (TextUtils.isEmpty(path)) promise.reject("UNSUPPORT_FILE",
-                                    new NativeModuleException("Unsupport file type"));
-                            else
-                                promise.resolve(path);
-                        }
+                    final ProgressDialog dialog = WidgetUtils
+                            .buildSimpleHorizontalProgressDialog(activity);
+                    MediaUtils.getAbsolutePathFromUri(context, uri,
+                            new MediaUtils.TaskExecutionCallback<String>() {
+                                @Override
+                                public void onSuccess(String path) {
+                                    switchOnMain(dialog::dismiss);
+                                    if (TextUtils.isEmpty(path)) promise.reject("UNSUPPORT_FILE",
+                                            new NativeModuleException("Unsupport file type"));
+                                    else
+                                        promise.resolve(path);
+                                }
 
-                        @Override
-                        public void onError(Throwable throwable) {
-                            promise.reject("ERROR_BROWSE_DOCUMENT", throwable);
-                        }
-                    });
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    switchOnMain(dialog::dismiss);
+                                    promise.reject("ERROR_BROWSE_DOCUMENT", throwable);
+                                }
+
+                                @Override
+                                public void onLongRunningTaskInvoked() {
+                                    switchOnMain(dialog::show);
+                                }
+                            });
 
                 }
             }
@@ -102,20 +114,30 @@ public class NavigationModule extends ReactContextBaseJavaModule {
                 context.removeActivityEventListener(this);
                 if (resultCode == RESULT_OK && requestCode == READ_MEDIA_CODE) {
                     Uri uri = data.getData();
-                    MediaUtils.getAbsolutePathFromUri(context, uri, new Callback1<String>() {
-                        @Override
-                        public void onSuccess(String path) {
-                            if (TextUtils.isEmpty(path)) promise.reject("UNSUPPORT_FILE",
-                                    new NativeModuleException("Unsupport file type"));
-                            else
-                                promise.resolve(path);
-                        }
+                    final ProgressDialog dialog = WidgetUtils
+                            .buildSimpleHorizontalProgressDialog(activity);
+                    MediaUtils.getAbsolutePathFromUri(context, uri,
+                            new MediaUtils.TaskExecutionCallback<String>() {
+                                @Override
+                                public void onSuccess(String path) {
+                                    switchOnMain(dialog::dismiss);
+                                    if (TextUtils.isEmpty(path)) promise.reject("UNSUPPORT_FILE",
+                                            new NativeModuleException("Unsupport file type"));
+                                    else
+                                        promise.resolve(path);
+                                }
 
-                        @Override
-                        public void onError(Throwable throwable) {
-                            promise.reject("ERROR_BROWSE_MEDIA", throwable);
-                        }
-                    });
+                                @Override
+                                public void onError(Throwable throwable) {
+                                    switchOnMain(dialog::dismiss);
+                                    promise.reject("ERROR_BROWSE_MEDIA", throwable);
+                                }
+
+                                @Override
+                                public void onLongRunningTaskInvoked() {
+                                    switchOnMain(dialog::show);
+                                }
+                            });
 
 
                 }
