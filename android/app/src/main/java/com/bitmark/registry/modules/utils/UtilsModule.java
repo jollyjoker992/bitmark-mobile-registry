@@ -5,6 +5,7 @@ import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.net.Uri;
 
+import com.bitmark.apiservice.utils.callback.Callback1;
 import com.bitmark.registry.utils.MediaUtils;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -24,13 +25,19 @@ public class UtilsModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getAbsolutePathFromUri(String uri, Promise promise) {
-        try {
-            String path = MediaUtils
-                    .getAbsolutePathFromUri(getReactApplicationContext(), Uri.parse(uri));
-            promise.resolve(path);
-        } catch (Throwable e) {
-            promise.reject("ERROR_GET_ABSOLUTE_PATH", e);
-        }
+        MediaUtils
+                .getAbsolutePathFromUri(getReactApplicationContext(), Uri.parse(uri),
+                        new Callback1<String>() {
+                            @Override
+                            public void onSuccess(String path) {
+                                promise.resolve(path);
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                promise.reject("ERROR_GET_ABSOLUTE_PATH", throwable);
+                            }
+                        });
     }
 
     @ReactMethod

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
+import com.bitmark.apiservice.utils.callback.Callback1;
 import com.bitmark.registry.utils.MediaUtils;
 import com.bitmark.registry.utils.error.NativeModuleException;
 import com.facebook.react.bridge.ActivityEventListener;
@@ -57,15 +58,21 @@ public class NavigationModule extends ReactContextBaseJavaModule {
                 context.removeActivityEventListener(this);
                 if (resultCode == RESULT_OK && requestCode == READ_DOCUMENT_CODE) {
                     Uri uri = data.getData();
-                    try {
-                        String path = MediaUtils.getAbsolutePathFromUri(context, uri);
-                        if (TextUtils.isEmpty(path)) promise.reject("UNSUPPORT_FILE",
-                                new NativeModuleException("Unsupport file type"));
-                        else
-                            promise.resolve(path);
-                    } catch (Throwable e) {
-                        promise.reject(e);
-                    }
+                    MediaUtils.getAbsolutePathFromUri(context, uri, new Callback1<String>() {
+                        @Override
+                        public void onSuccess(String path) {
+                            if (TextUtils.isEmpty(path)) promise.reject("UNSUPPORT_FILE",
+                                    new NativeModuleException("Unsupport file type"));
+                            else
+                                promise.resolve(path);
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            promise.reject("ERROR_BROWSE_DOCUMENT", throwable);
+                        }
+                    });
+
                 }
             }
 
@@ -95,15 +102,22 @@ public class NavigationModule extends ReactContextBaseJavaModule {
                 context.removeActivityEventListener(this);
                 if (resultCode == RESULT_OK && requestCode == READ_MEDIA_CODE) {
                     Uri uri = data.getData();
-                    try {
-                        String path = MediaUtils.getAbsolutePathFromUri(context, uri);
-                        if (TextUtils.isEmpty(path)) promise.reject("UNSUPPORT_FILE",
-                                new NativeModuleException("Unsupport file type"));
-                        else
-                            promise.resolve(path);
-                    } catch (Throwable e) {
-                        promise.reject(e);
-                    }
+                    MediaUtils.getAbsolutePathFromUri(context, uri, new Callback1<String>() {
+                        @Override
+                        public void onSuccess(String path) {
+                            if (TextUtils.isEmpty(path)) promise.reject("UNSUPPORT_FILE",
+                                    new NativeModuleException("Unsupport file type"));
+                            else
+                                promise.resolve(path);
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            promise.reject("ERROR_BROWSE_MEDIA", throwable);
+                        }
+                    });
+
+
                 }
             }
 
