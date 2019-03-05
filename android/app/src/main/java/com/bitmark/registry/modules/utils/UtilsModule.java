@@ -1,6 +1,8 @@
 package com.bitmark.registry.modules.utils;
 
 
+import android.app.admin.DevicePolicyManager;
+import android.content.Context;
 import android.net.Uri;
 
 import com.bitmark.registry.utils.MediaUtils;
@@ -29,6 +31,15 @@ public class UtilsModule extends ReactContextBaseJavaModule {
         } catch (Throwable e) {
             promise.reject("ERROR_GET_ABSOLUTE_PATH", e);
         }
+    }
+
+    @ReactMethod
+    public void checkDiskEncrypted(Promise promise) {
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) getReactApplicationContext()
+                .getSystemService(Context.DEVICE_POLICY_SERVICE);
+
+        int status = devicePolicyManager.getStorageEncryptionStatus();
+        promise.resolve(DevicePolicyManager.ENCRYPTION_STATUS_ACTIVE == status);
     }
 
 }
