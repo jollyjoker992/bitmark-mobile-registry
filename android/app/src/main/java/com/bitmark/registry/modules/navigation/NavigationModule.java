@@ -80,8 +80,11 @@ public class NavigationModule extends ReactContextBaseJavaModule {
                                 }
 
                                 @Override
-                                public void onLongRunningTaskInvoked() {
-                                    switchOnMain(dialog::show);
+                                public void onLongRunningTaskInvoked(int progress) {
+                                    switchOnMain(() -> {
+                                        if (!dialog.isShowing()) dialog.show();
+                                        dialog.setProgress(progress);
+                                    });
                                 }
                             });
 
@@ -134,8 +137,11 @@ public class NavigationModule extends ReactContextBaseJavaModule {
                                 }
 
                                 @Override
-                                public void onLongRunningTaskInvoked() {
-                                    switchOnMain(dialog::show);
+                                public void onLongRunningTaskInvoked(int progress) {
+                                    switchOnMain(() -> {
+                                        if (!dialog.isShowing()) dialog.show();
+                                        dialog.setProgress(progress);
+                                    });
                                 }
                             });
 

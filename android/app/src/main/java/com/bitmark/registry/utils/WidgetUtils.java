@@ -13,9 +13,8 @@ public class WidgetUtils {
     public static ProgressDialog buildSimpleHorizontalProgressDialog(Activity activity) {
         final ProgressDialog dialog = new ProgressDialog(activity);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        dialog.setIndeterminate(true);
-        dialog.setProgressNumberFormat(null);
-        dialog.setProgressPercentFormat(null);
+        dialog.setMax(100);
+        dialog.setProgress(0);
         dialog.setMessage(activity.getString(R.string.loading_dot));
         return dialog;
     }

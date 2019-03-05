@@ -152,7 +152,7 @@ public class MediaUtils {
     public static void writeCacheFile(Context context, Uri uri, String displayName,
                                       TaskExecutionCallback<String> callback) {
         BackgroundJobScheduler.getInstance().execute(() -> {
-            callback.onLongRunningTaskInvoked();
+            callback.onLongRunningTaskInvoked(0);
             try (InputStream input = context.getContentResolver().openInputStream(uri)) {
                 String fileName = (uri.getAuthority() + "." + URLDecoder
                         .decode(uri.getPath(), "UTF-8") + "." + displayName)
@@ -162,15 +162,21 @@ public class MediaUtils {
                     file.createNewFile();
                     try (OutputStream output = new FileOutputStream(file)) {
 
+                        final long fileLength = DocumentFile.fromSingleUri(context, uri).length();
+                        long recordedByteLength = 0;
                         byte[] buffer = new byte[4 * 1024];
                         int read;
 
                         while ((read = input.read(buffer)) != -1) {
                             output.write(buffer, 0, read);
+                            recordedByteLength += buffer.length;
+                            int progress = (int) (recordedByteLength * 100 / fileLength);
+                            callback.onLongRunningTaskInvoked(progress >= 100 ? 100 : progress);
                         }
                         output.flush();
                     }
                 }
+                callback.onLongRunningTaskInvoked(100);
                 callback.onSuccess(file.getAbsolutePath());
             } catch (IOException e) {
                 callback.onError(e);
@@ -214,6 +220,6 @@ public class MediaUtils {
 
         void onError(Throwable e);
 
-        void onLongRunningTaskInvoked();
+        void onLongRunningTaskInvoked(int progress);
     }
 }
