@@ -205,7 +205,7 @@ public class MediaUtils {
         String name = documentFile.getName();
         String ext = getFileExt(documentFile.getType());
         if (name != null) {
-            if (!name.contains(".") | (name.contains(".") && !name
+            if (!name.contains(".") | (ext != null && name.contains(".") && !name
                     .substring(name.lastIndexOf("."))
                     .contains(ext)))
                 // The file extension is incorrect, change to correct extension from mimetype
