@@ -2,6 +2,7 @@
 <resources>
     <string name="notification_channel_name">@string/app_name</string>
     <string name="notification_channel_description">Bitmark Registry notification channel</string>
+    <string name="notification_intercom_new_messages">You have new messages from our support team. Tap to view.</string>
     <string name="notification_tracking_transfer_confirmed">The property \"%1$s\" has been updated, tap to view tracking details.</string>
     <string name="notification_transfer_confirmed_sender">The property \"%1$s\" was transferred to %2$s.</string>
     <string name="notification_transfer_confirmed_receiver">You have received the property \"%1$s\" from %2$s.</string>

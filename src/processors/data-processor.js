@@ -6,6 +6,7 @@ import { Sentry } from 'react-native-sentry';
 import base58 from 'bs58';
 import { sha3_256 } from 'js-sha3';
 import randomString from 'random-string';
+import { Platform } from 'react-native';
 
 import {
   EventEmitterService, TransactionService,
@@ -120,14 +121,20 @@ const configNotification = () => {
   };
   const onReceivedNotification = async (notificationData) => {
     if (!notificationData.foreground) {
+
       if (!CacheData.userInformation || !CacheData.userInformation.bitmarkAccountNumber) {
         CacheData.userInformation = await UserModel.doGetCurrentUser();
       }
-      if (notificationData.data.event === 'intercom_reply') {
-        setTimeout(() => { Intercom.displayConversationsList(); }, 1000);
+
+      let notification = Platform.select({ios: notificationData.data, android: notificationData});
+
+      if (notification.event === 'intercom_reply') {
+        setTimeout(() => {
+          Intercom.displayConversationsList();
+        }, 1000);
       } else {
         setTimeout(() => {
-          EventEmitterService.emit(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, notificationData.data);
+          EventEmitterService.emit(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, notification);
         }, 1000);
       }
     }
