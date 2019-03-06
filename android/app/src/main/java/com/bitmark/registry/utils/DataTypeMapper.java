@@ -10,6 +10,9 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
@@ -121,6 +124,27 @@ public class DataTypeMapper {
 
     public static Map<String, Object> objectToMap(Object object) {
         return jsonToMap(objectToJson(object));
+    }
+
+    public static JSONObject toJsonObject(String jsonString) {
+        try {
+            return new JSONObject(jsonString);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String[] jsonArrayToStringArray(JSONArray array) {
+        try {
+            String[] result = new String[array.length()];
+            for (int i = 0; i < array.length(); i++) {
+                result[i] = array.get(i).toString();
+            }
+            return result;
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
 }

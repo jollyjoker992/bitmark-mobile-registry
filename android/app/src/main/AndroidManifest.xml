@@ -56,13 +56,13 @@
 
         <service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService" />
 
-        <!--<service
+        <service
             android:name=".utils.notification.NativeFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>-->
+        </service>
 
         <service
             android:name="com.robinpowered.react.Intercom.IntercomIntentService"

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.bitmark.registry.R;
 import com.dieam.reactnativepushnotification.helpers.ApplicationBadgeHelper;
@@ -26,7 +25,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
-import static com.dieam.reactnativepushnotification.modules.RNPushNotification.LOG_TAG;
+import static com.bitmark.registry.utils.DataTypeMapper.jsonArrayToStringArray;
+import static com.bitmark.registry.utils.DataTypeMapper.toJsonObject;
 
 /**
  * Wrapper class of {@link RNPushNotificationListenerService} for manually handle notification
@@ -36,12 +36,18 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage message) {
         super.onMessageReceived(message);
+
+        // Do not handle in foreground
+        if (isApplicationInForeground()) return;
+
         RemoteMessage.Notification remoteNotification = message.getNotification();
 
         final Bundle bundle = new Bundle();
+
+        // Remote Notification payload
         if (remoteNotification != null) {
             bundle.putString("title", remoteNotification.getTitle());
-            bundle.putString("message", rebuildMessage(remoteNotification));
+            bundle.putString("message", remoteNotification.getBody());
             if (remoteNotification.getIcon() != null)
                 bundle.putString("smallIcon", remoteNotification.getIcon());
         }
@@ -49,7 +55,36 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
         for (Map.Entry<String, String> entry : message.getData().entrySet()) {
             bundle.putString(entry.getKey(), entry.getValue());
         }
-        JSONObject data = getPushData(bundle.getString("data"));
+
+        // Notification data
+        JSONObject notification = toJsonObject(bundle.getString("notification_payload", ""));
+        if (notification != null) {
+            if (notification.has("body_loc_key")) {
+                String lockKey = notification.optString("body_loc_key");
+                String[] locArgs = jsonArrayToStringArray(
+                        notification.optJSONArray("body_loc_args"));
+                bundle.putString("message", locArgs == null ? getLocMessage(lockKey) :
+                        String.format(Locale.getDefault(), getLocMessage(lockKey), locArgs));
+
+            }
+
+            String body = notification.optString("body", null);
+            if (body != null) bundle.putString("message", body);
+
+            String icon = notification.optString("icon", null);
+            if (icon != null) {
+                bundle.putString("smallIcon", icon);
+                bundle.putString("largeIcon", icon);
+            }
+
+            String color = notification.optString("color", null);
+            if (color != null) bundle.putString("color", color);
+
+        }
+
+
+        // Push data
+        JSONObject data = toJsonObject(bundle.getString("data", ""));
         if (bundle.containsKey("twi_body")) {
             bundle.putString("message", bundle.getString("twi_body"));
         }
@@ -79,14 +114,14 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
             // Construct and load our normal React JS code bundle
             ReactInstanceManager mReactInstanceManager = ((ReactApplication) getApplication())
                     .getReactNativeHost().getReactInstanceManager();
-            ReactContext context = mReactInstanceManager.getCurrentReactContext();
+            ReactContext reactContext = mReactInstanceManager.getCurrentReactContext();
             // If it's constructed, send a notification
-            if (context != null) {
-                handleRemotePushNotification((ReactApplicationContext) context, bundle);
+            if (reactContext != null) {
+                handleRemotePushNotification((ReactApplicationContext) reactContext, bundle);
             } else {
                 // Otherwise wait for construction, then send the notification
                 mReactInstanceManager.addReactInstanceEventListener(
-                        context1 -> handleRemotePushNotification((ReactApplicationContext) context1,
+                        context -> handleRemotePushNotification((ReactApplicationContext) context,
                                 bundle));
                 if (!mReactInstanceManager.hasStartedCreatingInitialContext()) {
                     // Construct it in the background
@@ -96,18 +131,12 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
         });
     }
 
-    private String rebuildMessage(RemoteMessage.Notification notification) {
-        String locMessage = getLocMessage(notification);
-        return locMessage.isEmpty() ? notification.getBody() :
-                String.format(Locale.getDefault(), locMessage,
-                        notification.getBodyLocalizationArgs());
-    }
-
-    private String getLocMessage(RemoteMessage.Notification remoteNotification) {
+    private String getLocMessage(String locKey) {
         Context context = getApplicationContext();
-        String type = remoteNotification.getBodyLocalizationKey();
-        if (type == null) return "";
-        switch (type) {
+        if (locKey == null) return "";
+        switch (locKey) {
+            case "notification_intercom_new_messages":
+                return context.getString(R.string.notification_intercom_new_messages);
             case "notification_tracking_transfer_confirmed":
                 return context.getString(R.string.notification_tracking_transfer_confirmed);
             case "notification_transfer_confirmed_sender":
@@ -132,14 +161,6 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private JSONObject getPushData(String dataString) {
-        try {
-            return new JSONObject(dataString);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     private void handleRemotePushNotification(ReactApplicationContext context, Bundle bundle) {
 
         // If notification ID is not provided by the user for push notification, generate one at random
@@ -149,23 +170,24 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         boolean isForeground = isApplicationInForeground();
-
-        NativeJsDelivery jsDelivery = new NativeJsDelivery(context);
         bundle.putBoolean("foreground", isForeground);
         bundle.putBoolean("userInteraction", false);
+
+
+        // Push notification
+        Application applicationContext = (Application) context.getApplicationContext();
+        RNPushNotificationHelper pushNotificationHelper = new RNPushNotificationHelper(
+                applicationContext);
+        pushNotificationHelper.sendToNotificationCentre(bundle);
+
+        // Deliver event to js
+        NativeJsDelivery jsDelivery = new NativeJsDelivery(context);
         jsDelivery.notifyNotification(bundle);
 
         // If contentAvailable is set to true, then send out a remote fetch event
         if (bundle.getString("contentAvailable", "false").equalsIgnoreCase("true")) {
             jsDelivery.notifyRemoteFetch(bundle);
         }
-
-        Log.v(LOG_TAG, "sendNotification: " + bundle);
-
-        Application applicationContext = (Application) context.getApplicationContext();
-        RNPushNotificationHelper pushNotificationHelper = new RNPushNotificationHelper(
-                applicationContext);
-        pushNotificationHelper.sendToNotificationCentre(bundle);
     }
 
     private boolean isApplicationInForeground() {
