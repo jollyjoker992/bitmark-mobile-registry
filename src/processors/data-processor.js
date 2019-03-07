@@ -14,7 +14,7 @@ import {
 } from './services';
 import {
   CommonModel, AccountModel, UserModel, BitmarkSDK,
-  BitmarkModel, iCloudSyncAdapter, IftttModel
+  BitmarkModel, iCloudSyncAdapter, IftttModel, NativeAndroidUtils
 } from './models';
 
 import {
@@ -304,7 +304,15 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       await UserModel.doUpdateUserInfo(CacheData.userInformation);
     }
 
+    // Android only
+    if (config.isAndroid) {
+      let isDiskEncrypted = await NativeAndroidUtils.checkDiskEncrypted();
+      if (!isDiskEncrypted) {
+        NativeAndroidUtils.openSystemSetting("android.settings.SECURITY_SETTINGS");
+      }
+    }
 
+    // iOS only
     if (config.isIPhone) {
       iCloudSyncAdapter.oniCloudFileChanged((mapFiles) => {
         if (this.iCloudFileChangedTimeout) {
