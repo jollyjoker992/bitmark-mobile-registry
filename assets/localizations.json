@@ -1099,7 +1099,7 @@
     "MusicReleaseToPublicComponent_linkLabelText": "Link",
     "MusicReleaseToPublicComponent_limitedEdition": "Limited Edition of {{limited}} [{{left}} editions left]",
     "OtherComponent_phoneEncryptedWarningTitle": "Warning: Your phone is not encrypted.",
-    "OtherComponent_phoneEncryptedWarningMessage": "Encrypting your data on your phone is easy and will protect yourself from a wide range of potential risks. We strongly recommend you do this now."
+    "OtherComponent_phoneEncryptedWarningMessage": "Encrypting your data on your phone is easy and will protect yourself from a wide range of potential risks. We strongly recommend you do this now.\n\nSettings > Security > Encrypt phone"
   },
   "zh": {
     "MetadataLabels_type": "資產種類",
@@ -1649,7 +1649,7 @@
     "MusicReleaseToPublicComponent_embedLabelText": "嵌入",
     "MusicReleaseToPublicComponent_linkLabelText": "連結",
     "MusicReleaseToPublicComponent_limitedEdition": "限量發行{{limited}[剩餘{{left}}版]",
-    "OtherComponent_phoneEncryptedWarningTitle": "Warning: Your phone is not encrypted.",
-    "OtherComponent_phoneEncryptedWarningMessage": "Encrypting your data on your phone is easy and will protect yourself from a wide range of potential risks. We strongly recommend you do this now."
+    "OtherComponent_phoneEncryptedWarningTitle": "警告提示：你尚未加密你的手機",
+    "OtherComponent_phoneEncryptedWarningMessage": "在您的手機上開啟數據加密是極為容易的，並將保護你自己免受廣泛的潛在風險。我们強烈建議您現在開啟。\n\n請到 設定 > 安全性 > 加密手機"
   }
 }
