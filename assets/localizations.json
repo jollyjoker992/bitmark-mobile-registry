@@ -546,7 +546,9 @@
     "MusicReleaseToPublicComponent_resultHeaderCopy2": "MusicReleaseToPublicComponent_resultHeaderCopy2",
     "MusicReleaseToPublicComponent_embedLabelText": "MusicReleaseToPublicComponent_embedLabelText",
     "MusicReleaseToPublicComponent_linkLabelText": "MusicReleaseToPublicComponent_linkLabelText",
-    "MusicReleaseToPublicComponent_limitedEdition": "MusicReleaseToPublicComponent_limitedEdition"
+    "MusicReleaseToPublicComponent_limitedEdition": "MusicReleaseToPublicComponent_limitedEdition",
+    "OtherComponent_phoneEncryptedWarningTitle": "OtherComponent_phoneEncryptedWarningTitle",
+    "OtherComponent_phoneEncryptedWarningMessage": "OtherComponent_phoneEncryptedWarningMessage"
   },
   "en": {
     "MetadataLabels_type": "Type",
@@ -1095,7 +1097,9 @@
     "MusicReleaseToPublicComponent_resultHeaderCopy2": "COPY",
     "MusicReleaseToPublicComponent_embedLabelText": "Embed",
     "MusicReleaseToPublicComponent_linkLabelText": "Link",
-    "MusicReleaseToPublicComponent_limitedEdition": "Limited Edition of {{limited}} [{{left}} editions left]"
+    "MusicReleaseToPublicComponent_limitedEdition": "Limited Edition of {{limited}} [{{left}} editions left]",
+    "OtherComponent_phoneEncryptedWarningTitle": "Warning: Your phone is not encrypted.",
+    "OtherComponent_phoneEncryptedWarningMessage": "Encrypting your data on your phone is easy and will protect yourself from a wide range of potential risks. We strongly recommend you do this now."
   },
   "zh": {
     "MetadataLabels_type": "資產種類",
@@ -1644,6 +1648,8 @@
     "MusicReleaseToPublicComponent_resultHeaderCopy2": "複製",
     "MusicReleaseToPublicComponent_embedLabelText": "嵌入",
     "MusicReleaseToPublicComponent_linkLabelText": "連結",
-    "MusicReleaseToPublicComponent_limitedEdition": "限量發行{{limited}[剩餘{{left}}版]"
+    "MusicReleaseToPublicComponent_limitedEdition": "限量發行{{limited}[剩餘{{left}}版]",
+    "OtherComponent_phoneEncryptedWarningTitle": "Warning: Your phone is not encrypted.",
+    "OtherComponent_phoneEncryptedWarningMessage": "Encrypting your data on your phone is easy and will protect yourself from a wide range of potential risks. We strongly recommend you do this now."
   }
 }

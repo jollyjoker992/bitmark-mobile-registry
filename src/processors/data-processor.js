@@ -6,7 +6,7 @@ import { Sentry } from 'react-native-sentry';
 import base58 from 'bs58';
 import { sha3_256 } from 'js-sha3';
 import randomString from 'random-string';
-import { Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 
 import {
   EventEmitterService, TransactionService,
@@ -308,7 +308,12 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
     if (config.isAndroid) {
       let isDiskEncrypted = await NativeAndroidUtils.checkDiskEncrypted();
       if (!isDiskEncrypted) {
-        NativeAndroidUtils.openSystemSetting("android.settings.SECURITY_SETTINGS");
+        Alert.alert(global.i18n.t('OtherComponent_phoneEncryptedWarningTitle'), global.i18n.t('OtherComponent_phoneEncryptedWarningMessage'), [{
+          text: global.i18n.t('MainComponent_ok'), style: 'cancel',
+          onPress: () => {
+            NativeAndroidUtils.openSystemSetting("android.settings.SECURITY_SETTINGS");
+          }
+        }]);
       }
     }
 
