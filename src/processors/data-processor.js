@@ -313,7 +313,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
           onPress: () => {
             NativeAndroidUtils.openSystemSetting("android.settings.SECURITY_SETTINGS");
           }
-        }]);
+        }], { cancelable: false });
       }
     }
 
