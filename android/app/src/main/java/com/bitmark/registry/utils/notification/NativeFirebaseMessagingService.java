@@ -20,6 +20,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -48,8 +49,12 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteNotification != null) {
             bundle.putString("title", remoteNotification.getTitle());
             bundle.putString("message", remoteNotification.getBody());
-            if (remoteNotification.getIcon() != null)
-                bundle.putString("smallIcon", remoteNotification.getIcon());
+            String icon = remoteNotification.getIcon();
+            if (icon != null) {
+                bundle.putString("smallIcon", icon);
+                bundle.putString("largeIcon", icon);
+            }
+
         }
 
         for (Map.Entry<String, String> entry : message.getData().entrySet()) {
@@ -59,26 +64,27 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
         // Notification data
         JSONObject notification = toJsonObject(bundle.getString("notification_payload", ""));
         if (notification != null) {
-            if (notification.has("body_loc_key")) {
+
+            if (notification.has("body_loc_key")){
                 String lockKey = notification.optString("body_loc_key");
                 String[] locArgs = jsonArrayToStringArray(
                         notification.optJSONArray("body_loc_args"));
                 bundle.putString("message", locArgs == null ? getLocMessage(lockKey) :
                         String.format(Locale.getDefault(), getLocMessage(lockKey), locArgs));
-
             }
 
-            String body = notification.optString("body", null);
-            if (body != null) bundle.putString("message", body);
-
-            String icon = notification.optString("icon", null);
-            if (icon != null) {
-                bundle.putString("smallIcon", icon);
-                bundle.putString("largeIcon", icon);
+            Iterator<String> keys = notification.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                if (key.equalsIgnoreCase("body")) {
+                    bundle.putString("message", notification.optString(key));
+                } else if (key.equalsIgnoreCase("icon")) {
+                    String icon = notification.optString(key);
+                    bundle.putString("smallIcon", icon);
+                    bundle.putString("largeIcon", icon);
+                } else bundle.putString(key, notification.optString(key));
+                keys.remove();
             }
-
-            String color = notification.optString("color", null);
-            if (color != null) bundle.putString("color", color);
 
         }
 
