@@ -12,10 +12,10 @@ const APPIUM_CONFIG = localConfig.APPIUM_CONFIG || {
 
 const RUN_CONFIG = localConfig.RUN_CONFIG || {
     platformName: 'iOS',
-    platformVersion: '11.3',
-    deviceName: 'iPhone 6',
+    platformVersion: '12.0',
+    deviceName: 'iPhone X',
     automationName: 'XCUITest',
-    app: '/Users/dungle/WebstormProjects/bitmark-mobile-registry/ios/build/Build/Products/Debug-iphonesimulator/Bitmark Registry dev.app' // relative to root of project
+    app: process.env.APP_URL // relative to root of project
 };
 
 const TEST_CONFIG = localConfig.TEST_CONFIG || {
