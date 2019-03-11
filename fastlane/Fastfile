@@ -330,6 +330,19 @@ platform :ios do
       dsym_path: './Bitmark Registry dev.app.dSYM.zip'
     )
   end
+  lane :automation_ui_development do
+    build_app(
+      export_options: {iCloudContainerEnvironment: 'Production'},
+      export_method: "enterprise",
+      clean: "true",
+      workspace: "ios/Bitmark Registry.xcworkspace", 
+      scheme: "Bitmark Registry dev",
+      include_bitcode: false,
+      skip_package_ipa: true,
+      derived_data_path: "./ios/derived_data"
+    )
+    sh "npm run test"
+  end
 end
 
 
