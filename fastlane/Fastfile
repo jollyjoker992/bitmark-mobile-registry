@@ -338,7 +338,6 @@ platform :ios do
       workspace: "ios/Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry dev",
       include_bitcode: false,
-      skip_package_ipa: true,
       derived_data_path: "./ios/derived_data"
     )
     sh "npm run test"
