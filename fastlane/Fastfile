@@ -333,7 +333,7 @@ platform :ios do
   lane :automation_ui_development do
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      export_method: "enterprise",
+      export_method: "development",
       configuration: "Debug",
       clean: "true",
       workspace: "ios/Bitmark Registry.xcworkspace", 
