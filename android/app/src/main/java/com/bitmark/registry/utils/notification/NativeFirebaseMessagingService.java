@@ -18,6 +18,8 @@ import com.facebook.react.bridge.ReactContext;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
@@ -65,12 +67,16 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
         JSONObject notification = toJsonObject(bundle.getString("notification_payload", ""));
         if (notification != null) {
 
-            if (notification.has("body_loc_key")){
-                String lockKey = notification.optString("body_loc_key");
-                String[] locArgs = jsonArrayToStringArray(
-                        notification.optJSONArray("body_loc_args"));
-                bundle.putString("message", locArgs == null ? getLocMessage(lockKey) :
-                        String.format(Locale.getDefault(), getLocMessage(lockKey), locArgs));
+            if (notification.has("body_loc_key")) {
+                try {
+                    String lockKey = notification.optString("body_loc_key");
+                    String[] locArgs = jsonArrayToStringArray(
+                            new JSONArray(notification.optString("body_loc_args")));
+                    bundle.putString("message", locArgs == null ? getLocMessage(lockKey) :
+                            String.format(Locale.getDefault(), getLocMessage(lockKey), locArgs));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             Iterator<String> keys = notification.keys();
