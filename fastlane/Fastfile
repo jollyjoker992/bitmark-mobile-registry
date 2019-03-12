@@ -334,6 +334,7 @@ platform :ios do
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
       export_method: "enterprise",
+      configuration: "Debug",
       clean: "true",
       workspace: "ios/Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry dev",
