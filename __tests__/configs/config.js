@@ -12,7 +12,7 @@ const APPIUM_CONFIG = localConfig.APPIUM_CONFIG || {
 
 const RUN_CONFIG = localConfig.RUN_CONFIG || {
     platformName: 'iOS',
-    platformVersion: '12.0',
+    platformVersion: '12.1',
     deviceName: 'iPhone X',
     automationName: 'XCUITest',
     app: process.env.APP_URL // relative to root of project
