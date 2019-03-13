@@ -149,7 +149,7 @@ class PrivateAccountDetailComponent extends React.Component {
               </OneTabButtonComponent>
 
               <OneTabButtonComponent style={accountStyle.accountRemoveButton} onPress={Actions.applicationDetail}>
-                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_appDetails")} » </Text>
+                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_appDetails")} »</Text>
               </OneTabButtonComponent>
 
               {/* <OneTabButtonComponent style={accountStyle.accountRemoveButton} onPress={Actions.webAccountMigrate}>

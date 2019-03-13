@@ -1,4 +1,4 @@
-import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from "./configs/config";
+import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from "./config";
 import wd from "wd";
 
 module.exports = async () => {
