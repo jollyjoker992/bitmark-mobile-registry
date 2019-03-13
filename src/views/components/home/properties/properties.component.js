@@ -80,7 +80,7 @@ class PrivatePropertiesComponent extends React.Component {
         <View style={[cStyles.header, { zIndex: 1 }]}>
           <OneTabButtonComponent style={defaultStyles.headerLeft}></OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("PropertiesComponent_headerTitle")}</Text>
-          <OneTabButtonComponent style={defaultStyles.headerRight} onPress={this.addProperty}>
+          <OneTabButtonComponent style={defaultStyles.headerRight} onPress={this.addProperty} testID={"addPropertyBtn"} >
             <Image style={cStyles.addPropertyIcon} source={require('assets/imgs/plus-icon.png')} />
           </OneTabButtonComponent>
         </View>

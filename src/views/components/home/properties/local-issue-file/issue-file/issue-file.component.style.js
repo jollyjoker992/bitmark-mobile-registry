@@ -240,9 +240,8 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   addMetadataButtonText: {
-    fontFamily: 'andale_mono',
-    fontSize: 14,
-    color: '#C2C2C2',
+    fontFamily: 'andale_mono', fontSize: 14, color: '#C2C2C2',
+    marginLeft: 4,
   },
   metadataInputError: {
     fontFamily: 'avenir_next_w1g_regular', fontSize: 16, lineHeight: 19, color: '#FF003C',

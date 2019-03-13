@@ -5,14 +5,14 @@ const APPIUM_CONFIG = {
 
 const RUN_CONFIG = {
     platformName: 'iOS',
-    platformVersion: '11.3',
-    deviceName: 'iPhone 6',
+    platformVersion: '12.1',
+    deviceName: 'iPhone X',
     automationName: 'XCUITest',
-    app: '/Users/dungle/WebstormProjects/bitmark-mobile-registry/ios/build/Build/Products/Debug-iphonesimulator/Bitmark Registry dev.app' // relative to root of project
+    app: '/Users/binle/Workspace/src/github.com/bitmark-inc/bitmark-mobile-registry/ios/build/Build/Products/Debug-iphonesimulator/Bitmark Registry dev.app' // relative to root of project
 };
 
 const TEST_CONFIG = {
-    DEFAULT_TIMEOUT_INTERVAL: 60000,
+    DEFAULT_TIMEOUT_INTERVAL: 100 * 60 * 1000,
     APP_LOAD_TIMEOUT: 5000,
     CHANGE_SCREEN_TIMEOUT: 5000
 };
