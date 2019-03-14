@@ -268,8 +268,8 @@ const runGetIFTTTInformationInBackground = () => {
     if (queueGetIFTTTInformation.length > 1) {
       return;
     }
-    IftttModel.doGetIFtttInformation(CacheData.userInformation.bitmarkAccountNumber).then(iftttInformation => {
-      console.log('runOnBackground  runGetIFTTTInformationInBackground success');
+    IftttModel.doGetIFtttInformation(CacheData.jwt).then(iftttInformation => {
+      console.log('runOnBackground  runGetIFTTTInformationInBackground success', iftttInformation);
       queueGetIFTTTInformation.forEach(queueResolve => queueResolve(iftttInformation));
       queueGetIFTTTInformation = [];
     }).catch(error => {
@@ -382,8 +382,7 @@ const doReloadTransfers = async (noNeedCheckNewData) => {
 };
 
 const doRevokeIftttToken = async () => {
-  let signatureData = await CommonModel.doCreateSignatureData();
-  let iftttInformation = await IftttModel.doRevokeIftttToken(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  let iftttInformation = await IftttModel.doRevokeIftttToken(CacheData.jwt);
   await _doCheckNewIftttInformation(iftttInformation);
   return iftttInformation;
 };

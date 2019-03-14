@@ -126,7 +126,7 @@ const configNotification = () => {
         CacheData.userInformation = await UserModel.doGetCurrentUser();
       }
 
-      let notification = Platform.select({ios: notificationData.data, android: notificationData});
+      let notification = Platform.select({ ios: notificationData.data, android: notificationData });
 
       if (notification.event === 'intercom_reply') {
         setTimeout(() => {
@@ -702,8 +702,7 @@ const doIssueIftttData = async (iftttBitmarkFile) => {
   let filename = iftttBitmarkFile.assetInfo.filePath.substring(iftttBitmarkFile.assetInfo.filePath.lastIndexOf("/") + 1, iftttBitmarkFile.assetInfo.filePath.length);
   let filePath = folderPath + '/' + filename;
   console.log('doIssueIftttData run 2', filePath);
-  let signatureData = await CommonModel.doCreateSignatureData();
-  let downloadResult = await IftttModel.downloadBitmarkFile(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id, filePath);
+  let downloadResult = await IftttModel.downloadBitmarkFile(CacheData.jwt, iftttBitmarkFile.id, filePath);
   console.log('doIssueIftttData run 3', downloadResult);
   if (downloadResult.statusCode >= 400) {
     throw new Error('Download file error!');
@@ -739,7 +738,7 @@ const doIssueIftttData = async (iftttBitmarkFile) => {
   console.log('doIssueIftttData run 5', assetsBitmarks);
   await BitmarkProcessor.doCheckNewAssetsBitmarks(assetsBitmarks);
 
-  let iftttInformation = await IftttModel.doRemoveBitmarkFile(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id);
+  let iftttInformation = await IftttModel.doRemoveBitmarkFile(CacheData.jwt, iftttBitmarkFile.id);
   await TransactionProcessor.doCheckNewIftttInformation(iftttInformation);
   console.log('doIssueIftttData run 6', iftttInformation);
   return iftttInformation;

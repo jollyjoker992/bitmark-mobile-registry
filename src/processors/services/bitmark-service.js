@@ -168,8 +168,7 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
   }
   let issueResult = await BitmarkModel.doIssueFile(filePath, assetName, metadata, limitedEdition + 1);
 
-  let signatures = await BitmarkSDK.signMessages([issueResult.assetId + '|' + limitedEdition]);
-  await BitmarkModel.doUploadMusicThumbnail(bitmarkAccountNumber, issueResult.assetId, thumbnailPath, limitedEdition, signatures[0]);
+  await BitmarkModel.doUploadMusicThumbnail(CacheData.jwt, issueResult.assetId, thumbnailPath, limitedEdition);
   await BitmarkModel.doUploadMusicAsset(CacheData.jwt, issueResult.assetId, filePath);
 
   let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber, config.isAndroid)}/${issueResult.assetId}`;

@@ -1,7 +1,7 @@
 import { config } from 'src/configs';
 import { FileUtil } from 'src/utils';
 
-const doGetIFtttInformation = (accountNumber) => {
+const doGetIFtttInformation = (jwt) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     let tempUrl = config.ifttt_server_url + `/api/user`;
@@ -10,7 +10,7 @@ const doGetIFtttInformation = (accountNumber) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        requester: accountNumber,
+        Authorization: 'Bearer ' + jwt,
       },
     }).then((response) => {
       statusCode = response.status;
@@ -24,7 +24,7 @@ const doGetIFtttInformation = (accountNumber) => {
   });
 };
 
-const doRevokeIftttToken = (accountNumber, timestamp, signature) => {
+const doRevokeIftttToken = (jwt) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     let tempUrl = config.ifttt_server_url + `/api/user`;
@@ -33,9 +33,7 @@ const doRevokeIftttToken = (accountNumber, timestamp, signature) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        requester: accountNumber,
-        timestamp,
-        signature,
+        Authorization: 'Bearer ' + jwt,
       },
     }).then((response) => {
       statusCode = response.status;
@@ -49,8 +47,7 @@ const doRevokeIftttToken = (accountNumber, timestamp, signature) => {
   });
 };
 
-const downloadBitmarkFile = async (accountNumber, timestamp, signature, id, filePath) => {
-  console.log('downloadBitmarkFile :', `${config.ifttt_server_url}/api/user/bitmark-file/${id}`, { accountNumber, timestamp, signature, id, filePath });
+const downloadBitmarkFile = async (jwt, id, filePath) => {
   return await FileUtil.downloadFile({
     fromUrl: `${config.ifttt_server_url}/api/user/bitmark-file/${id}`,
     toFile: filePath,
@@ -58,9 +55,7 @@ const downloadBitmarkFile = async (accountNumber, timestamp, signature, id, file
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      requester: accountNumber,
-      timestamp,
-      signature,
+      Authorization: 'Bearer ' + jwt,
     },
     begin: (res) => {
       console.log('downloadBitmarkFile begin ', res);
@@ -71,7 +66,7 @@ const downloadBitmarkFile = async (accountNumber, timestamp, signature, id, file
   });
 };
 
-const doRemoveBitmarkFile = (accountNumber, timestamp, signature, id) => {
+const doRemoveBitmarkFile = (jwt, id) => {
   return new Promise((resolve, reject) => {
     let statusCode;
     let tempUrl = config.ifttt_server_url + `/api/user/bitmark-file/${id}`;
@@ -80,9 +75,7 @@ const doRemoveBitmarkFile = (accountNumber, timestamp, signature, id) => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        requester: accountNumber,
-        timestamp,
-        signature,
+        Authorization: 'Bearer ' + jwt,
       },
     }).then((response) => {
       statusCode = response.status;
