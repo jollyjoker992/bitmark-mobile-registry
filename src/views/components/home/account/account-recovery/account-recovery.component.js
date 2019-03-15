@@ -95,11 +95,11 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
               <FlatList data={this.state.smallerList}
                 scrollEnabled={false}
                 extraData={this.state.smallerList}
-                renderItem={({ item }) => {
+                renderItem={({ item, index }) => {
                   return (
                     <View style={accountRecoveryStyle.recoveryPhraseSet}>
                       <Text style={accountRecoveryStyle.recoveryPhraseIndex}>{parseInt(item.key) + 1}.</Text>
-                      <Text style={accountRecoveryStyle.recoveryPhraseWord}>{item.word}</Text>
+                      <Text testID={`word_${index}`} style={accountRecoveryStyle.recoveryPhraseWord}>{item.word}</Text>
                     </View>
                   )
                 }}
@@ -109,11 +109,11 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
               <FlatList data={this.state.biggerList}
                 scrollEnabled={false}
                 extraData={this.state.biggerList}
-                renderItem={({ item }) => {
+                renderItem={({ item, index }) => {
                   return (
                     <View style={accountRecoveryStyle.recoveryPhraseSet}>
                       <Text style={accountRecoveryStyle.recoveryPhraseIndex}>{parseInt(item.key) + 1}.</Text>
-                      <Text style={accountRecoveryStyle.recoveryPhraseWord}>{item.word}</Text>
+                      <Text testID={`word_${this.state.smallerList.length + index}`} style={accountRecoveryStyle.recoveryPhraseWord}>{item.word}</Text>
                     </View>
                   )
                 }}
