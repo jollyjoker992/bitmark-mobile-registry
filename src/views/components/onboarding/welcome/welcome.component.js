@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   View, Text, Image,
-  StatusBar,
+  StatusBar, TouchableOpacity
 } from 'react-native';
 import Hyperlink from 'react-native-hyperlink';
 
@@ -34,7 +34,8 @@ export class WelcomeComponent extends React.Component {
         <View style={welcomeComponentStyle.welcomeBackground}>
           <View style={welcomeComponentStyle.swipePage}>
             <View style={welcomeComponentStyle.swipePageContent}>
-              <Text style={[welcomeComponentStyle.introductionTitle]}>{global.i18n.t("WelcomeComponent_introductionTitle")}</Text>
+              <Text accessible= {true} testID= {"testId"}
+                    accessibilityLabel= {"testId"} style={[welcomeComponentStyle.introductionTitle]}>{global.i18n.t("WelcomeComponent_introductionTitle")}</Text>
               <Text style={[welcomeComponentStyle.introductionDescription]}>{global.i18n.t("WelcomeComponent_introductionDescription")}</Text>
               <Image style={welcomeComponentStyle.introductionImage} source={require('assets/imgs/introduction1.png')} />
 
@@ -66,10 +67,10 @@ export class WelcomeComponent extends React.Component {
             </View>
           </View>
           <View style={[welcomeComponentStyle.welcomeButtonArea]}>
-            <OneTabButtonComponent style={[welcomeComponentStyle.welcomeButton,]} onPress={() => Actions.faceTouchId({ doContinue: this.createNewAccount })}>
+            <OneTabButtonComponent testID={"createNewAccountBtn"} style={[welcomeComponentStyle.welcomeButton,]} onPress={() => Actions.faceTouchId({ doContinue: this.createNewAccount })}>
               <Text style={[welcomeComponentStyle.welcomeButtonText,]}>{global.i18n.t("WelcomeComponent_createNewAccount")}</Text>
             </OneTabButtonComponent>
-            <OneTabButtonComponent style={[welcomeComponentStyle.welcomeButton, {
+            <OneTabButtonComponent testID={"accessExistingAccountBtn"} style={[welcomeComponentStyle.welcomeButton, {
               backgroundColor: '#F2FAFF',
               height: 45 + (constant.blankFooter / 2),
             }]} onPress={Actions.signIn}>

@@ -282,10 +282,11 @@ export class SignInComponent extends React.Component {
                   keyExtractor={(item) => item.key + ''}
                   scrollEnabled={false}
                   extraData={this.state}
-                  renderItem={({ item }) => {
+                  renderItem={({ item, index }) => {
                     return (<View style={signStyle.recoveryPhraseSet}>
                       <Text style={signStyle.recoveryPhraseIndex}>{item.key + 1}.</Text>
                       <TextInput
+                        testID={`input_word_${index}`}
                         autoComplete='off'
                         style={[config.isAndroid ? { padding: 2 } : {}, signStyle.recoveryPhraseWord, {
                           backgroundColor: (item.word ? 'white' : '#F5F5F5'),
@@ -310,10 +311,11 @@ export class SignInComponent extends React.Component {
                   keyExtractor={(item) => item.key + ''}
                   scrollEnabled={false}
                   extraData={this.state}
-                  renderItem={({ item }) => {
+                  renderItem={({ item, index }) => {
                     return (<View style={signStyle.recoveryPhraseSet}>
                       <Text style={signStyle.recoveryPhraseIndex}>{item.key + 1}.</Text>
                       <TextInput
+                        testID={`input_word_${this.state.smallerList.length + index}`}
                         autoComplete='off'
                         style={[config.isAndroid ? { padding: 2 } : {}, signStyle.recoveryPhraseWord, {
                           backgroundColor: (item.word ? 'white' : '#F5F5F5'),

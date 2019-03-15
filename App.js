@@ -16,6 +16,9 @@ import { config } from 'src/configs';
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
 
+console.disableYellowBox = true;
+console.reportErrorsAsExceptions = false;
+
 if (!__DEV__) {
   Sentry.config('https://24a5a145b3af4985b5162cd1f866168f@sentry.io/1342482').install();
   // set the tag context
