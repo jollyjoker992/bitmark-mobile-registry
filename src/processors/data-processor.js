@@ -484,7 +484,7 @@ const doTransferBitmark = async (bitmarkId, receiver, isDelete) => {
   let { asset } = await BitmarkProcessor.doGetAssetBitmark(bitmarkId);
   if (!isDelete) {
     if (asset && asset.filePath) {
-      let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(asset.id);
+      let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(CacheData.jwt, asset.id);
       if (resultCheck && resultCheck.data_key_alg && resultCheck.enc_data_key && resultCheck.orig_content_type) {
         let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(receiver);
         let receiverSessionData = await BitmarkSDK.encryptSessionData({
@@ -492,7 +492,7 @@ const doTransferBitmark = async (bitmarkId, receiver, isDelete) => {
           data_key_alg: resultCheck.data_key_alg
         }, encryptionPublicKey);
         let access = `${receiver}:${receiverSessionData.enc_data_key}`;
-        let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(asset.id, access);
+        let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(CacheData.jwt, asset.id, access);
         console.log('grantAccessResult :', grantAccessResult);
       } else {
         let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
@@ -503,7 +503,7 @@ const doTransferBitmark = async (bitmarkId, receiver, isDelete) => {
         let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(receiver);
         let receiverSessionData = await BitmarkSDK.encryptSessionData(sessionData, encryptionPublicKey);
         let access = `${receiver}:${receiverSessionData.enc_data_key}`;
-        let uploadResult = await BitmarkService.doUploadFileToCourierServer(asset.id, encryptedFilePath, sessionData, filename, access);
+        let uploadResult = await BitmarkService.doUploadFileToCourierServer(CacheData.jwt, asset.id, encryptedFilePath, sessionData, filename, access);
         console.log('uploadResult :', uploadResult);
       }
     }
@@ -533,7 +533,7 @@ const doSignAllIncomingClaimRequest = async (mapAssetClaimRequest) => {
     if (incomingClaimRequestsOfAsset && incomingClaimRequestsOfAsset.length > 0) {
       let asset = incomingClaimRequestsOfAsset[0].asset;
       if (asset && asset.filePath) {
-        let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(asset.id);
+        let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(CacheData.jwt, asset.id);
         if (resultCheck && resultCheck.data_key_alg && resultCheck.enc_data_key && resultCheck.orig_content_type) {
           let sessionData = {
             enc_data_key: resultCheck.enc_data_key,
@@ -548,7 +548,7 @@ const doSignAllIncomingClaimRequest = async (mapAssetClaimRequest) => {
               access += (access ? ':' : '') + `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
             }
           }
-          let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(asset.id, access);
+          let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(CacheData.jwt, asset.id, access);
           console.log('grantAccessResult :', grantAccessResult);
         } else {
           let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
@@ -565,7 +565,7 @@ const doSignAllIncomingClaimRequest = async (mapAssetClaimRequest) => {
               access += (access ? ':' : '') + `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
             }
           }
-          let uploadResult = await BitmarkService.doUploadFileToCourierServer(asset.id, encryptedFilePath, sessionData, filename, access);
+          let uploadResult = await BitmarkService.doUploadFileToCourierServer(CacheData.jwt, asset.id, encryptedFilePath, sessionData, filename, access);
           console.log('uploadResult :', uploadResult);
         }
       }
@@ -651,7 +651,7 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
     }
     if (bitmark) {
       if (asset && asset.filePath) {
-        let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(asset.id);
+        let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(CacheData.jwt, asset.id);
         if (resultCheck && resultCheck.data_key_alg && resultCheck.enc_data_key && resultCheck.orig_content_type) {
           let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);
           let receiverSessionData = await BitmarkSDK.encryptSessionData({
@@ -659,7 +659,7 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
             data_key_alg: resultCheck.data_key_alg
           }, encryptionPublicKey);
           let access = `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
-          let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(asset.id, access);
+          let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(CacheData.jwt, asset.id, access);
           console.log('grantAccessResult :', grantAccessResult);
         } else {
           let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
@@ -671,7 +671,7 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
           let receiverSessionData = await BitmarkSDK.encryptSessionData(sessionData, encryptionPublicKey);
           let access = `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
 
-          let uploadResult = await BitmarkService.doUploadFileToCourierServer(asset.id, encryptedFilePath, sessionData, filename, access);
+          let uploadResult = await BitmarkService.doUploadFileToCourierServer(CacheData.jwt, asset.id, encryptedFilePath, sessionData, filename, access);
           console.log('uploadResult :', uploadResult);
         }
       }
