@@ -89,12 +89,7 @@ const BitmarkSDK = {
     return { id: list[0], fingerprint: list[1] };
   },
   validateMetadata: async (metadata) => {
-    try {
-      await NativeBitmarkSDK.validateMetadata(metadata);
-      return true;
-    } catch (error) {
-      return false;
-    }
+    return await NativeBitmarkSDK.validateMetadata(metadata);
   },
   validateAccountNumber: async (accountNumber) => {
     return await NativeBitmarkSDK.validateAccountNumber(accountNumber);
