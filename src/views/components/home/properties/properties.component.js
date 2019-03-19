@@ -176,7 +176,7 @@ class PrivatePropertiesComponent extends React.Component {
           }}
           scrollEventThrottle={1}
         >
-          <OneTabButtonComponent activeOpacity={1} style={cStyles.contentSubTab}>
+          <OneTabButtonComponent accessible={false} activeOpacity={1} style={cStyles.contentSubTab}>
             {(!this.props.appLoadingData && this.props.displayedBitmarks && this.props.displayedBitmarks.length === 0) && <View style={cStyles.messageNoBitmarkArea}>
               <View>
                 <Text style={cStyles.messageNoBitmarkLabel}>
@@ -190,12 +190,12 @@ class PrivatePropertiesComponent extends React.Component {
                 <Text style={cStyles.addFirstPropertyButtonText}>{global.i18n.t("PropertiesComponent_addFirstPropertyButtonText")}</Text>
               </OneTabButtonComponent>
             </View>}
-            {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.props.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => {
+            {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.props.subTab === SubTabs.local && this.props.displayedBitmarks.map((bitmark, index) => {
               if (!bitmark || !bitmark.id) {
                 return
               }
               return (
-                <OneTabButtonComponent key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
+                <OneTabButtonComponent accessible={false} testID={`item_${index}`} key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
                   BitmarkProcessor.doUpdateViewStatus(bitmark.id);
                   Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] });
                 }}>

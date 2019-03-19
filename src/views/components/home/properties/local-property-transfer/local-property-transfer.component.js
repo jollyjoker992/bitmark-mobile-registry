@@ -82,10 +82,11 @@ export class LocalPropertyTransferComponent extends React.Component {
 
           <View style={propertyTransferStyle.body}>
             <ScrollView style={propertyTransferStyle.content}>
-              <OneTabButtonComponent activeOpacity={1} style={propertyTransferStyle.mainContent}>
+              <OneTabButtonComponent accessible={false} activeOpacity={1} style={propertyTransferStyle.mainContent}>
                 <Text style={propertyTransferStyle.transferTitle}>{global.i18n.t("LocalPropertyTransferComponent_sendBitmark")}</Text>
                 <View style={propertyTransferStyle.inputAccountNumberBar} >
                   <TextInput style={[config.isAndroid ? { padding: 2 } : {}, propertyTransferStyle.inputAccountNumber]} placeholder={global.i18n.t("LocalPropertyTransferComponent_recipientBitmarkAccountNumber")}
+                    testID={'transferBitmarkAccount'}
                     onChangeText={(bitmarkAccount) => this.setState({ bitmarkAccount })}
                     returnKeyType="done"
                     value={this.state.bitmarkAccount}

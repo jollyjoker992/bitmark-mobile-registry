@@ -71,8 +71,8 @@ export class WhatNewComponent extends Component {
           </View>}
           {this.state.step === 2 && <View style={styles.bodyContent}>
             <View style={styles.header}>
-              <OneTabButtonComponent style={styles.closeButton} onPress={this.viewAllWhatNew.bind(this)}>
-                <Text style={styles.closeButtonText}>{i18n.t('WhatNewComponent_closeButtonText')}</Text>
+              <OneTabButtonComponent accessible={false} style={styles.closeButton} onPress={this.viewAllWhatNew.bind(this)}>
+                <Text testID={'closeBtn'} style={styles.closeButtonText}>{i18n.t('WhatNewComponent_closeButtonText')}</Text>
               </OneTabButtonComponent>
               <Text style={styles.headerTitle}>{i18n.t('WhatNewComponent_headerTitle2')}</Text>
             </View>

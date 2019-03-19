@@ -424,9 +424,9 @@ const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
     throw new Error(`doDownloadFileToCourierServer error ${response.statusCode}`);
   }
   return {
-    data_key_alg: response.headers['Data-Key-Alg'],
-    enc_data_key: response.headers['Enc-Data-Key'],
-    filename: response.headers['File-Name'],
+    data_key_alg: response.headers['data-key-alg'],
+    enc_data_key: response.headers['enc-data-key'],
+    filename: response.headers['file-name'],
   };
 };
 
