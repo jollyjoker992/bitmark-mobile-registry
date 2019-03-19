@@ -195,12 +195,10 @@ class PrivatePropertiesComponent extends React.Component {
                 return
               }
               return (
-                <OneTabButtonComponent accessible={false} key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
+                <OneTabButtonComponent accessible={false} testID={`item_${index}`} key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
                   BitmarkProcessor.doUpdateViewStatus(bitmark.id);
                   Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] });
-                }}
-                  testID={`PropertiesComponent_yours_${index}`}
-                >
+                }}>
 
                   <View style={cStyles.bitmarkContent}>
                     <Text style={[cStyles.bitmarkCreatedAt, bitmark.isViewed ? {} : { color: '#0060F2' }]}>

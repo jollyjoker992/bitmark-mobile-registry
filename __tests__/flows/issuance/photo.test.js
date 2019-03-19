@@ -21,7 +21,7 @@ checkAfterIssue = async (assetName) => {
   expect(propertyNameInProperties).toEqual(assetName);
 
   //access to detail screen
-  await driver.waitForElementById("PropertiesComponent_yours_0", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById("PropertiesComponent_yours_0").tap();
+  await driver.waitForElementById("item_0", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById("item_0").tap();
 
   //check assetName
   propertyNameInProperties = await driver.waitForElementById("PropertyDetailComponent_assetName", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById("PropertyDetailComponent_assetName").text();

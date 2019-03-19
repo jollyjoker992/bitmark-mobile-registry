@@ -28,10 +28,10 @@ const createNewAccountWithTouchId = async (driver) => {
         await driver
             .waitForElementByName('Allow', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
             .elementByName("Allow").tap();
-    } catch (err) {
-        console.log('Already allowed notification before')
+    } catch {
+        console.log('Already allowed notification before');
     }
-
+    await closeWhatNewScreen(driver);
     return result;
 };
 
@@ -54,9 +54,68 @@ const createNewAccountWithoutTouchId = async (driver) => {
         .waitForElementByName('Allow', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
         .elementByName("Allow").tap();
 
+    await closeWhatNewScreen(driver);
+
     return result;
 };
 
+const accessExistingAccount = async (driver, phraseWords) => {
+    await driver.sleep(3000);
+
+    // Go to ACCESS EXISTING ACCOUNT screen
+    await driver
+        .waitForElementByName('ACCESS EXISTING ACCOUNT', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+        .elementByName('ACCESS EXISTING ACCOUNT').tap()
+        .waitForElementByName('SUBMIT', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT);
+
+    if (phraseWords.length == 24) {
+        await driver.waitForElementByName('Are you using 24 words of recovery phrase? Tap here to swich the form.', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+            .elementByName("Are you using 24 words of recovery phrase? Tap here to swich the form.").tap();
+    }
+
+    await driver.sleep(2000);
+
+    // Input words
+    for (let i = 0; i < phraseWords.length; i++) {
+        let input = await driver.elementByAccessibilityId(`input_word_${i}`);
+        await input.type(phraseWords[i]);
+        await driver.elementByName("return").tap();
+    }
+
+    // Submit words and finish login steps
+    let result = await driver
+        .waitForElementByName('Done', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+        .elementByName('Done').tap()
+        .sleep(3000)
+        .elementByName('SUBMIT').tap()
+        // TouchId Screen
+        .waitForElementByName('SKIP', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+        .elementByName('SKIP').tap()
+        // iOS popup confirm
+        .waitForElementByName('Yes', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+        .elementByName("Yes").tap()
+        // Notification Screen
+        .waitForElementByName('ENABLE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+        .elementByName("ENABLE").tap()
+        // iOS popup confirm
+        .waitForElementByName('Allow', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+        .elementByName("Allow").tap();
+
+    await closeWhatNewScreen(driver);
+
+    return result;
+};
+
+const closeWhatNewScreen = async (driver) => {
+    try {
+        await driver
+            .sleep(3000)
+            .waitForElementByAccessibilityId('closeBtn', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+            .elementByAccessibilityId("closeBtn").tap();
+    } catch {
+        console.log("Don't have What's New");
+    }
+};
 
 const pushNewPhotoToDevice = (deviceUID, photoPath) => {
     let ratio = 0.5 + Math.random();
@@ -86,16 +145,22 @@ const pushNewPhotoToDevice = (deviceUID, photoPath) => {
 const issueNewPhotoWithoutMetadata = async (driver, photoPath, assetName, quantity) => {
     let capabilities = await driver.sessionCapabilities();
     await pushNewPhotoToDevice(capabilities.udid, photoPath);
-    let elements = await driver
-        .waitForElementById('BottomTabsComponent_properties', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('BottomTabsComponent_properties').tap()
+
+    await driver.waitForElementById('BottomTabsComponent_properties', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('BottomTabsComponent_properties').tap()
         .waitForElementById('addPropertyBtn', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('addPropertyBtn').tap()
         // select photo
         .waitForElementByName('PHOTOS', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('PHOTOS').tap()
         // Choose image from lib
-        .waitForElementByName('Choose from Library...', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Choose from Library...').tap()
+        .waitForElementByName('Choose from Library...', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Choose from Library...').tap();
+    try {
         // allow permission
-        // .waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap()
-        .waitForElementByName('Camera Roll', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Camera Roll').tap()
+        await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap();
+    } catch {
+        console.log('Already allowed permission before');
+    }
+
+    // .waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap()
+    let elements = driver.waitForElementByName('Camera Roll', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Camera Roll').tap()
         // Choose image from lib
         .waitForElementsByIosPredicateString("type == 'XCUIElementTypeCell'", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementsByIosPredicateString("type == 'XCUIElementTypeCell'");
     // Choose latest image
@@ -126,4 +191,5 @@ export {
     createNewAccountWithoutTouchId,
     pushNewPhotoToDevice,
     issueNewPhotoWithoutMetadata,
+    accessExistingAccount
 };
