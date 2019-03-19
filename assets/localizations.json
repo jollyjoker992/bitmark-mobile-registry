@@ -968,7 +968,7 @@
     "SignInComponent_submitButtonTextSuccess": "SUBMIT",
     "SignInComponent_submitButtonTextWrong": "RETRY",
     "SignInComponent_doneInput": "Done",
-    "SignInComponent_switchFormMessage": "Are you using {{number}} words of recovery phrase? Tap here to swich the form.",
+    "SignInComponent_switchFormMessage": "Are you using {{number}} words of recovery phrase? Tap here to switch the form.",
     "LocalStorageMigrationComponent_status1": "UPDATING...",
     "LocalStorageMigrationComponent_status2": "COMPLETE",
     "LocalStorageMigrationComponent_title": "New version available",

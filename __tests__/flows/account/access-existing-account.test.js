@@ -1,5 +1,5 @@
 import wd from 'wd';
-import {APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG} from '../../configs/config'
+import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = TEST_CONFIG.DEFAULT_TIMEOUT_INTERVAL;
 const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
@@ -16,7 +16,7 @@ test('Access Existing Account - 12 words', async () => {
     await driver.sleep(2000);
 
     // Go to ACCESS EXISTING ACCOUNT screen
-    let result = await driver
+    await driver
         .waitForElementByName('ACCESS EXISTING ACCOUNT', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
         .elementByName('ACCESS EXISTING ACCOUNT').tap()
         .waitForElementByName('SUBMIT', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT);
@@ -51,11 +51,11 @@ test('Access Existing Account - 24 words', async () => {
     await driver.sleep(2000);
 
     // Go to ACCESS EXISTING ACCOUNT screen
-    let result = await driver
+    await driver
         .waitForElementByName('ACCESS EXISTING ACCOUNT', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
         .elementByName('ACCESS EXISTING ACCOUNT').tap()
-        .waitForElementByName('Are you using 24 words of recovery phrase? Tap here to swich the form.', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
-        .elementByName("Are you using 24 words of recovery phrase? Tap here to swich the form.").tap()
+        .waitForElementByName('Are you using 24 words of recovery phrase? Tap here to switch the form.', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+        .elementByName("Are you using 24 words of recovery phrase? Tap here to switch the form.").tap()
         .waitForElementByName('SUBMIT', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT);
 
     // Input words
