@@ -2,6 +2,8 @@ import wd from 'wd';
 import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
 import { issueNewPhotoWithoutMetadata, pushNewPhotoToDevice, createNewAccountWithoutTouchId } from '__tests__/common/common';
 
+let path = require('path');
+
 jasmine.DEFAULT_TIMEOUT_INTERVAL = TEST_CONFIG.DEFAULT_TIMEOUT_INTERVAL;
 const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
 
@@ -21,7 +23,7 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   await driver.sleep(3000);
 
   let capabilities = await driver.sessionCapabilities();
-  await pushNewPhotoToDevice(capabilities.udid, '/Users/binle/Workspace/src/github.com/bitmark-inc/bitmark-mobile-registry/__tests__/assets/img/test.png');
+  await pushNewPhotoToDevice(capabilities.udid, path.join(__dirname, '../../assets/img/test.png'));
 
   let elements = await driver
     .waitForElementById('addPropertyBtn', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('addPropertyBtn').tap()
@@ -118,7 +120,7 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
 
 test('issue new photo without metadata', async () => {
   await issueNewPhotoWithoutMetadata(driver,
-    '/Users/binle/Workspace/src/github.com/bitmark-inc/bitmark-mobile-registry/__tests__/assets/img/test.png',
+    path.join(__dirname, '../../assets/img/test.png'),
     `Regression test ${new Date().toISOString()}`,
     100);
 });
