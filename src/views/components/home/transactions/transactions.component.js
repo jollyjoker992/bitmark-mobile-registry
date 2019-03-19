@@ -296,7 +296,7 @@ class PrivateTransactionsComponent extends React.Component {
           }}
           scrollEventThrottle={1}
         >
-          <OneTabButtonComponent activeOpacity={1} style={{ flex: 1 }}>
+          <OneTabButtonComponent accessible={false} activeOpacity={1} style={{ flex: 1 }}>
             {this.props.completed && this.props.completed.length === 0 && !this.props.appLoadingData && <View style={transactionsStyle.contentSubTab}>
               <Text style={transactionsStyle.titleNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noTransactionHistoryTitle")}</Text>
               <Text style={transactionsStyle.messageNoRequiredTransferOffer}>{global.i18n.t("TransactionsComponent_noTransactionHistoryMessage")}</Text>
@@ -308,7 +308,7 @@ class PrivateTransactionsComponent extends React.Component {
                 renderItem={({ item, index }) => {
                   if (item.outgoingClaimRequest) {
                     return (
-                      <OneTabButtonComponent style={transactionsStyle.completedTransfer} testID={`TransactionsComponent_completed_${index}`}>
+                      <OneTabButtonComponent accessible={false} style={transactionsStyle.completedTransfer} testID={`TransactionsComponent_completed_${index}`}>
                         <View style={transactionsStyle.completedTransferHeader}>
                           {item.outgoingClaimRequest.status === 'accepted' && <View style={transactionsStyle.completedTransferHeaderIconArea}>
                             <Image style={transactionsStyle.completedTransferHeaderIconImage} source={require('assets/imgs/accepted_icon.png')} />
@@ -354,9 +354,8 @@ class PrivateTransactionsComponent extends React.Component {
                     )
                   }
 
-                  console.log('TransactionsComponent_completed_property_ :', `TransactionsComponent_completed_property_${index}`);
                   return (
-                    <OneTabButtonComponent style={transactionsStyle.completedTransfer} testID={`TransactionsComponent_completed_${index}`}
+                    <OneTabButtonComponent accessible={false} style={transactionsStyle.completedTransfer} testID={`TransactionsComponent_completed_${index}`}
                       onPress={() => this.clickToCompleted(item)} disabled={(item.status === 'pending' || item.status === 'waiting')}>
                       <View style={transactionsStyle.completedTransferHeader}>
                         {(item.status === 'confirmed' || item.status === 'accepted') && <View style={transactionsStyle.completedTransferHeaderIconArea}>

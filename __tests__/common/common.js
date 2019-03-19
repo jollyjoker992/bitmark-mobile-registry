@@ -87,6 +87,7 @@ const issueNewPhotoWithoutMetadata = async (driver, photoPath, assetName, quanti
     let capabilities = await driver.sessionCapabilities();
     await pushNewPhotoToDevice(capabilities.udid, photoPath);
     let elements = await driver
+        .waitForElementById('BottomTabsComponent_properties', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('BottomTabsComponent_properties').tap()
         .waitForElementById('addPropertyBtn', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('addPropertyBtn').tap()
         // select photo
         .waitForElementByName('PHOTOS', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('PHOTOS').tap()

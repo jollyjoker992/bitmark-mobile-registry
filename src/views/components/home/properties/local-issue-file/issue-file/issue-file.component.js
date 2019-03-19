@@ -222,7 +222,7 @@ export class LocalIssueFileComponent extends React.Component {
               {!!this.state.assetNameError && <Text testID='errorInputAssetName' style={localAddPropertyStyle.assetNameInputError}>{this.state.assetNameError}</Text>}
 
               {this.state.existingAsset && <View style={localAddPropertyStyle.existAssetName}>
-                <Text style={[localAddPropertyStyle.existAssetNameText]}>{this.state.assetName}</Text>
+                <Text style={[localAddPropertyStyle.existAssetNameText]} testID="LocalIssueFileComponent_existing_assetName">{this.state.assetName}</Text>
               </View>}
 
               <Text style={localAddPropertyStyle.metadataLabel}>{global.i18n.t("LocalIssueFileComponent_metadata")}</Text>

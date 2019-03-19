@@ -176,7 +176,7 @@ class PrivatePropertiesComponent extends React.Component {
           }}
           scrollEventThrottle={1}
         >
-          <OneTabButtonComponent activeOpacity={1} style={cStyles.contentSubTab}>
+          <OneTabButtonComponent accessible={false} activeOpacity={1} style={cStyles.contentSubTab}>
             {(!this.props.appLoadingData && this.props.displayedBitmarks && this.props.displayedBitmarks.length === 0) && <View style={cStyles.messageNoBitmarkArea}>
               <View>
                 <Text style={cStyles.messageNoBitmarkLabel}>
@@ -190,22 +190,26 @@ class PrivatePropertiesComponent extends React.Component {
                 <Text style={cStyles.addFirstPropertyButtonText}>{global.i18n.t("PropertiesComponent_addFirstPropertyButtonText")}</Text>
               </OneTabButtonComponent>
             </View>}
-            {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.props.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => {
+            {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.props.subTab === SubTabs.local && this.props.displayedBitmarks.map((bitmark, index) => {
               if (!bitmark || !bitmark.id) {
                 return
               }
               return (
-                <OneTabButtonComponent key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
+                <OneTabButtonComponent accessible={false} key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
                   BitmarkProcessor.doUpdateViewStatus(bitmark.id);
                   Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] });
-                }}>
+                }}
+                  testID={`PropertiesComponent_yours_${index}`}
+                >
 
                   <View style={cStyles.bitmarkContent}>
                     <Text style={[cStyles.bitmarkCreatedAt, bitmark.isViewed ? {} : { color: '#0060F2' }]}>
                       {bitmark.created_at ? moment(bitmark.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase()
                         : (bitmark.issuer === CacheData.userInformation.bitmarkAccountNumber ? global.i18n.t("PropertiesComponent_registering") : global.i18n.t("PropertiesComponent_transferring"))}
                     </Text>
-                    <Text style={[cStyles.bitmarkAssetName, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>
+                    <Text style={[cStyles.bitmarkAssetName, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}
+                      testID={`PropertiesComponent_yours_assetName_${index}`}
+                    >
                       {this.props.assets[bitmark.asset_id].name + `${isReleasedAsset(this.props.assets[bitmark.asset_id])
                         ? ` [${(bitmark.editionNumber === undefined || bitmark.editionNumber < 0) ? '?' : bitmark.editionNumber}/${this.props.assets[bitmark.asset_id].editions[bitmark.issuer].limited}]`
                         : ''}`}
