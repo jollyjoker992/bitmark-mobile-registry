@@ -305,10 +305,10 @@ class PrivateTransactionsComponent extends React.Component {
               <FlatList data={this.props.completed}
                 keyExtractor={(item, index) => (index + '')}
                 extraData={this.state}
-                renderItem={({ item }) => {
+                renderItem={({ item, index }) => {
                   if (item.outgoingClaimRequest) {
                     return (
-                      <OneTabButtonComponent style={transactionsStyle.completedTransfer}>
+                      <OneTabButtonComponent style={transactionsStyle.completedTransfer} testID={`TransactionsComponent_completed_${index}`}>
                         <View style={transactionsStyle.completedTransferHeader}>
                           {item.outgoingClaimRequest.status === 'accepted' && <View style={transactionsStyle.completedTransferHeaderIconArea}>
                             <Image style={transactionsStyle.completedTransferHeaderIconImage} source={require('assets/imgs/accepted_icon.png')} />
@@ -353,8 +353,11 @@ class PrivateTransactionsComponent extends React.Component {
                       </OneTabButtonComponent>
                     )
                   }
+
+                  console.log('TransactionsComponent_completed_property_ :', `TransactionsComponent_completed_property_${index}`);
                   return (
-                    <OneTabButtonComponent style={transactionsStyle.completedTransfer} onPress={() => this.clickToCompleted(item)} disabled={(item.status === 'pending' || item.status === 'waiting')}>
+                    <OneTabButtonComponent style={transactionsStyle.completedTransfer} testID={`TransactionsComponent_completed_${index}`}
+                      onPress={() => this.clickToCompleted(item)} disabled={(item.status === 'pending' || item.status === 'waiting')}>
                       <View style={transactionsStyle.completedTransferHeader}>
                         {(item.status === 'confirmed' || item.status === 'accepted') && <View style={transactionsStyle.completedTransferHeaderIconArea}>
                           <Image style={transactionsStyle.completedTransferHeaderIconImage} source={require('assets/imgs/accepted_icon.png')} />
@@ -377,11 +380,12 @@ class PrivateTransactionsComponent extends React.Component {
                       <View style={transactionsStyle.completedTransferContent}>
                         <View style={transactionsStyle.completedTransferContentRow}>
                           <Text style={[transactionsStyle.completedTransferContentRowLabel, { marginTop: 4, }]}>{global.i18n.t("TransactionsComponent_property")}</Text>
-                          <Text style={[transactionsStyle.completedTransferContentRowPropertyName]} numberOfLines={1} >{item.assetName}</Text>
+                          <Text style={[transactionsStyle.completedTransferContentRowPropertyName]} numberOfLines={1} testID={`TransactionsComponent_completed_property_${index}`} >{item.assetName}</Text>
                         </View>
                         {!!item.type && <View style={[transactionsStyle.completedTransferContentRow, { marginTop: 4, }]}>
                           <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_type")}</Text>
-                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1}>{global.i18n.t(`TransactionsComponent_type_${item.type}`, { defaultValue: item.type })}</Text>
+                          <Text style={transactionsStyle.completedTransferContentRowValue} numberOfLines={1} testID={`TransactionsComponent_completed_type_${index}`}>
+                            {global.i18n.t(`TransactionsComponent_type_${item.type}`, { defaultValue: item.type })}</Text>
                         </View>}
                         <View style={[transactionsStyle.completedTransferContentRow]}>
                           <Text style={transactionsStyle.completedTransferContentRowLabel}>{global.i18n.t("TransactionsComponent_from")}</Text>

@@ -30,10 +30,13 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           const active = index === this.props.navigation.state.index;
           const label = this.props.getLabelText({ route });
           if (label === 'properties') {
-            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton} onPress={() => {
-              this.props.onTabPress({ route });
-              Actions.reset('properties');
-            }}>
+            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton}
+              testID={`BottomTabsComponent_${label}`}
+              onPress={() => {
+                this.props.onTabPress({ route });
+                Actions.reset('properties');
+
+              }}>
               {this.props.totalNewBitmarks > 0 && <View style={componentStyles.haveNewBitmark} />}
               <Image style={componentStyles.bottomTabButtonIcon} source={active
                 ? require('assets/imgs/properties-icon-enable.png')
@@ -45,10 +48,12 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           }
 
           if (label === 'transactions') {
-            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton} onPress={() => {
-              this.props.onTabPress({ route });
-              Actions.reset(label);
-            }}>
+            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton}
+              testID={`BottomTabsComponent_${label}`}
+              onPress={() => {
+                this.props.onTabPress({ route });
+                Actions.reset(label);
+              }}>
               {this.props.totalTasks > 0 && <View style={componentStyles.transactionNumber}>
                 <Text style={componentStyles.transactionNumberText}>{this.props.totalTasks < 100 ? this.props.totalTasks : 99}</Text>
               </View>}
@@ -62,10 +67,12 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           }
 
           if (label === 'account') {
-            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton} onPress={() => {
-              this.props.onTabPress({ route });
-              Actions.reset('accountDetail');
-            }}>
+            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton}
+              testID={`BottomTabsComponent_${label}`}
+              onPress={() => {
+                this.props.onTabPress({ route });
+                Actions.reset('accountDetail');
+              }}>
               <Image style={componentStyles.bottomTabButtonIcon} source={active
                 ? require('assets/imgs/account-icon-enable.png')
                 : require('assets/imgs/account-icon-disable.png')} />
