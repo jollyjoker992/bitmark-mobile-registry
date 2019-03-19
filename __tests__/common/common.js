@@ -67,7 +67,6 @@ const pushNewPhotoToDevice = (deviceUID, photoPath) => {
         photo.metadata().then(metadata => {
             let width = Math.floor(metadata.width * ratio);
             let height = Math.floor(metadata.height * ratio);
-            console.log({ metadata, width, height });
             desPhotoPath = photoPath.replace(path.basename(photoPath), 'new_' + path.basename(photoPath));
             return photo.resize(width, height, { background }).toFile(desPhotoPath);
         }).then(() => {
