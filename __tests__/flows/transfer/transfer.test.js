@@ -1,6 +1,7 @@
 import wd from 'wd';
 import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
 import { accessExistingAccount } from "../../common/common";
+import moment from "moment/moment";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = TEST_CONFIG.DEFAULT_TIMEOUT_INTERVAL;
 const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
@@ -10,6 +11,7 @@ const HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT = 'fADx4NWuuSXy6TefpnZwWvxTxepow
 const HAS_ENCRYPTION_PUBLIC_KEY_TWELVE_WORDS = ["autumn", "census", "bamboo", "december", "off", "lonely", "walk", "embark", "control", "inch", "fabric", "rough"];
 
 const TWELVE_WORDS = ["close", "nut", "height", "renew", "boring", "fatigue", "alarm", "slice", "transfer", "spoon", "movie", "saddle"];
+const ACCOUNT_NUMBER = "fT3TAY5MaWJnTsCnNArLPRWDovwQh4Uv8GeZG4ox74p8PtA1sW";
 
 beforeEach(async () => {
     let noResetConfig = {'noReset': false};
@@ -64,7 +66,22 @@ test('Transfer to account with encryption public key', async () => {
     let bitmarkId = await transfer(HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT);
 
     if (bitmarkId) {
-        await driver.waitForElementByName('PROPERTIES', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT);
+        // Go to transaction history
+        await driver
+            .waitForElementByName('PROPERTIES', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+            .elementByName('Transactions').tap()
+            .waitForElementByName('HISTORY', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+            .elementByName('HISTORY').tap();
+
+        // Verify result
+        let latestTransferEl = await driver.waitForElementByAccessibilityId(`item_0`, TEST_CONFIG.CHANGE_SCREEN_TIMEOUT);
+        let latestElContent = await latestTransferEl.getAttribute('label');
+
+        let transferDate = moment().format('YYYY MMM DD').toUpperCase();
+        let shortAccountNumber = `[${HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT.substring(0, 4)}...${HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT.substring(HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT.length - 4, HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT.length)}]`;
+
+        expect(latestElContent.includes(transferDate)).toBe(true);
+        expect(latestElContent.includes(shortAccountNumber)).toBe(true);
     }
 });
 
