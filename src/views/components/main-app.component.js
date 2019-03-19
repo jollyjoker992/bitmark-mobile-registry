@@ -86,6 +86,10 @@ export class BitmarkAppComponent extends Component {
 
           this.setUser(user);
           if (user && user.bitmarkAccountNumber) {
+            if (config.isAndroid) {
+              AppProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount);
+              return;
+            }
             CommonModel.doCheckPasscodeAndFaceTouchId().then(ok => {
               if (ok) {
                 AppProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount);

@@ -370,7 +370,7 @@ platform :android do
       sh './gradlew fillSecretKey'    
 
       # Build signed APK
-      sh './gradlew clean assembleInhouseRelease'
+      sh './gradlew clean increaseVersionCode assembleInhouseRelease'
 
       # Distribute to fabric
       if isDistribute
@@ -386,7 +386,7 @@ platform :android do
   end
 
   desc "Build production version"
-  lane :production do
+  lane :production do |options|
 
     isFromLocal = options[:local]
     isDistribute = options[:distribute]

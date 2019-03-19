@@ -261,7 +261,7 @@ const doDownloadBitmark = async (bitmark) => {
 
   await FileUtil.mkdir(assetFolderPath);
   await FileUtil.mkdir(`${assetFolderPath}/downloading`);
-  let downloadableAssets = await BitmarkService.doGetDownloadableAssets();
+  let downloadableAssets = await BitmarkService.doGetDownloadableAssets(CacheData.jwt);
   let canDownloadFrom = (downloadableAssets || []).find(item => item.indexOf(asset.id) >= 0);
   let sender = canDownloadFrom ? canDownloadFrom.substring(canDownloadFrom.lastIndexOf('/') + 1, canDownloadFrom.length) : null;
   if (!sender) {
@@ -273,7 +273,7 @@ const doDownloadBitmark = async (bitmark) => {
     }
     throw new Error('Cannot detect sender to download!');
   }
-  let downloadResult = await BitmarkService.doDownloadFileToCourierServer(asset.id, sender, `${assetFolderPath}/downloading/temp.encrypt`);
+  let downloadResult = await BitmarkService.doDownloadFileToCourierServer(CacheData.jwt, asset.id, sender, `${assetFolderPath}/downloading/temp.encrypt`);
   let filename = decodeURIComponent(downloadResult.filename);
   let downloadResultFilePath = `${assetFolderPath}/decrypting_session_data/data.text`;
   await FileUtil.mkdir(`${assetFolderPath}/decrypting_session_data`);

@@ -8,7 +8,12 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +44,6 @@ public class DataTypeMapper {
         return result;
     }
 
-    public static String toJson(Object object) {
-        return new GsonBuilder().create().toJson(object);
-    }
-
     public static WritableArray toWritableArray(Object... objects) {
         WritableArray array = new WritableNativeArray();
         for (Object value : objects) {
@@ -59,7 +60,7 @@ public class DataTypeMapper {
             } else if (value.getClass().isArray()) {
                 array.pushArray(toWritableArray((Object[]) value));
             } else {
-                array.pushString(toJson(value));
+                array.pushMap(toWritableMap(objectToMap(value)));
             }
         }
         return array;
@@ -81,7 +82,7 @@ public class DataTypeMapper {
             } else if (value.getClass().isArray()) {
                 array.pushArray(toWritableArray((Object[]) value));
             } else {
-                array.pushString(toJson(value));
+                array.pushMap(toWritableMap(objectToMap(value)));
             }
         }
         return array;
@@ -105,10 +106,45 @@ public class DataTypeMapper {
             } else if (value instanceof Map) {
                 result.putMap(key, toWritableMap((Map<String, Object>) value));
             } else {
-                result.putString(key, toJson(value));
+                result.putMap(key, toWritableMap(objectToMap(value)));
             }
         }
         return result;
+    }
+
+    public static String objectToJson(Object object) {
+        return new GsonBuilder().create().toJson(object);
+    }
+
+    public static Map<String, Object> jsonToMap(String json) {
+        Type type = new TypeToken<Map<String, Object>>() {
+        }.getType();
+        return new GsonBuilder().create().fromJson(json, type);
+    }
+
+    public static Map<String, Object> objectToMap(Object object) {
+        return jsonToMap(objectToJson(object));
+    }
+
+    public static JSONObject toJsonObject(String jsonString) {
+        try {
+            return new JSONObject(jsonString);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String[] jsonArrayToStringArray(JSONArray array) {
+        try {
+            String[] result = new String[array.length()];
+            for (int i = 0; i < array.length(); i++) {
+                result[i] = array.get(i).toString();
+            }
+            return result;
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
 }

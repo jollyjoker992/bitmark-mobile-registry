@@ -81,6 +81,7 @@ project.ext.react = [
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
+apply from: "versioning.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -101,8 +102,8 @@ android {
         applicationId "com.bitmark.registry"
         minSdkVersion 23
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
-        versionName "1.57.15"
+        versionCode buildVersionCode()
+        versionName buildVersionName()
         ndk {
             abiFilters "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
@@ -190,7 +191,12 @@ android {
         inhouse {
             dimension "version"
             applicationIdSuffix ".inhouse"
-            resValue "string", "app_name", "Registry\\nINHOUSE"
+            resValue "string", "app_name", "Registry"
+            resValue "string", "registry_scheme", "registryinhouse"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher_dev",
+                    appIconRound : "@mipmap/ic_launcher_dev_round"
+            ]
             ext.betaDistributionReleaseNotesFilePath="${project.rootDir}/distribution/release_note.txt"
             ext.betaDistributionEmailsFilePath="${project.rootDir}/distribution/testers.txt"
         }
@@ -198,6 +204,11 @@ android {
         prd {
             dimension "version"
             resValue "string", "app_name", "Registry"
+            resValue "string", "registry_scheme", "registry"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher",
+                    appIconRound : "@mipmap/ic_launcher_round"
+            ]
             ext.betaDistributionReleaseNotesFilePath="${project.rootDir}/distribution/release_note.txt"
             ext.betaDistributionEmailsFilePath="${project.rootDir}/distribution/testers.txt"
         }
@@ -213,16 +224,6 @@ android {
         }
     }
 
-    packagingOptions {
-        pickFirst '**/libjsc.so'
-    }
-
-}
-
-configurations.all {
-    resolutionStrategy {
-        force 'org.webkit:android-jsc:r236355'
-    }
 }
 
 dependencies {
@@ -249,6 +250,8 @@ dependencies {
         transitive = true
     }
     implementation 'io.intercom.android:intercom-sdk-fcm:5.2.0'
+    implementation 'com.google.firebase:firebase-core:16.0.7'
+    implementation 'com.google.firebase:firebase-iid:17.1.0'
 }
 
 // Run this once to be able to run the application with BUCK
@@ -270,3 +273,8 @@ task fillSecretKey << {
     apiKeyFile.bytes = []
     apiKeyFile.text = content
 }
+
+apply plugin: 'com.google.gms.google-services'
+
+// Temporarily disable version check in google service plugin for firebase configuration
+com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true

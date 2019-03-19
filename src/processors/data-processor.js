@@ -6,6 +6,7 @@ import { Sentry } from 'react-native-sentry';
 import base58 from 'bs58';
 import { sha3_256 } from 'js-sha3';
 import randomString from 'random-string';
+import { Alert, Platform } from 'react-native';
 
 import {
   EventEmitterService, TransactionService,
@@ -13,7 +14,7 @@ import {
 } from './services';
 import {
   CommonModel, AccountModel, UserModel, BitmarkSDK,
-  BitmarkModel, iCloudSyncAdapter, IftttModel
+  BitmarkModel, iCloudSyncAdapter, IftttModel, NativeAndroidUtils
 } from './models';
 
 import {
@@ -120,14 +121,20 @@ const configNotification = () => {
   };
   const onReceivedNotification = async (notificationData) => {
     if (!notificationData.foreground) {
+
       if (!CacheData.userInformation || !CacheData.userInformation.bitmarkAccountNumber) {
         CacheData.userInformation = await UserModel.doGetCurrentUser();
       }
-      if (notificationData.data.event === 'intercom_reply') {
-        setTimeout(() => { Intercom.displayConversationsList(); }, 1000);
+
+      let notification = Platform.select({ ios: notificationData.data, android: notificationData });
+
+      if (notification.event === 'intercom_reply') {
+        setTimeout(() => {
+          Intercom.displayConversationsList();
+        }, 1000);
       } else {
         setTimeout(() => {
-          EventEmitterService.emit(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, notificationData.data);
+          EventEmitterService.emit(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, notification);
         }, 1000);
       }
     }
@@ -297,7 +304,20 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       await UserModel.doUpdateUserInfo(CacheData.userInformation);
     }
 
+    // Android only
+    if (config.isAndroid) {
+      let isDiskEncrypted = await NativeAndroidUtils.checkDiskEncrypted();
+      if (!isDiskEncrypted) {
+        Alert.alert(global.i18n.t('OtherComponent_phoneEncryptedWarningTitle'), global.i18n.t('OtherComponent_phoneEncryptedWarningMessage'), [{
+          text: global.i18n.t('MainComponent_ok'), style: 'cancel',
+          onPress: () => {
+            NativeAndroidUtils.openSystemSetting("android.settings.SECURITY_SETTINGS");
+          }
+        }], { cancelable: false });
+      }
+    }
 
+    // iOS only
     if (config.isIPhone) {
       iCloudSyncAdapter.oniCloudFileChanged((mapFiles) => {
         if (this.iCloudFileChangedTimeout) {
@@ -464,7 +484,7 @@ const doTransferBitmark = async (bitmarkId, receiver, isDelete) => {
   let { asset } = await BitmarkProcessor.doGetAssetBitmark(bitmarkId);
   if (!isDelete) {
     if (asset && asset.filePath) {
-      let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(asset.id);
+      let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(CacheData.jwt, asset.id);
       if (resultCheck && resultCheck.data_key_alg && resultCheck.enc_data_key && resultCheck.orig_content_type) {
         let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(receiver);
         let receiverSessionData = await BitmarkSDK.encryptSessionData({
@@ -472,7 +492,7 @@ const doTransferBitmark = async (bitmarkId, receiver, isDelete) => {
           data_key_alg: resultCheck.data_key_alg
         }, encryptionPublicKey);
         let access = `${receiver}:${receiverSessionData.enc_data_key}`;
-        let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(asset.id, access);
+        let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(CacheData.jwt, asset.id, access);
         console.log('grantAccessResult :', grantAccessResult);
       } else {
         let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
@@ -483,7 +503,7 @@ const doTransferBitmark = async (bitmarkId, receiver, isDelete) => {
         let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(receiver);
         let receiverSessionData = await BitmarkSDK.encryptSessionData(sessionData, encryptionPublicKey);
         let access = `${receiver}:${receiverSessionData.enc_data_key}`;
-        let uploadResult = await BitmarkService.doUploadFileToCourierServer(asset.id, encryptedFilePath, sessionData, filename, access);
+        let uploadResult = await BitmarkService.doUploadFileToCourierServer(CacheData.jwt, asset.id, encryptedFilePath, sessionData, filename, access);
         console.log('uploadResult :', uploadResult);
       }
     }
@@ -513,7 +533,7 @@ const doSignAllIncomingClaimRequest = async (mapAssetClaimRequest) => {
     if (incomingClaimRequestsOfAsset && incomingClaimRequestsOfAsset.length > 0) {
       let asset = incomingClaimRequestsOfAsset[0].asset;
       if (asset && asset.filePath) {
-        let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(asset.id);
+        let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(CacheData.jwt, asset.id);
         if (resultCheck && resultCheck.data_key_alg && resultCheck.enc_data_key && resultCheck.orig_content_type) {
           let sessionData = {
             enc_data_key: resultCheck.enc_data_key,
@@ -528,7 +548,7 @@ const doSignAllIncomingClaimRequest = async (mapAssetClaimRequest) => {
               access += (access ? ':' : '') + `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
             }
           }
-          let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(asset.id, access);
+          let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(CacheData.jwt, asset.id, access);
           console.log('grantAccessResult :', grantAccessResult);
         } else {
           let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
@@ -545,7 +565,7 @@ const doSignAllIncomingClaimRequest = async (mapAssetClaimRequest) => {
               access += (access ? ':' : '') + `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
             }
           }
-          let uploadResult = await BitmarkService.doUploadFileToCourierServer(asset.id, encryptedFilePath, sessionData, filename, access);
+          let uploadResult = await BitmarkService.doUploadFileToCourierServer(CacheData.jwt, asset.id, encryptedFilePath, sessionData, filename, access);
           console.log('uploadResult :', uploadResult);
         }
       }
@@ -631,7 +651,7 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
     }
     if (bitmark) {
       if (asset && asset.filePath) {
-        let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(asset.id);
+        let resultCheck = await BitmarkService.doCheckFileExistInCourierServer(CacheData.jwt, asset.id);
         if (resultCheck && resultCheck.data_key_alg && resultCheck.enc_data_key && resultCheck.orig_content_type) {
           let encryptionPublicKey = await AccountModel.doGetEncryptionPublicKey(incomingClaimRequest.from);
           let receiverSessionData = await BitmarkSDK.encryptSessionData({
@@ -639,7 +659,7 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
             data_key_alg: resultCheck.data_key_alg
           }, encryptionPublicKey);
           let access = `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
-          let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(asset.id, access);
+          let grantAccessResult = await BitmarkService.doUpdateAccessFileInCourierServer(CacheData.jwt, asset.id, access);
           console.log('grantAccessResult :', grantAccessResult);
         } else {
           let filename = asset.filePath.substring(asset.filePath.lastIndexOf('/') + 1, asset.filePath.length);
@@ -651,7 +671,7 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
           let receiverSessionData = await BitmarkSDK.encryptSessionData(sessionData, encryptionPublicKey);
           let access = `${incomingClaimRequest.from}:${receiverSessionData.enc_data_key}`;
 
-          let uploadResult = await BitmarkService.doUploadFileToCourierServer(asset.id, encryptedFilePath, sessionData, filename, access);
+          let uploadResult = await BitmarkService.doUploadFileToCourierServer(CacheData.jwt, asset.id, encryptedFilePath, sessionData, filename, access);
           console.log('uploadResult :', uploadResult);
         }
       }
@@ -676,16 +696,19 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
 };
 
 const doIssueIftttData = async (iftttBitmarkFile) => {
+  console.log('doIssueIftttData run 1', iftttBitmarkFile);
   let folderPath = FileUtil.CacheDirectory + '/Bitmark-IFTTT';
   await FileUtil.mkdir(folderPath);
   let filename = iftttBitmarkFile.assetInfo.filePath.substring(iftttBitmarkFile.assetInfo.filePath.lastIndexOf("/") + 1, iftttBitmarkFile.assetInfo.filePath.length);
   let filePath = folderPath + '/' + filename;
-  let signatureData = await CommonModel.doCreateSignatureData();
-  let downloadResult = await IftttModel.downloadBitmarkFile(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id, filePath);
+  console.log('doIssueIftttData run 2', filePath);
+  let downloadResult = await IftttModel.downloadBitmarkFile(CacheData.jwt, iftttBitmarkFile.id, filePath);
+  console.log('doIssueIftttData run 3', downloadResult);
   if (downloadResult.statusCode >= 400) {
     throw new Error('Download file error!');
   }
   let results = await BitmarkService.doIssueFile(CacheData.userInformation.bitmarkAccountNumber, filePath, iftttBitmarkFile.assetInfo.propertyName, iftttBitmarkFile.assetInfo.metadata, 1);
+  console.log('doIssueIftttData run 4', results);
   let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
   for (let item of results) {
     assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
@@ -712,10 +735,12 @@ const doIssueIftttData = async (iftttBitmarkFile) => {
       }
     }
   }
+  console.log('doIssueIftttData run 5', assetsBitmarks);
   await BitmarkProcessor.doCheckNewAssetsBitmarks(assetsBitmarks);
 
-  let iftttInformation = await IftttModel.doRemoveBitmarkFile(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature, iftttBitmarkFile.id);
+  let iftttInformation = await IftttModel.doRemoveBitmarkFile(CacheData.jwt, iftttBitmarkFile.id);
   await TransactionProcessor.doCheckNewIftttInformation(iftttInformation);
+  console.log('doIssueIftttData run 6', iftttInformation);
   return iftttInformation;
 };
 

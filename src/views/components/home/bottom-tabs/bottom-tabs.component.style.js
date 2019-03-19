@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { constant, } from 'src/configs';
+import { convertWidth } from 'src/utils';
 
 export default StyleSheet.create({
   bottomTabArea: {
@@ -14,11 +15,8 @@ export default StyleSheet.create({
   },
 
   bottomTabButton: {
-    flex: 1,
+    flex: 1, flexDirection: 'column', alignItems: "center", justifyContent: 'center',
     height: '100%',
-    flexDirection: 'column',
-    alignItems: "center",
-    justifyContent: 'center',
     paddingTop: 5,
   },
   bottomTabButtonIcon: {
@@ -41,7 +39,7 @@ export default StyleSheet.create({
     borderColor: '#FF003C',
     borderWidth: 1,
     top: 4,
-    left: 49,
+    left: convertWidth(70),
     width: 10,
     height: 10,
     flexDirection: 'column',
@@ -58,7 +56,7 @@ export default StyleSheet.create({
     borderColor: '#FF003C',
     borderWidth: 1,
     top: 4,
-    left: 49,
+    left: convertWidth(70),
     width: 14,
     height: 14,
     flexDirection: 'column',

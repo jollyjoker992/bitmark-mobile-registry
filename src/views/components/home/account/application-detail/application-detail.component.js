@@ -34,13 +34,15 @@ export class ApplicationDetailComponent extends React.Component {
     };
 
     const rateApp = () => {
-      Alert.alert(global.i18n.t("ApplicationDetailComponent_appStoreReviewTitle"), global.i18n.t("ApplicationDetailComponent_appStoreReviewMessage"), [{
-        text: global.i18n.t("ApplicationDetailComponent_5Stars"),
-        style: 'cancel',
-        onPress: () => { Linking.openURL(config.appLink) }
-      }, {
-        text: global.i18n.t("ApplicationDetailComponent_4StarsOrLess"), onPress: requestSendFeedback,
-      }], { cancelable: false });
+      Alert.alert(
+        config.isAndroid ? global.i18n.t("ApplicationDetailComponent_playStoreReviewTitle") : global.i18n.t("ApplicationDetailComponent_appStoreReviewTitle"),
+        config.isAndroid ? global.i18n.t("ApplicationDetailComponent_playStoreReviewMessage") : global.i18n.t("ApplicationDetailComponent_appStoreReviewMessage"), [{
+          text: global.i18n.t("ApplicationDetailComponent_5Stars"),
+          style: 'cancel',
+          onPress: () => { Linking.openURL(config.appLink) }
+        }, {
+          text: global.i18n.t("ApplicationDetailComponent_4StarsOrLess"), onPress: requestSendFeedback,
+        }], { cancelable: false });
     }
 
     const sendFeedback = () => {
@@ -98,7 +100,9 @@ export class ApplicationDetailComponent extends React.Component {
             </OneTabButtonComponent>
             <View style={applicationDetailStyle.lineSetting}></View>
             <OneTabButtonComponent style={applicationDetailStyle.rowSetting} onPress={() => rateApp()}>
-              <Text style={applicationDetailStyle.itemSettingText}>{global.i18n.t("ApplicationDetailComponent_appStoreRatingAndReview")}</Text>
+              <Text style={applicationDetailStyle.itemSettingText}>
+                {config.isAndroid ? global.i18n.t("ApplicationDetailComponent_playStoreRatingAndReview") : global.i18n.t("ApplicationDetailComponent_appStoreRatingAndReview")}
+              </Text>
             </OneTabButtonComponent>
             <View style={applicationDetailStyle.lineSetting}></View>
             <OneTabButtonComponent style={applicationDetailStyle.rowSetting} onPress={() => { shareApp() }}>
