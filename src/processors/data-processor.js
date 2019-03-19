@@ -696,19 +696,15 @@ const doProcessIncomingClaimRequest = async (incomingClaimRequest, isAccept) => 
 };
 
 const doIssueIftttData = async (iftttBitmarkFile) => {
-  console.log('doIssueIftttData run 1', iftttBitmarkFile);
   let folderPath = FileUtil.CacheDirectory + '/Bitmark-IFTTT';
   await FileUtil.mkdir(folderPath);
   let filename = iftttBitmarkFile.assetInfo.filePath.substring(iftttBitmarkFile.assetInfo.filePath.lastIndexOf("/") + 1, iftttBitmarkFile.assetInfo.filePath.length);
   let filePath = folderPath + '/' + filename;
-  console.log('doIssueIftttData run 2', filePath);
   let downloadResult = await IftttModel.downloadBitmarkFile(CacheData.jwt, iftttBitmarkFile.id, filePath);
-  console.log('doIssueIftttData run 3', downloadResult);
   if (downloadResult.statusCode >= 400) {
     throw new Error('Download file error!');
   }
   let results = await BitmarkService.doIssueFile(CacheData.userInformation.bitmarkAccountNumber, filePath, iftttBitmarkFile.assetInfo.propertyName, iftttBitmarkFile.assetInfo.metadata, 1);
-  console.log('doIssueIftttData run 4', results);
   let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
   for (let item of results) {
     assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
@@ -735,12 +731,10 @@ const doIssueIftttData = async (iftttBitmarkFile) => {
       }
     }
   }
-  console.log('doIssueIftttData run 5', assetsBitmarks);
   await BitmarkProcessor.doCheckNewAssetsBitmarks(assetsBitmarks);
 
   let iftttInformation = await IftttModel.doRemoveBitmarkFile(CacheData.jwt, iftttBitmarkFile.id);
   await TransactionProcessor.doCheckNewIftttInformation(iftttInformation);
-  console.log('doIssueIftttData run 6', iftttInformation);
   return iftttInformation;
 };
 

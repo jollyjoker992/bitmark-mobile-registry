@@ -48,7 +48,7 @@ export class UserRouterComponent extends Component {
     super(props);
 
     this.handerReceivedNotification = this.handerReceivedNotification.bind(this);
-    this.checkNotificationProcessing = this.checkNotificationProcessing.bind(this);
+    this.checkIfNotificationProcessing = this.checkIfNotificationProcessing.bind(this);
     EventEmitterService.remove(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, null, ComponentName);
     this.notificationProcessing = {};
   }
@@ -71,7 +71,7 @@ export class UserRouterComponent extends Component {
     EventEmitterService.on(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, this.handerReceivedNotification, ComponentName);
   }
 
-  checkNotificationProcessing(eventName, id) {
+  checkIfNotificationProcessing(eventName, id) {
     if (this.notificationProcessing[`${eventName}_${id}`]) {
       return true;
     }
@@ -85,14 +85,14 @@ export class UserRouterComponent extends Component {
   handerReceivedNotification(data) {
     console.log('UserComponent handerReceivedNotification data :', data);
     if (data.name === 'transfer_request' && data.id) {
-      if (this.checkNotificationProcessing(data.name, data.id)) {
+      if (this.checkIfNotificationProcessing(data.name, data.id)) {
         return;
       }
       AppProcessor.doGetTransferOfferDetail(data.id).then(transferOfferDetail => {
         Actions.transferOffer({ transferOffer: transferOfferDetail, });
       }).catch(console.log);
     } else if (data.name === 'transfer_rejected') {
-      if (this.checkNotificationProcessing(data.name, data.bitmark_id)) {
+      if (this.checkIfNotificationProcessing(data.name, data.bitmark_id)) {
         return;
       }
       BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
@@ -101,12 +101,12 @@ export class UserRouterComponent extends Component {
         }
       }).catch(console.log);
     } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
-      if (this.checkNotificationProcessing(data.name)) {
+      if (this.checkIfNotificationProcessing(data.name)) {
         return;
       }
       Actions.transactions({ subTab: 'HISTORY' });
     } else if (data.name === 'transfer_confirmed_receiver' && data.bitmark_id) {
-      if (this.checkNotificationProcessing(data.name, data.bitmark_id)) {
+      if (this.checkIfNotificationProcessing(data.name, data.bitmark_id)) {
         return;
       }
       BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
@@ -117,7 +117,7 @@ export class UserRouterComponent extends Component {
         }
       }).catch(console.log);
     } else if (data.name === 'transfer_failed') {
-      if (this.checkNotificationProcessing(data.name, data.bitmark_id)) {
+      if (this.checkIfNotificationProcessing(data.name, data.bitmark_id)) {
         return;
       }
       BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
@@ -128,7 +128,7 @@ export class UserRouterComponent extends Component {
         }
       }).catch(console.log);
     } else if (data.event === 'claim_request') {
-      if (this.checkNotificationProcessing(data.event, data.claim_id)) {
+      if (this.checkIfNotificationProcessing(data.event, data.claim_id)) {
         return;
       }
       TransactionProcessor.doReloadClaimRequests().then((claimRequests) => {
@@ -138,7 +138,7 @@ export class UserRouterComponent extends Component {
         }
       }).catch(console.log);
     } else if (data.event === 'claim_request_rejected') {
-      if (this.checkNotificationProcessing(data.event)) {
+      if (this.checkIfNotificationProcessing(data.event)) {
         return;
       }
       Actions.transactions({ subTab: 'HISTORY' });
