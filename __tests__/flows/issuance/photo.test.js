@@ -1,20 +1,23 @@
 import wd from 'wd';
 import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
-import { pushNewPhotoToDevice, createNewAccountWithoutTouchId } from '__tests__/common/common';
+import { issueNewPhotoWithoutMetadata, pushNewPhotoToDevice, createNewAccountWithoutTouchId } from '__tests__/common/common';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = TEST_CONFIG.DEFAULT_TIMEOUT_INTERVAL;
 const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
 
-beforeAll(async () => {
-  // let noResetConfig = { 'noReset': true };
-  // Object.assign(noResetConfig, RUN_CONFIG);
-  await driver.init(RUN_CONFIG);
-  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
-});
+// beforeAll(async () => {
+//   let noResetConfig = { 'noReset': true };
+//   Object.assign(noResetConfig, RUN_CONFIG);
+//   await driver.init(RUN_CONFIG);
+//   await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+// });
 
 test('Issue new photo with checking asset name quantity, metadata-metadata do not check over 2048 bytes', async () => {
+  await driver.init(RUN_CONFIG);
+  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+
   await driver.sleep(3000);
-  await createNewAccountWithoutTouchId();
+  await createNewAccountWithoutTouchId(driver);
   await driver.sleep(3000);
 
   let capabilities = await driver.sessionCapabilities();
@@ -27,7 +30,7 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
     // Choose image from lib
     .waitForElementByName('Choose from Library...', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Choose from Library...').tap()
     // allow permission
-    // .waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap()
+    .waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap()
     .waitForElementByName('Camera Roll', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Camera Roll').tap()
     // Choose image from lib
     .waitForElementsByIosPredicateString("type == 'XCUIElementTypeCell'", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementsByIosPredicateString("type == 'XCUIElementTypeCell'");

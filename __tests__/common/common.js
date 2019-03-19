@@ -60,7 +60,7 @@ const createNewAccountWithoutTouchId = async (driver) => {
 
 const pushNewPhotoToDevice = (deviceUID, photoPath) => {
     let ratio = 0.5 + Math.random();
-    let background = `{r:0,g:0,b:0,alpha:${Date.now() / 1552967000000}}`;
+    let background = { r: 0, g: 0, b: 0, alpha: 1552967000000 / Date.now() };
     let desPhotoPath;
     return new Promise((resolve, reject) => {
         let photo = sharp(photoPath);

@@ -143,8 +143,8 @@ class PrivateAccountDetailComponent extends React.Component {
               <OneTabButtonComponent style={accountStyle.accountWriteDownButton} onPress={Actions.recoveryPhrase}>
                 <Text style={accountStyle.accountWriteDownButtonText}>{global.i18n.t("AccountDetailComponent_writeDownRecoveryPhrase")} »</Text>
               </OneTabButtonComponent>
-              <OneTabButtonComponent style={accountStyle.accountRemoveButton} onPress={this.logout.bind(this)}>
-                {/* <OneTabButtonComponent style={accountStyle.accountRemoveButton} onPress={() => Actions.recoveryPhrase({ isSignOut: true, logout: this.logout.bind(this) })}> */}
+              {/* <OneTabButtonComponent style={accountStyle.accountRemoveButton} onPress={this.logout.bind(this)}> */}
+              <OneTabButtonComponent style={accountStyle.accountRemoveButton} onPress={() => Actions.recoveryPhrase({ isSignOut: true, logout: this.logout.bind(this) })}>
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_removeAccessFromThisDevice")} »</Text>
               </OneTabButtonComponent>
 
