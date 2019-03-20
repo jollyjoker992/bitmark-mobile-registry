@@ -156,9 +156,9 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
             case "notification_transfer_confirmed_receiver":
                 return context.getString(R.string.notification_transfer_confirmed_receiver);
             case "notification_transfer_request":
-                return context.getString(R.string.notification_transfer_failed);
-            case "notification_transfer_failed":
                 return context.getString(R.string.notification_transfer_request);
+            case "notification_transfer_failed":
+                return context.getString(R.string.notification_transfer_failed);
             case "notification_transfer_rejected":
                 return context.getString(R.string.notification_transfer_rejected);
             case "notification_transfer_accepted":

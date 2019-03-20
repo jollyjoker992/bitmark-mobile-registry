@@ -1,3 +1,4 @@
+import wd from 'wd';
 import { TEST_CONFIG } from "../configs/config";
 
 const sharp = require('sharp');
@@ -18,8 +19,22 @@ const createNewAccountWithTouchId = async (driver) => {
         .elementByName('CREATE NEW ACCOUNT').tap()
         // TouchId Screen
         .waitForElementByName('ENABLE TOUCH/FACE ID', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
-        .elementByName('ENABLE TOUCH/FACE ID').tap()
-        // Notification
+        .elementByName('ENABLE TOUCH/FACE ID').tap();
+
+    // Try to enter any passcode for iPhone X
+    try {
+        await driver.sleep(3000);
+        await driver
+            .keys('123')
+            .keys(wd.SPECIAL_KEYS.Return)
+            .sleep(1000);
+
+    } catch (err) {
+        console.log('This is not iPhone X');
+    }
+
+    // Notification
+    await driver
         .waitForElementByName('ENABLE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
         .elementByName("ENABLE").tap();
 

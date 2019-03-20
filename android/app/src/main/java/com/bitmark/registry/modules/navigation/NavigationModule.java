@@ -100,7 +100,7 @@ public class NavigationModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void browseMedia(String type, Promise promise) throws NativeModuleException {
-        if (!type.equals("photo") && !type.equals("video"))
+        if (!"photo".equals(type) && !"video".equals(type))
             throw new NativeModuleException("Invalid type");
         Intent intent = new Intent(Intent.ACTION_PICK);
         if (type.equals("photo")) {
