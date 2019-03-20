@@ -117,7 +117,7 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   length = (await driver.elementsById('errorInputQuantity')).length;
   expect(length).toEqual(0);
   // add metadata 0
-  let result = await btnAddMoreMetadata.tap();
+  await btnAddMoreMetadata.tap();
 
   await driver.waitForElementById('btnMetadataLabel_0', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('btnMetadataLabel_0').tap()
     .waitForElementByName('CREATOR', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('CREATOR').tap();

@@ -59,7 +59,7 @@ class PrivateIftttActiveComponent extends React.Component {
         TransactionProcessor.doReloadIftttInformation().then((iftttInformation) => {
           EventEmitterService.emit(EventEmitterService.events.APP_PROCESSING, false);
           this.setState({ processing: false });
-          if (iftttInformation.connectIFTTT && currentUrl === (config.ifttt_bitmark_service_settings_url)) {
+          if (iftttInformation && iftttInformation.connectIFTTT && currentUrl === (config.ifttt_bitmark_service_settings_url)) {
             this.setState({
               webViewUrl: config.ifttt_bitmark_service_url,
               currentUrl: config.ifttt_bitmark_service_url,
@@ -106,6 +106,12 @@ class PrivateIftttActiveComponent extends React.Component {
             onMessage={this.onMessage}
             onNavigationStateChange={this.onNavigationStateChange}
             onLoadStart={() => this.setState({ loading: true })}
+            onError={(error) => {
+              console.log('WebView  onError: ', error);
+            }}
+            renderError={(error) => {
+              console.log('WebView  renderError: ', error);
+            }}
             onLoadEnd={() => {
               this.setState({ loading: false });
               let bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
