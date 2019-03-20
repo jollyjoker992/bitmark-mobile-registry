@@ -14,7 +14,7 @@ const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
 //   await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
 // });
 
-checkAfterIssue = async (assetName) => {
+const checkAfterIssue = async (assetName) => {
 
   //check asset name of first item in properties
   let propertyNameInProperties = await driver.waitForElementById("PropertiesComponent_yours_assetName_0", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById("PropertiesComponent_yours_assetName_0").text();

@@ -86,28 +86,28 @@ class PrivatePropertiesComponent extends React.Component {
         </View>
 
         <View style={cStyles.subTabArea}>
-          {this.props.subTab === SubTabs.local && <OneTabButtonComponent style={[cStyles.subTabButton, {
+          {this.props.subTab === SubTabs.local && <OneTabButtonComponent accessible={false} style={[cStyles.subTabButton, {
             shadowOffset: { width: 2 },
             shadowOpacity: 0.15,
           }]}>
             <View style={cStyles.subTabButtonArea}>
               <View style={[cStyles.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={cStyles.subTabButtonTextArea}>
-                <Text style={[cStyles.subTabButtonText, { marginLeft: 0 }]}>
+                <Text testID={'numberOfBitmarks'} style={[cStyles.subTabButtonText, { marginLeft: 0 }]}>
                   {global.i18n.t("PropertiesComponent_yours")}
-                  <Text style={{ fontSize: 10 }}>{` (${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})`}</Text>
+                  <Text style={{ fontSize: 10 }}>{`(${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})`}</Text>
                 </Text>
               </View>
             </View>
           </OneTabButtonComponent>}
-          {this.props.subTab !== SubTabs.local && <OneTabButtonComponent style={[cStyles.subTabButton, {
+          {this.props.subTab !== SubTabs.local && <OneTabButtonComponent accessible={false} style={[cStyles.subTabButton, {
             backgroundColor: '#F5F5F5',
             zIndex: 0,
           }]} onPress={() => this.switchSubTab(SubTabs.local)}>
             <View style={cStyles.subTabButtonArea}>
               <View style={[cStyles.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={cStyles.subTabButtonTextArea}>
-                <Text style={[cStyles.subTabButtonText, { color: '#C1C1C1', marginLeft: 0 }]}>{global.i18n.t("PropertiesComponent_yours")}<Text style={{ fontSize: 10 }}>{` (${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})`}</Text></Text>
+                <Text testID={'numberOfBitmarks'} style={[cStyles.subTabButtonText, { color: '#C1C1C1', marginLeft: 0 }]}>{global.i18n.t("PropertiesComponent_yours")}<Text style={{ fontSize: 10 }}>{` (${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})`}</Text></Text>
               </View>
             </View>
           </OneTabButtonComponent>}
