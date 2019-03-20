@@ -157,7 +157,7 @@ export class IftttActiveComponent extends React.Component {
   }
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, borderWidth: 1, }}>
+      <SafeAreaView style={{ flex: 1, }}>
         <Provider store={AccountStore}>
           <StoreIftttActiveComponent stage={this.props.stage} />
         </Provider>

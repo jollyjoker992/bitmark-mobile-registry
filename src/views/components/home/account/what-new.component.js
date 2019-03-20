@@ -18,7 +18,7 @@ export class WhatNewComponent extends Component {
   }
   constructor(props) {
     super(props);
-    let releaseDate = moment('21-01-2019', 'DD-MM-YYYY');
+    let releaseDate = moment('27-02-2019', 'DD-MM-YYYY');
     let diffDay = moment().diff(releaseDate, 'days');
     this.state = {
       step: 2,
@@ -86,7 +86,7 @@ export class WhatNewComponent extends Component {
                 </View>
 
                 <Text style={styles.releaseNoteText}>
-                  {i18n.t('WhatNewComponent_releaseNoteText')}
+                  {config.isAndroid ? i18n.t('WhatNewComponent_androidReleaseNoteText') : i18n.t('WhatNewComponent_releaseNoteText')}
                 </Text>
               </ScrollView>
             </View>

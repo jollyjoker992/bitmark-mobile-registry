@@ -1,9 +1,10 @@
 ext {
+    minSdkVersion = 23
     compileSdkVersion = 28
     targetSdkVersion = 28
-    buildToolsVersion = "28.0.2"
+    buildToolsVersion = "28.0.3"
     supportLibVersion = "28.0.0"
-    firebaseVersion = "17.3.4"
+    firebaseVersion = "17.4.0"
 }
 
 subprojects { subproject ->
@@ -46,8 +47,9 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:3.3.1'
         classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'com.google.gms:google-services:4.2.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -66,9 +68,5 @@ allprojects {
         maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
         maven { url "https://maven.google.com" }
-        maven {
-            // Local Maven repo containing AARs with JSC library built for Android
-            url "$rootDir/../node_modules/jsc-android/dist"
-        }
     }
 }

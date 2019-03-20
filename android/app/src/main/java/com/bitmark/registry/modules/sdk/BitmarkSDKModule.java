@@ -70,8 +70,7 @@ import static com.bitmark.cryptography.crypto.encoder.Hex.HEX;
 import static com.bitmark.cryptography.crypto.encoder.Raw.RAW;
 import static com.bitmark.registry.keymanagement.ApiKeyManager.API_KEY_MANAGER;
 import static com.bitmark.registry.utils.Constant.ACTIVE_ACCOUNT_NUMBER;
-import static com.bitmark.registry.utils.Constant.ENCRYPTION_KEY_ALIAS;
-import static com.bitmark.registry.utils.DataTypeMapper.toJson;
+import static com.bitmark.registry.utils.DataTypeMapper.objectToMap;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringArray;
 import static com.bitmark.registry.utils.DataTypeMapper.toStringMap;
 import static com.bitmark.registry.utils.DataTypeMapper.toWritableArray;
@@ -719,7 +718,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         try {
 
             AssetRecord asset = await(callback -> Asset.get(id, callback), SINGLE_TASK_TIMEOUT);
-            promise.resolve(toJson(asset));
+            promise.resolve(toWritableMap(objectToMap(asset)));
 
         } catch (Throwable e) {
             promise.reject(ERROR_UNEXPECTED_CODE, e);
@@ -748,7 +747,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
             List<AssetRecord> assets = await(callback -> Asset.list(builder, callback),
                     SINGLE_TASK_TIMEOUT);
-            promise.resolve(toJson(assets));
+            promise.resolve(toWritableMap(objectToMap(assets)));
 
         } catch (Throwable e) {
             promise.reject(ERROR_UNEXPECTED_CODE, e);
@@ -980,7 +979,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                             SINGLE_TASK_TIMEOUT);
                     String bitmarkId = bitmarkIds.get(0);
 
-                    promise.resolve(new String[]{bitmarkId, assetId});
+                    promise.resolve(toWritableArray(bitmarkId, assetId));
 
                 } catch (Throwable throwable) {
                     promise.reject(ERROR_UNEXPECTED_CODE, throwable);
@@ -1020,14 +1019,10 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
         String encodedSeed = accountInfoArray[1];
         Account account = Account.fromSeed(SeedTwelve.fromEncodedSeed(encodedSeed));
         String accountNumber = account.getAccountNumber();
-        String existedEncryptionKeyAlias = getEncryptionKeyAlias();
-        if (TextUtils.isEmpty(getEncryptionKeyAlias()))
-            existedEncryptionKeyAlias = getRandomEncryptionKeyAlias(accountNumber);
-
-        final String encryptionKeyAlias = existedEncryptionKeyAlias;
+        final String encryptionKeyAlias = getRandomEncryptionKeyAlias(accountNumber);
 
         KeyAuthenticationSpec spec = new KeyAuthenticationSpec.Builder(
-                getReactApplicationContext()).setKeyAlias(ENCRYPTION_KEY_ALIAS)
+                getReactApplicationContext()).setKeyAlias(encryptionKeyAlias)
                                              .setAuthenticationRequired(true)
                                              .setAuthenticationValidityDuration(
                                                      KEY_VALIDITY_TIME)
@@ -1040,7 +1035,7 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
                     saveAccountNumber(accountNumber);
                     // Delete raw data
                     sharePrefApi.put(accountInfoKey, "");
-                    promise.resolve(account.getAccountNumber());
+                    promise.resolve(accountNumber);
                 }
 
                 @Override

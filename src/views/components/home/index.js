@@ -40,7 +40,6 @@ import { EventEmitterService, AppProcessor, CommonProcessor, BitmarkProcessor, T
 
 // import PushNotification from 'react-native-push-notification';
 import { MusicReleaseToPublicComponent } from './properties/local-issue-music/music-release-to-public.component';
-import { config } from 'src/configs';
 // import { BitmarkProcessor } from 'src/processors/bitmark-processor';
 
 let ComponentName = 'UserRouterComponent';
@@ -49,7 +48,9 @@ export class UserRouterComponent extends Component {
     super(props);
 
     this.handerReceivedNotification = this.handerReceivedNotification.bind(this);
+    this.checkIfNotificationProcessing = this.checkIfNotificationProcessing.bind(this);
     EventEmitterService.remove(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, null, ComponentName);
+    this.notificationProcessing = {};
   }
 
   componentDidMount() {
@@ -70,22 +71,44 @@ export class UserRouterComponent extends Component {
     EventEmitterService.on(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, this.handerReceivedNotification, ComponentName);
   }
 
+  checkIfNotificationProcessing(eventName, id) {
+    if (this.notificationProcessing[`${eventName}_${id}`]) {
+      return true;
+    }
+    this.notificationProcessing[`${eventName}_${id}`] = true;
+    setTimeout(() => {
+      delete this.notificationProcessing[`${eventName}_${id}`];
+    }, 10 * 1000);
+    return false;
+  }
+
   handerReceivedNotification(data) {
     console.log('UserComponent handerReceivedNotification data :', data);
     if (data.name === 'transfer_request' && data.id) {
+      if (this.checkIfNotificationProcessing(data.name, data.id)) {
+        return;
+      }
       AppProcessor.doGetTransferOfferDetail(data.id).then(transferOfferDetail => {
         Actions.transferOffer({ transferOffer: transferOfferDetail, });
       }).catch(console.log);
-
     } else if (data.name === 'transfer_rejected') {
+      if (this.checkIfNotificationProcessing(data.name, data.bitmark_id)) {
+        return;
+      }
       BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
         if (bitmarkInformation.asset && bitmarkInformation.bitmark) {
           Actions.propertyDetail(bitmarkInformation);
         }
       }).catch(console.log);
     } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
+      if (this.checkIfNotificationProcessing(data.name)) {
+        return;
+      }
       Actions.transactions({ subTab: 'HISTORY' });
     } else if (data.name === 'transfer_confirmed_receiver' && data.bitmark_id) {
+      if (this.checkIfNotificationProcessing(data.name, data.bitmark_id)) {
+        return;
+      }
       BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
         return BitmarkProcessor.doGetAssetBitmark(data.bitmark_id);
       }).then(bitmarkInformation => {
@@ -94,6 +117,9 @@ export class UserRouterComponent extends Component {
         }
       }).catch(console.log);
     } else if (data.name === 'transfer_failed') {
+      if (this.checkIfNotificationProcessing(data.name, data.bitmark_id)) {
+        return;
+      }
       BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
         return BitmarkProcessor.doGetAssetBitmark(data.bitmark_id);
       }).then(bitmarkInformation => {
@@ -102,6 +128,9 @@ export class UserRouterComponent extends Component {
         }
       }).catch(console.log);
     } else if (data.event === 'claim_request') {
+      if (this.checkIfNotificationProcessing(data.event, data.claim_id)) {
+        return;
+      }
       TransactionProcessor.doReloadClaimRequests().then((claimRequests) => {
         let incomingClaimRequest = (claimRequests.incoming_claim_requests || []).find(cr => cr.id === data.claim_id);
         if (incomingClaimRequest) {
@@ -109,6 +138,9 @@ export class UserRouterComponent extends Component {
         }
       }).catch(console.log);
     } else if (data.event === 'claim_request_rejected') {
+      if (this.checkIfNotificationProcessing(data.event)) {
+        return;
+      }
       Actions.transactions({ subTab: 'HISTORY' });
     }
   }
@@ -143,7 +175,7 @@ export class UserRouterComponent extends Component {
                 <Scene key="iftttActive" panHandlers={null} component={IftttActiveComponent} />
                 <Scene key="releasedProperties" panHandlers={null} component={ReleasedPropertiesComponent} />
               </Stack>
-              {config.isIPhone && <Scene key="transactions" panHandlers={null} component={TransactionsComponent} />}
+              <Scene key="transactions" panHandlers={null} component={TransactionsComponent} />
               <Stack key="account" headerMode='none'>
                 <Scene key="bitmarkWebView" panHandlers={null} component={BitmarkWebViewComponent} />
                 <Scene key="accountDetail" initial={true} panHandlers={null} component={AccountDetailComponent} />

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_channel_name">@string/app_name</string>
+    <string name="notification_channel_description">Bitmark Registry notification channel</string>
+    <string name="notification_intercom_new_messages">你有來自Bitmark支持團隊的訊息，請按此查看！</string>
+    <string name="notification_tracking_transfer_confirmed">資產 \"%1$s\" 有新動態，請點此來追蹤其詳細資訊。</string>
+    <string name="notification_transfer_confirmed_sender">資產 \"%1$s\"已經轉移至 %2$s。</string>
+    <string name="notification_transfer_confirmed_receiver">收到來自%2$s的資產\"%1$s。\"</string>
+    <string name="notification_transfer_request">收到一則資產轉移請求，請點此來查看。</string>
+    <string name="notification_transfer_rejected">你的資產發送請求已被駁回，請稍後再試或者嘗試聯繫收件者。</string>
+    <string name="notification_transfer_failed">收到一則資產轉移請求，請點此來查看。</string>
+    <string name="notification_transfer_accepted">你的資產發送請求已成功。</string>
+    <string name="notification_claim_request">收到來自%2$s要求擁有資產%1$s的請求，請查看。</string>
+    <string name="notification_claim_request_rejected">%1$s已經拒絕了你的資產%2$s索取請求。</string>
+    <string name="loading_dot">載入中…</string>
+</resources>

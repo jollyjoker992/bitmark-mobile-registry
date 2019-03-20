@@ -23,6 +23,8 @@ import { Actions } from 'react-native-router-flux';
 import { PropertyStore, PropertyActions } from 'src/views/stores';
 import { defaultStyles } from 'src/views/commons';
 
+import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
+
 const { ActionSheetIOS } = ReactNative;
 
 
@@ -36,6 +38,7 @@ class PrivatePropertyDetailComponent extends React.Component {
 
   constructor(props) {
     super(props);
+    this.onSelectedActionSheet = this.onSelectedActionSheet.bind(this);
     this.state = {
       animatedBottom: new Animated.Value(-config.windowSize.height),
       copied: false,
@@ -194,7 +197,31 @@ class PrivatePropertyDetailComponent extends React.Component {
     }
   }
 
+  onSelectedActionSheet(buttonIndex, playLink) {
+    if (buttonIndex === 1) {
+      if (playLink) {
+        Linking.openURL(playLink);
+      } else {
+        this.shareAssetFile();
+      }
+    } else if (buttonIndex === 2) {
+      if (playLink) {
+        this.shareAssetFile();
+      } else {
+        Actions.localPropertyTransfer({ bitmark: this.state.bitmark, asset: this.props.asset });
+      }
+    } else if (buttonIndex === 3) {
+      if (playLink) {
+        Actions.localPropertyTransfer({ bitmark: this.state.bitmark, asset: this.props.asset });
+      }
+    }
+  }
+
   showActionSheets({ playLink }) {
+    if (config.isAndroid) {
+      this.actionSheet.show()
+      return;
+    }
     let options = [global.i18n.t("PropertyDetailComponent_releaseActionCancel")];
     if (playLink) {
       options.push(global.i18n.t("PropertyDetailComponent_releaseActionPlay"));
@@ -208,26 +235,7 @@ class PrivatePropertyDetailComponent extends React.Component {
       title: global.i18n.t("PropertyDetailComponent_releaseActionTitle"),
       options,
       cancelButtonIndex: 0,
-    },
-      (buttonIndex) => {
-        if (buttonIndex === 1) {
-          if (playLink) {
-            Linking.openURL(playLink);
-          } else {
-            this.shareAssetFile();
-          }
-        } else if (buttonIndex === 2) {
-          if (playLink) {
-            this.shareAssetFile();
-          } else {
-            Actions.localPropertyTransfer({ bitmark: this.state.bitmark, asset: this.props.asset });
-          }
-        } else if (buttonIndex === 3) {
-          if (playLink) {
-            Actions.localPropertyTransfer({ bitmark: this.state.bitmark, asset: this.props.asset });
-          }
-        }
-      });
+    }, (buttonIndex) => this.onSelectedActionSheet(buttonIndex, playLink));
   }
   render() {
     if (isMusicAsset(this.props.asset)) {
@@ -246,6 +254,15 @@ class PrivatePropertyDetailComponent extends React.Component {
           playLink = this.props.asset.metadata[key];
           break;
         }
+      }
+
+      let options = [global.i18n.t("PropertyDetailComponent_releaseActionCancel")];
+      if (playLink) {
+        options.push(global.i18n.t("PropertyDetailComponent_releaseActionPlay"));
+      }
+      if (this.state.bitmark && !this.state.bitmark.isDraft) {
+        options.push(global.i18n.t("PropertyDetailComponent_releaseActionDownload"));
+        options.push(global.i18n.t("PropertyDetailComponent_releaseActionTransfer"));
       }
 
       return (<View style={[cStyles.body]}>
@@ -307,6 +324,15 @@ class PrivatePropertyDetailComponent extends React.Component {
 
             </View>
           </Animated.View>
+
+          {config.isAndroid && <ActionSheet
+            ref={ref => this.actionSheet = ref}
+            title={<Text style={{ color: '#000', fontSize: 18 }}>{global.i18n.t("PropertyDetailComponent_releaseActionTitle")}</Text>}
+            options={options}
+            cancelButtonIndex={0}
+            destructiveButtonIndex={4}
+            onPress={(index) => this.onSelectedActionSheet(index, playLink)}
+          />}
         </View >
       </View >);
     } else {

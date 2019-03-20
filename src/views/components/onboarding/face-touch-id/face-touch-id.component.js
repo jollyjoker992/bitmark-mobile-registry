@@ -11,7 +11,7 @@ let Navigation = NativeModules.Navigation;
 
 import faceTouchIdStyle from './face-touch-id.component.style';
 import { Actions } from 'react-native-router-flux';
-import { CommonModel, EventEmitterService } from 'src/processors';
+import { CommonModel, EventEmitterService, } from 'src/processors';
 import { config } from 'src/configs';
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
