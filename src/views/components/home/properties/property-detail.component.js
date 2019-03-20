@@ -312,7 +312,7 @@ class PrivatePropertyDetailComponent extends React.Component {
     } else {
       if (this.props.bitmark && this.props.asset) {
         return (<SafeAreaView style={cStyles.body}>
-          <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}>
+          <TouchableWithoutFeedback accessible={false} onPress={() => this.setState({ displayTopButton: false })}>
             <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
               <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={() => Actions.jump('properties')}>
                 <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
@@ -320,14 +320,14 @@ class PrivatePropertyDetailComponent extends React.Component {
               <View style={defaultStyles.headerCenter}>
                 <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(180) }]} numberOfLines={1}>{global.i18n.t("PropertyDetailComponent_releaseTitle")}</Text>
               </View>
-              <OneTabButtonComponent style={[defaultStyles.headerRight, { padding: 4, paddingRight: convertWidth(19) }]} onPress={() => this.setState({ displayTopButton: !this.state.displayTopButton })}>
-                <Image style={cStyles.threeDotIcon} source={this.state.displayTopButton
+              <OneTabButtonComponent testID={'toggleOptions'} style={[defaultStyles.headerRight, { padding: 4, paddingRight: convertWidth(19) }]} onPress={() => this.setState({ displayTopButton: !this.state.displayTopButton })}>
+                  <Image style={cStyles.threeDotIcon} source={this.state.displayTopButton
                   ? require('assets/imgs/three-dot-active.png')
                   : require('assets/imgs/three-dot-deactive.png')} />
               </OneTabButtonComponent>
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}>
+          <TouchableWithoutFeedback accessible={false} onPress={() => this.setState({ displayTopButton: false })}>
             <View style={cStyles.bodyContent}>
               {this.state.displayTopButton && <View style={cStyles.topButtonsArea}>
                 {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent
@@ -340,7 +340,7 @@ class PrivatePropertyDetailComponent extends React.Component {
                   </Text>}
                   {this.props.asset.filePath && <Text style={cStyles.downloadAssetButtonText}>{global.i18n.t("PropertyDetailComponent_shareAsset")}</Text>}
                 </OneTabButtonComponent>}
-                <OneTabButtonComponent style={cStyles.topButton} onPress={() => {
+                <OneTabButtonComponent accessible={false} style={cStyles.topButton} onPress={() => {
                   Clipboard.setString(this.props.bitmark.id);
                   this.setState({ copied: true });
                   setTimeout(() => { this.setState({ copied: false }) }, 1000);
@@ -349,7 +349,7 @@ class PrivatePropertyDetailComponent extends React.Component {
                   <Text style={cStyles.copiedAssetIddButtonText}>{this.state.copied ? global.i18n.t("PropertyDetailComponent_copiedToClipboard") : ''}</Text>
                 </OneTabButtonComponent>
                 {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && !this.props.bitmark.transferOfferId &&
-                  <OneTabButtonComponent style={cStyles.topButton}
+                  <OneTabButtonComponent accessible={false} style={cStyles.topButton}
                     disabled={this.props.bitmark.status !== 'confirmed'}
                     onPress={() => {
                       if (this.props.asset.filePath) {
@@ -366,7 +366,7 @@ class PrivatePropertyDetailComponent extends React.Component {
                     }]}>{global.i18n.t("PropertyDetailComponent_sendBitmark")}</Text>
                   </OneTabButtonComponent>
                 }
-                {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent style={cStyles.topButton}
+                {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent accessible={false} style={cStyles.topButton}
                   disabled={this.props.bitmark.status !== 'confirmed'}
                   onPress={this.deleteBitmark.bind(this)}>
                   <Text style={[cStyles.topButtonText, {

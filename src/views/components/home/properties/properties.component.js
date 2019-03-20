@@ -86,28 +86,28 @@ class PrivatePropertiesComponent extends React.Component {
         </View>
 
         <View style={cStyles.subTabArea}>
-          {this.props.subTab === SubTabs.local && <OneTabButtonComponent style={[cStyles.subTabButton, {
+          {this.props.subTab === SubTabs.local && <OneTabButtonComponent accessible={false} style={[cStyles.subTabButton, {
             shadowOffset: { width: 2 },
             shadowOpacity: 0.15,
           }]}>
             <View style={cStyles.subTabButtonArea}>
               <View style={[cStyles.activeSubTabBar, { backgroundColor: '#0060F2' }]}></View>
               <View style={cStyles.subTabButtonTextArea}>
-                <Text style={[cStyles.subTabButtonText, { marginLeft: 0 }]}>
+                <Text testID={'numberOfBitmarks'} style={[cStyles.subTabButtonText, { marginLeft: 0 }]}>
                   {global.i18n.t("PropertiesComponent_yours")}
-                  <Text style={{ fontSize: 10 }}>{` (${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})`}</Text>
+                  <Text style={{ fontSize: 10 }}>{`(${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})`}</Text>
                 </Text>
               </View>
             </View>
           </OneTabButtonComponent>}
-          {this.props.subTab !== SubTabs.local && <OneTabButtonComponent style={[cStyles.subTabButton, {
+          {this.props.subTab !== SubTabs.local && <OneTabButtonComponent accessible={false} style={[cStyles.subTabButton, {
             backgroundColor: '#F5F5F5',
             zIndex: 0,
           }]} onPress={() => this.switchSubTab(SubTabs.local)}>
             <View style={cStyles.subTabButtonArea}>
               <View style={[cStyles.activeSubTabBar, { backgroundColor: '#F5F5F5' }]}></View>
               <View style={cStyles.subTabButtonTextArea}>
-                <Text style={[cStyles.subTabButtonText, { color: '#C1C1C1', marginLeft: 0 }]}>{global.i18n.t("PropertiesComponent_yours")}<Text style={{ fontSize: 10 }}>{` (${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})`}</Text></Text>
+                <Text testID={'numberOfBitmarks'} style={[cStyles.subTabButtonText, { color: '#C1C1C1', marginLeft: 0 }]}>{global.i18n.t("PropertiesComponent_yours")}<Text style={{ fontSize: 10 }}>{` (${this.props.bitmarks.length > 99 ? '99+' : this.props.bitmarks.length})`}</Text></Text>
               </View>
             </View>
           </OneTabButtonComponent>}
@@ -176,7 +176,7 @@ class PrivatePropertiesComponent extends React.Component {
           }}
           scrollEventThrottle={1}
         >
-          <OneTabButtonComponent activeOpacity={1} style={cStyles.contentSubTab}>
+          <OneTabButtonComponent accessible={false} activeOpacity={1} style={cStyles.contentSubTab}>
             {(!this.props.appLoadingData && this.props.displayedBitmarks && this.props.displayedBitmarks.length === 0) && <View style={cStyles.messageNoBitmarkArea}>
               <View>
                 <Text style={cStyles.messageNoBitmarkLabel}>
@@ -190,12 +190,12 @@ class PrivatePropertiesComponent extends React.Component {
                 <Text style={cStyles.addFirstPropertyButtonText}>{global.i18n.t("PropertiesComponent_addFirstPropertyButtonText")}</Text>
               </OneTabButtonComponent>
             </View>}
-            {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.props.subTab === SubTabs.local && this.props.displayedBitmarks.map(bitmark => {
+            {this.props.displayedBitmarks && this.props.displayedBitmarks.length > 0 && this.props.subTab === SubTabs.local && this.props.displayedBitmarks.map((bitmark, index) => {
               if (!bitmark || !bitmark.id) {
                 return
               }
               return (
-                <OneTabButtonComponent key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
+                <OneTabButtonComponent accessible={false} testID={`item_${index}`} key={bitmark.id} style={[cStyles.bitmarkRowArea]} onPress={() => {
                   BitmarkProcessor.doUpdateViewStatus(bitmark.id);
                   Actions.propertyDetail({ bitmark, asset: this.props.assets[bitmark.asset_id] });
                 }}>
