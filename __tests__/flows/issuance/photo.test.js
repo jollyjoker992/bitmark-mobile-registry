@@ -7,13 +7,6 @@ let path = require('path');
 jasmine.DEFAULT_TIMEOUT_INTERVAL = TEST_CONFIG.DEFAULT_TIMEOUT_INTERVAL;
 const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
 
-// beforeAll(async () => {
-//   let noResetConfig = { 'noReset': true };
-//   Object.assign(noResetConfig, RUN_CONFIG);
-//   await driver.init(noResetConfig);
-//   await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
-// });
-
 const checkAfterIssue = async (assetName) => {
 
   //check asset name of first item in properties
