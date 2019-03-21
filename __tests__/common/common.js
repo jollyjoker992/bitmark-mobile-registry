@@ -131,7 +131,6 @@ const closeWhatNewScreen = async (driver) => {
         console.log("Don't have What's New");
     }
 };
-
 const pushNewPhotoToDevice = (deviceUID, photoPath) => {
     let ratio = 0.5 + Math.random();
     let background = { r: 0, g: 0, b: 0, alpha: 1552967000000 / Date.now() };
@@ -139,11 +138,13 @@ const pushNewPhotoToDevice = (deviceUID, photoPath) => {
     return new Promise((resolve, reject) => {
         let photo = sharp(photoPath);
         photo.metadata().then(metadata => {
+            // create new photo
             let width = Math.floor(metadata.width * ratio);
             let height = Math.floor(metadata.height * ratio);
             desPhotoPath = photoPath.replace(path.basename(photoPath), 'new_' + path.basename(photoPath));
             return photo.resize(width, height, { background }).toFile(desPhotoPath);
         }).then(() => {
+            // push to simulator
             let commandString = `xcrun simctl addmedia ${deviceUID} ${desPhotoPath}`;
             console.log({ commandString });
             exec(commandString, (error) => {
@@ -158,6 +159,7 @@ const pushNewPhotoToDevice = (deviceUID, photoPath) => {
 
 
 const issueNewPhotoWithoutMetadata = async (driver, photoPath, assetName, quantity) => {
+    // create new photo and push to simulator
     let capabilities = await driver.sessionCapabilities();
     await pushNewPhotoToDevice(capabilities.udid, photoPath);
 
@@ -185,15 +187,18 @@ const issueNewPhotoWithoutMetadata = async (driver, photoPath, assetName, quanti
 
     await textInputAssetName.type(assetName);
     await driver.hideKeyboard();
+    // there is no error relate to asset name
     let numberOfErrors = (await driver.elementsById('errorInputAssetName')).length;
     expect(numberOfErrors).toEqual(0);
 
     // quantity
     await textInputQuantity.clear().type(quantity);
     await driver.hideKeyboard({ strategy: 'pressKey', key: 'Done' });
+    // there is no error relate to quantity
     numberOfErrors = (await driver.elementsById('errorInputQuantity')).length;
     expect(length).toEqual(0);
 
+    // do issue
     await driver.waitForElementByName('ISSUE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('ISSUE').tap();
     await driver.sleep(20 * 1000);
     await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap();

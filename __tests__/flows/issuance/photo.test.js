@@ -50,6 +50,7 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   await createNewAccountWithoutTouchId(driver);
   await driver.sleep(3000);
 
+  // push new photo to gallery
   let capabilities = await driver.sessionCapabilities();
   await pushNewPhotoToDevice(capabilities.udid, path.join(__dirname, '../../assets/img/test.png'));
 
@@ -120,34 +121,41 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   await driver.hideKeyboard();
   // add second metadata 
   await btnAddMoreMetadata.tap();
+  // choose CREATOR again
   await driver.waitForElementById('btnMetadataLabel_1').elementById('btnMetadataLabel_1').tap()
     .waitForElementByName('CREATOR', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('CREATOR').tap();
   await driver.sleep(2000);
   let metadataLabel1 = await driver.waitForElementById('btnMetadataLabel_1', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('btnMetadataLabel_1').text();
   expect(metadataLabel1).toEqual('CREATOR');
+  // it should show duplicate metadata labels
   errorString = await driver.waitForElementById('errorInputMetadata', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('errorInputMetadata').text();
   expect(errorString).toEqual('Duplicated labels: creator');
+  // remove duplicate metadata
   await driver.waitForElementByName('EDIT', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('EDIT').tap()
     .waitForElementById('btnRemoveMetadataLabel_1', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('btnRemoveMetadataLabel_1').tap()
     .waitForElementByName('Yes', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Yes').tap()
     .waitForElementByName('DONE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('DONE').tap()
+  // there is not error relate to metadata
   numberOfErrors = (await driver.elementsById('errorInputMetadata')).length;
   expect(numberOfErrors).toEqual(0);
 
+  // issue
   await driver.waitForElementByName('ISSUE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('ISSUE').tap();
   await driver.sleep(20 * 1000);
   await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).waitForElementByName('OK').tap();
 
+  // check result of issuance
   await checkAfterIssue(assetName);
 });
 
 test('issue new photo without metadata', async () => {
   let assetName = `Regression test ${new Date().toISOString()}`;
+  // auto create new file, add it to gallery of simulator and issue it without metadata
   await issueNewPhotoWithoutMetadata(driver,
     path.join(__dirname, '../../assets/img/test.png'),
     assetName,
     5);
-
+  // check result of issuance
   await checkAfterIssue(assetName);
 });
 
@@ -162,7 +170,6 @@ test('issue existing asset', async () => {
     // Choose image from lib
     .waitForElementByName('Choose from Library...', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Choose from Library...').tap()
     // allow permission
-    // .waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap()
     .waitForElementByName('Camera Roll', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Camera Roll').tap()
     // Choose image from lib
     .waitForElementsByIosPredicateString("type == 'XCUIElementTypeCell'", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementsByIosPredicateString("type == 'XCUIElementTypeCell'");
@@ -171,16 +178,19 @@ test('issue existing asset', async () => {
 
   let textInputQuantity = await driver.waitForElementById('inputQuantity', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('inputQuantity');
 
+  // existing asset, there is not exist input for asset name and metadata
   let numberElementInputAssetName = (await driver.elementsById('inputAssetName')).length;
   expect(numberElementInputAssetName).toEqual(0);
   let numberElementBtnAddMetadata = (await driver.elementsById('btnAddMoreMetadata')).length;
   expect(numberElementBtnAddMetadata).toEqual(0);
 
+  // get asset name - existing asset
   let assetName = await driver.waitForElementById('LocalIssueFileComponent_existing_assetName', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('LocalIssueFileComponent_existing_assetName').text();
 
   // quantity 
   await textInputQuantity.clear().type(5);
   await driver.hideKeyboard({ strategy: 'pressKey', key: 'Done' });
+  // there is no error relate to quantity
   let numberOfErrors = (await driver.elementsById('errorInputQuantity')).length;
   expect(numberOfErrors).toEqual(0);
 
