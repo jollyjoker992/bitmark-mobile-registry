@@ -111,11 +111,11 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   errorString = await driver.waitForElementById('errorInputQuantity', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('errorInputQuantity').text();
   expect(errorString).toEqual('Create property requires a minimum quantity of 1 bitmark issuance.');
   // quantity 100
-  await textInputQuantity.clear().type(5);
+  await textInputQuantity.clear().type(100);
   await driver.hideKeyboard({ strategy: 'pressKey', key: 'Done' });
   numberOfErrors = (await driver.elementsById('errorInputQuantity')).length;
   expect(numberOfErrors).toEqual(0);
-  // add metadata 0
+  // add first metadata
   await btnAddMoreMetadata.tap();
 
   await driver.waitForElementById('btnMetadataLabel_0', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('btnMetadataLabel_0').tap()
@@ -133,7 +133,7 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   // input correct metdata for #0
   await textInputMetadataValue0.clear().type('regression test');
   await driver.hideKeyboard();
-  // add metadata 1
+  // add second metadata 
   await btnAddMoreMetadata.tap();
   await driver.waitForElementById('btnMetadataLabel_1').elementById('btnMetadataLabel_1').tap()
     .waitForElementByName('CREATOR', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('CREATOR').tap();
