@@ -54,7 +54,6 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   await driver.init(RUN_CONFIG);
   await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
 
-  await driver.sleep(3000);
   await createNewAccountWithoutTouchId(driver);
   await driver.sleep(3000);
 
