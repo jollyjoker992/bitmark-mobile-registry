@@ -234,7 +234,6 @@ export class LocalIssueFileComponent extends React.Component {
                   data={this.state.metadataList}
                   extraData={this.state}
                   renderItem={({ item }) => {
-                    console.log('btnRemoveMetadataLabel_' + item.key);
                     return (
                       <View style={localAddPropertyStyle.metadataField}>
                         {!this.state.existingAsset && this.state.isEditingMetadata && <OneTabButtonComponent

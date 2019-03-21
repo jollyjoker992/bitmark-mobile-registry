@@ -3,8 +3,6 @@ import RNFS from 'react-native-fs';
 import { zip, unzip } from 'react-native-zip-archive';
 import { config } from 'src/configs';
 
-console.log('RNFS :', RNFS);
-
 const NativeUtils = config.isAndroid ? NativeModules.NativeUtils : null;
 
 class FileUtil {

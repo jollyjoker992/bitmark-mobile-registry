@@ -174,30 +174,29 @@ const issueNewPhotoWithoutMetadata = async (driver, photoPath, assetName, quanti
         console.log('Already allowed permission before');
     }
 
-    // .waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap()
     let elements = driver.waitForElementByName('Camera Roll', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Camera Roll').tap()
         // Choose image from lib
         .waitForElementsByIosPredicateString("type == 'XCUIElementTypeCell'", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementsByIosPredicateString("type == 'XCUIElementTypeCell'");
     // Choose latest image
     await elements[elements.length - 1].tap();
 
-    let textInputAssetName = await driver.waitForElementById('inputAssetName', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).waitForElementById('inputAssetName');
-    let textInputQuantity = await driver.waitForElementById('inputQuantity', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).waitForElementById('inputQuantity');
+    let textInputAssetName = await driver.waitForElementById('inputAssetName', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('inputAssetName');
+    let textInputQuantity = await driver.waitForElementById('inputQuantity', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('inputQuantity');
 
     await textInputAssetName.type(assetName);
     await driver.hideKeyboard();
-    let length = (await driver.elementsById('errorInputAssetName')).length;
-    expect(length).toEqual(0);
+    let numberOfErrors = (await driver.elementsById('errorInputAssetName')).length;
+    expect(numberOfErrors).toEqual(0);
 
     // quantity
     await textInputQuantity.clear().type(quantity);
     await driver.hideKeyboard({ strategy: 'pressKey', key: 'Done' });
-    length = (await driver.elementsById('errorInputQuantity')).length;
+    numberOfErrors = (await driver.elementsById('errorInputQuantity')).length;
     expect(length).toEqual(0);
 
     await driver.waitForElementByName('ISSUE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('ISSUE').tap();
     await driver.sleep(20 * 1000);
-    await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).waitForElementByName('OK').tap();
+    await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap();
 };
 
 export {

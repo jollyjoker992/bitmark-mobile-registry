@@ -93,8 +93,8 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   let assetName = `Regression test ${new Date().toISOString()}`;
   await textInputAssetName.clear().type(assetName);
   await driver.hideKeyboard();
-  let length = (await driver.elementsById('errorInputAssetName')).length;
-  expect(length).toEqual(0);
+  let numberOfErrors = (await driver.elementsById('errorInputAssetName')).length;
+  expect(numberOfErrors).toEqual(0);
   // quantity over 101
   await textInputQuantity.type(101);
   await driver.hideKeyboard({ strategy: 'pressKey', key: 'Done' });
@@ -113,8 +113,8 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   // quantity 100
   await textInputQuantity.clear().type(5);
   await driver.hideKeyboard({ strategy: 'pressKey', key: 'Done' });
-  length = (await driver.elementsById('errorInputQuantity')).length;
-  expect(length).toEqual(0);
+  numberOfErrors = (await driver.elementsById('errorInputQuantity')).length;
+  expect(numberOfErrors).toEqual(0);
   // add metadata 0
   await btnAddMoreMetadata.tap();
 
@@ -146,8 +146,8 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
     .waitForElementById('btnRemoveMetadataLabel_1', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('btnRemoveMetadataLabel_1').tap()
     .waitForElementByName('Yes', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Yes').tap()
     .waitForElementByName('DONE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('DONE').tap()
-  length = (await driver.elementsById('errorInputMetadata')).length;
-  expect(length).toEqual(0);
+  numberOfErrors = (await driver.elementsById('errorInputMetadata')).length;
+  expect(numberOfErrors).toEqual(0);
 
   await driver.waitForElementByName('ISSUE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('ISSUE').tap();
   await driver.sleep(20 * 1000);
@@ -186,18 +186,18 @@ test('issue existing asset', async () => {
 
   let textInputQuantity = await driver.waitForElementById('inputQuantity', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('inputQuantity');
 
-  let length = (await driver.elementsById('inputAssetName')).length;
-  expect(length).toEqual(0);
-  length = (await driver.elementsById('btnAddMoreMetadata')).length;
-  expect(length).toEqual(0);
+  let numberElementInputAssetName = (await driver.elementsById('inputAssetName')).length;
+  expect(numberElementInputAssetName).toEqual(0);
+  let numberElementBtnAddMetadata = (await driver.elementsById('btnAddMoreMetadata')).length;
+  expect(numberElementBtnAddMetadata).toEqual(0);
 
   let assetName = await driver.waitForElementById('LocalIssueFileComponent_existing_assetName', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('LocalIssueFileComponent_existing_assetName').text();
 
   // quantity 
   await textInputQuantity.clear().type(5);
   await driver.hideKeyboard({ strategy: 'pressKey', key: 'Done' });
-  length = (await driver.elementsById('errorInputQuantity')).length;
-  expect(length).toEqual(0);
+  let numberOfErrors = (await driver.elementsById('errorInputQuantity')).length;
+  expect(numberOfErrors).toEqual(0);
 
   await driver.waitForElementByName('ISSUE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('ISSUE').tap();
   await driver.sleep(10 * 1000);
