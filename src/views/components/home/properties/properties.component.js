@@ -80,7 +80,7 @@ class PrivatePropertiesComponent extends React.Component {
         <View style={[cStyles.header, { zIndex: 1 }]}>
           <OneTabButtonComponent style={defaultStyles.headerLeft}></OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("PropertiesComponent_headerTitle")}</Text>
-          <OneTabButtonComponent style={defaultStyles.headerRight} onPress={this.addProperty}>
+          <OneTabButtonComponent style={defaultStyles.headerRight} onPress={this.addProperty} testID={"addPropertyBtn"} >
             <Image style={cStyles.addPropertyIcon} source={require('assets/imgs/plus-icon.png')} />
           </OneTabButtonComponent>
         </View>
@@ -205,7 +205,9 @@ class PrivatePropertiesComponent extends React.Component {
                       {bitmark.created_at ? moment(bitmark.created_at).format('YYYY MMM DD HH:mm:ss').toUpperCase()
                         : (bitmark.issuer === CacheData.userInformation.bitmarkAccountNumber ? global.i18n.t("PropertiesComponent_registering") : global.i18n.t("PropertiesComponent_transferring"))}
                     </Text>
-                    <Text style={[cStyles.bitmarkAssetName, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}>
+                    <Text style={[cStyles.bitmarkAssetName, bitmark.isViewed ? {} : { color: '#0060F2' }]} numberOfLines={1}
+                      testID={`PropertiesComponent_yours_assetName_${index}`}
+                    >
                       {this.props.assets[bitmark.asset_id].name + `${isReleasedAsset(this.props.assets[bitmark.asset_id])
                         ? ` [${(bitmark.editionNumber === undefined || bitmark.editionNumber < 0) ? '?' : bitmark.editionNumber}/${this.props.assets[bitmark.asset_id].editions[bitmark.issuer].limited}]`
                         : ''}`}

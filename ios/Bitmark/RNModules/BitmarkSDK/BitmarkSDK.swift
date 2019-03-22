@@ -380,7 +380,7 @@ class BitmarkSDKWrapper: NSObject {
     let metadataString = tmp.joined(separator: "\u{0000}")
     
     if metadataString.utf8.count > 2048 {
-      reject(nil, "metadata reached limit", nil)
+      reject(nil, "metadata reached limit", "metadata reached limit" as Error)
     }
     else {
       resolve(nil);

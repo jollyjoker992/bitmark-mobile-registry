@@ -1,12 +1,12 @@
 import wd from 'wd';
-import {APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG} from '../../configs/config'
+import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
 import { createNewAccountWithTouchId, isLoggedIn } from "../../common/common";
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = TEST_CONFIG.DEFAULT_TIMEOUT_INTERVAL;
 const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
 
 beforeAll(async () => {
-    let noResetConfig = {'noReset': true};
+    let noResetConfig = { 'noReset': true };
     Object.assign(noResetConfig, RUN_CONFIG);
 
     await driver.init(noResetConfig);
@@ -20,7 +20,7 @@ test('Write Down Recovery Phrase', async () => {
         await createNewAccountWithTouchId(driver);
     }
 
-    let result = await driver
+    await driver
         // Go to Account Tab
         .waitForElementByName('Account', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
         .elementByName('Account').tap()
@@ -63,8 +63,8 @@ test('Write Down Recovery Phrase', async () => {
 
 
 test('Logout', async () => {
-    let result = await driver
-         // Go to Account Tab
+    await driver
+        // Go to Account Tab
         .waitForElementByName('Account', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
         .elementByName('Account').tap()
         // Click link to go to logout screen

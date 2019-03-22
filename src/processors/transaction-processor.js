@@ -363,6 +363,7 @@ const doGetIftttInformation = async () => {
 const doReloadIftttInformation = async (noNeedCheckNewData) => {
   let result = await runGetIFTTTInformationInBackground();
   await _doCheckNewIftttInformation(result, noNeedCheckNewData);
+  return result;
 };
 
 const doReloadTransferOffers = async (noNeedCheckNewData) => {

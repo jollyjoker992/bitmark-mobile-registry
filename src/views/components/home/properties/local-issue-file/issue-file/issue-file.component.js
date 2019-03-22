@@ -207,6 +207,7 @@ export class LocalIssueFileComponent extends React.Component {
 
               <Text style={localAddPropertyStyle.assetNameLabel}>{global.i18n.t("LocalIssueFileComponent_propertyName")}</Text>
               {!this.state.existingAsset && <TextInput
+                testID='inputAssetName'
                 ref={(ref) => this.assetNameInputRef = ref}
                 style={[config.isAndroid ? { padding: 2 } : {}, localAddPropertyStyle.assetNameInput, {
                   color: this.state.existingAsset ? '#C2C2C2' : 'black',
@@ -218,10 +219,10 @@ export class LocalIssueFileComponent extends React.Component {
                 returnKeyType="done"
                 returnKeyLabel={global.i18n.t("LocalIssueFileComponent_done")}
               />}
-              {!!this.state.assetNameError && <Text style={localAddPropertyStyle.assetNameInputError}>{this.state.assetNameError}</Text>}
+              {!!this.state.assetNameError && <Text testID='errorInputAssetName' style={localAddPropertyStyle.assetNameInputError}>{this.state.assetNameError}</Text>}
 
               {this.state.existingAsset && <View style={localAddPropertyStyle.existAssetName}>
-                <Text style={[localAddPropertyStyle.existAssetNameText]}>{this.state.assetName}</Text>
+                <Text style={[localAddPropertyStyle.existAssetNameText]} testID="LocalIssueFileComponent_existing_assetName">{this.state.assetName}</Text>
               </View>}
 
               <Text style={localAddPropertyStyle.metadataLabel}>{global.i18n.t("LocalIssueFileComponent_metadata")}</Text>
@@ -235,13 +236,16 @@ export class LocalIssueFileComponent extends React.Component {
                   renderItem={({ item }) => {
                     return (
                       <View style={localAddPropertyStyle.metadataField}>
-                        {!this.state.existingAsset && this.state.isEditingMetadata && <OneTabButtonComponent style={localAddPropertyStyle.metadataFieldKeyRemoveButton} onPress={() => this.removeMetadata(item.key)}>
+                        {!this.state.existingAsset && this.state.isEditingMetadata && <OneTabButtonComponent
+                          testID={'btnRemoveMetadataLabel_' + item.key}
+                          style={localAddPropertyStyle.metadataFieldKeyRemoveButton} onPress={() => this.removeMetadata(item.key)}>
                           <Image style={localAddPropertyStyle.metadataFieldKeyRemoveIcon} source={require('assets/imgs/remove-icon-red.png')} />
                         </OneTabButtonComponent>}
                         <View style={[localAddPropertyStyle.metadataFieldInfo, { width: convertWidth(this.state.isEditingMetadata ? 322 : 337) }]}>
                           <OneTabButtonComponent style={[localAddPropertyStyle.metadataFieldKeyArea, {
                             borderBottomColor: item.labelError ? '#FF003C' : (this.state.existingAsset ? '#C2C2C2' : '#0060F2')
                           }]}
+                            testID={'btnMetadataLabel_' + item.key}
                             disabled={this.state.existingAsset}
                             onPress={() => {
                               Actions.localIssueFileEditLabel({
@@ -262,6 +266,7 @@ export class LocalIssueFileComponent extends React.Component {
                           <TextInput style={[config.isAndroid ? { padding: 2 } : {}, localAddPropertyStyle.metadataFieldValue, {
                             color: (item.label && !this.state.existingAsset) ? 'black' : '#C1C1C1',
                           }]} placeholder={global.i18n.t("LocalIssueFileComponent_description")}
+                            testID={'inputMetadataValue_' + item.key}
                             ref={(ref) => this['valueInput_' + item.key] = ref}
                             multiline={true}
                             value={item.value}
@@ -285,10 +290,12 @@ export class LocalIssueFileComponent extends React.Component {
                 />
               </View>
               {!this.state.existingAsset && <View style={localAddPropertyStyle.metadataFieldButtons}>
-                <OneTabButtonComponent style={localAddPropertyStyle.addMetadataButton} disabled={!this.state.canAddNewMetadata} onPress={this.addNewMetadataField}>
+                <OneTabButtonComponent
+                  testID="btnAddMoreMetadata"
+                  style={localAddPropertyStyle.addMetadataButton} disabled={!this.state.canAddNewMetadata} onPress={this.addNewMetadataField}>
                   <Image style={localAddPropertyStyle.addMetadataButtonIcon} source={
                     this.state.canAddNewMetadata ? require('assets/imgs/plus-white-blue-icon.png') : require('assets/imgs/plus-white-blue-icon-disable.png')} />
-                  <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: this.state.canAddNewMetadata ? '#0060F2' : '#C2C2C2' }]}> {global.i18n.t("LocalIssueFileComponent_addLabel")}</Text>
+                  <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: this.state.canAddNewMetadata ? '#0060F2' : '#C2C2C2' }]}>{global.i18n.t("LocalIssueFileComponent_addLabel")}</Text>
                 </OneTabButtonComponent>
 
                 {this.state.isEditingMetadata && <OneTabButtonComponent style={[localAddPropertyStyle.addMetadataButton]} onPress={() => this.setState({ isEditingMetadata: false })}>
@@ -298,10 +305,11 @@ export class LocalIssueFileComponent extends React.Component {
                   <Text style={[localAddPropertyStyle.addMetadataButtonText, { color: this.state.isEditingMetadata ? '#C2C2C2' : '#0060F2' }]}>{global.i18n.t("LocalIssueFileComponent_edit")}</Text>
                 </OneTabButtonComponent>}
               </View>}
-              {!!this.state.metadataError && <Text style={localAddPropertyStyle.metadataInputError}>{this.state.metadataError}</Text>}
+              {!!this.state.metadataError && <Text testID='errorInputMetadata' style={localAddPropertyStyle.metadataInputError}>{this.state.metadataError}</Text>}
 
               <Text style={localAddPropertyStyle.quantityLabel}>{global.i18n.t("LocalIssueFileComponent_quantityLabel")}</Text>
               <TextInput
+                testID='inputQuantity'
                 ref={(ref) => this.quantityInputRef = ref}
                 style={[config.isAndroid ? { padding: 2 } : {}, localAddPropertyStyle.quantityInput, {
                   borderBottomColor: this.state.quantityError ? '#FF003C' : '#0060F2'
@@ -311,7 +319,7 @@ export class LocalIssueFileComponent extends React.Component {
                 returnKeyType="done"
                 returnKeyLabel={global.i18n.t("LocalIssueFileComponent_done")}
               />
-              {!!this.state.quantityError && <Text style={localAddPropertyStyle.quantityInputError}>{this.state.quantityError}</Text>}
+              {!!this.state.quantityError && <Text testID='errorInputQuantity' style={localAddPropertyStyle.quantityInputError}>{this.state.quantityError}</Text>}
               <Text style={localAddPropertyStyle.ownershipClaimLabel}>{global.i18n.t("LocalIssueFileComponent_ownershipClaimLabel")}</Text>
               <Text style={localAddPropertyStyle.ownershipClaimMessage}>{global.i18n.t("LocalIssueFileComponent_ownershipClaimMessage")}</Text>
               {!!this.state.issueError && <Text style={localAddPropertyStyle.issueError}>{this.state.issueError}</Text>}
@@ -319,6 +327,7 @@ export class LocalIssueFileComponent extends React.Component {
           </ScrollView>
 
           <OneTabButtonComponent
+            testID="btnIssue"
             style={[localAddPropertyStyle.issueButton, { borderTopColor: this.state.canIssue ? '#0060F2' : '#C2C2C2' }]}
             onPress={this.onIssueFile}
             disabled={!this.state.canIssue}

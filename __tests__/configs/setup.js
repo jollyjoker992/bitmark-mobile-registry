@@ -1,5 +1,5 @@
-import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from "./config";
-import wd from "wd";
+// import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from "./config";
+// import wd from "wd";
 
 module.exports = async () => {
     // const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);

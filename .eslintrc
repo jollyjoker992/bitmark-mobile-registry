@@ -3,7 +3,9 @@
   "env": {
     "es6": true,
     "node": true,
-    "browser": true
+    "browser": true,
+    "jest": true,
+    "jasmine": true
   },
   "globals": {
     "i18n": true,
@@ -11,11 +13,13 @@
   },
   "plugins": [
     "react",
-    "react-native"
+    "react-native",
+    "jasmine"
   ],
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:jasmine/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -34,6 +38,11 @@
         ]
       }
     ],
-    "react-native/split-platform-components": 2
+    "react-native/split-platform-components": 2,
+    "jasmine/no-focused-tests": 0,
+    "jasmine/no-suite-dupes": [
+      2,
+      "branch"
+    ]
   }
 }

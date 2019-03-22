@@ -340,7 +340,7 @@ class PrivatePropertyDetailComponent extends React.Component {
         return (<SafeAreaView style={cStyles.body}>
           <TouchableWithoutFeedback accessible={false} onPress={() => this.setState({ displayTopButton: false })}>
             <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
-              <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={() => Actions.jump('properties')}>
+              <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={() => Actions.jump('properties')} testID={"PropertyDetailComponent_backBTN"}>
                 <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
               </OneTabButtonComponent>
               <View style={defaultStyles.headerCenter}>
@@ -434,7 +434,9 @@ class PrivatePropertyDetailComponent extends React.Component {
 
                 <View style={[cStyles.assetInformation, { marginTop: 0 }]}>
                   <View style={cStyles.assetContent}>
-                    <Text style={[cStyles.assetContentName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>
+                    <Text style={[cStyles.assetContentName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}
+                      testID="PropertyDetailComponent_assetName"
+                    >
                       {this.props.asset.name + (this.props.asset.editions ? `${this.props.bitmark.editionNumber || '?'}/${this.props.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited}` : '')}
                     </Text>
 
@@ -485,23 +487,30 @@ class PrivatePropertyDetailComponent extends React.Component {
                     }]}>{global.i18n.t("PropertyDetailComponent_owner")}</Text>
                   </View>
                   {this.state.gettingData && <ActivityIndicator style={{ marginTop: 42 }} size="large" />}
-                  {(this.state.provenance || []).map((item, index) => (<OneTabButtonComponent key={index} style={cStyles.provenanceRow}
-                    onPress={() => this.clickOnProvenance.bind(this)(item)}
-                    disabled={item.status === 'pending' || item.status === 'queuing'}
-                  >
-                    <Text style={[cStyles.provenanceRowItem, {
-                      color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : '#0060F2'
-                    }]} numberOfLines={1}>
-                      {(item.status === 'pending' || item.status === 'queuing') ? 'Waiting to be confirmed...' : (moment(item.created_at).format('YYYY MMM DD HH:mm:ss')).toUpperCase()}
-                    </Text>
+                  {(this.state.provenance || []).map((item, index) => {
+                    return (<OneTabButtonComponent key={index} style={cStyles.provenanceRow}
+                      onPress={() => this.clickOnProvenance.bind(this)(item)}
+                      disabled={item.status === 'pending' || item.status === 'queuing'}
+                      testID={'PropertyDetailComponent_provenance'}
+                      accessible={false}
+                    >
+                      <Text style={[cStyles.provenanceRowItem, {
+                        color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : '#0060F2'
+                      }]} numberOfLines={1}>
+                        {(item.status === 'pending' || item.status === 'queuing') ? 'Waiting to be confirmed...' : (moment(item.created_at).format('YYYY MMM DD HH:mm:ss')).toUpperCase()}
+                      </Text>
 
-                    <Text style={[cStyles.provenanceRowItem, {
-                      marginLeft: convertWidth(19),
-                      color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : 'black'
-                    }]} numberOfLines={1}>
-                      {CommonProcessor.getDisplayedAccount(item.owner)}
-                    </Text>
-                  </OneTabButtonComponent>))}
+                      <Text
+                        style={[cStyles.provenanceRowItem, {
+                          marginLeft: convertWidth(19),
+                          color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : 'black'
+                        }]} numberOfLines={1}
+                        testID={`PropertyDetailComponent_provenance_owner_${index}`}
+                      >
+                        {CommonProcessor.getDisplayedAccount(item.owner)}
+                      </Text>
+                    </OneTabButtonComponent>)
+                  })}
                 </View>
               </ScrollView>
             </View>
