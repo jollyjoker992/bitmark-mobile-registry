@@ -1,3 +1,4 @@
+const path = require('path');
 let localConfig = {};
 try {
     localConfig = require('./local-config');
@@ -15,7 +16,7 @@ const RUN_CONFIG = localConfig.RUN_CONFIG || {
     platformVersion: '12.1',
     deviceName: 'iPhone X',
     automationName: 'XCUITest',
-    app: process.env.APP_URL // relative to root of project
+    app: process.env.APP_URL || path.join(__dirname, '../../ios/build/Bitmark Registry dev/Build/Products/Debug-iphonesimulator/Bitmark Registry dev.app/') // relative to root of project
 };
 
 const TEST_CONFIG = localConfig.TEST_CONFIG || {
