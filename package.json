@@ -11,9 +11,12 @@
     "i-test-x": "react-native run-ios --scheme 'Bitmark Registry dev' --simulator='iPhone X'",
     "i-live": "react-native run-ios",
     "test": "jest --no-cache --runInBand --config=jest.config.json",
-    "test-build": "npm run start & npm run i-test",
-    "test-execute": "appium & npm run test",
-    "test-start": "killall node && npm run test-build && sleep 120 && npm run test-execute"
+    "test-kill-all": "killall node || true",
+    "test-build": "ttab 'npm run start & npm run i-test'",
+    "test-appium": "ttab 'appium'",
+    "test-new-tab": "sleep 5 && ttab 'npm run test'",
+    "test-execute": "npm run test-appium & npm run test-new-tab",
+    "test-jenkin": "npm run test-kill-all && npm run test-build && sleep 60 && npm run test-execute"
   },
   "dependencies": {
     "bs58": "^4.0.1",
