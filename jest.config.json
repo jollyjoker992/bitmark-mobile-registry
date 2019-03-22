@@ -8,5 +8,6 @@
   "transform": {
     ".*": "<rootDir>/custom-preprocessor.js"
   },
+  "testResultsProcessor": "./node_modules/jest-junit-reporter",
   "globalSetup": "<rootDir>/__tests__/configs/setup.js"
 }

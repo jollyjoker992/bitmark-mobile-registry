@@ -1,6 +1,6 @@
 import wd from 'wd';
 import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
-import { issueNewPhotoWithoutMetadata, pushNewPhotoToDevice, createNewAccountWithoutTouchId } from '__tests__/common/common';
+import { issueNewPhotoWithoutMetadata, pushNewPhotoToDevice, createNewAccountWithoutTouchId, deleteSimulatorPhotos } from '__tests__/common/common';
 
 let path = require('path');
 
@@ -42,6 +42,16 @@ const checkAfterIssue = async (assetName) => {
   let typeInHistory = await driver.waitForElementById("TransactionsComponent_completed_type_0", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById("TransactionsComponent_completed_type_0").text();
   expect(typeInHistory).toEqual('PROPERTY ISSUANCE');
 };
+
+test('delete simulator photos', async () => {
+  await driver.init(RUN_CONFIG);
+  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load  
+  driver.sleep(15 * 1000);
+
+  let capabilities = await driver.sessionCapabilities();
+  await deleteSimulatorPhotos(capabilities.udid);
+  driver.sleep(15 * 1000);
+});
 
 test('Issue new photo with checking asset name quantity, metadata-metadata do not check over 2048 bytes', async () => {
   await driver.init(RUN_CONFIG);
@@ -149,6 +159,10 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
 });
 
 test('issue new photo without metadata', async () => {
+  let noResetConfig = { 'noReset': true };
+  Object.assign(noResetConfig, RUN_CONFIG);
+  await driver.init(noResetConfig);
+  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
   let assetName = `Regression test ${new Date().toISOString()}`;
   // auto create new file, add it to gallery of simulator and issue it without metadata
   await issueNewPhotoWithoutMetadata(driver,
@@ -160,7 +174,11 @@ test('issue new photo without metadata', async () => {
 });
 
 test('issue existing asset', async () => {
-  await driver.sleep(3000);
+  let noResetConfig = { 'noReset': true };
+  Object.assign(noResetConfig, RUN_CONFIG);
+
+  await driver.init(noResetConfig);
+  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
 
   let elements = await driver
     .waitForElementById('BottomTabsComponent_properties', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('BottomTabsComponent_properties').tap()

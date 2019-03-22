@@ -12,7 +12,7 @@ const isLoggedIn = async (driver) => {
 };
 
 const createNewAccountWithTouchId = async (driver) => {
-    await driver.sleep(3000);
+    await driver.sleep(10 * 1000);
 
     let result = await driver
         .waitForElementByName('CREATE NEW ACCOUNT', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
@@ -131,6 +131,33 @@ const closeWhatNewScreen = async (driver) => {
         console.log("Don't have What's New");
     }
 };
+
+const runCommand = async (commandString) => {
+    return new Promise((resolve, reject) => {
+        exec(commandString, (error) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve();
+        })
+    });
+};
+
+const delay = (ms) => {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
+
+const deleteSimulatorPhotos = async (deviceId) => {
+    //delete photo in simulator
+    let cmd1 = `rm -rf ~/Library/Developer/CoreSimulator/Devices/${deviceId}/data/Media/DCIM/`;
+    let cmd2 = `rm -rf ~/Library/Developer/CoreSimulator/Devices/${deviceId}/data/Media/PhotoData/`;
+    await runCommand(cmd1);
+    await runCommand(cmd2);
+    await delay(5000);
+};
+
 const pushNewPhotoToDevice = (deviceUID, photoPath) => {
     let ratio = 0.5 + Math.random();
     let background = { r: 0, g: 0, b: 0, alpha: 1552967000000 / Date.now() };
@@ -146,7 +173,6 @@ const pushNewPhotoToDevice = (deviceUID, photoPath) => {
         }).then(() => {
             // push to simulator
             let commandString = `xcrun simctl addmedia ${deviceUID} ${desPhotoPath}`;
-            console.log({ commandString });
             exec(commandString, (error) => {
                 if (error) {
                     return reject(error);
@@ -176,7 +202,7 @@ const issueNewPhotoWithoutMetadata = async (driver, photoPath, assetName, quanti
         console.log('Already allowed permission before');
     }
 
-    let elements = driver.waitForElementByName('Camera Roll', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Camera Roll').tap()
+    let elements = await driver.waitForElementByName('Camera Roll', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Camera Roll').tap()
         // Choose image from lib
         .waitForElementsByIosPredicateString("type == 'XCUIElementTypeCell'", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementsByIosPredicateString("type == 'XCUIElementTypeCell'");
     // Choose latest image
@@ -208,6 +234,9 @@ export {
     isLoggedIn,
     createNewAccountWithTouchId,
     createNewAccountWithoutTouchId,
+
+    runCommand,
+    deleteSimulatorPhotos,
     pushNewPhotoToDevice,
     issueNewPhotoWithoutMetadata,
     accessExistingAccount
