@@ -1,7 +1,8 @@
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  Text, View, Image, SafeAreaView,
+  Text, View, Image,
   Alert,
 } from 'react-native';
 import Camera from 'react-native-camera';
@@ -13,6 +14,9 @@ import { defaultStyles } from 'src/views/commons';
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 export class ScanQRCodeComponent extends React.Component {
+  propTypes = {
+    onDone: PropTypes.func,
+  }
   constructor(props) {
     super(props);
     this.backToPropertiesScreen = this.backToPropertiesScreen.bind(this);
@@ -24,12 +28,17 @@ export class ScanQRCodeComponent extends React.Component {
   };
 
   onBarCodeRead(scanData) {
+    console.log('scanData :', scanData);
     this.cameraRef.stopPreview();
     if (this.scanned) {
       return;
     }
     this.scanned = true;
     let qrCode = scanData.data;
+    if (this.props.onDone) {
+      this.props.onDone(qrCode);
+      return Actions.pop();
+    }
 
     let tempArrays = qrCode.split('|');
     if (tempArrays.length === 4 && tempArrays[0] === 'i') {
@@ -118,7 +127,7 @@ export class ScanQRCodeComponent extends React.Component {
   }
 
   render() {
-    return (<SafeAreaView style={componentStyle.body}>
+    return (<View style={componentStyle.body}>
       <View style={componentStyle.header}>
         <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop} >
           <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
@@ -129,6 +138,6 @@ export class ScanQRCodeComponent extends React.Component {
       <View style={componentStyle.bodyContent}>
         <Camera ref={(ref) => this.cameraRef = ref} style={componentStyle.scanCamera} aspect={Camera.constants.Aspect.fill} onBarCodeRead={this.onBarCodeRead.bind(this)} />
       </View>
-    </SafeAreaView>);
+    </View>);
   }
 }

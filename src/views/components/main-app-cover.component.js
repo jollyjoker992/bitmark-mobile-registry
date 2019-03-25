@@ -7,6 +7,7 @@ import { EventEmitterService } from 'src/processors';
 import { config } from 'src/configs';
 import { PropertyActionSheetComponent } from './home/properties';
 import { PropertyMetadataComponent } from './home/properties/property-metadata.component';
+import { AccountQrCodeComponent } from './home/account/account-qrcode.component';
 
 let ComponentName = 'MainCoverComponent';
 export class MainCoverComponent extends Component {
@@ -66,6 +67,7 @@ export class MainCoverComponent extends Component {
   }
 
   render() {
+    console.log('dataCover :', this.state.dataCover);
     return (
       <Animated.View style={[cStyles.body, {
         top: this.state.topCoverArea, height: this.state.heightCoverArea, opacity: this.state.opacityCoverArea,
@@ -87,6 +89,10 @@ export class MainCoverComponent extends Component {
                   <PropertyMetadataComponent
                     asset={this.state.dataCover.asset}
                   />
+                }
+
+                {this.state.dataCover && this.state.dataCover.type === 'AccountQrCodeComponent' &&
+                  <AccountQrCodeComponent />
                 }
               </View>
             </TouchableWithoutFeedback>

@@ -1,7 +1,7 @@
 import {
   StyleSheet,
 } from 'react-native'
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 
@@ -20,7 +20,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#F5F5F5',
-    height: constant.headerSize.height - constant.headerSize.paddingTop,
+    paddingTop: (config.isIPhoneX ? 44 : 0),
+    height: constant.headerSize.height + (config.isIPhoneX ? 44 : 0),
     width: '100%',
   },
 
