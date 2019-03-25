@@ -1,5 +1,5 @@
-import wd from 'wd';
-import { TEST_CONFIG } from "../configs/config";
+const wd = require('wd');
+const { TEST_CONFIG } = require('../configs/config');
 
 const sharp = require('sharp');
 const path = require('path');
@@ -43,7 +43,7 @@ const createNewAccountWithTouchId = async (driver) => {
         await driver
             .waitForElementByName('Allow', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
             .elementByName("Allow").tap();
-    } catch {
+    } catch (error) {
         console.log('Already allowed notification before');
     }
     await closeWhatNewScreen(driver);
@@ -127,7 +127,7 @@ const closeWhatNewScreen = async (driver) => {
             .sleep(3000)
             .waitForElementByAccessibilityId('closeBtn', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
             .elementByAccessibilityId("closeBtn").tap();
-    } catch {
+    } catch (error) {
         console.log("Don't have What's New");
     }
 };
@@ -198,7 +198,7 @@ const issueNewPhotoWithoutMetadata = async (driver, photoPath, assetName, quanti
     try {
         // allow permission
         await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap();
-    } catch {
+    } catch (error) {
         console.log('Already allowed permission before');
     }
 
@@ -230,12 +230,13 @@ const issueNewPhotoWithoutMetadata = async (driver, photoPath, assetName, quanti
     await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap();
 };
 
-export {
+module.exports = {
     isLoggedIn,
     createNewAccountWithTouchId,
     createNewAccountWithoutTouchId,
 
     runCommand,
+    delay,
     deleteSimulatorPhotos,
     pushNewPhotoToDevice,
     issueNewPhotoWithoutMetadata,
