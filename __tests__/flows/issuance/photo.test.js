@@ -46,20 +46,13 @@ const checkAfterIssue = async (assetName) => {
   expect(typeInHistory).toEqual('PROPERTY ISSUANCE');
 };
 
-beforeAll(async () => {
+test('Issue new photo with checking asset name quantity, metadata-metadata do not check over 2048 bytes', async () => {
   await driver.init(RUN_CONFIG);
   await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load  
   driver.sleep(15 * 1000);
 
   await createNewAccountWithoutTouchId(driver);
   await driver.sleep(3000);
-});
-
-test('Issue new photo with checking asset name quantity, metadata-metadata do not check over 2048 bytes', async () => {
-  let noResetConfig = { 'noReset': true };
-  Object.assign(noResetConfig, RUN_CONFIG);
-  await driver.init(noResetConfig);
-  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
 
   // push new photo to gallery
   let capabilities = await driver.sessionCapabilities();
@@ -175,10 +168,10 @@ test('issue new photo without metadata', async () => {
 });
 
 test('issue existing asset', async () => {
-  await driver.init(RUN_CONFIG);
-  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT + 5000); // wait for app to load
-
-  await accessExistingAccount(driver, TWELVE_WORDS);
+  let noResetConfig = { 'noReset': true };
+  Object.assign(noResetConfig, RUN_CONFIG);
+  await driver.init(noResetConfig);
+  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
 
   let elements = await driver
     .waitForElementById('BottomTabsComponent_properties', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('BottomTabsComponent_properties').tap()
@@ -187,7 +180,6 @@ test('issue existing asset', async () => {
     .waitForElementByName('PHOTOS', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('PHOTOS').tap()
     // Choose image from lib
     .waitForElementByName('Choose from Library...', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Choose from Library...').tap()
-    // allow permission
     .waitForElementByName('Camera Roll', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Camera Roll').tap()
     // Choose image from lib
     .waitForElementsByIosPredicateString("type == 'XCUIElementTypeCell'", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementsByIosPredicateString("type == 'XCUIElementTypeCell'");

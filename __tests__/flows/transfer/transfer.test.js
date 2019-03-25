@@ -10,30 +10,28 @@ const NO_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT = 'eMCcmw1SKoohNUf3LeioTFKaYNYfp2
 const HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT = 'fADx4NWuuSXy6TefpnZwWvxTxepowchDT1D8r1bh5mnfwXP2XC';
 const HAS_ENCRYPTION_PUBLIC_KEY_TWELVE_WORDS = ["grain", "pizza", "provide", "deliver", "custom", "sound", "veteran", "neutral", "hope", "reward", "earth", "omit"];
 
-const TWELVE_WORDS = ["close", "nut", "height", "renew", "boring", "fatigue", "alarm", "slice", "transfer", "spoon", "movie", "saddle"];
-const ACCOUNT_NUMBER = "fT3TAY5MaWJnTsCnNArLPRWDovwQh4Uv8GeZG4ox74p8PtA1sW";
-
-beforeEach(async () => {
-    let noResetConfig = {'noReset': false};
+// TEST CASES
+test('Transfer to account without encryption public key', async () => {
+    let noResetConfig = { 'noReset': true };
     Object.assign(noResetConfig, RUN_CONFIG);
 
     await driver.init(noResetConfig);
     await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
-});
-
-// TEST CASES
-test('Transfer to account without encryption public key', async () => {
-    await accessExistingAccount(driver, TWELVE_WORDS);
-    let {bitmarkId} = await transfer(NO_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT);
-
+    // await accessExistingAccount(driver, TWELVE_WORDS);
+    let { bitmarkId } = await transfer(NO_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT);
     if (bitmarkId) {
         await driver.waitForElementByName('Invalid bitmark account number!', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
     }
 });
 
 test('Transfer to account with encryption public key', async () => {
-    await accessExistingAccount(driver, TWELVE_WORDS);
-    let {bitmarkId, assetName} = await transfer(HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT);
+    let noResetConfig = { 'noReset': true };
+    Object.assign(noResetConfig, RUN_CONFIG);
+
+    await driver.init(noResetConfig);
+    await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+
+    let { bitmarkId, assetName } = await transfer(HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT);
 
     if (bitmarkId) {
         // Go to transaction history
@@ -63,25 +61,23 @@ test('Transfer to account with encryption public key', async () => {
     }
 });
 
-
 test('Download bitmark', async () => {
+    await driver.init(RUN_CONFIG);
+    await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+
     await accessExistingAccount(driver, HAS_ENCRYPTION_PUBLIC_KEY_TWELVE_WORDS);
     let firstConfirmedEl = await driver.elementByIosPredicateStringOrNull("name BEGINSWITH 'item_' AND NOT label BEGINSWITH 'INCOMING' AND NOT label BEGINSWITH 'REGISTERING'");
 
-    if (firstConfirmedEl) {
-        await firstConfirmedEl.tap();
-    } else {
-        let incomingEl = await driver.elementByIosPredicateStringOrNull("name BEGINSWITH 'item_' AND label BEGINSWITH 'INCOMING'");
-
-        if (incomingEl) {
-            // Wait for 3 minutes for bitmark get confirmed
-            await driver.sleep(3 * 60 * 1000);
-            await incomingEl.tap();
-        } else {
-            console.warn('There are no confirmed bitmarks to download');
-            return;
+    if (!firstConfirmedEl) {
+        let start = Date.now();
+        while (Date.now() - start < 3 * 60 * 1000) {
+            firstConfirmedEl = await driver.elementByIosPredicateStringOrNull("name BEGINSWITH 'item_' AND NOT label BEGINSWITH 'INCOMING' AND NOT label BEGINSWITH 'REGISTERING'");
+            if (firstConfirmedEl) {
+                break;
+            }
         }
     }
+    await firstConfirmedEl.tap();
 
     // Show options menu
     await driver
@@ -115,9 +111,12 @@ test('Download bitmark', async () => {
 });
 
 test('Delete confirmed Bitmarks', async () => {
-    await accessExistingAccount(driver, HAS_ENCRYPTION_PUBLIC_KEY_TWELVE_WORDS);
+    let noResetConfig = { 'noReset': true };
+    Object.assign(noResetConfig, RUN_CONFIG);
 
-    await driver.sleep(5000);
+    await driver.init(noResetConfig);
+    await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+
     let numberOfBitmarksBeforeDeleting = await getNumberOfBitmarks(driver);
 
     let firstConfirmedElement = await driver.elementByIosPredicateStringOrNull("name BEGINSWITH 'item_' AND NOT label BEGINSWITH 'INCOMING' AND NOT label BEGINSWITH 'REGISTERING'");
@@ -196,7 +195,7 @@ async function transfer(accountNumber) {
         .sleep(1000)
         .elementByName('TRANSFER').tap();
 
-    return {bitmarkId, assetName};
+    return { bitmarkId, assetName };
 }
 
 async function getNumberOfBitmarks(driver) {
