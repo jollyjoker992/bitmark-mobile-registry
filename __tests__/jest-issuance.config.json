@@ -1,0 +1,13 @@
+{
+  "roots": [
+    "<rootDir>/__tests__"
+  ],
+  "testMatch": [
+    "**/issuance/?(*.)+(spec|test).[jt]s?(x)"
+  ],
+  "transform": {
+    ".*": "<rootDir>/custom-preprocessor.js"
+  },
+  "testResultsProcessor": "./node_modules/jest-junit-reporter",
+  "globalSetup": "<rootDir>/__tests__/configs/setup.js"
+}
