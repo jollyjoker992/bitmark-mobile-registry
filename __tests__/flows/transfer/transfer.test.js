@@ -8,7 +8,7 @@ const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
 
 const NO_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT = 'eMCcmw1SKoohNUf3LeioTFKaYNYfp2bzFYpjm3EddwxBSWYVCb';
 const HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT = 'fADx4NWuuSXy6TefpnZwWvxTxepowchDT1D8r1bh5mnfwXP2XC';
-const HAS_ENCRYPTION_PUBLIC_KEY_TWELVE_WORDS = ["autumn", "census", "bamboo", "december", "off", "lonely", "walk", "embark", "control", "inch", "fabric", "rough"];
+const HAS_ENCRYPTION_PUBLIC_KEY_TWELVE_WORDS = ["grain", "pizza", "provide", "deliver", "custom", "sound", "veteran", "neutral", "hope", "reward", "earth", "omit"];
 
 const TWELVE_WORDS = ["close", "nut", "height", "renew", "boring", "fatigue", "alarm", "slice", "transfer", "spoon", "movie", "saddle"];
 const ACCOUNT_NUMBER = "fT3TAY5MaWJnTsCnNArLPRWDovwQh4Uv8GeZG4ox74p8PtA1sW";

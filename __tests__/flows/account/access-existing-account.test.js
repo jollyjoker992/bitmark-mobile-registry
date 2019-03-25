@@ -14,9 +14,9 @@ const TWELVE_WORDS = ['bag', 'level', 'quote', 'meat', 'eye', 'vendor', 'clutch'
 const TWENTY_FOUR_WORDS = ["accident", "sausage", "ticket", "dolphin", "original", "nasty", "theme", "life", "polar", "donor", "office", "weird", "neither", "escape", "flag", "spell", "submit", "salute", "sustain", "habit", "soap", "oil", "romance", "drama"];
 
 test('Access Existing Account - 12 words', async () => {
-    await accessExistingAccount(TWELVE_WORDS);
+    await accessExistingAccount(driver, TWELVE_WORDS);
 });
 
 test('Access Existing Account - 24 words', async () => {
-    await accessExistingAccount(TWENTY_FOUR_WORDS);
+    await accessExistingAccount(driver, TWENTY_FOUR_WORDS);
 });

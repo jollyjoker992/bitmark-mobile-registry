@@ -1,6 +1,9 @@
 import wd from 'wd';
 import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
 import { issueNewPhotoWithoutMetadata, pushNewPhotoToDevice, createNewAccountWithoutTouchId } from '__tests__/common/common';
+import { accessExistingAccount } from "../../common/common";
+
+const TWELVE_WORDS = ["grain", "pizza", "provide", "deliver", "custom", "sound", "veteran", "neutral", "hope", "reward", "earth", "omit"];
 
 let path = require('path');
 
@@ -172,11 +175,10 @@ test('issue new photo without metadata', async () => {
 });
 
 test('issue existing asset', async () => {
-  let noResetConfig = { 'noReset': true };
-  Object.assign(noResetConfig, RUN_CONFIG);
+  await driver.init(RUN_CONFIG);
+  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT + 5000); // wait for app to load
 
-  await driver.init(noResetConfig);
-  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+  await accessExistingAccount(driver, TWELVE_WORDS);
 
   let elements = await driver
     .waitForElementById('BottomTabsComponent_properties', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('BottomTabsComponent_properties').tap()
