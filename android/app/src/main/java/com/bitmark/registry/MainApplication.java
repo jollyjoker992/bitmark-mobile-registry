@@ -56,12 +56,12 @@ public class MainApplication extends Application implements ReactApplication, Sh
         protected List<ReactPackage> getPackages() {
             return Arrays.asList(
                     new MainReactPackage(),
-            new SvgPackage(),
+                    new RCTCameraPackage(),
+                    new SvgPackage(),
                     new IntercomPackage(),
                     new RNSharePackage(),
                     new LottiePackage(),
                     new RNSentryPackage(),
-                    new RCTCameraPackage(),
                     new KCKeepAwakePackage(),
                     new CodePush(
                             API_KEY_MANAGER.getCodePushApiKey(),
