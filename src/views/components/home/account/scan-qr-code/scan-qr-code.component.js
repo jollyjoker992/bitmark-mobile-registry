@@ -28,7 +28,6 @@ export class ScanQRCodeComponent extends React.Component {
   };
 
   onBarCodeRead(scanData) {
-    console.log('scanData :', scanData);
     this.cameraRef.stopPreview();
     if (this.scanned) {
       return;

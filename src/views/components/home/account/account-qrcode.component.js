@@ -24,27 +24,26 @@ export class AccountQrCodeComponent extends React.Component {
   render() {
     return (
       <View style={cStyles.content}>
-        <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', }}>
-          <Text style={{ marginLeft: convertWidth(19) }}>RECEIVE PROPERTY</Text>
-          <OneTabButtonComponent style={{ padding: 4, paddingRight: convertWidth(19) }} onPress={() => {
+        <View style={cStyles.headers}>
+          <Text style={cStyles.headerTitle}>{global.i18n.t("AccountQrCodeComponent_headerTitle")}</Text>
+          <OneTabButtonComponent style={cStyles.headerCloseButton} onPress={() => {
             EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER);
           }}>
-            <Image style={{ width: 16, height: 16, resizeMode: 'contain', }} source={require('assets/imgs/close_icon_blue.png')} />
+            <Image style={cStyles.headerCloseButtonImage} source={require('assets/imgs/close_icon_blue.png')} />
           </OneTabButtonComponent>
         </View>
-        <View style={{ paddingRight: convertWidth(19), width: convertWidth(337), borderTopWidth: 1, borderColor: '#A4B5CD', marginTop: 15, }} />
-        <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 50, }}>
+        <View style={cStyles.headerBar} />
+        <View style={cStyles.qrCodeArea}>
           <QRCode
             getRef={(ref) => (this.qrCodeRef = ref)}
             value={CacheData.userInformation.bitmarkAccountNumber}
             size={200} />
         </View>
-        <Text style={{ fontFamily: 'andale_mono', fontSize: 12, textAlign: 'center', paddingRight: convertWidth(19), paddingLeft: convertWidth(19), marginTop: 27, }}>{CacheData.userInformation.bitmarkAccountNumber}</Text>
+        <Text style={cStyles.accountNumber}>{CacheData.userInformation.bitmarkAccountNumber}</Text>
 
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-          <OneTabButtonComponent style={{ backgroundColor: '#0060F2', height: 45, width: 200, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }} onPress={async () => {
+        <View style={cStyles.bottomButtonArea}>
+          <OneTabButtonComponent style={cStyles.shareButton} onPress={async () => {
             let accountNumberQRCodeImagePath = `${FileUtil.getSharedLocalStorageFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/qr_code.jpg`;
-            console.log('accountNumberQRCodeImagePath :', accountNumberQRCodeImagePath);
             if (!(await FileUtil.exists(accountNumberQRCodeImagePath))) {
               let writeQRCodeImage = async () => {
                 return new Promise((resolve, reject) => {
@@ -53,12 +52,8 @@ export class AccountQrCodeComponent extends React.Component {
                   });
                 })
               };
-              console.log('run 1');
               await writeQRCodeImage();
-              console.log('run 2');
             }
-            console.log('run 3');
-
             CustomShare.open({
               title: CacheData.userInformation.bitmarkAccountNumber,
               message: CacheData.userInformation.bitmarkAccountNumber,
@@ -69,8 +64,8 @@ export class AccountQrCodeComponent extends React.Component {
               console.log('Share error :', error);
             });
           }}>
-            <Image style={{ width: 13, height: 16, resizeMode: 'contain', marginBottom: 1, }} source={require('assets/imgs/account_share_icon.png')} />
-            <Text style={{ color: 'white', fontFamily: 'avenir_next_w1g_bold', fontSize: 17, marginLeft: 12, }}>SHARE</Text>
+            <Image style={cStyles.shareIcon} source={require('assets/imgs/account_share_icon.png')} />
+            <Text style={cStyles.shareButtonText}>{global.i18n.t("AccountQrCodeComponent_shareButtonText")}</Text>
           </OneTabButtonComponent>
         </View>
       </View>
@@ -84,8 +79,51 @@ const cStyles = StyleSheet.create({
     width: '100%', height: 490, minHeight: 200,
     backgroundColor: 'white',
     paddingTop: 18,
-    borderWidth: 1,
   },
-
+  headers: {
+    width: '100%',
+    flexDirection: 'row', justifyContent: 'space-between',
+  },
+  headerTitle: {
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: 'black',
+    marginLeft: convertWidth(19)
+  },
+  headerCloseButton: {
+    padding: 4, paddingRight: convertWidth(19)
+  },
+  headerCloseButtonImage: {
+    width: 16, height: 16, resizeMode: 'contain',
+  },
+  headerBar: {
+    width: convertWidth(337),
+    paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
+    borderTopWidth: 1, borderColor: '#A4B5CD',
+    marginTop: 15,
+  },
+  qrCodeArea: {
+    alignItems: 'center', justifyContent: 'center',
+    marginTop: 50,
+  },
+  accountNumber: {
+    fontFamily: 'andale_mono', fontSize: 12, textAlign: 'center',
+    paddingRight: convertWidth(19), paddingLeft: convertWidth(19),
+    marginTop: 27,
+  },
+  bottomButtonArea: {
+    flex: 1, alignItems: 'center', justifyContent: 'center',
+  },
+  shareButton: {
+    backgroundColor: '#0060F2',
+    height: 45, width: 200,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+  },
+  shareIcon: {
+    width: 13, height: 16, resizeMode: 'contain',
+    marginBottom: 1,
+  },
+  shareButtonText: {
+    color: 'white', fontFamily: 'avenir_next_w1g_bold', fontSize: 17,
+    marginLeft: 12,
+  }
 
 });
