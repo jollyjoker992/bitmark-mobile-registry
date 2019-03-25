@@ -3,7 +3,7 @@
     "<rootDir>/__tests__"
   ],
   "testMatch": [
-    "**/?(*.)+(spec|test).[jt]s?(x)"
+    "**/photo.test.js"
   ],
   "transform": {
     ".*": "<rootDir>/custom-preprocessor.js"

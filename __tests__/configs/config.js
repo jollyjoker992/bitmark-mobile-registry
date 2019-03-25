@@ -26,7 +26,7 @@ const TEST_CONFIG = localConfig.TEST_CONFIG || {
 };
 
 
-export {
+module.exports = {
     APPIUM_CONFIG,
     RUN_CONFIG,
     TEST_CONFIG

@@ -1,6 +1,6 @@
 import wd from 'wd';
 import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
-import { issueNewPhotoWithoutMetadata, pushNewPhotoToDevice, createNewAccountWithoutTouchId, deleteSimulatorPhotos } from '__tests__/common/common';
+import { issueNewPhotoWithoutMetadata, pushNewPhotoToDevice, createNewAccountWithoutTouchId } from '__tests__/common/common';
 
 let path = require('path');
 
@@ -43,22 +43,20 @@ const checkAfterIssue = async (assetName) => {
   expect(typeInHistory).toEqual('PROPERTY ISSUANCE');
 };
 
-test('delete simulator photos', async () => {
+beforeAll(async () => {
   await driver.init(RUN_CONFIG);
   await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load  
   driver.sleep(15 * 1000);
 
-  let capabilities = await driver.sessionCapabilities();
-  await deleteSimulatorPhotos(capabilities.udid);
-  driver.sleep(15 * 1000);
+  await createNewAccountWithoutTouchId(driver);
+  await driver.sleep(3000);
 });
 
 test('Issue new photo with checking asset name quantity, metadata-metadata do not check over 2048 bytes', async () => {
-  await driver.init(RUN_CONFIG);
+  let noResetConfig = { 'noReset': true };
+  Object.assign(noResetConfig, RUN_CONFIG);
+  await driver.init(noResetConfig);
   await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
-
-  await createNewAccountWithoutTouchId(driver);
-  await driver.sleep(3000);
 
   // push new photo to gallery
   let capabilities = await driver.sessionCapabilities();
