@@ -5,6 +5,7 @@ import { FileUtil, isReleasedAsset } from 'src/utils';
 import { config } from 'src/configs';
 import { CacheData } from '../caches';
 import * as MimeTypes from 'react-native-mime-types';
+import axios from 'axios';
 
 
 // ================================================================================================
@@ -312,32 +313,27 @@ const doUploadFileToCourierServer = async (jwt, assetId, filePath, sessionData, 
 
 const doCheckFileExistInCourierServer = async (jwt, assetId) => {
   return await (new Promise((resolve, reject) => {
-    let statusCode;
-    fetch(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
-      method: 'HEAD',
+    axios.head(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + jwt,
       }
-    }).then((response) => {
-      statusCode = response.status;
-      if (statusCode >= 500) {
-        return reject(new Error('checkFileExistInCourierServer error!'));
-      }
-      if (statusCode >= 400) {
-        return resolve();
-      }
+    }).then(response => {
+      console.log('response :', response);
       resolve({
-        data_key_alg: response.headers.map['data-key-alg'],
-        enc_data_key: response.headers.map['enc-data-key'],
-        orig_content_type: response.headers.map['orig-content-type'],
-        expiration: response.headers.map['expiration'],
-        filename: response.headers.map['file-name'],
-        date: response.headers.map['date'],
+        data_key_alg: response.headers['data-key-alg'],
+        enc_data_key: response.headers['enc-data-key'],
+        orig_content_type: response.headers['orig-content-type'],
+        expiration: response.headers['expiration'],
+        filename: response.headers['file-name'],
+        date: response.headers['date'],
       });
     }).catch(error => {
-      return reject(new Error('checkFileExistInCourierServer error :' + JSON.stringify(error)));
+      if (error.response && error.response.status >= 400 && error.response.status < 500) {
+        return resolve();
+      }
+      reject(error);
     });
   }));
 };

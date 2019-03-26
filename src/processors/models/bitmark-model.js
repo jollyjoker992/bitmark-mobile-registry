@@ -207,29 +207,6 @@ const doGetAssetTextContent = (assetId) => {
   });
 };
 
-const doGetAssetTextContentType = (assetId) => {
-  return new Promise((resolve) => {
-    fetch(config.preview_asset_url + `/${assetId}`, {
-      method: 'HEAD'
-    }).then((response) => {
-      let contentType;
-      let contentTypeHeader = response.headers.get('content-type');
-
-      if (contentTypeHeader) {
-        if (contentTypeHeader.startsWith('text/plain')) {
-          contentType = 'text';
-        } else if (contentTypeHeader.startsWith('image/')) {
-          contentType = 'image';
-        }
-      }
-
-      return resolve(contentType);
-    }).catch(() => {
-      resolve();
-    });
-  });
-};
-
 const doPrepareAssetInfo = async (filePath) => {
   return await BitmarkSDK.getAssetInfo(filePath);
 };
@@ -844,7 +821,6 @@ let BitmarkModel = {
   doGet100Transactions,
   doGetListBitmarks,
   doGetAssetAccessibility,
-  doGetAssetTextContentType,
   doGetAssetTextContent,
 
   doConfirmWebAccount,
