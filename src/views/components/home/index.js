@@ -142,6 +142,13 @@ export class UserRouterComponent extends Component {
         return;
       }
       Actions.transactions({ subTab: 'HISTORY' });
+    } else if (data.event === 'ifttt_new_issue') {
+      if (this.checkIfNotificationProcessing(data.event)) {
+        return;
+      }
+      TransactionProcessor.doReloadIftttInformation().then(() => {
+        Actions.transactions();
+      }).catch(console.error);
     }
   }
 
