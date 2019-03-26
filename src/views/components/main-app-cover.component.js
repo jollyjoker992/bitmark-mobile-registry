@@ -7,6 +7,7 @@ import { EventEmitterService } from 'src/processors';
 import { config } from 'src/configs';
 import { PropertyActionSheetComponent } from './home/properties';
 import { PropertyMetadataComponent } from './home/properties/property-metadata.component';
+import { AccountQrCodeComponent } from './home/account/account-qrcode.component';
 
 let ComponentName = 'MainCoverComponent';
 export class MainCoverComponent extends Component {
@@ -87,6 +88,10 @@ export class MainCoverComponent extends Component {
                   <PropertyMetadataComponent
                     asset={this.state.dataCover.asset}
                   />
+                }
+
+                {this.state.dataCover && this.state.dataCover.type === 'AccountQrCodeComponent' &&
+                  <AccountQrCodeComponent />
                 }
               </View>
             </TouchableWithoutFeedback>

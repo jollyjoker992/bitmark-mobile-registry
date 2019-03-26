@@ -68,9 +68,6 @@ class PrivateAccountDetailComponent extends React.Component {
       <SafeAreaView style={accountStyle.body}>
         <View style={accountStyle.header}>
           <OneTabButtonComponent style={defaultStyles.headerLeft} />
-          {/* <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.scanQRCode}>
-            <Image style={accountStyle.cameraIcon} source={require('assets/imgs/camera.png')} />
-          </OneTabButtonComponent> */}
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("AccountDetailComponent_account")}</Text>
           <OneTabButtonComponent style={defaultStyles.headerRight} />
         </View>
@@ -125,7 +122,14 @@ class PrivateAccountDetailComponent extends React.Component {
         <ScrollView style={[accountStyle.scrollSubTabArea]} contentContainerStyle={{ flexGrow: 1 }}>
           {this.state.subTab === SubTabs.settings && <View style={accountStyle.contentSubTab}>
             <View style={{ flex: 1, borderBottomWidth: 1, borderBottomColor: "#A4B5CD" }}>
-              <Text style={accountStyle.accountNumberLabel}>{global.i18n.t("AccountDetailComponent_accountNumberLabel")}</Text>
+              <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 27, }}>
+                <Text style={accountStyle.accountNumberLabel}>{global.i18n.t("AccountDetailComponent_accountNumberLabel")}</Text>
+                <OneTabButtonComponent style={{ padding: 4, paddingRight: 0 }} onPress={() => {
+                  EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER, { type: 'AccountQrCodeComponent' });
+                }}>
+                  <Image style={{ width: 16, height: 16, resizeMode: 'contain', }} source={require('assets/imgs/account_qrcode_icon.png')} />
+                </OneTabButtonComponent>
+              </View>
 
               <OneTabButtonComponent style={accountStyle.accountNumberArea} onPress={() => {
                 Clipboard.setString(this.props.userInformation ? this.props.userInformation.bitmarkAccountNumber : '');

@@ -139,6 +139,9 @@
 		F12F329821F817CB002D918E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F329521F817BD002D918E /* MessageUI.framework */; };
 		F12F329921F817D1002D918E /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F329321F817B4002D918E /* Social.framework */; };
 		F12F329A21F817D6002D918E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F12F329521F817BD002D918E /* MessageUI.framework */; };
+		F13375542248CE7E0082E959 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F13375502248CE720082E959 /* libRNSVG.a */; };
+		F13375552248CE830082E959 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F13375502248CE720082E959 /* libRNSVG.a */; };
+		F13375562248CE8A0082E959 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F13375502248CE720082E959 /* libRNSVG.a */; };
 		F150CA412023230B00C8FC17 /* andale_mono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F150CA152023230B00C8FC17 /* andale_mono.ttf */; };
 		F15C1D112063B9D4002DDF98 /* libRNZipArchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15C1D102063B9B6002DDF98 /* libRNZipArchive.a */; };
 		F15F68E1203D70EC00A5A582 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F15F68DE203D70DE00A5A582 /* libRNImagePicker.a */; };
@@ -558,6 +561,20 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNShare;
 		};
+		F133754F2248CE720082E959 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F133750B2248CE710082E959 /* RNSVG.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
+			remoteInfo = RNSVG;
+		};
+		F13375512248CE720082E959 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F133750B2248CE710082E959 /* RNSVG.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 94DDAC5C1F3D024300EED511;
+			remoteInfo = "RNSVG-tvOS";
+		};
 		F15C1D0F2063B9B6002DDF98 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F15C1CDA2063B9B6002DDF98 /* RNZipArchive.xcodeproj */;
@@ -811,6 +828,7 @@
 		F12F328A21F8152F002D918E /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
 		F12F329321F817B4002D918E /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		F12F329521F817BD002D918E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		F133750B2248CE710082E959 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		F150CA152023230B00C8FC17 /* andale_mono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = andale_mono.ttf; path = ../assets/fonts/andale_mono.ttf; sourceTree = "<group>"; };
 		F15C1CDA2063B9B6002DDF98 /* RNZipArchive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNZipArchive.xcodeproj; path = "../node_modules/react-native-zip-archive/ios/RNZipArchive.xcodeproj"; sourceTree = "<group>"; };
 		F15F68AF203D70DE00A5A582 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
@@ -854,6 +872,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F13375542248CE7E0082E959 /* libRNSVG.a in Frameworks */,
 				F10763FF221C168500DC6AD3 /* libRNDeviceInfo.a in Frameworks */,
 				F17200BD221C099000299278 /* JavaScriptCore.framework in Frameworks */,
 				F172FE1F2216A60200299278 /* libRNIntercom.a in Frameworks */,
@@ -897,6 +916,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F13375562248CE8A0082E959 /* libRNSVG.a in Frameworks */,
 				F1076401221C169100DC6AD3 /* libRNDeviceInfo.a in Frameworks */,
 				F17200BC221C098A00299278 /* JavaScriptCore.framework in Frameworks */,
 				F172FE212216A60E00299278 /* libRNIntercom.a in Frameworks */,
@@ -940,6 +960,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F13375552248CE830082E959 /* libRNSVG.a in Frameworks */,
 				F1076400221C168B00DC6AD3 /* libRNDeviceInfo.a in Frameworks */,
 				F17200BB221C098400299278 /* JavaScriptCore.framework in Frameworks */,
 				F172FE202216A60800299278 /* libRNIntercom.a in Frameworks */,
@@ -1315,6 +1336,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F133750B2248CE710082E959 /* RNSVG.xcodeproj */,
 				F10763F6221C167F00DC6AD3 /* RNDeviceInfo.xcodeproj */,
 				F172FDDA2216A5F800299278 /* RNIntercom.xcodeproj */,
 				F188815621F95D7D0017C2E5 /* RCTVideo.xcodeproj */,
@@ -1472,6 +1494,15 @@
 			isa = PBXGroup;
 			children = (
 				F12F328F21F8152F002D918E /* libRNShare.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F133750C2248CE710082E959 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F13375502248CE720082E959 /* libRNSVG.a */,
+				F13375522248CE720082E959 /* libRNSVG-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1813,6 +1844,10 @@
 				{
 					ProductGroup = F12F328B21F8152F002D918E /* Products */;
 					ProjectRef = F12F328A21F8152F002D918E /* RNShare.xcodeproj */;
+				},
+				{
+					ProductGroup = F133750C2248CE710082E959 /* Products */;
+					ProjectRef = F133750B2248CE710082E959 /* RNSVG.xcodeproj */;
 				},
 				{
 					ProductGroup = F15C1CDB2063B9B6002DDF98 /* Products */;
@@ -2171,6 +2206,20 @@
 			fileType = archive.ar;
 			path = libRNShare.a;
 			remoteRef = F12F328E21F8152F002D918E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F13375502248CE720082E959 /* libRNSVG.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSVG.a;
+			remoteRef = F133754F2248CE720082E959 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F13375522248CE720082E959 /* libRNSVG-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNSVG-tvOS.a";
+			remoteRef = F13375512248CE720082E959 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F15C1D102063B9B6002DDF98 /* libRNZipArchive.a */ = {

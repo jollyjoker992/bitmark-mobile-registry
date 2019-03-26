@@ -167,6 +167,8 @@ export class UserRouterComponent extends Component {
             <Scene key="musicReleaseToPublic" panHandlers={null} component={MusicReleaseToPublicComponent} />
             <Scene key="propertyDetail" panHandlers={null} component={PropertyDetailComponent} />
 
+            <Scene key="scanQRCode" panHandlers={null} component={ScanQRCodeComponent} />
+
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >
@@ -179,7 +181,6 @@ export class UserRouterComponent extends Component {
               <Stack key="account" headerMode='none'>
                 <Scene key="bitmarkWebView" panHandlers={null} component={BitmarkWebViewComponent} />
                 <Scene key="accountDetail" initial={true} panHandlers={null} component={AccountDetailComponent} />
-                <Scene key="scanQRCode" panHandlers={null} component={ScanQRCodeComponent} />
                 <Scene key="applicationDetail" panHandlers={null} component={ApplicationDetailComponent} />
                 <Scene key="recoveryPhrase" panHandlers={null} component={RecoveryPhraseComponent} />
                 <Scene key="writeDownRecoveryPhrase" panHandlers={null} component={WriteDownRecoveryPhraseComponent} />

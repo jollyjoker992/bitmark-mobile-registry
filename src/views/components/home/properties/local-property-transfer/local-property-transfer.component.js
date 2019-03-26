@@ -83,7 +83,16 @@ export class LocalPropertyTransferComponent extends React.Component {
           <View style={propertyTransferStyle.body}>
             <ScrollView style={propertyTransferStyle.content}>
               <OneTabButtonComponent accessible={false} activeOpacity={1} style={propertyTransferStyle.mainContent}>
-                <Text style={propertyTransferStyle.transferTitle}>{global.i18n.t("LocalPropertyTransferComponent_sendBitmark")}</Text>
+                <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 38, height: 27, }}>
+                  <Text style={propertyTransferStyle.transferTitle}>{global.i18n.t("LocalPropertyTransferComponent_sendBitmark")}</Text>
+                  <OneTabButtonComponent style={{ padding: 4, paddingRight: 0 }} onPress={() => Actions.scanQRCode({
+                    onDone: (bitmarkAccount) => {
+                      this.setState({ bitmarkAccount });
+                    }
+                  })}>
+                    <Image style={{ width: 23, height: 23, resizeMode: 'contain', }} source={require('assets/imgs/scan_icon.png')} />
+                  </OneTabButtonComponent>
+                </View>
                 <View style={propertyTransferStyle.inputAccountNumberBar} >
                   <TextInput style={[config.isAndroid ? { padding: 2 } : {}, propertyTransferStyle.inputAccountNumber]} placeholder={global.i18n.t("LocalPropertyTransferComponent_recipientBitmarkAccountNumber")}
                     testID={'transferBitmarkAccount'}
