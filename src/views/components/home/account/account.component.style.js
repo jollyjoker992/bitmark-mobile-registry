@@ -85,7 +85,6 @@ export default StyleSheet.create({
   //settings
   accountNumberLabel: {
     fontFamily: 'avenir', fontSize: 14, color: 'black',
-    marginTop: 27,
   },
 
   accountNumberArea: {

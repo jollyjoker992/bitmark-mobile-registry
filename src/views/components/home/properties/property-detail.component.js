@@ -347,7 +347,7 @@ class PrivatePropertyDetailComponent extends React.Component {
                 <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(180) }]} numberOfLines={1}>{global.i18n.t("PropertyDetailComponent_releaseTitle")}</Text>
               </View>
               <OneTabButtonComponent testID={'toggleOptions'} style={[defaultStyles.headerRight, { padding: 4, paddingRight: convertWidth(19) }]} onPress={() => this.setState({ displayTopButton: !this.state.displayTopButton })}>
-                  <Image style={cStyles.threeDotIcon} source={this.state.displayTopButton
+                <Image style={cStyles.threeDotIcon} source={this.state.displayTopButton
                   ? require('assets/imgs/three-dot-active.png')
                   : require('assets/imgs/three-dot-deactive.png')} />
               </OneTabButtonComponent>
@@ -356,16 +356,6 @@ class PrivatePropertyDetailComponent extends React.Component {
           <TouchableWithoutFeedback accessible={false} onPress={() => this.setState({ displayTopButton: false })}>
             <View style={cStyles.bodyContent}>
               {this.state.displayTopButton && <View style={cStyles.topButtonsArea}>
-                {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent
-                  style={cStyles.downloadAssetButton}
-                  disabled={!this.props.asset.filePath && this.props.bitmark.status !== 'confirmed'}
-                  onPress={() => this.props.asset.filePath ? this.shareAssetFile.bind(this)() : this.downloadAsset.bind(this)()}
-                >
-                  {!this.props.asset.filePath && <Text style={[cStyles.downloadAssetButtonText, this.props.bitmark.status !== 'confirmed' ? { color: '#A4B5CD', } : {}]}>
-                    {global.i18n.t("PropertyDetailComponent_downloadAsset")}
-                  </Text>}
-                  {this.props.asset.filePath && <Text style={cStyles.downloadAssetButtonText}>{global.i18n.t("PropertyDetailComponent_shareAsset")}</Text>}
-                </OneTabButtonComponent>}
                 <OneTabButtonComponent accessible={false} style={cStyles.topButton} onPress={() => {
                   Clipboard.setString(this.props.bitmark.id);
                   this.setState({ copied: true });
@@ -374,6 +364,15 @@ class PrivatePropertyDetailComponent extends React.Component {
                   <Text style={cStyles.topButtonText}>{global.i18n.t("PropertyDetailComponent_copyBitmarkId")}</Text>
                   <Text style={cStyles.copiedAssetIddButtonText}>{this.state.copied ? global.i18n.t("PropertyDetailComponent_copiedToClipboard") : ''}</Text>
                 </OneTabButtonComponent>
+                {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent
+                  style={cStyles.downloadAssetButton}
+                  disabled={!this.props.asset.filePath && this.props.bitmark.status !== 'confirmed'}
+                  onPress={() => this.props.asset.filePath ? this.shareAssetFile.bind(this)() : this.downloadAsset.bind(this)()}
+                >
+                  <Text style={[cStyles.downloadAssetButtonText, this.props.bitmark.status !== 'confirmed' ? { color: '#A4B5CD', } : {}]}>
+                    {global.i18n.t("PropertyDetailComponent_downloadAsset")}
+                  </Text>
+                </OneTabButtonComponent>}
                 {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && !this.props.bitmark.transferOfferId &&
                   <OneTabButtonComponent accessible={false} style={cStyles.topButton}
                     disabled={this.props.bitmark.status !== 'confirmed'}

@@ -548,7 +548,9 @@
     "MusicReleaseToPublicComponent_linkLabelText": "MusicReleaseToPublicComponent_linkLabelText",
     "MusicReleaseToPublicComponent_limitedEdition": "MusicReleaseToPublicComponent_limitedEdition",
     "OtherComponent_phoneEncryptedWarningTitle": "OtherComponent_phoneEncryptedWarningTitle",
-    "OtherComponent_phoneEncryptedWarningMessage": "OtherComponent_phoneEncryptedWarningMessage"
+    "OtherComponent_phoneEncryptedWarningMessage": "OtherComponent_phoneEncryptedWarningMessage",
+    "AccountQrCodeComponent_headerTitle": "AccountQrCodeComponent_headerTitle",
+    "AccountQrCodeComponent_shareButtonText": "AccountQrCodeComponent_shareButtonText"
   },
   "en": {
     "MetadataLabels_type": "Type",
@@ -704,7 +706,7 @@
     "PropertyDetailComponent_yes": "YES",
     "PropertyDetailComponent_downloadAsset": "DOWNLOAD",
     "PropertyDetailComponent_shareAsset": "SHARE",
-    "PropertyDetailComponent_copyBitmarkId": "COPY BITMARK ID",
+    "PropertyDetailComponent_copyBitmarkId": "COPY ID",
     "PropertyDetailComponent_copiedToClipboard": "Copied to clipboard!",
     "PropertyDetailComponent_sendBitmark": "TRANSFER",
     "PropertyDetailComponent_you": "YOU",
@@ -1099,7 +1101,9 @@
     "MusicReleaseToPublicComponent_linkLabelText": "Link",
     "MusicReleaseToPublicComponent_limitedEdition": "Limited Edition of {{limited}} [{{left}} editions left]",
     "OtherComponent_phoneEncryptedWarningTitle": "Warning: Your phone is not encrypted.",
-    "OtherComponent_phoneEncryptedWarningMessage": "Encrypting your data on your phone is easy and will protect yourself from a wide range of potential risks. We strongly recommend you do this now.\n\nSettings > Security > Encrypt phone"
+    "OtherComponent_phoneEncryptedWarningMessage": "Encrypting your data on your phone is easy and will protect yourself from a wide range of potential risks. We strongly recommend you do this now.\n\nSettings > Security > Encrypt phone",
+    "AccountQrCodeComponent_headerTitle": "RECEIVE PROPERTY",
+    "AccountQrCodeComponent_shareButtonText": "SHARE"
   },
   "zh": {
     "MetadataLabels_type": "資產種類",
@@ -1650,6 +1654,8 @@
     "MusicReleaseToPublicComponent_linkLabelText": "連結",
     "MusicReleaseToPublicComponent_limitedEdition": "限量發行{{limited}[剩餘{{left}}版]",
     "OtherComponent_phoneEncryptedWarningTitle": "警告提示：你尚未加密你的手機",
-    "OtherComponent_phoneEncryptedWarningMessage": "在您的手機上開啟數據加密是極為容易的，並將保護你自己免受廣泛的潛在風險。我们強烈建議您現在開啟。\n\n請到 設定 > 安全性 > 加密手機"
+    "OtherComponent_phoneEncryptedWarningMessage": "在您的手機上開啟數據加密是極為容易的，並將保護你自己免受廣泛的潛在風險。我们強烈建議您現在開啟。\n\n請到 設定 > 安全性 > 加密手機",
+    "AccountQrCodeComponent_headerTitle": "收取資產",
+    "AccountQrCodeComponent_shareButtonText": "分享"
   }
 }

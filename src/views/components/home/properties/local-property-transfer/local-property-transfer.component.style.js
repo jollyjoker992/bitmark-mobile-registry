@@ -25,9 +25,6 @@ export default StyleSheet.create({
   },
   transferTitle: {
     fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 19, color: 'black',
-    marginTop: 38,
-    height: 27,
-    width: convertWidth(336),
   },
   inputAccountNumberBar: {
     borderBottomWidth: 1,
