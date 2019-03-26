@@ -167,6 +167,8 @@ public class NativeFirebaseMessagingService extends FirebaseMessagingService {
                 return context.getString(R.string.notification_claim_request);
             case "notification_claim_request_rejected":
                 return context.getString(R.string.notification_claim_request_rejected);
+            case "notification_ifttt_new_issue":
+                return context.getString(R.string.notification_ifttt_new_issue);
             default:
                 return "";
 

@@ -12,5 +12,6 @@
     <string name="notification_transfer_accepted">Your property transfer request has been accepted.</string>
     <string name="notification_claim_request">You’ve received a claim request for property %1$s from %2$s.</string>
     <string name="notification_claim_request_rejected">%1$s has rejected your claim request for property %2$s</string>
+    <string name="notification_ifttt_new_issue">You\'ve received a property issuance request. Tap to view the request.</string>
     <string name="loading_dot">Loading…</string>
 </resources>
