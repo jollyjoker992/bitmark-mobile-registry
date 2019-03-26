@@ -79,7 +79,6 @@ test('Download bitmark', async () => {
             await driver.sleep(10 * 1000);
         }
     }
-    console.log('firstConfirmedEl :', firstConfirmedEl);
     await firstConfirmedEl.tap();
 
     // Show options menu
@@ -90,7 +89,6 @@ test('Download bitmark', async () => {
     // Try to download/share
     await driver.sleep(2000);
     let downloadEl = await driver.elementByNameOrNull('DOWNLOAD');
-    console.log('downloadEl :', downloadEl);
     if (downloadEl) {
         await downloadEl.tap();
     } else {
@@ -122,7 +120,6 @@ test('Delete confirmed Bitmarks', async () => {
     await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
 
     let numberOfBitmarksBeforeDeleting = await getNumberOfBitmarks(driver);
-    console.log('numberOfBitmarksBeforeDeleting :', numberOfBitmarksBeforeDeleting);
 
     let firstConfirmedElement = await driver.elementByIosPredicateStringOrNull("name BEGINSWITH 'item_' AND NOT label BEGINSWITH 'INCOMING' AND NOT label BEGINSWITH 'REGISTERING'");
     if (firstConfirmedElement) {
@@ -140,7 +137,7 @@ test('Delete confirmed Bitmarks', async () => {
             .elementByName('Delete').tap()
             // Should return to PROPERTIES screen
             .waitForElementByName('PROPERTIES', 20 * 1000)
-            .sleep(5000);
+            .sleep(10000);
 
         // Verify delete result
         if (!numberOfBitmarksBeforeDeleting.includes("99")) {
