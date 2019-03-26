@@ -88,7 +88,6 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   expect(errorString).toEqual('Please enter a property name.');
   // asset name correct
   let assetName = `Regression test ${new Date().toISOString()}`;
-  console.log('assetName =====', assetName);
   await textInputAssetName.clear().type(assetName);
   await driver.hideKeyboard();
   let numberOfErrors = (await driver.elementsById('errorInputAssetName')).length;
@@ -146,19 +145,21 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   // issue
   await driver.waitForElementByName('ISSUE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('ISSUE').tap();
   await driver.sleep(20 * 1000);
-  await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).waitForElementByName('OK').tap();
+  await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).tap();
 
   // check result of issuance
   await checkAfterIssue(assetName);
 });
 
 test('issue new photo without metadata', async () => {
-  let noResetConfig = { 'noReset': true };
-  Object.assign(noResetConfig, RUN_CONFIG);
-  await driver.init(noResetConfig);
-  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+  await driver.init(RUN_CONFIG);
+  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load  
+  driver.sleep(15 * 1000);
+
+  await createNewAccountWithoutTouchId(driver);
+  await driver.sleep(3000);
+
   let assetName = `Regression test ${new Date().toISOString()}`;
-  console.log('assetName =====', assetName);
   // auto create new file, add it to gallery of simulator and issue it without metadata
   await issueNewPhotoWithoutMetadata(driver,
     path.join(__dirname, '../../assets/img/test.png'),
@@ -169,10 +170,12 @@ test('issue new photo without metadata', async () => {
 });
 
 test('issue existing asset', async () => {
-  let noResetConfig = { 'noReset': true };
-  Object.assign(noResetConfig, RUN_CONFIG);
-  await driver.init(noResetConfig);
-  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+  await driver.init(RUN_CONFIG);
+  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load  
+  driver.sleep(15 * 1000);
+
+  await createNewAccountWithoutTouchId(driver);
+  await driver.sleep(3000);
 
   let elements = await driver
     .waitForElementById('BottomTabsComponent_properties', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('BottomTabsComponent_properties').tap()
@@ -181,6 +184,8 @@ test('issue existing asset', async () => {
     .waitForElementByName('PHOTOS', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('PHOTOS').tap()
     // Choose image from lib
     .waitForElementByName('Choose from Library...', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Choose from Library...').tap()
+    // allow permission
+    .waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap()
     .waitForElementByName('Camera Roll', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Camera Roll').tap()
     // Choose image from lib
     .waitForElementsByIosPredicateString("type == 'XCUIElementTypeCell'", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementsByIosPredicateString("type == 'XCUIElementTypeCell'");
@@ -197,8 +202,7 @@ test('issue existing asset', async () => {
 
   // get asset name - existing asset
   let assetName = await driver.waitForElementById('LocalIssueFileComponent_existing_assetName', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('LocalIssueFileComponent_existing_assetName').text();
-  console.log('assetName =====', assetName);
-  
+
   // quantity 
   await textInputQuantity.clear().type(5);
   await driver.hideKeyboard({ strategy: 'pressKey', key: 'Done' });
