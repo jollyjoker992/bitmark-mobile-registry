@@ -79,6 +79,12 @@ test('Download bitmark', async () => {
             await driver.sleep(10 * 1000);
         }
     }
+
+    if (!firstConfirmedEl) {
+        console.log('There are no confirmed bitmark to download');
+        return;
+    }
+
     await firstConfirmedEl.tap();
 
     // Show options menu
