@@ -1,11 +1,9 @@
-import moment from 'moment';
 import { merge } from 'lodash';
 
 import { FileUtil, runPromiseWithoutError, isMusicAsset, isReleasedAsset } from "src/utils";
 import { BitmarkService, LocalFileService } from "./services";
 import { CommonModel, AccountModel, BitmarkSDK, BitmarkModel } from "./models";
 import { CacheData } from "./caches";
-import { CommonProcessor } from "./common-processor";
 import {
   BottomTabStore, BottomTabActions,
   PropertiesActions, PropertiesStore,
@@ -301,95 +299,6 @@ const doGetLocalReleasedAssetsBitmarks = async () => {
   return (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_RELEASED_ASSETS_BITMARKS)) || {};
 };
 
-const doIssueFile = async (filePath, assetName, metadataList, quantity) => {
-  let results = await BitmarkService.doIssueFile(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, quantity);
-
-  let appInfo = await CommonProcessor.doGetAppInformation();
-  appInfo = appInfo || {};
-  if (appInfo && (!appInfo.lastTimeIssued ||
-    (appInfo.lastTimeIssued && (appInfo.lastTimeIssued - moment().toDate().getTime()) > 7 * 24 * 60 * 60 * 1000))) {
-    await CommonModel.doTrackEvent({
-      event_name: `registry${config.isAndroid ? '_android' : ''}_weekly_active_user`,
-      account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
-    });
-    appInfo.lastTimeIssued = moment().toDate().getTime();
-    await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
-  }
-
-  let assetsBitmarks = await doGetLocalAssetsBitmarks();
-  for (let item of results) {
-    assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
-    assetsBitmarks.bitmarks[item.id] = {
-      head_id: item.id,
-      asset_id: item.assetId,
-      id: item.id,
-      issued_at: moment().toDate().toISOString(),
-      head: `head`,
-      status: 'pending',
-      owner: CacheData.userInformation.bitmarkAccountNumber,
-      issuer: CacheData.userInformation.bitmarkAccountNumber,
-    };
-    if (!assetsBitmarks.assets || !assetsBitmarks.assets[item.assetId]) {
-      assetsBitmarks.assets = assetsBitmarks.assets || {};
-      assetsBitmarks.assets[item.assetId] = {
-        id: item.assetId,
-        name: assetName,
-        metadata: item.metadata,
-        registrant: CacheData.userInformation.bitmarkAccountNumber,
-        status: 'pending',
-        created_at: moment().toDate().toISOString(),
-        filePath: item.filePath,
-      }
-    }
-  }
-  await _doCheckNewAssetsBitmarks(assetsBitmarks);
-  return results;
-};
-
-const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, limitedEdition) => {
-  let results = await BitmarkService.doIssueMusic(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, thumbnailPath, limitedEdition);
-
-  let appInfo = await CommonProcessor.doGetAppInformation();
-  appInfo = appInfo || {};
-  if (appInfo && (!appInfo.lastTimeIssued ||
-    (appInfo.lastTimeIssued && (appInfo.lastTimeIssued - moment().toDate().getTime()) > 7 * 24 * 60 * 60 * 1000))) {
-    await CommonModel.doTrackEvent({
-      event_name: `registry${config.isAndroid ? '_android' : ''}_weekly_active_user`,
-      account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
-    });
-    appInfo.lastTimeIssued = moment().toDate().getTime();
-    await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
-  }
-
-  let assetsBitmarks = await doGetLocalAssetsBitmarks();
-  for (let item of results) {
-    assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
-    assetsBitmarks.bitmarks[item.id] = {
-      head_id: item.id,
-      asset_id: item.assetId,
-      id: item.id,
-      issued_at: moment().toDate().toISOString(),
-      head: `head`,
-      status: 'pending',
-      owner: CacheData.userInformation.bitmarkAccountNumber,
-      issuer: CacheData.userInformation.bitmarkAccountNumber,
-    };
-    if (!assetsBitmarks.assets || !assetsBitmarks.assets[item.assetId]) {
-      assetsBitmarks.assets = assetsBitmarks.assets || {};
-      assetsBitmarks.assets[item.assetId] = {
-        id: item.assetId,
-        name: assetName,
-        metadata: item.metadata,
-        registrant: CacheData.userInformation.bitmarkAccountNumber,
-        status: 'pending',
-        created_at: moment().toDate().toISOString(),
-        filePath: item.filePath,
-      }
-    }
-  }
-  await _doCheckNewAssetsBitmarks(assetsBitmarks);
-  return results;
-};
 
 const doGetAssetBitmark = async (bitmarkId, assetId) => {
   let assetsBitmarks = await doGetLocalAssetsBitmarks();
@@ -426,8 +335,6 @@ let BitmarkProcessor = {
   doGetAssetBitmark,
 
   doDownloadBitmark,
-  doIssueFile,
-  doIssueMusic,
 
   doUpdateViewStatus,
 };

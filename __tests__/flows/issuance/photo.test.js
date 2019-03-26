@@ -1,16 +1,15 @@
-import wd from 'wd';
-import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
-import { issueNewPhotoWithoutMetadata, pushNewPhotoToDevice, createNewAccountWithoutTouchId } from '__tests__/common/common';
-import { accessExistingAccount } from "../../common/common";
-
-const TWELVE_WORDS = ["grain", "pizza", "provide", "deliver", "custom", "sound", "veteran", "neutral", "hope", "reward", "earth", "omit"];
-
 let path = require('path');
+const wd = require('wd');
+
+const { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } = require('../../configs/config');
+const { issueNewPhotoWithoutMetadata, pushNewPhotoToDevice, createNewAccountWithoutTouchId } = require('__tests__/common/common');
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = TEST_CONFIG.DEFAULT_TIMEOUT_INTERVAL;
 const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
 
 const checkAfterIssue = async (assetName) => {
+
+  await driver.sleep(30 * 1000);
 
   //check asset name of first item in properties
   let propertyNameInProperties = await driver.waitForElementById("PropertiesComponent_yours_assetName_0", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById("PropertiesComponent_yours_assetName_0").text();
@@ -89,6 +88,7 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   expect(errorString).toEqual('Please enter a property name.');
   // asset name correct
   let assetName = `Regression test ${new Date().toISOString()}`;
+  console.log('assetName =====', assetName);
   await textInputAssetName.clear().type(assetName);
   await driver.hideKeyboard();
   let numberOfErrors = (await driver.elementsById('errorInputAssetName')).length;
@@ -158,6 +158,7 @@ test('issue new photo without metadata', async () => {
   await driver.init(noResetConfig);
   await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
   let assetName = `Regression test ${new Date().toISOString()}`;
+  console.log('assetName =====', assetName);
   // auto create new file, add it to gallery of simulator and issue it without metadata
   await issueNewPhotoWithoutMetadata(driver,
     path.join(__dirname, '../../assets/img/test.png'),
@@ -196,7 +197,8 @@ test('issue existing asset', async () => {
 
   // get asset name - existing asset
   let assetName = await driver.waitForElementById('LocalIssueFileComponent_existing_assetName', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('LocalIssueFileComponent_existing_assetName').text();
-
+  console.log('assetName =====', assetName);
+  
   // quantity 
   await textInputQuantity.clear().type(5);
   await driver.hideKeyboard({ strategy: 'pressKey', key: 'Done' });
@@ -206,7 +208,7 @@ test('issue existing asset', async () => {
 
   await driver.waitForElementByName('ISSUE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('ISSUE').tap();
   await driver.sleep(10 * 1000);
-  await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).waitForElementByName('OK').tap();
+  await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).tap();
 
   await checkAfterIssue(assetName);
 });

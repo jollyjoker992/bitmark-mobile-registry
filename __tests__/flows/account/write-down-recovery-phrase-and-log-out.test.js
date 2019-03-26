@@ -1,6 +1,6 @@
-import wd from 'wd';
-import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
-import { createNewAccountWithTouchId, isLoggedIn } from "../../common/common";
+const wd = require('wd');
+const { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } = require('../../configs/config');
+const { createNewAccountWithTouchId, isLoggedIn } = require("../../common/common");
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = TEST_CONFIG.DEFAULT_TIMEOUT_INTERVAL;
 const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);

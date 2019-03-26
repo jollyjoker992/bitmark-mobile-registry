@@ -1,14 +1,15 @@
-import wd from 'wd';
-import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
-import { accessExistingAccount } from "../../common/common";
-import moment from "moment/moment";
+const wd = require('wd');
+const { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } = require('../../configs/config');
+const { accessExistingAccount } = require("../../common/common");
+const moment = require("moment/moment");
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = TEST_CONFIG.DEFAULT_TIMEOUT_INTERVAL;
 const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
 
 const NO_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT = 'eMCcmw1SKoohNUf3LeioTFKaYNYfp2bzFYpjm3EddwxBSWYVCb';
 const HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT = 'fADx4NWuuSXy6TefpnZwWvxTxepowchDT1D8r1bh5mnfwXP2XC';
-const HAS_ENCRYPTION_PUBLIC_KEY_TWELVE_WORDS = ["grain", "pizza", "provide", "deliver", "custom", "sound", "veteran", "neutral", "hope", "reward", "earth", "omit"];
+const HAS_ENCRYPTION_PUBLIC_KEY_TWELVE_WORDS = ["autumn", "census", "bamboo", "december", "off", "lonely", "walk", "embark", "control", "inch", "fabric", "rough"];
+
 
 // TEST CASES
 test('Transfer to account without encryption public key', async () => {
@@ -36,7 +37,7 @@ test('Transfer to account with encryption public key', async () => {
     if (bitmarkId) {
         // Go to transaction history
         await driver
-            .waitForElementByName('PROPERTIES', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+            .waitForElementByName('PROPERTIES', 20 * 1000)
             .elementByName('Transactions').tap()
             .waitForElementByName('HISTORY', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
             .elementByName('HISTORY').tap();
@@ -75,8 +76,10 @@ test('Download bitmark', async () => {
             if (firstConfirmedEl) {
                 break;
             }
+            await driver.sleep(10 * 1000);
         }
     }
+    console.log('firstConfirmedEl :', firstConfirmedEl);
     await firstConfirmedEl.tap();
 
     // Show options menu
@@ -87,6 +90,7 @@ test('Download bitmark', async () => {
     // Try to download/share
     await driver.sleep(2000);
     let downloadEl = await driver.elementByNameOrNull('DOWNLOAD');
+    console.log('downloadEl :', downloadEl);
     if (downloadEl) {
         await downloadEl.tap();
     } else {
@@ -106,8 +110,8 @@ test('Download bitmark', async () => {
 
     // Wait for download completion and execute copy file
     await driver
-        .waitForElementByName('Copy', 30000)
-        .elementByName("Copy").tap();
+        .waitForElementByName('Copy', 30 * 1000)
+        .elementByName("Cancel").tap();
 });
 
 test('Delete confirmed Bitmarks', async () => {
@@ -118,6 +122,7 @@ test('Delete confirmed Bitmarks', async () => {
     await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
 
     let numberOfBitmarksBeforeDeleting = await getNumberOfBitmarks(driver);
+    console.log('numberOfBitmarksBeforeDeleting :', numberOfBitmarksBeforeDeleting);
 
     let firstConfirmedElement = await driver.elementByIosPredicateStringOrNull("name BEGINSWITH 'item_' AND NOT label BEGINSWITH 'INCOMING' AND NOT label BEGINSWITH 'REGISTERING'");
     if (firstConfirmedElement) {
@@ -134,7 +139,7 @@ test('Delete confirmed Bitmarks', async () => {
             .waitForElementByName('Delete', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
             .elementByName('Delete').tap()
             // Should return to PROPERTIES screen
-            .waitForElementByName('PROPERTIES', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+            .waitForElementByName('PROPERTIES', 20 * 1000)
             .sleep(5000);
 
         // Verify delete result
@@ -162,7 +167,7 @@ async function transfer(accountNumber) {
         await firstConfirmedEl.tap();
     } else {
         console.warn('There are no confirmed bitmarks to transfer');
-        return;
+        return {};
     }
 
     // Copy bitmark Id for later usage
