@@ -320,7 +320,6 @@ const doCheckFileExistInCourierServer = async (jwt, assetId) => {
         Authorization: 'Bearer ' + jwt,
       }
     }).then(response => {
-      console.log('response :', response);
       resolve({
         data_key_alg: response.headers['data-key-alg'],
         enc_data_key: response.headers['enc-data-key'],
