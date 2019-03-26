@@ -361,18 +361,18 @@ class PrivateTransactionsComponent extends React.Component {
                           <Image style={transactionsStyle.completedTransferHeaderIconImage} source={require('assets/imgs/accepted_icon.png')} />
                         </View>}
                         {(item.status !== 'confirmed' && item.status !== 'accepted') && <Text style={[transactionsStyle.completedTransferHeaderTitle, {
-                          color: (item.status === 'pending' || item.status === 'waiting')
+                          color: (item.status === 'pending' || item.status === 'waiting' || item.status === 'queuing')
                             ? '#999999' : (
                               (item.status === 'canceled' || item.status === 'rejected') ? '#FF003C' : '#0060F2'
                             ),
-                          width: (item.status === 'waiting' || item.status === 'canceled' || item.status === 'rejected')
+                          width: (item.status === 'canceled' || item.status === 'rejected')
                             ? 'auto' : convertWidth(102)
                         }]}>{global.i18n.t(`TransactionsComponent_title_${item.title}`, { defaultValue: item.title })}</Text>}
 
                         {(item.status !== 'waiting' && item.status !== 'rejected' && item.status !== 'canceled') &&
                           <Text style={[transactionsStyle.completedTransferHeaderValue, {
-                            color: (item.status === 'pending' || item.status === 'waiting') ? '#999999' : '#0060F2'
-                          }]}>{item.status === 'pending' ? global.i18n.t("TransactionsComponent_pending") : moment(item.timestamp).format('YYYY MMM DD HH:mm:ss').toUpperCase()}</Text>
+                            color: (item.status === 'pending' || item.status === 'waiting' || item.status === 'queuing') ? '#999999' : '#0060F2'
+                          }]}>{(item.status === 'pending' || item.status === 'waiting' || item.status === 'queuing') ? global.i18n.t("TransactionsComponent_pending") : moment(item.timestamp).format('YYYY MMM DD HH:mm:ss').toUpperCase()}</Text>
                         }
                       </View>
                       <View style={transactionsStyle.completedTransferContent}>

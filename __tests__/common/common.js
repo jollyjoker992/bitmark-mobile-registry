@@ -84,8 +84,8 @@ const accessExistingAccount = async (driver, phraseWords) => {
         .waitForElementByName('SUBMIT', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT);
 
     if (phraseWords.length == 24) {
-        await driver.waitForElementByName('Are you using 24 words of recovery phrase? Tap here to swich the form.', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
-            .elementByName("Are you using 24 words of recovery phrase? Tap here to swich the form.").tap();
+        await driver.waitForElementByName('Are you using 24 words of recovery phrase? Tap here to switch the form.', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT + 10 * 1000)
+            .elementByName("Are you using 24 words of recovery phrase? Tap here to switch the form.").tap();
     }
 
     await driver.sleep(2000);

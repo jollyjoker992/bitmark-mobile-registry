@@ -1,13 +1,15 @@
-import wd from 'wd';
-import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
-import { issueNewPhotoWithoutMetadata, pushNewPhotoToDevice, createNewAccountWithoutTouchId } from '__tests__/common/common';
-
 let path = require('path');
+const wd = require('wd');
+
+const { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } = require('../../configs/config');
+const { issueNewPhotoWithoutMetadata, pushNewPhotoToDevice, createNewAccountWithoutTouchId } = require('__tests__/common/common');
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = TEST_CONFIG.DEFAULT_TIMEOUT_INTERVAL;
 const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
 
 const checkAfterIssue = async (assetName) => {
+
+  await driver.sleep(30 * 1000);
 
   //check asset name of first item in properties
   let propertyNameInProperties = await driver.waitForElementById("PropertiesComponent_yours_assetName_0", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById("PropertiesComponent_yours_assetName_0").text();
@@ -43,20 +45,13 @@ const checkAfterIssue = async (assetName) => {
   expect(typeInHistory).toEqual('PROPERTY ISSUANCE');
 };
 
-beforeAll(async () => {
+test('Issue new photo with checking asset name quantity, metadata-metadata do not check over 2048 bytes', async () => {
   await driver.init(RUN_CONFIG);
   await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load  
   driver.sleep(15 * 1000);
 
   await createNewAccountWithoutTouchId(driver);
   await driver.sleep(3000);
-});
-
-test('Issue new photo with checking asset name quantity, metadata-metadata do not check over 2048 bytes', async () => {
-  let noResetConfig = { 'noReset': true };
-  Object.assign(noResetConfig, RUN_CONFIG);
-  await driver.init(noResetConfig);
-  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
 
   // push new photo to gallery
   let capabilities = await driver.sessionCapabilities();
@@ -150,17 +145,20 @@ test('Issue new photo with checking asset name quantity, metadata-metadata do no
   // issue
   await driver.waitForElementByName('ISSUE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('ISSUE').tap();
   await driver.sleep(20 * 1000);
-  await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).waitForElementByName('OK').tap();
+  await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).tap();
 
   // check result of issuance
   await checkAfterIssue(assetName);
 });
 
 test('issue new photo without metadata', async () => {
-  let noResetConfig = { 'noReset': true };
-  Object.assign(noResetConfig, RUN_CONFIG);
-  await driver.init(noResetConfig);
-  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+  await driver.init(RUN_CONFIG);
+  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load  
+  driver.sleep(15 * 1000);
+
+  await createNewAccountWithoutTouchId(driver);
+  await driver.sleep(3000);
+
   let assetName = `Regression test ${new Date().toISOString()}`;
   // auto create new file, add it to gallery of simulator and issue it without metadata
   await issueNewPhotoWithoutMetadata(driver,
@@ -172,11 +170,12 @@ test('issue new photo without metadata', async () => {
 });
 
 test('issue existing asset', async () => {
-  let noResetConfig = { 'noReset': true };
-  Object.assign(noResetConfig, RUN_CONFIG);
+  await driver.init(RUN_CONFIG);
+  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load  
+  driver.sleep(15 * 1000);
 
-  await driver.init(noResetConfig);
-  await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+  await createNewAccountWithoutTouchId(driver);
+  await driver.sleep(3000);
 
   let elements = await driver
     .waitForElementById('BottomTabsComponent_properties', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementById('BottomTabsComponent_properties').tap()
@@ -186,6 +185,7 @@ test('issue existing asset', async () => {
     // Choose image from lib
     .waitForElementByName('Choose from Library...', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Choose from Library...').tap()
     // allow permission
+    .waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('OK').tap()
     .waitForElementByName('Camera Roll', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('Camera Roll').tap()
     // Choose image from lib
     .waitForElementsByIosPredicateString("type == 'XCUIElementTypeCell'", TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementsByIosPredicateString("type == 'XCUIElementTypeCell'");
@@ -212,7 +212,7 @@ test('issue existing asset', async () => {
 
   await driver.waitForElementByName('ISSUE', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).elementByName('ISSUE').tap();
   await driver.sleep(10 * 1000);
-  await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).waitForElementByName('OK').tap();
+  await driver.waitForElementByName('OK', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT).tap();
 
   await checkAfterIssue(assetName);
 });

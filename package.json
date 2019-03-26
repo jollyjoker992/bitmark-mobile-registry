@@ -15,7 +15,7 @@
     "test-build": "npm run start & npm run i-test",
     "test-execute": "appium & npm run test",
     "test-delete-simulator-photos": " node __tests__/utils/delete-simulator-photos.js",
-    "test-jenkins": "npm run test-kill-all && npm run clean && npm run test-build && sleep 60 && npm run test-execute"
+    "test-jenkins": "npm run test-kill-all && npm run clean && npm run test-build && sleep 60 && npm run test-execute && sleep 60 && npm run test-kill-all "
   },
   "dependencies": {
     "bs58": "^4.0.1",
@@ -27,8 +27,8 @@
     "moment": "^2.20.1",
     "prop-types": "^15.6.2",
     "random-string": "^0.2.0",
-    "react": "16.8.1",
-    "react-native": "0.59.0-rc.2",
+    "react": "16.8.3",
+    "react-native": "0.59.0",
     "react-native-actionsheet": "^2.4.2",
     "react-native-camera": "^0.13.0",
     "react-native-code-push": "^5.3.2",

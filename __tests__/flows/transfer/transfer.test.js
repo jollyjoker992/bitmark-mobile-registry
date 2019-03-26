@@ -1,7 +1,7 @@
-import wd from 'wd';
-import { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } from '../../configs/config'
-import { accessExistingAccount } from "../../common/common";
-import moment from "moment/moment";
+const wd = require('wd');
+const { APPIUM_CONFIG, RUN_CONFIG, TEST_CONFIG } = require('../../configs/config');
+const { accessExistingAccount } = require("../../common/common");
+const moment = require("moment/moment");
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = TEST_CONFIG.DEFAULT_TIMEOUT_INTERVAL;
 const driver = wd.promiseChainRemote(APPIUM_CONFIG.HOST, APPIUM_CONFIG.PORT);
@@ -10,35 +10,34 @@ const NO_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT = 'eMCcmw1SKoohNUf3LeioTFKaYNYfp2
 const HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT = 'fADx4NWuuSXy6TefpnZwWvxTxepowchDT1D8r1bh5mnfwXP2XC';
 const HAS_ENCRYPTION_PUBLIC_KEY_TWELVE_WORDS = ["autumn", "census", "bamboo", "december", "off", "lonely", "walk", "embark", "control", "inch", "fabric", "rough"];
 
-const TWELVE_WORDS = ["close", "nut", "height", "renew", "boring", "fatigue", "alarm", "slice", "transfer", "spoon", "movie", "saddle"];
-const ACCOUNT_NUMBER = "fT3TAY5MaWJnTsCnNArLPRWDovwQh4Uv8GeZG4ox74p8PtA1sW";
 
-beforeEach(async () => {
-    let noResetConfig = {'noReset': false};
+// TEST CASES
+test('Transfer to account without encryption public key', async () => {
+    let noResetConfig = { 'noReset': true };
     Object.assign(noResetConfig, RUN_CONFIG);
 
     await driver.init(noResetConfig);
     await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
-});
-
-// TEST CASES
-test('Transfer to account without encryption public key', async () => {
-    await accessExistingAccount(driver, TWELVE_WORDS);
-    let {bitmarkId} = await transfer(NO_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT);
-
+    // await accessExistingAccount(driver, TWELVE_WORDS);
+    let { bitmarkId } = await transfer(NO_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT);
     if (bitmarkId) {
         await driver.waitForElementByName('Invalid bitmark account number!', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
     }
 });
 
 test('Transfer to account with encryption public key', async () => {
-    await accessExistingAccount(driver, TWELVE_WORDS);
-    let {bitmarkId, assetName} = await transfer(HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT);
+    let noResetConfig = { 'noReset': true };
+    Object.assign(noResetConfig, RUN_CONFIG);
+
+    await driver.init(noResetConfig);
+    await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+
+    let { bitmarkId, assetName } = await transfer(HAS_ENCRYPTION_PUBLIC_KEY_BITMARK_ACCOUNT);
 
     if (bitmarkId) {
         // Go to transaction history
         await driver
-            .waitForElementByName('PROPERTIES', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
+            .waitForElementByName('PROPERTIES', 20 * 1000)
             .elementByName('Transactions').tap()
             .waitForElementByName('HISTORY', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
             .elementByName('HISTORY').tap();
@@ -63,25 +62,30 @@ test('Transfer to account with encryption public key', async () => {
     }
 });
 
-
 test('Download bitmark', async () => {
+    await driver.init(RUN_CONFIG);
+    await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+
     await accessExistingAccount(driver, HAS_ENCRYPTION_PUBLIC_KEY_TWELVE_WORDS);
     let firstConfirmedEl = await driver.elementByIosPredicateStringOrNull("name BEGINSWITH 'item_' AND NOT label BEGINSWITH 'INCOMING' AND NOT label BEGINSWITH 'REGISTERING'");
 
-    if (firstConfirmedEl) {
-        await firstConfirmedEl.tap();
-    } else {
-        let incomingEl = await driver.elementByIosPredicateStringOrNull("name BEGINSWITH 'item_' AND label BEGINSWITH 'INCOMING'");
-
-        if (incomingEl) {
-            // Wait for 3 minutes for bitmark get confirmed
-            await driver.sleep(3 * 60 * 1000);
-            await incomingEl.tap();
-        } else {
-            console.warn('There are no confirmed bitmarks to download');
-            return;
+    if (!firstConfirmedEl) {
+        let start = Date.now();
+        while (Date.now() - start < 3 * 60 * 1000) {
+            firstConfirmedEl = await driver.elementByIosPredicateStringOrNull("name BEGINSWITH 'item_' AND NOT label BEGINSWITH 'INCOMING' AND NOT label BEGINSWITH 'REGISTERING'");
+            if (firstConfirmedEl) {
+                break;
+            }
+            await driver.sleep(10 * 1000);
         }
     }
+
+    if (!firstConfirmedEl) {
+        console.log('There are no confirmed bitmark to download');
+        return;
+    }
+
+    await firstConfirmedEl.tap();
 
     // Show options menu
     await driver
@@ -110,14 +114,17 @@ test('Download bitmark', async () => {
 
     // Wait for download completion and execute copy file
     await driver
-        .waitForElementByName('Copy', 30000)
-        .elementByName("Copy").tap();
+        .waitForElementByName('Copy', 30 * 1000)
+        .elementByName("Cancel").tap();
 });
 
 test('Delete confirmed Bitmarks', async () => {
-    await accessExistingAccount(driver, HAS_ENCRYPTION_PUBLIC_KEY_TWELVE_WORDS);
+    let noResetConfig = { 'noReset': true };
+    Object.assign(noResetConfig, RUN_CONFIG);
 
-    await driver.sleep(5000);
+    await driver.init(noResetConfig);
+    await driver.sleep(TEST_CONFIG.APP_LOAD_TIMEOUT); // wait for app to load
+
     let numberOfBitmarksBeforeDeleting = await getNumberOfBitmarks(driver);
 
     let firstConfirmedElement = await driver.elementByIosPredicateStringOrNull("name BEGINSWITH 'item_' AND NOT label BEGINSWITH 'INCOMING' AND NOT label BEGINSWITH 'REGISTERING'");
@@ -135,8 +142,8 @@ test('Delete confirmed Bitmarks', async () => {
             .waitForElementByName('Delete', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
             .elementByName('Delete').tap()
             // Should return to PROPERTIES screen
-            .waitForElementByName('PROPERTIES', TEST_CONFIG.CHANGE_SCREEN_TIMEOUT)
-            .sleep(5000);
+            .waitForElementByName('PROPERTIES', 20 * 1000)
+            .sleep(10000);
 
         // Verify delete result
         if (!numberOfBitmarksBeforeDeleting.includes("99")) {
@@ -163,7 +170,7 @@ async function transfer(accountNumber) {
         await firstConfirmedEl.tap();
     } else {
         console.warn('There are no confirmed bitmarks to transfer');
-        return;
+        return {};
     }
 
     // Copy bitmark Id for later usage
@@ -196,7 +203,7 @@ async function transfer(accountNumber) {
         .sleep(1000)
         .elementByName('TRANSFER').tap();
 
-    return {bitmarkId, assetName};
+    return { bitmarkId, assetName };
 }
 
 async function getNumberOfBitmarks(driver) {
