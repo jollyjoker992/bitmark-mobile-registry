@@ -613,7 +613,8 @@ public class BitmarkSDKModule extends ReactContextBaseJavaModule implements Bitm
 
             Map<String, String> metadata = toStringMap(metadataMap);
             String packedMetadata = RegistrationParams.getPackedMetadata(metadata);
-            if (RAW.decode(packedMetadata).length <= 2048) promise.resolve(true);
+            if (packedMetadata.isEmpty() || RAW.decode(packedMetadata).length <= 2048)
+                promise.resolve(true);
             else promise.resolve(false);
 
         } catch (Throwable e) {
