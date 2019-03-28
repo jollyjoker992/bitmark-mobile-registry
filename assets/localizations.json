@@ -996,7 +996,7 @@
     "WhatNewComponent_versionInformationReleaseDiff1": "just now",
     "WhatNewComponent_versionInformationReleaseDiff2": "{{day}}d ago",
     "WhatNewComponent_androidReleaseNoteText": "New feature:\n\n— Register IFTTT data\n— View your transaction request and history\n— Support notifications.\n\nEnhancements:\n\n— Share your account number through QRcode\n— Scan QRcode for property transfer\n— Bug fixes.\n\n\nWe value your feedback, if you have ideas or suggestions on how to make our app even better, please email us at support@bitmark.com. ",
-    "WhatNewComponent_releaseNoteText": "Enhancements\n\n— Share your account number through QRcode\n\n— Scan QRcode for property transfer\n\n\nWe value your feedback, if you have ideas or suggestions on how to make our app even better, please email us at support@bitmark.com.",
+    "WhatNewComponent_releaseNoteText": "Enhancements:\n\n— Share your account number through QRcode\n\n— Scan QRcode for property transfer\n\n\nWe value your feedback, if you have ideas or suggestions on how to make our app even better, please email us at support@bitmark.com.",
     "WhatNewComponent_newDescription1": "Musicians can now issue limited-edition bitmarks for their original music and send the bitmarks to their fans.",
     "FaceTouchId_doOpenApp": "Your fingerprint signature is required.",
     "IncomingClaimRequestComponent_headerTitle": "SIGN FOR BITMARK",
