@@ -87,7 +87,7 @@ const cStyles = StyleSheet.create({
     backgroundColor: 'white',
     paddingTop: 19, paddingBottom: config.isIPhoneX ? 10 : 0,
     borderTopWidth: 0.1, borderTopRightRadius: 5, borderTopLeftRadius: 5,
-    maxHeight: config.deviceSize.height - 100,
+    maxHeight: config.windowSize.height - 100,
   },
   assetContent: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
@@ -102,7 +102,7 @@ const cStyles = StyleSheet.create({
   },
   label: {
     flex: 1,
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 14, color: 'black',
   },
   closeIcon: {
     width: 16, height: 16, resizeMode: 'contain',
@@ -117,11 +117,11 @@ const cStyles = StyleSheet.create({
   },
   metadataLabel: {
     width: convertWidth(102),
-    fontFamily: 'Andale Mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14, color: 'black',
   },
   metadataValue: {
     flex: 1,
-    fontFamily: 'Andale Mono', fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14,
   },
 
 });

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, Image, FlatList, ScrollView, SafeAreaView,
+  View, Text, Image, FlatList, ScrollView, SafeAreaView,
+  BackHandler,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -9,6 +10,8 @@ import accountRecoveryStyle from './account-recovery.component.style';
 import { AppProcessor, TransactionProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { UserModel } from 'src/processors/models';
+import { config } from 'src/configs';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 
 export class RecoveryPhraseComponent extends React.Component {
@@ -29,22 +32,22 @@ export class RecoveryPhraseComponent extends React.Component {
     return (
       <SafeAreaView style={accountRecoveryStyle.body}>
         <View style={[accountRecoveryStyle.header]}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+          <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}>{isSignOut ? global.i18n.t("RecoveryPhraseComponent_removeAccess") : global.i18n.t("RecoveryPhraseComponent_recoveryPhrase")}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight} onPress={Actions.pop} disabled={isSignOut}>
+          <OneTabButtonComponent style={defaultStyles.headerRight} onPress={Actions.pop} disabled={isSignOut}>
             {!isSignOut && <Text style={defaultStyles.headerRightText}>{global.i18n.t("RecoveryPhraseComponent_cancel")}</Text>}
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </View>
         <ScrollView style={accountRecoveryStyle.recoveryPhraseContent}>
           <Image style={accountRecoveryStyle.recoveryPhraseWarningIcon} source={require('assets/imgs/backup_warning.png')} />
           {!isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>{global.i18n.t("RecoveryPhraseComponent_recoveryDescription1")}</Text>}
           {isSignOut && <Text style={accountRecoveryStyle.recoveryDescription}>{global.i18n.t("RecoveryPhraseComponent_recoveryDescription2")}</Text>}
         </ScrollView>
-        <TouchableOpacity style={accountRecoveryStyle.recoveryPhraseBottomButton} onPress={() => recoveryPhrase()}>
+        <OneTabButtonComponent style={accountRecoveryStyle.recoveryPhraseBottomButton} onPress={() => recoveryPhrase()}>
           <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{global.i18n.t("RecoveryPhraseComponent_writeDownRecoveryPhrase")}</Text>
-        </TouchableOpacity>
+        </OneTabButtonComponent>
       </SafeAreaView>
 
     );
@@ -76,13 +79,13 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
     return (
       <SafeAreaView style={accountRecoveryStyle.body}>
         <View style={[accountRecoveryStyle.header]}>
-          <TouchableOpacity style={[defaultStyles.headerLeft, { width: 30 }]} onPress={Actions.pop}>
+          <OneTabButtonComponent style={[defaultStyles.headerLeft, { width: 30 }]} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           <Text style={[defaultStyles.headerTitle,]}>
             {isSignOut ? global.i18n.t("WriteDownRecoveryPhraseComponent_writeDownRecoveryPhrase") : global.i18n.t("WriteDownRecoveryPhraseComponent_recoveryPhrase")}
           </Text>
-          <TouchableOpacity style={[defaultStyles.headerRight, { width: 30 }]} />
+          <OneTabButtonComponent style={[defaultStyles.headerRight, { width: 30 }]} />
         </View>
         <ScrollView style={accountRecoveryStyle.recoveryPhraseContent}>
           {!isSignOut && <Text style={accountRecoveryStyle.writeRecoveryPhraseContentMessage}>{global.i18n.t("WriteDownRecoveryPhraseComponent_writeRecoveryPhraseContentMessage1")}</Text>}
@@ -92,11 +95,11 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
               <FlatList data={this.state.smallerList}
                 scrollEnabled={false}
                 extraData={this.state.smallerList}
-                renderItem={({ item }) => {
+                renderItem={({ item, index }) => {
                   return (
                     <View style={accountRecoveryStyle.recoveryPhraseSet}>
                       <Text style={accountRecoveryStyle.recoveryPhraseIndex}>{parseInt(item.key) + 1}.</Text>
-                      <Text style={accountRecoveryStyle.recoveryPhraseWord}>{item.word}</Text>
+                      <Text testID={`word_${index}`} style={accountRecoveryStyle.recoveryPhraseWord}>{item.word}</Text>
                     </View>
                   )
                 }}
@@ -106,11 +109,11 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
               <FlatList data={this.state.biggerList}
                 scrollEnabled={false}
                 extraData={this.state.biggerList}
-                renderItem={({ item }) => {
+                renderItem={({ item, index }) => {
                   return (
                     <View style={accountRecoveryStyle.recoveryPhraseSet}>
                       <Text style={accountRecoveryStyle.recoveryPhraseIndex}>{parseInt(item.key) + 1}.</Text>
-                      <Text style={accountRecoveryStyle.recoveryPhraseWord}>{item.word}</Text>
+                      <Text testID={`word_${this.state.smallerList.length + index}`} style={accountRecoveryStyle.recoveryPhraseWord}>{item.word}</Text>
                     </View>
                   )
                 }}
@@ -118,12 +121,12 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
             </View>
           </View>
         </ScrollView>
-        {!isSignOut && <TouchableOpacity style={accountRecoveryStyle.recoveryPhraseBottomButton} onPress={() => {
+        {!isSignOut && <OneTabButtonComponent style={accountRecoveryStyle.recoveryPhraseBottomButton} onPress={() => {
           Actions.tryRecoveryPhrase({ isSignOut, currentUser: this.props.currentUser, logout: this.props.logout });
         }}>
           <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{global.i18n.t("WriteDownRecoveryPhraseComponent_testRecoveryPhrase")} »</Text>
-        </TouchableOpacity>}
-        <TouchableOpacity style={[accountRecoveryStyle.recoveryPhraseBottomButton, !isSignOut ? { backgroundColor: '#F2FAFF', } : {}]} onPress={() => {
+        </OneTabButtonComponent>}
+        <OneTabButtonComponent style={[accountRecoveryStyle.recoveryPhraseBottomButton, !isSignOut ? { backgroundColor: '#F2FAFF', } : {}]} onPress={() => {
           if (isSignOut) {
             Actions.tryRecoveryPhrase({ isSignOut, currentUser: this.props.currentUser, logout: this.props.logout });
           } else {
@@ -132,7 +135,7 @@ export class WriteDownRecoveryPhraseComponent extends React.Component {
           }
         }}>
           <Text style={[accountRecoveryStyle.recoveryPhraseBottomButtonText, !isSignOut ? { color: '#0060F2' } : {}]}>{global.i18n.t("WriteDownRecoveryPhraseComponent_done")}</Text>
-        </TouchableOpacity>
+        </OneTabButtonComponent>
       </SafeAreaView>
     );
   }
@@ -231,6 +234,17 @@ export class TryRecoveryPhraseComponent extends React.Component {
       biggerList: biggerList,
       selectedIndex: 0,
     };
+  }
+
+  componentDidMount() {
+    if (config.isAndroid) {
+      this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => Actions.reset('accountDetail'));
+    }
+  }
+  componentWillUnmount() {
+    if (config.isAndroid && this.backHandler) {
+      this.backHandler.remove();
+    }
   }
 
   nextSelectedIndex(currentSelectedIndex) {
@@ -360,11 +374,11 @@ export class TryRecoveryPhraseComponent extends React.Component {
     return (
       <SafeAreaView style={accountRecoveryStyle.body}>
         <View style={[accountRecoveryStyle.header]}>
-          <TouchableOpacity style={defaultStyles.headerLeft} />
+          <OneTabButtonComponent style={defaultStyles.headerLeft} />
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("TryRecoveryPhraseComponent_testRecoveryPhrase")}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight} onPress={() => Actions.reset('accountDetail')} >
+          <OneTabButtonComponent style={defaultStyles.headerRight} onPress={() => Actions.reset('accountDetail')} >
             <Text style={defaultStyles.headerRightText}>{global.i18n.t("TryRecoveryPhraseComponent_cancel")}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </View>
         <ScrollView style={accountRecoveryStyle.recoveryPhraseContent}>
           <Text style={accountRecoveryStyle.writeRecoveryPhraseContentMessage}>{global.i18n.t("TryRecoveryPhraseComponent_writeRecoveryPhraseContentMessage")}</Text>
@@ -377,7 +391,7 @@ export class TryRecoveryPhraseComponent extends React.Component {
                   return (
                     <View style={accountRecoveryStyle.recoveryPhraseSet}>
                       <Text style={accountRecoveryStyle.recoveryPhraseIndex}>{parseInt(item.key) + 1}.</Text>
-                      <TouchableOpacity onPress={() => this.resetSelectedWord(item, index)}>
+                      <OneTabButtonComponent onPress={() => this.resetSelectedWord(item, index)}>
                         <Text style={[accountRecoveryStyle.recoveryPhraseWord, {
                           backgroundColor: (item.word ? 'white' : '#F5F5F5'),
                           height: (item.word ? 'auto' : 14),
@@ -385,7 +399,7 @@ export class TryRecoveryPhraseComponent extends React.Component {
                           borderColor: '#0060F2',
                           borderWidth: (item.key === this.state.selectedIndex ? 1 : 0),
                         }]}>{item.word}</Text>
-                      </TouchableOpacity>
+                      </OneTabButtonComponent>
                     </View>
                   )
                 }}
@@ -399,7 +413,7 @@ export class TryRecoveryPhraseComponent extends React.Component {
                   return (
                     <View style={accountRecoveryStyle.recoveryPhraseSet}>
                       <Text style={accountRecoveryStyle.recoveryPhraseIndex}>{parseInt(item.key) + 1}.</Text>
-                      <TouchableOpacity onPress={() => this.resetSelectedWord(item, index)}>
+                      <OneTabButtonComponent onPress={() => this.resetSelectedWord(item, index)}>
                         <Text style={[accountRecoveryStyle.recoveryPhraseWord, {
                           backgroundColor: (item.word ? 'white' : '#F5F5F5'),
                           height: (item.word ? 'auto' : 14),
@@ -407,7 +421,7 @@ export class TryRecoveryPhraseComponent extends React.Component {
                           borderColor: '#0060F2',
                           borderWidth: (item.key === this.state.selectedIndex ? 1 : 0),
                         }]}>{item.word}</Text>
-                      </TouchableOpacity>
+                      </OneTabButtonComponent>
                     </View>
                   )
                 }}
@@ -425,7 +439,7 @@ export class TryRecoveryPhraseComponent extends React.Component {
                 if (!item.cannotReset) {
                   return (
                     <View style={accountRecoveryStyle.recoveryPhraseChoose}>
-                      {<TouchableOpacity style={[accountRecoveryStyle.recoveryPhraseChooseButton, {
+                      {<OneTabButtonComponent style={[accountRecoveryStyle.recoveryPhraseChooseButton, {
                         borderColor: item.selected ? 'white' : '#0060F2',
                       }]} disabled={item.selected}
                         onPress={() => this.selectRandomWord(item, item.index)}
@@ -433,7 +447,7 @@ export class TryRecoveryPhraseComponent extends React.Component {
                         <Text style={[accountRecoveryStyle.recoveryPhraseChooseButtonText, {
                           color: item.selected ? 'white' : 'black'
                         }]}>{item.word}</Text>
-                      </TouchableOpacity>}
+                      </OneTabButtonComponent>}
                     </View>
                   )
                 }
@@ -449,10 +463,10 @@ export class TryRecoveryPhraseComponent extends React.Component {
           <Text style={[accountRecoveryStyle.recoveryPhraseTestTitle, { color: '#FF003C' }]}>{global.i18n.t("TryRecoveryPhraseComponent_error")}</Text>
           <Text style={[accountRecoveryStyle.recoveryPhraseTestMessage, { color: '#FF003C' }]}>{global.i18n.t("TryRecoveryPhraseComponent_pleaseTryAgain")}</Text>
         </View>}
-        {this.state.testResult.length > 0 && <TouchableOpacity style={accountRecoveryStyle.recoveryPhraseBottomButton}
+        {this.state.testResult.length > 0 && <OneTabButtonComponent style={accountRecoveryStyle.recoveryPhraseBottomButton}
           onPress={() => this.doAfterInputtedAllWord()}>
           <Text style={accountRecoveryStyle.recoveryPhraseBottomButtonText}>{((this.state.testResult === 'done' && isSignOut ? global.i18n.t("TryRecoveryPhraseComponent_removeAccess") : global.i18n.t(`TryRecoveryPhraseComponent_${this.state.testResult}`))).toUpperCase()}</Text>
-        </TouchableOpacity>}
+        </OneTabButtonComponent>}
       </SafeAreaView>
     );
   }

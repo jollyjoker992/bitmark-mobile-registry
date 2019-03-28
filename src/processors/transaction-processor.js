@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { merge } from 'lodash';
 
-import { TransactionService, NotificationService, BitmarkService } from './services';
+import { TransactionService, AccountService, BitmarkService } from './services';
 import { CacheData } from './caches';
 import { BitmarkModel, IftttModel, CommonModel, } from './models';
 import { TransactionsStore, TransactionsActions, BottomTabStore, BottomTabActions, AccountStore, AccountActions } from 'src/views/stores';
@@ -183,7 +183,7 @@ const _doGenerateTransactionActionRequiredData = async (incomingClaimRequests) =
   BottomTabStore.dispatch(BottomTabActions.init(bottomTabStoreState));
 
   console.log('actionRequired :', actionRequired);
-  NotificationService.setApplicationIconBadgeNumber(totalTasks || 0);
+  AccountService.setApplicationIconBadgeNumber(totalTasks || 0);
 };
 
 const _doCheckNewTransfers = async (transactions, isLoadingOtherData) => {
@@ -268,8 +268,8 @@ const runGetIFTTTInformationInBackground = () => {
     if (queueGetIFTTTInformation.length > 1) {
       return;
     }
-    IftttModel.doGetIFtttInformation(CacheData.userInformation.bitmarkAccountNumber).then(iftttInformation => {
-      console.log('runOnBackground  runGetIFTTTInformationInBackground success');
+    IftttModel.doGetIFtttInformation(CacheData.jwt).then(iftttInformation => {
+      console.log('runOnBackground  runGetIFTTTInformationInBackground success', iftttInformation);
       queueGetIFTTTInformation.forEach(queueResolve => queueResolve(iftttInformation));
       queueGetIFTTTInformation = [];
     }).catch(error => {
@@ -363,6 +363,7 @@ const doGetIftttInformation = async () => {
 const doReloadIftttInformation = async (noNeedCheckNewData) => {
   let result = await runGetIFTTTInformationInBackground();
   await _doCheckNewIftttInformation(result, noNeedCheckNewData);
+  return result;
 };
 
 const doReloadTransferOffers = async (noNeedCheckNewData) => {
@@ -382,8 +383,7 @@ const doReloadTransfers = async (noNeedCheckNewData) => {
 };
 
 const doRevokeIftttToken = async () => {
-  let signatureData = await CommonModel.doCreateSignatureData();
-  let iftttInformation = await IftttModel.doRevokeIftttToken(CacheData.userInformation.bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+  let iftttInformation = await IftttModel.doRevokeIftttToken(CacheData.jwt);
   await _doCheckNewIftttInformation(iftttInformation);
   return iftttInformation;
 };

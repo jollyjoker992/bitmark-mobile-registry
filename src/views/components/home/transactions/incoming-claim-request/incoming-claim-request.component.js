@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, ScrollView, Image, SafeAreaView,
+  View, Text, ScrollView, Image, SafeAreaView,
   Alert,
   Clipboard,
 } from 'react-native';
@@ -40,7 +40,7 @@ export class IncomingClaimRequestComponent extends React.Component {
       }
     }, {
       text: global.i18n.t('IncomingClaimRequestComponent_rejectAlertCancel'), style: 'cancel',
-    }])
+    }], { cancelable: false })
   }
   doAccept() {
     Alert.alert(global.i18n.t('IncomingClaimRequestComponent_signAlertTitle'), '', [{
@@ -77,7 +77,7 @@ export class IncomingClaimRequestComponent extends React.Component {
       }
     }, {
       text: global.i18n.t('IncomingClaimRequestComponent_signAlertDisagree'), style: 'cancel'
-    }]);
+    }], { cancelable: false });
   }
 
   render() {
@@ -94,7 +94,7 @@ export class IncomingClaimRequestComponent extends React.Component {
 
         <View style={incomingClaimRequestStyle.body}>
           <ScrollView style={[incomingClaimRequestStyle.contentScroll]} contentContainerStyle={{ flexGrow: 1, }}>
-            <TouchableOpacity activeOpacity={1} style={incomingClaimRequestStyle.content}>
+            <OneTabButtonComponent activeOpacity={1} style={incomingClaimRequestStyle.content}>
               <View style={incomingClaimRequestStyle.assetInfoArea}>
                 <Image style={incomingClaimRequestStyle.assetThumbnail} source={{ uri: this.props.incomingClaimRequest.asset.thumbnailPath || `${config.bitmark_profile_server}/s/asset/thumbnail?asset_id=${this.props.incomingClaimRequest.asset.id}` }} />
                 <Text style={incomingClaimRequestStyle.assetInfo}>{this.props.incomingClaimRequest.asset.name}</Text>
@@ -121,7 +121,7 @@ export class IncomingClaimRequestComponent extends React.Component {
                 </View>
                 <Text style={incomingClaimRequestStyle.requestMessage}>{global.i18n.t("IncomingClaimRequestComponent_requestMessage", { assetName: this.props.incomingClaimRequest.asset.name })}</Text>
               </View>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
           </ScrollView>
         </View >
 

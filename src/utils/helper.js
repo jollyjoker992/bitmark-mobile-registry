@@ -45,7 +45,9 @@ const delay = (tms) => {
 
 const runPromiseWithoutError = (promise) => {
   return new Promise((resolve) => {
-    promise.then(resolve).catch(error => resolve({ error }));
+    promise.then(resolve).catch(error => {
+      resolve({ error });
+    });
   });
 };
 
@@ -59,8 +61,8 @@ const compareVersion = (version1, version2) => {
   let versionParts1 = version1.split('.');
   let versionParts2 = version2.split('.');
   for (let index in versionParts1) {
-    let versionPart1 = +versionParts1[index];
-    let versionPart2 = +versionParts2[index];
+    let versionPart1 = versionParts1[index];
+    let versionPart2 = versionParts2[index];
     if (versionPart1 !== versionPart2) {
       return versionPart1 < versionPart2 ? -1 : 1;
     }

@@ -23,17 +23,16 @@ let commonConfig = {
   version: DeviceInfo.getVersion(),
   buildNumber: DeviceInfo.getBuildNumber(),
   localization: DeviceInfo.getDeviceLocale(),
-  deviceSize: Dimensions.get('window'),
+  windowSize: Dimensions.get('window'),
 
   zeroAddress: 'dw9MQXcC5rJZb3QE1nz86PiQAheMP1dx9M3dr52tT8NNs14m33',
   bitmark_network: NETWORKS.testnet,
-  appLink: 'https://itunes.apple.com/us/app/bitmark-registry/id1429427796?ls=1&mt=8',
   api_server_url: 'https://api.test.bitmark.com',
   key_account_server_url: 'https://key.test.bitmarkaccountassets.com',
   registry_server_url: 'https://registry.test.bitmark.com',
   trade_server_url: 'https://trade.devel.bitmark.com',
   mobile_server_url: 'https://bm.devel.bitmark.com',
-  ifttt_server_url: 'https://channel.devel.bitmark.com:8090',
+  ifttt_server_url: 'http://vno.bitmark.com:1102',
   ifttt_invite_url: 'https://ifttt.com/features/redeem?code=10403-fa99108249f426f459a2e1033ddfbbb5',
   ifttt_bitmark_service_url: 'https://ifttt.com/bitmarkdevel',
   ifttt_bitmark_service_settings_url: "https://ifttt.com/services/bitmarkdevel/settings",
@@ -41,7 +40,7 @@ let commonConfig = {
   preview_asset_url: 'https://preview.test.bitmarkaccountassets.com',
   bitmark_web_site: 'https://bitmark.com',
   file_courier_server: 'https://file-courier.test.bitmark.com',
-  bitmark_profile_server: 'http://192.168.0.106:1102',
+  bitmark_profile_server: 'http://192.168.0.108:1102',
   needResetLocalData: 1551067776993,
 };
 
@@ -57,7 +56,6 @@ if (commonConfig.network === NETWORKS.testnet) {
   commonConfig.file_courier_server = 'https://file-courier.test.bitmark.com';
   commonConfig.key_account_server_url = 'https://key.test.bitmarkaccountassets.com';
   commonConfig.bitmark_profile_server = 'https://profiles.test.bitmark.com';
-  // commonConfig.bitmark_profile_server = 'http://192.168.0.102:1102';
 
 } else if (commonConfig.network === NETWORKS.livenet) {
   commonConfig.bitmark_network = NETWORKS.livenet;

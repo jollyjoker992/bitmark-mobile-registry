@@ -4,6 +4,7 @@ import { convertWidth } from 'src/utils';
 
 export default StyleSheet.create({
   body: {
+    flex: 1,
     flexDirection: 'column',
     height: '100%',
     width: '100%',
@@ -16,8 +17,7 @@ export default StyleSheet.create({
   inputLabel: {
     marginTop: 47,
     width: convertWidth(337),
-    fontFamily: 'Andale Mono',
-    fontSize: 15,
+    fontFamily: 'andale_mono', fontSize: 15, color: 'black',
     marginLeft: convertWidth(10),
   },
   removeLabelNumberButton: {
@@ -54,9 +54,7 @@ export default StyleSheet.create({
     paddingLeft: 10,
   },
   suggestionsButtonText: {
-    fontFamily: 'Andale Mono',
-    fontSize: 15,
-    color: '#0060F2',
+    fontFamily: 'andale_mono', fontSize: 15, color: '#0060F2',
   },
 
 });

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Text, View, TouchableOpacity,
+  Text, View,
   Alert,
 } from 'react-native';
 
 import internetOffStyles from './bitmark-internet-off.component.style';
+import { OneTabButtonComponent } from '../one-tab-button.component';
 export class BitmarkInternetOffComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -13,7 +14,7 @@ export class BitmarkInternetOffComponent extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.7)' }}>
-        <TouchableOpacity style={internetOffStyles.content}
+        <OneTabButtonComponent style={internetOffStyles.content}
           activeOpacity={1}
           onPress={() => {
             Alert.alert(global.i18n.t("BitmarkInternetOffComponent_networkError"), global.i18n.t("BitmarkInternetOffComponent_errorMessage"), [{
@@ -25,12 +26,12 @@ export class BitmarkInternetOffComponent extends React.Component {
                   this.props.tryConnectInternet();
                 }
               }
-            }]);
+            }], { cancelable: false });
           }}>
           <View style={[internetOffStyles.title]}>
             <Text style={[internetOffStyles.titleText,]}>{global.i18n.t("BitmarkInternetOffComponent_noInternetConnection")}</Text>
           </View>
-        </TouchableOpacity>
+        </OneTabButtonComponent>
       </View>
     );
   }

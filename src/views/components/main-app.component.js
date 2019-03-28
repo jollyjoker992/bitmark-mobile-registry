@@ -61,7 +61,7 @@ export class BitmarkAppComponent extends Component {
         Alert.alert(global.i18n.t("MainComponent_newVersionAvailableTitle"), global.i18n.t("MainComponent_newVersionAvailableMessage"), [{
           text: global.i18n.t("MainComponent_visitAppstore"),
           onPress: () => Linking.openURL(config.appLink)
-        }]);
+        }], { cancelable: false });
         return;
       }
       this.doAppRefresh(justCreatedBitmarkAccount);
@@ -86,11 +86,15 @@ export class BitmarkAppComponent extends Component {
 
           this.setUser(user);
           if (user && user.bitmarkAccountNumber) {
+            if (config.isAndroid) {
+              AppProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount);
+              return;
+            }
             CommonModel.doCheckPasscodeAndFaceTouchId().then(ok => {
               if (ok) {
                 AppProcessor.doStartBackgroundProcess(justCreatedBitmarkAccount);
               } else {
-                if (!this.requiringTouchId) {
+                if (config.isIPhone && !this.requiringTouchId) {
                   this.requiringTouchId = true;
                   Alert.alert(global.i18n.t("MainComponent_pleaseEnableYourTouchIdMessage"), '', [{
                     text: global.i18n.t("MainComponent_enable"),
@@ -99,7 +103,7 @@ export class BitmarkAppComponent extends Component {
                       Linking.openURL('app-settings:');
                       this.requiringTouchId = false;
                     }
-                  }]);
+                  }], { cancelable: false });
                 }
               }
             });

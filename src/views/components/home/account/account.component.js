@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  View, Text, TouchableOpacity, ScrollView, Image, ActivityIndicator, SafeAreaView,
+  View, Text, ScrollView, Image, ActivityIndicator, SafeAreaView,
   Clipboard,
   Alert,
 } from 'react-native';
@@ -13,6 +13,7 @@ import accountStyle from './account.component.style';
 import { AppProcessor, EventEmitterService, DataProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { AccountStore } from 'src/views/stores';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 const SubTabs = {
   settings: 'SETTINGS',
@@ -59,22 +60,19 @@ class PrivateAccountDetailComponent extends React.Component {
           console.log('doRevokeIftttToken error :', error);
         });
       }
-    }]);
+    }], { cancelable: false });
   }
 
   render() {
     return (
       <SafeAreaView style={accountStyle.body}>
         <View style={accountStyle.header}>
-          <TouchableOpacity style={defaultStyles.headerLeft} />
-          {/* <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.scanQRCode}>
-            <Image style={accountStyle.cameraIcon} source={require('assets/imgs/camera.png')} />
-          </TouchableOpacity> */}
+          <OneTabButtonComponent style={defaultStyles.headerLeft} />
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("AccountDetailComponent_account")}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight} />
+          <OneTabButtonComponent style={defaultStyles.headerRight} />
         </View>
         <View style={accountStyle.subTabArea}>
-          {this.state.subTab === SubTabs.settings && <TouchableOpacity style={[accountStyle.subTabButton, {
+          {this.state.subTab === SubTabs.settings && <OneTabButtonComponent style={[accountStyle.subTabButton, {
             shadowOffset: { width: 2 },
             shadowOpacity: 0.15,
           }]}>
@@ -84,8 +82,8 @@ class PrivateAccountDetailComponent extends React.Component {
                 <Text style={accountStyle.subTabButtonText}>{global.i18n.t("AccountDetailComponent_settings")}</Text>
               </View>
             </View>
-          </TouchableOpacity>}
-          {this.state.subTab !== SubTabs.settings && <TouchableOpacity style={[accountStyle.subTabButton, {
+          </OneTabButtonComponent>}
+          {this.state.subTab !== SubTabs.settings && <OneTabButtonComponent style={[accountStyle.subTabButton, {
             backgroundColor: '#F5F5F5',
             zIndex: 0,
           }]} onPress={() => this.switchSubTab(SubTabs.settings)}>
@@ -95,9 +93,9 @@ class PrivateAccountDetailComponent extends React.Component {
                 <Text style={[accountStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("AccountDetailComponent_settings")}</Text>
               </View>
             </View>
-          </TouchableOpacity>}
+          </OneTabButtonComponent>}
 
-          {this.state.subTab === SubTabs.authorized && <TouchableOpacity style={[accountStyle.subTabButton, {
+          {this.state.subTab === SubTabs.authorized && <OneTabButtonComponent style={[accountStyle.subTabButton, {
             shadowOffset: { width: -2 },
             shadowOpacity: 0.15,
           }]}>
@@ -107,8 +105,8 @@ class PrivateAccountDetailComponent extends React.Component {
                 <Text style={accountStyle.subTabButtonText}>{global.i18n.t("AccountDetailComponent_authorized")}</Text>
               </View>
             </View>
-          </TouchableOpacity>}
-          {this.state.subTab !== SubTabs.authorized && <TouchableOpacity style={[accountStyle.subTabButton, {
+          </OneTabButtonComponent>}
+          {this.state.subTab !== SubTabs.authorized && <OneTabButtonComponent style={[accountStyle.subTabButton, {
             backgroundColor: '#F5F5F5',
             zIndex: 0,
           }]} onPress={() => this.switchSubTab(SubTabs.authorized)}>
@@ -118,52 +116,59 @@ class PrivateAccountDetailComponent extends React.Component {
                 <Text style={[accountStyle.subTabButtonText, { color: '#C1C1C1' }]}>{global.i18n.t("AccountDetailComponent_authorized")}</Text>
               </View>
             </View>
-          </TouchableOpacity>}
+          </OneTabButtonComponent>}
         </View>
 
         <ScrollView style={[accountStyle.scrollSubTabArea]} contentContainerStyle={{ flexGrow: 1 }}>
           {this.state.subTab === SubTabs.settings && <View style={accountStyle.contentSubTab}>
             <View style={{ flex: 1, borderBottomWidth: 1, borderBottomColor: "#A4B5CD" }}>
-              <Text style={accountStyle.accountNumberLabel}>{global.i18n.t("AccountDetailComponent_accountNumberLabel")}</Text>
+              <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 27, }}>
+                <Text style={accountStyle.accountNumberLabel}>{global.i18n.t("AccountDetailComponent_accountNumberLabel")}</Text>
+                <OneTabButtonComponent style={{ padding: 4, paddingRight: 0 }} onPress={() => {
+                  EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER, { type: 'AccountQrCodeComponent' });
+                }}>
+                  <Image style={{ width: 16, height: 16, resizeMode: 'contain', }} source={require('assets/imgs/account_qrcode_icon.png')} />
+                </OneTabButtonComponent>
+              </View>
 
-              <TouchableOpacity style={accountStyle.accountNumberArea} onPress={() => {
+              <OneTabButtonComponent style={accountStyle.accountNumberArea} onPress={() => {
                 Clipboard.setString(this.props.userInformation ? this.props.userInformation.bitmarkAccountNumber : '');
                 this.setState({ accountNumberCopyText: global.i18n.t("AccountDetailComponent_copiedToClipboard") });
                 setTimeout(() => { this.setState({ accountNumberCopyText: '' }) }, 1000);
               }}>
                 <Text style={accountStyle.accountNumberValue}>{this.props.userInformation ? this.props.userInformation.bitmarkAccountNumber : ''}</Text>
-              </TouchableOpacity>
+              </OneTabButtonComponent>
               <View style={accountStyle.accountNumberBar}>
                 <Text style={accountStyle.accountNumberCopyButtonText}>{this.state.accountNumberCopyText}</Text>
               </View>
 
               <Text style={accountStyle.accountMessage}>{global.i18n.t("AccountDetailComponent_accountMessage")}</Text>
 
-              <TouchableOpacity style={accountStyle.accountWriteDownButton} onPress={Actions.recoveryPhrase}>
-                <Text style={accountStyle.accountWriteDownButtonText}>{global.i18n.t("AccountDetailComponent_writeDownRecoveryPhrase")} » </Text>
-              </TouchableOpacity>
-              {/* <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={this.logout.bind(this)}> */}
-              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={() => Actions.recoveryPhrase({ isSignOut: true, logout: this.logout.bind(this) })}>
-                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_removeAccessFromThisDevice")} » </Text>
-              </TouchableOpacity>
+              <OneTabButtonComponent style={accountStyle.accountWriteDownButton} onPress={Actions.recoveryPhrase}>
+                <Text style={accountStyle.accountWriteDownButtonText}>{global.i18n.t("AccountDetailComponent_writeDownRecoveryPhrase")} »</Text>
+              </OneTabButtonComponent>
+              {/* <OneTabButtonComponent style={accountStyle.accountRemoveButton} onPress={this.logout.bind(this)}> */}
+              <OneTabButtonComponent style={accountStyle.accountRemoveButton} onPress={() => Actions.recoveryPhrase({ isSignOut: true, logout: this.logout.bind(this) })}>
+                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_removeAccessFromThisDevice")} »</Text>
+              </OneTabButtonComponent>
 
-              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.applicationDetail}>
-                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_appDetails")} » </Text>
-              </TouchableOpacity>
+              <OneTabButtonComponent style={accountStyle.accountRemoveButton} onPress={Actions.applicationDetail}>
+                <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_appDetails")} »</Text>
+              </OneTabButtonComponent>
 
-              {/* <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.webAccountMigrate}>
+              {/* <OneTabButtonComponent style={accountStyle.accountRemoveButton} onPress={Actions.webAccountMigrate}>
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_migrateWebAccount")} » </Text>
-              </TouchableOpacity>
+              </OneTabButtonComponent>
 
-              <TouchableOpacity style={accountStyle.accountRemoveButton} onPress={Actions.webAccountSignIn}>
+              <OneTabButtonComponent style={accountStyle.accountRemoveButton} onPress={Actions.webAccountSignIn}>
                 <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_signInUsingMobileApp")} » </Text>
-              </TouchableOpacity> */}
+              </OneTabButtonComponent> */}
             </View>
-            <TouchableOpacity style={[accountStyle.accountRemoveButton, { height: 45 }]} onPress={() => {
+            <OneTabButtonComponent style={[accountStyle.accountRemoveButton, { height: 45 }]} onPress={() => {
               Intercom.displayConversationsList();
             }}>
               <Text style={accountStyle.accountRemoveButtonText}>{global.i18n.t("AccountDetailComponent_needHelp")}</Text>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
           </View>}
 
           {this.state.subTab === SubTabs.authorized && <View style={accountStyle.contentSubTab}>
@@ -173,18 +178,18 @@ class PrivateAccountDetailComponent extends React.Component {
 
                 <View style={accountStyle.authorizedItemTitle}>
                   <Text style={accountStyle.authorizedItemTitleText}>IFTTT</Text>
-                  <TouchableOpacity style={accountStyle.authorizedItemRemoveButton} onPress={this.revokeIFTTT}>
+                  <OneTabButtonComponent style={accountStyle.authorizedItemRemoveButton} onPress={this.revokeIFTTT}>
                     <Text style={accountStyle.authorizedItemRemoveButtonText}>{global.i18n.t("AccountDetailComponent_remove")}</Text>
-                  </TouchableOpacity>
+                  </OneTabButtonComponent>
                 </View>
 
                 <View style={accountStyle.authorizedItemDescription}>
                   <Image style={accountStyle.authorizedItemDescriptionIcon} source={require('assets/imgs/ifttt-icon.png')} />
                   <View style={accountStyle.authorizedItemDescriptionDetail}>
                     <Text style={accountStyle.authorizedItemDescriptionText}>{global.i18n.t("AccountDetailComponent_authorizedItemDescriptionText")}</Text>
-                    <TouchableOpacity style={accountStyle.authorizedViewButton} onPress={() => Actions.iftttActive({ stage: 'view' })}>
+                    <OneTabButtonComponent style={accountStyle.authorizedViewButton} onPress={() => Actions.iftttActive({ stage: 'view' })}>
                       <Text style={accountStyle.authorizedViewButtonText}>{global.i18n.t("AccountDetailComponent_viewApplets")} »  </Text>
-                    </TouchableOpacity>
+                    </OneTabButtonComponent>
                   </View>
                 </View>
               </View>}

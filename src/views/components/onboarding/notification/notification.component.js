@@ -1,24 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, Image, TouchableOpacity,
+  View, Text, Image,
 } from 'react-native'
 
 import notificationStyle from './notification.component.style';
-import { NotificationService, EventEmitterService, CommonProcessor, CacheData } from 'src/processors';
+import { AccountService, EventEmitterService, CommonProcessor, CacheData } from 'src/processors';
 import { constant } from 'src/configs';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 export class NotificationComponent extends React.Component {
   static propTypes = {
     justCreatedBitmarkAccount: PropTypes.bool,
   }
-  constructor(props) {
-    super(props);
-  }
+
   render() {
+    console.log('NotificationComponent render :', this.props);
     CacheData.passTouchFaceId = true;
     let requestNotification = () => {
-      NotificationService.doRequestNotificationPermissions().then((result) => {
+      AccountService.doRequestNotificationPermissions().then((result) => {
         EventEmitterService.emit(EventEmitterService.events.APP_NEED_REFRESH, this.props.justCreatedBitmarkAccount);
         return CommonProcessor.doMarkRequestedNotification(result);
       }).catch(error => {
@@ -36,10 +36,10 @@ export class NotificationComponent extends React.Component {
         </View>
 
         <View style={notificationStyle.enableButtonArea}>
-          <TouchableOpacity style={[notificationStyle.enableButton]} onPress={requestNotification}>
+          <OneTabButtonComponent style={[notificationStyle.enableButton]} onPress={requestNotification}>
             <Text style={notificationStyle.enableButtonText}>{global.i18n.t("NotificationComponent_enable")}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[notificationStyle.enableButton, {
+          </OneTabButtonComponent>
+          <OneTabButtonComponent style={[notificationStyle.enableButton, {
             backgroundColor: '#F2FAFF',
             height: 45 + (constant.blankFooter / 2)
           }]} onPress={() => {
@@ -49,7 +49,7 @@ export class NotificationComponent extends React.Component {
               color: '#0060F2',
               paddingBottom: (constant.blankFooter / 2)
             }]}>{global.i18n.t("NotificationComponent_later")}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </View>
       </View>
     );

@@ -1,8 +1,8 @@
-import { Platform, AppRegistry } from 'react-native';
+import { AppRegistry } from 'react-native';
 import moment from 'moment';
 import { registerTasks } from './app-tasks';
 
-import { AccountModel, FaceTouchId, NotificationModel } from './models';
+import { AccountModel, FaceTouchId } from './models';
 import { AccountService, BitmarkService, EventEmitterService, TransactionService } from './services'
 import { DataProcessor } from './data-processor';
 
@@ -45,13 +45,19 @@ let processing = (promise) => {
   });
 };
 
+let mapTaskIds = {};
 const executeTask = (taskKey, data) => {
-  let taskId = `${taskKey}_${moment().toDate().getTime()}`;
+  let taskId = moment().toDate().getTime() * 1000;
+  if (mapTaskIds[taskId]) {
+    taskId += 1;
+  }
   data = data || {};
   data.taskId = taskId;
   return new Promise((resolve, reject) => {
+    mapTaskIds[taskId] = true;
     EventEmitterService.on(`${EventEmitterService.events.APP_TASK}${taskId}`, ({ ok, result, error }) => {
       EventEmitterService.remove(`${EventEmitterService.events.APP_TASK}${taskId}`);
+      delete mapTaskIds[taskId];
       if (ok) {
         resolve(result);
       } else {
@@ -64,7 +70,7 @@ const executeTask = (taskKey, data) => {
 // ================================================================================================
 // ================================================================================================
 const doCreateNewAccount = async (enableTouchId) => {
-  if (enableTouchId && Platform.OS === 'ios' && config.isIPhoneX) {
+  if (enableTouchId && config.isIPhone && config.isIPhoneX) {
     let result = await runPromiseWithoutError(FaceTouchId.authenticate());
     if (result && result.error) {
       return null;
@@ -183,9 +189,12 @@ const doGetAssetToClaim = async (assetId, issuer) => {
   return executeTask('doGetAssetToClaim', { assetId, issuer });
 };
 
+const doMigrateAndroidAccount = async () => {
+  return await processing(DataProcessor.doMigrateAndroidAccount());
+};
 
 const doCheckNoLongerSupportVersion = async () => {
-  let data = await NotificationModel.doTryGetAppVersion();
+  let data = await AccountModel.doTryGetAppVersion();
   if (data && data.version && data.version.minimum_supported_version) {
     let minimumSupportedVersion = data.version.minimum_supported_version;
     if (compareVersion(minimumSupportedVersion, config.version) > 0) {
@@ -201,6 +210,7 @@ const doCheckNoLongerSupportVersion = async () => {
 // ================================================================================================
 
 let AppProcessor = {
+  doMigrateAndroidAccount,
   doCreateNewAccount,
   doGetCurrentAccount,
   doCheckPhraseWords,

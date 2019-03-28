@@ -1,7 +1,7 @@
 import {
   StyleSheet,
 } from 'react-native'
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
 
 
@@ -35,9 +35,7 @@ export default StyleSheet.create({
 
 
   scanMessage: {
-    fontFamily: 'Avenir Black',
-    fontSize: 17,
-    fontWeight: '300',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, color: 'black',
     width: convertWidth(337),
     marginTop: 40,
   },
@@ -53,16 +51,12 @@ export default StyleSheet.create({
     marginTop: 60,
   },
   confirmMessageText: {
-    fontFamily: 'Avenir Black',
-    fontSize: 17,
-    fontWeight: '300',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, color: 'black',
     width: convertWidth(337),
     marginTop: 20,
   },
   confirmAccountNumber: {
-    fontFamily: 'Avenir Black',
-    fontSize: 17,
-    fontWeight: '900',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17, color: 'black',
     width: convertWidth(337),
     marginTop: 20,
   },
@@ -77,10 +71,7 @@ export default StyleSheet.create({
     bottom: 0,
   },
   confirmButtonText: {
-    fontFamily: 'Avenir Black',
-    fontSize: 17,
-    fontWeight: '900',
-    color: 'white',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17, color: 'white',
   }
 
 });

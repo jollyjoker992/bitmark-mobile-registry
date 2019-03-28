@@ -1,0 +1,14 @@
+*.properties
+/build
+build
+*.iml
+/*.iml
+.gradle
+.externalNativeBuild
+keystores/release.keystore
+keystores/*.properties
+fastlane/*.md
+fastlane/*.xml
+index.android.bundle
+distribution
+google-services.json

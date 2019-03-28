@@ -1,7 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import {
-  View, TouchableOpacity, Image, Text,
+  View, Image, Text,
   StyleSheet,
   Alert,
 } from 'react-native';
@@ -12,6 +12,7 @@ import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth, FileUtil } from 'src/utils';
 import { AppProcessor, EventEmitterService } from 'src/processors';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 
 export class MusicFileChosenComponent extends React.Component {
@@ -54,11 +55,11 @@ export class MusicFileChosenComponent extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#0060F2' }}>
         <View style={cStyles.header}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+          <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_white_icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}></Text>
-          <TouchableOpacity style={defaultStyles.headerRight} />
+          <OneTabButtonComponent style={defaultStyles.headerRight} />
         </View>
         <View style={cStyles.content}>
           <View style={cStyles.mainContent}>
@@ -69,9 +70,9 @@ export class MusicFileChosenComponent extends React.Component {
           <View>
             <Text style={cStyles.message}>{global.i18n.t('MusicFileChosenComponent_message')}</Text>
           </View>
-          <TouchableOpacity style={cStyles.chooseMusicButton} onPress={this.onChooseMusicFile.bind(this)}>
+          <OneTabButtonComponent style={cStyles.chooseMusicButton} onPress={this.onChooseMusicFile.bind(this)}>
             <Text style={cStyles.chooseMusicButtonText}>{global.i18n.t('MusicFileChosenComponent_chooseMusicButtonText')}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </View>
       </View>
     );
@@ -100,11 +101,11 @@ const cStyles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    fontFamily: 'Avenir-Black', fontSize: 24, fontWeight: '900', color: 'white', lineHeight: 33,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 24, color: 'white', lineHeight: 33,
     marginLeft: convertWidth(39),
   },
   description: {
-    fontFamily: 'Avenir-Light', fontSize: 17, fontWeight: '300', color: 'white', lineHeight: 23,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 17, color: 'white', lineHeight: 23,
     marginLeft: convertWidth(39), marginTop: 30,
   },
   musicImage: {
@@ -112,7 +113,7 @@ const cStyles = StyleSheet.create({
     marginTop: 75,
   },
   message: {
-    fontFamily: 'Avenir-Medium', fontSize: 15, fontWeight: '300', color: 'white', textAlign: 'center', fontStyle: 'italic',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 15, color: 'white', textAlign: 'center', fontStyle: 'italic',
     width: '100%',
     marginBottom: 12,
   },
@@ -123,6 +124,6 @@ const cStyles = StyleSheet.create({
     backgroundColor: '#E6FF00',
   },
   chooseMusicButtonText: {
-    fontFamily: 'Avenir-Black', fontSize: 16, fontWeight: '900', lineHeight: 33, color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 33, color: '#0060F2',
   },
 });

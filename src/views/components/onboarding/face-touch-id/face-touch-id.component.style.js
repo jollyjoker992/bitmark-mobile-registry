@@ -18,10 +18,8 @@ export default StyleSheet.create({
 
   // notification
   faceTouchIdTitle: {
-    fontFamily: 'Avenir black',
-    color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', color: '#0060F2',
     fontSize: 17,
-    fontWeight: '900',
     marginTop: 25,
     width: convertWidth(275),
   },
@@ -48,10 +46,7 @@ export default StyleSheet.create({
   faceTouchIdDescription: {
     marginTop: 50,
     width: convertWidth(275),
-    fontFamily: 'Avenir light',
-    fontWeight: '300',
-    fontSize: 17,
-    lineHeight: 20,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17, lineHeight: 20, color: 'black',
   },
 
   enableButtonArea: {
@@ -71,11 +66,7 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2'
   },
   enableButtonText: {
-    fontFamily: 'Avenir black',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '900',
-    color: 'white'
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
   skipButton: {
     height: 45 + (config.isIPhoneX ? (constant.blankFooter / 2) : 0),
@@ -88,10 +79,6 @@ export default StyleSheet.create({
   },
   skipButtonText: {
     paddingBottom: (constant.blankFooter / 2),
-    fontFamily: 'Avenir black',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '900',
-    color: '#0060F2'
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 16, color: '#0060F2'
   }
 });

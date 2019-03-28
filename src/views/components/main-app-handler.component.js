@@ -2,12 +2,13 @@
 import React, { Component } from 'react';
 import ReactNative from 'react-native';
 import KeepAwake from 'react-native-keep-awake';
+
 const {
   Linking,
   Alert,
   AppState,
   NetInfo,
-  View, TouchableOpacity, Text
+  View, Text
 } = ReactNative;
 import { Sentry } from 'react-native-sentry';
 
@@ -17,9 +18,10 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, CacheData, BitmarkSDK, CommonProcessor, TransactionProcessor } from 'src/processors';
+import { UserModel, EventEmitterService, CacheData, CommonProcessor, TransactionProcessor, BitmarkSDK, AppProcessor } from 'src/processors';
 import { convertWidth, runPromiseWithoutError } from 'src/utils';
-import { constant } from 'src/configs';
+import { constant, config } from 'src/configs';
+import { OneTabButtonComponent } from '../commons/one-tab-button.component';
 
 export class MainAppHandlerComponent extends Component {
   constructor(props) {
@@ -58,6 +60,13 @@ export class MainAppHandlerComponent extends Component {
       NetInfo.isConnected.addEventListener('connectionChange', this.handleNetworkChange);
     });
 
+    if (config.isAndroid) {
+      NetInfo.getConnectionInfo().then((connectionInfo) => {
+        if (connectionInfo.type === 'wifi' || connectionInfo.type === 'cellular') {
+          this.handleNetworkChange(true);
+        }
+      });
+    }
   }
   componentWillUnmount() {
     EventEmitterService.remove(EventEmitterService.events.APP_NEED_REFRESH, this.doRefresh);
@@ -103,7 +112,7 @@ export class MainAppHandlerComponent extends Component {
           processError.onClose();
         }
       }
-    }]);
+    }], { cancelable: false });
   }
 
   handleUnexpectedJSError(processError) {
@@ -130,7 +139,7 @@ export class MainAppHandlerComponent extends Component {
           processError.onClose();
         }
       }
-    }]);
+    }], { cancelable: false });
   }
 
   handerSubmittingEvent(submitting) {
@@ -204,7 +213,19 @@ export class MainAppHandlerComponent extends Component {
             EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
           }
         } else {
-          EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
+          if (config.isAndroid) {
+            BitmarkSDK.needMigration().then(needed => {
+              if (needed) {
+                AppProcessor.doMigrateAndroidAccount().then(() => {
+                  EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
+                }).catch(error => EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error }));
+              } else {
+                EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
+              }
+            });
+          } else {
+            EventEmitterService.emit(EventEmitterService.events.APP_NETWORK_CHANGED, { networkStatus });
+          }
         }
       });
     }
@@ -244,14 +265,14 @@ export class MainAppHandlerComponent extends Component {
         {!this.state.passTouchFaceId && <BitmarkDialogComponent dialogStyle={{
           minHeight: 0, backgroundColor: 'rgba(256,256,256, 0.7)', flex: 1, width: '100%',
         }}>
-          <TouchableOpacity style={{ flex: 1, justifyContent: 'center', }} onPress={this.doRefresh}>
+          <OneTabButtonComponent style={{ flex: 1, justifyContent: 'center', }} onPress={this.doRefresh}>
             <Text style={{
               width: convertWidth(300),
-              color: 'white', fontWeight: '900', fontSize: 16,
+              fontFamily: 'avenir_next_w1g_bold', color: 'white', fontSize: 16,
               backgroundColor: '#0060F2', padding: 10,
               textAlign: 'center',
             }}>{i18n.t('MainComponent_pleaseAuthorizeText​')}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </BitmarkDialogComponent>}
         {this.state.processingCount > 0 && <DefaultIndicatorComponent />}
         {!!this.state.submitting && !this.state.submitting.title && !this.state.submitting.message && <DefaultIndicatorComponent />}

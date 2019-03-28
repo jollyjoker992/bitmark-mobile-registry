@@ -21,20 +21,13 @@ export default StyleSheet.create({
     flexDirection: 'column',
   },
   fingerprintLabel: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 19, color: 'black',
     marginLeft: convertWidth(19),
     marginTop: 28,
     height: 28,
   },
   fingerprintValue: {
-    fontFamily: 'Andale Mono',
-    fontWeight: '300',
-    fontSize: 14,
-    lineHeight: 16,
-    color: '#0060F2',
+    fontFamily: 'andale_mono', fontSize: 14, lineHeight: 16, color: '#0060F2',
     marginLeft: convertWidth(19),
     width: convertWidth(330),
   },
@@ -44,31 +37,19 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   fingerprintInfoMessage: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '300',
-    fontSize: 12,
-    lineHeight: 14,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 12, lineHeight: 14, color: 'black',
     marginLeft: convertWidth(19),
   },
   fingerprintInfoFilename: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
-    fontSize: 12,
-    lineHeight: 14,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 12, lineHeight: 14, color: 'black',
     maxWidth: convertWidth(180),
   },
   fingerprintInfoFileFormat: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
-    fontSize: 12,
-    lineHeight: 14,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 12, lineHeight: 14, color: 'black',
   },
 
   assetTypeLabel: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 19, color: 'black',
     marginLeft: convertWidth(19),
     marginTop: 20,
     height: 28,
@@ -79,8 +60,7 @@ export default StyleSheet.create({
   },
 
   assetTypeTypeInfo: {
-    fontFamily: 'Avenir Light',
-    fontWeight: '300',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 17
   },
 
@@ -103,7 +83,7 @@ export default StyleSheet.create({
   },
 
   assetTypeActiveButtonText: {
-    fontFamily: 'Avenir Light',
+    fontFamily: 'avenir_next_w1g_light',
     color: '#FFFFFF',
     fontSize: 17
   },
@@ -118,7 +98,7 @@ export default StyleSheet.create({
   },
 
   assetTypeInActiveButtonText: {
-    fontFamily: 'Avenir Light',
+    fontFamily: 'avenir_next_w1g_light',
     color: 'rgba(0, 96, 242, 0.6)',
     fontSize: 17
   },
@@ -131,16 +111,13 @@ export default StyleSheet.create({
   },
 
   assetTypeHelperLinkText: {
-    fontFamily: 'Avenir Black',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 12,
     color: '#0060F2'
   },
 
   assetNameLabel: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 19, color: 'black',
     marginLeft: convertWidth(19),
     marginTop: 30,
     height: 28,
@@ -156,11 +133,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   existAssetNameText: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#C2C2C2',
-    fontFamily: 'Avenir Light',
-    fontWeight: '900',
-    color: '#C2C2C2',
+    fontFamily: 'avenir_next_w1g_bold', color: '#C2C2C2',
   },
   assetNameInput: {
     marginTop: 5,
@@ -168,34 +141,25 @@ export default StyleSheet.create({
     width: convertWidth(330),
     borderBottomWidth: 1,
     height: 25,
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
   },
   assetNameInputError: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 16, lineHeight: 19, color: '#FF003C',
     marginLeft: convertWidth(19),
-    color: '#FF003C',
     marginTop: 10,
     width: convertWidth(330),
   },
 
   metadataLabel: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 19, color: 'black',
     marginLeft: convertWidth(19),
     marginTop: 29,
   },
   metadataDescription: {
-    fontFamily: 'Avenir Light',
-    fontWeight: '300',
-    fontSize: 14,
-    lineHeight: 16,
-    marginLeft: convertWidth(19),
+    width: '100%',
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14, lineHeight: 16, color: 'black',
+    paddingLeft: convertWidth(19),
     marginTop: 5,
   },
   metadataArea: {
@@ -234,9 +198,7 @@ export default StyleSheet.create({
     width: '100%',
   },
   metadataFieldKeyText: {
-    fontFamily: 'Andale Mono',
-    fontWeight: '300',
-    fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14, color: 'black',
     marginLeft: 7,
     height: 19,
   },
@@ -247,9 +209,7 @@ export default StyleSheet.create({
   },
   metadataFieldValue: {
     width: '100%',
-    fontFamily: 'Andale Mono',
-    fontWeight: '300',
-    fontSize: 14,
+    fontFamily: 'andale_mono', fontSize: 14, color: 'black',
     marginLeft: 7,
     marginTop: 12,
     marginBottom: 10,
@@ -280,25 +240,18 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   addMetadataButtonText: {
-    fontFamily: 'Andale Mono',
-    fontSize: 14,
-    color: '#C2C2C2',
+    fontFamily: 'andale_mono', fontSize: 14, color: '#C2C2C2',
+    marginLeft: 4,
   },
   metadataInputError: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 16, lineHeight: 19, color: '#FF003C',
     marginLeft: convertWidth(19),
-    color: '#FF003C',
+
     marginTop: 10,
     width: convertWidth(330),
   },
   quantityLabel: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 19, color: 'black',
     marginLeft: convertWidth(19),
     marginTop: 18,
     height: 28,
@@ -309,35 +262,22 @@ export default StyleSheet.create({
     width: convertWidth(330),
     borderBottomWidth: 1,
     height: 25,
-    fontFamily: 'Andale Mono',
-    fontWeight: '300',
-    fontSize: 14,
-    lineHeight: 16,
+    fontFamily: 'andale_mono', fontSize: 14, lineHeight: 16, color: 'black',
   },
   quantityInputError: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 19, color: '#FF003C',
     marginLeft: convertWidth(19),
-    color: '#FF003C',
     marginTop: 10,
     width: convertWidth(347),
   },
   ownershipClaimLabel: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 19, color: 'black',
     marginLeft: convertWidth(19),
     marginTop: 40,
     height: 28,
   },
   ownershipClaimMessage: {
-    fontFamily: 'Avenir Light',
-    fontWeight: '300',
-    fontSize: 14,
-    lineHeight: 16,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14, lineHeight: 16, color: 'black',
     marginLeft: convertWidth(19),
     width: convertWidth(332),
     marginTop: 12,
@@ -345,12 +285,8 @@ export default StyleSheet.create({
   },
 
   issueError: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 19,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 16, lineHeight: 19, color: '#FF003C',
     marginLeft: convertWidth(19),
-    color: '#FF003C',
     marginTop: 10,
     width: convertWidth(347),
   },
@@ -365,10 +301,6 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   issueButtonText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
-    fontSize: 17,
-    lineHeight: 19,
-    color: 'white',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17, lineHeight: 19, color: 'white',
   },
 });

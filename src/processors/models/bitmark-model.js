@@ -207,29 +207,6 @@ const doGetAssetTextContent = (assetId) => {
   });
 };
 
-const doGetAssetTextContentType = (assetId) => {
-  return new Promise((resolve) => {
-    fetch(config.preview_asset_url + `/${assetId}`, {
-      method: 'HEAD'
-    }).then((response) => {
-      let contentType;
-      let contentTypeHeader = response.headers.get('content-type');
-
-      if (contentTypeHeader) {
-        if (contentTypeHeader.startsWith('text/plain')) {
-          contentType = 'text';
-        } else if (contentTypeHeader.startsWith('image/')) {
-          contentType = 'image';
-        }
-      }
-
-      return resolve(contentType);
-    }).catch(() => {
-      resolve();
-    });
-  });
-};
-
 const doPrepareAssetInfo = async (filePath) => {
   return await BitmarkSDK.getAssetInfo(filePath);
 };
@@ -557,7 +534,7 @@ const doUpdateStatusForDecentralizedTransfer = (bitmarkAccount, timestamp, signa
     }).catch(reject);
   });
 };
-const doUploadMusicThumbnail = async (bitmarkAccountNumber, assetId, thumbnailPath, limitedEdition, signature, ) => {
+const doUploadMusicThumbnail = async (jwt, assetId, thumbnailPath, limitedEdition) => {
   const formData = new FormData();
   formData.append('file', {
     uri: thumbnailPath,
@@ -567,8 +544,7 @@ const doUploadMusicThumbnail = async (bitmarkAccountNumber, assetId, thumbnailPa
   formData.append('limited_edition', limitedEdition);
   let headers = {
     'Content-Type': 'multipart/form-data',
-    requester: bitmarkAccountNumber,
-    signature
+    Authorization: 'Bearer ' + jwt,
   };
 
   return new Promise((resolve, reject) => {
@@ -689,30 +665,6 @@ const getAllBitmarksOfAssetFromIssuer = async (issuer, assetId) => {
     }
   }
   return returnedBitmarks;
-};
-
-const doGetLimitedEdition = async (issuer, assetId) => {
-  return new Promise((resolve, reject) => {
-    let statusCode;
-    fetch(`${config.bitmark_profile_server}/s/asset/limit-by-issuer?asset_id=${assetId}&issuer=${issuer}`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    }).then((response) => {
-      statusCode = response.status;
-      if (statusCode < 400) {
-        return response.json();
-      }
-      return response.text();
-    }).then((data) => {
-      if (statusCode >= 400) {
-        return reject(new Error(`doGetLimitedEdition error :` + JSON.stringify(data)));
-      }
-      resolve(data);
-    }).catch(reject);
-  });
 };
 
 const doPostIncomingClaimRequest = (jwt, assetId, toAccount, ) => {
@@ -869,7 +821,6 @@ let BitmarkModel = {
   doGet100Transactions,
   doGetListBitmarks,
   doGetAssetAccessibility,
-  doGetAssetTextContentType,
   doGetAssetTextContent,
 
   doConfirmWebAccount,
@@ -884,7 +835,6 @@ let BitmarkModel = {
   doDownloadAssetForClaimRequest,
   getBitmarksOfAssetOfIssuer,
   getAllBitmarksOfAssetFromIssuer,
-  doGetLimitedEdition,
   doPostIncomingClaimRequest,
   doGetClaimRequest,
   doSubmitIncomingClaimRequests,

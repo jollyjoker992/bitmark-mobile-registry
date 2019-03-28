@@ -20,11 +20,11 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "./Bitmark Registry.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     set_info_plist_value(
-      path: "ios/Info.plist",
+      path: "./Info.plist",
       key: "BitmarkSDKAPIKey",
       value: ENV['BITMARKSDK_API_KEY']
     )
@@ -35,7 +35,7 @@ platform :ios do
     )
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      workspace: "ios/Bitmark Registry.xcworkspace", 
+      workspace: "./Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry",
       include_bitcode: true,
       clean: true
@@ -61,11 +61,11 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "./Bitmark Registry.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     set_info_plist_value(
-      path: "ios/Info-beta.plist",
+      path: "./Info-beta.plist",
       key: "BitmarkSDKAPIKey",
       value: ENV['BITMARKSDK_API_KEY']
     )
@@ -75,7 +75,7 @@ platform :ios do
     )
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      workspace: "ios/Bitmark Registry.xcworkspace", 
+      workspace: "./Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry beta",
       include_bitcode: false,
       clean: true
@@ -102,7 +102,7 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "./Bitmark Registry.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     cert
@@ -111,7 +111,7 @@ platform :ios do
     )
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      workspace: "ios/Bitmark Registry.xcworkspace", 
+      workspace: "./Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry dev",
       include_bitcode: false,
       clean: true
@@ -140,11 +140,11 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "./Bitmark Registry.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     set_info_plist_value(
-      path: "ios/Info-beta.plist",
+      path: "./Info-beta.plist",
       key: "BitmarkSDKAPIKey",
       value: ENV['BITMARKSDK_API_KEY']
     )
@@ -173,7 +173,7 @@ platform :ios do
 
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      workspace: "ios/Bitmark Registry.xcworkspace", 
+      workspace: "./Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry beta",
       silent:true,
       include_bitcode: true
@@ -199,7 +199,7 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "./Bitmark Registry.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     create_keychain(
@@ -227,7 +227,7 @@ platform :ios do
 
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      workspace: "ios/Bitmark Registry.xcworkspace", 
+      workspace: "./Bitmark Registry.xcworkspace", 
       scheme: "Bitmark Registry dev",
       silent:true,
       include_bitcode: false
@@ -330,4 +330,132 @@ platform :ios do
       dsym_path: './Bitmark Registry dev.app.dSYM.zip'
     )
   end
+  lane :automation_ui_development do
+    build_app(
+      export_options: {iCloudContainerEnvironment: 'Production'},
+      export_method: "development",
+      configuration: "Debug",
+      clean: "true",
+      workspace: "ios/Bitmark Registry.xcworkspace", 
+      scheme: "Bitmark Registry dev",
+      include_bitcode: false,
+      derived_data_path: "./ios/derived_data"
+    )
+    sh "npm run test"
+  end
+end
+
+
+platform :android do
+
+  desc "Build inhouse version"
+  lane :inhouse do |options|
+
+    isFromLocal = options[:local]
+    isDistribute = options[:distribute]
+    releaseNotePath = options[:release_note_path]
+
+    # Before build
+    sh 'npm run clean'
+
+    Dir.chdir("../android") do 
+
+      if !isFromLocal
+        createKeyProperties()
+        createFabricProperties()
+        createKeyStoreProperties()  
+      end  
+
+      # Fill secret key
+      sh './gradlew fillSecretKey'    
+
+      # Build signed APK
+      sh './gradlew clean increaseVersionCode assembleInhouseRelease'
+
+      # Distribute to fabric
+      if isDistribute
+        sh './gradlew crashlyticsUploadDistributionInhouseRelease'
+      end
+    end
+
+    # reset_git_repo(
+    #   force: true,
+    #   skip_clean: true
+    # )
+
+  end
+
+  desc "Build production version"
+  lane :production do |options|
+
+    isFromLocal = options[:local]
+    isDistribute = options[:distribute]
+    releaseNotePath = options[:release_note_path]
+
+    # Before build
+    sh 'npm run clean'
+
+    Dir.chdir("../android") do 
+
+      if !isFromLocal
+        createKeyProperties()
+        createFabricProperties()
+        createKeyStoreProperties()  
+      end  
+
+      # Fill secret key
+      sh './gradlew fillSecretKey'    
+
+      # Build signed APK
+      sh './gradlew clean assemblePrdRelease'
+
+      # Distribute to fabric
+      if isDistribute
+        sh './gradlew crashlyticsUploadDistributionPrdRelease'
+      end
+    end
+
+    # reset_git_repo(
+    #   force: true,
+    #   skip_clean: true
+    # )
+  end
+
+  def createKeyStoreProperties()
+  
+    File.open('keystores/debug.properties', "w") do |f| 
+      ["key.alias=%s" % [ENV['DEBUG_KEYSTORE_ALIAS']],"key.store.password=%s" % [ENV['DEBUG_ALIAS_PASSWORD']],"key.alias.password=%s" % [ENV['DEBUG_KEYSTORE_PASSWORD']]].each do |content|
+          f.write(content)
+          f.puts @string 
+      end
+    end
+
+    File.open('keystores/release.properties', "w") do |f| 
+      ["key.alias=%s" % [ENV['RELEASE_KEYSTORE_ALIAS']],"key.store.password=%s" % [ENV['RELEASE_ALIAS_PASSWORD']],"key.alias.password=%s" % [ENV['RELEASE_KEYSTORE_PASSWORD']]].each do |content|
+          f.write(content)
+          f.puts @string 
+      end
+    end
+  end
+
+  def createFabricProperties()
+  
+    File.open('app/fabric.properties', "w") do |f| 
+      ["apiSecret=%s" % [ENV['CRASHLYTICS_BUILD_SECRET']],"apiKey=%s" % [ENV['CRASHLYTICS_API_TOKEN']]].each do |content|
+          f.write(content)
+          f.puts @string 
+      end
+    end
+  end
+
+  def createKeyProperties()
+  
+    File.open('key.properties', "w") do |f| 
+      ["api.key.bitmark=%s" % [ENV['BITMARKSDK_API_KEY']],"api.key.intercom=%s" % [ENV['INTERCOM_API_KEY']],"api.key.codepush=%s" % [ENV['CODE_PUSH_API_KEY']]].each do |content|
+          f.write(content)
+          f.puts @string 
+      end
+    end
+  end
+
 end

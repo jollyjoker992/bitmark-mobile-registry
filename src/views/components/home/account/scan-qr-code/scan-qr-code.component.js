@@ -1,7 +1,8 @@
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  Text, View, TouchableOpacity, Image, SafeAreaView,
+  Text, View, Image,
   Alert,
 } from 'react-native';
 import Camera from 'react-native-camera';
@@ -10,8 +11,12 @@ import { Actions } from 'react-native-router-flux';
 import { EventEmitterService } from 'src/processors/services';
 import { AppProcessor, BitmarkProcessor } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 export class ScanQRCodeComponent extends React.Component {
+  propTypes = {
+    onDone: PropTypes.func,
+  }
   constructor(props) {
     super(props);
     this.backToPropertiesScreen = this.backToPropertiesScreen.bind(this);
@@ -29,6 +34,10 @@ export class ScanQRCodeComponent extends React.Component {
     }
     this.scanned = true;
     let qrCode = scanData.data;
+    if (this.props.onDone) {
+      this.props.onDone(qrCode);
+      return Actions.pop();
+    }
 
     let tempArrays = qrCode.split('|');
     if (tempArrays.length === 4 && tempArrays[0] === 'i') {
@@ -64,7 +73,7 @@ export class ScanQRCodeComponent extends React.Component {
           Alert.alert(global.i18n.t("ScanQRCodeComponent_successTitle"), global.i18n.t("ScanQRCodeComponent_successMessage"), [{
             text: global.i18n.t("ScanQRCodeComponent_ok"),
             onPress: this.backToPropertiesScreen
-          }]);
+          }], { cancelable: false });
         }
       }).catch(error => {
         console.log('doDecentralizedIssuance error:', error);
@@ -102,7 +111,7 @@ export class ScanQRCodeComponent extends React.Component {
           Alert.alert(global.i18n.t("ScanQRCodeComponent_successTitle"), global.i18n.t("ScanQRCodeComponent_yourPropertyRightsHaveBeenTransferred"), [{
             text: global.i18n.t("ScanQRCodeComponent_ok"),
             onPress: this.backToPropertiesScreen
-          }]);
+          }], { cancelable: false });
         }
       }).catch(error => {
         console.log('doDecentralizedTransfer error:', error);
@@ -117,17 +126,17 @@ export class ScanQRCodeComponent extends React.Component {
   }
 
   render() {
-    return (<SafeAreaView style={componentStyle.body}>
+    return (<View style={componentStyle.body}>
       <View style={componentStyle.header}>
-        <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop} >
+        <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop} >
           <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-        </TouchableOpacity>
+        </OneTabButtonComponent>
         <Text style={defaultStyles.headerTitle}>{global.i18n.t("ScanQRCodeComponent_scanQrcode")}</Text>
-        <TouchableOpacity style={defaultStyles.headerRight} />
+        <OneTabButtonComponent style={defaultStyles.headerRight} />
       </View>
       <View style={componentStyle.bodyContent}>
         <Camera ref={(ref) => this.cameraRef = ref} style={componentStyle.scanCamera} aspect={Camera.constants.Aspect.fill} onBarCodeRead={this.onBarCodeRead.bind(this)} />
       </View>
-    </SafeAreaView>);
+    </View>);
   }
 }

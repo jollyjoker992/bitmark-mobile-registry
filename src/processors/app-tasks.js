@@ -1,4 +1,4 @@
-import { Platform, AppRegistry } from 'react-native';
+import { AppRegistry } from 'react-native';
 import moment from 'moment';
 
 import { AccountModel, FaceTouchId, } from './models';
@@ -61,7 +61,7 @@ let submitting = (promise, processingData) => {
 // ================================================================================================
 
 const doLogin = async ({ phraseWords, enableTouchId }) => {
-  if (enableTouchId && Platform.OS === 'ios' && config.isIPhoneX) {
+  if (enableTouchId && config.isIPhone && config.isIPhoneX) {
     let result = await runPromiseWithoutError(FaceTouchId.authenticate());
     if (result && result.error) {
       return null;
@@ -79,7 +79,7 @@ const doLogout = async () => {
 };
 
 const doIssueFile = async ({ filePath, assetName, metadataList, quantity, processingInfo }) => {
-  return await submitting(BitmarkProcessor.doIssueFile(filePath, assetName, metadataList, quantity), processingInfo);
+  return await submitting(DataProcessor.doIssueFile(filePath, assetName, metadataList, quantity), processingInfo);
 };
 const doIssueMusic = async ({ filePath, assetName, metadataList, thumbnailPath, limitedEdition, processingInfo }) => {
   return await submitting(BitmarkProcessor.doIssueMusic(filePath, assetName, metadataList, thumbnailPath, limitedEdition), processingInfo);

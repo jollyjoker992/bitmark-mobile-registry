@@ -3,7 +3,6 @@ import { convertWidth } from 'src/utils';
 
 export default StyleSheet.create({
   header: {
-    flex: 1,
     flexDirection: 'row',
     alignContent: 'center',
     alignItems: 'center',
@@ -27,15 +26,12 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    maxWidth: convertWidth(375) - 140,
+    flex: 1,
     height: '100%',
   },
   headerTitle: {
-    textAlign: 'center',
-    fontSize: 18,
-    fontWeight: '900',
-    fontFamily: 'Avenir Black',
-    maxWidth: convertWidth(375) - 140,
+    textAlign: 'center', fontSize: 18, fontFamily: 'avenir_next_w1g_bold', color: 'black',
+    flex: 1,
   },
   headerRight: {
     width: 70,
@@ -45,11 +41,8 @@ export default StyleSheet.create({
     height: '100%',
   },
   headerRightText: {
-    fontFamily: 'Avenir Light',
-    fontSize: 16,
-    fontWeight: '300',
-    color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_regular',    fontSize: 16,    color: '#0060F2',
     marginRight: 19,
     textAlign: 'right',
-  },
+  }
 });

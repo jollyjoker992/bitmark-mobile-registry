@@ -1,5 +1,6 @@
 const androidConfig = {
-  appLink: '',
+  isAndroid: true,
+  appLink: 'https://play.google.com/store/apps/details?id=com.bitmark.registry',
   codePush: {
     productionKey: '',
     stagingKey: '',

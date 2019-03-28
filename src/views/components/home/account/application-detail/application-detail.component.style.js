@@ -49,10 +49,7 @@ export default StyleSheet.create({
   },
 
   itemSettingText: {
-    fontSize: 15,
-    fontFamily: 'Avenir Black',
-    color: '#0060F2',
-    fontWeight: '900',
+    fontSize: 15, fontFamily: 'avenir_next_w1g_bold', color: '#0060F2',
   },
 
   topArea: {
@@ -72,9 +69,7 @@ export default StyleSheet.create({
   },
 
   version: {
-    fontSize: 14,
-    color: 'black',
-    fontFamily: 'Andale Mono'
+    fontSize: 14, fontFamily: 'andale_mono', color: 'black',
   },
 
   sendFeedbackPopupTitle: {

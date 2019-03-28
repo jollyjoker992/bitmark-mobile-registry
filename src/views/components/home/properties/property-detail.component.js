@@ -7,13 +7,13 @@ import ReactNative, {
   StatusBar,
   StyleSheet,
   Clipboard,
-  Share,
+  BackHandler,
   Linking,
 } from 'react-native';
 import { Provider, connect } from 'react-redux';
 import moment from 'moment';
-// import Video from 'react-native-video';
 import Hyperlink from 'react-native-hyperlink';
+import CustomShare from 'react-native-share';
 
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 import { convertWidth, isHealthRecord, isMedicalRecord, isImageFile, isVideoFile, isDocFile, isZipFile, isMusicAsset, } from 'src/utils';
@@ -22,6 +22,8 @@ import { CommonProcessor, CacheData, TransactionProcessor, EventEmitterService, 
 import { Actions } from 'react-native-router-flux';
 import { PropertyStore, PropertyActions } from 'src/views/stores';
 import { defaultStyles } from 'src/views/commons';
+
+import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
 
 const { ActionSheetIOS } = ReactNative;
 
@@ -36,8 +38,9 @@ class PrivatePropertyDetailComponent extends React.Component {
 
   constructor(props) {
     super(props);
+    this.onSelectedActionSheet = this.onSelectedActionSheet.bind(this);
     this.state = {
-      animatedBottom: new Animated.Value(-config.deviceSize.height),
+      animatedBottom: new Animated.Value(-config.windowSize.height),
       copied: false,
       displayTopButton: false,
       provenance: [],
@@ -75,6 +78,17 @@ class PrivatePropertyDetailComponent extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (config.isAndroid) {
+      this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => Actions.jump('properties'));
+    }
+  }
+  componentWillUnmount() {
+    if (config.isAndroid && this.backHandler) {
+      this.backHandler.remove();
+    }
+  }
+
   clickOnProvenance(item) {
     let sourceUrl = config.registry_server_url + `/account/${item.owner}?env=app`;
     Actions.bitmarkWebViewFull({ title: global.i18n.t("PropertyDetailComponent_registry"), sourceUrl, });
@@ -85,7 +99,14 @@ class PrivatePropertyDetailComponent extends React.Component {
       indicator: true, title: global.i18n.t("PropertyDetailComponent_preparingToExport"), message: global.i18n.t("PropertyDetailComponent_downloadingFile", { fileName: this.props.asset.name })
     }).then(filePath => {
       if (filePath) {
-        Share.share({ title: this.props.asset.name, url: filePath });
+        CustomShare.open({
+          title: this.props.asset.name,
+          url: (config.isAndroid ? 'file://' : '') + filePath,
+        }).then(() => {
+          console.log('Share success', filePath);
+        }).catch(error => {
+          console.log('Share error :', error);
+        });
       }
     }).catch(error => {
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { title: global.i18n.t("PropertyDetailComponent_notReadyToDownload") });
@@ -95,7 +116,14 @@ class PrivatePropertyDetailComponent extends React.Component {
 
   shareAssetFile() {
     if (this.props.asset.filePath) {
-      Share.share({ title: this.props.asset.name, url: this.props.asset.filePath });
+      CustomShare.open({
+        title: this.props.asset.name,
+        url: (config.isAndroid ? 'file://' : '') + this.props.asset.filePath,
+      }).then(() => {
+        console.log('Share success', this.props.asset.filePath);
+      }).catch(error => {
+        console.log('Share error :', error);
+      });
     } else {
       this.downloadAsset();
     }
@@ -105,14 +133,12 @@ class PrivatePropertyDetailComponent extends React.Component {
   }
 
   deleteBitmark() {
-    ActionSheetIOS.showActionSheetWithOptions({
-      title: global.i18n.t("PropertyDetailComponent_titleDeleteModal"),
-      options: [global.i18n.t("PropertyDetailComponent_cancelButtonDeleteModal"), global.i18n.t("PropertyDetailComponent_deleteButtonDeleteModal")],
-      destructiveButtonIndex: 1,
-      cancelButtonIndex: 0,
-    },
-      (buttonIndex) => {
-        if (buttonIndex === 1) {
+    if (config.isAndroid) {
+      Alert.alert(global.i18n.t("PropertyDetailComponent_titleDeleteModal"), '', [{
+        text: global.i18n.t("PropertyDetailComponent_cancelButtonDeleteModal"),
+      }, {
+        text: global.i18n.t("PropertyDetailComponent_deleteButtonDeleteModal"),
+        onPress: () => {
           AppProcessor.doTransferBitmark(this.state.bitmark, config.zeroAddress, true).then((result) => {
             if (result) {
               Actions.jump('properties');
@@ -120,9 +146,29 @@ class PrivatePropertyDetailComponent extends React.Component {
           }).catch(error => {
             console.log('error:', error);
             EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-          })
+          });
         }
-      });
+      }], { cancelable: false });
+    } else {
+      ActionSheetIOS.showActionSheetWithOptions({
+        title: global.i18n.t("PropertyDetailComponent_titleDeleteModal"),
+        options: [global.i18n.t("PropertyDetailComponent_cancelButtonDeleteModal"), global.i18n.t("PropertyDetailComponent_deleteButtonDeleteModal")],
+        destructiveButtonIndex: 1,
+        cancelButtonIndex: 0,
+      },
+        (buttonIndex) => {
+          if (buttonIndex === 1) {
+            AppProcessor.doTransferBitmark(this.state.bitmark, config.zeroAddress, true).then((result) => {
+              if (result) {
+                Actions.jump('properties');
+              }
+            }).catch(error => {
+              console.log('error:', error);
+              EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
+            });
+          }
+        });
+    }
   }
 
   onMessage(event) {
@@ -140,7 +186,7 @@ class PrivatePropertyDetailComponent extends React.Component {
         } else if (data.event === 'scroll-up') {
           let listAnimations = [];
           listAnimations.push(Animated.timing(this.state.animatedBottom, {
-            toValue: - config.deviceSize.height,
+            toValue: - config.windowSize.height,
             duration: 300,
           }));
           Animated.parallel(listAnimations).start();
@@ -151,7 +197,31 @@ class PrivatePropertyDetailComponent extends React.Component {
     }
   }
 
+  onSelectedActionSheet(buttonIndex, playLink) {
+    if (buttonIndex === 1) {
+      if (playLink) {
+        Linking.openURL(playLink);
+      } else {
+        this.shareAssetFile();
+      }
+    } else if (buttonIndex === 2) {
+      if (playLink) {
+        this.shareAssetFile();
+      } else {
+        Actions.localPropertyTransfer({ bitmark: this.state.bitmark, asset: this.props.asset });
+      }
+    } else if (buttonIndex === 3) {
+      if (playLink) {
+        Actions.localPropertyTransfer({ bitmark: this.state.bitmark, asset: this.props.asset });
+      }
+    }
+  }
+
   showActionSheets({ playLink }) {
+    if (config.isAndroid) {
+      this.actionSheet.show()
+      return;
+    }
     let options = [global.i18n.t("PropertyDetailComponent_releaseActionCancel")];
     if (playLink) {
       options.push(global.i18n.t("PropertyDetailComponent_releaseActionPlay"));
@@ -165,34 +235,15 @@ class PrivatePropertyDetailComponent extends React.Component {
       title: global.i18n.t("PropertyDetailComponent_releaseActionTitle"),
       options,
       cancelButtonIndex: 0,
-    },
-      (buttonIndex) => {
-        if (buttonIndex === 1) {
-          if (playLink) {
-            Linking.openURL(playLink);
-          } else {
-            this.shareAssetFile();
-          }
-        } else if (buttonIndex === 2) {
-          if (playLink) {
-            this.shareAssetFile();
-          } else {
-            Actions.localPropertyTransfer({ bitmark: this.state.bitmark, asset: this.props.asset });
-          }
-        } else if (buttonIndex === 3) {
-          if (playLink) {
-            Actions.localPropertyTransfer({ bitmark: this.state.bitmark, asset: this.props.asset });
-          }
-        }
-      });
+    }, (buttonIndex) => this.onSelectedActionSheet(buttonIndex, playLink));
   }
   render() {
     if (isMusicAsset(this.props.asset)) {
       let editionNumber = this.state.bitmark ? this.state.bitmark.editionNumber : 0;
       let issuer = this.state.bitmark ? this.state.bitmark.issuer : this.props.claimToAccount;
 
-      let totalEditionLeft = issuer ? this.props.asset.editions[issuer].totalEditionLeft : null;
-      let limited = issuer ? this.props.asset.editions[issuer].limited : null;
+      let totalEditionLeft = (issuer && this.props.asset.editions && this.props.asset.editions[issuer]) ? this.props.asset.editions[issuer].totalEditionLeft : null;
+      let limited = (issuer && this.props.asset.editions && this.props.asset.editions[issuer]) ? this.props.asset.editions[issuer].limited : null;
       let webUrl = `${config.mobile_server_url}/api/claim_requests_view/${this.props.asset.id}?edition_number=${editionNumber || '?'}`;
       webUrl += (totalEditionLeft !== null) ? `&remaining=${totalEditionLeft}` : '';
       webUrl += limited ? `&total=${limited}` : '';
@@ -203,6 +254,15 @@ class PrivatePropertyDetailComponent extends React.Component {
           playLink = this.props.asset.metadata[key];
           break;
         }
+      }
+
+      let options = [global.i18n.t("PropertyDetailComponent_releaseActionCancel")];
+      if (playLink) {
+        options.push(global.i18n.t("PropertyDetailComponent_releaseActionPlay"));
+      }
+      if (this.state.bitmark && !this.state.bitmark.isDraft) {
+        options.push(global.i18n.t("PropertyDetailComponent_releaseActionDownload"));
+        options.push(global.i18n.t("PropertyDetailComponent_releaseActionTransfer"));
       }
 
       return (<View style={[cStyles.body]}>
@@ -239,7 +299,7 @@ class PrivatePropertyDetailComponent extends React.Component {
           }]}>
             <View style={{ width: '100%', flexDirection: 'row', alignItems: 'center', paddingLeft: convertWidth(15), paddingRight: convertWidth(15) }}>
               <Image style={{ width: 15, height: 15, resizeMode: 'contain', marginRight: 5, }} source={require('assets/imgs/logo.png')} />
-              <Text style={{ fontFamily: 'Andale Mono', fontSize: 14, color: '#545454', }} >{global.i18n.t("PropertyDetailComponent_releaseLabel")}</Text>
+              <Text style={{ fontFamily: 'andale_mono', fontSize: 14, color: '#545454', }} >{global.i18n.t("PropertyDetailComponent_releaseLabel")}</Text>
             </View>
 
             <View style={{ width: '100%', flexDirection: 'row', paddingLeft: convertWidth(15), paddingRight: convertWidth(15), alignItems: 'center', justifyContent: 'space-between', marginTop: 5, }}>
@@ -247,8 +307,8 @@ class PrivatePropertyDetailComponent extends React.Component {
               <Image style={{ width: 18, height: 18, resizeMode: 'contain', }} source={require('assets/imgs/+_grey.png')} />
             </View>
             <View style={cStyles.assetContent}>
-              <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, }}>{global.i18n.t("PropertyDetailComponent_releaseAssetId", { assetId: this.props.asset.id })}</Text>
-              <Text numberOfLines={1} style={{ fontFamily: 'Andale Mono', color: '#545454', fontSize: 14, marginTop: 5 }}>{global.i18n.t("PropertyDetailComponent_releaseIssuedAt", { issuedAt: moment(this.props.asset.created_at).format('YYYY MMM DD').toUpperCase() })}</Text>
+              <Text numberOfLines={1} style={{ fontFamily: 'andale_mono', color: '#545454', fontSize: 14, }}>{global.i18n.t("PropertyDetailComponent_releaseAssetId", { assetId: this.props.asset.id })}</Text>
+              <Text numberOfLines={1} style={{ fontFamily: 'andale_mono', color: '#545454', fontSize: 14, marginTop: 5 }}>{global.i18n.t("PropertyDetailComponent_releaseIssuedAt", { issuedAt: moment(this.props.asset.created_at).format('YYYY MMM DD').toUpperCase() })}</Text>
             </View>
 
             <View style={{ paddingLeft: convertWidth(15), paddingRight: convertWidth(15), width: '100%', }}>
@@ -264,40 +324,39 @@ class PrivatePropertyDetailComponent extends React.Component {
 
             </View>
           </Animated.View>
+
+          {config.isAndroid && <ActionSheet
+            ref={ref => this.actionSheet = ref}
+            title={<Text style={{ color: '#000', fontSize: 18 }}>{global.i18n.t("PropertyDetailComponent_releaseActionTitle")}</Text>}
+            options={options}
+            cancelButtonIndex={0}
+            destructiveButtonIndex={4}
+            onPress={(index) => this.onSelectedActionSheet(index, playLink)}
+          />}
         </View >
       </View >);
     } else {
       if (this.props.bitmark && this.props.asset) {
         return (<SafeAreaView style={cStyles.body}>
-          <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}>
+          <TouchableWithoutFeedback accessible={false} onPress={() => this.setState({ displayTopButton: false })}>
             <View style={[defaultStyles.header, { height: constant.headerSize.height }]}>
-              <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={() => Actions.jump('properties')}>
+              <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={() => Actions.jump('properties')} testID={"PropertyDetailComponent_backBTN"}>
                 <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
               </OneTabButtonComponent>
               <View style={defaultStyles.headerCenter}>
                 <Text style={[defaultStyles.headerTitle, { maxWidth: convertWidth(180) }]} numberOfLines={1}>{global.i18n.t("PropertyDetailComponent_releaseTitle")}</Text>
               </View>
-              <OneTabButtonComponent style={[defaultStyles.headerRight, { padding: 4, paddingRight: convertWidth(19) }]} onPress={() => this.setState({ displayTopButton: !this.state.displayTopButton })}>
+              <OneTabButtonComponent testID={'toggleOptions'} style={[defaultStyles.headerRight, { padding: 4, paddingRight: convertWidth(19) }]} onPress={() => this.setState({ displayTopButton: !this.state.displayTopButton })}>
                 <Image style={cStyles.threeDotIcon} source={this.state.displayTopButton
                   ? require('assets/imgs/three-dot-active.png')
                   : require('assets/imgs/three-dot-deactive.png')} />
               </OneTabButtonComponent>
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={() => this.setState({ displayTopButton: false })}>
+          <TouchableWithoutFeedback accessible={false} onPress={() => this.setState({ displayTopButton: false })}>
             <View style={cStyles.bodyContent}>
               {this.state.displayTopButton && <View style={cStyles.topButtonsArea}>
-                {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent
-                  style={cStyles.downloadAssetButton}
-                  disabled={!this.props.asset.filePath && this.props.bitmark.status !== 'confirmed'}
-                  onPress={() => this.props.asset.filePath ? this.shareAssetFile.bind(this)() : this.downloadAsset.bind(this)()}
-                >
-                  {!this.props.asset.filePath && <Text style={[cStyles.downloadAssetButtonText, this.props.bitmark.status !== 'confirmed' ? { color: '#A4B5CD', } : {}]}>
-                    {global.i18n.t("PropertyDetailComponent_downloadAsset")}
-                  </Text>}
-                  {this.props.asset.filePath && <Text style={cStyles.downloadAssetButtonText}>{global.i18n.t("PropertyDetailComponent_shareAsset")}</Text>}
-                </OneTabButtonComponent>}
-                <OneTabButtonComponent style={cStyles.topButton} onPress={() => {
+                <OneTabButtonComponent accessible={false} style={cStyles.topButton} onPress={() => {
                   Clipboard.setString(this.props.bitmark.id);
                   this.setState({ copied: true });
                   setTimeout(() => { this.setState({ copied: false }) }, 1000);
@@ -305,8 +364,17 @@ class PrivatePropertyDetailComponent extends React.Component {
                   <Text style={cStyles.topButtonText}>{global.i18n.t("PropertyDetailComponent_copyBitmarkId")}</Text>
                   <Text style={cStyles.copiedAssetIddButtonText}>{this.state.copied ? global.i18n.t("PropertyDetailComponent_copiedToClipboard") : ''}</Text>
                 </OneTabButtonComponent>
+                {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent
+                  style={cStyles.downloadAssetButton}
+                  disabled={!this.props.asset.filePath && this.props.bitmark.status !== 'confirmed'}
+                  onPress={() => this.props.asset.filePath ? this.shareAssetFile.bind(this)() : this.downloadAsset.bind(this)()}
+                >
+                  <Text style={[cStyles.downloadAssetButtonText, this.props.bitmark.status !== 'confirmed' ? { color: '#A4B5CD', } : {}]}>
+                    {global.i18n.t("PropertyDetailComponent_downloadAsset")}
+                  </Text>
+                </OneTabButtonComponent>}
                 {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && !this.props.bitmark.transferOfferId &&
-                  <OneTabButtonComponent style={cStyles.topButton}
+                  <OneTabButtonComponent accessible={false} style={cStyles.topButton}
                     disabled={this.props.bitmark.status !== 'confirmed'}
                     onPress={() => {
                       if (this.props.asset.filePath) {
@@ -315,7 +383,7 @@ class PrivatePropertyDetailComponent extends React.Component {
                         Alert.alert(global.i18n.t("PropertyDetailComponent_transferRequiredTitle"), global.i18n.t("PropertyDetailComponent_transferRequiredMessage"), [{
                           text: global.i18n.t("PropertyDetailComponent_downloadAsset"),
                           onPress: this.downloadAsset.bind(this),
-                        }]);
+                        }], { cancelable: false });
                       }
                     }}>
                     <Text style={[cStyles.topButtonText, {
@@ -323,7 +391,7 @@ class PrivatePropertyDetailComponent extends React.Component {
                     }]}>{global.i18n.t("PropertyDetailComponent_sendBitmark")}</Text>
                   </OneTabButtonComponent>
                 }
-                {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent style={cStyles.topButton}
+                {this.props.bitmark.owner === CacheData.userInformation.bitmarkAccountNumber && <OneTabButtonComponent accessible={false} style={cStyles.topButton}
                   disabled={this.props.bitmark.status !== 'confirmed'}
                   onPress={this.deleteBitmark.bind(this)}>
                   <Text style={[cStyles.topButtonText, {
@@ -365,7 +433,9 @@ class PrivatePropertyDetailComponent extends React.Component {
 
                 <View style={[cStyles.assetInformation, { marginTop: 0 }]}>
                   <View style={cStyles.assetContent}>
-                    <Text style={[cStyles.assetContentName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}>
+                    <Text style={[cStyles.assetContentName, { color: this.props.bitmark.status === 'pending' ? '#999999' : 'black' }]}
+                      testID="PropertyDetailComponent_assetName"
+                    >
                       {this.props.asset.name + (this.props.asset.editions ? `${this.props.bitmark.editionNumber || '?'}/${this.props.asset.editions[CacheData.userInformation.bitmarkAccountNumber].limited}` : '')}
                     </Text>
 
@@ -382,7 +452,9 @@ class PrivatePropertyDetailComponent extends React.Component {
                         }
                         return '';
                       }}>
-                      <Text style={[cStyles.assetRegister, this.props.bitmark.status === 'confirmed' ? {} : { fontFamily: 'AvenirNextW1G-Demi', color: '#999999' }]}>
+                      <Text style={[cStyles.assetRegister, this.props.bitmark.status === 'confirmed' ? {} : {
+                        fontFamily: 'avenir_next_w1g_demi', color: '#999999'
+                      }]}>
                         {this.props.bitmark.status === 'confirmed'
                           ? global.i18n.t('PropertyDetailComponent_issuedOn', { time: moment(this.props.bitmark.issued_at).format('YYYY MMM DD').toUpperCase() })
                           : global.i18n.t('PropertyDetailComponent_pending')}
@@ -407,30 +479,37 @@ class PrivatePropertyDetailComponent extends React.Component {
                     backgroundColor: '#F5F5F5'
                   }]}>
                     <Text style={[cStyles.provenanceRowItem, this.props.bitmark.status === 'confirmed' ? {} : {
-                      color: '#545454', fontFamily: 'AvenirNextW1G-Regular'
+                      color: '#545454', fontFamily: 'avenir_next_w1g_regular'
                     }]}>{global.i18n.t("PropertyDetailComponent_timestamp")}</Text>
                     <Text style={[cStyles.provenanceRowItem, { marginLeft: convertWidth(19), }, this.props.bitmark.status === 'confirmed' ? {} : {
-                      color: '#545454', fontFamily: 'AvenirNextW1G-Regular'
+                      color: '#545454', fontFamily: 'avenir_next_w1g_regular'
                     }]}>{global.i18n.t("PropertyDetailComponent_owner")}</Text>
                   </View>
                   {this.state.gettingData && <ActivityIndicator style={{ marginTop: 42 }} size="large" />}
-                  {(this.state.provenance || []).map((item, index) => (<OneTabButtonComponent key={index} style={cStyles.provenanceRow}
-                    onPress={() => this.clickOnProvenance.bind(this)(item)}
-                    disabled={item.status === 'pending' || item.status === 'queuing'}
-                  >
-                    <Text style={[cStyles.provenanceRowItem, {
-                      color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : '#0060F2'
-                    }]} numberOfLines={1}>
-                      {(item.status === 'pending' || item.status === 'queuing') ? 'Waiting to be confirmed...' : (moment(item.created_at).format('YYYY MMM DD HH:mm:ss')).toUpperCase()}
-                    </Text>
+                  {(this.state.provenance || []).map((item, index) => {
+                    return (<OneTabButtonComponent key={index} style={cStyles.provenanceRow}
+                      onPress={() => this.clickOnProvenance.bind(this)(item)}
+                      disabled={item.status === 'pending' || item.status === 'queuing'}
+                      testID={'PropertyDetailComponent_provenance'}
+                      accessible={false}
+                    >
+                      <Text style={[cStyles.provenanceRowItem, {
+                        color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : '#0060F2'
+                      }]} numberOfLines={1}>
+                        {(item.status === 'pending' || item.status === 'queuing') ? 'Waiting to be confirmed...' : (moment(item.created_at).format('YYYY MMM DD HH:mm:ss')).toUpperCase()}
+                      </Text>
 
-                    <Text style={[cStyles.provenanceRowItem, {
-                      marginLeft: convertWidth(19),
-                      color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : 'black'
-                    }]} numberOfLines={1}>
-                      {CommonProcessor.getDisplayedAccount(item.owner)}
-                    </Text>
-                  </OneTabButtonComponent>))}
+                      <Text
+                        style={[cStyles.provenanceRowItem, {
+                          marginLeft: convertWidth(19),
+                          color: (item.status === 'pending' || item.status === 'queuing') ? '#999999' : 'black'
+                        }]} numberOfLines={1}
+                        testID={`PropertyDetailComponent_provenance_owner_${index}`}
+                      >
+                        {CommonProcessor.getDisplayedAccount(item.owner)}
+                      </Text>
+                    </OneTabButtonComponent>)
+                  })}
                 </View>
               </ScrollView>
             </View>
@@ -482,8 +561,7 @@ const cStyles = StyleSheet.create({
     paddingBottom: 12,
   },
   downloadAssetButtonText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 16,
     color: '#0060F2',
     textAlign: 'right',
@@ -498,16 +576,14 @@ const cStyles = StyleSheet.create({
     paddingBottom: 12,
   },
   topButtonText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 16,
     color: '#0060F2',
     textAlign: 'right',
   },
   copiedAssetIddButtonText: {
     position: 'absolute', bottom: 4, right: convertWidth(19),
-    fontFamily: 'Avenir Black',
-    fontWeight: '400',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 8,
     color: '#0060F2',
     marginTop: 5,
@@ -539,11 +615,11 @@ const cStyles = StyleSheet.create({
   },
   assetContentName: {
     marginTop: 34,
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 18,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 18,
   },
   assetRegister: {
     marginTop: 10,
-    fontFamily: 'Andale Mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13,
   },
   metadataArea: {
     marginTop: 26,
@@ -555,17 +631,15 @@ const cStyles = StyleSheet.create({
     flexDirection: 'row',
   },
   metadataItemLabel: {
-    fontFamily: 'Andale Mono',
+    fontFamily: 'andale_mono',
     fontSize: 13,
-    fontWeight: '900',
     color: '#0060F2',
     width: convertWidth(117),
     marginTop: 1,
   },
   metadataItemValue: {
-    fontFamily: 'Avenir Black',
+    fontFamily: 'avenir_next_w1g_light',
     fontSize: 14,
-    fontWeight: '400',
     width: convertWidth(196),
     marginLeft: convertWidth(22),
   },
@@ -576,7 +650,7 @@ const cStyles = StyleSheet.create({
     paddingLeft: convertWidth(19), paddingRight: convertWidth(19),
   },
   provenanceLabel: {
-    fontFamily: 'AvenirNextW1G-Bold',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 14,
     width: '100%',
     height: 27,
@@ -587,7 +661,7 @@ const cStyles = StyleSheet.create({
     paddingTop: 10, paddingBottom: 10,
   },
   provenanceRowItem: {
-    fontFamily: 'Andale Mono', fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13,
     flex: 1,
   },
 
@@ -600,7 +674,7 @@ const cStyles = StyleSheet.create({
   actionRowText: {
     width: '100%',
     textAlign: 'center',
-    fontFamily: 'AvenirNextW1G-Bold', color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', color: '#0060F2',
   },
 
 });

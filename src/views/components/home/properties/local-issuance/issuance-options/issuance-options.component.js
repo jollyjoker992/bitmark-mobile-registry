@@ -1,24 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
-import {
-  View, Text, TouchableOpacity, Image, SafeAreaView,
-  Alert,
+import ReactNative, {
+  View, Text, Image, SafeAreaView,
+  Alert, NativeModules,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker';
 import { Actions } from 'react-native-router-flux';
+const Navigation = NativeModules.Navigation;
+const { PermissionsAndroid } = ReactNative;
 
 import issuanceOptionsStyle from './issuance-options.component.style';
 import { FileUtil, isReleasedAsset } from 'src/utils';
 import { AppProcessor, EventEmitterService, CacheData } from 'src/processors';
 import { defaultStyles } from 'src/views/commons';
 import { AccountStore } from 'src/views/stores';
-
+import { config } from 'src/configs';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 export class PrivateIssuanceOptionsComponent extends React.Component {
   // ==========================================================================================
-  onChoosePhotoFile() {
+  async onChoosePhotoFile() {
+    if (config.isAndroid && ((await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)) === PermissionsAndroid.RESULTS.GRANTED)) {
+      Navigation.browseMedia('photo').then(filePath => {
+        console.log('browseMedia :', filePath);
+        this.prepareToIssue({ uri: filePath, fileName: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length) }, true);
+      }).catch(error => {
+        if (error.code === 'UNSUPPORT_FILE') {
+          Alert.alert(global.i18n.t("IssuanceOptionsComponent_androidFileNotSupport"), '');
+        }
+        console.log('browseMedia error :', JSON.stringify(error, null, 2));
+      });
+      return;
+    }
+
     let options = {
       title: '',
       takePhotoButtonTitle: null,
@@ -35,31 +51,73 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     });
   }
 
-  onChooseFile() {
-    DocumentPicker.show({
-      filetype: [DocumentPickerUtil.allFiles(), "public.data"],
-    }, (error, response) => {
-      if (error) {
-        return;
-      }
-      this.prepareToIssue(response);
-    });
+  async onChooseVideo() {
+    if (config.isAndroid && ((await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)) === PermissionsAndroid.RESULTS.GRANTED)) {
+      Navigation.browseMedia('video').then(filePath => {
+        console.log('browseMedia :', filePath);
+        this.prepareToIssue({ uri: filePath, fileName: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length) }, true);
+      }).catch(error => {
+        if (error.code === 'UNSUPPORT_FILE') {
+          Alert.alert(global.i18n.t("IssuanceOptionsComponent_androidFileNotSupport"), '');
+        }
+        console.log('browseMedia error :', JSON.stringify(error, null, 2));
+      });
+      return;
+    }
   }
 
-  async prepareToIssue(response) {
-    let filePath = response.uri.replace('file://', '');
-    filePath = decodeURIComponent(filePath);
+  async onChooseFile() {
+    if (config.isAndroid) {
+      if ((await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE)) === PermissionsAndroid.RESULTS.GRANTED) {
+        Navigation.browseDocument().then(filePath => {
+          console.log('browseDocument :', filePath);
+          this.prepareToIssue({ uri: filePath, fileName: filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length) }, true);
+        }).catch(error => {
+          if (error.code === 'UNSUPPORT_FILE') {
+            Alert.alert(global.i18n.t("IssuanceOptionsComponent_androidFileNotSupport"), '');
+          }
+          console.log('browseDocument error :', JSON.stringify(error, null, 2));
+          return;
+        });
+      }
+    } else {
+      DocumentPicker.show({
+        filetype: [DocumentPickerUtil.allFiles(), "public.data"],
+      }, (error, response) => {
+        console.log('onChooseFile :', error, response);
+        if (error) {
+          return;
+        }
+        this.prepareToIssue(response, true);
+      });
+    }
+  }
 
-    // Move file from "tmp" folder to "cache" folder
+  async prepareToIssue(response, isFile) {
+    console.log('prepareToIssue :', response, isFile);
+    let filePath;
     let destPath = FileUtil.CacheDirectory + '/' + response.fileName;
-    await FileUtil.moveFileSafe(filePath, destPath);
+    if (isFile) {
+      if (config.isAndroid) {
+        await FileUtil.copyFileSafe(response.uri, destPath);
+      } else {
+        await FileUtil.moveFileSafe(decodeURIComponent(response.uri.replace('file://', '')), destPath);
+      }
+    } else {
+      if (config.isAndroid) {
+        await FileUtil.copyFileSafe(response.uri, destPath);
+      } else {
+        await FileUtil.moveFileSafe(decodeURIComponent(response.uri.replace('file://', '')), destPath);
+      }
+    }
     filePath = destPath;
+    console.log('filePath :', filePath);
 
     let fileName = response.fileName.substring(0, response.fileName.lastIndexOf('.'));
     let fileFormat = response.fileName.substring(response.fileName.lastIndexOf('.'));
     AppProcessor.doCheckFileToIssue(filePath).then(asset => {
       if (isReleasedAsset(asset)) {
-        Alert.alert('Can not issue!', 'This asset was released by other account!')
+        Alert.alert(global.i18n.t('MusicFileChosenComponent_failedAlertTitle2'), global.i18n.t('MusicFileChosenComponent_failedAlertMessage2'));
         return;
       }
       Actions.localIssueFile({
@@ -67,7 +125,7 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
         fingerprint: asset.fingerprint
       });
     }).catch(error => {
-      console.log('onChooseFile error :', error);
+      console.log('doCheckFileToIssue error :', error);
       EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
     });
   }
@@ -84,35 +142,47 @@ export class PrivateIssuanceOptionsComponent extends React.Component {
     return (
       <SafeAreaView style={issuanceOptionsStyle.body}>
         <View style={issuanceOptionsStyle.header}>
-          <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+          <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
             <Image style={defaultStyles.headerLeftIcon} source={require('assets/imgs/header_blue_icon.png')} />
-          </TouchableOpacity>
+          </OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("IssuanceOptionsComponent_register")}</Text>
-          <TouchableOpacity style={defaultStyles.headerRight} />
+          <OneTabButtonComponent style={defaultStyles.headerRight} />
         </View>
         <View style={issuanceOptionsStyle.content}>
           {CacheData.identities[CacheData.userInformation.bitmarkAccountNumber] && CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account &&
-            <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={Actions.musicFileChosen}>
+            <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={Actions.musicFileChosen}>
               <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/music_icon.png')} />
               <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_musics")}</Text>
-              <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
-            </TouchableOpacity>}
-          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile.bind(this)}>
+              <Image style={issuanceOptionsStyle.optionButtonNextIcon}
+                source={require('assets/imgs/next-icon-blue.png')} />
+            </OneTabButtonComponent>}
+          <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.onChoosePhotoFile.bind(this)}>
             <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/photo_icon.png')} />
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_photos")}</Text>
-            <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
-          </TouchableOpacity>
-          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.onChooseFile.bind(this)}>
+            <Image style={issuanceOptionsStyle.optionButtonNextIcon}
+              source={require('assets/imgs/next-icon-blue.png')} />
+          </OneTabButtonComponent>
+          {config.isAndroid && <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.onChooseVideo.bind(this)}>
+            <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/video_icon.png')} />
+            <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_videos")}</Text>
+            <Image style={issuanceOptionsStyle.optionButtonNextIcon}
+              source={require('assets/imgs/next-icon-blue.png')} />
+          </OneTabButtonComponent>}
+          <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.onChooseFile.bind(this)}>
             <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/file_icon.png')} />
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_files")}</Text>
-            <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />
-          </TouchableOpacity>
-          <TouchableOpacity style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData.bind(this)}>
+            <Image style={issuanceOptionsStyle.optionButtonNextIcon}
+              source={require('assets/imgs/next-icon-blue.png')} />
+          </OneTabButtonComponent>
+          <OneTabButtonComponent style={issuanceOptionsStyle.optionButton} onPress={this.issueIftttData.bind(this)}>
             <Image style={issuanceOptionsStyle.chooseIcon} source={require('assets/imgs/ifttt-icon.png')} />
             <Text style={issuanceOptionsStyle.optionButtonText}>{global.i18n.t("IssuanceOptionsComponent_iftttData")}</Text>
-            {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) && <Image style={issuanceOptionsStyle.optionButtonNextIcon} source={require('assets/imgs/next-icon-blue.png')} />}
-            {this.props.iftttInformation && !!this.props.iftttInformation.connectIFTTT && <Text style={issuanceOptionsStyle.optionButtonStatus}>{global.i18n.t("IssuanceOptionsComponent_authorized")}</Text>}
-          </TouchableOpacity>
+            {(!this.props.iftttInformation || !this.props.iftttInformation.connectIFTTT) &&
+              <Image style={issuanceOptionsStyle.optionButtonNextIcon}
+                source={require('assets/imgs/next-icon-blue.png')} />}
+            {this.props.iftttInformation && !!this.props.iftttInformation.connectIFTTT && <Text
+              style={issuanceOptionsStyle.optionButtonStatus}>{global.i18n.t("IssuanceOptionsComponent_authorized")}</Text>}
+          </OneTabButtonComponent>
 
           <Text style={issuanceOptionsStyle.message}>
             {global.i18n.t("IssuanceOptionsComponent_message")}
@@ -139,6 +209,7 @@ export class IssuanceOptionsComponent extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     return (
       <View style={{ flex: 1 }}>

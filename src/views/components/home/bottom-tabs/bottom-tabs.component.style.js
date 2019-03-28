@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { constant } from 'src/configs';
+import { constant, } from 'src/configs';
 import { convertWidth } from 'src/utils';
-
 
 export default StyleSheet.create({
   bottomTabArea: {
@@ -16,11 +15,8 @@ export default StyleSheet.create({
   },
 
   bottomTabButton: {
-    width: convertWidth(75),
+    flex: 1, flexDirection: 'column', alignItems: "center", justifyContent: 'center',
     height: '100%',
-    flexDirection: 'column',
-    alignItems: "center",
-    justifyContent: 'center',
     paddingTop: 5,
   },
   bottomTabButtonIcon: {
@@ -29,8 +25,7 @@ export default StyleSheet.create({
     resizeMode: 'contain'
   },
   bottomTabButtonText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
+    fontFamily: 'avenir_next_w1g_bold',
     fontSize: 10,
     lineHeight: 12,
     height: 14,
@@ -44,7 +39,7 @@ export default StyleSheet.create({
     borderColor: '#FF003C',
     borderWidth: 1,
     top: 4,
-    left: 49,
+    left: convertWidth(70),
     width: 10,
     height: 10,
     flexDirection: 'column',
@@ -61,7 +56,7 @@ export default StyleSheet.create({
     borderColor: '#FF003C',
     borderWidth: 1,
     top: 4,
-    left: 49,
+    left: convertWidth(70),
     width: 14,
     height: 14,
     flexDirection: 'column',
@@ -71,10 +66,7 @@ export default StyleSheet.create({
     zIndex: 1,
   },
   transactionNumberText: {
-    fontFamily: 'Avenir Black',
-    fontWeight: '900',
-    fontSize: 8,
-    color: '#FFFFFF',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 8, color: '#FFFFFF',
     textAlign: 'center',
     width: '100%',
   }

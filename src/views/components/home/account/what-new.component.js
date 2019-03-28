@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
-  View, TouchableOpacity, Text, SafeAreaView, ScrollView, Image,
+  View, Text, SafeAreaView, ScrollView, Image,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
 import { runPromiseWithoutError, convertWidth } from 'src/utils';
-import { DataProcessor, CommonProcessor } from 'src/processors';
-import { config, } from 'src/configs';
-
+import { config } from 'src/configs';
+import { CommonProcessor } from 'src/processors';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 export class WhatNewComponent extends Component {
   static propTypes = {
@@ -18,7 +18,7 @@ export class WhatNewComponent extends Component {
   }
   constructor(props) {
     super(props);
-    let releaseDate = moment('21-01-2019', 'DD-MM-YYYY');
+    let releaseDate = moment('28-03-2019', 'DD-MM-YYYY');
     let diffDay = moment().diff(releaseDate, 'days');
     this.state = {
       step: 2,
@@ -61,19 +61,19 @@ export class WhatNewComponent extends Component {
                   </View>
                 </View>
               </Swiper>
-              {/* {this.state.index < 1 && <TouchableOpacity style={styles.skipButton} onPress={() => this.setState({ step: 2 })}>
+              {/* {this.state.index < 1 && <OneTabButtonComponent style={styles.skipButton} onPress={() => this.setState({ step: 2 })}>
                 <Text style={styles.skipButtonText}>{i18n.t('WhatNewComponent_skipButtonText')}</Text>
-              </TouchableOpacity>} */}
-              {this.state.index === 0 && <TouchableOpacity style={styles.doneButton} onPress={() => this.setState({ step: 2 })}>
+              </OneTabButtonComponent>} */}
+              {this.state.index === 0 && <OneTabButtonComponent style={styles.doneButton} onPress={() => this.setState({ step: 2 })}>
                 <Text style={styles.doneButtonText}>{i18n.t('WhatNewComponent_doneButtonText')}</Text>
-              </TouchableOpacity>}
+              </OneTabButtonComponent>}
             </View>
           </View>}
           {this.state.step === 2 && <View style={styles.bodyContent}>
             <View style={styles.header}>
-              <TouchableOpacity style={styles.closeButton} onPress={this.viewAllWhatNew.bind(this)}>
-                <Text style={styles.closeButtonText}>{i18n.t('WhatNewComponent_closeButtonText')}</Text>
-              </TouchableOpacity>
+              <OneTabButtonComponent accessible={false} style={styles.closeButton} onPress={this.viewAllWhatNew.bind(this)}>
+                <Text testID={'closeBtn'} style={styles.closeButtonText}>{i18n.t('WhatNewComponent_closeButtonText')}</Text>
+              </OneTabButtonComponent>
               <Text style={styles.headerTitle}>{i18n.t('WhatNewComponent_headerTitle2')}</Text>
             </View>
             <View style={styles.newContent}>
@@ -86,7 +86,7 @@ export class WhatNewComponent extends Component {
                 </View>
 
                 <Text style={styles.releaseNoteText}>
-                  {i18n.t('WhatNewComponent_releaseNoteText')}
+                  {config.isAndroid ? i18n.t('WhatNewComponent_androidReleaseNoteText') : i18n.t('WhatNewComponent_releaseNoteText')}
                 </Text>
               </ScrollView>
             </View>
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     flex: 1,
-    textAlign: 'center', fontFamily: 'Avenir Black', fontStyle: 'italic', fontWeight: '600', fontSize: 18,
+    textAlign: 'center', fontFamily: 'avenir_next_w1g_regular', fontStyle: 'italic', fontSize: 18, color: 'black',
   },
   newContent: {
     flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
@@ -136,31 +136,18 @@ const styles = StyleSheet.create({
   },
   newDescription: {
     width: convertWidth(305),
-    fontFamily: 'Avenir Light', fontWeight: '300', fontSize: 16, textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 16, textAlign: 'center', color: 'black',
   },
   swipePagination: {
     position: 'absolute', bottom: config.isIPhoneX ? 3 : 18,
   },
-  skipButton: {
-    position: 'absolute', bottom: config.isIPhoneX ? 0 : 15, left: 27, zIndex: 1,
-  },
-  skipButtonText: {
-    color: '#0060F2', fontFamily: 'Avenir Light', fontSize: 16,
-  },
-  doneButton: {
-    position: 'absolute', bottom: config.isIPhoneX ? 0 : 15, right: 27, zIndex: 1,
-  },
-  doneButtonText: {
-    color: '#0060F2', fontFamily: 'Avenir Light', fontSize: 16, fontWeight: 'bold'
-  },
-
   closeButton: {
     alignItems: 'center', justifyContent: 'center',
     position: 'absolute', paddingLeft: convertWidth(27), paddingRight: convertWidth(27), zIndex: 1,
     height: '100%',
   },
   closeButtonText: {
-    fontFamily: 'Avenir Light', color: '#0060F2', textAlign: 'center', textAlignVertical: 'center', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_regular', color: '#0060F2', textAlign: 'center', textAlignVertical: 'center', fontSize: 16,
   },
 
   versionInformation: {
@@ -170,16 +157,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
   },
   versionInformationText: {
-    fontFamily: 'Avenir Heavy', fontSize: 17, fontWeight: 'bold',
-
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 17, color: 'black',
   },
   versionInformationReleaseDiff: {
-    fontFamily: 'Avenir Light', fontSize: 14, fontWeight: '300', color: '#999999',
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14, color: '#999999',
   },
   releaseNoteText: {
     width: '100%',
     paddingLeft: convertWidth(20), paddingRight: convertWidth(20),
-    fontFamily: 'Avenir Light', fontSize: 16, fontWeight: '300'
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 16, color: 'black',
   },
-
 });

@@ -4,6 +4,8 @@ import { BitmarkModel, CommonModel, BitmarkSDK } from "../models";
 import { FileUtil, isReleasedAsset } from 'src/utils';
 import { config } from 'src/configs';
 import { CacheData } from '../caches';
+import * as MimeTypes from 'react-native-mime-types';
+import axios from 'axios';
 
 
 // ================================================================================================
@@ -129,13 +131,17 @@ const doIssueFile = async (bitmarkAccountNumber, filePath, assetName, metadataLi
   }
   let issueResult = await BitmarkModel.doIssueFile(filePath, assetName, metadata, quantity);
 
-  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber)}/${issueResult.assetId}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber, config.isAndroid)}/${issueResult.assetId}`;
   let downloadedFolder = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(assetFolderPath);
   await FileUtil.mkdir(downloadedFolder);
 
   let filename = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
-  await BitmarkSDK.storeFileSecurely(filePath, `${downloadedFolder}/${filename}`);
+  if (config.isIPhone) {
+    await BitmarkSDK.storeFileSecurely(filePath, `${downloadedFolder}/${filename}`);
+  } else {
+    await FileUtil.copyFile(filePath, `${downloadedFolder}/${filename}`);
+  }
 
   let listFile = await FileUtil.readDir(downloadedFolder);
   let results = [];
@@ -163,11 +169,10 @@ let doIssueMusic = async (bitmarkAccountNumber, filePath, assetName, metadataLis
   }
   let issueResult = await BitmarkModel.doIssueFile(filePath, assetName, metadata, limitedEdition + 1);
 
-  let signatures = await BitmarkSDK.signMessages([issueResult.assetId + '|' + limitedEdition]);
-  await BitmarkModel.doUploadMusicThumbnail(bitmarkAccountNumber, issueResult.assetId, thumbnailPath, limitedEdition, signatures[0]);
+  await BitmarkModel.doUploadMusicThumbnail(CacheData.jwt, issueResult.assetId, thumbnailPath, limitedEdition);
   await BitmarkModel.doUploadMusicAsset(CacheData.jwt, issueResult.assetId, filePath);
 
-  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber)}/${issueResult.assetId}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(bitmarkAccountNumber, config.isAndroid)}/${issueResult.assetId}`;
   let downloadedFolder = `${assetFolderPath}/downloaded`;
   await FileUtil.mkdir(assetFolderPath);
   await FileUtil.mkdir(downloadedFolder);
@@ -263,27 +268,24 @@ const doDecentralizedTransfer = async (bitmarkAccountNumber, token, bitmarkId, r
 };
 
 
-const doUploadFileToCourierServer = async (assetId, filePath, sessionData, filename, access) => {
+const doUploadFileToCourierServer = async (jwt, assetId, filePath, sessionData, filename, access) => {
   if (sessionData && sessionData.data_key_alg && sessionData.enc_data_key) {
-    let message = `${assetId}|${sessionData.data_key_alg}|${sessionData.enc_data_key}|*|${access}`;
-    let signature = (await BitmarkSDK.signMessages([message]))[0];
     const formData = new FormData();
     formData.append('file', {
-      uri: filePath,
-      name: filename
+      uri: (config.isAndroid ? 'file://' : '') + filePath,
+      name: filename,
+      filename,
+      type: MimeTypes.lookup(filePath),
     });
     formData.append('data_key_alg', sessionData.data_key_alg);
     formData.append('enc_data_key', sessionData.enc_data_key);
     formData.append('orig_content_type', '*');
     formData.append('access', access);
-
     let headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'multipart/form-data',
-      requester: CacheData.userInformation.bitmarkAccountNumber,
-      signature
+      'accept': 'application/json',
+      'content-type': 'multipart/form-data',
+      Authorization: 'Bearer ' + jwt,
     };
-
     let uploadFunction = (headers, formData) => {
       return new Promise((resolve, reject) => {
         let statusCode;
@@ -309,45 +311,33 @@ const doUploadFileToCourierServer = async (assetId, filePath, sessionData, filen
   }
 };
 
-const doCheckFileExistInCourierServer = async (assetId) => {
-  let message = `${assetId}`;
-  let signature = (await BitmarkSDK.signMessages([message]))[0];
+const doCheckFileExistInCourierServer = async (jwt, assetId) => {
   return await (new Promise((resolve, reject) => {
-    let statusCode;
-    fetch(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
-      method: 'HEAD',
+    axios.head(`${config.file_courier_server}/v2/files/${assetId}/${CacheData.userInformation.bitmarkAccountNumber}`, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        signature: signature,
-        requester: CacheData.userInformation.bitmarkAccountNumber,
+        Authorization: 'Bearer ' + jwt,
       }
-    }).then((response) => {
-      statusCode = response.status;
-      if (statusCode >= 500) {
-        return reject(new Error('checkFileExistInCourierServer error!'));
-      }
-      if (statusCode >= 400) {
-        return resolve();
-      }
+    }).then(response => {
       resolve({
-        data_key_alg: response.headers.map['data-key-alg'],
-        enc_data_key: response.headers.map['enc-data-key'],
-        orig_content_type: response.headers.map['orig-content-type'],
-        expiration: response.headers.map['expiration'],
-        filename: response.headers.map['file-name'],
-        date: response.headers.map['date'],
+        data_key_alg: response.headers['data-key-alg'],
+        enc_data_key: response.headers['enc-data-key'],
+        orig_content_type: response.headers['orig-content-type'],
+        expiration: response.headers['expiration'],
+        filename: response.headers['file-name'],
+        date: response.headers['date'],
       });
     }).catch(error => {
-      return reject(new Error('checkFileExistInCourierServer error :' + JSON.stringify(error)));
+      if (error.response && error.response.status >= 400 && error.response.status < 500) {
+        return resolve();
+      }
+      reject(error);
     });
   }));
 };
 
-const doUpdateAccessFileInCourierServer = async (assetId, access) => {
-  let message = `${assetId}|${access}`;
-  let signature = (await BitmarkSDK.signMessages([message]))[0];
-
+const doUpdateAccessFileInCourierServer = async (jwt, assetId, access) => {
   const formData = new FormData();
   formData.append('access', access);
   return await (new Promise((resolve, reject) => {
@@ -356,8 +346,7 @@ const doUpdateAccessFileInCourierServer = async (assetId, access) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'multipart/form-data',
-        signature: signature,
-        requester: CacheData.userInformation.bitmarkAccountNumber,
+        Authorization: 'Bearer ' + jwt,
       },
       body: formData,
     }).then((response) => {
@@ -372,8 +361,7 @@ const doUpdateAccessFileInCourierServer = async (assetId, access) => {
   }));
 };
 
-const doGetDownloadableAssets = async () => {
-  let { timestamp, signature } = await CommonModel.doCreateSignatureData();
+const doGetDownloadableAssets = async (jwt) => {
   return await (new Promise((resolve, reject) => {
     let statusCode;
     fetch(`${config.file_courier_server}/v2/files?receiver=${CacheData.userInformation.bitmarkAccountNumber}`, {
@@ -381,9 +369,7 @@ const doGetDownloadableAssets = async () => {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        requester: CacheData.userInformation.bitmarkAccountNumber,
-        signature,
-        timestamp
+        Authorization: 'Bearer ' + jwt,
       }
     }).then((response) => {
       statusCode = response.status;
@@ -400,16 +386,14 @@ const doGetDownloadableAssets = async () => {
   }));
 };
 
-const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
-  let signature = (await BitmarkSDK.signMessages([`${assetId}|${sender}`]))[0];
+const doDownloadFileToCourierServer = async (jwt, assetId, sender, filePath) => {
   let response;
   let result = await FileUtil.downloadFile({
     fromUrl: `${config.file_courier_server}/v2/files/${assetId}/${sender}?receiver=${CacheData.userInformation.bitmarkAccountNumber}`,
     toFile: filePath,
     method: 'GET',
     headers: {
-      requester: CacheData.userInformation.bitmarkAccountNumber,
-      signature
+      Authorization: 'Bearer ' + jwt,
     },
     begin: (res) => response = res
   });
@@ -418,9 +402,9 @@ const doDownloadFileToCourierServer = async (assetId, sender, filePath) => {
     throw new Error(`doDownloadFileToCourierServer error ${response.statusCode}`);
   }
   return {
-    data_key_alg: response.headers['Data-Key-Alg'],
-    enc_data_key: response.headers['Enc-Data-Key'],
-    filename: response.headers['File-Name'],
+    data_key_alg: response.headers['data-key-alg'],
+    enc_data_key: response.headers['enc-data-key'],
+    filename: response.headers['file-name'],
   };
 };
 

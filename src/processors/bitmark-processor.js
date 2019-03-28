@@ -1,16 +1,15 @@
-import moment from 'moment';
 import { merge } from 'lodash';
 
 import { FileUtil, runPromiseWithoutError, isMusicAsset, isReleasedAsset } from "src/utils";
 import { BitmarkService, LocalFileService } from "./services";
 import { CommonModel, AccountModel, BitmarkSDK, BitmarkModel } from "./models";
 import { CacheData } from "./caches";
-import { CommonProcessor } from "./common-processor";
 import {
   BottomTabStore, BottomTabActions,
   PropertiesActions, PropertiesStore,
   PropertyStore, PropertyActions
 } from 'src/views/stores';
+import { config } from 'src/configs';
 
 
 const _doGetAllAssetsBitmarks = async (isReleased) => {
@@ -51,7 +50,9 @@ const _doCheckNewReleasedAssetsBitmarks = async (releasedBitmarksAssets) => {
   if (releasedBitmarksAssets) {
     for (let assetId in releasedBitmarksAssets.assets) {
       releasedBitmarksAssets.assets[assetId].filePath = await LocalFileService.detectLocalAssetFilePath(assetId);
-      await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(releasedBitmarksAssets.assets[assetId]));
+      if (config.isIPhone) {
+        await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(releasedBitmarksAssets.assets[assetId]));
+      }
 
       if (isMusicAsset(releasedBitmarksAssets.assets[assetId])) {
         releasedBitmarksAssets.assets[assetId].thumbnailPath = await LocalFileService.detectMusicThumbnailPath(assetId);
@@ -101,7 +102,9 @@ const _doCheckNewAssetsBitmarks = async (assetsBitmarks) => {
     for (let assetId in assetsBitmarks.assets) {
       assetsBitmarks.assets[assetId] = merge({}, assetsBitmarks.assets[assetId], ((releasedBitmarksAssets.assets || {})[assetId] || {}))
       assetsBitmarks.assets[assetId].filePath = await LocalFileService.detectLocalAssetFilePath(assetId);
-      await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(assetsBitmarks.assets[assetId]));
+      if (config.isIPhone) {
+        await runPromiseWithoutError(LocalFileService.doCheckAndSyncDataWithICloud(assetsBitmarks.assets[assetId]));
+      }
     }
 
     let tempMapBitmarksOfAssetOfIssuer = {};
@@ -236,7 +239,7 @@ const doReloadUserReleasedAssetsBitmarks = async () => {
 const doDownloadBitmark = async (bitmark) => {
   let assetsBitmarks = await doGetLocalAssetsBitmarks();
   let asset = (assetsBitmarks.assets || {})[bitmark.asset_id];
-  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber)}/${bitmark.asset_id}`;
+  let assetFolderPath = `${FileUtil.getLocalAssetsFolderPath(CacheData.userInformation.bitmarkAccountNumber, config.isAndroid)}/${bitmark.asset_id}`;
 
   if ((await FileUtil.exists(`${assetFolderPath}/decrypting`)) &&
     (await FileUtil.readDir(`${assetFolderPath}/decrypting`)).length > 0 &&
@@ -256,7 +259,7 @@ const doDownloadBitmark = async (bitmark) => {
 
   await FileUtil.mkdir(assetFolderPath);
   await FileUtil.mkdir(`${assetFolderPath}/downloading`);
-  let downloadableAssets = await BitmarkService.doGetDownloadableAssets();
+  let downloadableAssets = await BitmarkService.doGetDownloadableAssets(CacheData.jwt);
   let canDownloadFrom = (downloadableAssets || []).find(item => item.indexOf(asset.id) >= 0);
   let sender = canDownloadFrom ? canDownloadFrom.substring(canDownloadFrom.lastIndexOf('/') + 1, canDownloadFrom.length) : null;
   if (!sender) {
@@ -268,7 +271,7 @@ const doDownloadBitmark = async (bitmark) => {
     }
     throw new Error('Cannot detect sender to download!');
   }
-  let downloadResult = await BitmarkService.doDownloadFileToCourierServer(asset.id, sender, `${assetFolderPath}/downloading/temp.encrypt`);
+  let downloadResult = await BitmarkService.doDownloadFileToCourierServer(CacheData.jwt, asset.id, sender, `${assetFolderPath}/downloading/temp.encrypt`);
   let filename = decodeURIComponent(downloadResult.filename);
   let downloadResultFilePath = `${assetFolderPath}/decrypting_session_data/data.text`;
   await FileUtil.mkdir(`${assetFolderPath}/decrypting_session_data`);
@@ -296,95 +299,6 @@ const doGetLocalReleasedAssetsBitmarks = async () => {
   return (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_RELEASED_ASSETS_BITMARKS)) || {};
 };
 
-const doIssueFile = async (filePath, assetName, metadataList, quantity) => {
-  let results = await BitmarkService.doIssueFile(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, quantity);
-
-  let appInfo = await CommonProcessor.doGetAppInformation();
-  appInfo = appInfo || {};
-  if (appInfo && (!appInfo.lastTimeIssued ||
-    (appInfo.lastTimeIssued && (appInfo.lastTimeIssued - moment().toDate().getTime()) > 7 * 24 * 60 * 60 * 1000))) {
-    await CommonModel.doTrackEvent({
-      event_name: 'registry_weekly_active_user',
-      account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
-    });
-    appInfo.lastTimeIssued = moment().toDate().getTime();
-    await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
-  }
-
-  let assetsBitmarks = await doGetLocalAssetsBitmarks();
-  for (let item of results) {
-    assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
-    assetsBitmarks.bitmarks[item.id] = {
-      head_id: item.id,
-      asset_id: item.assetId,
-      id: item.id,
-      issued_at: moment().toDate().toISOString(),
-      head: `head`,
-      status: 'pending',
-      owner: CacheData.userInformation.bitmarkAccountNumber,
-      issuer: CacheData.userInformation.bitmarkAccountNumber,
-    };
-    if (!assetsBitmarks.assets || !assetsBitmarks.assets[item.assetId]) {
-      assetsBitmarks.assets = assetsBitmarks.assets || {};
-      assetsBitmarks.assets[item.assetId] = {
-        id: item.assetId,
-        name: assetName,
-        metadata: item.metadata,
-        registrant: CacheData.userInformation.bitmarkAccountNumber,
-        status: 'pending',
-        created_at: moment().toDate().toISOString(),
-        filePath: item.filePath,
-      }
-    }
-  }
-  await _doCheckNewAssetsBitmarks(assetsBitmarks);
-  return results;
-};
-
-const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, limitedEdition) => {
-  let results = await BitmarkService.doIssueMusic(CacheData.userInformation.bitmarkAccountNumber, filePath, assetName, metadataList, thumbnailPath, limitedEdition);
-
-  let appInfo = await CommonProcessor.doGetAppInformation();
-  appInfo = appInfo || {};
-  if (appInfo && (!appInfo.lastTimeIssued ||
-    (appInfo.lastTimeIssued && (appInfo.lastTimeIssued - moment().toDate().getTime()) > 7 * 24 * 60 * 60 * 1000))) {
-    await CommonModel.doTrackEvent({
-      event_name: 'registry_weekly_active_user',
-      account_number: CacheData.userInformation ? CacheData.userInformation.bitmarkAccountNumber : null,
-    });
-    appInfo.lastTimeIssued = moment().toDate().getTime();
-    await CommonModel.doSetLocalData(CommonModel.KEYS.APP_INFORMATION, appInfo);
-  }
-
-  let assetsBitmarks = await doGetLocalAssetsBitmarks();
-  for (let item of results) {
-    assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
-    assetsBitmarks.bitmarks[item.id] = {
-      head_id: item.id,
-      asset_id: item.assetId,
-      id: item.id,
-      issued_at: moment().toDate().toISOString(),
-      head: `head`,
-      status: 'pending',
-      owner: CacheData.userInformation.bitmarkAccountNumber,
-      issuer: CacheData.userInformation.bitmarkAccountNumber,
-    };
-    if (!assetsBitmarks.assets || !assetsBitmarks.assets[item.assetId]) {
-      assetsBitmarks.assets = assetsBitmarks.assets || {};
-      assetsBitmarks.assets[item.assetId] = {
-        id: item.assetId,
-        name: assetName,
-        metadata: item.metadata,
-        registrant: CacheData.userInformation.bitmarkAccountNumber,
-        status: 'pending',
-        created_at: moment().toDate().toISOString(),
-        filePath: item.filePath,
-      }
-    }
-  }
-  await _doCheckNewAssetsBitmarks(assetsBitmarks);
-  return results;
-};
 
 const doGetAssetBitmark = async (bitmarkId, assetId) => {
   let assetsBitmarks = await doGetLocalAssetsBitmarks();
@@ -421,8 +335,6 @@ let BitmarkProcessor = {
   doGetAssetBitmark,
 
   doDownloadBitmark,
-  doIssueFile,
-  doIssueMusic,
 
   doUpdateViewStatus,
 };

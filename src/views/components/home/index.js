@@ -48,7 +48,9 @@ export class UserRouterComponent extends Component {
     super(props);
 
     this.handerReceivedNotification = this.handerReceivedNotification.bind(this);
+    this.checkIfNotificationProcessing = this.checkIfNotificationProcessing.bind(this);
     EventEmitterService.remove(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, null, ComponentName);
+    this.notificationProcessing = {};
   }
 
   componentDidMount() {
@@ -69,22 +71,44 @@ export class UserRouterComponent extends Component {
     EventEmitterService.on(EventEmitterService.events.APP_RECEIVED_NOTIFICATION, this.handerReceivedNotification, ComponentName);
   }
 
+  checkIfNotificationProcessing(eventName, id) {
+    if (this.notificationProcessing[`${eventName}_${id}`]) {
+      return true;
+    }
+    this.notificationProcessing[`${eventName}_${id}`] = true;
+    setTimeout(() => {
+      delete this.notificationProcessing[`${eventName}_${id}`];
+    }, 10 * 1000);
+    return false;
+  }
+
   handerReceivedNotification(data) {
     console.log('UserComponent handerReceivedNotification data :', data);
     if (data.name === 'transfer_request' && data.id) {
+      if (this.checkIfNotificationProcessing(data.name, data.id)) {
+        return;
+      }
       AppProcessor.doGetTransferOfferDetail(data.id).then(transferOfferDetail => {
         Actions.transferOffer({ transferOffer: transferOfferDetail, });
       }).catch(console.log);
-
     } else if (data.name === 'transfer_rejected') {
+      if (this.checkIfNotificationProcessing(data.name, data.bitmark_id)) {
+        return;
+      }
       BitmarkProcessor.doGetAssetBitmark(data.bitmark_id).then(bitmarkInformation => {
         if (bitmarkInformation.asset && bitmarkInformation.bitmark) {
           Actions.propertyDetail(bitmarkInformation);
         }
       }).catch(console.log);
     } else if (data.name === 'transfer_completed' || data.name === 'transfer_accepted') {
+      if (this.checkIfNotificationProcessing(data.name)) {
+        return;
+      }
       Actions.transactions({ subTab: 'HISTORY' });
     } else if (data.name === 'transfer_confirmed_receiver' && data.bitmark_id) {
+      if (this.checkIfNotificationProcessing(data.name, data.bitmark_id)) {
+        return;
+      }
       BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
         return BitmarkProcessor.doGetAssetBitmark(data.bitmark_id);
       }).then(bitmarkInformation => {
@@ -93,6 +117,9 @@ export class UserRouterComponent extends Component {
         }
       }).catch(console.log);
     } else if (data.name === 'transfer_failed') {
+      if (this.checkIfNotificationProcessing(data.name, data.bitmark_id)) {
+        return;
+      }
       BitmarkProcessor.doReloadUserAssetsBitmarks().then(() => {
         return BitmarkProcessor.doGetAssetBitmark(data.bitmark_id);
       }).then(bitmarkInformation => {
@@ -101,6 +128,9 @@ export class UserRouterComponent extends Component {
         }
       }).catch(console.log);
     } else if (data.event === 'claim_request') {
+      if (this.checkIfNotificationProcessing(data.event, data.claim_id)) {
+        return;
+      }
       TransactionProcessor.doReloadClaimRequests().then((claimRequests) => {
         let incomingClaimRequest = (claimRequests.incoming_claim_requests || []).find(cr => cr.id === data.claim_id);
         if (incomingClaimRequest) {
@@ -108,7 +138,17 @@ export class UserRouterComponent extends Component {
         }
       }).catch(console.log);
     } else if (data.event === 'claim_request_rejected') {
+      if (this.checkIfNotificationProcessing(data.event)) {
+        return;
+      }
       Actions.transactions({ subTab: 'HISTORY' });
+    } else if (data.event === 'ifttt_new_issue') {
+      if (this.checkIfNotificationProcessing(data.event)) {
+        return;
+      }
+      TransactionProcessor.doReloadIftttInformation().then(() => {
+        Actions.transactions();
+      }).catch(console.error);
     }
   }
 
@@ -134,6 +174,8 @@ export class UserRouterComponent extends Component {
             <Scene key="musicReleaseToPublic" panHandlers={null} component={MusicReleaseToPublicComponent} />
             <Scene key="propertyDetail" panHandlers={null} component={PropertyDetailComponent} />
 
+            <Scene key="scanQRCode" panHandlers={null} component={ScanQRCodeComponent} />
+
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >
@@ -146,7 +188,6 @@ export class UserRouterComponent extends Component {
               <Stack key="account" headerMode='none'>
                 <Scene key="bitmarkWebView" panHandlers={null} component={BitmarkWebViewComponent} />
                 <Scene key="accountDetail" initial={true} panHandlers={null} component={AccountDetailComponent} />
-                <Scene key="scanQRCode" panHandlers={null} component={ScanQRCodeComponent} />
                 <Scene key="applicationDetail" panHandlers={null} component={ApplicationDetailComponent} />
                 <Scene key="recoveryPhrase" panHandlers={null} component={RecoveryPhraseComponent} />
                 <Scene key="writeDownRecoveryPhrase" panHandlers={null} component={WriteDownRecoveryPhraseComponent} />

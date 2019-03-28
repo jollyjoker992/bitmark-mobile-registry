@@ -7,6 +7,7 @@ import { EventEmitterService } from 'src/processors';
 import { config } from 'src/configs';
 import { PropertyActionSheetComponent } from './home/properties';
 import { PropertyMetadataComponent } from './home/properties/property-metadata.component';
+import { AccountQrCodeComponent } from './home/account/account-qrcode.component';
 
 let ComponentName = 'MainCoverComponent';
 export class MainCoverComponent extends Component {
@@ -18,7 +19,7 @@ export class MainCoverComponent extends Component {
       dataCover: null,
       opacityCoverArea: new Animated.Value(0),
       heightCoverArea: new Animated.Value(0),
-      topCoverArea: new Animated.Value(config.deviceSize.height),
+      topCoverArea: new Animated.Value(config.windowSize.height),
     }
   }
 
@@ -38,7 +39,7 @@ export class MainCoverComponent extends Component {
         duration: 100,
       }));
       listAnimations.push(Animated.spring(this.state.heightCoverArea, {
-        toValue: config.deviceSize.height,
+        toValue: config.windowSize.height,
         duration: 100,
       }));
       listAnimations.push(Animated.spring(this.state.topCoverArea, {
@@ -57,7 +58,7 @@ export class MainCoverComponent extends Component {
         duration: 100,
       }));
       listAnimations.push(Animated.spring(this.state.topCoverArea, {
-        toValue: config.deviceSize.height,
+        toValue: config.windowSize.height,
         duration: 100,
       }));
       Animated.parallel(listAnimations).start();
@@ -87,6 +88,10 @@ export class MainCoverComponent extends Component {
                   <PropertyMetadataComponent
                     asset={this.state.dataCover.asset}
                   />
+                }
+
+                {this.state.dataCover && this.state.dataCover.type === 'AccountQrCodeComponent' &&
+                  <AccountQrCodeComponent />
                 }
               </View>
             </TouchableWithoutFeedback>

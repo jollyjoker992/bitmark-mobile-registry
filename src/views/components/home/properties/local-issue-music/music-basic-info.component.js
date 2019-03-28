@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactNative, {
-  View, TouchableOpacity, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
+  View, Image, Text, TextInput, KeyboardAvoidingView, ScrollView,
   StyleSheet,
   Keyboard,
+  Platform,
+  BackHandler,
   Alert,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
@@ -14,6 +16,7 @@ import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth, isImageFile, FileUtil } from 'src/utils';
 import { AppProcessor } from 'src/processors';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 const { ActionSheetIOS } = ReactNative;
 
@@ -28,6 +31,7 @@ export class MusicBasicInfoComponent extends React.Component {
     this.onKeyboardDidShow = this.onKeyboardDidShow.bind(this);
     this.onKeyboardDidHide = this.onKeyboardDidHide.bind(this);
     this.onKeyboardWillShow = this.onKeyboardWillShow.bind(this);
+    this.doCancel = this.doCancel.bind(this);
 
     this.state = {
       filePath: this.props.filePath,
@@ -45,11 +49,17 @@ export class MusicBasicInfoComponent extends React.Component {
     this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.onKeyboardWillShow);
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.onKeyboardDidShow);
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.onKeyboardDidHide);
+    if (config.isAndroid) {
+      this.backHandler = BackHandler.addEventListener('hardwareBackPress', this.doCancels);
+    }
   }
   componentWillUnmount() {
     this.keyboardWillShowListener.remove();
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
+    if (config.isAndroid) {
+      this.backHandler.remove();
+    }
   }
 
   onKeyboardWillShow() {
@@ -269,28 +279,28 @@ export class MusicBasicInfoComponent extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }} >
+        <KeyboardAvoidingView behavior={Platform.select({ ios: 'padding', android: '' })} style={{ flex: 1 }} >
           <View style={cStyles.header}>
-            <TouchableOpacity style={defaultStyles.headerLeft} onPress={Actions.pop}>
+            <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={Actions.pop}>
               <Image style={[defaultStyles.headerLeftIcon, { width: convertWidth(20), height: convertWidth(20) }]} source={require('assets/imgs/header_blue_icon.png')} />
-            </TouchableOpacity>
+            </OneTabButtonComponent>
             <Text style={[defaultStyles.headerTitle, { color: '#0060F2' }]}>{global.i18n.t('MusicBasicInfoComponent_headerTitle')}</Text>
-            <TouchableOpacity style={defaultStyles.headerRight} onPress={this.doCancel.bind(this)}>
+            <OneTabButtonComponent style={defaultStyles.headerRight} onPress={this.doCancel}>
               <Text style={defaultStyles.headerRightText}>{global.i18n.t('MusicBasicInfoComponent_headerRightText')}</Text>
-            </TouchableOpacity>
+            </OneTabButtonComponent>
           </View>
           <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
             <View style={cStyles.content}>
               <View style={cStyles.mainContent}>
                 <View style={cStyles.thumbnailArea}>
-                  {!!this.state.thumbnailPath && <TouchableOpacity style={cStyles.thumbnailImageArea} onPress={this.onChooseThumbnail.bind(this)}>
+                  {!!this.state.thumbnailPath && <OneTabButtonComponent style={cStyles.thumbnailImageArea} onPress={this.onChooseThumbnail.bind(this)}>
                     <Image style={cStyles.thumbnailImage} source={{ uri: this.state.thumbnailPath }} />
-                  </TouchableOpacity>}
-                  {!this.state.thumbnailPath && <TouchableOpacity style={[cStyles.thumbnailImageArea, { backgroundColor: '#E6FF00' }]} onPress={this.onChooseThumbnail.bind(this)}>
+                  </OneTabButtonComponent>}
+                  {!this.state.thumbnailPath && <OneTabButtonComponent style={[cStyles.thumbnailImageArea, { backgroundColor: '#E6FF00' }]} onPress={this.onChooseThumbnail.bind(this)}>
                     <Image style={cStyles.thumbnailImageIcon} source={require('assets/imgs/music_thumbnail.png')} />
                     <Text style={cStyles.thumbnailImageText}>{global.i18n.t('MusicBasicInfoComponent_thumbnailImageText')}</Text>
                     <Text style={[cStyles.fieldInputError, { width: 'auto' }]}>{this.state.thumbnailPathError}</Text>
-                  </TouchableOpacity>}
+                  </OneTabButtonComponent>}
                 </View>
 
                 <View style={cStyles.inputArea}>
@@ -298,15 +308,15 @@ export class MusicBasicInfoComponent extends React.Component {
                     <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelFile')}</Text>
                     <View style={cStyles.fileInfo}>
                       <Text style={cStyles.fileName}>{this.state.filePath.substring(this.state.filePath.lastIndexOf('/') + 1, this.state.filePath.length)}</Text>
-                      <TouchableOpacity style={cStyles.fileRemoveButton} onPress={this.changeFile.bind(this)}>
+                      <OneTabButtonComponent style={cStyles.fileRemoveButton} onPress={this.changeFile.bind(this)}>
                         <Image style={cStyles.fileRemoveButtonIcon} source={require('assets/imgs/change_file_icon.png')} />
-                      </TouchableOpacity>
+                      </OneTabButtonComponent>
                     </View>
                   </View>
 
                   <View style={[cStyles.fieldArea,]}>
                     <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyName')}</Text>
-                    <TextInput style={[cStyles.fieldInput]}
+                    <TextInput style={[config.isAndroid ? { padding: 2 } : {}, cStyles.fieldInput,]}
                       placeholder={global.i18n.t('MusicBasicInfoComponent_fieldLabelPropertyNamePlaceholder')}
                       defaultValue={this.state.assetName}
                       onChangeText={(assetName) => this.onInputAsset.bind(this)(assetName)}
@@ -317,7 +327,7 @@ export class MusicBasicInfoComponent extends React.Component {
 
                   <View style={cStyles.fieldArea}>
                     <Text style={cStyles.fieldLabel}>{global.i18n.t('MusicBasicInfoComponent_fieldLabelLimited')}</Text>
-                    <TextInput style={[cStyles.fieldInput]}
+                    <TextInput style={[config.isAndroid ? { padding: 2 } : {}, cStyles.fieldInput]}
                       keyboardType='number-pad'
                       placeholder="e.g. 300"
                       onChangeText={(limitedNumber) => this.onInputLimited.bind(this)(limitedNumber)}
@@ -329,11 +339,11 @@ export class MusicBasicInfoComponent extends React.Component {
               </View>
             </View>
           </ScrollView>
-          <TouchableOpacity
+          <OneTabButtonComponent
             style={[cStyles.continueButton, this.state.canContinue ? { backgroundColor: '#0060F2' } : {}, this.state.keyboardHeight ? { height: constant.buttonHeight } : {}]}
             onPress={this.onContinue.bind(this)}>
             <Text style={cStyles.continueButtonText}>{global.i18n.t('MusicBasicInfoComponent_continueButtonText')}</Text>
-          </TouchableOpacity>
+          </OneTabButtonComponent>
         </KeyboardAvoidingView>
       </View>
     );
@@ -377,7 +387,7 @@ const cStyles = StyleSheet.create({
     width: 78, height: 55, resizeMode: 'contain',
   },
   thumbnailImageText: {
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 16, textAlign: 'center', color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, textAlign: 'center', color: '#0060F2',
     marginTop: 17,
   },
   fileInfo: {
@@ -385,7 +395,7 @@ const cStyles = StyleSheet.create({
   },
   fileName: {
     flex: 1,
-    fontFamily: 'AvenirNextW1G-Regular', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 16, color: 'black',
   },
   fileRemoveButton: {
     paddingLeft: 8,
@@ -405,17 +415,17 @@ const cStyles = StyleSheet.create({
   },
   fieldLabel: {
     width: '100%',
-    fontFamily: 'AvenirNextW1G-Bold', fontSize: 16,
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, color: 'black',
   },
   fieldInput: {
     width: '100%',
     marginTop: 9, marginBottom: 4,
     paddingLeft: 7, paddingBottom: 5,
-    fontFamily: 'Avenir-Book', fontSize: 16, fontWeight: '300',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 16, color: 'black',
   },
   fieldInputError: {
     minHeight: 20, width: '100%',
-    fontFamily: 'Avenir-Light', fontSize: 14, fontWeight: '300', color: '#FF003C',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 14, color: '#FF003C',
   },
 
   continueButton: {
@@ -425,6 +435,6 @@ const cStyles = StyleSheet.create({
     backgroundColor: '#999999',
   },
   continueButtonText: {
-    fontFamily: 'Avenir-Black', fontSize: 16, fontWeight: '900', lineHeight: 33, color: 'white',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 33, color: 'white',
   },
 });

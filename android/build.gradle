@@ -1,11 +1,55 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+    minSdkVersion = 23
+    compileSdkVersion = 28
+    targetSdkVersion = 28
+    buildToolsVersion = "28.0.3"
+    supportLibVersion = "28.0.0"
+    firebaseVersion = "17.4.0"
+}
+
+subprojects { subproject ->
+    afterEvaluate {
+        if ((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
+            android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+                buildToolsVersion rootProject.ext.buildToolsVersion
+            }
+        }
+    }
+}
+
+subprojects {
+    // Workaround for keeping react-native-image-picker android gradle build tool
+    if (project.name.contains('react-native-image-picker')) {
+        buildscript {
+            repositories {
+                jcenter()
+                maven { url "https://dl.bintray.com/android/android-tools/" }
+            }
+        }
+    }
+
+    // Force all sub project using the same version of android support lib
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.android.support'
+                    && !details.requested.name.contains('multidex')) {
+                details.useVersion "$supportLibVersion"
+            }
+        }
+    }
+}
 
 buildscript {
     repositories {
+        google()
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:3.3.1'
+        classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'com.google.gms:google-services:4.2.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -14,11 +58,15 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenLocal()
+        google()
         jcenter()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
         }
+        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.fabric.io/public' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url "https://maven.google.com" }
     }
 }

@@ -11,16 +11,12 @@ export default StyleSheet.create({
   },
 
   mainContent: {
-    flex: 1,
-    flexDirection: 'column',
+    flex: 1, flexDirection: 'column',
     backgroundColor: 'white',
-    paddingBottom: Math.max(10),
   },
   //sign-in
   writeRecoveryPhraseContentMessage: {
-    fontFamily: 'Avenir Light',
-    fontSize: 17,
-    fontWeight: '300',
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17, color: 'black',
     width: convertWidth(336),
     marginTop: 18,
     marginLeft: convertWidth(19),
@@ -38,10 +34,7 @@ export default StyleSheet.create({
     paddingBottom: 19,
   },
   writeRecoveryPhraseContentTestButtonText: {
-    fontFamily: 'Avenir Light',
-    fontSize: 14,
-    fontWeight: '300',
-    color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_light', fontSize: 14, color: '#0060F2',
     marginTop: 66,
   },
   recoveryPhraseSet: {
@@ -50,18 +43,12 @@ export default StyleSheet.create({
     marginBottom: 4,
   },
   recoveryPhraseIndex: {
-    fontFamily: 'Avenir Light',
-    fontSize: 15,
-    fontWeight: '300',
-    color: '#D4D4D4',
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 15, color: '#D4D4D4',
     width: convertWidth(23),
     textAlign: 'right',
   },
   recoveryPhraseWord: {
-    fontFamily: 'Avenir Light',
-    fontSize: 15,
-    fontWeight: '300',
-    color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 15, color: '#0060F2',
     width: convertWidth(107),
     marginLeft: 6,
   },
@@ -72,25 +59,16 @@ export default StyleSheet.create({
     minHeight: 80,
   },
   recoveryPhraseTestTitle: {
-    fontFamily: 'Avenir Light',
-    fontSize: 15,
-    fontWeight: '900',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 15, color: 'black',
     marginTop: 10,
   },
   recoveryPhraseTestMessage: {
-    fontFamily: 'Avenir Light',
-    fontSize: 15,
-    fontWeight: '300',
-    textAlign: 'center',
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 15, textAlign: 'center', color: 'black',
     width: convertWidth(335),
     marginTop: 5,
   },
   recoveringMessage: {
-    fontFamily: 'Avenir Black',
-    fontSize: 18,
-    fontWeight: '900',
-    textAlign: 'center',
-    color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 18, textAlign: 'center', color: '#0060F2',
     width: convertWidth(307),
     minHeight: 42,
     marginTop: 158,
@@ -109,15 +87,12 @@ export default StyleSheet.create({
   },
   switchFormMessage: {
     width: convertWidth(240),
-    fontFamily: 'Avenir Medium',
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#0054FC',
+    fontFamily: 'avenir_next_w1g_medium', textAlign: 'center', fontSize: 14, color: '#0054FC',
     marginBottom: 24,
   },
 
   submitButton: {
-    height: 45,
+    height: constant.buttonHeight,
     width: convertWidth(375),
     flexDirection: 'row',
     alignItems: 'center',
@@ -126,15 +101,10 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2',
   },
   submitButtonText: {
-    fontFamily: 'Avenir black',
-    textAlign: 'center',
-    fontSize: 16,
-    fontWeight: '900',
-    color: 'white'
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
 
   keyboardExternal: {
-    position: 'absolute',
     width: '100%', height: constant.buttonHeight,
     flexDirection: 'row',
     alignContent: 'center',

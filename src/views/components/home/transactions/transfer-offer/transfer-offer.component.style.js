@@ -3,6 +3,7 @@ import { convertWidth } from 'src/utils';
 
 export default StyleSheet.create({
   body: {
+    flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
     height: '100%',
@@ -20,30 +21,23 @@ export default StyleSheet.create({
     paddingRight: convertWidth(19),
   },
   assetName: {
-    fontFamily: 'Avenir black',
-    fontSize: 16,
-    lineHeight: 19,
-    fontWeight: '900',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, lineHeight: 19, color: 'black',
     marginTop: 38,
   },
   transferOfferContent: {
+    color: 'black',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 32,
   },
   transferOfferSenderFix: {
-    fontFamily: 'Avenir black',
-    fontSize: 12,
-    fontWeight: '700',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 12, color: 'black',
   },
   transferOfferSenderName: {
-    fontFamily: 'Avenir black',
-    fontSize: 13,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 13, color: 'black',
   },
   transferOfferAssetName: {
-    fontFamily: 'Avenir black',
-    fontSize: 13,
-    fontWeight: '900',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 13, color: 'black',
     width: convertWidth(150),
   },
   externalArea: {
@@ -55,16 +49,12 @@ export default StyleSheet.create({
   },
 
   externalAreaRowLabel: {
-    fontFamily: 'Andale Mono',
-    fontSize: 13,
-    color: '#0060F2',
+    fontFamily: 'andale_mono', fontSize: 13, color: '#0060F2',
     width: convertWidth(117),
   },
   externalAreaRowValue: {
-    fontFamily: 'Andale Mono',
-    fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: '#0060F2',
     width: convertWidth(198),
-    color: '#0060F2',
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -74,22 +64,17 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   externalAreaRowValueIssuer_: {
-    fontFamily: 'Andale Mono',
-    color: '#0060F2',
-    fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: '#0060F2',
   },
   externalAreaRowValueIssuer: {
-    fontFamily: 'Andale Mono',
-    fontSize: 13,
+    fontFamily: 'andale_mono', fontSize: 13, color: '#0060F2',
     width: convertWidth(190),
-    color: '#0060F2',
   },
   metadataArea: {
     marginTop: 20,
   },
   metadataRowValue: {
-    fontFamily: 'Avenir black',
-    fontSize: 13,
+    fontFamily: 'avenir_next_w1g_light', fontSize: 13, color: 'black',
     width: convertWidth(198),
     marginBottom: 5,
   },
@@ -109,10 +94,7 @@ export default StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   rejectButtonText: {
-    fontFamily: 'Avenir black',
-    fontSize: 16,
-    fontWeight: '900',
-    color: '#A4B5CD',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, color: '#A4B5CD',
   },
   acceptButton: {
     borderTopWidth: 3,
@@ -124,9 +106,6 @@ export default StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   acceptButtonText: {
-    fontFamily: 'Avenir black',
-    fontSize: 16,
-    fontWeight: '900',
-    color: '#0060F2',
+    fontFamily: 'avenir_next_w1g_bold', fontSize: 16, color: '#0060F2',
   }
 });

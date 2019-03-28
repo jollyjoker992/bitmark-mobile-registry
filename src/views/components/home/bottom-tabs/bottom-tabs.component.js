@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import {
-  View, TouchableOpacity, Image, Text, SafeAreaView,
+  View, Image, Text, SafeAreaView,
 } from 'react-native';
 import { BottomTabBar } from 'react-navigation-tabs';
 
 import componentStyles from './bottom-tabs.component.style';
 import { Actions } from 'react-native-router-flux';
 import { BottomTabStore } from 'src/views/stores';
+import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 
 const MainTabs = {
   properties: 'Properties',
@@ -29,10 +30,12 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
           const active = index === this.props.navigation.state.index;
           const label = this.props.getLabelText({ route });
           if (label === 'properties') {
-            return (<TouchableOpacity key={index} style={componentStyles.bottomTabButton} onPress={() => {
-              this.props.onTabPress({ route });
-              Actions.reset('properties');
-            }}>
+            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton}
+              testID={`BottomTabsComponent_${label}`}
+              onPress={() => {
+                this.props.onTabPress({ route });
+                Actions.reset('properties');
+              }}>
               {this.props.totalNewBitmarks > 0 && <View style={componentStyles.haveNewBitmark} />}
               <Image style={componentStyles.bottomTabButtonIcon} source={active
                 ? require('assets/imgs/properties-icon-enable.png')
@@ -40,14 +43,16 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
               <Text style={[componentStyles.bottomTabButtonText, {
                 color: active ? '#0060F2' : '#A4B5CD'
               }]}>{global.i18n.t("BottomTabsComponent_properties")}</Text>
-            </TouchableOpacity>);
+            </OneTabButtonComponent>);
           }
 
           if (label === 'transactions') {
-            return (<TouchableOpacity key={index} style={componentStyles.bottomTabButton} onPress={() => {
-              this.props.onTabPress({ route });
-              Actions.reset(label);
-            }}>
+            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton}
+              testID={`BottomTabsComponent_${label}`}
+              onPress={() => {
+                this.props.onTabPress({ route });
+                Actions.reset(label);
+              }}>
               {this.props.totalTasks > 0 && <View style={componentStyles.transactionNumber}>
                 <Text style={componentStyles.transactionNumberText}>{this.props.totalTasks < 100 ? this.props.totalTasks : 99}</Text>
               </View>}
@@ -57,21 +62,23 @@ export class PrivateBottomTabsComponent extends BottomTabBar {
               <Text style={[componentStyles.bottomTabButtonText, {
                 color: active ? '#0060F2' : '#A4B5CD'
               }]}>{global.i18n.t("BottomTabsComponent_transactions")}</Text>
-            </TouchableOpacity>);
+            </OneTabButtonComponent>);
           }
 
           if (label === 'account') {
-            return (<TouchableOpacity key={index} style={componentStyles.bottomTabButton} onPress={() => {
-              this.props.onTabPress({ route });
-              Actions.reset('accountDetail');
-            }}>
+            return (<OneTabButtonComponent key={index} style={componentStyles.bottomTabButton}
+              testID={`BottomTabsComponent_${label}`}
+              onPress={() => {
+                this.props.onTabPress({ route });
+                Actions.reset('accountDetail');
+              }}>
               <Image style={componentStyles.bottomTabButtonIcon} source={active
                 ? require('assets/imgs/account-icon-enable.png')
                 : require('assets/imgs/account-icon-disable.png')} />
               <Text style={[componentStyles.bottomTabButtonText, {
                 color: active ? '#0060F2' : '#A4B5CD'
               }]}>{global.i18n.t("BottomTabsComponent_account")}</Text>
-            </TouchableOpacity>);
+            </OneTabButtonComponent>);
           }
         })}
       </View>

@@ -30,11 +30,11 @@ export default StyleSheet.create({
   },
   introductionTitle: {
     width: convertWidth(275), minHeight: 47,
-    fontFamily: 'AvenirNextW1G-Bold', color: '#0060F2', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_bold', color: '#0060F2', fontSize: 17,
   },
   introductionDescription: {
     width: convertWidth(275),
-    fontFamily: 'AvenirNextW1G-Regular', fontSize: 17,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 17, color: 'black',
     minHeight: 117,
   },
   introductionTermPrivacy: {
@@ -50,10 +50,10 @@ export default StyleSheet.create({
     resizeMode: 'contain', width: '90%', height: '90%',
   },
   bitmarkTermsPrivacyText: {
-    fontFamily: 'AvenirNextW1G-Light', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_regular', fontSize: 14, color: 'black',
   },
   bitmarkTermsPrivacyButtonText: {
-    fontFamily: 'AvenirNextW1G-Light', color: '#0060F2', fontSize: 14,
+    fontFamily: 'avenir_next_w1g_regular', color: '#0060F2', fontSize: 14,
   },
 
   welcomeLogo: {
@@ -79,6 +79,6 @@ export default StyleSheet.create({
     backgroundColor: '#0060F2',
   },
   welcomeButtonText: {
-    fontFamily: 'AvenirNextW1G-Bold', textAlign: 'center', fontSize: 16, color: 'white'
+    fontFamily: 'avenir_next_w1g_bold', textAlign: 'center', fontSize: 16, color: 'white'
   },
 });
