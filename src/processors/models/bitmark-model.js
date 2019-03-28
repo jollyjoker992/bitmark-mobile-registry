@@ -2,7 +2,7 @@ import { chunk } from 'lodash';
 
 import { config } from 'src/configs';
 import { BitmarkSDK } from './adapters';
-import { FileUtil } from 'src/utils';
+import { FileUtil, getHeaderValue } from 'src/utils';
 
 // ===================================================================================================================
 // ===================================================================================================================
@@ -618,7 +618,7 @@ const doDownloadAssetForClaimRequest = async (jwt, claimId, filePath) => {
   }
   console.log('doDownloadAssetForClaimRequest result :', result);
   return {
-    filename: response.headers['File-Name'],
+    filename: getHeaderValue(response.headers, 'file-name'),
   };
 };
 
