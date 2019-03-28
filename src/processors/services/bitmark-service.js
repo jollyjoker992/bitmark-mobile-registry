@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { merge } from 'lodash';
 import { BitmarkModel, CommonModel, BitmarkSDK } from "../models";
-import { FileUtil, isReleasedAsset } from 'src/utils';
+import { FileUtil, isReleasedAsset, getHeaderValue } from 'src/utils';
 import { config } from 'src/configs';
 import { CacheData } from '../caches';
 import * as MimeTypes from 'react-native-mime-types';
@@ -321,12 +321,12 @@ const doCheckFileExistInCourierServer = async (jwt, assetId) => {
       }
     }).then(response => {
       resolve({
-        data_key_alg: response.headers['data-key-alg'],
-        enc_data_key: response.headers['enc-data-key'],
-        orig_content_type: response.headers['orig-content-type'],
-        expiration: response.headers['expiration'],
-        filename: response.headers['file-name'],
-        date: response.headers['date'],
+        data_key_alg: getHeaderValue(response.headers, 'data-key-alg'),
+        enc_data_key: getHeaderValue(response.headers, 'enc-data-key'),
+        orig_content_type: getHeaderValue(response.headers, 'orig-content-type'),
+        expiration: getHeaderValue(response.headers, 'expiration'),
+        filename: getHeaderValue(response.headers, 'file-name'),
+        date: getHeaderValue(response.headers, 'date'),
       });
     }).catch(error => {
       if (error.response && error.response.status >= 400 && error.response.status < 500) {
@@ -402,9 +402,9 @@ const doDownloadFileToCourierServer = async (jwt, assetId, sender, filePath) => 
     throw new Error(`doDownloadFileToCourierServer error ${response.statusCode}`);
   }
   return {
-    data_key_alg: response.headers['data-key-alg'],
-    enc_data_key: response.headers['enc-data-key'],
-    filename: response.headers['file-name'],
+    data_key_alg: getHeaderValue(response.headers, 'data-key-alg'),
+    enc_data_key: getHeaderValue(response.headers, 'enc-data-key'),
+    filename: getHeaderValue(response.headers, 'file-name'),
   };
 };
 
@@ -425,7 +425,7 @@ const doDownloadReleasedAsset = async (jwt, assetId, filePath) => {
   if (response.statusCode >= 400) {
     throw new Error(`doDownloadReleasedAsset error ${response.statusCode}`);
   }
-  return response.headers['File-Name'];
+  return getHeaderValue(response.headers, 'file-name');
 };
 
 // ================================================================================================

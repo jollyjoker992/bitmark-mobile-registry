@@ -153,6 +153,14 @@ const sortAssetsBitmarks = (bitmarks) => {
   return bitmarks;
 };
 
+const getHeaderValue = (headers, key) => {
+  for (let header in headers) {
+    if (header.toLowerCase() === key.toLowerCase()) {
+      return headers[header];
+    }
+  }
+};
+
 
 export {
   convertWidth, calculateAdditionalHeight, runPromiseWithoutError, compareVersion,
@@ -163,4 +171,5 @@ export {
   getMetadataLabel,
   getMetadataValue,
   delay,
+  getHeaderValue,
 };
