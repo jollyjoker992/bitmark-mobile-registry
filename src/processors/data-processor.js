@@ -6,7 +6,7 @@ import { Sentry } from 'react-native-sentry';
 import base58 from 'bs58';
 import { sha3_256 } from 'js-sha3';
 import randomString from 'random-string';
-import { Alert, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
 import {
   EventEmitterService, TransactionService,
@@ -14,7 +14,7 @@ import {
 } from './services';
 import {
   CommonModel, AccountModel, UserModel, BitmarkSDK,
-  BitmarkModel, iCloudSyncAdapter, IftttModel, NativeAndroidUtils
+  BitmarkModel, iCloudSyncAdapter, IftttModel,
 } from './models';
 
 import {
@@ -320,19 +320,6 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account != CacheData.userInformation.is_released_account) {
       CacheData.userInformation.is_released_account = CacheData.identities[CacheData.userInformation.bitmarkAccountNumber].is_released_account;
       await UserModel.doUpdateUserInfo(CacheData.userInformation);
-    }
-
-    // Android only
-    if (config.isAndroid) {
-      let isDiskEncrypted = await NativeAndroidUtils.checkDiskEncrypted();
-      if (!isDiskEncrypted) {
-        Alert.alert(global.i18n.t('OtherComponent_phoneEncryptedWarningTitle'), global.i18n.t('OtherComponent_phoneEncryptedWarningMessage'), [{
-          text: global.i18n.t('MainComponent_ok'), style: 'cancel',
-          onPress: () => {
-            NativeAndroidUtils.openSystemSetting("android.settings.SECURITY_SETTINGS");
-          }
-        }], { cancelable: false });
-      }
     }
 
     // iOS only

@@ -18,7 +18,7 @@ import {
   BitmarkInternetOffComponent,
   BitmarkDialogComponent,
 } from './../commons';
-import { UserModel, EventEmitterService, CacheData, CommonProcessor, TransactionProcessor, BitmarkSDK, AppProcessor } from 'src/processors';
+import { UserModel, EventEmitterService, CacheData, CommonProcessor, TransactionProcessor, BitmarkSDK, AppProcessor, NativeAndroidUtils } from 'src/processors';
 import { convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant, config } from 'src/configs';
 import { OneTabButtonComponent } from '../commons/one-tab-button.component';
@@ -66,6 +66,19 @@ export class MainAppHandlerComponent extends Component {
           this.handleNetworkChange(true);
         }
       });
+    }
+
+    if (config.isAndroid) {
+      NativeAndroidUtils.checkDiskEncrypted().then(isDiskEncrypted => {
+        if (!isDiskEncrypted) {
+          Alert.alert(global.i18n.t('OtherComponent_phoneEncryptedWarningTitle'), global.i18n.t('OtherComponent_phoneEncryptedWarningMessage'), [{
+            text: global.i18n.t('MainComponent_ok'), style: 'cancel',
+            onPress: () => {
+              NativeAndroidUtils.openSystemSetting("android.settings.SECURITY_SETTINGS");
+            }
+          }], { cancelable: false });
+        }
+      }).catch(console.log);
     }
   }
   componentWillUnmount() {
