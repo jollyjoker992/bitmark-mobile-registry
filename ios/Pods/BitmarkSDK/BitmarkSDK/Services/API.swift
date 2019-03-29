@@ -96,20 +96,15 @@ internal extension URLSession {
         modifyRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         
-        print("========================================================")
-        print("Request for url: \(request.url!.absoluteURL)")
-        
-        
-        if let method = modifyRequest.httpMethod {
-            print("Request method: \(method)")
-        }
+        globalConfig.logger.log(level: .debug, message: "Request:\t\(modifyRequest.httpMethod ?? "GET")\t\(request.url!.absoluteURL)")
 
-        if let header = modifyRequest.allHTTPHeaderFields {
-            print("Request Header: \(header)")
+        if var header = modifyRequest.allHTTPHeaderFields {
+            header["api-token"] = "***"
+            globalConfig.logger.log(level: .debug, message: "Request Header:\t \(header)")
         }
 
         if let body = modifyRequest.httpBody {
-            print("Request Body: \(String(data: body, encoding: .ascii)!)")
+            globalConfig.logger.log(level: .debug, message: "Request Body:\t\(String(data: body, encoding: .utf8)!)")
         }
         
         dataTask(with: modifyRequest) { (data, response, error) -> Void in
@@ -127,23 +122,20 @@ internal extension URLSession {
             throw error
         }
         
-        if let responseD = responseData {
-            print("Resonpose Body: \(String(data: responseD, encoding: .ascii)!)")
-        }
-
-        print("========================================================")
-        
         guard let data = responseData,
             let response = theResponse as? HTTPURLResponse else {
                 throw("Empty response from request: " + request.description)
         }
         
+        let responseMessage = String(data: data, encoding: .utf8) ?? ""
+        
         if 200..<300 ~= response.statusCode {
+            globalConfig.logger.log(level: .debug, message: "Response Status:\(response.statusCode) \tBody:\(responseMessage)")
             return (data: data, response: response)
         } else {
-            let responseMessage = String(data: data, encoding: .utf8)!
+            globalConfig.logger.log(level: .error, message: "Response Status:\(response.statusCode) \tBody:\(responseMessage)")
             let requestMethod = request.httpMethod ?? "GET"
-            throw("Request " + requestMethod + " " + request.url!.absoluteString + " returns statuscode: " + String(response.statusCode) + " with data: " + responseMessage)
+            throw("Request " + requestMethod + " " + request.url!.absoluteString + " returned with statuscode: " + String(response.statusCode) + " and data: " + responseMessage)
         }
     }
     
