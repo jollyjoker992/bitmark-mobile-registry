@@ -232,10 +232,18 @@ export class MainAppHandlerComponent extends Component {
   }
 
   doTryConnectInternet() {
-    NetInfo.isConnected.removeEventListener('connectionChange', this.handleNetworkChange);
-    NetInfo.isConnected.fetch().then().done(() => {
-      NetInfo.isConnected.addEventListener('connectionChange', this.handleNetworkChange);
-    });
+    if (config.isAndroid) {
+      NetInfo.getConnectionInfo().then((connectionInfo) => {
+        if (connectionInfo.type === 'wifi' || connectionInfo.type === 'cellular') {
+          this.handleNetworkChange(true);
+        }
+      });
+    } else {
+      NetInfo.isConnected.removeEventListener('connectionChange', this.handleNetworkChange);
+      NetInfo.isConnected.fetch().then().done(() => {
+        NetInfo.isConnected.addEventListener('connectionChange', this.handleNetworkChange);
+      });
+    }
   }
 
   async doRefresh(justCreatedBitmarkAccount) {

@@ -47,6 +47,17 @@ const setAppLoadingStatus = () => {
 }
 // ================================================================================================================================================
 
+const doGenerateJWT = async (bitmarkAccountNumber) => {
+  if (bitmarkAccountNumber === CacheData.userInformation.bitmarkAccountNumber) {
+    let doGetNewJWT = async () => {
+      let signatureData = await CommonModel.doCreateSignatureData();
+      let result = await AccountModel.doRegisterJWT(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
+      CacheData.jwt = result.jwt_token;
+    };
+    await runPromiseWithoutError(doGetNewJWT());
+  }
+};
+
 // ================================================================================================================================================
 
 const runOnBackground = async () => {
@@ -145,9 +156,11 @@ const configNotification = () => {
 // ================================================================================================================================================
 // ================================================================================================================================================
 let dataInterval = null;
+let jwtInterval = null;
 const startInterval = () => {
   stopInterval();
   dataInterval = setInterval(runOnBackground, 30 * 1000);
+  jwtInterval = setInterval(() => doGenerateJWT(CacheData.userInformation.bitmarkAccountNumber), 50 * 60 * 1000);
 };
 
 const stopInterval = () => {
@@ -155,6 +168,10 @@ const stopInterval = () => {
     clearInterval(dataInterval);
   }
   dataInterval = null;
+  if (jwtInterval) {
+    clearInterval(jwtInterval);
+  }
+  jwtInterval = null;
 };
 
 // ================================================================================================================================================
@@ -217,6 +234,7 @@ const doLogout = async () => {
   await AccountModel.doLogout();
   await UserModel.doRemoveUserInfo();
   await Intercom.logout();
+  stopInterval();
   CacheData.userInformation = {};
   PropertiesStore.dispatch(PropertiesActions.reset());
   BottomTabStore.dispatch(BottomTabActions.reset());
@@ -361,9 +379,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
       iCloudSyncAdapter.syncCloud();
     }
 
-    let signatureData = await CommonModel.doCreateSignatureData();
-    let result = await AccountModel.doRegisterJWT(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
-    CacheData.jwt = result.jwt_token;
+    await doGenerateJWT(bitmarkAccountNumber);
 
     if (justCreatedBitmarkAccount) {
       appInfo.displayedWhatNewInformation = DeviceInfo.getVersion();
