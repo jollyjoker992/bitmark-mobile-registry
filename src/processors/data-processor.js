@@ -54,7 +54,7 @@ const doGenerateJWT = async (bitmarkAccountNumber) => {
       let result = await AccountModel.doRegisterJWT(bitmarkAccountNumber, signatureData.timestamp, signatureData.signature);
       CacheData.jwt = result.jwt_token;
     };
-    await runPromiseWithoutError(doGetNewJWT);
+    await runPromiseWithoutError(doGetNewJWT());
   }
 };
 
