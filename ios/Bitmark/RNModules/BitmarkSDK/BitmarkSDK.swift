@@ -13,6 +13,22 @@ import KeychainAccess
 @objc(BitmarkSDKWrapper)
 class BitmarkSDKWrapper: NSObject {
   
+  struct RNSDKLogger: SDKLogger {
+    func log(level: SDKLogLevel, message: String) {
+      switch level {
+      case .debug:
+        _RCTLogJavaScriptInternal(RCTLogLevel.trace, message)
+      case .info:
+        _RCTLogJavaScriptInternal(RCTLogLevel.info, message)
+      case .error:
+        _RCTLogJavaScriptInternal(RCTLogLevel.error, message)
+      case .warn:
+        _RCTLogJavaScriptInternal(RCTLogLevel.warning, message)
+      }
+    }
+  }
+
+  
   static let accountNotFound = "Account not found in native layer"
   var account: Account?
   
@@ -25,7 +41,8 @@ class BitmarkSDKWrapper: NSObject {
     
     BitmarkSDK.initialize(config: SDKConfig(apiToken: apiKey,
                                             network: BitmarkSDKWrapper.networkWithName(name: network),
-                                            urlSession: URLSession.shared))
+                                            urlSession: URLSession.shared,
+                                            logger: RNSDKLogger()))
     resolve(nil);
   }
   
@@ -43,7 +60,11 @@ class BitmarkSDKWrapper: NSObject {
         resolve(nil);
       }
       else {
-        reject(nil, nil, e);
+        if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
       }
     }
   }
@@ -63,7 +84,11 @@ class BitmarkSDKWrapper: NSObject {
         resolve(nil);
       }
       else {
-        reject(nil, nil, e);
+        if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
       }
     }
   }
@@ -76,7 +101,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve(account.accountNumber)
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -93,7 +122,11 @@ class BitmarkSDKWrapper: NSObject {
                account.encryptionKey.publicKey.hexEncodedString])
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -110,7 +143,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve(nil)
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -121,7 +158,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve(nil);
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -162,7 +203,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve([bitmarkId, assetId])
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -201,7 +246,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve([bitmarkIds, assetId])
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -213,7 +262,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve(nil);
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -287,7 +340,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve([assetid, fingerprint])
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -344,7 +401,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve(signatures)
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -364,7 +425,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve(signatures)
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -409,7 +474,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve(txId)
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -436,7 +505,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve(nil);
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -470,7 +543,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve(nil);
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -554,7 +631,11 @@ class BitmarkSDKWrapper: NSObject {
       
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -620,7 +701,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve(result)
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
@@ -663,7 +748,11 @@ class BitmarkSDKWrapper: NSObject {
       resolve(try assets.map { try $0.asDictionary() } )
     }
     catch let e {
-      reject(nil, nil, e);
+      if let err = e as? String {
+        reject(nil, err, e)
+      } else {
+        reject(nil, e.localizedDescription, e)
+      }
     }
   }
   
