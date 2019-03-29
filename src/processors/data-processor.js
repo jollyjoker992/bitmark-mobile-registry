@@ -160,7 +160,7 @@ let jwtInterval = null;
 const startInterval = () => {
   stopInterval();
   dataInterval = setInterval(runOnBackground, 30 * 1000);
-  jwtInterval = setInterval(doGenerateJWT, 50 * 60 * 1000);
+  jwtInterval = setInterval(() => doGenerateJWT(CacheData.userInformation.bitmarkAccountNumber), 50 * 60 * 1000);
 };
 
 const stopInterval = () => {
