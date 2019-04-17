@@ -25,6 +25,9 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		32B57ECB1D8A5A50E3D15BD3 /* Pods_BitmarkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D37BEA60EA466916E1CAF1C /* Pods_BitmarkTests.framework */; };
+		5817A82F2266C46C008DD7CF /* libRNCWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5817A81F2266C454008DD7CF /* libRNCWebView.a */; };
+		5817A8302266C473008DD7CF /* libRNCWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5817A81F2266C454008DD7CF /* libRNCWebView.a */; };
+		5817A8312266C47A008DD7CF /* libRNCWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5817A81F2266C454008DD7CF /* libRNCWebView.a */; };
 		583BABFC216F51600015E3A0 /* TouchID.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C9510D20202AF70050A9D4 /* TouchID.m */; };
 		583BABFD216F51600015E3A0 /* BitmarkSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FC1E55201B21CC00F60AF9 /* BitmarkSDK.swift */; };
 		583BABFE216F51600015E3A0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -379,6 +382,13 @@
 			remoteGlobalIDString = 3D3CD9321DE5FBEE00167DC4;
 			remoteInfo = "cxxreact-tvOS";
 		};
+		5817A81E2266C454008DD7CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5817A7E72266C454008DD7CF /* RNCWebView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNCWebView;
+		};
 		584009A820243AA700550ADB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5840099F20243AA700550ADB /* RCTCamera.xcodeproj */;
@@ -714,6 +724,7 @@
 		4E73B102E921F70474E8CA7A /* Pods_Bitmark_Registry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Bitmark_Registry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		579C1381393E59B3042E29F2 /* Pods-Bitmark.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bitmark.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bitmark/Pods-Bitmark.release.xcconfig"; sourceTree = "<group>"; };
 		580E1E3721C743DB0097AED4 /* Bitmark-dev.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = "Bitmark-dev.entitlements"; path = "Bitmark/Bitmark-dev.entitlements"; sourceTree = "<group>"; };
+		5817A7E72266C454008DD7CF /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNCWebView.xcodeproj; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; };
 		583BAC2C216F51600015E3A0 /* Bitmark Registry beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bitmark Registry beta.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		583BAC2E216F52E90015E3A0 /* Info-beta.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-beta.plist"; sourceTree = "<group>"; };
 		583BAC2F216F52E90015E3A0 /* Info-dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-dev.plist"; sourceTree = "<group>"; };
@@ -872,6 +883,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5817A82F2266C46C008DD7CF /* libRNCWebView.a in Frameworks */,
 				F13375542248CE7E0082E959 /* libRNSVG.a in Frameworks */,
 				F10763FF221C168500DC6AD3 /* libRNDeviceInfo.a in Frameworks */,
 				F17200BD221C099000299278 /* JavaScriptCore.framework in Frameworks */,
@@ -916,6 +928,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5817A8312266C47A008DD7CF /* libRNCWebView.a in Frameworks */,
 				F13375562248CE8A0082E959 /* libRNSVG.a in Frameworks */,
 				F1076401221C169100DC6AD3 /* libRNDeviceInfo.a in Frameworks */,
 				F17200BC221C098A00299278 /* JavaScriptCore.framework in Frameworks */,
@@ -960,6 +973,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5817A8302266C473008DD7CF /* libRNCWebView.a in Frameworks */,
 				F13375552248CE830082E959 /* libRNSVG.a in Frameworks */,
 				F1076400221C168B00DC6AD3 /* libRNDeviceInfo.a in Frameworks */,
 				F17200BB221C098400299278 /* JavaScriptCore.framework in Frameworks */,
@@ -1158,6 +1172,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5817A7E82266C454008DD7CF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5817A81F2266C454008DD7CF /* libRNCWebView.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		584009A020243AA700550ADB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1336,6 +1358,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5817A7E72266C454008DD7CF /* RNCWebView.xcodeproj */,
 				F133750B2248CE710082E959 /* RNSVG.xcodeproj */,
 				F10763F6221C167F00DC6AD3 /* RNDeviceInfo.xcodeproj */,
 				F172FDDA2216A5F800299278 /* RNIntercom.xcodeproj */,
@@ -1725,6 +1748,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 				"zh-Hant",
@@ -1812,6 +1836,10 @@
 				{
 					ProductGroup = F1F6E2A620B6BF4000CECD53 /* Products */;
 					ProjectRef = F1F6E2A520B6BF4000CECD53 /* RNCookieManagerIOS.xcodeproj */;
+				},
+				{
+					ProductGroup = 5817A7E82266C454008DD7CF /* Products */;
+					ProjectRef = 5817A7E72266C454008DD7CF /* RNCWebView.xcodeproj */;
 				},
 				{
 					ProductGroup = F10763F7221C167F00DC6AD3 /* Products */;
@@ -2024,6 +2052,13 @@
 			fileType = archive.ar;
 			path = libcxxreact.a;
 			remoteRef = 3DAD3EAA1DF850E9000B6D8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5817A81F2266C454008DD7CF /* libRNCWebView.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCWebView.a;
+			remoteRef = 5817A81E2266C454008DD7CF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		584009A920243AA700550ADB /* libRCTCamera.a */ = {
@@ -3159,6 +3194,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Bitmark-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -3195,6 +3231,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "Bitmark-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
