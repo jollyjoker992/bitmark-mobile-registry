@@ -82,7 +82,7 @@ const doIssueFile = async ({ filePath, assetName, metadataList, quantity, proces
   return await submitting(DataProcessor.doIssueFile(filePath, assetName, metadataList, quantity), processingInfo);
 };
 const doIssueMusic = async ({ filePath, assetName, metadataList, thumbnailPath, limitedEdition, processingInfo }) => {
-  return await submitting(BitmarkProcessor.doIssueMusic(filePath, assetName, metadataList, thumbnailPath, limitedEdition), processingInfo);
+  return await submitting(DataProcessor.doIssueMusic(filePath, assetName, metadataList, thumbnailPath, limitedEdition), processingInfo);
 };
 
 
