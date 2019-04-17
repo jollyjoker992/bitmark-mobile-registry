@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   View, Image, Text, ScrollView,
-  WebView,
   StyleSheet,
   BackHandler,
   Clipboard
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-
+import { WebView } from 'react-native-webview';
 import { defaultStyles } from 'src/views/commons';
 import { constant, config } from 'src/configs';
 import { convertWidth } from 'src/utils';
