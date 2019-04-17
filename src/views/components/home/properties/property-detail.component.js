@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactNative, {
-  View, Text, Image, SafeAreaView, ActivityIndicator, ScrollView, TouchableWithoutFeedback, WebView, Animated,
+  View, Text, Image, SafeAreaView, ActivityIndicator, ScrollView, TouchableWithoutFeedback, Animated,
   ViewPropTypes,
   Alert,
   StatusBar,
@@ -14,6 +14,7 @@ import { Provider, connect } from 'react-redux';
 import moment from 'moment';
 import Hyperlink from 'react-native-hyperlink';
 import CustomShare from 'react-native-share';
+import { WebView } from 'react-native-webview';
 
 import { OneTabButtonComponent } from 'src/views/commons/one-tab-button.component';
 import { convertWidth, isHealthRecord, isMedicalRecord, isImageFile, isVideoFile, isDocFile, isZipFile, isMusicAsset, } from 'src/utils';
@@ -285,6 +286,7 @@ class PrivatePropertyDetailComponent extends React.Component {
                     window.postMessage(JSON.stringify({event: 'scroll-up'}));
                   }
                 });`}
+              useWebKit={true}
               onMessage={this.onMessage.bind(this)}
               source={{
                 uri: webUrl,
