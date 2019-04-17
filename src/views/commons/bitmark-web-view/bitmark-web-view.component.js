@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Text, View, WebView, Image, Share, SafeAreaView,
+  Text, View, Image, Share, SafeAreaView,
 } from 'react-native';
 
 import defaultStyles from '../styles/index';
 import termsStyles from './bitmark-web-view.component.style';
 import { Actions } from 'react-native-router-flux';
 
+import { WebView } from 'react-native-webview';
 import { EventEmitterService } from 'src/processors/services';
 import { constant } from 'src/configs';
 import { OneTabButtonComponent } from '../one-tab-button.component';

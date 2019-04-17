@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   View, TouchableOpacity, Text,
-  WebView,
 } from 'react-native';
 // import Video from 'react-native-video';
 import { FileUtil } from 'src/utils';
+import { WebView } from 'react-native-webview';
 export class SampleAppComponent extends React.Component {
 
   constructor(props) {

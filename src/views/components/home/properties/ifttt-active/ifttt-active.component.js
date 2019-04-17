@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider, connect } from 'react-redux';
 import {
-  View, Text, Image, WebView, ActivityIndicator, SafeAreaView,
+  View, Text, Image, ActivityIndicator, SafeAreaView,
 } from 'react-native';
+import { WebView } from 'react-native-webview';
 import { Actions } from 'react-native-router-flux';
 import styles from './ifttt-active.component.style';
 import { config, constant } from 'src/configs';
