@@ -44,7 +44,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'ios/Bitmark.app.dSYM.zip'
+      dsym_path: 'Bitmark.app.dSYM.zip'
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY']
@@ -84,7 +84,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'ios/Bitmark Registry beta.app.dSYM.zip'
+      dsym_path: 'Bitmark Registry beta.app.dSYM.zip'
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY'],
@@ -120,7 +120,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'ios/Bitmark Registry dev.app.dSYM.zip'
+      dsym_path: 'Bitmark Registry dev.app.dSYM.zip'
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY'],
@@ -182,7 +182,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'ios/Bitmark Registry beta.app.dSYM.zip'
+      dsym_path: 'Bitmark Registry beta.app.dSYM.zip'
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY'],
@@ -246,7 +246,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'ios/Bitmark Registry dev.app.dSYM.zip'
+      dsym_path: 'Bitmark Registry dev.app.dSYM.zip'
     )
   end
   lane :betajenkins do
@@ -285,7 +285,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'ios/Bitmark Registry beta.app.dSYM.zip'
+      dsym_path: 'Bitmark Registry beta.app.dSYM.zip'
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY'],
@@ -327,7 +327,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'ios/Bitmark Registry dev.app.dSYM.zip'
+      dsym_path: 'Bitmark Registry dev.app.dSYM.zip'
     )
   end
   lane :automation_ui_development do
