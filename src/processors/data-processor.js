@@ -32,6 +32,7 @@ import { CacheData } from './caches';
 import { BitmarkProcessor } from './bitmark-processor';
 import { TransactionProcessor } from './transaction-processor';
 import { CommonProcessor } from './common-processor';
+import { RequestAuthorizationService } from './services';
 
 // ================================================================================================================================================
 const setAppLoadingStatus = () => {
@@ -937,6 +938,14 @@ const doMigrateAndroidAccount = async () => {
   await doCreateAccount();
 };
 
+const requestAuthorization = async (code, url) => {
+  const bitmarkAccountNumber = CacheData.userInformation.bitmarkAccountNumber;
+  const message = `Verify|${code}`;
+  const signature = (await BitmarkSDK.signMessages([message]))[0];
+  return await RequestAuthorizationService.requestAuthorization(url, {bitmark_account: bitmarkAccountNumber, code, signature});
+};
+
+
 const DataProcessor = {
   doMigrateAndroidAccount,
   doOpenApp,
@@ -967,6 +976,8 @@ const DataProcessor = {
   doSignInOnWebApp,
   doDecentralizedIssuance,
   doDecentralizedTransfer,
+
+  requestAuthorization,
 };
 
 export { DataProcessor };

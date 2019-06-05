@@ -127,7 +127,7 @@ class PrivateAccountDetailComponent extends React.Component {
                 <OneTabButtonComponent style={{ padding: 4, paddingRight: 0 }} onPress={() => {
                   EventEmitterService.emit(EventEmitterService.events.APP_SHOW_COVER, { type: 'AccountQrCodeComponent' });
                 }}>
-                  <Image style={{ width: 16, height: 16, resizeMode: 'contain', }} source={require('assets/imgs/account_qrcode_icon.png')} />
+                  <Image style={{ width: 19, height: 19, resizeMode: 'contain', }} source={require('assets/imgs/qr-code-scan-icon.png')} />
                 </OneTabButtonComponent>
               </View>
 

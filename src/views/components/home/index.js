@@ -40,6 +40,7 @@ import { EventEmitterService, AppProcessor, CommonProcessor, BitmarkProcessor, T
 
 // import PushNotification from 'react-native-push-notification';
 import { MusicReleaseToPublicComponent } from './properties/local-issue-music/music-release-to-public.component';
+import { QRCodeAuthorizationComponent } from "./authorization/qr-code-authorization.component";
 // import { BitmarkProcessor } from 'src/processors/bitmark-processor';
 
 let ComponentName = 'UserRouterComponent';
@@ -175,7 +176,7 @@ export class UserRouterComponent extends Component {
             <Scene key="propertyDetail" panHandlers={null} component={PropertyDetailComponent} />
 
             <Scene key="scanQRCode" panHandlers={null} component={ScanQRCodeComponent} />
-
+            <Scene key="QRCodeAuthorization" panHandlers={null} component={QRCodeAuthorizationComponent} />
 
             <Tabs key="userTab" panHandlers={null} initial={true} tabBarComponent={BottomTabsComponent} wrap={false} >
               <Stack key="properties" panHandlers={null} initial={true} >
