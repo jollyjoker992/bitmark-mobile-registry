@@ -47,6 +47,12 @@ class PrivatePropertiesComponent extends React.Component {
 
   }
 
+  componentDidMount() {
+    if (CacheData.verificationLink) {
+      setTimeout(() => Actions.QRCodeAuthorization({params: {fromVerificationLink: true, link: CacheData.verificationLink}}), 2000);
+    }
+  }
+
   switchSubTab(subTab) {
     PropertiesStore.dispatch(PropertiesActions.update({ subTab }));
   }
@@ -78,7 +84,9 @@ class PrivatePropertiesComponent extends React.Component {
     return (
       <View style={cStyles.body}>
         <View style={[cStyles.header, { zIndex: 1 }]}>
-          <OneTabButtonComponent style={defaultStyles.headerLeft}></OneTabButtonComponent>
+          <OneTabButtonComponent style={defaultStyles.headerLeft} onPress={() => Actions.QRCodeAuthorization()}>
+              <Image style={cStyles.qrCodeIcon} source={require('assets/imgs/qr-code-scan-icon.png')} />
+          </OneTabButtonComponent>
           <Text style={defaultStyles.headerTitle}>{global.i18n.t("PropertiesComponent_headerTitle")}</Text>
           <OneTabButtonComponent style={defaultStyles.headerRight} onPress={this.addProperty} testID={"addPropertyBtn"} >
             <Image style={cStyles.addPropertyIcon} source={require('assets/imgs/plus-icon.png')} />
@@ -337,6 +345,12 @@ const cStyles = StyleSheet.create({
     height: 18,
     resizeMode: 'contain',
     marginRight: 17,
+  },
+  qrCodeIcon: {
+    width: 23,
+    height: 23,
+    resizeMode: 'contain',
+    marginLeft: 17,
   },
   subTabArea: {
     width: '100%',

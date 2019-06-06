@@ -22,6 +22,7 @@ import { UserModel, EventEmitterService, CacheData, CommonProcessor, Transaction
 import { convertWidth, runPromiseWithoutError } from 'src/utils';
 import { constant, config } from 'src/configs';
 import { OneTabButtonComponent } from '../commons/one-tab-button.component';
+import { Actions } from "react-native-router-flux";
 
 export class MainAppHandlerComponent extends Component {
   constructor(props) {
@@ -86,7 +87,7 @@ export class MainAppHandlerComponent extends Component {
     EventEmitterService.remove(EventEmitterService.events.APP_PROCESSING, this.handerProcessingEvent);
     EventEmitterService.remove(EventEmitterService.events.APP_SUBMITTING, this.handerSubmittingEvent);
     EventEmitterService.remove(EventEmitterService.events.APP_PROCESS_ERROR, this.handerProcessErrorEvent);
-    Linking.addEventListener('url', this.handleDeepLink);
+    Linking.removeEventListener('url', this.handleDeepLink);
     AppState.removeEventListener('change', this.handleAppStateChange);
     NetInfo.isConnected.removeEventListener('connectionChange', this.handleNetworkChange);
   }
@@ -171,7 +172,7 @@ export class MainAppHandlerComponent extends Component {
       return;
     }
     CacheData.processingDeepLink = true;
-    const route = event.url.replace(/.*?:\/\//g, '');
+    const route = event.url.replace(/.*?:\/\//, '');
     const params = route.split('/');
     switch (params[0]) {
       case 'claim': {
@@ -194,6 +195,19 @@ export class MainAppHandlerComponent extends Component {
             });
           });
         }
+        break;
+      }
+      case 'authorization': {
+        CacheData.verificationLink = route;
+        UserModel.doTryGetCurrentUser().then(userInformation => {
+          if (!userInformation || !userInformation.bitmarkAccountNumber) {
+            Alert.alert("Authorization Required", "Please sign in or create your Bitmark account to proceed.", [{
+              text: "OK",
+            }], {cancelable: false});
+          } else {
+            Actions.QRCodeAuthorization({params: {fromVerificationLink: true, link: CacheData.verificationLink}});
+          }
+        });
         break;
       }
       default: {

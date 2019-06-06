@@ -39,6 +39,9 @@
                 <data
                     android:host="claim"
                     android:scheme="@string/registry_scheme" />
+                <data
+                  android:host="authorization"
+                  android:scheme="@string/registry_scheme" />
             </intent-filter>
         </activity>
 

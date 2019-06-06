@@ -90,7 +90,7 @@ export class LocalPropertyTransferComponent extends React.Component {
                       this.setState({ bitmarkAccount });
                     }
                   })}>
-                    <Image style={{ width: 23, height: 23, resizeMode: 'contain', }} source={require('assets/imgs/scan_icon.png')} />
+                    <Image style={{ width: 23, height: 23, resizeMode: 'contain', }} source={require('assets/imgs/qr-code-scan-icon.png')} />
                   </OneTabButtonComponent>
                 </View>
                 <View style={propertyTransferStyle.inputAccountNumberBar} >

@@ -38,5 +38,4 @@ export default StyleSheet.create({
     width: convertWidth(375),
     height: convertWidth(375),
   },
-
 });
