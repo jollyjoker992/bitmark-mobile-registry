@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "58908A7820A18A5A00C0064A"
-               BuildableName = "Bitmark Registry dev.app"
-               BlueprintName = "Bitmark Registry dev"
-               ReferencedContainer = "container:Bitmark Registry.xcodeproj">
+               BuildableName = "Bitmark dev.app"
+               BlueprintName = "Bitmark dev"
+               ReferencedContainer = "container:Bitmark.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "58908A7820A18A5A00C0064A"
-            BuildableName = "Bitmark Registry dev.app"
-            BlueprintName = "Bitmark Registry dev"
-            ReferencedContainer = "container:Bitmark Registry.xcodeproj">
+            BuildableName = "Bitmark dev.app"
+            BlueprintName = "Bitmark dev"
+            ReferencedContainer = "container:Bitmark.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "58908A7820A18A5A00C0064A"
-            BuildableName = "Bitmark Registry dev.app"
-            BlueprintName = "Bitmark Registry dev"
-            ReferencedContainer = "container:Bitmark Registry.xcodeproj">
+            BuildableName = "Bitmark dev.app"
+            BlueprintName = "Bitmark dev"
+            ReferencedContainer = "container:Bitmark.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -89,9 +89,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "58908A7820A18A5A00C0064A"
-            BuildableName = "Bitmark Registry dev.app"
-            BlueprintName = "Bitmark Registry dev"
-            ReferencedContainer = "container:Bitmark Registry.xcodeproj">
+            BuildableName = "Bitmark dev.app"
+            BlueprintName = "Bitmark dev"
+            ReferencedContainer = "container:Bitmark.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
