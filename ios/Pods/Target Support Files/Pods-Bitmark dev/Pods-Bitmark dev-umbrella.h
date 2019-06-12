@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_Bitmark_RegistryVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_Bitmark_RegistryVersionString[];
+FOUNDATION_EXPORT double Pods_Bitmark_devVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_Bitmark_devVersionString[];
 
