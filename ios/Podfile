@@ -10,7 +10,7 @@ def pods
     
 end
 
-target 'Bitmark Registry' do
+target 'Bitmark' do
   use_frameworks!
 
   pods
@@ -22,14 +22,14 @@ target 'Bitmark Registry' do
 
 end
 
-target 'Bitmark Registry beta' do
+target 'Bitmark beta' do
     use_frameworks!
     
     pods
     
 end
 
-target 'Bitmark Registry dev' do
+target 'Bitmark dev' do
     use_frameworks!
     
     pods
