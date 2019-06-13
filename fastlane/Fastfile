@@ -20,7 +20,7 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "ios/Bitmark.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     set_info_plist_value(
@@ -35,8 +35,8 @@ platform :ios do
     )
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      workspace: "ios/Bitmark Registry.xcworkspace", 
-      scheme: "Bitmark Registry",
+      workspace: "ios/Bitmark.xcworkspace", 
+      scheme: "Bitmark",
       include_bitcode: true,
       clean: true
     )
@@ -61,7 +61,7 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "ios/Bitmark.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     set_info_plist_value(
@@ -75,8 +75,8 @@ platform :ios do
     )
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      workspace: "ios/Bitmark Registry.xcworkspace", 
-      scheme: "Bitmark Registry beta",
+      workspace: "ios/Bitmark.xcworkspace", 
+      scheme: "Bitmark beta",
       include_bitcode: false,
       clean: true
     )
@@ -84,7 +84,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'Bitmark Registry beta.app.dSYM.zip'
+      dsym_path: 'Bitmark beta.app.dSYM.zip'
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY'],
@@ -102,7 +102,7 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "ios/Bitmark.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     cert
@@ -111,8 +111,8 @@ platform :ios do
     )
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      workspace: "ios/Bitmark Registry.xcworkspace", 
-      scheme: "Bitmark Registry dev",
+      workspace: "ios/Bitmark.xcworkspace", 
+      scheme: "Bitmark dev",
       include_bitcode: false,
       clean: true
     )
@@ -120,7 +120,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'Bitmark Registry dev.app.dSYM.zip'
+      dsym_path: 'Bitmark dev.app.dSYM.zip'
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY'],
@@ -140,7 +140,7 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "ios/Bitmark.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     set_info_plist_value(
@@ -173,8 +173,8 @@ platform :ios do
 
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      workspace: "ios/Bitmark Registry.xcworkspace", 
-      scheme: "Bitmark Registry beta",
+      workspace: "ios/Bitmark.xcworkspace", 
+      scheme: "Bitmark beta",
       silent:true,
       include_bitcode: true
     )
@@ -182,7 +182,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'Bitmark Registry beta.app.dSYM.zip'
+      dsym_path: 'Bitmark beta.app.dSYM.zip'
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY'],
@@ -199,7 +199,7 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "ios/Bitmark.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     create_keychain(
@@ -227,8 +227,8 @@ platform :ios do
 
     build_app(
       export_options: {iCloudContainerEnvironment: 'Production'},
-      workspace: "ios/Bitmark Registry.xcworkspace", 
-      scheme: "Bitmark Registry dev",
+      workspace: "ios/Bitmark.xcworkspace", 
+      scheme: "Bitmark dev",
       silent:true,
       include_bitcode: false
     )
@@ -246,7 +246,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'Bitmark Registry dev.app.dSYM.zip'
+      dsym_path: 'Bitmark dev.app.dSYM.zip'
     )
   end
   lane :betajenkins do
@@ -258,7 +258,7 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "ios/Bitmark.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     set_info_plist_value(
@@ -276,8 +276,8 @@ platform :ios do
       export_options: {iCloudContainerEnvironment: 'Production'},
       export_method: "enterprise",
       clean: "true",
-      workspace: "ios/Bitmark Registry.xcworkspace", 
-      scheme: "Bitmark Registry beta",
+      workspace: "ios/Bitmark.xcworkspace", 
+      scheme: "Bitmark beta",
       silent:true,
       include_bitcode: true
     )
@@ -285,7 +285,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'Bitmark Registry beta.app.dSYM.zip'
+      dsym_path: 'Bitmark beta.app.dSYM.zip'
     )
     hockey(
       api_token: ENV['HOCKEYAPP_KEY'],
@@ -298,7 +298,7 @@ platform :ios do
       api_token: ENV['HOCKEYAPP_KEY']
     ).to_i
     increment_build_number(
-      xcodeproj: "ios/Bitmark Registry.xcodeproj",
+      xcodeproj: "ios/Bitmark.xcodeproj",
       build_number: (version_number + 1).to_i
     )
     
@@ -311,8 +311,8 @@ platform :ios do
       export_options: {iCloudContainerEnvironment: 'Production'},
       export_method: "enterprise",
       clean: "true",
-      workspace: "ios/Bitmark Registry.xcworkspace", 
-      scheme: "Bitmark Registry dev",
+      workspace: "ios/Bitmark.xcworkspace", 
+      scheme: "Bitmark dev",
       silent:true,
       include_bitcode: false
     )
@@ -327,7 +327,7 @@ platform :ios do
       auth_token: ENV['SENTRY_AUTH_TOKEN'],
       org_slug: 'bitmark-inc',
       project_slug: 'bitmark-registry',
-      dsym_path: 'Bitmark Registry dev.app.dSYM.zip'
+      dsym_path: 'Bitmark dev.app.dSYM.zip'
     )
   end
   lane :automation_ui_development do
@@ -336,8 +336,8 @@ platform :ios do
       export_method: "development",
       configuration: "Debug",
       clean: "true",
-      workspace: "ios/Bitmark Registry.xcworkspace", 
-      scheme: "Bitmark Registry dev",
+      workspace: "ios/Bitmark.xcworkspace", 
+      scheme: "Bitmark dev",
       include_bitcode: false,
       derived_data_path: "./ios/derived_data"
     )
