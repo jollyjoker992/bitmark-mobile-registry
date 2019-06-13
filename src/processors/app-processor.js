@@ -154,13 +154,6 @@ const doDownloadBitmark = async (bitmark, processingData) => {
   return executeTask('doDownloadBitmark', { bitmark, processingData });
 };
 
-const doRevokeIftttToken = async () => {
-  return executeTask('doRevokeIftttToken');
-};
-const doIssueIftttData = async (iftttBitmarkFile, processingInfo) => {
-  return executeTask('doIssueIftttData', { iftttBitmarkFile, processingInfo });
-};
-
 const doMigrateWebAccount = async (token) => {
   return executeTask('doMigrateWebAccount', { token });
 };
@@ -227,8 +220,6 @@ let AppProcessor = {
   doAcceptAllTransfers,
   doCancelTransferBitmark,
   doDownloadBitmark,
-  doRevokeIftttToken,
-  doIssueIftttData,
   doReloadUserData,
   doMigrateWebAccount,
   doSignInOnWebApp,

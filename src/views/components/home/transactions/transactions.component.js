@@ -62,21 +62,6 @@ class PrivateTransactionsComponent extends React.Component {
   clickToActionRequired(item) {
     if (item.type === ActionRequireTypes.transfer && item.transferOffer) {
       Actions.transferOffer({ transferOffer: item.transferOffer, });
-    } else if (item.type === ActionRequireTypes.ifttt) {
-      AppProcessor.doIssueIftttData(item, {
-        indicator: true, title: '', message: global.i18n.t("TransactionsComponent_sendingYourTransactionToTheBitmarkNetwork")
-      }).then(result => {
-        if (result) {
-          DataProcessor.doReloadUserData();
-          Alert.alert(global.i18n.t("TransactionsComponent_success"), global.i18n.t("TransactionsComponent_yourPropertyRightsHaveBeenRegistered"), [{
-            text: global.i18n.t("TransactionsComponent_ok"),
-            onPress: () => Actions.jump('properties')
-          }], { cancelable: false });
-        }
-      }).catch(error => {
-        console.log('doIssueIftttData error:', error);
-        EventEmitterService.emit(EventEmitterService.events.APP_PROCESS_ERROR, { error });
-      });
     } else if (item.type === ActionRequireTypes.test_write_down_recovery_phase) {
       Actions.jump('recoveryPhrase');
     } else if (item.type === ActionRequireTypes.claim_request) {
@@ -239,11 +224,6 @@ class PrivateTransactionsComponent extends React.Component {
                         <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signToReceiveTheBitmarkFrom", {
                           accountNumber: CommonProcessor.getDisplayedAccount(item.transferOffer.bitmark.owner)
                         })}</Text>
-                      </View>}
-
-                      {item.type === ActionRequireTypes.ifttt && <View style={transactionsStyle.iftttTask}>
-                        <Text style={transactionsStyle.iftttTitle}>{item.assetInfo.propertyName}</Text>
-                        <Text style={transactionsStyle.iftttDescription}>{global.i18n.t("TransactionsComponent_signYourBitmarkIssuanceForYourIftttData")}</Text>
                       </View>}
 
                       {item.type === ActionRequireTypes.test_write_down_recovery_phase && <View style={transactionsStyle.recoveryPhaseActionRequired}>

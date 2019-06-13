@@ -3,7 +3,7 @@ import { merge } from 'lodash';
 
 import { TransactionService, AccountService, BitmarkService } from './services';
 import { CacheData } from './caches';
-import { BitmarkModel, IftttModel, CommonModel, } from './models';
+import { BitmarkModel, CommonModel, } from './models';
 import { TransactionsStore, TransactionsActions, BottomTabStore, BottomTabActions, AccountStore, AccountActions } from 'src/views/stores';
 import { config } from 'src/configs';
 
@@ -204,20 +204,6 @@ const _doCheckTransferOffers = async (transferOffers, isLoadingOtherData) => {
   }
 };
 
-const _doCheckNewIftttInformation = async (iftttInformation, isLoadingOtherData) => {
-  if (iftttInformation) {
-    await CommonModel.doSetLocalData(CommonModel.KEYS.USER_DATA_IFTTT_INFORMATION, iftttInformation);
-
-    let accountStoreState = merge({}, AccountStore.getState().data);
-    accountStoreState.iftttInformation = iftttInformation;
-    AccountStore.dispatch(AccountActions.init(accountStoreState));
-
-    if (!isLoadingOtherData) {
-      await _doGenerateTransactionActionRequiredData();
-    }
-  }
-};
-
 // ============================================================================================================================================
 // ============================================================================================================================================
 // ============================================================================================================================================
@@ -257,25 +243,6 @@ const runGetClaimRequestInBackground = () => {
       queueGetClaimRequests.forEach(queueResolve => queueResolve());
       queueGetClaimRequests = [];
       console.log('runOnBackground  runGetClaimRequestInBackground error :', error);
-    });
-  });
-};
-
-let queueGetIFTTTInformation = [];
-const runGetIFTTTInformationInBackground = () => {
-  return new Promise((resolve) => {
-    queueGetIFTTTInformation.push(resolve);
-    if (queueGetIFTTTInformation.length > 1) {
-      return;
-    }
-    IftttModel.doGetIFtttInformation(CacheData.jwt).then(iftttInformation => {
-      console.log('runOnBackground  runGetIFTTTInformationInBackground success', iftttInformation);
-      queueGetIFTTTInformation.forEach(queueResolve => queueResolve(iftttInformation));
-      queueGetIFTTTInformation = [];
-    }).catch(error => {
-      queueGetIFTTTInformation.forEach(queueResolve => queueResolve());
-      queueGetIFTTTInformation = [];
-      console.log('runOnBackground  runGetIFTTTInformationInBackground error :', error);
     });
   });
 };
@@ -341,29 +308,15 @@ const runGetTransactionsInBackground = async () => {
     return new Promise((resolve) => {
       Promise.all([
         runGetTransferOfferInBackground(),
-        runGetIFTTTInformationInBackground(),
       ]).then(resolve);
     });
   };
   let parallelResults = await runParallel();
   await _doCheckTransferOffers(parallelResults[0], true);
-  await _doCheckNewIftttInformation(parallelResults[1], true);
 
   await runGetTransfersInBackground();
   let claimRequests = await runGetClaimRequestInBackground();
   await _doCheckClaimRequests(claimRequests);
-};
-
-
-
-const doGetIftttInformation = async () => {
-  return (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_IFTTT_INFORMATION)) || {};
-};
-
-const doReloadIftttInformation = async (noNeedCheckNewData) => {
-  let result = await runGetIFTTTInformationInBackground();
-  await _doCheckNewIftttInformation(result, noNeedCheckNewData);
-  return result;
 };
 
 const doReloadTransferOffers = async (noNeedCheckNewData) => {
@@ -380,12 +333,6 @@ const doReloadClaimRequests = async (noNeedCheckNewData) => {
 const doReloadTransfers = async (noNeedCheckNewData) => {
   let result = await runGetTransfersInBackground();
   await _doCheckNewTransfers(result, noNeedCheckNewData);
-};
-
-const doRevokeIftttToken = async () => {
-  let iftttInformation = await IftttModel.doRevokeIftttToken(CacheData.jwt);
-  await _doCheckNewIftttInformation(iftttInformation);
-  return iftttInformation;
 };
 
 const doGetAllTransfersOffers = async () => {
@@ -455,7 +402,6 @@ let TransactionProcessor = {
   runGetTransactionsInBackground,
   runGetClaimRequestInBackground,
 
-  doCheckNewIftttInformation: _doCheckNewIftttInformation,
   doGenerateTransactionActionRequiredData: _doGenerateTransactionActionRequiredData,
   doGenerateTransactionHistoryData: _doGenerateTransactionHistoryData,
   doReloadTransferOffers,
@@ -466,10 +412,6 @@ let TransactionProcessor = {
 
   doReloadClaimRequests,
   doGetAssetToClaim,
-
-  doReloadIftttInformation,
-  doGetIftttInformation,
-  doRevokeIftttToken,
 
   doAddMoreActionRequired,
   doAddMoreCompleted,

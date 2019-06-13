@@ -5,7 +5,6 @@ import {
   LocalPropertyTransferComponent,
   LocalIssueFileComponent,
   LocalIssueFileEditLabelComponent,
-  IftttActiveComponent,
   PropertiesComponent,
   ReleasedPropertiesComponent,
   PropertyDetailComponent,
@@ -143,13 +142,6 @@ export class UserRouterComponent extends Component {
         return;
       }
       Actions.transactions({ subTab: 'HISTORY' });
-    } else if (data.event === 'ifttt_new_issue') {
-      if (this.checkIfNotificationProcessing(data.event)) {
-        return;
-      }
-      TransactionProcessor.doReloadIftttInformation().then(() => {
-        Actions.transactions();
-      }).catch(console.error);
     }
   }
 
@@ -182,7 +174,6 @@ export class UserRouterComponent extends Component {
               <Stack key="properties" panHandlers={null} initial={true} >
                 <Scene key="properties" initial={true} panHandlers={null} component={PropertiesComponent} />
                 <Scene key="issuanceOptions" panHandlers={null} component={IssuanceOptionsComponent} />
-                <Scene key="iftttActive" panHandlers={null} component={IftttActiveComponent} />
                 <Scene key="releasedProperties" panHandlers={null} component={ReleasedPropertiesComponent} />
               </Stack>
               <Scene key="transactions" panHandlers={null} component={TransactionsComponent} />
@@ -196,7 +187,6 @@ export class UserRouterComponent extends Component {
                 <Scene key="tryRecoveryPhrase" panHandlers={null} component={TryRecoveryPhraseComponent} />
                 <Scene key="webAccountMigrate" panHandlers={null} component={WebAccountMigrateComponent} />
                 <Scene key="webAccountSignIn" panHandlers={null} component={WebAccountSignInComponent} />
-                <Scene key="iftttActive" panHandlers={null} component={IftttActiveComponent} />
               </Stack>
             </Tabs>
           </Stack>

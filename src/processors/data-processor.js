@@ -14,7 +14,7 @@ import {
 } from './services';
 import {
   CommonModel, AccountModel, UserModel, BitmarkSDK,
-  BitmarkModel, iCloudSyncAdapter, IftttModel,
+  BitmarkModel, iCloudSyncAdapter,
 } from './models';
 
 import {
@@ -429,7 +429,7 @@ const doOpenApp = async (justCreatedBitmarkAccount) => {
 
     AccountStore.dispatch(AccountActions.init({
       userInformation: CacheData.userInformation,
-      iftttInformation: await TransactionProcessor.doGetIftttInformation(),
+      iftttInformation: {},
     }));
 
     // ============================
@@ -791,49 +791,6 @@ const doIssueMusic = async (filePath, assetName, metadataList, thumbnailPath, li
   return results;
 };
 
-const doIssueIftttData = async (iftttBitmarkFile) => {
-  let folderPath = FileUtil.CacheDirectory + '/Bitmark-IFTTT';
-  await FileUtil.mkdir(folderPath);
-  let filename = iftttBitmarkFile.assetInfo.filePath.substring(iftttBitmarkFile.assetInfo.filePath.lastIndexOf("/") + 1, iftttBitmarkFile.assetInfo.filePath.length);
-  let filePath = folderPath + '/' + filename;
-  let downloadResult = await IftttModel.downloadBitmarkFile(CacheData.jwt, iftttBitmarkFile.id, filePath);
-  if (downloadResult.statusCode >= 400) {
-    throw new Error('Download file error!');
-  }
-  let results = await BitmarkService.doIssueFile(CacheData.userInformation.bitmarkAccountNumber, filePath, iftttBitmarkFile.assetInfo.propertyName, iftttBitmarkFile.assetInfo.metadata, 1);
-  let assetsBitmarks = (await CommonModel.doGetLocalData(CommonModel.KEYS.USER_DATA_ASSETS_BITMARKS)) || {};
-  for (let item of results) {
-    assetsBitmarks.bitmarks = assetsBitmarks.bitmarks || {};
-    assetsBitmarks.bitmarks[item.id] = {
-      head_id: item.id,
-      asset_id: item.assetId,
-      id: item.id,
-      issued_at: moment().toDate().toISOString(),
-      head: `head`,
-      status: 'pending',
-      owner: CacheData.userInformation.bitmarkAccountNumber,
-      issuer: CacheData.userInformation.bitmarkAccountNumber,
-    };
-    if (!assetsBitmarks.assets || !assetsBitmarks.assets[item.assetId]) {
-      assetsBitmarks.assets = assetsBitmarks.assets || {};
-      assetsBitmarks.assets[item.assetId] = {
-        id: item.assetId,
-        name: iftttBitmarkFile.assetInfo.propertyName,
-        metadata: item.metadata,
-        registrant: CacheData.userInformation.bitmarkAccountNumber,
-        status: 'pending',
-        created_at: moment().toDate().toISOString(),
-        filePath: item.filePath,
-      }
-    }
-  }
-  await BitmarkProcessor.doCheckNewAssetsBitmarks(assetsBitmarks);
-
-  let iftttInformation = await IftttModel.doRemoveBitmarkFile(CacheData.jwt, iftttBitmarkFile.id);
-  await TransactionProcessor.doCheckNewIftttInformation(iftttInformation);
-  return iftttInformation;
-};
-
 const doSendIncomingClaimRequest = async (asset, issuer) => {
   issuer = issuer || asset.registrant;
   let claimRequests = await TransactionProcessor.runGetClaimRequestInBackground();
@@ -958,7 +915,6 @@ const DataProcessor = {
   doIssueFile,
   doIssueMusic,
 
-  doIssueIftttData,
   doSendIncomingClaimRequest,
   doRemoveDraftBitmarkOfClaimRequest,
 
