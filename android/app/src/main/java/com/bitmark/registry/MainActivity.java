@@ -1,10 +1,11 @@
 package com.bitmark.registry;
 
-import android.support.annotation.NonNull;
 
 import com.bitmark.sdk.authentication.StatefulReactActivity;
 import com.facebook.react.modules.core.PermissionListener;
 import com.imagepicker.permissions.OnImagePickerPermissionsCallback;
+
+import androidx.annotation.NonNull;
 
 public class MainActivity extends StatefulReactActivity
         implements OnImagePickerPermissionsCallback {

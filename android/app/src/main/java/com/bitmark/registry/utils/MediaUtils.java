@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.provider.DocumentFile;
 import android.webkit.MimeTypeMap;
 
 import com.bitmark.apiservice.utils.BackgroundJobScheduler;
@@ -19,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLDecoder;
+
+import androidx.documentfile.provider.DocumentFile;
 
 public class MediaUtils {
 

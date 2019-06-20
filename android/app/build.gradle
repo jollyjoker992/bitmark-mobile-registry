@@ -122,6 +122,10 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude 'META-INF/androidx.*.version'
+    }
+
     signingConfigs {
 
         debug {
@@ -191,26 +195,26 @@ android {
         inhouse {
             dimension "version"
             applicationIdSuffix ".inhouse"
-            resValue "string", "app_name", "Registry"
+            resValue "string", "app_name", "Bitmark"
             resValue "string", "registry_scheme", "registryinhouse"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher_dev",
-                    appIconRound : "@mipmap/ic_launcher_dev_round"
+                    appIcon     : "@mipmap/ic_launcher_dev",
+                    appIconRound: "@mipmap/ic_launcher_dev_round"
             ]
-            ext.betaDistributionReleaseNotesFilePath="${project.rootDir}/distribution/release_note.txt"
-            ext.betaDistributionEmailsFilePath="${project.rootDir}/distribution/testers.txt"
+            ext.betaDistributionReleaseNotesFilePath = "${project.rootDir}/distribution/release_note.txt"
+            ext.betaDistributionEmailsFilePath = "${project.rootDir}/distribution/testers.txt"
         }
 
         prd {
             dimension "version"
-            resValue "string", "app_name", "Registry"
+            resValue "string", "app_name", "Bitmark"
             resValue "string", "registry_scheme", "registry"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher",
-                    appIconRound : "@mipmap/ic_launcher_round"
+                    appIcon     : "@mipmap/ic_launcher",
+                    appIconRound: "@mipmap/ic_launcher_round"
             ]
-            ext.betaDistributionReleaseNotesFilePath="${project.rootDir}/distribution/release_note.txt"
-            ext.betaDistributionEmailsFilePath="${project.rootDir}/distribution/testers.txt"
+            ext.betaDistributionReleaseNotesFilePath = "${project.rootDir}/distribution/release_note.txt"
+            ext.betaDistributionEmailsFilePath = "${project.rootDir}/distribution/testers.txt"
         }
     }
 
@@ -244,7 +248,6 @@ dependencies {
     implementation project(':react-native-cookies')
     implementation project(':react-native-code-push')
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation "com.bitmark.sdk:android-sdk:1.5-SNAPSHOT"
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') {

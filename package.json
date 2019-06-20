@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "clean": "watchman watch-del-all && rm -rf node_modules/ && rm -rf ios/build/ && rm -rf android/app/build/ && npm cache clean --force && npm install",
+    "a-clean": "npm run clean && npx jetify",
     "start": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "a-test": "react-native run-android --variant=inhouseDebug",
     "a-live": "cd android && ./gradlew fillSecretKey && cd .. && react-native run-android --variant=prdDebug",
@@ -71,6 +72,7 @@
     "eslint-plugin-react-native": "^3.2.1",
     "jest": "^24.1.0",
     "jest-junit-reporter": "^1.1.0",
+    "jetifier": "^1.1.0",
     "metro-react-native-babel-preset": "^0.52.0",
     "node-simctl": "^4.0.2",
     "react-test-renderer": "16.6.1",
